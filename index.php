@@ -1,0 +1,941 @@
+<?php
+// index.php
+include 'includes/header.php';
+?>
+
+<!-- Hero Section -->
+<section class="relative h-[550px] md:h-[650px] flex items-center bg-primary overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+        style="background-image: url('assets/img/hero.webp');"></div>
+    <div class="absolute inset-0 opacity-55"
+        style="background: linear-gradient(90deg, #4E0000 0%, rgba(102, 102, 102, 0) 100%), linear-gradient(90deg, rgba(78, 0, 0, 0.8) 0%, rgba(78, 0, 0, 0.2) 100%), linear-gradient(90deg, rgba(10, 10, 10, 0.4) 0%, rgba(102, 102, 102, 0) 100%);">
+    </div>
+
+    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">
+        <div class="max-w-2xl">
+            <h2 class="text-2xl md:text-3xl font-inter font-medium mb-2">Welcome to</h2>
+            <h1
+                class="text-4xl md:text-6xl lg:text-7.5xl font-extrabold font-montserrat mb-6 leading-none tracking-tighter">
+                Ministry of Labour</h1>
+            <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-gray-300 max-w-xl">
+                The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
+                building a dynamic workforce that drives Sri Lanka's economic development.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#citizen-services"
+                    class="bg-secondary text-white font-extrabold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter">Explore
+                    Services</a>
+                <a href="#news-section"
+                    class="border border-white text-white font-extrabold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary">View
+                    Notices</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Bar -->
+<div class="bg-secondary text-white py-10 relative z-20">
+    <div class="container mx-auto px-4 md:px-16 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/20">
+            <div class="px-4 stat-box" data-target="6.2" data-suffix="M+" data-multiplier="1">
+                <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white"><span
+                        class="stat-number">0</span>M+</div>
+                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-semibold">
+                    Registered Workers</div>
+            </div>
+            <div class="px-4 stat-box" data-target="32" data-suffix="+">
+                <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white"><span
+                        class="stat-number">0</span>+</div>
+                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-semibold">
+                    Labour Laws Enacted</div>
+            </div>
+            <div class="px-4 stat-box" data-target="14">
+                <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white"><span
+                        class="stat-number">0</span></div>
+                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-semibold">
+                    National Initiatives</div>
+            </div>
+            <div class="px-4 stat-box" data-target="1250">
+                <div class="text-4xl md:text-5xl font-bold font-montserrat mb-2 text-white"><span
+                        class="stat-number">0</span></div>
+                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-semibold">
+                    Field Officers</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Section -->
+<section class="py-20 md:py-28 px-4 md:px-16 container mx-auto" id="about-us">
+    <div class="flex flex-col lg:flex-row items-center gap-16">
+        <div class="w-full lg:w-[55%]">
+            <p class="text-secondary font-extrabold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">About
+                Us</p>
+            <h2
+                class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-8 font-montserrat tracking-tight leading-tight">
+                About the Ministry of Labour</h2>
+            <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed">
+                <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
+                    and private sectors, and the formulation and implementation of pertinent policies to establish
+                    industrial peace and employer-employee relationships required for enhancing production and labour
+                    productivity, are the prime objectives of the Ministry of Labour.</p>
+                <p>The Ministry of Labour plays a vital role in safeguarding the rights and welfare of employees while
+                    fostering harmonious industrial relations across the country. The ministry oversees labour laws,
+                    social security programs, employment policies, and occupational safety standards to ensure a fair
+                    and productive labour environment.</p>
+                <p>Through its institutions and departments, the ministry serves millions of employees in the private
+                    and semi-government sectors while contributing to national economic development.</p>
+            </div>
+        </div>
+
+        <!-- Styled administrative image container -->
+        <div class="w-full lg:w-[45%]">
+            <div
+                class="rounded-xl overflow-hidden shadow-lg border border-gray-100 h-[450px] lg:h-[530px] w-full bg-gray-50">
+                <img src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
+                    class="w-full h-full object-cover">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Focus Areas -->
+<section class="relative py-20 md:py-28 px-4 md:px-16 text-white overflow-hidden bg-primary">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+        style="background-image: url('assets/img/keyfocus.webp');"></div>
+    <div class="absolute inset-0 bg-primary/90"></div>
+    <div class="container mx-auto relative z-10">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">What We Do</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold font-montserrat tracking-tight">Key Focus
+                    Areas</h2>
+            </div>
+            <div class="hidden md:flex space-x-3">
+                <button id="carousel-prev"
+                    class="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+                <button id="carousel-next"
+                    class="w-10 h-10 rounded-full border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="relative">
+            <div id="carousel-track"
+                class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth">
+                <!-- Card 1 -->
+                <div
+                    class="min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold font-montserrat mb-4 text-primary leading-tight">Act Amendment</h3>
+                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed">Updating and reforming labour
+                            legislation for a modern economy.</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div
+                    class="min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4.263 15.518a9.008 9.008 0 013.714-6.32l.332-.215a12.448 12.448 0 006.377-6.326m-10.423 12.86l.332-.215a9.009 9.009 0 018.794-.21l.33.167m-10.423 12.9a9.008 9.008 0 014.2-12.87m10.423 12.86l.332-.215a9.009 9.009 0 00-8.794-.21l-.33.167m10.423 12.9a9.008 9.008 0 00-4.2-12.87m0 0a9.008 9.008 0 014.2 12.87m-4.2-12.87l-.33-.167a9.009 9.009 0 00-8.794.21M18 14.5c0-2-3-4-3-4s-3 2-3 4h6z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold font-montserrat mb-4 text-primary leading-tight">Training for
+                            employees</h3>
+                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed">National Institute of Labour
+                            Studies programmes and certification.</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div
+                    class="min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold font-montserrat mb-4 text-primary leading-tight">Industrial
+                            Relations</h3>
+                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed">Promoting harmonious
+                            employer-employee relationships nationwide.</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div
+                    class="min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-bold font-montserrat mb-4 text-primary leading-tight">NLAC
+                        </h3>
+                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed">National Labour Advisory Council
+                            — consultative labour governance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!-- Citizen Services -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA]" id="citizen-services">
+    <div class="container mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <p class="text-secondary font-extrabold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Our
+                Services</p>
+            <h2
+                class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary mb-10 font-montserrat tracking-tight">
+                Citizen Services</h2>
+
+            <!-- Instant Search with live JS query matching -->
+            <div class="relative max-w-2xl mx-auto shadow-sm">
+                <input type="text" id="services-search" placeholder="Search services (e.g. EPF, ETF, Safety, Claims...)"
+                    class="w-full py-4 pl-6 pr-14 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary font-inter text-[15px] bg-white transition-all">
+                <button
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-opacity-95 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cards Container -->
+        <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Service Card 1 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Apply EPF"
+                data-keywords="epf apply provident fund social security retirement balance registry">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">01</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Apply EPF Registration</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Register new employee accounts and
+                        track accumulated Employees' Provident balances online.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Online
+                    Portal <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 2 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Apply Compensation"
+                data-keywords="compensation claim accident injury workplace death file factories">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">02</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Workmen Compensation</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Submit regulatory claims for
+                        vocational injuries, industrial accidents, and health hazards.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">File
+                    Claim <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 3 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Industrial Safety"
+                data-keywords="safety hazard inspections factories building check compliance ordinance">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">03</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Industrial Safety Standards</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Access strict safety inspection
+                        checklists, licensing procedures, and building standards.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Get
+                    Guidelines <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 4 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Labour Circulars"
+                data-keywords="circulars news acts gazette bulletin rules minimum wage official">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">04</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Official Labour Circulars</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Download legislative updates,
+                        minimum wage reviews, and government directives.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Download
+                    PDFs <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 5 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Apply Labour ID"
+                data-keywords="id card register labour identity formal informal workforce verification">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">05</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Obtain Labour ID Card</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Verify your employment profile and
+                        register for public service identity cards.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Register
+                    Now <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 6 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Complaint to termination"
+                data-keywords="complaint dispute termination firing salary pay grievance legal mediation">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">06</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Workplace Disputes</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Report unfair retrenchments,
+                        salary non-payments, or contractual breach issues.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">File
+                    Grievance <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 7 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Dangerous Occurrences"
+                data-keywords="dangerous accident occurrence crash disaster chemical fire construction report">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">07</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        Report Hazards</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Direct channels to alert
+                        authorities about active safety failures in construction sites.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Alert
+                    Inspector <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+            <!-- Service Card 8 -->
+            <div class="service-card bg-white p-8 rounded border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden group cursor-pointer h-full flex flex-col justify-between"
+                data-title="Complaint Board" data-keywords="complaint board portal query tracking case status check">
+                <div>
+                    <div
+                        class="w-12 h-12 bg-secondary text-white rounded flex items-center justify-center mb-5 group-hover:scale-105 transition-transform duration-300 shadow-md">
+                        <span class="font-extrabold font-montserrat text-sm">08</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-montserrat mb-3 text-primary group-hover:text-secondary transition-colors">
+                        National Grievance Board</h3>
+                    <p class="text-gray-500 text-[13.5px] font-inter leading-relaxed">Centralized board tracking the
+                        active status of filed labour union lawsuits.</p>
+                </div>
+                <span
+                    class="mt-6 text-xs font-bold text-secondary uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1.5 transition-transform">Track
+                    Status <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg></span>
+            </div>
+        </div>
+
+        <!-- Dynamic No Results block hidden by default -->
+        <div id="search-no-results" class="hidden text-center py-16 text-gray-500 font-inter">
+            <svg class="w-12 h-12 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h4 class="text-lg font-bold text-primary font-montserrat">No Services Found</h4>
+            <p class="text-sm mt-1">Try searching for keywords like "EPF", "Safety", or "Claims".</p>
+        </div>
+    </div>
+</section>
+
+<!-- Latest News & Events -->
+<section class="py-20 md:py-28 px-4 md:px-16 container mx-auto" id="news-section">
+    <div class="flex justify-between items-end mb-12">
+        <div>
+            <p class="text-secondary font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Updates &
+                Announcements</p>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary font-montserrat tracking-tight">
+                Latest News & Events</h2>
+        </div>
+        <a href="#"
+            class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
+            <span>View All</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- News Card 1 -->
+        <div
+            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col justify-between h-full">
+            <div>
+                <div class="h-56 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="p-8 pb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-500 font-inter font-bold">May 15, 2023</span>
+                        <span
+                            class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Press
+                            Release</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
+                        Ministry of Labour Introduces New Digital Services for Citizens</h3>
+                    <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">In an effort to
+                        streamline services and provide better accessibility, the Ministry of Labour has launched a new
+                        portal for online EPF registration and tracking.</p>
+                </div>
+            </div>
+            <div class="p-8 pt-2">
+                <a href="#"
+                    class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                    Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- News Card 2 -->
+        <div
+            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col justify-between h-full">
+            <div>
+                <div class="h-56 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="p-8 pb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-500 font-inter font-bold">May 10, 2023</span>
+                        <span
+                            class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Events</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
+                        National Symposium on Workplace Safety & Health 2023</h3>
+                    <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">Industry leaders and
+                        government officials gathered to discuss the future of workplace safety regulations and
+                        compliance standards across sectors.</p>
+                </div>
+            </div>
+            <div class="p-8 pt-2">
+                <a href="#"
+                    class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                    Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- News Card 3 -->
+        <div
+            class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col justify-between h-full">
+            <div>
+                <div class="h-56 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="p-8 pb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-xs text-gray-500 font-inter font-bold">May 02, 2023</span>
+                        <span
+                            class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Notice</span>
+                    </div>
+                    <h3
+                        class="text-lg font-bold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
+                        Updates to the Minimum Wage Board Regulations</h3>
+                    <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">The Ministry announces
+                        a revision to the minimum wage guidelines affecting several key industries. Employers are
+                        requested to review the new circulars.</p>
+                </div>
+            </div>
+            <div class="p-8 pt-2">
+                <a href="#"
+                    class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                    Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-10 text-center md:hidden">
+        <a href="#"
+            class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase">
+            <span>View All News</span>
+        </a>
+    </div>
+</section>
+
+<!-- Media Gallery -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-white border-t border-gray-100" id="media-gallery">
+    <div class="container mx-auto">
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <p class="text-secondary font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
+                    Gallery | Video | Pictures</p>
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary font-montserrat tracking-tight">
+                    Media Gallery</h2>
+            </div>
+            <a href="#"
+                class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded hover:bg-secondary hover:text-white transition-all text-[12px] uppercase tracking-wider">
+                <span>View All</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Media Item 1 -->
+            <div class="gallery-item relative h-72 rounded overflow-hidden cursor-pointer shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300"
+                data-caption="Key handover ceremony to top performers 2023">
+                <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-primary/90 to-transparent">
+                    <p class="text-white font-bold font-montserrat text-sm line-clamp-2 leading-snug">Key handover
+                        ceremony to top performers 2023</p>
+                </div>
+            </div>
+            <!-- Media Item 2 -->
+            <div class="gallery-item relative h-72 rounded overflow-hidden cursor-pointer shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300"
+                data-caption="Annual Symposium on National Policy (ASNP)">
+                <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-primary/90 to-transparent">
+                    <p class="text-white font-bold font-montserrat text-sm line-clamp-2 leading-snug">Annual Symposium
+                        on National Policy (ASNP)</p>
+                </div>
+            </div>
+            <!-- Media Item 3 -->
+            <div class="gallery-item relative h-72 rounded overflow-hidden cursor-pointer shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300"
+                data-caption="Conference at National Labour Board">
+                <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-primary/90 to-transparent">
+                    <p class="text-white font-bold font-montserrat text-sm line-clamp-2 leading-snug">Conference at
+                        National Labour Board</p>
+                </div>
+            </div>
+            <!-- Media Item 4 -->
+            <div class="gallery-item relative h-72 rounded overflow-hidden cursor-pointer shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300"
+                data-caption="Public awareness campaign on worker's rights">
+                <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    <span class="text-gray-400 font-inter text-sm">[Image Provided By User]</span>
+                </div>
+                <div class="absolute bottom-0 left-0 p-6 w-full bg-gradient-to-t from-primary/90 to-transparent">
+                    <p class="text-white font-bold font-montserrat text-sm line-clamp-2 leading-snug">Public awareness
+                        campaign on worker's rights</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal container for Media Gallery -->
+<div id="lightbox-modal"
+    class="fixed inset-0 bg-[#070e17]/95 backdrop-blur-md z-[120] opacity-0 pointer-events-none transition-all duration-500 flex flex-col justify-center items-center p-4">
+    <!-- Close button -->
+    <button id="lightbox-close" aria-label="Close Lightbox"
+        class="absolute top-6 right-6 w-11 h-11 bg-white/5 border border-white/15 rounded-full flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    <!-- Content -->
+    <div class="w-full max-w-4xl flex flex-col items-center">
+        <div
+            class="w-full h-[50vh] md:h-[60vh] bg-premium-card-fallback rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-mesh-pattern opacity-10 animate-pulse-slow"></div>
+            <svg class="w-20 h-20 text-white/20" fill="none" stroke="currentColor" stroke-width="1.2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
+                </path>
+            </svg>
+        </div>
+        <p id="lightbox-caption"
+            class="text-white text-base md:text-lg font-bold font-montserrat mt-6 text-center max-w-xl leading-relaxed tracking-tight text-glow">
+        </p>
+    </div>
+</div>
+
+<!-- Downloads & Special Notices -->
+<section
+    class="py-20 md:py-28 px-4 md:px-16 container mx-auto bg-[#FAFAFA] rounded-[32px] my-10 border border-gray-100">
+    <div class="flex flex-col lg:flex-row gap-16">
+        <!-- Downloads Column -->
+        <div class="w-full lg:w-1/2 flex flex-col justify-between">
+            <div>
+                <p class="text-secondary font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Find
+                    All Documents In One Place</p>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-primary font-montserrat mb-10 tracking-tight">
+                    Downloads</h2>
+
+                <div class="space-y-4">
+                    <a href="#"
+                        class="flex justify-between items-center p-4 rounded-xl border border-gray-200 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
+                        <div class="flex items-center space-x-3.5">
+                            <span
+                                class="text-[10px] font-bold bg-[#FFF0F0] text-secondary px-2.5 py-1.5 rounded-lg font-inter">PDF</span>
+                            <span
+                                class="font-bold text-gray-800 font-inter group-hover:text-primary text-[14px] tracking-tight">Wages
+                                Board Policy Guide 2023</span>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="#"
+                        class="flex justify-between items-center p-4 rounded-xl border border-gray-200 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
+                        <div class="flex items-center space-x-3.5">
+                            <span
+                                class="text-[10px] font-bold bg-blue-50 text-primary px-2.5 py-1.5 rounded-lg font-inter">DOCX</span>
+                            <span
+                                class="font-bold text-gray-800 font-inter group-hover:text-primary text-[14px] tracking-tight">Annual
+                                Workforce Performance Report</span>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="#"
+                        class="flex justify-between items-center p-4 rounded-xl border border-gray-200 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
+                        <div class="flex items-center space-x-3.5">
+                            <span
+                                class="text-[10px] font-bold bg-[#FFF0F0] text-secondary px-2.5 py-1.5 rounded-lg font-inter">PDF</span>
+                            <span
+                                class="font-bold text-gray-800 font-inter group-hover:text-primary text-[14px] tracking-tight">Industrial
+                                Dispute Act (Chapter 131)</span>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="#"
+                        class="flex justify-between items-center p-4 rounded-xl border border-gray-200 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
+                        <div class="flex items-center space-x-3.5">
+                            <span
+                                class="text-[10px] font-bold bg-[#FFF0F0] text-secondary px-2.5 py-1.5 rounded-lg font-inter">PDF</span>
+                            <span
+                                class="font-bold text-gray-800 font-inter group-hover:text-primary text-[14px] tracking-tight">Application
+                                for Factories Ordinance Registration</span>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Notices Column -->
+        <div class="w-full lg:w-1/2">
+            <div class="bg-primary text-white p-6 rounded-t relative overflow-hidden">
+                <h3 class="font-bold text-lg font-montserrat flex items-center relative z-10">Special Notices</h3>
+            </div>
+            <div class="border border-gray-200 border-t-0 rounded-b overflow-hidden bg-white shadow-sm">
+                <!-- Notice Item -->
+                <div
+                    class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between sm:items-center gap-5 hover:bg-gray-50 transition-colors duration-200">
+                    <div>
+                        <p class="text-gray-800 font-bold font-montserrat mb-1 text-[15px] leading-snug">Advisory Notice
+                            on National Minimum Wage Review</p>
+                        <p class="text-[12px] text-gray-500 font-inter uppercase tracking-wider">May 12, 2023</p>
+                    </div>
+                    <a href="#"
+                        class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded transition-colors text-center whitespace-nowrap tracking-wider uppercase">Read
+                        More</a>
+                </div>
+                <!-- Notice Item -->
+                <div
+                    class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between sm:items-center gap-5 hover:bg-gray-50 transition-colors duration-200">
+                    <div>
+                        <p class="text-gray-800 font-bold font-montserrat mb-1 text-[15px] leading-snug">Registration of
+                            Casual Labourers in Construction</p>
+                        <p class="text-[12px] text-gray-500 font-inter uppercase tracking-wider">May 10, 2023</p>
+                    </div>
+                    <a href="#"
+                        class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded transition-colors text-center whitespace-nowrap tracking-wider uppercase">Read
+                        More</a>
+                </div>
+                <!-- Notice Item -->
+                <div
+                    class="p-6 flex flex-col sm:flex-row justify-between sm:items-center gap-5 hover:bg-gray-50 transition-colors duration-200">
+                    <div>
+                        <p class="text-gray-800 font-bold font-montserrat mb-1 text-[15px] leading-snug">Procedure for
+                            Filing EPF Claims during Holiday Season</p>
+                        <p class="text-[12px] text-gray-500 font-inter uppercase tracking-wider">May 05, 2023</p>
+                    </div>
+                    <a href="#"
+                        class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded transition-colors text-center whitespace-nowrap tracking-wider uppercase">Read
+                        More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Institutions -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-white border-t border-gray-100" id="affiliated-institutions">
+    <div class="container mx-auto">
+        <div class="mb-14">
+            <p class="text-secondary font-bold text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Affiliated
+                Bodies</p>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-primary font-montserrat tracking-tight">
+                Institutions</h2>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-8 lg:gap-12 bg-white rounded-2xl">
+            <!-- Vertical Tabs -->
+            <div class="w-full md:w-[35%] flex flex-col space-y-2">
+                <button
+                    class="text-left px-5 py-4 bg-primary text-white font-extrabold text-[14px] rounded-xl font-montserrat transition-all duration-300 shadow-md cursor-pointer focus:outline-none inst-tab-btn active"
+                    data-target="inst-dol">
+                    Department of Labour
+                </button>
+                <button
+                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-bold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-niosh">
+                    NIOSH Sri Lanka
+                </button>
+                <button
+                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-bold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-svfb">
+                    Shrama Vasana Fund Board
+                </button>
+                <button
+                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-bold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-wc">
+                    Workmen's Compensation Office
+                </button>
+                <button
+                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-bold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-epf">
+                    Employees' Provident Fund Dept
+                </button>
+                <button
+                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-bold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-etf">
+                    Employees' Trust Fund Board
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="w-full md:w-[65%]">
+                <div
+                    class="bg-gray-50 rounded-3xl p-8 md:p-10 border border-gray-100 shadow-inner min-h-[380px] flex flex-col justify-between">
+
+                    <!-- Panel: Department of Labour (Active by default) -->
+                    <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-300 active-panel-block">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">Department
+                            of Labour</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>The Department of Labour operates under the purview of the Ministry of Labour and is the
+                                primary executing agency responsible for the enforcement of labour laws, dispute
+                                resolution, and welfare of the workforce across the nation.</p>
+                            <p>Established to facilitate a conducive industrial environment, the Department ensures that
+                                the legal rights of employees are protected while maintaining a balanced approach
+                                towards employers. It oversees the implementation of key legislation including the Wages
+                                Boards Ordinance, Shop and Office Employees Act, and the Factories Ordinance.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: NIOSH -->
+                    <div id="inst-panel-inst-niosh" class="inst-panel hidden transition-all duration-300">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">National
+                            Institute of Occupational Safety and Health (NIOSH)</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and
+                                formulating policies concerning occupational health and physical safety in commercial
+                                and manufacturing workspace environments.</p>
+                            <p>By organizing vocational safety drills and safety compliance auditing programs, the
+                                institute helps domestic industries minimize hazard risks and comply with national
+                                factories ordinance mandates.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: Shrama Vasana Fund Board -->
+                    <div id="inst-panel-inst-svfb" class="inst-panel hidden transition-all duration-300">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">Shrama
+                            Vasana Fund Board</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>The Shrama Vasana Fund Board serves to manage medical aid distributions, child vocational
+                                scholarships, and emergency distress grants for formal industrial workers in Sri Lanka.
+                            </p>
+                            <p>The board regularly runs employee welfare lotteries to secure operational funds,
+                                facilitating safety and health security programs for workers under difficult financial
+                                brackets.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: Workmen's Compensation Office -->
+                    <div id="inst-panel-inst-wc" class="inst-panel hidden transition-all duration-300">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">Office of
+                            the Commissioner for Workmen's Compensation</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing
+                                formal compensation claims arising from workplace physical injuries or accidental death
+                                in Sri Lanka.</p>
+                            <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring
+                                employers distribute prompt and legal payouts to affected families.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: EPF -->
+                    <div id="inst-panel-inst-epf" class="inst-panel hidden transition-all duration-300">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">Employees'
+                            Provident Fund Department</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>The largest social security financial fund in Sri Lanka, the EPF Department registers and
+                                maintains savings and compound dividend interest profiles for millions of formal
+                                employees.</p>
+                            <p>Operating jointly with the Central Bank of Sri Lanka, the fund administers payout
+                                registrations, housing loan releases, and employer payment compliance auditing.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: ETF -->
+                    <div id="inst-panel-inst-etf" class="inst-panel hidden transition-all duration-300">
+                        <h3 class="text-2xl font-extrabold text-primary mb-6 font-montserrat tracking-tight">Employees'
+                            Trust Fund Board (ETF)</h3>
+                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
+                            <p>The ETF Board secures and administers member contributions to provide workers with
+                                medical benefits, retirement insurance, and housing loans separately from basic EPF
+                                allocations.</p>
+                            <p>The fund invests aggressively in stable domestic securities to maximize bonus dividends
+                                and welfare opportunities for registered private sector workforces.</p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-xl uppercase transition-all shadow-sm active:scale-95">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<?php include 'includes/footer.php'; ?>
