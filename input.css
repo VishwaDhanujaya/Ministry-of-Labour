@@ -162,7 +162,7 @@
     @apply text-gray-500 text-[13.5px] font-inter leading-relaxed;
   }
   .focus-card {
-    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between;
+    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border-[0.5px] border-[#D4D4D4] flex flex-col justify-between;
   }
   .focus-card-icon {
     @apply w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6 rounded-lg;
@@ -174,10 +174,10 @@
     @apply text-gray-500 text-[14px] font-inter leading-relaxed;
   }
   .news-card {
-    @apply bg-white rounded-3xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col justify-between h-full;
+    @apply bg-white rounded-3xl shadow-md overflow-hidden hover:shadow-xl transition-all border-[0.5px] border-[#D4D4D4] flex flex-col justify-between h-full;
   }
   .gallery-item {
-    @apply relative h-72 rounded-3xl overflow-hidden cursor-pointer shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300;
+    @apply relative h-72 rounded-3xl overflow-hidden cursor-pointer shadow-md border-[0.5px] border-[#D4D4D4] hover:shadow-xl transition-all duration-300;
   }
   .gallery-item-overlay {
     background: linear-gradient(180deg, rgba(102, 102, 102, 0) 0%, rgba(10, 10, 10, 0.8) 100%);

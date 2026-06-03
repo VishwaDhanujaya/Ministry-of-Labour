@@ -4,7 +4,7 @@
     <div id="pdf-modal-backdrop" class="absolute inset-0 bg-[#13273F]/40 backdrop-blur-sm transition-opacity duration-300"></div>
     
     <!-- Modal Content Box -->
-    <div id="pdf-modal-box" class="relative w-full max-w-5xl h-[85vh] bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden transform scale-95 transition-all duration-300 z-10">
+    <div id="pdf-modal-box" class="relative w-full max-w-5xl h-[85vh] bg-white rounded-2xl shadow-2xl border-[0.5px] border-[#D4D4D4] flex flex-col overflow-hidden transform scale-95 transition-all duration-300 z-10">
         
         <!-- Header -->
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50">

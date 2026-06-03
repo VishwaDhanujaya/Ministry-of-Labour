@@ -141,8 +141,8 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </svg>
                     <!-- Dropdown -->
                     <div
-                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-56 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
-                        <a href="#"
+                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-56 bg-white border-[0.5px] border-[#D4D4D4] rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                        <a href="ampara-circuit-bungalow"
                             class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Ampara
                             Circuit Bungalow</a>
                     </div>
@@ -158,7 +158,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </svg>
                     <!-- Dropdown -->
                     <div
-                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-80 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-80 bg-white border-[0.5px] border-[#D4D4D4] rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                         <a href="#"
                             class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Application
                             Forms</a>
@@ -268,7 +268,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </button>
                     <div
                         class="hidden pl-6 pr-2 py-2 flex flex-col space-y-2.5 mt-1 bg-gray-50 rounded-lg text-xs font-semibold">
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">Ampara Circuit
+                        <a href="ampara-circuit-bungalow" class="text-gray-600 hover:text-primary transition-colors">Ampara Circuit
                             Bungalow</a>
                     </div>
                 </div>

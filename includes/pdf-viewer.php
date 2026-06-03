@@ -2,7 +2,7 @@
 // includes/pdf-viewer.php
 // Inputs: $pdfId, $pdfUrl, $pdfTitle
 ?>
-<div class="group bg-white rounded-2xl overflow-hidden shadow-2xl shadow-gray-200/60 border border-gray-100 w-full max-w-[491px] h-[600px] relative">
+<div class="group bg-white rounded-2xl overflow-hidden shadow-2xl shadow-gray-200/60 border-[0.5px] border-[#D4D4D4] w-full max-w-[491px] h-[600px] relative">
     
     <!-- PDF Content Area -->
     <div class="w-full h-full bg-white flex justify-center items-center">

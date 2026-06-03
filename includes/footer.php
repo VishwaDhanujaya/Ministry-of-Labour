@@ -47,7 +47,7 @@
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Disputes</a></li>
                         <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">Apply under RTI</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaint: Termination</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Bungalow Booking</a></li>
+                        <li><a href="ampara-circuit-bungalow" class="hover:text-yellow-400 hover:underline transition-all">Bungalow Booking</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaints Portal</a></li>
                     </ul>
                 </div>

@@ -96,7 +96,7 @@ include 'includes/header.php';
 <!-- Vision & Mission / Organizational Chart -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white">
     <div class="container mx-auto">
-        <div class="flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-lg border border-gray-100">
+        <div class="flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4]">
             <!-- Vision & Mission -->
             <div
                 class="w-full lg:w-[65%] bg-primary text-white p-8 md:p-10 lg:p-12 flex flex-col justify-center relative">
@@ -120,7 +120,7 @@ include 'includes/header.php';
                     Organizational Chart</h3>
 
                 <div
-                    class="relative group rounded-xl border border-gray-100 bg-gray-50 p-2 max-w-[380px] w-full mr-auto">
+                    class="relative group rounded-xl border-[0.5px] border-[#D4D4D4] bg-gray-50 p-2 max-w-[380px] w-full mr-auto">
                     <img src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart"
                         class="w-full h-40 md:h-48 lg:h-56 object-contain rounded-lg cursor-pointer mix-blend-multiply"
                         onclick="document.getElementById('org-chart-modal').classList.remove('hidden'); document.getElementById('org-chart-modal').classList.add('flex');">
@@ -185,7 +185,7 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             <!-- Minister -->
             <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/official-minister.webp" alt="Hon. Minister of Labour"
                         class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -232,7 +232,7 @@ include 'includes/header.php';
 
             <!-- Deputy Minister -->
             <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/official-deputy-minister.webp" alt="Hon. Deputy Minister of Labour"
                         class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -280,7 +280,7 @@ include 'includes/header.php';
 
             <!-- Secretary -->
             <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition-shadow group">
+                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/official-secretary.webp" alt="Secretary"
                         class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -348,7 +348,7 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             <!-- Admin 1 -->
             <div
-                class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/admin-wijesooriya.webp" alt="Additional Secretary"
                         class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -396,7 +396,7 @@ include 'includes/header.php';
 
             <!-- Admin 2 -->
             <div
-                class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/admin-darshana.webp" alt="Senior Assistant Secretary"
                         class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -444,7 +444,7 @@ include 'includes/header.php';
 
             <!-- Admin 3 -->
             <div
-                class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/admin-yashoda.webp" alt="Assistant Secretary"
                         class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -492,7 +492,7 @@ include 'includes/header.php';
 
             <!-- Admin 4 -->
             <div
-                class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/admin-muditha.webp" alt="Assistant Secretary"
                         class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -540,7 +540,7 @@ include 'includes/header.php';
 
             <!-- Admin 5 -->
             <div
-                class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow group">
+                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
                 <div class="overflow-hidden">
                     <img src="assets/img/about-us/admin-luxiga.webp" alt="Legal Officer"
                         class="w-full h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
@@ -593,7 +593,7 @@ include 'includes/header.php';
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12">How We Operate</h2>
 
-        <div class="bg-white rounded-2xl border border-gray-100 shadow-lg overflow-hidden">
+        <div class="bg-white rounded-2xl border-[0.5px] border-[#D4D4D4] shadow-lg overflow-hidden">
             <!-- Tabs Navigation -->
             <div class="flex flex-col md:flex-row border-b border-gray-100 bg-gray-50/50" id="operate-tabs">
                 <button onclick="switchOperateTab('objectives')" id="tab-btn-objectives"

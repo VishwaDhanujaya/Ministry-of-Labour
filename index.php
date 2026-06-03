@@ -103,7 +103,7 @@ include 'includes/header.php';
         <!-- Styled administrative image container -->
         <div class="w-full lg:w-[45%]">
             <div
-                class="rounded-3xl overflow-hidden shadow-lg border border-gray-100 h-[450px] lg:h-[530px] w-full bg-gray-50">
+                class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] h-[450px] lg:h-[530px] w-full bg-gray-50">
                 <img src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
                     class="w-full h-full object-cover">
             </div>
@@ -537,7 +537,7 @@ include 'includes/header.php';
 <section class="py-16 md:py-24 px-4 md:px-16 container mx-auto">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
         <!-- Downloads Column -->
-        <div class="bg-[#F7F7F7] rounded-[32px] border border-gray-100 p-8 md:p-10 flex flex-col justify-between">
+        <div class="bg-[#F7F7F7] rounded-[32px] border-[0.5px] border-[#D4D4D4] p-8 md:p-10 flex flex-col justify-between">
             <div>
                 <p class="text-secondary/80 font-semibold text-xs md:text-sm uppercase tracking-[0.15em] mb-3 font-inter">
                     Important Documents and Resources</p>
@@ -604,7 +604,7 @@ include 'includes/header.php';
         </div>
 
         <!-- Special Notices Column -->
-        <div class="bg-white rounded-[32px] border border-gray-200/80 shadow-sm overflow-hidden flex flex-col justify-between">
+        <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col justify-between">
             <div>
                 <div class="bg-primary text-white py-6 px-8 relative overflow-hidden">
                     <h3 class="font-semibold text-xl md:text-2xl font-montserrat flex items-center relative z-10">Special Notices</h3>
@@ -701,7 +701,7 @@ include 'includes/header.php';
             <!-- Content Area -->
             <div class="w-full md:w-[65%]">
                 <div
-                    class="bg-gray-50 rounded-3xl p-8 md:p-10 border border-gray-100 shadow-inner min-h-[380px] flex flex-col justify-between">
+                    class="bg-gray-50 rounded-3xl p-8 md:p-10 border-[0.5px] border-[#D4D4D4] shadow-inner min-h-[380px] flex flex-col justify-between">
 
                     <!-- Panel: Department of Labour (Active by default) -->
                     <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-300 active-panel-block">

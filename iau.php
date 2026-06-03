@@ -31,7 +31,7 @@ include 'includes/header.php';
         </p>
 
         <!-- Key Objectives Card -->
-        <div class="bg-white rounded-[32px] border border-gray-200 p-6 md:p-10 shadow-sm flex flex-col lg:flex-row gap-10 items-center">
+        <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] p-6 md:p-10 shadow-sm flex flex-col lg:flex-row gap-10 items-center">
             <div class="w-full lg:w-2/5">
                 <img src="assets/img/IAU/about-iau.webp" alt="IAU Meeting" class="w-full h-auto object-cover rounded-2xl shadow-sm">
             </div>
@@ -130,7 +130,7 @@ include 'includes/header.php';
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-12 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border border-gray-100 rounded-[32px] overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
             <!-- Row 1 -->
             <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
                 <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Head of the IAU</h4>

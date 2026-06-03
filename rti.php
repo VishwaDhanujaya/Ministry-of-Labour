@@ -81,7 +81,7 @@ include 'includes/header.php';
                 <h3 class="text-xl md:text-2xl font-semibold font-montserrat">Documents</h3>
             </div>
             
-            <div class="bg-[#F8F9FA] rounded-b-[20px] border border-t-0 border-gray-200 overflow-hidden shadow-sm">
+            <div class="bg-[#FAFAFA] rounded-b-[20px] border-[0.5px] border-[#D4D4D4] border-t-0 overflow-hidden shadow-sm">
                 <ul class="divide-y divide-gray-200">
                     
                     <li class="group">
