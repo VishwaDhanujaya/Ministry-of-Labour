@@ -233,7 +233,7 @@
                             d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 0v-1.5m0 1.5c.21 0 .42-.013.626-.038A11.97 11.97 0 0012 3.844a11.97 11.97 0 001.374.832c.206.025.416.038.626.038v1.5">
                         </path>
                     </svg>
-                    <span class="font-extrabold text-primary font-montserrat text-sm tracking-tight">Navigation</span>
+                    <span class="font-semibold text-primary font-montserrat text-sm tracking-tight">Navigation</span>
                 </div>
                 <button id="mobile-menu-close" aria-label="Close Mobile Menu"
                     class="p-1 rounded-lg text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors">

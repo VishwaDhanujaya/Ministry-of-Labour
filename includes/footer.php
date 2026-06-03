@@ -1,102 +1,103 @@
     <!-- Footer -->
-    <footer class="bg-primary text-white pt-20 pb-10 relative overflow-hidden">
+    <footer class="bg-primary text-white pt-16 relative overflow-hidden">
         <!-- Subtle Background mesh for premium grid texture -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="container mx-auto px-4 md:px-16 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-16">
                 <!-- Col 1 -->
-                <div class="lg:col-span-4 lg:pr-8">
-                    <div class="flex items-center mb-8">
-                        <img src="assets/img/logo.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 md:h-16 w-auto object-contain">
+                <div class="lg:col-span-3 lg:pr-4">
+                    <div class="flex items-center mb-6">
+                        <img src="assets/img/logo.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
                     </div>
-                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-8">
-                        Committed to protecting workforce rights, maintaining industrial peace, and enhancing employee welfare for national economic development.
+                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
+                        Committed to fostering productive labour relations, safeguarding workers' rights, and promoting decent work for all citizens of Sri Lanka.
+                    </p>
+                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-4">
+                        Subscribe to receive the latest Ministry news, gazette notifications and policy updates.
                     </p>
                     <div class="mb-4">
-                        <p class="text-sm font-semibold mb-3 font-inter">Subscribe to our newsletter for latest updates.</p>
                         <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
-                            <input type="email" required placeholder="Your Email Address" class="bg-white/10 text-white placeholder-gray-400 px-5 py-3 rounded-l-lg w-full focus:outline-none focus:bg-white/20 border border-white/20 border-r-0 text-sm font-inter transition-all duration-300">
-                            <button type="submit" class="bg-white text-primary font-bold px-6 py-3 rounded-r-lg hover:bg-gray-100 transition-colors text-sm font-inter shrink-0 active:scale-[0.98]">Subscribe</button>
+                            <input type="email" required placeholder="Your Email Address" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
+                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]">Subscribe</button>
                         </form>
                     </div>
                 </div>
                 
                 <!-- Col 2 -->
-                <div class="lg:col-span-2">
-                    <h3 class="font-bold text-base mb-6 font-montserrat text-white tracking-wider uppercase text-xs">Quick Links</h3>
-                    <ul class="space-y-4 text-sm text-gray-300 font-inter">
+                <div class="lg:col-span-2 lg:pl-4">
+                    <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Quick Links</h3>
+                    <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
                         <li><a href="index.php" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Policies</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">EPF</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">IAU</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Services</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Contact Us</a></li>
                     </ul>
                 </div>
                 
                 <!-- Col 3 -->
                 <div class="lg:col-span-2">
-                    <h3 class="font-bold text-base mb-6 font-montserrat text-white tracking-wider uppercase text-xs">Services</h3>
-                    <ul class="space-y-4 text-sm text-gray-300 font-inter">
+                    <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Services</h3>
+                    <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply EPF</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply Compensation</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Industrial Safety</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Circulars</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply Labour ID</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaints Management</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Dangerous Occurrences</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Disputes</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply under RTI</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaint: Termination</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Bungalow Booking</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaints Portal</a></li>
                     </ul>
                 </div>
                 
                 <!-- Col 4 -->
                 <div class="lg:col-span-2">
-                    <h3 class="font-bold text-base mb-6 font-montserrat text-white tracking-wider uppercase text-xs">Other Links</h3>
-                    <ul class="space-y-4 text-sm text-gray-300 font-inter">
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Courts</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Wages Boards</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Government Web Portal</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">President's Fund</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Right to Information</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">News & Events</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Tenders</a></li>
+                    <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Other Links</h3>
+                    <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Acts</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Annual Reports</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Gazettes and Notices</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Tender Notice</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Symposium</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Gallery</a></li>
                     </ul>
                 </div>
 
                 <!-- Col 5 -->
-                <div class="lg:col-span-2">
-                    <h3 class="font-bold text-base mb-6 font-montserrat text-white tracking-wider uppercase text-xs">Contact</h3>
-                    <ul class="space-y-5 text-sm text-gray-300 font-inter">
-                        <li class="flex items-start">
-                            <svg class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                            <span class="leading-relaxed">No. 15, "Mehewara Piyasa", Narahenpita,<br>Colombo 05.</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 mr-3 flex-shrink-0 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            <span class="hover:text-yellow-400 transition-colors">+94 11 2581141</span>
-                        </li>
-                        <li class="flex items-center">
-                            <svg class="w-5 h-5 mr-3 flex-shrink-0 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                            <span class="hover:text-yellow-400 transition-colors">info@labour.gov.lk</span>
-                        </li>
-                    </ul>
-                    <div class="flex space-x-3 mt-8">
-                        <a href="#" aria-label="Facebook Social" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white hover:scale-115 transition-all duration-300"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
-                        <a href="#" aria-label="Twitter Social" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white hover:scale-115 transition-all duration-300"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg></a>
-                        <a href="#" aria-label="YouTube Social" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary hover:text-white hover:scale-115 transition-all duration-300"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                <div class="lg:col-span-3">
+                    <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Contact</h3>
+                    <div class="space-y-4 text-[14px] text-gray-300 font-inter leading-relaxed">
+                        <p>6th floor,Mehewara Piyasa, Narahenpita,<br>Colombo 05, Sri Lanka.</p>
+                        <p>(+94) 11 2581991</p>
+                        <p>(+94) 11 2368165</p>
+                        <p><a href="mailto:info@labourmin.gov.lk" class="hover:underline hover:text-white transition-colors">info@labourmin.gov.lk</a></p>
+                    </div>
+                    <div class="flex space-x-2 mt-6">
+                        <a href="#" aria-label="Facebook Social" class="w-8 h-8 rounded border border-white/10 flex items-center justify-center bg-white/5 hover:bg-white/15 transition-all"><svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+                        <a href="#" aria-label="Instagram Social" class="w-8 h-8 rounded border border-white/10 flex items-center justify-center bg-white/5 hover:bg-white/15 transition-all"><svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                        <a href="#" aria-label="LinkedIn Social" class="w-8 h-8 rounded border border-white/10 flex items-center justify-center bg-white/5 hover:bg-white/15 transition-all"><svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                        <a href="#" aria-label="YouTube Social" class="w-8 h-8 rounded border border-white/10 flex items-center justify-center bg-white/5 hover:bg-white/15 transition-all"><svg class="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                    </div>
+                    <div class="mt-6">
+                        <img src="assets/img/1919.png" alt="GIC Sri Lanka 1919" class="h-10 w-auto object-contain">
                     </div>
                 </div>
             </div>
-            
-            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-[13px] text-gray-400 font-inter">
-                <p>Copyright &copy; 2023 Ministry of Labour. All Rights Reserved.</p>
-                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 md:mt-0">
-                    <a href="#" class="hover:text-white hover:underline transition-colors">Last Updated: 15 May 2023</a>
-                    <a href="#" class="hover:text-white hover:underline transition-colors">Sitemap</a>
-                    <a href="#" class="hover:text-white hover:underline transition-colors">FAQ</a>
-                    <a href="#" class="hover:text-white hover:underline transition-colors">Terms of Use</a>
-                    <a href="#" class="hover:text-white hover:underline transition-colors">Privacy Policy</a>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bg-[#090F16] text-gray-400 py-6 border-t border-white/5 font-inter text-[13px] relative z-10">
+            <div class="container mx-auto px-4 md:px-16 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 SLT Digital. All rights reserved.</p>
+                <p>Last Updated: 18 Mar, 2026</p>
+                <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+                    <a href="#" class="hover:text-white transition-colors">Site Map</a>
+                    <a href="#" class="hover:text-white transition-colors">FAQ</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms & Conditions</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
                 </div>
             </div>
         </div>

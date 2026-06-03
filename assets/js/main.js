@@ -226,6 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
             item.addEventListener('click', () => {
                 const caption = item.getAttribute('data-caption');
                 if (lightboxCaption) lightboxCaption.innerText = caption;
+                
+                const img = item.querySelector('img');
+                const lightboxImageEl = document.getElementById('lightbox-img');
+                const lightboxPlaceholder = document.getElementById('lightbox-placeholder');
+                
+                if (img && lightboxImageEl) {
+                    lightboxImageEl.src = img.src;
+                    lightboxImageEl.alt = img.alt || caption;
+                    lightboxImageEl.classList.remove('hidden');
+                    if (lightboxPlaceholder) lightboxPlaceholder.classList.add('hidden');
+                } else {
+                    if (lightboxImageEl) lightboxImageEl.classList.add('hidden');
+                    if (lightboxPlaceholder) lightboxPlaceholder.classList.remove('hidden');
+                }
+                
                 lightbox.classList.remove('opacity-0', 'pointer-events-none');
                 document.body.classList.add('overflow-hidden');
             });
@@ -234,6 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeLightbox = () => {
             lightbox.classList.add('opacity-0', 'pointer-events-none');
             document.body.classList.remove('overflow-hidden');
+            
+            const lightboxImageEl = document.getElementById('lightbox-img');
+            const lightboxPlaceholder = document.getElementById('lightbox-placeholder');
+            if (lightboxImageEl) {
+                lightboxImageEl.src = '';
+                lightboxImageEl.classList.add('hidden');
+            }
+            if (lightboxPlaceholder) lightboxPlaceholder.classList.remove('hidden');
         };
 
         if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
