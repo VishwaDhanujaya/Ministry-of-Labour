@@ -124,11 +124,11 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 <a href="iau"
                     class="<?= ($current_page == 'iau') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">IAU</a>
 
-                <a href="#"
-                    class="hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">RTI</a>
+                <a href="rti"
+                    class="<?= ($current_page == 'rti') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">RTI</a>
 
-                <a href="#"
-                    class="hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">Citizen
+                <a href="citizen-charter"
+                    class="<?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">Citizen
                     Charter</a>
 
                 <!-- Dropdown Circuit Bungalow -->
@@ -141,7 +141,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </svg>
                     <!-- Dropdown -->
                     <div
-                        class="absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-56 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-56 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                         <a href="#"
                             class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Ampara
                             Circuit Bungalow</a>
@@ -158,7 +158,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </svg>
                     <!-- Dropdown -->
                     <div
-                        class="absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-80 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-80 bg-white border border-gray-100 rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                         <a href="#"
                             class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Application
                             Forms</a>
@@ -252,8 +252,8 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     class="<?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">Home</a>
                 <a href="about-us" class="<?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">About Us</a>
                 <a href="iau" class="<?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">IAU</a>
-                <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">RTI</a>
-                <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">Citizen Charter</a>
+                <a href="rti" class="<?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">RTI</a>
+                <a href="citizen-charter" class="<?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">Citizen Charter</a>
 
                 <!-- Collapse Item: Circuit Bungalow -->
                 <div>

@@ -211,15 +211,26 @@ include 'includes/header.php';
 <!-- PDF Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-gray-100">
     <div class="container mx-auto">
-        <div class="flex flex-col md:flex-row gap-8 justify-center items-center">
-            <div class="w-full max-w-[400px] border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white group">
-                <img src="assets/img/IAU/pdf-1.webp" alt="PDF Document 1" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-300">
+        <div class="flex flex-col md:flex-row gap-8 justify-start items-center">
+            <div class="w-full max-w-[400px]">
+                <?php 
+                    $pdfId = 'iau-pdf-1';
+                    $pdfUrl = 'assets/img/IAU/pdf-1.pdf';
+                    $pdfTitle = 'IAU Document 1';
+                    include 'includes/pdf-viewer.php'; 
+                ?>
             </div>
-            <div class="w-full max-w-[400px] border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white group">
-                <img src="assets/img/IAU/pdf-2.webp" alt="PDF Document 2" class="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-300">
+            <div class="w-full max-w-[400px]">
+                <?php 
+                    $pdfId = 'iau-pdf-2';
+                    $pdfUrl = 'assets/img/IAU/pdf-2.pdf';
+                    $pdfTitle = 'IAU Document 2';
+                    include 'includes/pdf-viewer.php'; 
+                ?>
             </div>
         </div>
     </div>
 </section>
 
+<?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>

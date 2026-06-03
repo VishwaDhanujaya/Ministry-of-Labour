@@ -129,6 +129,17 @@
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  /* Bridge hover gap for dropdowns */
+  .dropdown-bridge::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    z-index: 10;
+  }
 }
 
 @layer components {

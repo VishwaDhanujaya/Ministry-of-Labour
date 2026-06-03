@@ -30,8 +30,8 @@
                         <li><a href="index" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
                         <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
                         <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all">IAU</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
+                        <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
+                        <li><a href="citizen-charter" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Services</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                     </ul>
@@ -45,7 +45,7 @@
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply Compensation</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Industrial Safety</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Labour Disputes</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Apply under RTI</a></li>
+                        <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">Apply under RTI</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaint: Termination</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Bungalow Booking</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Complaints Portal</a></li>
