@@ -1,3 +1,6 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF'], ".php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,14 +115,14 @@
 
             <!-- Desktop Navigation with Interactive Dropdowns -->
             <nav class="hidden lg:flex items-center space-x-6 font-inter text-[13px] font-bold text-gray-700">
-                <a href="index.php" class="text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all">Home</a>
+                <a href="index" class="<?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">Home</a>
 
-                <a href="#"
-                    class="hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">About
+                <a href="about-us"
+                    class="<?= ($current_page == 'about-us') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">About
                     Us</a>
 
-                <a href="#"
-                    class="hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">IAU</a>
+                <a href="iau"
+                    class="<?= ($current_page == 'iau') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">IAU</a>
 
                 <a href="#"
                     class="hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">RTI</a>
@@ -245,10 +248,10 @@
             </div>
 
             <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700">
-                <a href="index.php"
-                    class="text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md">Home</a>
-                <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">About Us</a>
-                <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">IAU</a>
+                <a href="index"
+                    class="<?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">Home</a>
+                <a href="about-us" class="<?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">About Us</a>
+                <a href="iau" class="<?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">IAU</a>
                 <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">RTI</a>
                 <a href="#" class="hover:text-primary pl-3 py-1 rounded transition-colors">Citizen Charter</a>
 

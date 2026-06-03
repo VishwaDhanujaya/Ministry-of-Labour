@@ -7,8 +7,7 @@ include 'includes/header.php';
 <section class="relative h-[550px] md:h-[650px] flex items-center bg-primary overflow-hidden">
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/hero.webp');"></div>
-    <div class="absolute inset-0 opacity-55"
-        style="background: linear-gradient(90deg, #4E0000 0%, rgba(102, 102, 102, 0) 100%), linear-gradient(90deg, rgba(78, 0, 0, 0.8) 0%, rgba(78, 0, 0, 0.2) 100%), linear-gradient(90deg, rgba(10, 10, 10, 0.4) 0%, rgba(102, 102, 102, 0) 100%);">
+    <div class="absolute inset-0 opacity-55 bg-home-hero-gradient">
     </div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">

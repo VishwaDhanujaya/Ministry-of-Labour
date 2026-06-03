@@ -27,9 +27,9 @@
                 <div class="lg:col-span-2 lg:pl-4">
                     <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Quick Links</h3>
                     <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
-                        <li><a href="index.php" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">IAU</a></li>
+                        <li><a href="index" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
+                        <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
+                        <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all">IAU</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Services</a></li>
