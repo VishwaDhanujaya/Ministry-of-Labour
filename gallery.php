@@ -1,26 +1,9 @@
 <?php
 // gallery.php
+$page_title = 'Gallery';
 include 'includes/header.php';
+include 'includes/sub-hero.php';
 ?>
-
-<!-- Hero Section -->
-<section class="relative h-[300px] md:h-[400px] flex items-center bg-primary overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-        style="background-image: url('assets/img/sub-hero.webp');"></div>
-    <div class="absolute inset-0 opacity-70 bg-sub-hero-gradient">
-    </div>
-
-    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold font-montserrat mb-4 leading-none tracking-tighter">
-            Gallery
-        </h1>
-        <div class="flex items-center text-[13px] md:text-sm font-inter text-gray-300">
-            <a href="index" class="hover:text-white transition-colors">Home</a>
-            <span class="mx-2">/</span>
-            <span class="text-white">Gallery</span>
-        </div>
-    </div>
-</section>
 
 <!-- Content Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white">
