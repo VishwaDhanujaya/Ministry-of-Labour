@@ -1,3 +1,13 @@
+<?php
+require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/functions.php';
+
+requireLogin();
+
+// Determine base URL for assets if needed
+$base_url = '../';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

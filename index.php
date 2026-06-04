@@ -1,5 +1,16 @@
 <?php
 // index.php
+require_once 'admin/includes/db.php';
+
+// Fetch recent news (limit 3)
+$recentNews = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND is_special_notice = 0 ORDER BY publish_date DESC, created_at DESC LIMIT 3")->fetchAll();
+
+// Fetch special notices (limit 4) - Note: Special Notices are removed, this can be safely removed or kept for legacy news
+$specialNotices = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND is_special_notice = 1 ORDER BY publish_date DESC, created_at DESC LIMIT 4")->fetchAll();
+
+// Fetch gallery items
+$galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll();
+
 include 'includes/header.php';
 ?>
 
@@ -342,100 +353,40 @@ include 'includes/header.php';
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- News Card 1 -->
-            <div class="news-card">
-                <div>
-                    <div class="h-56 overflow-hidden">
-                        <img src="assets/img/home/minister.jpg" alt="Ministry of Labour Introduces New Digital Services for Citizens" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="p-8 pb-4">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs text-gray-500 font-inter font-bold">May 15, 2023</span>
-                            <span
-                                class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Press
-                                Release</span>
+            <?php if(empty($recentNews)): ?>
+                <div class="col-span-3 text-center text-gray-500 py-10">No recent news available.</div>
+            <?php else: ?>
+                <?php foreach($recentNews as $news): ?>
+                <div class="news-card">
+                    <div>
+                        <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
+                            <?php if(!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
+                                <img src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                            <?php else: ?>
+                                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <?php endif; ?>
                         </div>
-                        <h3
-                            class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
-                            Ministry of Labour Introduces New Digital Services for Citizens</h3>
-                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">In an effort to
-                            streamline services and provide better accessibility, the Ministry of Labour has launched a
-                            new
-                            portal for online EPF registration and tracking.</p>
-                    </div>
-                </div>
-                <div class="p-8 pt-2">
-                    <a href="#"
-                        class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
-                        Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                            </path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <!-- News Card 2 -->
-            <div class="news-card">
-                <div>
-                    <div class="h-56 overflow-hidden">
-                        <img src="assets/img/home/cabinet.jpg" alt="National Symposium on Workplace Safety & Health 2023" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="p-8 pb-4">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs text-gray-500 font-inter font-bold">May 10, 2023</span>
-                            <span
-                                class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Events</span>
+                        <div class="p-8 pb-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['publish_date'] ?? $news['created_at'])) ?></span>
+                                <span class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
+                                <?= htmlspecialchars($news['title']) ?>
+                            </h3>
+                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">
+                                <?= htmlspecialchars($news['summary']) ?>
+                            </p>
                         </div>
-                        <h3
-                            class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
-                            National Symposium on Workplace Safety & Health 2023</h3>
-                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">Industry leaders
-                            and
-                            government officials gathered to discuss the future of workplace safety regulations and
-                            compliance standards across sectors.</p>
+                    </div>
+                    <div class="p-8 pt-2">
+                        <a href="news-single.php?id=<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                            Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
                     </div>
                 </div>
-                <div class="p-8 pt-2">
-                    <a href="#"
-                        class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
-                        Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                            </path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <!-- News Card 3 -->
-            <div class="news-card">
-                <div>
-                    <div class="h-56 overflow-hidden">
-                        <img src="assets/img/home/nlac.jpg" alt="Updates to the Minimum Wage Board Regulations" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="p-8 pb-4">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-xs text-gray-500 font-inter font-bold">May 02, 2023</span>
-                            <span
-                                class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter">Notice</span>
-                        </div>
-                        <h3
-                            class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
-                            Updates to the Minimum Wage Board Regulations</h3>
-                        <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">The Ministry
-                            announces
-                            a revision to the minimum wage guidelines affecting several key industries. Employers are
-                            requested to review the new circulars.</p>
-                    </div>
-                </div>
-                <div class="p-8 pt-2">
-                    <a href="#"
-                        class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
-                        Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
-                            </path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
 
         <div class="mt-10 text-center md:hidden">
@@ -464,40 +415,19 @@ include 'includes/header.php';
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Media Item 1 -->
-            <div class="gallery-item" data-caption="Key handover ceremony to top performers 2023">
-                <img src="assets/img/home/appointment-letters.jpg" alt="Key handover ceremony to top performers" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
-                    <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug">Key handover
-                        ceremony to top performers 2023</p>
+            <?php if(empty($galleryItems)): ?>
+                <div class="col-span-4 text-center text-gray-500 py-10">No gallery items available.</div>
+            <?php else: ?>
+                <?php foreach($galleryItems as $item): ?>
+                <!-- Media Item -->
+                <div class="gallery-item" data-caption="<?= htmlspecialchars($item['title']) ?>">
+                    <img src="admin/<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
+                        <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug"><?= htmlspecialchars($item['title']) ?></p>
+                    </div>
                 </div>
-            </div>
-            <!-- Media Item 2 -->
-            <div class="gallery-item" data-caption="Annual Symposium on National Policy (ASNP)">
-                <img src="assets/img/home/cabinet.jpg" alt="Annual Symposium on National Policy (ASNP)" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
-                    <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug">Annual
-                        Symposium
-                        on National Policy (ASNP)</p>
-                </div>
-            </div>
-            <!-- Media Item 3 -->
-            <div class="gallery-item" data-caption="Conference at National Labour Board">
-                <img src="assets/img/home/nlac.jpg" alt="Conference at National Labour Board" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
-                    <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug">Conference at
-                        National Labour Board</p>
-                </div>
-            </div>
-            <!-- Media Item 4 -->
-            <div class="gallery-item" data-caption="Public awareness campaign on worker's rights">
-                <img src="assets/img/home/minister.jpg" alt="Public awareness campaign on worker's rights" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
-                    <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug">Public
-                        awareness
-                        campaign on worker's rights</p>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -610,42 +540,20 @@ include 'includes/header.php';
                     <h3 class="font-semibold text-xl md:text-2xl font-montserrat flex items-center relative z-10">Special Notices</h3>
                 </div>
                 <div class="divide-y divide-gray-200 bg-white">
-                    <!-- Notice Item 1 -->
-                    <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
-                        <div class="flex-grow">
-                            <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug">Advanced Procurement Notice</h4>
-                            <p class="text-[13px] text-gray-400 font-inter">Mar 18, 2026</p>
+                    <?php if(empty($specialNotices)): ?>
+                        <div class="p-8 text-center text-gray-500 font-inter">No special notices available at the moment.</div>
+                    <?php else: ?>
+                        <?php foreach($specialNotices as $notice): ?>
+                        <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
+                            <div class="flex-grow">
+                                <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug"><?= htmlspecialchars($notice['title']) ?></h4>
+                                <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['publish_date'] ?? $notice['created_at'])) ?></p>
+                            </div>
+                            <a href="news-single.php?id=<?= $notice['id'] ?>"
+                                class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
                         </div>
-                        <a href="#"
-                            class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
-                    </div>
-                    <!-- Notice Item 2 -->
-                    <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
-                        <div class="flex-grow">
-                            <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug">Registration of Suppliers and Contractors for the Year 2025/2026</h4>
-                            <p class="text-[13px] text-gray-400 font-inter">Mar 17, 2026</p>
-                        </div>
-                        <a href="#"
-                            class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
-                    </div>
-                    <!-- Notice Item 3 -->
-                    <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
-                        <div class="flex-grow">
-                            <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug">Procurement of Supply & Installation of Computer Equipment for Department of Labour,Colombo 05</h4>
-                            <p class="text-[13px] text-gray-400 font-inter">Mar 16, 2026</p>
-                        </div>
-                        <a href="#"
-                            class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
-                    </div>
-                    <!-- Notice Item 4 -->
-                    <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
-                        <div class="flex-grow">
-                            <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug">Invitation of quotation to rent a building for the operations of the Panadura Labour Office of the Department of Labour (FG/TB/66/2024)</h4>
-                            <p class="text-[13px] text-gray-400 font-inter">Mar 16, 2026</p>
-                        </div>
-                        <a href="#"
-                            class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

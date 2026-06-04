@@ -1,4 +1,23 @@
-<?php include 'includes/header.php'; ?>
+<?php 
+require_once 'includes/db.php';
+require_once 'includes/auth.php';
+requireLogin();
+
+// Handle Delete
+if (isset($_GET['delete'])) {
+    $del_id = (int)$_GET['delete'];
+    $stmt = $pdo->prepare("DELETE FROM news WHERE id = ?");
+    $stmt->execute([$del_id]);
+    header("Location: news.php");
+    exit;
+}
+
+// Fetch News
+$stmt = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id ORDER BY n.created_at DESC");
+$newsList = $stmt->fetchAll();
+
+include 'includes/header.php'; 
+?>
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
@@ -28,8 +47,7 @@
                         <option value="">All Categories</option>
                         <option value="Media">Media</option>
                         <option value="Notices">Notices</option>
-                        <option value="Amendment">Amendment</option>
-                        <option value="Trade Unions">Trade Unions</option>
+                        <option value="Policy">Policy</option>
                     </select>
                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
@@ -65,101 +83,33 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100 text-[13px]">
-                    <!-- Row 1 -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3">38 New Labour Officers Receive Appointment Letters</td>
-                        <td class="py-5 px-6 text-gray-800">Media</td>
-                        <td class="py-5 px-6 text-gray-800">A. Silva</td>
-                        <td class="py-5 px-6 text-gray-800">Feb 24, 2026</td>
-                        <td class="py-5 px-6">
-                            <span class="px-3 py-1 rounded bg-[#D1F1E8] text-[#0A6C5B] text-[11px] font-bold">Published</span>
-                        </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center space-x-3">
-                                <button class="text-gray-500 hover:text-gray-800 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </button>
-                                <button class="js-edit-row px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</button>
-                                <button class="js-delete-row px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</button>
-                            </div>
-                        </td>
+                    <?php if (empty($newsList)): ?>
+                    <tr>
+                        <td colspan="6" class="py-5 px-6 text-center text-gray-500">No news articles found.</td>
                     </tr>
-                    <!-- Row 2 -->
+                    <?php else: ?>
+                    <?php foreach ($newsList as $news): ?>
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3">Cabinet Committee Consults NLAC on Labour Law Reforms</td>
-                        <td class="py-5 px-6 text-gray-800">Notices</td>
-                        <td class="py-5 px-6 text-gray-800">A. Silva</td>
-                        <td class="py-5 px-6 text-gray-800">Feb 2, 2026</td>
+                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3"><?= htmlspecialchars($news['title']) ?></td>
+                        <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['category']) ?></td>
+                        <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
+                        <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
                         <td class="py-5 px-6">
+                            <?php if ($news['status'] === 'Published'): ?>
                             <span class="px-3 py-1 rounded bg-[#D1F1E8] text-[#0A6C5B] text-[11px] font-bold">Published</span>
-                        </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center space-x-3">
-                                <button class="text-gray-500 hover:text-gray-800 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </button>
-                                <button class="js-edit-row px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</button>
-                                <button class="js-delete-row px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 3 -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3">Media Release on Private Sector Salary Increases</td>
-                        <td class="py-5 px-6 text-gray-800">Media</td>
-                        <td class="py-5 px-6 text-gray-800">S. Wickramasinghe</td>
-                        <td class="py-5 px-6 text-gray-800">Jan 21, 2026</td>
-                        <td class="py-5 px-6">
-                            <span class="px-3 py-1 rounded bg-[#D1F1E8] text-[#0A6C5B] text-[11px] font-bold">Published</span>
-                        </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center space-x-3">
-                                <button class="text-gray-500 hover:text-gray-800 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </button>
-                                <button class="js-edit-row px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</button>
-                                <button class="js-delete-row px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- Row 4 -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3">New EPF Contribution Guidelines 2026</td>
-                        <td class="py-5 px-6 text-gray-800">Policy</td>
-                        <td class="py-5 px-6 text-gray-800">A. Silva</td>
-                        <td class="py-5 px-6 text-gray-800">Jan 10, 2026</td>
-                        <td class="py-5 px-6">
+                            <?php else: ?>
                             <span class="px-3 py-1 rounded bg-[#EED6D6] text-[#611A1A] text-[11px] font-bold">Draft</span>
+                            <?php endif; ?>
                         </td>
                         <td class="py-5 px-6">
                             <div class="flex items-center space-x-3">
-                                <button class="text-gray-500 hover:text-gray-800 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </button>
-                                <button class="px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</button>
-                                <button class="px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</button>
+                                <a href="upload-news.php?id=<?= $news['id'] ?>" class="js-edit-row px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</a>
+                                <a href="news.php?delete=<?= $news['id'] ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="js-delete-row px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</a>
                             </div>
                         </td>
                     </tr>
-                    <!-- Row 5 -->
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/3">New EPF Contribution Guidelines 2026</td>
-                        <td class="py-5 px-6 text-gray-800">Policy</td>
-                        <td class="py-5 px-6 text-gray-800">A. Karunaratne</td>
-                        <td class="py-5 px-6 text-gray-800">Jan 09, 2026</td>
-                        <td class="py-5 px-6">
-                            <span class="px-3 py-1 rounded bg-[#EED6D6] text-[#611A1A] text-[11px] font-bold">Draft</span>
-                        </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center space-x-3">
-                                <button class="text-gray-500 hover:text-gray-800 transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </button>
-                                <button class="px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</button>
-                                <button class="px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

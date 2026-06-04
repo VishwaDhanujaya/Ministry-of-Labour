@@ -1,4 +1,62 @@
-<?php include 'includes/header.php'; ?>
+<?php
+require_once 'includes/db.php';
+require_once 'includes/auth.php';
+require_once 'includes/functions.php';
+requireLogin();
+
+$success = '';
+$error = '';
+
+$admin_id = $_SESSION['admin_id'];
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $new_password = $_POST['new_password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
+
+    if (empty($name) || empty($email)) {
+        $error = "Name and Email are required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format.";
+    } elseif (!empty($new_password) && $new_password !== $confirm_password) {
+        $error = "Passwords do not match.";
+    } else {
+        try {
+            // Check if email already exists for another user
+            $stmt = $pdo->prepare("SELECT id FROM admins WHERE email = ? AND id != ?");
+            $stmt->execute([$email, $admin_id]);
+            if ($stmt->fetch()) {
+                $error = "Email is already in use.";
+            } else {
+                if (!empty($new_password)) {
+                    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                    $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ?, password_hash = ? WHERE id = ?");
+                    $stmt->execute([$name, $email, $hashed_password, $admin_id]);
+                } else {
+                    $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ? WHERE id = ?");
+                    $stmt->execute([$name, $email, $admin_id]);
+                }
+                
+                // Update session
+                $_SESSION['admin_name'] = $name;
+                $_SESSION['admin_email'] = $email;
+                $success = "Profile updated successfully.";
+            }
+        } catch (PDOException $e) {
+            $error = "Database error: " . $e->getMessage();
+        }
+    }
+}
+
+// Fetch current user data
+$stmt = $pdo->prepare("SELECT * FROM admins WHERE id = ?");
+$stmt->execute([$admin_id]);
+$current_user = $stmt->fetch();
+
+include 'includes/header.php';
+?>
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
@@ -16,16 +74,27 @@
             <div class="mb-14">
                 <h3 class="text-2xl font-bold font-montserrat text-gray-900 mb-6">Account Settings</h3>
                 
-                <form action="#" method="POST" class="js-validate-form space-y-6">
+                <?php if ($error): ?>
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6 text-sm font-inter">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($success): ?>
+                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6 text-sm font-inter">
+                        <?= htmlspecialchars($success) ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="" method="POST" class="js-validate-form space-y-6">
                     <!-- Row 1 -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">Full Name</label>
-                            <input type="text" required value="Ayesh Silva" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="text" name="name" required value="<?= htmlspecialchars($current_user['name']) ?>" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">Role</label>
-                            <input type="text" value="Super Admin" readonly class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none text-[13px] text-gray-600">
+                            <input type="text" value="<?= htmlspecialchars($current_user['role']) ?>" readonly class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none text-[13px] text-gray-600">
                         </div>
                     </div>
 
@@ -33,15 +102,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">Email</label>
-                            <input type="email" required value="admin@labourmin.gov.lk" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="email" name="email" required value="<?= htmlspecialchars($current_user['email']) ?>" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">New Password</label>
-                            <input type="password" placeholder="Leave blank to keep current" class="js-pwd w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="password" name="new_password" placeholder="Leave blank to keep current" class="js-pwd w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">Confirm Password</label>
-                            <input type="password" placeholder="Leave blank to keep current" class="js-pwd-confirm w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="password" name="confirm_password" placeholder="Leave blank to keep current" class="js-pwd-confirm w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                     </div>
 

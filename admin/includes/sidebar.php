@@ -34,8 +34,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="special-notices.php" class="flex items-center px-8 py-2.5 <?= ($current_page == 'special-notices') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
-                        <span>Special Notices</span>
+                    <a href="manage-gallery.php" class="flex items-center px-8 py-2.5 <?= ($current_page == 'manage-gallery') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
+                        <span>Manage Gallery</span>
                     </a>
                 </li>
             </ul>
@@ -62,11 +62,13 @@
                         <span>Settings</span>
                     </a>
                 </li>
+                <?php if (isSuperAdmin()): ?>
                 <li>
                     <a href="manage-admins.php" class="flex items-center px-8 py-2.5 <?= ($current_page == 'manage-admins') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
                         <span>Manage Admins</span>
                     </a>
                 </li>
+                <?php endif; ?>
             </ul>
         </div>
         <div class="mt-auto px-6 py-4 border-t border-white/10 space-y-2">
@@ -74,7 +76,7 @@
                 <svg class="w-5 h-5 mr-3 text-[#B08920]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Visit Site
             </a>
-            <a href="../index.php" class="flex items-center px-4 py-2.5 text-white/90 hover:bg-white/5 hover:text-white rounded-md text-[13px] font-medium transition-colors">
+            <a href="logout.php" class="flex items-center px-4 py-2.5 text-white/90 hover:bg-white/5 hover:text-white rounded-md text-[13px] font-medium transition-colors">
                 <svg class="w-5 h-5 mr-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                 Log Out
             </a>

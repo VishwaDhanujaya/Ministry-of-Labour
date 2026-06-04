@@ -1,5 +1,36 @@
 <?php
 // ampara-circuit-bungalow.php
+session_start();
+require_once 'admin/includes/db.php';
+
+$success = isset($_GET['success']) && $_GET['success'] == 1;
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $start_date = $_POST['start_date'] ?? '';
+    $end_date = $_POST['end_date'] ?? '';
+    $applicant_name = trim($_POST['applicant_name'] ?? '');
+    $telephone = trim($_POST['telephone'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $guests = (int)($_POST['guests'] ?? 1);
+    
+    $is_office_member = isset($_POST['is_office_member']) && $_POST['is_office_member'] == '1';
+    $designation = $is_office_member ? trim($_POST['designation'] ?? '') : '';
+
+    if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email)) {
+        $error = "Please fill in all required fields.";
+    } else {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, designation, phone, email, guests, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute(['Ampara', $applicant_name, $designation, $telephone, $email, $guests, $start_date, $end_date]);
+            header("Location: ampara-circuit-bungalow.php?success=1");
+            exit;
+        } catch (PDOException $e) {
+            $error = "Failed to submit booking: " . $e->getMessage();
+        }
+    }
+}
+// ampara-circuit-bungalow.php
 $page_title = 'Ampara Circuit Bungalow';
 $breadcrumbs = [
     ['label' => 'Circuit Bungalows'],
@@ -365,33 +396,54 @@ include 'includes/sub-hero.php';
             <div class="bg-[#FAFAFA] rounded-[20px] p-6 border-[0.5px] border-[#D4D4D4] shadow-sm">
                 <div class="flex items-baseline gap-2 mb-6">
                     <span class="text-gray-500 text-sm font-medium font-inter">From</span>
-                    <span class="text-2xl font-bold text-gray-900 font-montserrat">Rs. 2,000</span>
+                    <span class="text-3xl font-bold text-gray-900 font-montserrat">Rs. 2,000</span>
                     <span class="text-gray-500 text-sm font-inter">/ night</span>
                 </div>
+                
+                <hr class="border-gray-200 mb-6">
+
+                <?php if ($success): ?>
+                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-4 font-inter text-sm">
+                        Your booking request has been submitted successfully and is pending approval.
+                    </div>
+                <?php endif; ?>
+                <?php if ($error): ?>
+                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 font-inter text-sm">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
+
+                <div id="availability-message" class="hidden px-4 py-3 rounded mb-4 font-inter text-sm"></div>
 
                 <div class="space-y-4 mb-6">
                     <!-- Check-in -->
-                    <div class="relative">
-                        <label class="block text-[11px] font-semibold text-gray-500 mb-1 absolute top-2 left-3 z-10 font-inter uppercase tracking-wider">Check-in</label>
-                        <input type="date" class="w-full border border-gray-300 rounded-lg pt-6 pb-2 px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent bg-white font-inter">
+                    <div>
+                        <label class="flex items-center text-[12px] font-medium text-gray-500 mb-2 font-inter">
+                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Check-In
+                        </label>
+                        <input type="date" id="check-in-date" name="start_date" form="booking-form" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-[#828b9c] focus:outline-none focus:ring-1 focus:ring-gray-300 bg-white font-inter" placeholder="MM/DD/YYYY">
                     </div>
                     <!-- Check-out -->
-                    <div class="relative">
-                        <label class="block text-[11px] font-semibold text-gray-500 mb-1 absolute top-2 left-3 z-10 font-inter uppercase tracking-wider">Check-out</label>
-                        <input type="date" class="w-full border border-gray-300 rounded-lg pt-6 pb-2 px-3 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent bg-white font-inter">
+                    <div>
+                        <label class="flex items-center text-[12px] font-medium text-gray-500 mb-2 font-inter">
+                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Check-Out
+                        </label>
+                        <input type="date" id="check-out-date" name="end_date" form="booking-form" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-[#828b9c] focus:outline-none focus:ring-1 focus:ring-gray-300 bg-white font-inter" placeholder="MM/DD/YYYY">
                     </div>
                 </div>
 
                 <div class="space-y-3">
-                    <button class="w-full py-3 px-4 bg-white border border-secondary text-secondary hover:bg-red-50 font-semibold rounded-lg transition-colors text-sm font-inter">
+                    <button type="button" id="btn-check-availability" class="w-full py-2.5 px-4 bg-transparent border border-[#4E0000] text-[#4E0000] hover:bg-[#4E0000]/5 font-semibold rounded-lg transition-colors text-sm font-inter">
                         Check Availability
                     </button>
-                    <button class="w-full py-3 px-4 bg-secondary hover:bg-secondary/90 text-white font-semibold rounded-lg transition-colors text-sm font-inter">
+                    <button type="button" onclick="document.getElementById('booking-modal').classList.remove('hidden')" class="w-full py-2.5 px-4 bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
                         Make a Reservation
                     </button>
                 </div>
-                <div class="mt-4 text-center text-xs text-gray-500 font-inter">
-                    Prices may vary depending on availability and season.
+                <div class="mt-5 text-center text-[12px] text-gray-500 font-inter leading-relaxed">
+                    Reservation are subject to approval by the administration
                 </div>
             </div>
 
@@ -434,5 +486,148 @@ include 'includes/sub-hero.php';
 
     </div>
 </section>
+
+<!-- Booking Modal -->
+<div id="booking-modal" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center p-4">
+    <div class="bg-white rounded-[20px] shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+        <div class="flex justify-between items-center p-6 border-b border-gray-100">
+            <h3 class="text-xl font-bold font-montserrat text-gray-900">Reservation Details</h3>
+            <button type="button" onclick="document.getElementById('booking-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        
+        <form id="booking-form" method="POST" action="">
+            <div class="p-6 space-y-4">
+                <p class="text-[13px] text-gray-600 font-inter mb-4">Please fill in your details to request a reservation for the selected dates.</p>
+                
+                <!-- Applicant Name -->
+                <div>
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Applicant Name *</label>
+                    <input type="text" name="applicant_name" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="John Doe">
+                </div>
+                <!-- Telephone -->
+                <div>
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Telephone *</label>
+                    <input type="text" name="telephone" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="07XXXXXXXX">
+                </div>
+                <!-- Email -->
+                <div>
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Email *</label>
+                    <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="john@example.com">
+                </div>
+                <!-- No of Guests -->
+                <div>
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">No of Guests *</label>
+                    <input type="number" name="guests" min="1" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="2">
+                </div>
+                <!-- Office Member Checkbox -->
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="is_office_member" name="is_office_member" value="1" class="w-4 h-4 text-[#4E0000] border-gray-300 rounded focus:ring-[#4E0000]">
+                    <label for="is_office_member" class="text-[12px] font-medium text-gray-700 font-inter cursor-pointer">I am an Office Member</label>
+                </div>
+                <!-- Designation (Hidden by default) -->
+                <div id="designation_container" class="hidden">
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Designation *</label>
+                    <input type="text" id="designation_input" name="designation" class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="Officer">
+                </div>
+            </div>
+            <div class="p-6 bg-[#FAFAFA] border-t border-gray-100 flex justify-end gap-3 rounded-b-[20px]">
+                <button type="button" onclick="document.getElementById('booking-modal').classList.add('hidden')" class="px-5 py-2.5 text-[13px] font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-inter">Cancel</button>
+                <button type="submit" class="px-5 py-2.5 text-[13px] font-medium text-white bg-[#4E0000] hover:bg-[#320000] rounded-lg transition-colors font-inter shadow-sm">Submit Request</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('is_office_member').addEventListener('change', function() {
+    const container = document.getElementById('designation_container');
+    const input = document.getElementById('designation_input');
+    if (this.checked) {
+        container.classList.remove('hidden');
+        input.setAttribute('required', 'required');
+    } else {
+        container.classList.add('hidden');
+        input.removeAttribute('required');
+        input.value = '';
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const checkInInput = document.getElementById('check-in-date');
+    const checkOutInput = document.getElementById('check-out-date');
+    
+    // Set today as min for check-in
+    const today = new Date().toISOString().split('T')[0];
+    checkInInput.setAttribute('min', today);
+    
+    // Update check-out min based on check-in
+    checkInInput.addEventListener('change', function() {
+        if (this.value) {
+            const minOut = new Date(this.value);
+            minOut.setDate(minOut.getDate() + 1);
+            checkOutInput.setAttribute('min', minOut.toISOString().split('T')[0]);
+            
+            // If checkout is before new min checkout, clear it
+            if (checkOutInput.value && checkOutInput.value <= this.value) {
+                checkOutInput.value = '';
+            }
+        } else {
+            checkOutInput.removeAttribute('min');
+        }
+    });
+});
+
+document.getElementById('btn-check-availability').addEventListener('click', async function() {
+    const startDate = document.getElementById('check-in-date').value;
+    const endDate = document.getElementById('check-out-date').value;
+    const msgDiv = document.getElementById('availability-message');
+    
+    // Reset message
+    msgDiv.className = 'hidden px-4 py-3 rounded mb-4 font-inter text-sm';
+    msgDiv.innerText = '';
+
+    if (!startDate || !endDate) {
+        msgDiv.innerText = 'Please select both Check-in and Check-out dates.';
+        msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
+        msgDiv.classList.remove('hidden');
+        return;
+    }
+
+    if (startDate >= endDate) {
+        msgDiv.innerText = 'Check-out date must be after Check-in date.';
+        msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
+        msgDiv.classList.remove('hidden');
+        return;
+    }
+
+    try {
+        const btn = this;
+        const originalText = btn.innerText;
+        btn.innerText = 'Checking...';
+        btn.disabled = true;
+
+        const response = await fetch(`check-availability.php?start=${startDate}&end=${endDate}`);
+        const data = await response.json();
+        
+        btn.innerText = originalText;
+        btn.disabled = false;
+
+        if (data.error) {
+            msgDiv.innerText = data.error;
+            msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
+        } else if (data.available) {
+            msgDiv.innerText = data.message;
+            msgDiv.classList.add('bg-green-50', 'border', 'border-green-200', 'text-green-700');
+        } else {
+            msgDiv.innerText = data.message;
+            msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
+        }
+        msgDiv.classList.remove('hidden');
+    } catch (error) {
+        console.error('Error checking availability:', error);
+    }
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>

@@ -1,9 +1,29 @@
 <?php
 // news-single.php
+require_once 'admin/includes/db.php';
+
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if (!$id) {
+    header("Location: news.php");
+    exit;
+}
+
+$stmt = $pdo->prepare("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id WHERE n.id = ? AND n.status = 'Published'");
+$stmt->execute([$id]);
+$news = $stmt->fetch();
+
+if (!$news) {
+    header("Location: news.php");
+    exit;
+}
+
+// Fetch recent posts for sidebar (limit 10)
+$recentPosts = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY publish_date DESC, created_at DESC LIMIT 10")->fetchAll();
+
 $page_title = 'News';
 $breadcrumbs = [
-    ['label' => 'News', 'url' => 'news'],
-    ['label' => '38 New Labour Officers Receive Appointment Letters']
+    ['label' => 'News', 'url' => 'news.php'],
+    ['label' => htmlspecialchars($news['title'])]
 ];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
@@ -16,36 +36,25 @@ include 'includes/sub-hero.php';
             <!-- Main Content -->
             <div class="w-full lg:w-2/3">
                 <h2 class="text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight">
-                    38 New Labour Officers Receive Appointment Letters
+                    <?= htmlspecialchars($news['title']) ?>
                 </h2>
                 
                 <div class="flex items-center gap-6 text-[13px] font-inter text-gray-500 font-medium mb-8 pb-4 border-b border-gray-200">
-                    <span>Media</span>
-                    <span>February 17, 2026</span>
+                    <span><?= htmlspecialchars($news['category']) ?></span>
+                    <span><?= date('F j, Y', strtotime($news['publish_date'] ?? $news['created_at'])) ?></span>
+                    <?php if (!empty($news['author_name'])): ?>
+                        <span>By <?= htmlspecialchars($news['author_name']) ?></span>
+                    <?php endif; ?>
                 </div>
+
+                <?php if (!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
+                <div class="mb-10 rounded-2xl overflow-hidden shadow-sm">
+                    <img src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
+                </div>
+                <?php endif; ?>
 
                 <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12 space-y-6">
-                    <p>Appointment letters were presented to 38 newly recruited Labour Officers at a ceremony held on the morning of 16 February at the Labour Ministry Auditorium, Mehewara Piyasa Building, Narahenpita.</p>
-                    <p>The event was held under the patronage of the Minister of Labour, Dr. <strong>Anil Jayantha Fernando</strong>, and the Deputy Minister of Labour, Mr. <strong>Mahinda Jayasinghe</strong>.</p>
-                    <p>The newly appointed officers will undergo a comprehensive training programme comprising three months of institutional training followed by one month of field duty training at the <strong>National Institute of Labour Studies</strong>, functioning under the Ministry of Labour. The programme is designed to equip them with the necessary knowledge and practical exposure to effectively carry out their responsibilities in the field of labour administration and regulation.</p>
-                    <p>The Secretary to the Ministry of Labour, Mr. <strong>S.M. Piyatissa</strong>, and the Commissioner General of Labour, Mrs. <strong>Nadeeka Wataliyadda</strong>, were also present at the ceremony, along with several senior officials of the Ministry.</p>
-                    <p>The appointment of these officers marks a significant step towards further strengthening the labour administration framework and enhancing service delivery across the country.</p>
-                </div>
-
-                <!-- Gallery Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-                    <div class="rounded-2xl overflow-hidden h-64 md:h-72 shadow-sm hover:shadow-md transition-shadow">
-                        <img src="assets/img/home/appointment-letters.jpg" class="w-full h-full object-cover" alt="Gallery Image 1">
-                    </div>
-                    <div class="rounded-2xl overflow-hidden h-64 md:h-72 shadow-sm hover:shadow-md transition-shadow">
-                        <img src="assets/img/home/minister.jpg" class="w-full h-full object-cover" alt="Gallery Image 2">
-                    </div>
-                    <div class="rounded-2xl overflow-hidden h-64 md:h-72 shadow-sm hover:shadow-md transition-shadow">
-                        <img src="assets/img/home/nlac.jpg" class="w-full h-full object-cover" alt="Gallery Image 3">
-                    </div>
-                    <div class="rounded-2xl overflow-hidden h-64 md:h-72 shadow-sm hover:shadow-md transition-shadow">
-                        <img src="assets/img/home/cabinet.jpg" class="w-full h-full object-cover" alt="Gallery Image 4">
-                    </div>
+                    <?= $news['content'] // Content is typically rich text (HTML) so we output it directly ?>
                 </div>
 
                 <!-- Pagination Links -->
@@ -78,48 +87,14 @@ include 'includes/sub-hero.php';
                     <div class="mb-10">
                         <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6">Recent Posts</h3>
                         <ul class="space-y-4">
+                            <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news-single" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
+                                <a href="news-single.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>38 New Labour Officers Receive Appointment Letters.</span>
+                                    <span><?= htmlspecialchars($post['title']) ?></span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>The committee approved by the Cabinet to amend the labour laws is consulting the National Labour Advisory Council (NLAC).</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>Press release on private sector salary increase.</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>The Ministry of Labor also begins work in the new year.</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>Scholarships are awarded by the Shrama Vasana Fund</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>The Ministry of Labor also begins work in the new year.</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>Scholarships are awarded by the Shrama Vasana Fund</span>
-                                </a>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                     

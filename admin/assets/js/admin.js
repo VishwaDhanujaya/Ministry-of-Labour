@@ -237,8 +237,6 @@ function initFormValidation() {
     
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
             let isValid = true;
             const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
             
@@ -259,21 +257,15 @@ function initFormValidation() {
                 isValid = false;
                 pwdConfirm.classList.add('border-red-500');
                 showToast('Passwords do not match', 'error');
-                return;
             }
 
             if (!isValid) {
-                showToast('Please fill in all required fields', 'error');
+                e.preventDefault();
+                showToast('Please correct errors before submitting', 'error');
                 return;
             }
             
-            // Mock submission
-            showToast('Changes saved successfully!', 'success');
-            
-            // If it's a new item form (not settings), reset it
-            if (form.classList.contains('js-reset-on-success')) {
-                form.reset();
-            }
+            // If valid, the form will submit normally to PHP
         });
     });
     
