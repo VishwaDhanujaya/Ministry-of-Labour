@@ -115,20 +115,20 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
             <!-- Desktop Navigation with Interactive Dropdowns -->
             <nav class="hidden lg:flex items-center space-x-6 font-inter text-[13px] font-bold text-gray-700">
-                <a href="index" class="<?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">Home</a>
+                <a href="index" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Home</a>
 
                 <a href="about-us"
-                    class="<?= ($current_page == 'about-us') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">About
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">About
                     Us</a>
 
                 <a href="iau"
-                    class="<?= ($current_page == 'iau') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">IAU</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">IAU</a>
 
                 <a href="rti"
-                    class="<?= ($current_page == 'rti') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">RTI</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">RTI</a>
 
                 <a href="citizen-charter"
-                    class="<?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-b-2 border-[#13273F] pb-1.5 transition-all' : 'hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300' ?>">Citizen
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Citizen
                     Charter</a>
 
                 <!-- Dropdown Circuit Bungalow -->
@@ -148,41 +148,13 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </div>
                 </div>
 
-                <!-- Dropdown Downloads -->
-                <div
-                    class="relative group cursor-pointer flex items-center hover:text-[#13273F] transition-colors pb-1.5 border-b-2 border-transparent hover:border-gray-300">
-                    <span>Downloads</span>
-                    <svg class="w-3.5 h-3.5 ml-1 text-gray-400 group-hover:text-[#13273F] transition-transform duration-200 group-hover:rotate-180"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                    <!-- Dropdown -->
-                    <div
-                        class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-80 bg-white border-[0.5px] border-[#D4D4D4] rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Application
-                            Forms</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Annual
-                            Reports</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">List
-                            of Valid Trade Unions</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Authorized
-                            Persons Appointed Under Factories Ordinance</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Labour
-                            Legislations</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">statistics</a>
-                        <a href="#"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">HR
-                            Development Plan 2025/2026</a>
-                    </div>
-                </div>
+                <a href="downloads"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Downloads</a>
 
-                <a href="#"
+                <a href="news"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">News</a>
+
+                <a href="contact-us"
                     class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact
                     Us</a>
 
@@ -249,11 +221,11 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
             <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700">
                 <a href="index"
-                    class="<?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">Home</a>
-                <a href="about-us" class="<?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">About Us</a>
-                <a href="iau" class="<?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">IAU</a>
-                <a href="rti" class="<?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">RTI</a>
-                <a href="citizen-charter" class="<?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] pl-3 py-1 rounded-r-md' : 'hover:text-primary pl-3 py-1 rounded transition-colors' ?>">Citizen Charter</a>
+                    class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Home</a>
+                <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">About Us</a>
+                <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">IAU</a>
+                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">RTI</a>
+                <a href="citizen-charter" class="pl-3 py-1 <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Citizen Charter</a>
 
                 <!-- Collapse Item: Circuit Bungalow -->
                 <div>
@@ -267,41 +239,18 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                         </svg>
                     </button>
                     <div
-                        class="hidden pl-6 pr-2 py-2 flex flex-col space-y-2.5 mt-1 bg-gray-50 rounded-lg text-xs font-semibold">
+                        class="hidden pl-6 pr-2 py-2 flex-col space-y-2.5 mt-1 bg-gray-50 rounded-lg text-xs font-semibold">
                         <a href="ampara-circuit-bungalow" class="text-gray-600 hover:text-primary transition-colors">Ampara Circuit
                             Bungalow</a>
                     </div>
                 </div>
 
-                <!-- Collapse Item: Downloads -->
-                <div>
-                    <button
-                        class="w-full flex justify-between items-center hover:text-[#13273F] hover:bg-gray-50 pl-3 pr-2 py-1.5 rounded mobile-collapse-btn transition-colors duration-200">
-                        <span>Downloads</span>
-                        <svg class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div
-                        class="hidden pl-6 pr-2 py-2 flex flex-col space-y-2.5 mt-1 bg-gray-50 rounded-lg text-xs font-semibold">
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">Application Forms</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">Annual Reports</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">List of Valid Trade
-                            Unions</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">Authorized Persons
-                            Appointed Under Factories Ordinance</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">Labour Legislations</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">statistics</a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition-colors">HR Development Plan
-                            2025/2026</a>
-                    </div>
-                </div>
+                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Downloads</a>
+                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">News</a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">
-                <a href="#"
+                <a href="contact-us"
                     class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase">Contact
                     Us</a>
                 <div class="flex justify-center space-x-5 text-gray-400 py-2">

@@ -33,7 +33,8 @@
                         <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
                         <li><a href="citizen-charter" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Services</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
+                        <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
+                        <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all">News</a></li>
                     </ul>
                 </div>
                 
@@ -62,7 +63,7 @@
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Tender Notice</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Symposium</a></li>
                         <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 hover:underline transition-all">Gallery</a></li>
+                        <li><a href="gallery" class="hover:text-yellow-400 hover:underline transition-all">Gallery</a></li>
                     </ul>
                 </div>
 

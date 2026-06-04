@@ -35,7 +35,7 @@ include 'includes/header.php';
 <!-- Stats Bar -->
 <div class="bg-secondary text-white py-10 relative z-20">
     <div class="container mx-auto px-4 md:px-16 relative z-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-white/20">
             <div class="px-4 stat-box" data-target="6.2" data-suffix="M+" data-multiplier="1">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
                         class="stat-number">0</span>M+</div>
