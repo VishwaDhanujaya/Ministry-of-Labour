@@ -6,6 +6,21 @@ require_once 'admin/includes/db.php';
 $success = isset($_GET['success']) && $_GET['success'] == 1;
 $error = '';
 
+// Fetch confirmed bookings to disable in the calendar
+$stmt = $pdo->prepare("SELECT start_date, end_date FROM bookings WHERE bungalow_name = 'Ampara' AND status = 'Confirmed'");
+$stmt->execute();
+$confirmed_bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Convert to an array of Flatpickr disable ranges
+$disabled_dates = [];
+foreach ($confirmed_bookings as $booking) {
+    $disabled_dates[] = [
+        'from' => $booking['start_date'],
+        'to' => $booking['end_date']
+    ];
+}
+$disabled_dates_json = json_encode($disabled_dates);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $start_date = $_POST['start_date'] ?? '';
     $end_date = $_POST['end_date'] ?? '';
@@ -413,37 +428,13 @@ include 'includes/sub-hero.php';
                     </div>
                 <?php endif; ?>
 
-                <div id="availability-message" class="hidden px-4 py-3 rounded mb-4 font-inter text-sm"></div>
-
-                <div class="space-y-4 mb-6">
-                    <!-- Check-in -->
-                    <div>
-                        <label class="flex items-center text-[12px] font-medium text-gray-500 mb-2 font-inter">
-                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            Check-In
-                        </label>
-                        <input type="date" id="check-in-date" name="start_date" form="booking-form" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-[#828b9c] focus:outline-none focus:ring-1 focus:ring-gray-300 bg-white font-inter" placeholder="MM/DD/YYYY">
-                    </div>
-                    <!-- Check-out -->
-                    <div>
-                        <label class="flex items-center text-[12px] font-medium text-gray-500 mb-2 font-inter">
-                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            Check-Out
-                        </label>
-                        <input type="date" id="check-out-date" name="end_date" form="booking-form" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-[#828b9c] focus:outline-none focus:ring-1 focus:ring-gray-300 bg-white font-inter" placeholder="MM/DD/YYYY">
-                    </div>
-                </div>
-
                 <div class="space-y-3">
-                    <button type="button" id="btn-check-availability" class="w-full py-2.5 px-4 bg-transparent border border-[#4E0000] text-[#4E0000] hover:bg-[#4E0000]/5 font-semibold rounded-lg transition-colors text-sm font-inter">
-                        Check Availability
-                    </button>
-                    <button type="button" onclick="document.getElementById('booking-modal').classList.remove('hidden')" class="w-full py-2.5 px-4 bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
-                        Make a Reservation
+                    <button type="button" onclick="document.getElementById('booking-modal').classList.remove('hidden')" class="w-full py-3 px-4 bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
+                        Check Availability & Book
                     </button>
                 </div>
                 <div class="mt-5 text-center text-[12px] text-gray-500 font-inter leading-relaxed">
-                    Reservation are subject to approval by the administration
+                    Select your dates and provide your details to request a reservation. Subject to approval by the administration.
                 </div>
             </div>
 
@@ -499,8 +490,21 @@ include 'includes/sub-hero.php';
         
         <form id="booking-form" method="POST" action="">
             <div class="p-6 space-y-4">
-                <p class="text-[13px] text-gray-600 font-inter mb-4">Please fill in your details to request a reservation for the selected dates.</p>
+                <p class="text-[13px] text-gray-600 font-inter mb-4">Please fill in your details to request a reservation for the selected dates. Grey dates are already booked.</p>
                 
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Check-in -->
+                    <div>
+                        <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Check-In *</label>
+                        <input type="text" id="modal-check-in" name="start_date" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="YYYY-MM-DD">
+                    </div>
+                    <!-- Check-out -->
+                    <div>
+                        <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Check-Out *</label>
+                        <input type="text" id="modal-check-out" name="end_date" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+
                 <!-- Applicant Name -->
                 <div>
                     <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Applicant Name *</label>
@@ -540,6 +544,8 @@ include 'includes/sub-hero.php';
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
 document.getElementById('is_office_member').addEventListener('change', function() {
     const container = document.getElementById('designation_container');
@@ -553,80 +559,36 @@ document.getElementById('is_office_member').addEventListener('change', function(
         input.value = '';
     }
 });
+
 document.addEventListener('DOMContentLoaded', function() {
-    const checkInInput = document.getElementById('check-in-date');
-    const checkOutInput = document.getElementById('check-out-date');
+    const disabledDates = <?= $disabled_dates_json ?>;
     
-    // Set today as min for check-in
-    const today = new Date().toISOString().split('T')[0];
-    checkInInput.setAttribute('min', today);
-    
-    // Update check-out min based on check-in
-    checkInInput.addEventListener('change', function() {
-        if (this.value) {
-            const minOut = new Date(this.value);
-            minOut.setDate(minOut.getDate() + 1);
-            checkOutInput.setAttribute('min', minOut.toISOString().split('T')[0]);
-            
-            // If checkout is before new min checkout, clear it
-            if (checkOutInput.value && checkOutInput.value <= this.value) {
-                checkOutInput.value = '';
+    // Flatpickr for Check-In
+    const checkInPicker = flatpickr("#modal-check-in", {
+        minDate: "today",
+        disable: disabledDates,
+        dateFormat: "Y-m-d",
+        onChange: function(selectedDates, dateStr, instance) {
+            // Set min check-out date to check-in + 1 day
+            if (selectedDates.length > 0) {
+                let minOut = new Date(selectedDates[0]);
+                minOut.setDate(minOut.getDate() + 1);
+                checkOutPicker.set('minDate', minOut);
+                
+                // If checkOut date is now invalid, clear it
+                if (checkOutPicker.selectedDates.length > 0 && checkOutPicker.selectedDates[0] <= selectedDates[0]) {
+                    checkOutPicker.clear();
+                }
             }
-        } else {
-            checkOutInput.removeAttribute('min');
         }
     });
-});
 
-document.getElementById('btn-check-availability').addEventListener('click', async function() {
-    const startDate = document.getElementById('check-in-date').value;
-    const endDate = document.getElementById('check-out-date').value;
-    const msgDiv = document.getElementById('availability-message');
-    
-    // Reset message
-    msgDiv.className = 'hidden px-4 py-3 rounded mb-4 font-inter text-sm';
-    msgDiv.innerText = '';
-
-    if (!startDate || !endDate) {
-        msgDiv.innerText = 'Please select both Check-in and Check-out dates.';
-        msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
-        msgDiv.classList.remove('hidden');
-        return;
-    }
-
-    if (startDate >= endDate) {
-        msgDiv.innerText = 'Check-out date must be after Check-in date.';
-        msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
-        msgDiv.classList.remove('hidden');
-        return;
-    }
-
-    try {
-        const btn = this;
-        const originalText = btn.innerText;
-        btn.innerText = 'Checking...';
-        btn.disabled = true;
-
-        const response = await fetch(`check-availability.php?start=${startDate}&end=${endDate}`);
-        const data = await response.json();
-        
-        btn.innerText = originalText;
-        btn.disabled = false;
-
-        if (data.error) {
-            msgDiv.innerText = data.error;
-            msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
-        } else if (data.available) {
-            msgDiv.innerText = data.message;
-            msgDiv.classList.add('bg-green-50', 'border', 'border-green-200', 'text-green-700');
-        } else {
-            msgDiv.innerText = data.message;
-            msgDiv.classList.add('bg-red-50', 'border', 'border-red-200', 'text-red-700');
-        }
-        msgDiv.classList.remove('hidden');
-    } catch (error) {
-        console.error('Error checking availability:', error);
-    }
+    // Flatpickr for Check-Out
+    const checkOutPicker = flatpickr("#modal-check-out", {
+        minDate: new Date().fp_incr(1), // Tomorrow
+        disable: disabledDates,
+        dateFormat: "Y-m-d"
+    });
 });
 </script>
 
