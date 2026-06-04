@@ -145,14 +145,14 @@ include 'includes/header.php';
         <!-- Contact Numbers -->
         <h3 class="text-[22px] font-semibold font-montserrat text-gray-900 mb-6">Contact Numbers</h3>
         <div class="bg-[#FAFAFA] rounded-2xl border border-gray-200 overflow-hidden font-inter">
-            <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 border-b border-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 border-b border-gray-200">
                 <!-- Row 1 -->
                 <div onclick="openModal('minister-modal')" class="cursor-pointer py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Minister</div>
                 <div class="py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Deputy Minister</div>
                 <div class="py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Secretary</div>
                 <div class="py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Administration Division</div>
             </div>
-            <div class="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            <div class="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200">
                 <!-- Row 2 -->
                 <div class="py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Development Division</div>
                 <div class="py-8 px-4 flex items-center justify-center font-medium text-gray-900 text-[15px] hover:bg-gray-100/50 transition-colors text-center">Planning Division</div>
