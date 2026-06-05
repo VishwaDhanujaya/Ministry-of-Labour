@@ -4,16 +4,16 @@ require_once 'includes/db.php';
 requireLogin();
 
 // Fetch stats
-$newsCount = $pdo->query("SELECT COUNT(*) FROM news")->fetchColumn();
-$newsThisMonth = $pdo->query("SELECT COUNT(*) FROM news WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())")->fetchColumn();
+$newsCount = $pdo->query("SELECT COUNT(*) FROM articles")->fetchColumn();
+$newsThisMonth = $pdo->query("SELECT COUNT(*) FROM articles WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())")->fetchColumn();
 
 $bookingsCount = $pdo->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
 $pendingBookingsCount = $pdo->query("SELECT COUNT(*) FROM bookings WHERE status = 'Pending'")->fetchColumn();
 
 $galleryCount = $pdo->query("SELECT COUNT(*) FROM gallery WHERE status = 'Published'")->fetchColumn();
 
-// Fetch recent news
-$recentNews = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id ORDER BY n.created_at DESC LIMIT 5")->fetchAll();
+// Fetch recent articles
+$recentNews = $pdo->query("SELECT n.*, a.name as author_name FROM articles n LEFT JOIN admins a ON n.author_id = a.id ORDER BY n.created_at DESC LIMIT 5")->fetchAll();
 
 // Fetch pending bookings
 $pendingBookings = $pdo->query("SELECT * FROM bookings WHERE status = 'Pending' ORDER BY created_at DESC LIMIT 3")->fetchAll();
@@ -33,7 +33,7 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Card 1 -->
             <div class="bg-[#F8F9FA] p-6 rounded-lg border border-gray-100 shadow-sm">
-                <p class="text-[13px] font-medium text-gray-700 mb-3">Total News Articles</p>
+                <p class="text-[13px] font-medium text-gray-700 mb-3">Total Articles</p>
                 <p class="text-3xl font-bold text-gray-900 font-montserrat mb-4"><?= $newsCount ?></p>
                 <div class="flex items-center text-[11px] font-medium text-teal-600">
                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
@@ -62,8 +62,8 @@ include 'includes/header.php';
             <!-- Recent News Articles (Col 2) -->
             <div class="lg:col-span-2">
                 <div class="flex justify-between items-center mb-5">
-                    <h3 class="text-2xl font-bold font-montserrat text-gray-900">Recent News Articles</h3>
-                    <a href="news.php" class="px-5 py-2 border border-[#4E0000] rounded-md text-[13px] font-bold text-[#4E0000] hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
+                    <h3 class="text-2xl font-bold font-montserrat text-gray-900">Recent Articles</h3>
+                    <a href="articles.php" class="px-5 py-2 border border-[#4E0000] rounded-md text-[13px] font-bold text-[#4E0000] hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
                 </div>
                 
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
@@ -80,7 +80,7 @@ include 'includes/header.php';
                         <tbody class="divide-y divide-gray-100 text-[13px]">
                             <?php if (empty($recentNews)): ?>
                             <tr>
-                                <td colspan="5" class="py-5 px-6 text-center text-gray-500">No news articles found.</td>
+                                <td colspan="5" class="py-5 px-6 text-center text-gray-500">No articles found.</td>
                             </tr>
                             <?php else: ?>
                             <?php foreach ($recentNews as $article): ?>
@@ -96,7 +96,7 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                 </td>
                                 <td class="py-5 px-6 text-right">
-                                    <a href="upload-news.php?id=<?= $article['id'] ?>" class="text-gray-500 hover:text-[#13273F] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></a>
+                                    <a href="new-article.php?id=<?= $article['id'] ?>" class="text-gray-500 hover:text-[#13273F] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

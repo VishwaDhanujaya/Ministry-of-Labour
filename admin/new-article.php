@@ -1,0 +1,429 @@
+<?php 
+require_once 'includes/db.php';
+require_once 'includes/auth.php';
+require_once 'includes/functions.php';
+requireLogin();
+
+$error = '';
+$success = '';
+$article = null;
+$article_images = [];
+
+// Handle Delete Individual Image
+if (isset($_GET['delete_image']) && isset($_GET['id'])) {
+    $img_id = (int)$_GET['delete_image'];
+    $article_id = (int)$_GET['id'];
+    
+    $stmt = $pdo->prepare("SELECT image_path FROM article_images WHERE id = ? AND article_id = ?");
+    $stmt->execute([$img_id, $article_id]);
+    $img = $stmt->fetch();
+    
+    if ($img) {
+        if (file_exists($img['image_path'])) {
+            unlink($img['image_path']);
+        }
+        $pdo->prepare("DELETE FROM article_images WHERE id = ?")->execute([$img_id]);
+        header("Location: new-article.php?id=" . $article_id . "&success=image_deleted");
+        exit;
+    }
+}
+
+if (isset($_GET['success']) && $_GET['success'] == 'image_deleted') {
+    $success = "Image deleted successfully.";
+}
+
+// Handle Delete Draft from Widget
+if (isset($_GET['delete_draft'])) {
+    $del_id = (int)$_GET['delete_draft'];
+    
+    // Unlink files
+    $stmt = $pdo->prepare("SELECT cover_image FROM articles WHERE id = ? AND status = 'Draft'");
+    $stmt->execute([$del_id]);
+    $art = $stmt->fetch();
+    if ($art && !empty($art['cover_image']) && file_exists($art['cover_image'])) {
+        unlink($art['cover_image']);
+    }
+    
+    $imgStmt = $pdo->prepare("SELECT image_path FROM article_images WHERE article_id = ?");
+    $imgStmt->execute([$del_id]);
+    while ($img = $imgStmt->fetch()) {
+        if (!empty($img['image_path']) && file_exists($img['image_path'])) {
+            unlink($img['image_path']);
+        }
+    }
+
+    $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ? AND status = 'Draft'");
+    $stmt->execute([$del_id]);
+    header("Location: new-article.php");
+    exit;
+}
+
+// Check if editing
+if (isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+    $stmt->execute([$id]);
+    $article = $stmt->fetch();
+    if (!$article) {
+        header("Location: articles.php");
+        exit;
+    }
+    
+    // Fetch additional images
+    $imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
+    $imgStmt->execute([$id]);
+    $article_images = $imgStmt->fetchAll();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title']);
+    $category = $_POST['category'];
+    $content = trim($_POST['content']);
+    $visibility = $_POST['visibility'] ?? 'public';
+    $is_featured = ($_POST['is_featured'] ?? 'no') === 'yes' ? 1 : 0;
+    
+    // Check which button was clicked
+    $status = isset($_POST['save_draft']) ? 'Draft' : 'Published';
+
+    // File upload logic
+    $cover_image = $article ? $article['cover_image'] : null;
+    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
+        $uploadResult = handleFileUpload($_FILES['cover_image'], 'uploads/news');
+        if ($uploadResult['success']) {
+            if ($article && !empty($article['cover_image']) && file_exists($article['cover_image'])) {
+                unlink($article['cover_image']);
+            }
+            $cover_image = $uploadResult['path'];
+        } else {
+            $error = $uploadResult['error'];
+        }
+    } elseif (!$article && $status !== 'Draft') {
+        $error = "Cover image is required to publish.";
+    }
+
+    if (empty($title)) {
+        $error = "Title is required.";
+    }
+
+    if ($status === 'Draft') {
+        if (empty($category)) $category = 'Media'; // Default fallback for drafts
+        if (empty($content)) $content = '';
+    } else {
+        if (empty($category)) $error = "Category is required to publish.";
+        if (empty($content)) $error = "Content is required to publish.";
+    }
+
+    if (empty($error)) {
+        if ($article) {
+            $stmt = $pdo->prepare("UPDATE articles SET title=?, category=?, content=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
+            $success_db = $stmt->execute([$title, $category, $content, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+            $article_id = $article['id'];
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO articles (title, category, content, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $success_db = $stmt->execute([$title, $category, $content, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+            $article_id = $pdo->lastInsertId();
+        }
+
+        if ($success_db) {
+            $success = "Article " . ($status === 'Draft' ? "saved as draft." : "published successfully.");
+            
+            // Handle multiple images
+            if (isset($_FILES['additional_images'])) {
+                foreach ($_FILES['additional_images']['tmp_name'] as $key => $tmp_name) {
+                    if ($_FILES['additional_images']['error'][$key] === UPLOAD_ERR_OK) {
+                        $file = [
+                            'name' => $_FILES['additional_images']['name'][$key],
+                            'type' => $_FILES['additional_images']['type'][$key],
+                            'tmp_name' => $tmp_name,
+                            'error' => $_FILES['additional_images']['error'][$key],
+                            'size' => $_FILES['additional_images']['size'][$key],
+                        ];
+                        $uploadResult = handleFileUpload($file, 'uploads/news');
+                        if ($uploadResult['success']) {
+                            $imgPath = $uploadResult['path'];
+                            $imgStmt = $pdo->prepare("INSERT INTO article_images (article_id, image_path) VALUES (?, ?)");
+                            $imgStmt->execute([$article_id, $imgPath]);
+                        }
+                    }
+                }
+            }
+            
+            // Refresh article data if edited
+            if ($article) {
+                $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
+                $stmt->execute([$article['id']]);
+                $article = $stmt->fetch();
+                
+                $imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
+                $imgStmt->execute([$article['id']]);
+                $article_images = $imgStmt->fetchAll();
+            } else {
+                // If it was newly created, redirect to edit mode so images show up correctly
+                header("Location: new-article.php?id=" . $article_id);
+                exit;
+            }
+        } else {
+            $error = "Failed to save article to database.";
+        }
+    }
+}
+
+// Fetch recent drafts for the widget
+$stmt = $pdo->prepare("SELECT id, title, created_at, status FROM articles WHERE status = 'Draft' ORDER BY created_at DESC LIMIT 5");
+$stmt->execute();
+$recentDrafts = $stmt->fetchAll();
+
+include 'includes/header.php'; 
+?>
+<?php include 'includes/sidebar.php'; ?>
+
+<!-- Main wrapper -->
+<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+    <?php include 'includes/topbar.php'; ?>
+
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-10">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $article ? 'Edit Article' : 'New Article' ?></h2>
+            <a href="articles.php" class="bg-white border border-[#4E0000] text-[#4E0000] px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-gray-50 transition-colors shadow-sm flex items-center">
+                Back to Articles
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Main Form (Col 2) -->
+            <div class="lg:col-span-2">
+                <?php if (!empty($error)): ?>
+                    <div class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!empty($success)): ?>
+                    <div class="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 text-green-600 text-sm font-medium">
+                        <?= htmlspecialchars($success) ?>
+                    </div>
+                <?php endif; ?>
+
+                <form action="" method="POST" enctype="multipart/form-data" class="js-validate-form js-reset-on-success space-y-6">
+                    
+                    <!-- Article Title -->
+                    <div>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Title <span class="text-red-500">*</span></label>
+                        <input type="text" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter article headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Category <span class="text-red-500">*</span></label>
+                        <div class="relative">
+                            <select name="category" id="category-select" required class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                <option value="">Select Category</option>
+                                <option value="Media" <?= ($article && $article['category'] === 'Media') ? 'selected' : '' ?>>Media</option>
+                                <option value="Notices" <?= ($article && $article['category'] === 'Notices') ? 'selected' : '' ?>>Notices</option>
+                            </select>
+                            <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+
+                    <!-- Full Article Body -->
+                    <div>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body <span class="text-red-500">*</span></label>
+                        <textarea name="content" placeholder="Full article content" rows="12" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article ? htmlspecialchars($article['content']) : '' ?></textarea>
+                    </div>
+
+                    <!-- Cover Image -->
+                    <div>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Cover Image <?= !$article ? '<span class="text-red-500">*</span>' : '' ?></label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-secondary transition-colors cursor-pointer bg-[#F9FAFB]" onclick="document.getElementById('cover_image').click()">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-[13px] text-gray-600 justify-center mt-2">
+                                    <span class="relative cursor-pointer rounded-md font-medium text-secondary hover:text-[#320000] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-secondary">
+                                        <span>Upload a file</span>
+                                        <input id="cover_image" name="cover_image" type="file" class="sr-only" accept="image/png, image/jpeg, image/jpg, image/webp" <?= !$article ? 'required' : '' ?> onchange="previewSingleImage(this, 'cover-preview')">
+                                    </span>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 5MB</p>
+                            </div>
+                        </div>
+                        <div id="cover-preview" class="mt-4 flex gap-4 flex-wrap">
+                            <?php if ($article && $article['cover_image']): ?>
+                                <div class="relative group">
+                                    <img src="<?= htmlspecialchars($article['cover_image']) ?>" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm">
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Images -->
+                    <div>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Additional Images (Optional)</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-secondary transition-colors cursor-pointer bg-[#F9FAFB]" onclick="document.getElementById('additional_images').click()">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-[13px] text-gray-600 justify-center mt-2">
+                                    <span class="relative cursor-pointer rounded-md font-medium text-secondary hover:text-[#320000] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-secondary">
+                                        <span>Upload files</span>
+                                        <input id="additional_images" name="additional_images[]" type="file" class="sr-only" multiple accept="image/png, image/jpeg, image/jpg, image/webp" onchange="previewMultipleImages(this, 'additional-preview')">
+                                    </span>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP (multiple allowed)</p>
+                            </div>
+                        </div>
+                        <div id="additional-preview" class="mt-4 flex gap-4 flex-wrap">
+                            <?php if ($article_images): ?>
+                                <?php foreach($article_images as $img): ?>
+                                    <div class="relative group">
+                                        <img src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
+                                        <a href="new-article.php?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                        </a>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-between items-center pt-4">
+                        <div>
+                            <?php if ($article): ?>
+                                <a href="articles.php?delete=<?= $article['id'] ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    Delete
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft px-6 py-2.5 border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white">
+                                Save as Draft
+                            </button>
+                            <button type="submit" name="publish" value="1" class="px-6 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors">
+                                Publish Article
+                            </button>
+                        </div>
+                    </div>
+
+                </div> <!-- End Main Form wrapper, sidebar starts outside form -->
+
+            <!-- Right Column: Sidebar Widgets (Col 1) -->
+            <div class="space-y-8">
+                <!-- Publish Options Widget -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="bg-[#13273F] text-white p-5">
+                        <h3 class="font-medium text-[15px]">Publish Options</h3>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <!-- Visibility -->
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Visibility <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <select name="visibility" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                    <option value="Public" <?= ($article && $article['visibility'] === 'public') ? 'selected' : '' ?>>Public</option>
+                                    <option value="Private" <?= ($article && $article['visibility'] === 'private') ? 'selected' : '' ?>>Private</option>
+                                </select>
+                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+
+                        <!-- Featured Article (Only for Notices) -->
+                        <div id="featured-block" style="display: none;">
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Featured Notice?</label>
+                            <div class="relative">
+                                <select name="is_featured" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                    <option value="no" <?= ($article && $article['is_featured'] == 0) ? 'selected' : '' ?>>No</option>
+                                    <option value="yes" <?= ($article && $article['is_featured'] == 1) ? 'selected' : '' ?>>Yes</option>
+                                </select>
+                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form> <!-- END FORM -->
+
+                <!-- Recent Drafts Widget -->
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="bg-[#13273F] text-white p-5">
+                        <h3 class="font-medium text-[15px]">Recent Drafts</h3>
+                    </div>
+                    <div class="p-6">
+                        <?php if(empty($recentDrafts)): ?>
+                            <p class="text-[13px] text-gray-500">No recent drafts.</p>
+                        <?php else: ?>
+                            <?php foreach($recentDrafts as $draft): ?>
+                            <div class="flex items-start justify-between gap-2 mb-4 group relative border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                                <a href="new-article.php?id=<?= $draft['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer flex-1">
+                                    <h4 class="font-semibold text-gray-900 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
+                                    <p class="text-[11px] text-gray-500">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
+                                    <div class="mt-1">
+                                        <span class="px-3 py-1 rounded bg-[#EED6D6] text-[#611A1A] text-[11px] font-bold">Draft</span>
+                                    </div>
+                                </a>
+                                <a href="new-article.php?delete_draft=<?= $draft['id'] ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </a>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categorySelect = document.getElementById('category-select');
+    const featuredBlock = document.getElementById('featured-block');
+    
+    function updateFeaturedVisibility() {
+        if (categorySelect.value === 'Notices') {
+            featuredBlock.style.display = 'block';
+        } else {
+            featuredBlock.style.display = 'none';
+            // Reset to no when hidden
+            featuredBlock.querySelector('select').value = 'no';
+        }
+    }
+    
+    categorySelect.addEventListener('change', updateFeaturedVisibility);
+    
+    // Run on load
+    updateFeaturedVisibility();
+});
+
+window.previewSingleImage = function(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.innerHTML = `<div class="relative group"><img src="${e.target.result}" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-xs font-bold px-2 text-center">New Image</span></div></div>`;
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+window.previewMultipleImages = function(input, previewId) {
+    const preview = document.getElementById(previewId);
+    let html = '';
+    if (input.files) {
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                html += `<div class="relative group"><img src="${e.target.result}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-1 text-center">New</span></div></div>`;
+                preview.innerHTML = html;
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+}
+</script>
+
+<?php include 'includes/footer.php'; ?>

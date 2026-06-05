@@ -22,17 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute(['email' => $email]);
         $admin = $stmt->fetch();
 
-        if ($admin) {
-            if (password_verify($password, $admin['password_hash'])) {
-                loginAdmin($admin['id'], $admin['name'], $admin['role']);
-                session_write_close(); // Force session to write to disk before redirect
-                header("Location: index.php");
-                exit;
-            } else {
-                $error = "Incorrect password for " . htmlspecialchars($email) . ".";
-            }
+        if ($admin && password_verify($password, $admin['password_hash'])) {
+            session_regenerate_id(true); // Prevent Session Fixation
+            loginAdmin($admin['id'], $admin['name'], $admin['role']);
+            session_write_close(); // Force session to write to disk before redirect
+            header("Location: index.php");
+            exit;
         } else {
-            $error = "Email address '" . htmlspecialchars($email) . "' not found in database.";
+            // Generic error message to prevent username enumeration
+            $error = "Invalid email or password.";
         }
     } else {
         $error = "Please enter both email and password.";

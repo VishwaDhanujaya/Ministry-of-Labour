@@ -70,13 +70,14 @@ foreach ($allBookings as $b) {
     $period = new DatePeriod($periodStart, $interval, $periodEnd);
     foreach ($period as $dt) {
         $dateStr = $dt->format('Y-m-d');
-        if (!isset($bookedDates[$dateStr]) || $bookedDates[$dateStr]['status'] == 'Pending') {
-            // Priority: Confirmed > Pending
-            $bookedDates[$dateStr] = [
-                'status' => $b['status'],
-                'name' => $b['applicant_name']
-            ];
+        if (!isset($bookedDates[$dateStr])) {
+            $bookedDates[$dateStr] = [];
         }
+        $bookedDates[$dateStr][] = [
+            'status' => $b['status'],
+            'room' => $b['room_type'] ?? 'Room',
+            'name' => $b['applicant_name']
+        ];
     }
 }
 
@@ -98,8 +99,9 @@ include 'includes/header.php';
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
-            <!-- Left Column: Main Content -->
-            <div class="xl:col-span-3">
+<!-- Main Content -->
+                <div class="xl:col-span-3">
+                
                 
                 <!-- Filter Bar -->
                 <div class="flex flex-col md:flex-row gap-4 mb-8">
@@ -196,8 +198,8 @@ include 'includes/header.php';
                                     <span><?= date('M j', strtotime($booking['start_date'])) ?> – <?= date('M j, Y', strtotime($booking['end_date'])) ?> (<?= $nights ?> nights)</span>
                                 </div>
                                 <div class="flex items-start text-[12px] text-gray-500">
-                                    <svg class="w-4 h-4 text-[#4E0000] shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                    <span><?= htmlspecialchars($booking['guests'] ?? '1') ?> guests</span>
+                                    <svg class="w-4 h-4 text-[#4E0000] shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                    <span><?= htmlspecialchars($booking['room_type'] ?? '') ?></span>
                                 </div>
                                 <div class="flex items-start text-[12px] text-gray-500">
                                     <svg class="w-4 h-4 text-[#4E0000] shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -222,18 +224,17 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Right Column: Full Calendar -->
-            <div class="xl:col-span-1">
+
+            <!-- Right Column: Sidebar Calendar -->
+            <div class="xl:col-span-1 space-y-4">
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden sticky top-8">
-                    <div class="bg-[#13273F] text-white p-5 flex justify-between items-center">
-                        <h3 class="font-medium text-[15px]"><?= $monthName ?></h3>
-                        <div class="flex items-center gap-2">
-                            <a href="?month=<?= $prevMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&lt;</a>
-                            <a href="?month=<?= $nextMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&gt;</a>
-                        </div>
+                    <div class="bg-[#13273F] text-white p-4 flex justify-between items-center">
+                        <a href="?month=<?= $prevMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&lt;</a>
+                        <input type="month" id="calendar-month-picker" class="bg-transparent border-none text-white text-[15px] font-medium focus:outline-none focus:ring-0 cursor-pointer text-center [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" value="<?= $monthParam ?>" onchange="window.location.href='?month='+this.value">
+                        <a href="?month=<?= $nextMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&gt;</a>
                     </div>
                     <div class="p-4">
-                        <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                        <div class="grid grid-cols-7 text-center mb-2">
                             <div class="text-[11px] font-bold text-gray-400 uppercase">Su</div>
                             <div class="text-[11px] font-bold text-gray-400 uppercase">Mo</div>
                             <div class="text-[11px] font-bold text-gray-400 uppercase">Tu</div>
@@ -257,152 +258,66 @@ include 'includes/header.php';
                                 
                                 $isToday = ($dateKey === date('Y-m-d'));
                                 
-                                $statusClass = 'bg-[#F9FAFB] hover:bg-gray-100 text-gray-700'; // Default free
-                                $tooltip = 'Available';
+                                $baseClass = 'bg-white border border-gray-100 hover:border-gray-300 shadow-sm cursor-pointer';
+                                $textClass = 'text-gray-700';
+                                
+                                $dotsHtml = '';
+                                $jsonBookings = '[]';
                                 
                                 if (isset($bookedDates[$dateKey])) {
-                                    $bStatus = $bookedDates[$dateKey]['status'];
-                                    $bName = $bookedDates[$dateKey]['name'];
-                                    if ($bStatus === 'Confirmed') {
-                                        $statusClass = 'bg-[#0A6C5B]/20 text-[#0A6C5B] font-bold ring-1 ring-[#0A6C5B]/30';
-                                        $tooltip = "Confirmed: $bName";
-                                    } elseif ($bStatus === 'Pending') {
-                                        $statusClass = 'bg-[#FDECB1] text-[#A67C00] font-bold ring-1 ring-[#FDECB1]';
-                                        $tooltip = "Pending: $bName";
+                                    $dayBookings = $bookedDates[$dateKey];
+                                    $jsonBookings = htmlspecialchars(json_encode($dayBookings));
+                                    
+                                    // Build dots
+                                    $dots = '';
+                                    foreach ($dayBookings as $b) {
+                                        if ($b['status'] === 'Confirmed') {
+                                            $dots .= '<div class="w-1.5 h-1.5 rounded-full bg-[#0A6C5B]"></div>';
+                                        } else {
+                                            $dots .= '<div class="w-1.5 h-1.5 rounded-full bg-[#A67C00]"></div>';
+                                        }
+                                    }
+                                    
+                                    if (!empty($dots)) {
+                                        $dotsHtml = '<div class="flex gap-1 justify-center mt-0.5">' . $dots . '</div>';
+                                        $baseClass = 'bg-[#F4F7FB] border border-[#E1E8F0] hover:border-[#CBD5E1] shadow-inner cursor-pointer';
                                     }
                                 }
 
-                                if ($isToday && !isset($bookedDates[$dateKey])) {
-                                    $statusClass = 'bg-[#13273F] text-white font-bold shadow-md';
+                                if ($isToday) {
+                                    $baseClass = 'bg-[#13273F] border-[#13273F] shadow-md cursor-pointer';
+                                    $textClass = 'text-white font-bold';
                                 }
 
-                                echo '<div class="h-10 rounded flex items-center justify-center text-[12px] cursor-help transition-colors ' . $statusClass . '" title="' . htmlspecialchars($tooltip) . '">' . $day . '</div>';
+                                echo '<div onclick="showDayDetails(\''.$dateKey.'\', this)" data-bookings="'.$jsonBookings.'" class="h-10 rounded-lg flex flex-col items-center justify-center transition-all duration-200 ' . $baseClass . '">';
+                                echo '<span class="text-[13px] ' . $textClass . '">' . $day . '</span>';
+                                echo $dotsHtml;
+                                echo '</div>';
                             }
                             ?>
                         </div>
                         
                         <!-- Legend -->
-                        <div class="mt-6 pt-4 border-t border-gray-100 space-y-2">
+                        <div class="mt-4 pt-4 border-t border-gray-100 space-y-2">
                             <div class="flex items-center text-[11px] text-gray-600">
-                                <div class="w-3 h-3 rounded bg-[#0A6C5B]/20 ring-1 ring-[#0A6C5B]/30 mr-2 shrink-0"></div> Confirmed Booking
+                                <div class="w-2 h-2 rounded-full bg-[#0A6C5B] mr-2 shrink-0"></div> Confirmed Booking
                             </div>
                             <div class="flex items-center text-[11px] text-gray-600">
-                                <div class="w-3 h-3 rounded bg-[#FDECB1] ring-1 ring-[#FDECB1] mr-2 shrink-0"></div> Pending Request
+                                <div class="w-2 h-2 rounded-full bg-[#A67C00] mr-2 shrink-0"></div> Pending Request
                             </div>
-                            <div class="flex items-center text-[11px] text-gray-600">
-                                <div class="w-3 h-3 rounded bg-[#F9FAFB] border border-gray-200 mr-2 shrink-0"></div> Available
-                            </div>
+                            <div class="text-[10px] text-gray-400 mt-2 italic">Click on a date to see details below.</div>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Day Details Panel -->
+                <div id="day-details-panel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 hidden sticky top-[480px]">
+                    <h4 id="day-details-title" class="font-semibold text-[#13273F] border-b border-gray-100 pb-2 mb-3 text-[14px]"></h4>
+                    <div id="day-details-content" class="space-y-3">
+                        <!-- Dynamic details go here -->
+                    </div>
+                </div>
             </div>
+
         </div>
     </main>
-</div>
-
-<!-- View Booking Modal -->
-<div id="view-booking-modal" class="fixed inset-0 z-50 hidden bg-black/60 flex items-center justify-center p-4 transition-opacity">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
-        <!-- Header -->
-        <div class="bg-[#13273F] text-white px-6 py-4 flex justify-between items-center shrink-0">
-            <h3 class="font-semibold text-[16px]">Booking Details</h3>
-            <button type="button" onclick="document.getElementById('view-booking-modal').classList.add('hidden')" class="text-gray-300 hover:text-white transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-        </div>
-        
-        <!-- Content -->
-        <div class="p-6 overflow-y-auto font-inter text-[13px] text-gray-700 space-y-4">
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Bungalow</span>
-                <span class="col-span-2" id="modal-bungalow"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Status</span>
-                <span class="col-span-2" id="modal-status"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Dates</span>
-                <span class="col-span-2" id="modal-dates"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Applicant Name</span>
-                <span class="col-span-2" id="modal-name"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Designation</span>
-                <span class="col-span-2" id="modal-designation"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Telephone</span>
-                <span class="col-span-2" id="modal-phone"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Email</span>
-                <span class="col-span-2" id="modal-email"></span>
-            </div>
-            <div class="grid grid-cols-3 border-b border-gray-100 pb-2">
-                <span class="font-semibold text-gray-900">Guests</span>
-                <span class="col-span-2" id="modal-guests"></span>
-            </div>
-            <div class="grid grid-cols-3 pb-2">
-                <span class="font-semibold text-gray-900">Requested On</span>
-                <span class="col-span-2" id="modal-created"></span>
-            </div>
-        </div>
-        
-        <!-- Footer Buttons -->
-        <div class="bg-gray-50 border-t border-gray-200 px-6 py-4 flex gap-3 justify-end shrink-0">
-            <button type="button" onclick="document.getElementById('view-booking-modal').classList.add('hidden')" class="px-5 py-2 border border-gray-300 rounded text-gray-700 font-medium text-[13px] hover:bg-gray-100 transition-colors bg-white">Close</button>
-            <div id="modal-actions" class="flex gap-2">
-                <!-- Action buttons injected dynamically -->
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-function openViewModal(booking) {
-    document.getElementById('modal-bungalow').innerText = booking.bungalow_name + ' Bungalow';
-    
-    // Status styling
-    let statusClass = '';
-    if (booking.status === 'Pending') statusClass = 'bg-[#A67C00]/20 text-[#A67C00]';
-    else if (booking.status === 'Confirmed') statusClass = 'bg-[#0A6C5B]/30 text-[#0A6C5B]';
-    else if (booking.status === 'Cancelled') statusClass = 'bg-red-900/40 text-red-600';
-    
-    document.getElementById('modal-status').innerHTML = `<span class="px-2.5 py-0.5 rounded text-[11px] font-bold ${statusClass}">${booking.status}</span>`;
-    
-    document.getElementById('modal-dates').innerText = booking.start_date + ' to ' + booking.end_date;
-    document.getElementById('modal-name').innerText = booking.applicant_name || 'N/A';
-    document.getElementById('modal-designation').innerText = booking.designation || 'N/A';
-    document.getElementById('modal-phone').innerText = booking.phone || 'N/A';
-    document.getElementById('modal-email').innerText = booking.email || 'N/A';
-    document.getElementById('modal-guests').innerText = booking.guests || 'N/A';
-    
-    // Format created_at nicely
-    let created = 'N/A';
-    if(booking.created_at) {
-        created = new Date(booking.created_at).toLocaleString();
-    }
-    document.getElementById('modal-created').innerText = created;
-
-    // Build action buttons
-    const actionsDiv = document.getElementById('modal-actions');
-    let actionsHtml = '';
-    if (booking.status === 'Cancelled') {
-        actionsHtml += `<a href="bungalow-bookings.php?action=delete&id=${booking.id}" onclick="return confirm('Are you sure you want to permanently delete this cancelled booking?');" class="px-5 py-2 bg-gray-700 text-white rounded font-medium text-[13px] hover:bg-gray-900 transition-colors inline-block text-center">Delete</a>`;
-    }
-    if (booking.status !== 'Cancelled') {
-        actionsHtml += `<a href="bungalow-bookings.php?action=reject&id=${booking.id}" onclick="return confirm('Are you sure you want to cancel this booking?');" class="px-5 py-2 bg-[#D10000] text-white rounded font-medium text-[13px] hover:bg-[#a30000] transition-colors inline-block text-center">Reject</a>`;
-    }
-    if (booking.status !== 'Confirmed') {
-        actionsHtml += `<a href="bungalow-bookings.php?action=approve&id=${booking.id}" onclick="return confirm('Are you sure you want to approve this booking?');" class="px-5 py-2 bg-[#0A6C5B] text-white rounded font-medium text-[13px] hover:bg-[#075043] transition-colors inline-block text-center">Approve</a>`;
-    }
-    actionsDiv.innerHTML = actionsHtml;
-
-    document.getElementById('view-booking-modal').classList.remove('hidden');
-}
-</script>
-
-<?php include 'includes/footer.php'; ?>

@@ -27,17 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $applicant_name = trim($_POST['applicant_name'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
     $email = trim($_POST['email'] ?? '');
-    $guests = (int)($_POST['guests'] ?? 1);
+    $room_type = trim($_POST['room_type'] ?? 'A/C Double Room');
     
     $is_office_member = isset($_POST['is_office_member']) && $_POST['is_office_member'] == '1';
     $designation = $is_office_member ? trim($_POST['designation'] ?? '') : '';
 
-    if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email)) {
+    if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email) || empty($room_type)) {
         $error = "Please fill in all required fields.";
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, designation, phone, email, guests, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute(['Ampara', $applicant_name, $designation, $telephone, $email, $guests, $start_date, $end_date]);
+            $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, designation, phone, email, room_type, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute(['Ampara', $applicant_name, $designation, $telephone, $email, $room_type, $start_date, $end_date]);
             header("Location: ampara-circuit-bungalow.php?success=1");
             exit;
         } catch (PDOException $e) {
@@ -520,10 +520,15 @@ include 'includes/sub-hero.php';
                     <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Email *</label>
                     <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="john@example.com">
                 </div>
-                <!-- No of Guests -->
+                <!-- Room Required -->
                 <div>
-                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">No of Guests *</label>
-                    <input type="number" name="guests" min="1" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter" placeholder="2">
+                    <label class="block text-[12px] font-medium text-gray-700 mb-1.5 font-inter">Room Required *</label>
+                    <select name="room_type" required class="w-full border border-gray-300 rounded-lg py-2.5 px-3 text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] bg-white font-inter appearance-none cursor-pointer">
+                        <option value="A/C Double Room">A/C Double Room (2 Guests)</option>
+                        <option value="A/C Triple Room">A/C Triple Room (3 Guests)</option>
+                        <option value="VIP Room">VIP Room (Suite - 2 Guests)</option>
+                        <option value="Driver Accommodation">Driver Accommodation</option>
+                    </select>
                 </div>
                 <!-- Office Member Checkbox -->
                 <div class="flex items-center gap-2 pt-2">
@@ -568,6 +573,8 @@ document.addEventListener('DOMContentLoaded', function() {
         minDate: "today",
         disable: disabledDates,
         dateFormat: "Y-m-d",
+        allowInput: true,
+        monthSelectorType: "dropdown",
         onChange: function(selectedDates, dateStr, instance) {
             // Set min check-out date to check-in + 1 day
             if (selectedDates.length > 0) {
@@ -587,9 +594,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkOutPicker = flatpickr("#modal-check-out", {
         minDate: new Date().fp_incr(1), // Tomorrow
         disable: disabledDates,
-        dateFormat: "Y-m-d"
+        dateFormat: "Y-m-d",
+        allowInput: true,
+        monthSelectorType: "dropdown"
     });
 });
 </script>
+<style>
+/* Make the year input more obvious in flatpickr */
+.flatpickr-current-month .numInputWrapper {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    padding: 2px;
+}
+.flatpickr-current-month .numInputWrapper:hover {
+    background: rgba(0,0,0,0.1);
+}
+</style>
 
 <?php include 'includes/footer.php'; ?>

@@ -3,10 +3,10 @@
 require_once 'admin/includes/db.php';
 
 // Fetch recent news (limit 3)
-$recentNews = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND is_special_notice = 0 ORDER BY publish_date DESC, created_at DESC LIMIT 3")->fetchAll();
+$recentNews = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
 
 // Fetch special notices (limit 4) - Note: Special Notices are removed, this can be safely removed or kept for legacy news
-$specialNotices = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND is_special_notice = 1 ORDER BY publish_date DESC, created_at DESC LIMIT 4")->fetchAll();
+$specialNotices = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
 
 // Fetch gallery items
 $galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll();
@@ -336,25 +336,24 @@ include 'includes/header.php';
     </div>
 </section>
 
-<!-- Latest News & Events -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA]" id="news-section">
+<!-- Latest Articles -->
+<section class="py-20 md:py-32 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12">
             <div>
                 <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
                     Updates & Announcements</p>
                 <h2 class="section-title">
-                    Latest News & Events</h2>
+                    Latest Articles</h2>
             </div>
-            <a href="#"
-                class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
+            <a href="articles.php" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
                 <span>View All</span>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php if(empty($recentNews)): ?>
-                <div class="col-span-3 text-center text-gray-500 py-10">No recent news available.</div>
+                <div class="col-span-3 text-center text-gray-500 py-10">No recent articles available.</div>
             <?php else: ?>
                 <?php foreach($recentNews as $news): ?>
                 <div class="news-card">
@@ -368,19 +367,19 @@ include 'includes/header.php';
                         </div>
                         <div class="p-8 pb-4">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['publish_date'] ?? $news['created_at'])) ?></span>
+                                <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                 <span class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
                                 <?= htmlspecialchars($news['title']) ?>
                             </h3>
                             <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">
-                                <?= htmlspecialchars($news['summary']) ?>
+                                <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
                             </p>
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news-single.php?id=<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="article.php?id=<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
                             Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -392,7 +391,7 @@ include 'includes/header.php';
         <div class="mt-10 text-center md:hidden">
             <a href="#"
                 class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase">
-                <span>View All News</span>
+                <span>View All Articles</span>
             </a>
         </div>
     </div>
@@ -547,9 +546,9 @@ include 'includes/header.php';
                         <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
                             <div class="flex-grow">
                                 <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug"><?= htmlspecialchars($notice['title']) ?></h4>
-                                <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['publish_date'] ?? $notice['created_at'])) ?></p>
+                                <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
-                            <a href="news-single.php?id=<?= $notice['id'] ?>"
+                            <a href="article.php?id=<?= $notice['id'] ?>"
                                 class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
                         </div>
                         <?php endforeach; ?>

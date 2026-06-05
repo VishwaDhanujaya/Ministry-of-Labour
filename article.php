@@ -1,29 +1,34 @@
 <?php
-// news-single.php
+// article.php
 require_once 'admin/includes/db.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) {
-    header("Location: news.php");
+    header("Location: articles.php");
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id WHERE n.id = ? AND n.status = 'Published'");
+$stmt = $pdo->prepare("SELECT n.*, a.name as author_name FROM articles n LEFT JOIN admins a ON n.author_id = a.id WHERE n.id = ? AND n.status = 'Published'");
 $stmt->execute([$id]);
-$news = $stmt->fetch();
+$article = $stmt->fetch();
 
-if (!$news) {
-    header("Location: news.php");
+if (!$article) {
+    header("Location: articles.php");
     exit;
 }
+
+// Fetch additional images
+$imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
+$imgStmt->execute([$id]);
+$additionalImages = $imgStmt->fetchAll();
 
 // Fetch recent posts for sidebar (limit 10)
-$recentPosts = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY publish_date DESC, created_at DESC LIMIT 10")->fetchAll();
+$recentPosts = $pdo->query("SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC LIMIT 10")->fetchAll();
 
-$page_title = 'News';
+$page_title = 'Articles';
 $breadcrumbs = [
-    ['label' => 'News', 'url' => 'news.php'],
-    ['label' => htmlspecialchars($news['title'])]
+    ['label' => 'Articles', 'url' => 'articles.php'],
+    ['label' => htmlspecialchars($article['title'])]
 ];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
@@ -36,26 +41,36 @@ include 'includes/sub-hero.php';
             <!-- Main Content -->
             <div class="w-full lg:w-2/3">
                 <h2 class="text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight">
-                    <?= htmlspecialchars($news['title']) ?>
+                    <?= htmlspecialchars($article['title']) ?>
                 </h2>
                 
                 <div class="flex items-center gap-6 text-[13px] font-inter text-gray-500 font-medium mb-8 pb-4 border-b border-gray-200">
-                    <span><?= htmlspecialchars($news['category']) ?></span>
-                    <span><?= date('F j, Y', strtotime($news['publish_date'] ?? $news['created_at'])) ?></span>
-                    <?php if (!empty($news['author_name'])): ?>
-                        <span>By <?= htmlspecialchars($news['author_name']) ?></span>
-                    <?php endif; ?>
+                    <span><?= htmlspecialchars($article['category']) ?></span>
+                    <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
                 </div>
 
-                <?php if (!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
+                <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
                 <div class="mb-10 rounded-2xl overflow-hidden shadow-sm">
-                    <img src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
+                    <img src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
                 </div>
                 <?php endif; ?>
 
                 <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12 space-y-6">
-                    <?= $news['content'] // Content is typically rich text (HTML) so we output it directly ?>
+                    <?= $article['content'] // Content is typically rich text (HTML) so we output it directly ?>
                 </div>
+
+                <?php if (!empty($additionalImages)): ?>
+                <div class="mb-12">
+                    <h3 class="text-xl font-semibold font-montserrat text-[#2D2D43] mb-6">Gallery</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <?php foreach($additionalImages as $img): ?>
+                            <div class="rounded-xl overflow-hidden shadow-sm aspect-square bg-gray-100">
+                                <img src="admin/<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
 
                 <!-- Pagination Links -->
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
@@ -89,7 +104,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-4">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news-single.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
+                                <a href="article.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
                                     <span><?= htmlspecialchars($post['title']) ?></span>
                                 </a>
@@ -98,24 +113,7 @@ include 'includes/sub-hero.php';
                         </ul>
                     </div>
                     
-                    <!-- Categories -->
-                    <div>
-                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6">Categories</h3>
-                        <ul class="space-y-4">
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>Media</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span>Notices</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+
                 </div>
             </div>
         </div>

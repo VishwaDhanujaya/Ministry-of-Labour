@@ -22,16 +22,37 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
         return ['success' => false, 'error' => 'Invalid file type.'];
     }
 
-    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = uniqid('upload_', true) . '.' . $ext;
+    // Strict Extension Allowlist to prevent RCE
+    $info = pathinfo($file['name']);
+    $ext = strtolower($info['extension'] ?? '');
     
-    if (!is_dir($destinationDir)) {
-        mkdir($destinationDir, 0755, true);
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    if (!in_array($ext, $allowedExtensions)) {
+        return ['success' => false, 'error' => 'Invalid file extension. Only JPG, PNG, and WEBP are allowed.'];
+    }
+
+    $basename = $info['filename'];
+    
+    // Replace non alphanumeric with dash
+    $slug = preg_replace('/[^a-z0-9]+/i', '-', strtolower($basename));
+    $slug = trim($slug, '-');
+    if (empty($slug)) $slug = 'image';
+    
+    $uniquePart = substr(uniqid(), -5);
+    $filename = $slug . '-' . $uniquePart . '.' . $ext;
+    
+    // Organize by Year/Month
+    $yearMonth = date('Y/m');
+    $finalDir = rtrim($destinationDir, '/') . '/' . $yearMonth;
+    
+    if (!is_dir($finalDir)) {
+        mkdir($finalDir, 0755, true);
     }
     
-    $targetPath = $destinationDir . '/' . $filename;
+    $targetPath = $finalDir . '/' . $filename;
     
     if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        // Return full path so callers can use $uploadResult['path'] directly
         return ['success' => true, 'filename' => $filename, 'path' => $targetPath];
     }
     

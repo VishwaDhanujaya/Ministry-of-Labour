@@ -115,7 +115,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
             <!-- Desktop Navigation with Interactive Dropdowns -->
             <nav class="hidden lg:flex items-center space-x-6 font-inter text-[13px] font-bold text-gray-700">
-                <a href="index" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Home</a>
+                <a href="index.php" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Home</a>
 
                 <a href="about-us"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">About
@@ -151,8 +151,8 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 <a href="downloads"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Downloads</a>
 
-                <a href="news"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">News</a>
+                <a href="articles"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'articles') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Articles</a>
 
                 <a href="contact-us"
                     class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact
@@ -220,7 +220,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </div>
 
             <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700">
-                <a href="index"
+                <a href="index.php"
                     class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Home</a>
                 <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">About Us</a>
                 <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">IAU</a>
@@ -246,7 +246,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 </div>
 
                 <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Downloads</a>
-                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">News</a>
+                <a href="articles" class="pl-3 py-1 <?= ($current_page == 'articles') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Articles</a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">

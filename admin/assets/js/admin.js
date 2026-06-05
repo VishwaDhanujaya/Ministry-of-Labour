@@ -240,6 +240,11 @@ function initFormValidation() {
             let isValid = true;
             const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
             
+            // Check if the submission was triggered by a button with formnovalidate (like Save as Draft)
+            if (e.submitter && e.submitter.hasAttribute('formnovalidate')) {
+                return; // Skip custom JS validation, let it submit to PHP
+            }
+            
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
                     isValid = false;
@@ -269,13 +274,15 @@ function initFormValidation() {
         });
     });
     
-    // Specific mock for "Save as Draft"
+    // Specific mock for "Save as Draft" - Removed to allow actual form submission
+    /*
     const draftBtns = document.querySelectorAll('.js-save-draft');
     draftBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             showToast('Draft saved securely.', 'success');
         });
     });
+    */
 }
 
 

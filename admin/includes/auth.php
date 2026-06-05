@@ -1,5 +1,15 @@
 <?php
 // auth.php
+// Configure secure session parameters before starting the session
+session_set_cookie_params([
+    'lifetime' => 86400, // 1 day
+    'path' => '/',
+    'secure' => isset($_SERVER['HTTPS']), // True if HTTPS
+    'httponly' => true, // Prevent JavaScript access to session cookie
+    'samesite' => 'Lax' // Protect against CSRF
+]);
+ini_set('session.use_only_cookies', 1);
+
 session_start();
 
 function isLoggedIn() {
