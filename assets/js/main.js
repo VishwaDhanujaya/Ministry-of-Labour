@@ -164,21 +164,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. KEY FOCUS AREA CAROUSEL SLIDER
     // ==========================================
     const track = document.getElementById('carousel-track');
-    const nextBtn = document.getElementById('carousel-next');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtnMob = document.getElementById('carousel-next-mob');
-    const prevBtnMob = document.getElementById('carousel-prev-mob');
+    const dotsContainer = document.getElementById('carousel-dots-container');
+    const dots = document.querySelectorAll('.carousel-dot');
 
     if (track) {
-        const scrollCarousel = (direction) => {
-            const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 24 : 320;
-            track.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+        const updateDots = () => {
+            if (!track.firstElementChild || dots.length === 0) return;
+            
+            // Check if slider actually needs to scroll
+            if (track.scrollWidth <= track.clientWidth) {
+                if (dotsContainer) dotsContainer.classList.add('hidden');
+                if (dotsContainer) dotsContainer.classList.remove('flex');
+                return;
+            } else {
+                if (dotsContainer) dotsContainer.classList.remove('hidden');
+                if (dotsContainer) dotsContainer.classList.add('flex');
+            }
+
+            const scrollLeft = track.scrollLeft;
+            const cardWidth = track.firstElementChild.offsetWidth + 24; // Including 24px (gap-6)
+            
+            // Calculate which card is closest to the left edge (center of view)
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+            
+            dots.forEach((dot, index) => {
+                if (index === activeIndex) {
+                    dot.classList.add('bg-secondary', 'w-8');
+                    dot.classList.remove('bg-white/30', 'hover:bg-white/50', 'w-2.5');
+                } else {
+                    dot.classList.remove('bg-secondary', 'w-8');
+                    dot.classList.add('bg-white/30', 'hover:bg-white/50', 'w-2.5');
+                }
+            });
         };
 
-        if (nextBtn) nextBtn.addEventListener('click', () => scrollCarousel(1));
-        if (prevBtn) prevBtn.addEventListener('click', () => scrollCarousel(-1));
-        if (nextBtnMob) nextBtnMob.addEventListener('click', () => scrollCarousel(1));
-        if (prevBtnMob) prevBtnMob.addEventListener('click', () => scrollCarousel(-1));
+        track.addEventListener('scroll', () => {
+            window.requestAnimationFrame(updateDots);
+        });
+        
+        window.addEventListener('resize', () => {
+            window.requestAnimationFrame(updateDots);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 24 : 320;
+                track.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+            });
+        });
+        
+        // Initialize dots state
+        // slight delay to ensure fonts/layout are rendered
+        setTimeout(updateDots, 100);
     }
 
     // ==========================================

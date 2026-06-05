@@ -34,6 +34,15 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-[#4E0000];
   }
+
+  /* Hide scrollbar for specific elements */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 }
 
 @layer utilities {

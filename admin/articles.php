@@ -45,7 +45,7 @@ include 'includes/header.php';
 <div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900">Articles</h2>
@@ -90,7 +90,7 @@ include 'includes/header.php';
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden overflow-x-auto">
             <table class="js-filterable-table w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-[#13273F] text-white">
@@ -106,7 +106,15 @@ include 'includes/header.php';
                 <tbody class="divide-y divide-gray-100 text-[13px]">
                     <?php if (empty($newsList)): ?>
                     <tr>
-                        <td colspan="6" class="py-5 px-6 text-center text-gray-500">No articles found.</td>
+                        <td colspan="7" class="py-16 px-6">
+                            <div class="flex flex-col items-center justify-center text-center">
+                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
+                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
+                                </div>
+                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No articles found</p>
+                                <p class="text-[13px] text-gray-500">There are no articles matching your criteria.</p>
+                            </div>
+                        </td>
                     </tr>
                     <?php else: ?>
                     <?php foreach ($newsList as $news): ?>
@@ -132,20 +140,24 @@ include 'includes/header.php';
                         <td class="py-5 px-6">
                             <div class="flex flex-col gap-1.5 items-start">
                                 <?php if ($news['status'] === 'Published'): ?>
-                                <span class="px-3 py-1 rounded bg-[#D1F1E8] text-[#0A6C5B] text-[11px] font-bold">Published</span>
+                                <span class="px-3 py-1 rounded bg-[#EDF7F4] text-[#166952] text-[11px] font-bold">Published</span>
                                 <?php else: ?>
-                                <span class="px-3 py-1 rounded bg-[#EED6D6] text-[#611A1A] text-[11px] font-bold">Draft</span>
+                                <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
                                 <?php endif; ?>
                                 
-                                <span class="px-3 py-1 rounded <?= strtolower($news['visibility']) === 'public' ? 'bg-blue-100 text-blue-800' : 'bg-gray-200 text-gray-800' ?> text-[11px] font-bold">
+                                <span class="px-3 py-1 rounded <?= strtolower($news['visibility']) === 'public' ? 'bg-[#EFF3F8] text-[#294B73]' : 'bg-[#F4F4F5] text-[#45454E]' ?> text-[11px] font-bold">
                                     <?= htmlspecialchars(ucfirst($news['visibility'] ?? 'Public')) ?>
                                 </span>
                             </div>
                         </td>
                         <td class="py-5 px-6">
-                            <div class="flex items-center space-x-3">
-                                <a href="new-article.php?id=<?= $news['id'] ?>" class="js-edit-row px-3 py-1.5 border border-gray-200 rounded text-gray-600 text-[11px] font-bold hover:bg-gray-50 transition-colors">Edit</a>
-                                <a href="articles.php?delete=<?= $news['id'] ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="js-delete-row px-3 py-1.5 border border-red-200 rounded text-red-500 text-[11px] font-bold hover:bg-red-50 transition-colors">Delete</a>
+                            <div class="flex items-center space-x-2">
+                                <a href="new-article.php?id=<?= $news['id'] ?>" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                </a>
+                                <a href="articles.php?delete=<?= $news['id'] ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="js-delete-row p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </a>
                             </div>
                         </td>
                     </tr>

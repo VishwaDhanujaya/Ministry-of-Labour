@@ -147,21 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             }
-            
-            // Refresh article data if edited
-            if ($article) {
-                $stmt = $pdo->prepare("SELECT * FROM articles WHERE id = ?");
-                $stmt->execute([$article['id']]);
-                $article = $stmt->fetch();
-                
-                $imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
-                $imgStmt->execute([$article['id']]);
-                $article_images = $imgStmt->fetchAll();
-            } else {
-                // If it was newly created, redirect to edit mode so images show up correctly
-                header("Location: new-article.php?id=" . $article_id);
-                exit;
-            }
+            header("Location: articles.php");
+            exit;
         } else {
             $error = "Failed to save article to database.";
         }
@@ -181,7 +168,7 @@ include 'includes/header.php';
 <div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $article ? 'Edit Article' : 'New Article' ?></h2>
@@ -362,7 +349,7 @@ include 'includes/header.php';
                                     <h4 class="font-semibold text-gray-900 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
                                     <p class="text-[11px] text-gray-500">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
                                     <div class="mt-1">
-                                        <span class="px-3 py-1 rounded bg-[#EED6D6] text-[#611A1A] text-[11px] font-bold">Draft</span>
+                                        <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
                                     </div>
                                 </a>
                                 <a href="new-article.php?delete_draft=<?= $draft['id'] ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">

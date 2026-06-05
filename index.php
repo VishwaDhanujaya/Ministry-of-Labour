@@ -9,7 +9,7 @@ $recentNews = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND
 $specialNotices = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
 
 // Fetch gallery items
-$galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll();
+$galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Public' ORDER BY created_at DESC LIMIT 4")->fetchAll();
 
 include 'includes/header.php';
 ?>
@@ -204,6 +204,14 @@ include 'includes/header.php';
                     </div>
                 </div>
             </div>
+            
+            <!-- Sticky Slide Dots -->
+            <div class="flex justify-center mt-10 gap-2.5 pb-2" id="carousel-dots-container">
+                <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 carousel-dot active shadow-sm" aria-label="Go to slide 1"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 2"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 3"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 4"></button>
+            </div>
         </div>
 </section>
 
@@ -337,7 +345,7 @@ include 'includes/header.php';
 </section>
 
 <!-- Latest Articles -->
-<section class="py-20 md:py-32 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
+<section class="py-20 md:py-32 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12">
             <div>
@@ -407,24 +415,25 @@ include 'includes/header.php';
                 <h2 class="section-title">
                     Media Gallery</h2>
             </div>
-            <a href="#"
+            <a href="gallery.php"
                 class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-[12px] uppercase tracking-wider">
                 <span>View All</span>
             </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             <?php if(empty($galleryItems)): ?>
-                <div class="col-span-4 text-center text-gray-500 py-10">No gallery items available.</div>
+                <div class="col-span-2 lg:col-span-4 text-center text-gray-500 py-10">No gallery items available.</div>
             <?php else: ?>
                 <?php foreach($galleryItems as $item): ?>
                 <!-- Media Item -->
-                <div class="gallery-item" data-caption="<?= htmlspecialchars($item['title']) ?>">
-                    <img src="admin/<?= htmlspecialchars($item['image_path']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 p-6 flex flex-col justify-end w-full gallery-item-overlay z-10">
-                        <p class="text-white font-semibold font-montserrat text-sm line-clamp-2 leading-snug"><?= htmlspecialchars($item['title']) ?></p>
+                <a href="gallery-album.php?id=<?= $item['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[280px] shadow-sm cursor-pointer block">
+                    <img src="admin/<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(102,102,102,0)_0%,rgba(10,10,10,0.8)_100%)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute inset-0 p-4 sm:p-6 flex flex-col justify-end w-full z-10">
+                        <p class="text-white font-semibold font-montserrat text-xs sm:text-sm line-clamp-2 leading-snug"><?= htmlspecialchars($item['title']) ?></p>
                     </div>
-                </div>
+                </a>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

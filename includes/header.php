@@ -114,7 +114,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </div>
 
             <!-- Desktop Navigation with Interactive Dropdowns -->
-            <nav class="hidden lg:flex items-center space-x-6 font-inter text-[13px] font-bold text-gray-700">
+            <nav class="hidden xl:flex items-center space-x-3 xl:space-x-4 2xl:space-x-6 font-inter text-[13px] font-bold text-gray-700">
                 <a href="index.php" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Home</a>
 
                 <a href="about-us"
@@ -154,6 +154,9 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 <a href="articles"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'articles') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Articles</a>
 
+                <a href="gallery"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'gallery') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Gallery</a>
+
                 <a href="contact-us"
                     class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact
                     Us</a>
@@ -186,7 +189,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
             <!-- Mobile Menu Trigger Button -->
             <button id="mobile-menu-trigger" aria-label="Open Mobile Menu"
-                class="lg:hidden text-[#13273F] hover:bg-gray-50 p-1.5 rounded-lg focus:outline-none transition-colors duration-200">
+                class="xl:hidden text-[#13273F] hover:bg-gray-50 p-1.5 rounded-lg focus:outline-none transition-colors duration-200">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
                     </path>
@@ -201,14 +204,8 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         <div id="mobile-menu-drawer"
             class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-y-auto">
             <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 0v-1.5m0 1.5c.21 0 .42-.013.626-.038A11.97 11.97 0 0012 3.844a11.97 11.97 0 001.374.832c.206.025.416.038.626.038v1.5">
-                        </path>
-                    </svg>
-                    <span class="font-semibold text-primary font-montserrat text-sm tracking-tight">Navigation</span>
+                <div class="flex items-center">
+                    <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
                 </div>
                 <button id="mobile-menu-close" aria-label="Close Mobile Menu"
                     class="p-1 rounded-lg text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors">
@@ -247,6 +244,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
                 <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Downloads</a>
                 <a href="articles" class="pl-3 py-1 <?= ($current_page == 'articles') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Articles</a>
+                <a href="gallery" class="pl-3 py-1 <?= ($current_page == 'gallery') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Gallery</a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">
