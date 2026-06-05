@@ -17,13 +17,28 @@ if (!$article) {
     exit;
 }
 
+// Override title and content based on current language
+if ($current_lang === 'si') {
+    if (!empty($article['title_si'])) $article['title'] = $article['title_si'];
+    if (!empty($article['content_si'])) $article['content'] = $article['content_si'];
+} elseif ($current_lang === 'ta') {
+    if (!empty($article['title_ta'])) $article['title'] = $article['title_ta'];
+    if (!empty($article['content_ta'])) $article['content'] = $article['content_ta'];
+}
+
 // Fetch additional images
 $imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
 $imgStmt->execute([$id]);
 $additionalImages = $imgStmt->fetchAll();
 
 // Fetch recent posts for sidebar (limit 10)
-$recentPosts = $pdo->query("SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC LIMIT 10")->fetchAll();
+$recentPostsRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC LIMIT 10")->fetchAll();
+$recentPosts = [];
+foreach ($recentPostsRaw as $post) {
+    if ($current_lang === 'si' && !empty($post['title_si'])) $post['title'] = $post['title_si'];
+    elseif ($current_lang === 'ta' && !empty($post['title_ta'])) $post['title'] = $post['title_ta'];
+    $recentPosts[] = $post;
+}
 
 $page_title = 'Articles';
 $breadcrumbs = [
@@ -40,7 +55,7 @@ include 'includes/sub-hero.php';
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <!-- Main Content -->
             <div class="w-full lg:w-2/3">
-                <h2 class="text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight">
+                <h2 class="text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight notranslate">
                     <?= htmlspecialchars($article['title']) ?>
                 </h2>
                 
@@ -55,7 +70,7 @@ include 'includes/sub-hero.php';
                 </div>
                 <?php endif; ?>
 
-                <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12 space-y-6">
+                <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12 space-y-6 notranslate">
                     <?= $article['content'] // Content is typically rich text (HTML) so we output it directly ?>
                 </div>
 
@@ -106,7 +121,7 @@ include 'includes/sub-hero.php';
                             <li>
                                 <a href="article.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span><?= htmlspecialchars($post['title']) ?></span>
+                                    <span class="notranslate"><?= htmlspecialchars($post['title']) ?></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>

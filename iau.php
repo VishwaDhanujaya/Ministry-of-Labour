@@ -1,5 +1,143 @@
 <?php
 // iau.php
+$iau_staff = [
+    [
+        'id' => 'staff-1',
+        'title' => 'Head of the IAU',
+        'department' => '',
+        'name' => 'Ms. T.P. Muditha Pathmajay',
+        'designation' => 'Additional Secretary (Development)',
+        'phone' => '0718123025',
+        'email' => 'leagl@labourmin.gov.lk'
+    ],
+    [
+        'id' => 'staff-2',
+        'title' => 'Integrity Officer',
+        'department' => 'Ministry of Labour',
+        'name' => 'Mr. P.D. Chandana Pathirage',
+        'designation' => 'Director (Development)',
+        'phone' => '0712273538',
+        'email' => 'pstchandana@gmail.com'
+    ],
+    [
+        'id' => 'staff-3',
+        'title' => 'Integrity Officer',
+        'department' => 'Department of Manpower and Employment',
+        'name' => 'Mrs. C.K. Wijemanna',
+        'designation' => 'Additional Director General',
+        'phone' => '0776182082',
+        'email' => 'kumudinichampa@yahoo.com'
+    ],
+    [
+        'id' => 'staff-4',
+        'title' => 'Integrity Officer',
+        'department' => 'National Institute of Labour Studies',
+        'name' => 'Mrs. W.D.D. Weerathunga',
+        'designation' => 'Administrative Officer',
+        'phone' => '0776911027',
+        'email' => 'Deepikaweerathunga2@gmail.com'
+    ],
+    [
+        'id' => 'staff-5',
+        'title' => 'Integrity Officer',
+        'department' => 'National Institute of Occupational Safety and Health',
+        'name' => 'Mr. P.M.C.K. Perera',
+        'designation' => 'Assistant Director (Finance)',
+        'phone' => '0773956382',
+        'email' => 'mohan@niosh.gov.lk'
+    ],
+    [
+        'id' => 'staff-6',
+        'title' => 'Integrity Officer',
+        'department' => 'Shrama Vasana Fund',
+        'name' => 'H.W. Thilakarathne',
+        'designation' => 'Manager',
+        'phone' => '0712809917',
+        'email' => 'Thilak22@hotmail.com'
+    ],
+    [
+        'id' => 'staff-7',
+        'title' => 'Member',
+        'department' => 'Foreign Relations Division',
+        'name' => 'Mr. B.Vasanthan',
+        'designation' => 'Senior Assistant Secretary (Foreign relations)',
+        'phone' => '071-8249900',
+        'email' => 'bvasanthan@yahoo.com'
+    ],
+    [
+        'id' => 'staff-8',
+        'title' => 'Member',
+        'department' => 'Accounts Division',
+        'name' => 'Mrs. S.S. Shiroma Nandani',
+        'designation' => 'Chief Accountant',
+        'phone' => '075-2261785',
+        'email' => 'shiromanandani@yahoo.com'
+    ],
+    [
+        'id' => 'staff-9',
+        'title' => 'Member',
+        'department' => 'Planning Division',
+        'name' => 'Mrs. M.P.D.C. W.Kumari',
+        'designation' => 'Deputy Director (Planning)',
+        'phone' => '071-6897218',
+        'email' => 'Kuma Ig@yahoo.com'
+    ],
+    [
+        'id' => 'staff-10',
+        'title' => 'Member',
+        'department' => 'Procurement Division',
+        'name' => 'Mrs. S. Luxiga',
+        'designation' => 'Assistant Secretary (Procurement)',
+        'phone' => '0779265869',
+        'email' => 'skluxi@gmail.com'
+    ],
+    [
+        'id' => 'staff-11',
+        'title' => 'Member',
+        'department' => 'Legal Division',
+        'name' => 'Mrs. W.P.A.G. Wijesooriya',
+        'designation' => 'Legal Officer',
+        'phone' => '0763526589',
+        'email' => 'gayaniew1@gmail.com'
+    ],
+    [
+        'id' => 'staff-12',
+        'title' => 'Member',
+        'department' => 'Media Unit',
+        'name' => 'Mr.W.K.S. Kumara',
+        'designation' => 'News Officer',
+        'phone' => '0718000103',
+        'email' => 'sarathkalugamage@gmail.com'
+    ],
+    [
+        'id' => 'staff-13',
+        'title' => 'Member',
+        'department' => 'Development Officer',
+        'name' => 'Ms. S.R. Thenuwara',
+        'designation' => 'Development Officer',
+        'phone' => '0712833681',
+        'email' => 'sawanithenuwara3@gmail.com'
+    ],
+    [
+        'id' => 'staff-14',
+        'title' => 'Member',
+        'department' => 'Office Employee Service',
+        'name' => 'Mrs. W.A.R.H. Wanniarachchi',
+        'designation' => 'Office Employee Service',
+        'phone' => '0719596380',
+        'email' => 'hasiniwanniarachchi35@gmail.com'
+    ],
+    [
+        'id' => 'staff-15',
+        'title' => 'Member',
+        'department' => 'Driver',
+        'name' => 'Mr.W.A.A.S.Senarathna',
+        'designation' => '',
+        'phone' => '0765603863',
+        'email' => 'Anuradhasanjeewa234@gmail.com'
+    ]
+];
+
 $page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(International Audit Unit)</span>';
 $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
@@ -81,30 +219,36 @@ include 'includes/sub-hero.php';
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 shrink-0 rounded-xl bg-white/10 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
+                        <a href="mailto:iau.labour@gmail.com" class="shrink-0" title="Email">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </a>
                         <a href="mailto:iau.labour@gmail.com" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">iau.labour@gmail.com</a>
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 shrink-0 rounded-xl bg-white/10 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                            </svg>
-                        </div>
-                        <a href="tel:+94112369367" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">+94 11 236 9367</a>
+                        <a href="tel:+94112369367" class="shrink-0" title="Call">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                            </div>
+                        </a>
+                        <a href="tel:+94112369367" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 11 236 9367</a>
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 shrink-0 rounded-xl bg-white/10 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.031 0C5.405 0 0 5.405 0 12.031c0 2.115.548 4.17 1.588 5.986L.048 23.953l6.082-1.597c1.745.952 3.702 1.455 5.753 1.455h.005c6.622 0 12.025-5.404 12.025-12.03 0-3.21-1.25-6.227-3.518-8.497A11.968 11.968 0 0012.031 0zm0 21.802h-.005c-1.79 0-3.543-.481-5.076-1.39l-.364-.216-3.771.989.999-3.676-.237-.377a10.024 10.024 0 01-1.536-5.328c0-5.522 4.495-10.016 10.019-10.016 2.678 0 5.195 1.042 7.086 2.936a9.98 9.98 0 012.934 7.084c-.001 5.524-4.496 10.019-10.02 10.019zm5.498-7.514c-.301-.151-1.782-.879-2.059-.98-.276-.1-.478-.151-.678.151-.201.302-.78 1.018-.954 1.22-.175.201-.352.226-.653.075-.302-.15-1.272-.469-2.424-1.494-.897-.798-1.503-1.785-1.678-2.087-.175-.302-.019-.465.132-.616.136-.136.302-.352.453-.528.151-.176.201-.302.302-.503.1-.201.05-.377-.025-.528-.075-.15-.678-1.634-.93-2.237-.245-.589-.494-.509-.678-.519-.175-.008-.377-.008-.578-.008-.201 0-.528.075-.804.377-.276.302-1.055 1.03-1.055 2.513 0 1.483 1.08 2.915 1.231 3.116.151.201 2.126 3.245 5.147 4.549.719.311 1.28.496 1.718.636.722.23 1.38.197 1.897.12.58-.087 1.782-.729 2.033-1.433.251-.703.251-1.307.176-1.433-.075-.126-.276-.201-.578-.352z"/>
-                            </svg>
-                        </div>
-                        <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">+94 70 722 7977</a>
+                        <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="shrink-0" title="WhatsApp">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12.031 0C5.405 0 0 5.405 0 12.031c0 2.115.548 4.17 1.588 5.986L.048 23.953l6.082-1.597c1.745.952 3.702 1.455 5.753 1.455h.005c6.622 0 12.025-5.404 12.025-12.03 0-3.21-1.25-6.227-3.518-8.497A11.968 11.968 0 0012.031 0zm0 21.802h-.005c-1.79 0-3.543-.481-5.076-1.39l-.364-.216-3.771.989.999-3.676-.237-.377a10.024 10.024 0 01-1.536-5.328c0-5.522 4.495-10.016 10.019-10.016 2.678 0 5.195 1.042 7.086 2.936a9.98 9.98 0 012.934 7.084c-.001 5.524-4.496 10.019-10.02 10.019zm5.498-7.514c-.301-.151-1.782-.879-2.059-.98-.276-.1-.478-.151-.678.151-.201.302-.78 1.018-.954 1.22-.175.201-.352.226-.653.075-.302-.15-1.272-.469-2.424-1.494-.897-.798-1.503-1.785-1.678-2.087-.175-.302-.019-.465.132-.616.136-.136.302-.352.453-.528.151-.176.201-.302.302-.503.1-.201.05-.377-.025-.528-.075-.15-.678-1.634-.93-2.237-.245-.589-.494-.509-.678-.519-.175-.008-.377-.008-.578-.008-.201 0-.528.075-.804.377-.276.302-1.055 1.03-1.055 2.513 0 1.483 1.08 2.915 1.231 3.116.151.201 2.126 3.245 5.147 4.549.719.311 1.28.496 1.718.636.722.23 1.38.197 1.897.12.58-.087 1.782-.729 2.033-1.433.251-.703.251-1.307.176-1.433-.075-.126-.276-.201-.578-.352z"/>
+                                </svg>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 70 722 7977</a>
                     </div>
                 </div>
             </div>
@@ -118,72 +262,14 @@ include 'includes/sub-hero.php';
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-12 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
-            <!-- Row 1 -->
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Head of the IAU</h4>
+            <?php foreach($iau_staff as $staff): ?>
+            <div onclick="openModal('<?php echo $staff['id']; ?>')" class="bg-white cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2"><?php echo $staff['title']; ?></h4>
+                <?php if($staff['department']): ?>
+                <p class="text-xs md:text-sm font-inter text-gray-500"><?php echo $staff['department']; ?></p>
+                <?php endif; ?>
             </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Ministry of Labour</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Department of Manpower and Employment</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">National Institute of Labour Studies</p>
-            </div>
-
-            <!-- Row 2 -->
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">National Institute of Occupational Safety and Health</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Shrama Vasana Fund</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Foreign Relations Division</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Accounts Division</p>
-            </div>
-
-            <!-- Row 3 -->
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Planning Division</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Procurement Division</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Legal Division</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Media Unit</p>
-            </div>
-
-            <!-- Row 4 -->
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Development Officer</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Office Employee Service</p>
-            </div>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
-                <p class="text-xs md:text-sm font-inter text-gray-500">Driver</p>
-            </div>
+            <?php endforeach; ?>
             <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
                 <!-- Empty Cell -->
             </div>
@@ -214,6 +300,56 @@ include 'includes/sub-hero.php';
         </div>
     </div>
 </section>
+
+<!-- Staff Modals -->
+<?php foreach($iau_staff as $staff): ?>
+<div id="<?php echo $staff['id']; ?>" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('<?php echo $staff['id']; ?>')"></div>
+    
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[600px] bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white">
+        <button onclick="closeModal('<?php echo $staff['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-gray-300 transition-colors">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <h3 class="text-xl md:text-[26px] font-semibold font-montserrat mb-4 md:mb-6"><?php echo $staff['title']; ?><?php if($staff['department']) echo ' - ' . $staff['department']; ?></h3>
+        
+        <hr class="border-white/50 w-[85%] mx-auto mb-6 md:mb-8">
+        
+        <div class="space-y-2 md:space-y-3 font-inter">
+            <p class="text-[20px] sm:text-2xl md:text-[28px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight"><?php echo $staff['name']; ?></p>
+            <?php if($staff['designation']): ?>
+            <p class="text-base md:text-lg pb-1 md:pb-2"><?php echo $staff['designation']; ?></p>
+            <?php endif; ?>
+            <p class="text-xs md:text-[15px]">Tel: <?php echo $staff['phone']; ?></p>
+            <p class="text-xs md:text-[15px]">Email: <?php echo $staff['email']; ?></p>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+<script>
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+            document.body.classList.add('overflow-hidden');
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            document.body.classList.remove('overflow-hidden');
+        }
+    }
+</script>
 
 <?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>

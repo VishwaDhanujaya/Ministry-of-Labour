@@ -1,4 +1,13 @@
 <?php
+// Initialize current_lang from cookie for frontend display and UI states
+$current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+
+// Security Headers
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("X-XSS-Protection: 1; mode=block");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+
 $current_page = basename($_SERVER['PHP_SELF'], ".php");
 ?>
 <!DOCTYPE html>
@@ -34,9 +43,61 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
     <!-- Compiled Tailwind and Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Language specific font overrides -->
+    <?php if ($current_lang === 'si'): ?>
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
+            font-family: 'Noto Sans Sinhala', sans-serif !important;
+        }
+    </style>
+    <?php elseif ($current_lang === 'ta'): ?>
+    <style>
+        body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
+            font-family: 'Noto Sans Tamil', sans-serif !important;
+        }
+    </style>
+    <?php endif; ?>
+
+    <style>
+        /* Hide Google Translate top frame, tooltips, and hover popups completely */
+        iframe.goog-te-banner-frame,
+        .goog-te-banner-frame.skiptranslate,
+        #goog-gt-tt,
+        .goog-te-balloon-frame,
+        .VIpgJd-ZVi9od-ORHb-OEVmcd,
+        .VIpgJd-ZVi9od-aZ2wEe-wOHMyf { 
+            display: none !important; 
+        }
+        .goog-text-highlight { 
+            background-color: transparent !important; 
+            box-shadow: none !important; 
+        }
+        body { top: 0px !important; position: relative !important; }
+        #google_translate_element { display: none !important; }
+    </style>
+    <script>
+        function changeLanguage(langCode) {
+            document.cookie = "lang=" + langCode + "; path=/; max-age=" + (86400 * 30);
+            if (langCode === 'en') {
+                document.cookie = "googtrans=/en/en; path=/";
+                document.cookie = "googtrans=/en/en; domain=." + document.domain + "; path=/";
+            } else {
+                document.cookie = "googtrans=/en/" + langCode + "; path=/";
+                document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/";
+            }
+            window.location.reload();
+        }
+        
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body class="bg-white text-gray-800 antialiased scroll-smooth">
+    <div id="google_translate_element"></div>
 
     <!-- Top Bar -->
     <div class="hidden md:flex bg-gradient-to-r from-[#13273F] via-[#2D2D43] to-[#13273F] text-white/90 text-[11px] md:text-xs py-1.5 px-4 md:px-8 flex-col md:flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
@@ -72,10 +133,10 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </div>
             
             <!-- Language Selector -->
-            <div class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm">
-                <button class="text-white/70 hover:text-white hover:bg-white/10 px-3 py-1 rounded-full transition-all duration-300 font-medium" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                <button class="text-white/70 hover:text-white hover:bg-white/10 px-3 py-1 rounded-full transition-all duration-300 font-medium" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
-                <button class="bg-yellow-400 text-[#13273F] font-bold px-3 py-1 rounded-full shadow-md transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
+            <div class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
+                <button onclick="changeLanguage('si')" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-[#13273F] shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                <button onclick="changeLanguage('ta')" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-[#13273F] shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                <button onclick="changeLanguage('en')" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-[#13273F] shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
             </div>
         </div>
     </div>
@@ -96,18 +157,16 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 <a href="index.php" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Home</a>
 
                 <a href="about-us"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">About
-                    Us</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">About Us</a>
 
                 <a href="iau"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">IAU</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?> notranslate">IAU</a>
 
                 <a href="rti"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">RTI</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?> notranslate">RTI</a>
 
                 <a href="citizen-charter"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Citizen
-                    Charter</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Citizen Charter</a>
 
                 <!-- Dropdown Circuit Bungalow -->
                 <div
@@ -121,8 +180,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     <div
                         class="dropdown-bridge absolute left-1/2 transform -translate-x-1/2 top-[100%] mt-2.5 w-56 bg-white border-[0.5px] border-[#D4D4D4] rounded-xl shadow-xl py-3 px-1.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                         <a href="ampara-circuit-bungalow"
-                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Ampara
-                            Circuit Bungalow</a>
+                            class="block px-4 py-2.5 text-gray-600 hover:text-[#13273F] hover:bg-gray-50 rounded-lg transition-colors font-semibold">Ampara Circuit Bungalow</a>
                     </div>
                 </div>
 
@@ -136,8 +194,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'gallery') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Gallery</a>
 
                 <a href="contact-us"
-                    class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact
-                    Us</a>
+                    class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact Us</a>
 
                 <div class="h-5 w-px bg-gray-200 mx-2 shrink-0"></div>
 
@@ -198,8 +255,8 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                 <a href="index.php"
                     class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Home</a>
                 <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">About Us</a>
-                <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">IAU</a>
-                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">RTI</a>
+                <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">IAU</a>
+                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">RTI</a>
                 <a href="citizen-charter" class="pl-3 py-1 <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Citizen Charter</a>
 
                 <!-- Collapse Item: Circuit Bungalow -->
@@ -215,8 +272,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
                     </button>
                     <div
                         class="hidden pl-6 pr-2 py-2 flex-col space-y-2.5 mt-1 bg-gray-50 rounded-lg text-xs font-semibold">
-                        <a href="ampara-circuit-bungalow" class="text-gray-600 hover:text-primary transition-colors">Ampara Circuit
-                            Bungalow</a>
+                        <a href="ampara-circuit-bungalow" class="text-gray-600 hover:text-primary transition-colors">Ampara Circuit Bungalow</a>
                     </div>
                 </div>
 
@@ -227,8 +283,7 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">
                 <a href="contact-us"
-                    class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase">Contact
-                    Us</a>
+                    class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase">Contact Us</a>
                 <div class="flex justify-center space-x-5 text-gray-400 py-2">
                     <a href="#" class="hover:text-primary transition-colors duration-200"><svg class="w-5 h-5"
                             fill="currentColor" viewBox="0 0 24 24">

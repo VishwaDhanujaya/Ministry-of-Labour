@@ -3,10 +3,32 @@
 require_once 'admin/includes/db.php';
 
 // Fetch recent news (limit 3)
-$recentNews = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+$recentNewsRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+$recentNews = [];
+foreach ($recentNewsRaw as $news) {
+    if ($current_lang === 'si') {
+        if (!empty($news['title_si'])) $news['title'] = $news['title_si'];
+        if (!empty($news['content_si'])) $news['content'] = $news['content_si'];
+    } elseif ($current_lang === 'ta') {
+        if (!empty($news['title_ta'])) $news['title'] = $news['title_ta'];
+        if (!empty($news['content_ta'])) $news['content'] = $news['content_ta'];
+    }
+    $recentNews[] = $news;
+}
 
 // Fetch special notices (limit 4) - Note: Special Notices are removed, this can be safely removed or kept for legacy news
-$specialNotices = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
+$specialNoticesRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
+$specialNotices = [];
+foreach ($specialNoticesRaw as $notice) {
+    if ($current_lang === 'si') {
+        if (!empty($notice['title_si'])) $notice['title'] = $notice['title_si'];
+        if (!empty($notice['content_si'])) $notice['content'] = $notice['content_si'];
+    } elseif ($current_lang === 'ta') {
+        if (!empty($notice['title_ta'])) $notice['title'] = $notice['title_ta'];
+        if (!empty($notice['content_ta'])) $notice['content'] = $notice['content_ta'];
+    }
+    $specialNotices[] = $notice;
+}
 
 // Fetch gallery items
 $galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Public' ORDER BY created_at DESC LIMIT 4")->fetchAll();
@@ -47,25 +69,25 @@ include 'includes/header.php';
 <div class="bg-secondary text-white py-10 relative z-20">
     <div class="container mx-auto px-4 md:px-16 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-white/20">
-            <div class="px-4 stat-box" data-target="6.2" data-suffix="M+" data-multiplier="1">
+            <div class="px-4 stat-box notranslate" data-target="6.2" data-suffix="M+" data-multiplier="1">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
                         class="stat-number">0</span>M+</div>
                 <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
                     Workers Protected</div>
             </div>
-            <div class="px-4 stat-box" data-target="32" data-suffix="+">
+            <div class="px-4 stat-box notranslate" data-target="32" data-suffix="+">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
                         class="stat-number">0</span>+</div>
                 <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
                     Labour Acts Enforced</div>
             </div>
-            <div class="px-4 stat-box" data-target="14">
+            <div class="px-4 stat-box notranslate" data-target="14">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
                         class="stat-number">0</span></div>
                 <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
                     Affiliated Institutions</div>
             </div>
-            <div class="px-4 stat-box" data-target="1250">
+            <div class="px-4 stat-box notranslate" data-target="1250">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
                         class="stat-number">0</span></div>
                 <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
@@ -378,17 +400,17 @@ include 'includes/header.php';
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                 <span class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
                             </div>
-                            <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2">
+                            <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2 notranslate">
                                 <?= htmlspecialchars($news['title']) ?>
                             </h3>
-                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3">
+                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate">
                                 <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
                             </p>
                         </div>
                     </div>
                     <div class="p-8 pt-2">
                         <a href="article.php?id=<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
-                            Read more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
                 </div>
@@ -554,7 +576,7 @@ include 'includes/header.php';
                         <?php foreach($specialNotices as $notice): ?>
                         <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
                             <div class="flex-grow">
-                                <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug"><?= htmlspecialchars($notice['title']) ?></h4>
+                                <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
                                 <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
                             <a href="article.php?id=<?= $notice['id'] ?>"

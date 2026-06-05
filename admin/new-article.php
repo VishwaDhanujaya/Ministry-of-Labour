@@ -11,6 +11,7 @@ $article_images = [];
 
 // Handle Delete Individual Image
 if (isset($_GET['delete_image']) && isset($_GET['id'])) {
+    requireCsrfToken('GET', 'get');
     $img_id = (int)$_GET['delete_image'];
     $article_id = (int)$_GET['id'];
     
@@ -34,6 +35,7 @@ if (isset($_GET['success']) && $_GET['success'] == 'image_deleted') {
 
 // Handle Delete Draft from Widget
 if (isset($_GET['delete_draft'])) {
+    requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete_draft'];
     
     // Unlink files
@@ -76,6 +78,7 @@ if (isset($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken('POST', 'post');
     $title = trim($_POST['title']);
     $title_si = trim($_POST['title_si'] ?? '');
     $title_ta = trim($_POST['title_ta'] ?? '');
@@ -196,6 +199,7 @@ include 'includes/header.php';
                 <?php endif; ?>
 
                 <form action="" method="POST" enctype="multipart/form-data" class="js-validate-form js-reset-on-success space-y-6">
+                    <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                     
                     <!-- Article Title -->
                     <div>
@@ -302,7 +306,7 @@ include 'includes/header.php';
                                 <?php foreach($article_images as $img): ?>
                                     <div class="relative group">
                                         <img src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
-                                        <a href="new-article.php?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <a href="new-article.php?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </a>
                                     </div>
@@ -315,7 +319,7 @@ include 'includes/header.php';
                     <div class="flex justify-between items-center pt-4">
                         <div>
                             <?php if ($article): ?>
-                                <a href="articles.php?delete=<?= $article['id'] ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center">
+                                <a href="articles.php?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     Delete
                                 </a>
@@ -386,7 +390,7 @@ include 'includes/header.php';
                                         <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
                                     </div>
                                 </a>
-                                <a href="new-article.php?delete_draft=<?= $draft['id'] ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
+                                <a href="new-article.php?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>

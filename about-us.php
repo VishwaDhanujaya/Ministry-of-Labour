@@ -1,5 +1,184 @@
 <?php
 // about-us.php
+
+$top_officials = [
+    [
+        'title' => 'Hon. Minister of Labour',
+        'name' => 'Hon. Minister Anil Jayantha Fernando',
+        'image' => 'assets/img/about-us/official-minister.webp',
+        'email' => 'minister@labourmin.gov.lk',
+        'phone' => '+9411 236 8175',
+        'fax' => '+9411 258 8950'
+    ],
+    [
+        'title' => 'Hon. Deputy Minister of Labour',
+        'name' => 'Mr. Mahinda Jayasinghe',
+        'image' => 'assets/img/about-us/official-deputy-minister.webp',
+        'email' => 'majayasinghe@gmail.com',
+        'phone' => '0112368526',
+        'fax' => '0112369340'
+    ],
+    [
+        'title' => 'Secretary',
+        'name' => 'Mr. S.M.Piyatissa',
+        'image' => 'assets/img/about-us/official-secretary.webp',
+        'email' => 'slmol@slt.lk',
+        'phone' => '+94 (0)112 368164',
+        'fax' => '+94 (0)112 582938'
+    ]
+];
+
+$departments = [
+    [
+        'id' => 'admin-tab',
+        'title' => 'Administration',
+        'people' => [
+            [
+                'name' => 'Ms. T P Muditha Pathmajay',
+                'designation' => 'Additional Secretary (Administration)',
+                'phone' => '+94 (0)112 368938',
+                'fax' => '+94 (0)112 368165',
+                'email' => 'adsec.admin@labourmin.gov.lk',
+                'image' => 'assets/img/about-us/admin-muditha.webp'
+            ],
+            [
+                'name' => 'Mr. L.T.G.D Darshana',
+                'designation' => 'Senior Assistant Secretary (Administration)',
+                'phone' => '+94 (0)112 368304',
+                'fax' => '+94 (0)112 368200',
+                'email' => 'sas.admin@labourmin.gov.lk',
+                'image' => 'assets/img/about-us/admin-darshana.webp'
+            ],
+            [
+                'name' => 'Ms. S Luxiga',
+                'designation' => 'Assistant Secretary (Procurement)',
+                'phone' => '+94 (0)112 368136',
+                'fax' => '',
+                'email' => '',
+                'image' => 'assets/img/about-us/admin-luxiga.webp'
+            ],
+            [
+                'name' => 'Ms. Yashoda Thissera',
+                'designation' => 'Assistant Secretary (Establishment)',
+                'phone' => '+94 (0) 112 368264',
+                'fax' => '',
+                'email' => 'as.est@labourmin.gov.lk',
+                'image' => 'assets/img/about-us/admin-yashoda.webp'
+            ],
+            [
+                'name' => 'Ms. W P A G Wijesooriya',
+                'designation' => 'Legal Officer',
+                'phone' => '+94 (0)112 582046',
+                'fax' => '',
+                'email' => 'labourminlegal@gmail.com',
+                'image' => 'assets/img/about-us/admin-wijesooriya.webp'
+            ]
+        ]
+    ],
+    [
+        'id' => 'dev-tab',
+        'title' => 'Development',
+        'people' => [
+            [
+                'name' => 'Mr. Lal Samarasekara',
+                'designation' => 'Additional Secretary (Development)',
+                'phone' => '+94 (0)112 586337',
+                'fax' => '+94 (0)112 589267',
+                'email' => 'adsec.dev@labourmin.gov.lk',
+                'image' => ''
+            ],
+            [
+                'name' => 'Mr. P D Chandana Pathirage',
+                'designation' => 'Director (Development)',
+                'phone' => '+94 (0)11 2502807',
+                'fax' => '',
+                'email' => 'dir.dev@labourmin.gov.lk',
+                'image' => ''
+            ]
+        ]
+    ],
+    [
+        'id' => 'planning-tab',
+        'title' => 'Planning',
+        'people' => [
+            [
+                'name' => 'Ms. I V N Preethika Kumuduni',
+                'designation' => 'Director General (Planning)',
+                'phone' => '+94 (0)112 368594',
+                'fax' => '',
+                'email' => '',
+                'image' => ''
+            ],
+            [
+                'name' => 'Ms. M.P.D.C.W.Kumari',
+                'designation' => 'Deputy Director (Planning)',
+                'phone' => '+94 (0) 1125 82171',
+                'fax' => '',
+                'email' => '',
+                'image' => ''
+            ]
+        ]
+    ],
+    [
+        'id' => 'finance-tab',
+        'title' => 'Finance',
+        'people' => [
+            [
+                'name' => 'Mrs. G.C.N. Fonseka',
+                'designation' => 'Chief Finance Officer',
+                'phone' => '+94 (0)112 505161',
+                'fax' => '',
+                'email' => '',
+                'image' => ''
+            ],
+            [
+                'name' => 'Ms. S S Shiroma Nandani',
+                'designation' => 'Chief Accountant',
+                'phone' => '+94 (0)112 368204',
+                'fax' => '+94 (0)112 368204',
+                'email' => 'ca@labourmin.gov.lk',
+                'image' => ''
+            ]
+        ]
+    ],
+    [
+        'id' => 'audit-tab',
+        'title' => 'Internal Audit',
+        'people' => [
+            [
+                'name' => 'Mrs. A.M.M.K. Abeysinghe',
+                'designation' => 'Chief Internal Auditor',
+                'phone' => '+94 (0)112 369422',
+                'fax' => '',
+                'email' => 'cia@labourmin.gov.lk',
+                'image' => ''
+            ]
+        ]
+    ],
+    [
+        'id' => 'foreign-relations-tab',
+        'title' => 'Foreign Relations',
+        'people' => [
+            [
+                'name' => 'Mr. B Vasanthan',
+                'designation' => 'Senior Assistant Secretary (Foreign Relations)',
+                'phone' => '+94 (0)112 368609',
+                'fax' => '+94 (0)112 368609',
+                'email' => 'sas.fr@labourmin.gov.lk',
+                'image' => ''
+            ],
+            [
+                'name' => 'Mrs. M.N.H.Peiris',
+                'designation' => 'Assistant Secretary (FR)',
+                'phone' => '+94 (0)112 504478',
+                'fax' => '',
+                'email' => 'as.fr@labourmin.gov.lk',
+                'image' => ''
+            ]
+        ]
+    ]
+];
+
 $page_title = 'About Us';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
@@ -60,41 +239,59 @@ include 'includes/sub-hero.php';
 <section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA] border-t border-b border-gray-100">
     <div class="container mx-auto">
         <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-12 text-center">Our Partners</h2>
-        <div id="partners-track" class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth items-center">
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+        <div id="partners-track"
+            class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth items-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-1.png" alt="Partner 1"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-2.png" alt="Partner 2"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-3.png" alt="Partner 3"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-4.png" alt="Partner 4"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-5.png" alt="Partner 5"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
-            <div class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
+            <div
+                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
                 <img src="assets/img/about-us/partner-6.png" alt="Partner 6"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
         </div>
-        
+
         <!-- Sticky Slide Dots -->
         <div class="flex justify-center mt-8 gap-2.5 pb-2" id="partners-dots-container">
-            <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 partner-dot active shadow-sm" aria-label="Go to slide 1"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot" aria-label="Go to slide 2"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot" aria-label="Go to slide 3"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot" aria-label="Go to slide 4"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot" aria-label="Go to slide 5"></button>
-            <button class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot" aria-label="Go to slide 6"></button>
+            <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 partner-dot active shadow-sm"
+                aria-label="Go to slide 1"></button>
+            <button
+                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
+                aria-label="Go to slide 2"></button>
+            <button
+                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
+                aria-label="Go to slide 3"></button>
+            <button
+                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
+                aria-label="Go to slide 4"></button>
+            <button
+                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
+                aria-label="Go to slide 5"></button>
+            <button
+                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
+                aria-label="Go to slide 6"></button>
         </div>
     </div>
 </section>
@@ -121,8 +318,7 @@ include 'includes/sub-hero.php';
 
             <!-- Organizational Chart -->
             <div class="w-full lg:w-[35%] bg-white p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-                <h3
-                    class="text-2xl md:text-3xl font-semibold font-montserrat text-gray-900 mb-5 text-left">
+                <h3 class="text-2xl md:text-3xl font-semibold font-montserrat text-gray-900 mb-5 text-left">
                     Organizational Chart</h3>
 
                 <div
@@ -189,407 +385,158 @@ include 'includes/sub-hero.php';
 
         <!-- Top Officials -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <!-- Minister -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/official-minister.webp" alt="Hon. Minister of Labour"
-                        class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-8">
-                    <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">Hon. Minister of Labour</h3>
-                    <p class="text-gray-500 font-inter text-sm mb-5">Mr. Nimal Siripala de Silva</p>
-                    <div class="flex gap-2.5">
-                        <a href="mailto:minister@labour.gov.lk"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Email"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <?php foreach ($top_officials as $official): ?>
+                <div
+                    class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
+                    <div class="overflow-hidden bg-gray-100 flex items-center justify-center h-[380px]">
+                        <?php if ($official['image']): ?>
+                            <img src="<?php echo $official['image']; ?>" alt="<?php echo $official['name']; ?>"
+                                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        <?php else: ?>
+                            <svg class="w-24 h-24 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                 <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Call"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Fax"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="LinkedIn"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
+                                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg>
+                        <?php endif; ?>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">
+                            <?php echo $official['title']; ?></h3>
+                        <p class="text-gray-500 font-inter text-sm mb-5"><?php echo $official['name']; ?></p>
+                        <div class="flex gap-2.5 relative z-10">
+                            <?php if ($official['email']): ?>
+                                <button
+                                    onclick="copyToClipboard('<?php echo trim($official['email']); ?>', 'Email address copied!')"
+                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    title="Copy Email: <?php echo trim($official['email']); ?>">
+                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            <?php endif; ?>
+                            <?php if ($official['phone']): ?>
+                                <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $official['phone']); ?>"
+                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    title="<?php echo trim($official['phone']); ?>">
+                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                        stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path
+                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                        </path>
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                            <?php if ($official['fax']): ?>
+                                <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $official['fax']); ?>"
+                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    title="Fax: <?php echo trim($official['fax']); ?>">
+                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
+                                        <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
+                                        <path d="M2 10h20" />
+                                        <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
+                                        <path d="M8 12h8v8H8z" />
+                                    </svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Deputy Minister -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/official-deputy-minister.webp" alt="Hon. Deputy Minister of Labour"
-                        class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-8">
-                    <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">Hon. Deputy Minister of Labour
-                    </h3>
-                    <p class="text-gray-500 font-inter text-sm mb-5">Mr. Mahinda Samarasinghe</p>
-                    <div class="flex gap-2.5">
-                        <a href="mailto:deputyminister@labour.gov.lk"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Email"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Call"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Fax"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="LinkedIn"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Secretary -->
-            <div
-                class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/official-secretary.webp" alt="Secretary"
-                        class="w-full h-[380px] object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-8">
-                    <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">Secretary</h3>
-                    <p class="text-gray-500 font-inter text-sm mb-5">Mr. R.P.A. Wimalaweera</p>
-                    <div class="flex gap-2.5">
-                        <a href="mailto:secretary@labour.gov.lk"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Email"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Call"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="Fax"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs"
-                            title="LinkedIn"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Department Tabs -->
-        <div class="flex overflow-x-auto gap-4 md:gap-8 mb-10 border-b border-gray-200 pb-1 scrollbar-none">
-            <button
-                class="px-2 py-3 border-b-2 border-primary text-primary font-bold font-montserrat whitespace-nowrap text-sm md:text-base cursor-pointer">Administration</button>
-            <button
-                class="px-2 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-700 font-semibold font-montserrat whitespace-nowrap text-sm md:text-base transition-colors cursor-pointer">Development</button>
-            <button
-                class="px-2 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-700 font-semibold font-montserrat whitespace-nowrap text-sm md:text-base transition-colors cursor-pointer">Planning</button>
-            <button
-                class="px-2 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-700 font-semibold font-montserrat whitespace-nowrap text-sm md:text-base transition-colors cursor-pointer">Finance</button>
-            <button
-                class="px-2 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-700 font-semibold font-montserrat whitespace-nowrap text-sm md:text-base transition-colors cursor-pointer">Internal
-                Audit</button>
-            <button
-                class="px-2 py-3 border-b-2 border-transparent text-gray-400 hover:text-gray-700 font-semibold font-montserrat whitespace-nowrap text-sm md:text-base transition-colors cursor-pointer">Foreign
-                Relations</button>
+        <div class="flex overflow-x-auto gap-4 md:gap-8 mb-10 border-b border-gray-200 pb-1 scrollbar-none"
+            id="officials-tabs">
+            <?php foreach ($departments as $index => $dept): ?>
+                <?php 
+                    $tabStateClass = $index === 0 ? 'border-primary text-primary font-bold' : 'border-transparent text-gray-400 hover:text-gray-700 font-semibold';
+                ?>
+                <button onclick="switchDepartmentTab('<?php echo $dept['id']; ?>')" id="tab-btn-<?php echo $dept['id']; ?>"
+                    class="px-2 py-3 border-b-2 <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-sm md:text-base cursor-pointer transition-colors">
+                    <?php echo $dept['title']; ?>
+                </button>
+            <?php endforeach; ?>
         </div>
 
-        <!-- Administration Team Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
-            <!-- Admin 1 -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/admin-wijesooriya.webp" alt="Additional Secretary"
-                        class="w-full h-40 sm:h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4 sm:p-5">
-                    <h4 class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">Additional
-                        Secretary (Administration)</h4>
-                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">Mrs. H.M.D.N. Herath</p>
-                    <div class="flex gap-1.5 sm:gap-2">
-                        <a href="mailto:info@labour.gov.lk"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Email"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Call"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Fax"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="LinkedIn"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
+        <!-- Department Teams -->
+        <div id="officials-tab-contents">
+            <?php foreach ($departments as $index => $dept): ?>
+                <div id="tab-content-<?php echo $dept['id']; ?>"
+                    class="dept-tab-content <?php echo $index === 0 ? '' : 'hidden'; ?>">
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
+                        <?php foreach ($dept['people'] as $person): ?>
+                            <div
+                                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
+                                <div class="overflow-hidden bg-gray-100 flex items-center justify-center h-40 sm:h-56">
+                                    <?php if ($person['image']): ?>
+                                        <img src="<?php echo $person['image']; ?>" alt="<?php echo $person['name']; ?>"
+                                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                                    <?php else: ?>
+                                        <svg class="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                                        </svg>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="p-4 sm:p-5">
+                                    <h4
+                                        class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">
+                                        <?php echo $person['designation']; ?></h4>
+                                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">
+                                        <?php echo $person['name']; ?></p>
+                                    <div class="flex gap-1.5 sm:gap-2 relative z-10">
+                                        <?php if ($person['email']): ?>
+                                            <button
+                                                onclick="copyToClipboard('<?php echo trim($person['email']); ?>', 'Email address copied!')"
+                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                title="Copy Email: <?php echo trim($person['email']); ?>">
+                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                    stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                        <?php endif; ?>
+                                        <?php if ($person['phone']): ?>
+                                            <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $person['phone']); ?>"
+                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                title="<?php echo trim($person['phone']); ?>">
+                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                    stroke-width="2" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                                                    </path>
+                                                </svg>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($person['fax']): ?>
+                                            <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $person['fax']); ?>"
+                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                title="Fax: <?php echo trim($person['fax']); ?>">
+                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    viewBox="0 0 24 24">
+                                                    <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
+                                                    <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
+                                                    <path d="M2 10h20" />
+                                                    <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
+                                                    <path d="M8 12h8v8H8z" />
+                                                </svg>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Admin 2 -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/admin-darshana.webp" alt="Senior Assistant Secretary"
-                        class="w-full h-40 sm:h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4 sm:p-5">
-                    <h4 class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">Senior Assistant
-                        Secretary (Administration)</h4>
-                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">Mr. J.A.D. Darshana</p>
-                    <div class="flex gap-1.5 sm:gap-2">
-                        <a href="mailto:info@labour.gov.lk"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Email"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Call"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Fax"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="LinkedIn"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin 3 -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/admin-yashoda.webp" alt="Assistant Secretary"
-                        class="w-full h-40 sm:h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4 sm:p-5">
-                    <h4 class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">Assistant
-                        Secretary (Administration)</h4>
-                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">Mrs. Yashoda</p>
-                    <div class="flex gap-1.5 sm:gap-2">
-                        <a href="mailto:info@labour.gov.lk"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Email"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Call"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Fax"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="LinkedIn"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin 4 -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/admin-muditha.webp" alt="Assistant Secretary"
-                        class="w-full h-40 sm:h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4 sm:p-5">
-                    <h4 class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">Assistant
-                        Secretary (Establishment)</h4>
-                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">Ms. Muditha Thushari</p>
-                    <div class="flex gap-1.5 sm:gap-2">
-                        <a href="mailto:info@labour.gov.lk"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Email"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Call"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Fax"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="LinkedIn"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin 5 -->
-            <div
-                class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                <div class="overflow-hidden">
-                    <img src="assets/img/about-us/admin-luxiga.webp" alt="Legal Officer"
-                        class="w-full h-40 sm:h-56 object-cover object-top group-hover:scale-105 transition-transform duration-500">
-                </div>
-                <div class="p-4 sm:p-5">
-                    <h4 class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">Legal Officer</h4>
-                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">Ms. S.H.R. Dissanayake</p>
-                    <div class="flex gap-1.5 sm:gap-2">
-                        <a href="mailto:info@labour.gov.lk"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Email"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112581141"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Call"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                </path>
-                            </svg></a>
-                        <a href="tel:+94112368165"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="Fax"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
-                                <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
-                                <path d="M2 10h20" />
-                                <path d="M5 3h14a2 2 0 0 1 2 2v3H3V5a2 2 0 0 1 2-2z" />
-                                <path d="M8 12h8v8H8z" />
-                            </svg></a>
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
-                            class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors"
-                            title="LinkedIn"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -623,44 +570,61 @@ include 'includes/sub-hero.php';
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                             <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To empower and
                                 strengthen the industrial relationship</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To ensure private
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To ensure
+                                private
                                 occupation growth and decent work</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To eliminate child
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To eliminate
+                                child
                                 labour</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To protect and empower
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To protect and
+                                empower
                                 employed women and promote occupational safety and health</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To expedite relevant
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To expedite
+                                relevant
                                 statutory reforms</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To take action to
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To take action
+                                to
                                 develop a comprehensive social protection strategy</p>
                         </div>
                     </div>
@@ -671,39 +635,63 @@ include 'includes/sub-hero.php';
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Industrial Peace and Harmony:</strong> Maintaining stability and productivity in industrial relations.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Industrial Peace and Harmony:</strong> Maintaining stability and productivity in
+                                industrial relations.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Labour Standards and Enforcement:</strong> Rigorous inspections and enforcement of statutory working conditions.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Labour
+                                    Standards and Enforcement:</strong> Rigorous inspections and enforcement of
+                                statutory working conditions.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Occupational Safety and Health (OSH):</strong> Developing and mandating safety measures in work environments.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Occupational Safety and Health (OSH):</strong> Developing and mandating safety
+                                measures in work environments.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Social Protection Systems:</strong> Managing robust retirement security, welfare, and trust funds (EPF/ETF).</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Social
+                                    Protection Systems:</strong> Managing robust retirement security, welfare, and trust
+                                funds (EPF/ETF).</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Education, Training, & Research:</strong> Fostering professional skills to elevate workforce competitiveness.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Education, Training, & Research:</strong> Fostering professional skills to
+                                elevate workforce competitiveness.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Vulnerable Group Safeguards:</strong> Prioritizing the complete elimination of child labour and promoting gender equity.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Vulnerable Group Safeguards:</strong> Prioritizing the complete elimination of
+                                child labour and promoting gender equity.</p>
                         </div>
                     </div>
                 </div>
@@ -713,27 +701,43 @@ include 'includes/sub-hero.php';
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Industrial Disputes Act No. 43 of 1950:</strong> The core legislation regulating dispute resolutions and employment terminations.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Industrial Disputes Act No. 43 of 1950:</strong> The core legislation regulating
+                                dispute resolutions and employment terminations.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Shop and Office Employees Act No. 19 of 1954:</strong> Sets working hours, holidays, leaves, and basic workplace regulations.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Shop and
+                                    Office Employees Act No. 19 of 1954:</strong> Sets working hours, holidays, leaves,
+                                and basic workplace regulations.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Employees' Provident Fund (EPF) & ETF Acts:</strong> Mandates employer and worker contributions toward retirement trust benefits.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
+                                <strong>Employees' Provident Fund (EPF) & ETF Acts:</strong> Mandates employer and
+                                worker contributions toward retirement trust benefits.</p>
                         </div>
                         <div class="flex items-start gap-4">
                             <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Wages Boards Ordinance & Factories Ordinance:</strong> Enforces minimum wage standards and occupational factory safety rules.</p>
+                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Wages
+                                    Boards Ordinance & Factories Ordinance:</strong> Enforces minimum wage standards and
+                                occupational factory safety rules.</p>
                         </div>
                     </div>
                 </div>
@@ -743,32 +747,74 @@ include 'includes/sub-hero.php';
 </section>
 
 <script>
-function switchOperateTab(tabId) {
-    // Hide all tab contents
-    document.querySelectorAll('.operate-tab-content').forEach(content => {
-        content.classList.add('hidden');
-    });
-    
-    // Show target tab content
-    document.getElementById('tab-content-' + tabId).classList.remove('hidden');
-    
-    // Reset all tab buttons classes
-    const activeClasses = ['bg-[#13273F]', 'text-white', 'font-bold'];
-    const inactiveClasses = ['text-gray-500', 'hover:text-primary', 'hover:bg-gray-50/80', 'font-semibold'];
-    
-    const tabs = ['objectives', 'thrust-areas', 'legal-framework'];
-    
-    tabs.forEach(tId => {
-        const btn = document.getElementById('tab-btn-' + tId);
-        if (tId === tabId) {
-            btn.classList.add(...activeClasses);
-            btn.classList.remove(...inactiveClasses);
-        } else {
-            btn.classList.remove(...activeClasses);
-            btn.classList.add(...inactiveClasses);
-        }
-    });
-}
+    function switchDepartmentTab(tabId) {
+        document.querySelectorAll('.dept-tab-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+        document.getElementById('tab-content-' + tabId).classList.remove('hidden');
+
+        const activeClasses = ['border-primary', 'text-primary', 'font-bold'];
+        const inactiveClasses = ['border-transparent', 'text-gray-400', 'hover:text-gray-700', 'font-semibold'];
+
+        <?php foreach ($departments as $dept): ?>
+            {
+                const btn = document.getElementById('tab-btn-<?php echo $dept['id']; ?>');
+                if ('<?php echo $dept['id']; ?>' === tabId) {
+                    btn.classList.add(...activeClasses);
+                    btn.classList.remove(...inactiveClasses);
+                } else {
+                    btn.classList.remove(...activeClasses);
+                    btn.classList.add(...inactiveClasses);
+                }
+            }
+        <?php endforeach; ?>
+    }
+
+    function switchOperateTab(tabId) {
+        // Hide all tab contents
+        document.querySelectorAll('.operate-tab-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+
+        // Show target tab content
+        document.getElementById('tab-content-' + tabId).classList.remove('hidden');
+
+        // Reset all tab buttons classes
+        const activeClasses = ['bg-[#13273F]', 'text-white', 'font-bold'];
+        const inactiveClasses = ['text-gray-500', 'hover:text-primary', 'hover:bg-gray-50/80', 'font-semibold'];
+
+        const tabs = ['objectives', 'thrust-areas', 'legal-framework'];
+
+        tabs.forEach(tId => {
+            const btn = document.getElementById('tab-btn-' + tId);
+            if (tId === tabId) {
+                btn.classList.add(...activeClasses);
+                btn.classList.remove(...inactiveClasses);
+            } else {
+                btn.classList.remove(...activeClasses);
+                btn.classList.add(...inactiveClasses);
+            }
+        });
+    }
+
+    function copyToClipboard(text, message) {
+        navigator.clipboard.writeText(text).then(() => {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            if(toast && toastMessage) {
+                toastMessage.textContent = message;
+                toast.classList.remove('opacity-0', 'translate-y-4');
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'translate-y-4');
+                }, 3000);
+            } else {
+                alert(message + ' : ' + text);
+            }
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            alert('Failed to copy email. Your browser may not support this feature.');
+        });
+    }
 </script>
 
 <?php include 'includes/footer.php'; ?>

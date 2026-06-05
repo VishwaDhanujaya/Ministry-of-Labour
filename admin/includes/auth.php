@@ -12,6 +12,12 @@ ini_set('session.use_only_cookies', 1);
 
 session_start();
 
+// Global Backend Security Headers
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("X-XSS-Protection: 1; mode=block");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+
 function isLoggedIn() {
     return isset($_SESSION['admin_id']);
 }
@@ -47,3 +53,27 @@ function logoutAdmin() {
     session_unset();
     session_destroy();
 }
+
+function generateCsrfToken() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function verifyCsrfToken($token) {
+    if (!isset($_SESSION['csrf_token']) || empty($token)) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+function requireCsrfToken($method = 'POST', $source = 'post') {
+    if ($_SERVER['REQUEST_METHOD'] === $method) {
+        $token = $source === 'get' ? ($_GET['csrf_token'] ?? '') : ($_POST['csrf_token'] ?? '');
+        if (!verifyCsrfToken($token)) {
+            die("CSRF Token Validation Failed. Please try again.");
+        }
+    }
+}
+?>

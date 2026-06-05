@@ -26,3 +26,6 @@ try {
 } catch(PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
+// Determine current language from cookie for fetching dynamic article content globally
+$current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';

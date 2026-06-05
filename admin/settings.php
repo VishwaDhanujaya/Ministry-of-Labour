@@ -11,6 +11,7 @@ $admin_id = $_SESSION['admin_id'];
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken('POST', 'post');
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $new_password = $_POST['new_password'] ?? '';
@@ -86,6 +87,7 @@ include 'includes/header.php';
                 <?php endif; ?>
 
                 <form action="" method="POST" class="js-validate-form space-y-8">
+                        <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                     <!-- Profile Card -->
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">

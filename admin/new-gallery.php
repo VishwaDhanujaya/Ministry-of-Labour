@@ -11,6 +11,7 @@ $gallery_images = [];
 
 // Handle Delete Image
 if (isset($_GET['delete_image']) && isset($_GET['id'])) {
+    requireCsrfToken('GET', 'get');
     $img_id = (int)$_GET['delete_image'];
     $gallery_id = (int)$_GET['id'];
     
@@ -48,6 +49,7 @@ if (isset($_GET['success']) && $_GET['success'] == 'image_deleted') {
 
 // Handle Form Submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    requireCsrfToken('POST', 'post');
     $title = trim($_POST['title']);
     $status = $_POST['status'] ?? 'Public';
     
@@ -158,6 +160,7 @@ include 'includes/header.php';
 
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                     <form action="" method="POST" enctype="multipart/form-data" class="js-validate-form">
+                        <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                         <div class="p-8 space-y-8">
                             
                             <!-- Title -->

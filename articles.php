@@ -3,7 +3,18 @@
 require_once 'admin/includes/db.php';
 
 // Fetch all published articles
-$allArticles = $pdo->query("SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC")->fetchAll();
+$allArticlesRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' ORDER BY created_at DESC")->fetchAll();
+$allArticles = [];
+foreach ($allArticlesRaw as $article) {
+    if ($current_lang === 'si') {
+        if (!empty($article['title_si'])) $article['title'] = $article['title_si'];
+        if (!empty($article['content_si'])) $article['content'] = $article['content_si'];
+    } elseif ($current_lang === 'ta') {
+        if (!empty($article['title_ta'])) $article['title'] = $article['title_ta'];
+        if (!empty($article['content_ta'])) $article['content'] = $article['content_ta'];
+    }
+    $allArticles[] = $article;
+}
 
 // Fetch recent posts for sidebar (limit 10)
 $recentPosts = array_slice($allArticles, 0, 10);
@@ -52,13 +63,13 @@ include 'includes/sub-hero.php';
                                     <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
                                     <span class="bg-[#FFF0F0] text-secondary px-2.5 py-1 rounded font-bold uppercase tracking-wider text-[10px]"><?= htmlspecialchars($article['category']) ?></span>
                                 </div>
-                                <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors">
+                                <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
                                     <a href="article.php?id=<?= $article['id'] ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
-                                <p class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
-                                    <?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...
+                                <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
+                                    <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
                                     <a href="article.php?id=<?= $article['id'] ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <?php endforeach; ?>
@@ -95,7 +106,7 @@ include 'includes/sub-hero.php';
                             <li>
                                 <a href="article.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span>
-                                    <span><?= htmlspecialchars($post['title']) ?></span>
+                                    <span class="notranslate"><?= htmlspecialchars($post['title']) ?></span>
                                 </a>
                             </li>
                             <?php endforeach; ?>

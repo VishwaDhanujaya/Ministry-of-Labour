@@ -30,8 +30,8 @@
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
                             <li><a href="index.php" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
                             <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
-                            <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all">IAU</a></li>
-                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">RTI</a></li>
+                            <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
+                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
                             <li><a href="citizen-charter" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
                             <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                             <li><a href="articles" class="hover:text-yellow-400 hover:underline transition-all">Articles</a></li>
@@ -48,8 +48,8 @@
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Contact</h3>
                         <div class="space-y-4 text-[14px] text-gray-300 font-inter leading-relaxed">
                             <p>6th floor,Mehewara Piyasa, Narahenpita,<br>Colombo 05, Sri Lanka.</p>
-                            <p>(+94) 11 2581991</p>
-                            <p>(+94) 11 2368165</p>
+                            <p class="notranslate">(+94) 11 2581991</p>
+                            <p class="notranslate">(+94) 11 2368165</p>
                             <p><a href="mailto:info@labourmin.gov.lk" class="hover:underline hover:text-white transition-colors">info@labourmin.gov.lk</a></p>
                         </div>
                         <div class="flex space-x-2 mt-6">
