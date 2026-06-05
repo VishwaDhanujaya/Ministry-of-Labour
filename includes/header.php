@@ -39,60 +39,43 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
 <body class="bg-white text-gray-800 antialiased scroll-smooth">
 
     <!-- Top Bar -->
-    <div
-        class="hidden md:flex bg-[#2D2D43] text-white text-[11px] md:text-xs py-2 px-4 md:px-8 flex-col md:flex-row justify-between items-center font-inter border-b border-white/10 relative z-40">
-        <div class="flex flex-wrap gap-x-6 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start">
-            <a href="mailto:info@labour.gov.lk"
-                class="flex items-center space-x-2 hover:text-yellow-400 transition-colors duration-200">
-                <svg class="w-3.5 h-3.5 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                    </path>
+    <div class="hidden md:flex bg-gradient-to-r from-[#13273F] via-[#2D2D43] to-[#13273F] text-white/90 text-[11px] md:text-xs py-1.5 px-4 md:px-8 flex-col md:flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
+        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start">
+            <a href="mailto:info@labour.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
+                <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span>info@labour.gov.lk</span>
+                <span class="font-medium tracking-wide">info@labour.gov.lk</span>
             </a>
-            <a href="tel:+94112581141"
-                class="flex items-center space-x-2 hover:text-yellow-400 transition-colors duration-200">
-                <svg class="w-3.5 h-3.5 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                    </path>
+            <span class="text-white/20">|</span>
+            <a href="tel:+94112581141" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
+                <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
-                <span>+94 11 2581141</span>
+                <span class="font-medium tracking-wide">+94 11 2581141</span>
             </a>
-            <span class="flex items-center space-x-2 text-white/90">
-                <svg class="w-3.5 h-3.5 text-yellow-500/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
-                    </path>
+            <span class="text-white/20">|</span>
+            <span class="flex items-center space-x-2 px-2.5 py-1.5 text-white/70">
+                <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
-                <span>Fax: (+94) 11 2368165</span>
+                <span class="font-medium tracking-wide">Fax: (+94) 11 2368165</span>
             </span>
         </div>
-        <div class="flex space-x-5 items-center">
-            <div class="flex space-x-3 text-white/80">
-                <a href="#" aria-label="Facebook Link" class="hover:text-yellow-400 transition-colors duration-200"><svg
-                        class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-                    </svg></a>
-                <a href="#" aria-label="Twitter Link" class="hover:text-yellow-400 transition-colors duration-200"><svg
-                        class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                    </svg></a>
-                <a href="#" aria-label="YouTube Link" class="hover:text-yellow-400 transition-colors duration-200"><svg
-                        class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                            d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg></a>
+        
+        <div class="flex space-x-6 items-center">
+            <!-- Social Icons -->
+            <div class="flex space-x-2 text-white/90">
+                <a href="#" aria-label="Facebook Link" class="bg-white/5 hover:bg-[#1877F2] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></svg></a>
+                <a href="#" aria-label="Twitter Link" class="bg-white/5 hover:bg-[#1DA1F2] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg></a>
+                <a href="#" aria-label="YouTube Link" class="bg-white/5 hover:bg-[#FF0000] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg></a>
             </div>
-            <span class="text-white/20">|</span>
+            
             <!-- Language Selector -->
-            <div class="flex space-x-3 text-white/85 font-semibold text-[12px] items-center">
-                <button class="hover:text-yellow-400 transition-colors duration-200 rounded" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                <button class="hover:text-yellow-400 transition-colors duration-200 rounded" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
-                <button class="hover:text-yellow-400 transition-colors duration-200 rounded text-yellow-400 font-bold font-inter">English</button>
+            <div class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm">
+                <button class="text-white/70 hover:text-white hover:bg-white/10 px-3 py-1 rounded-full transition-all duration-300 font-medium" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                <button class="text-white/70 hover:text-white hover:bg-white/10 px-3 py-1 rounded-full transition-all duration-300 font-medium" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                <button class="bg-yellow-400 text-[#13273F] font-bold px-3 py-1 rounded-full shadow-md transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
             </div>
         </div>
     </div>

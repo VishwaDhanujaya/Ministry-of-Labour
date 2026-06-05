@@ -857,7 +857,7 @@ include 'includes/sub-hero.php';
                             Please select dates first to see availability
                         </p>
                     </div>
-                    <p id="room-availability-msg" class="text-[11px] text-red-600 mt-1.5 hidden font-inter font-medium flex items-center gap-1">
+                    <p id="room-availability-msg" class="text-[11px] text-red-600 mt-1.5 hidden font-inter font-medium items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                         </svg>
@@ -968,6 +968,7 @@ include 'includes/sub-hero.php';
             if (start && end) {
                 roomContainer.innerHTML = '<p class="text-[13px] text-gray-500 font-inter m-0">Checking availability...</p>';
                 roomMsg.classList.add('hidden');
+                roomMsg.classList.remove('flex');
                 submitBtn.disabled = true;
                 submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
@@ -1107,6 +1108,7 @@ include 'includes/sub-hero.php';
                             roomContainer.innerHTML = '<p class="text-[13px] text-gray-500 font-inter m-0">No rooms available</p>';
                             roomMsg.textContent = data.message || 'No rooms available for selected dates.';
                             roomMsg.classList.remove('hidden');
+                            roomMsg.classList.add('flex');
                             submitBtn.disabled = true;
                             submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
                         }
@@ -1115,6 +1117,7 @@ include 'includes/sub-hero.php';
                         roomContainer.innerHTML = '<p class="text-[13px] text-red-500 font-inter m-0">Error checking availability</p>';
                         roomMsg.textContent = 'Network error. Please try again.';
                         roomMsg.classList.remove('hidden');
+                        roomMsg.classList.add('flex');
                         submitBtn.disabled = true;
                         submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
                     });

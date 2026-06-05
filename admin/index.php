@@ -41,7 +41,7 @@ include 'includes/header.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
                     </div>
                 </div>
-                <div class="flex items-center text-[12px] font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md inline-flex">
+                <div class="flex items-center text-[12px] font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-md">
                     <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                     <span><?= $newsThisMonth ?> new this month</span>
                 </div>
@@ -57,7 +57,7 @@ include 'includes/header.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
-                <div class="flex items-center text-[12px] font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md inline-flex">
+                <div class="flex items-center text-[12px] font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">
                     <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span><?= $pendingBookingsCount ?> pending review</span>
                 </div>
@@ -73,7 +73,7 @@ include 'includes/header.php';
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
-                <div class="flex items-center text-[12px] font-medium text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md inline-flex">
+                <div class="flex items-center text-[12px] font-medium text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">
                     <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     <span>Active items</span>
                 </div>
