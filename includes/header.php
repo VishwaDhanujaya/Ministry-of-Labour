@@ -24,12 +24,10 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
         content="Protecting workforce rights, maintaining industrial peace, and enhancing employee welfare for national economic development in Sri Lanka.">
     <meta property="og:image" content="assets/img/og-preview.jpg">
 
-    <!-- Google Fonts: Inter and Montserrat -->
+    <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Favicon / Tab Emblem -->
     <link rel="icon" href="assets/img/emblem.png" type="image/png">
@@ -91,13 +89,10 @@ $current_page = basename($_SERVER['PHP_SELF'], ".php");
             </div>
             <span class="text-white/20">|</span>
             <!-- Language Selector -->
-            <div class="flex space-x-2 text-white/85 font-semibold font-inter">
-                <button
-                    class="hover:text-yellow-400 transition-colors duration-200 px-1 rounded text-yellow-400 font-bold">EN</button>
-                <span class="text-white/25">/</span>
-                <button class="hover:text-yellow-400 transition-colors duration-200 px-1 rounded">SI</button>
-                <span class="text-white/25">/</span>
-                <button class="hover:text-yellow-400 transition-colors duration-200 px-1 rounded">TA</button>
+            <div class="flex space-x-3 text-white/85 font-semibold text-[12px] items-center">
+                <button class="hover:text-yellow-400 transition-colors duration-200 rounded" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                <button class="hover:text-yellow-400 transition-colors duration-200 rounded" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                <button class="hover:text-yellow-400 transition-colors duration-200 rounded text-yellow-400 font-bold font-inter">English</button>
             </div>
         </div>
     </div>

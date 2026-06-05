@@ -77,8 +77,12 @@ if (isset($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title']);
+    $title_si = trim($_POST['title_si'] ?? '');
+    $title_ta = trim($_POST['title_ta'] ?? '');
     $category = $_POST['category'];
     $content = trim($_POST['content']);
+    $content_si = trim($_POST['content_si'] ?? '');
+    $content_ta = trim($_POST['content_ta'] ?? '');
     $visibility = $_POST['visibility'] ?? 'public';
     $is_featured = ($_POST['is_featured'] ?? 'no') === 'yes' ? 1 : 0;
     
@@ -115,12 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($error)) {
         if ($article) {
-            $stmt = $pdo->prepare("UPDATE articles SET title=?, category=?, content=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
-            $success_db = $stmt->execute([$title, $category, $content, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+            $stmt = $pdo->prepare("UPDATE articles SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
+            $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
             $article_id = $article['id'];
         } else {
-            $stmt = $pdo->prepare("INSERT INTO articles (title, category, content, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $success_db = $stmt->execute([$title, $category, $content, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+            $stmt = $pdo->prepare("INSERT INTO articles (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
             $article_id = $pdo->lastInsertId();
         }
 
@@ -195,8 +199,26 @@ include 'includes/header.php';
                     
                     <!-- Article Title -->
                     <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Title <span class="text-red-500">*</span></label>
-                        <input type="text" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter article headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[13px] font-semibold text-gray-800">Article Title (English) <span class="text-red-500">*</span></label>
+                            <button type="button" onclick="autoTranslate()" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                Auto Translate
+                            </button>
+                        </div>
+                        <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter article headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                    </div>
+
+                    <!-- Translated Titles -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Title (Sinhala)</label>
+                            <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                        </div>
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Title (Tamil)</label>
+                            <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                        </div>
                     </div>
 
                     <!-- Category -->
@@ -214,8 +236,20 @@ include 'includes/header.php';
 
                     <!-- Full Article Body -->
                     <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body <span class="text-red-500">*</span></label>
-                        <textarea name="content" placeholder="Full article content" rows="12" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article ? htmlspecialchars($article['content']) : '' ?></textarea>
+                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body (English) <span class="text-red-500">*</span></label>
+                        <textarea id="content_en" name="content" placeholder="Full article content" rows="8" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article ? htmlspecialchars($article['content']) : '' ?></textarea>
+                    </div>
+
+                    <!-- Translated Bodies -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body (Sinhala)</label>
+                            <textarea id="content_si" name="content_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" placeholder="Sinhala translation" rows="6" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article && isset($article['content_si']) ? htmlspecialchars($article['content_si']) : '' ?></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body (Tamil)</label>
+                            <textarea id="content_ta" name="content_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" placeholder="Tamil translation" rows="6" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article && isset($article['content_ta']) ? htmlspecialchars($article['content_ta']) : '' ?></textarea>
+                        </div>
                     </div>
 
                     <!-- Cover Image -->
@@ -409,6 +443,49 @@ window.previewMultipleImages = function(input, previewId) {
             }
             reader.readAsDataURL(file);
         });
+    }
+}
+
+async function autoTranslate() {
+    const titleEn = document.getElementById('title_en').value;
+    const contentEn = document.getElementById('content_en').value;
+    
+    if (!titleEn && !contentEn) {
+        alert('Please enter English title or content to translate.');
+        return;
+    }
+
+    const translateBtn = document.querySelector('button[onclick="autoTranslate()"]');
+    const originalText = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+    translateBtn.disabled = true;
+
+    try {
+        if (titleEn) {
+            const resSi = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=${encodeURIComponent(titleEn)}`);
+            const dataSi = await resSi.json();
+            document.getElementById('title_si').value = dataSi[0].map(x => x[0]).join('');
+
+            const resTa = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ta&dt=t&q=${encodeURIComponent(titleEn)}`);
+            const dataTa = await resTa.json();
+            document.getElementById('title_ta').value = dataTa[0].map(x => x[0]).join('');
+        }
+
+        if (contentEn) {
+            const resSi = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=${encodeURIComponent(contentEn)}`);
+            const dataSi = await resSi.json();
+            document.getElementById('content_si').value = dataSi[0].map(x => x[0]).join('');
+
+            const resTa = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ta&dt=t&q=${encodeURIComponent(contentEn)}`);
+            const dataTa = await resTa.json();
+            document.getElementById('content_ta').value = dataTa[0].map(x => x[0]).join('');
+        }
+    } catch (err) {
+        alert('Translation failed. Please try again or enter manually.');
+        console.error(err);
+    } finally {
+        translateBtn.innerHTML = originalText;
+        translateBtn.disabled = false;
     }
 }
 </script>
