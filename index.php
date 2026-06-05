@@ -205,12 +205,12 @@ include 'includes/header.php';
                 </div>
             </div>
             
-            <!-- Sticky Slide Dots -->
-            <div class="flex justify-center mt-10 gap-2.5 pb-2" id="carousel-dots-container">
-                <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 carousel-dot active shadow-sm" aria-label="Go to slide 1"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 2"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 3"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot" aria-label="Go to slide 4"></button>
+            <!-- Interactive Dots -->
+            <div class="flex justify-center mt-12 gap-3" id="carousel-dots-container">
+                <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 carousel-dot dark-bg-dot active shadow-sm" aria-label="Go to slide 1"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 2"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 3"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 4"></button>
             </div>
         </div>
 </section>

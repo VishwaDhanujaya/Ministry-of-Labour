@@ -117,78 +117,74 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-12 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
             <!-- Row 1 -->
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Head of the IAU</h4>
-                <!-- Placeholder for consistency if needed, but it seems there's no subtitle here in the original, wait the original has nothing, wait actually let's re-read the original image. -->
-                <!-- Actually, in the first cell, the main text is 'Head of the IAU'. Then maybe it's blank below. But wait, in the transcription, I saw it differently. Let me check the original image again. -->
-                <!-- The first cell has: "Head of the IAU". The second cell: "Integrity Officer / Ministry of Labour". -->
-                <!-- I'll just use the transcription. -->
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Head of the IAU</h4>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Integrity Officer</h4>
-                <p class="text-sm font-inter text-gray-500">Ministry of Labour</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Ministry of Labour</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Integrity Officer</h4>
-                <p class="text-sm font-inter text-gray-500">Department of Manpower and Employment</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Department of Manpower and Employment</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Integrity Officer</h4>
-                <p class="text-sm font-inter text-gray-500">National Institute of Labour Studies</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">National Institute of Labour Studies</p>
             </div>
 
             <!-- Row 2 -->
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Integrity Officer</h4>
-                <p class="text-sm font-inter text-gray-500">National Institute of Occupational Safety and Health</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">National Institute of Occupational Safety and Health</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Integrity Officer</h4>
-                <p class="text-sm font-inter text-gray-500">Shrama Vasana Fund</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Integrity Officer</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Shrama Vasana Fund</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Foreign Relations Division</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Foreign Relations Division</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Accounts Division</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Accounts Division</p>
             </div>
 
             <!-- Row 3 -->
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Planning Division</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Planning Division</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Procurement Division</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Procurement Division</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Legal Division</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Legal Division</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Media Unit</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Media Unit</p>
             </div>
 
             <!-- Row 4 -->
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Development Officer</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Development Officer</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Office Employee Service</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Office Employee Service</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
-                <h4 class="text-lg font-semibold font-montserrat text-gray-900 mb-2">Member</h4>
-                <p class="text-sm font-inter text-gray-500">Driver</p>
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+                <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2">Member</h4>
+                <p class="text-xs md:text-sm font-inter text-gray-500">Driver</p>
             </div>
-            <div class="bg-white p-8 flex flex-col items-center justify-center text-center h-full">
+            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
                 <!-- Empty Cell -->
             </div>
         </div>

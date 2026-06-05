@@ -19,7 +19,7 @@ if (strtotime($start_date) >= strtotime($end_date)) {
 // Room capacities
 $capacities = [
     'VIP Room' => 1,
-    'A/C Triple Room' => 1,
+    'A/C Triple Room' => 4,
     'A/C Double Room' => 1,
     'Entire Bungalow' => 1
 ];
@@ -35,7 +35,7 @@ $labels = [
 try {
     // Get confirmed bookings that overlap with the selected dates
     // Using <= and >= to match the existing logic of blocking same-day turnarounds
-    $stmt = $pdo->prepare("SELECT room_type, COUNT(*) as count FROM bookings WHERE bungalow_name = 'Ampara' AND status = 'Confirmed' AND DATE(start_date) <= DATE(?) AND DATE(end_date) >= DATE(?) GROUP BY room_type");
+    $stmt = $pdo->prepare("SELECT room_type, SUM(no_of_rooms) as count FROM bookings WHERE bungalow_name = 'Ampara' AND status = 'Confirmed' AND DATE(start_date) <= DATE(?) AND DATE(end_date) >= DATE(?) GROUP BY room_type");
     $stmt->execute([$end_date, $start_date]);
     $booked_rooms = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
     
@@ -57,10 +57,12 @@ try {
             if ($type === 'Entire Bungalow') continue;
             
             $booked_count = $booked_rooms[$type] ?? 0;
-            if ($booked_count < $capacity) {
+            $available_count = $capacity - $booked_count;
+            if ($available_count > 0) {
                 $available_rooms[] = [
                     'value' => $type,
-                    'label' => $labels[$type]
+                    'label' => $labels[$type],
+                    'max_available' => $available_count
                 ];
             }
         }
@@ -69,7 +71,8 @@ try {
         if (!$any_individual_room_booked) {
             $available_rooms[] = [
                 'value' => 'Entire Bungalow',
-                'label' => $labels['Entire Bungalow']
+                'label' => $labels['Entire Bungalow'],
+                'max_available' => 1
             ];
         }
     }

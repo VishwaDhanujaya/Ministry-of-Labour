@@ -161,13 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 6. KEY FOCUS AREA CAROUSEL SLIDER
+    // 6. REUSABLE CAROUSEL SLIDER WITH DOTS
     // ==========================================
-    const track = document.getElementById('carousel-track');
-    const dotsContainer = document.getElementById('carousel-dots-container');
-    const dots = document.querySelectorAll('.carousel-dot');
+    const initDotSlider = (trackId, dotsContainerId, dotClass) => {
+        const track = document.getElementById(trackId);
+        const dotsContainer = document.getElementById(dotsContainerId);
+        const dots = document.querySelectorAll(dotClass);
 
-    if (track) {
+        if (!track) return;
+
         const updateDots = () => {
             if (!track.firstElementChild || dots.length === 0) return;
             
@@ -182,7 +184,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const scrollLeft = track.scrollLeft;
-            const cardWidth = track.firstElementChild.offsetWidth + 24; // Including 24px (gap-6)
+            // Determine gap by computing styles or assuming it's gap-6 (24px) or gap-8 (32px) etc.
+            // Since we use gap-6 (24px) usually, let's just use a more dynamic approach or standard 24px.
+            // Actually, offsetWidth + gap might vary if gap is responsive.
+            // A more robust way to get card total width is to look at distance between first and second children.
+            let cardWidth = track.firstElementChild.offsetWidth;
+            if (track.children.length > 1) {
+                cardWidth = track.children[1].offsetLeft - track.children[0].offsetLeft;
+            } else {
+                cardWidth += 24; // fallback
+            }
             
             // Calculate which card is closest to the left edge (center of view)
             const activeIndex = Math.round(scrollLeft / cardWidth);
@@ -190,10 +201,16 @@ document.addEventListener('DOMContentLoaded', () => {
             dots.forEach((dot, index) => {
                 if (index === activeIndex) {
                     dot.classList.add('bg-secondary', 'w-8');
-                    dot.classList.remove('bg-white/30', 'hover:bg-white/50', 'w-2.5');
+                    dot.classList.remove('bg-gray-300', 'bg-white/30', 'hover:bg-white/50', 'w-2.5');
                 } else {
                     dot.classList.remove('bg-secondary', 'w-8');
-                    dot.classList.add('bg-white/30', 'hover:bg-white/50', 'w-2.5');
+                    // We need a fallback color if not on dark background. 
+                    // Let's use data attribute or base class to know if it's light or dark mode.
+                    if (dot.classList.contains('dark-bg-dot')) {
+                        dot.classList.add('bg-white/30', 'hover:bg-white/50', 'w-2.5');
+                    } else {
+                        dot.classList.add('bg-gray-300', 'hover:bg-gray-400', 'w-2.5');
+                    }
                 }
             });
         };
@@ -208,15 +225,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         dots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 24 : 320;
+                let cardWidth = track.firstElementChild.offsetWidth;
+                if (track.children.length > 1) {
+                    cardWidth = track.children[1].offsetLeft - track.children[0].offsetLeft;
+                } else {
+                    cardWidth += 24;
+                }
                 track.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
             });
         });
         
         // Initialize dots state
-        // slight delay to ensure fonts/layout are rendered
         setTimeout(updateDots, 100);
-    }
+    };
+
+    // Initialize Key Focus Areas Slider
+    initDotSlider('carousel-track', 'carousel-dots-container', '.carousel-dot');
+    // Initialize Partners Slider
+    initDotSlider('partners-track', 'partners-dots-container', '.partner-dot');
 
     // ==========================================
     // 7. CITIZEN SERVICES LIVE SEARCH FILTER

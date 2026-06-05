@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `room_type` varchar(100) NOT NULL,
+  `no_of_rooms` int(11) NOT NULL DEFAULT 1,
   `status` enum('Pending', 'Confirmed', 'Cancelled') NOT NULL DEFAULT 'Pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

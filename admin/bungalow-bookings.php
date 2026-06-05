@@ -75,7 +75,7 @@ foreach ($allBookings as $b) {
         }
         $bookedDates[$dateStr][] = [
             'status' => $b['status'],
-            'room' => $b['room_type'] ?? 'Room',
+            'room' => ($b['room_type'] ?? 'Room') . (isset($b['no_of_rooms']) && $b['no_of_rooms'] > 1 ? ' (x' . $b['no_of_rooms'] . ')' : ''),
             'name' => $b['applicant_name']
         ];
     }
@@ -256,7 +256,12 @@ include 'includes/header.php';
                                         <p class="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Room Selection</p>
                                         <p class="font-medium text-gray-700 text-[13px] flex items-center">
                                             <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                            <span class="truncate" title="<?= htmlspecialchars($booking['room_type'] ?? '') ?>"><?= htmlspecialchars($booking['room_type'] ?? '') ?></span>
+                                            <span class="truncate text-gray-900" title="<?= htmlspecialchars($booking['room_type'] ?? '') ?>">
+                                                <?= htmlspecialchars($booking['room_type'] ?? '') ?>
+                                                <?php if (isset($booking['no_of_rooms']) && $booking['no_of_rooms'] > 1): ?>
+                                                    <span class="ml-1 text-[11px] bg-red-100/80 text-[#4E0000] px-1.5 py-0.5 rounded-md font-bold">x<?= $booking['no_of_rooms'] ?></span>
+                                                <?php endif; ?>
+                                            </span>
                                         </p>
                                     </div>
                                     
@@ -487,15 +492,15 @@ function openViewModal(booking) {
             </div>
 
             <div class="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Room</span>
-                    <span>${booking.room_type}</span>
-                </div>
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Bungalow</span>
-                    <span>${booking.bungalow_name}</span>
-                </div>
-            </div>
+                                <div>
+                                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Room</span>
+                                    <span>${booking.room_type} (Qty: ${booking.no_of_rooms || 1})</span>
+                                </div>
+                                <div>
+                                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Bungalow</span>
+                                    <span>${booking.bungalow_name}</span>
+                                </div>
+                            </div>
             
             <div class="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
                 <div>
