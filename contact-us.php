@@ -254,36 +254,35 @@ include 'includes/sub-hero.php';
             <div class="flex-1">
                 <h3 class="text-[22px] md:text-[26px] font-semibold font-montserrat text-gray-900 mb-6 md:mb-8">Leave Us A Message</h3>
                 
-                <form class="space-y-4 md:space-y-5">
+                <form id="contactForm" class="space-y-4 md:space-y-5">
                     <div>
-                        <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name</label>
-                        <input type="text" id="fullname" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="">
+                        <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="John Doe">
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                         <div>
-                            <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Email Address</label>
-                            <input type="email" id="email" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="">
+                            <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Email Address <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="john@example.com">
                         </div>
                         <div>
                             <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Phone Number</label>
-                            <input type="tel" id="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="">
+                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="+94 77 123 4567">
                         </div>
                     </div>
 
                     <div>
-                        <label for="department" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Department</label>
-                        <input type="text" id="department" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="">
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Message</label>
-                        <textarea id="message" rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder=""></textarea>
+                        <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Message <span class="text-red-500">*</span></label>
+                        <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="How can we help you?"></textarea>
                     </div>
 
                     <div class="pt-2 md:pt-4 text-center md:text-left">
-                        <button type="button" class="w-full md:w-auto bg-secondary text-white font-medium rounded-lg text-[13px] px-8 py-3 hover:bg-secondary/90 transition-colors font-inter inline-flex justify-center items-center gap-2">
-                            Send Message
+                        <button type="submit" id="submitBtn" class="w-full md:w-auto bg-secondary text-white font-medium rounded-lg text-[13px] px-8 py-3 hover:bg-secondary/90 transition-colors font-inter inline-flex justify-center items-center gap-2">
+                            <span>Send Message</span>
+                            <svg id="submitSpinner" class="hidden w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                         </button>
                     </div>
                 </form>
@@ -380,6 +379,68 @@ include 'includes/sub-hero.php';
             document.body.classList.remove('overflow-hidden');
         }
     }
+</script>
+
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const submitBtn = document.getElementById('submitBtn');
+        const spinner = document.getElementById('submitSpinner');
+        const btnText = submitBtn.querySelector('span');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+        spinner.classList.remove('hidden');
+        btnText.textContent = 'Sending...';
+
+        // Prepare data
+        const formData = new FormData(form);
+
+        // Send AJAX request
+        fetch('process-contact.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Restore button
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            spinner.classList.add('hidden');
+            btnText.textContent = 'Send Message';
+
+            if (data.success) {
+                // Show success toast
+                if(toast && toastMessage) {
+                    toastMessage.textContent = 'Message sent successfully!';
+                    toast.classList.remove('opacity-0', 'translate-y-4');
+                    setTimeout(() => {
+                        toast.classList.add('opacity-0', 'translate-y-4');
+                    }, 4000);
+                } else {
+                    alert('Message sent successfully!');
+                }
+                form.reset();
+            } else {
+                // Show error
+                alert('Failed to send message: ' + (data.message || 'Unknown error'));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Restore button
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            spinner.classList.add('hidden');
+            btnText.textContent = 'Send Message';
+            alert('An error occurred. Please try again later.');
+        });
+    });
 </script>
 
 <?php include 'includes/footer.php'; ?>

@@ -996,6 +996,10 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
 }
 
+.static {
+  position: static;
+}
+
 .fixed {
   position: fixed;
 }
@@ -3461,6 +3465,10 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
 }
 
+.lowercase {
+  text-transform: lowercase;
+}
+
 .capitalize {
   text-transform: capitalize;
 }
@@ -4059,6 +4067,10 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   height: 12px;
   z-index: 10;
+}
+
+.\[hostname\:port\] {
+  hostname: port;
 }
 
 .last\:border-0:last-child {
