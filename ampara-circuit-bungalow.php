@@ -19,10 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_array($room_types)) {
         $room_types = [$room_types];
     }
-
+    
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+    $acceptsJson = isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
 
     if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email) || empty($room_types)) {
         $error = "Please fill in all required fields.";
+        if ($isAjax || $acceptsJson) {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => $error]);
+            exit;
+        }
     } else {
         try {
             $room_qtys = $_POST['room_qty'] ?? [];
@@ -30,20 +37,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, phone, email, room_type, no_of_rooms, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             foreach ($room_types as $room_type) {
                 $qty = isset($room_qtys[$room_type]) ? (int) $room_qtys[$room_type] : 1;
-                if ($qty < 1)
-                    $qty = 1;
+                if ($qty < 1) $qty = 1;
                 $stmt->execute(['Ampara', $applicant_name, $telephone, $email, $room_type, $qty, $start_date, $end_date]);
             }
             $pdo->commit();
+            if ($isAjax || $acceptsJson) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true, 'message' => 'Your booking request has been submitted successfully and is pending approval.']);
+                exit;
+            }
             header("Location: ampara-circuit-bungalow.php?success=1");
             exit;
         } catch (PDOException $e) {
             $error = "Failed to submit booking: " . $e->getMessage();
+            if ($isAjax || $acceptsJson) {
+                error_log($error);
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Database error while submitting booking.']);
+                exit;
+            }
         }
     }
 }
 // ampara-circuit-bungalow.php
 $page_title = 'Ampara Circuit Bungalow';
+$pageTitle = 'Ampara Circuit Bungalow - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Book the Ampara Circuit Bungalow. Discover accommodation details, room types, pricing, and amenities for your stay in Ampara, Sri Lanka.';
+$metaKeywords = 'Ampara Circuit Bungalow, Booking, Accommodation, Ministry of Labour, Sri Lanka';
 $breadcrumbs = [
     ['label' => 'Circuit Bungalows'],
     ['label' => 'Ampara Circuit Bungalow']
@@ -63,34 +83,34 @@ include 'includes/sub-hero.php';
             <div class="mb-8">
                 <!-- Main Image -->
                 <div class="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-[20px] overflow-hidden mb-4">
-                    <img src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" alt="Ampara Circuit Bungalow"
+                    <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" alt="Ampara Circuit Bungalow"
                         class="w-full h-full object-cover">
                 </div>
                 <!-- Thumbnails -->
                 <div class="grid grid-cols-5 gap-2 md:gap-4">
                     <div
                         class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
-                        <img src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-2.webp" alt="Thumbnail 1"
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-2.webp" alt="Thumbnail 1"
                             class="w-full h-full object-cover">
                     </div>
                     <div
                         class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
-                        <img src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-3.webp" alt="Thumbnail 2"
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-3.webp" alt="Thumbnail 2"
                             class="w-full h-full object-cover">
                     </div>
                     <div
                         class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
-                        <img src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-4.webp" alt="Thumbnail 3"
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-4.webp" alt="Thumbnail 3"
                             class="w-full h-full object-cover">
                     </div>
                     <div
                         class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
-                        <img src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-5.webp" alt="Thumbnail 4"
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-5.webp" alt="Thumbnail 4"
                             class="w-full h-full object-cover">
                     </div>
                     <div
                         class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors relative group">
-                        <img src="assets/img/circuit-bunglalow/ampara/ampara-bunglalow-6.webp" alt="Thumbnail 5"
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bunglalow-6.webp" alt="Thumbnail 5"
                             class="w-full h-full object-cover">
                         <div
                             class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -972,7 +992,7 @@ include 'includes/sub-hero.php';
                 submitBtn.disabled = true;
                 submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-                fetch(`check-room-availability.php?start=${start}&end=${end}`)
+                fetch(`check-room-availability?start=${start}&end=${end}`)
                     .then(res => res.json())
                     .then(data => {
                         roomContainer.innerHTML = '';
@@ -1161,12 +1181,64 @@ include 'includes/sub-hero.php';
 
         // Form validation before submit
         document.getElementById('booking-form').addEventListener('submit', function (e) {
+            e.preventDefault();
             const checkedRooms = document.querySelectorAll('input[name="room_type[]"]:checked');
             if (checkedRooms.length === 0 && !submitBtn.disabled) {
-                e.preventDefault();
                 roomMsg.textContent = 'Please select at least one option.';
                 roomMsg.classList.remove('hidden');
+                return;
             }
+            
+            const form = this;
+            const formData = new FormData(form);
+            const originalBtnText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            submitBtn.textContent = 'Submitting...';
+            
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.textContent = originalBtnText;
+                
+                if (data.success) {
+                    closeBookingModal();
+                    form.reset();
+                    if (window.showToast) {
+                        window.showToast(data.message || 'Booking request submitted successfully!', 'success');
+                    } else {
+                        alert(data.message || 'Booking request submitted successfully!');
+                    }
+
+                } else {
+                    if (window.showToast) {
+                        window.showToast(data.message || 'Failed to submit booking.', 'error');
+                    } else {
+                        alert(data.message || 'Failed to submit booking.');
+                    }
+                }
+            })
+            .catch(err => {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.textContent = originalBtnText;
+                
+                if (window.showToast) {
+                    window.showToast('Network error. Please try again.', 'error');
+                } else {
+                    alert('Network error. Please try again.');
+                }
+            });
         });
     });
 </script>

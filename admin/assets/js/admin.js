@@ -18,19 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let toastTimeout;
 function initToastContainer() {
-    const container = document.createElement('div');
-    container.id = 'toast-container';
-    container.className = 'fixed bottom-5 right-5 z-50 flex flex-col gap-3';
-    document.body.appendChild(container);
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-3';
+        document.body.appendChild(container);
+    }
 }
 
 window.showToast = function(message, type = 'success') {
+    initToastContainer();
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     
     // Styling based on type
     let bgClass = type === 'success' ? 'bg-[#0A6C5B]' : (type === 'error' ? 'bg-red-600' : 'bg-gray-800');
-    toast.className = `px-6 py-3 rounded shadow-lg text-white text-[13px] font-bold transform transition-all duration-300 translate-y-10 opacity-0 ${bgClass}`;
+    toast.className = `px-6 py-3.5 rounded-xl shadow-2xl text-white text-[13px] font-bold transform transition-all duration-300 translate-y-10 opacity-0 ${bgClass}`;
     toast.textContent = message;
     
     container.appendChild(toast);
@@ -48,13 +52,20 @@ window.showToast = function(message, type = 'success') {
 }
 
 function initModalContainer() {
-    const overlay = document.createElement('div');
+    let overlay = document.getElementById('modal-overlay');
+    if (overlay) return;
+    
+    overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
-    overlay.className = 'fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center transition-opacity opacity-0 duration-300';
+    overlay.className = 'fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0';
+    
+    const bg = document.createElement('div');
+    bg.className = 'absolute inset-0 bg-black/60 backdrop-blur-sm';
+    overlay.appendChild(bg);
     
     const modal = document.createElement('div');
     modal.id = 'mock-modal';
-    modal.className = 'bg-white rounded-xl shadow-xl w-full max-w-md p-6 transform scale-95 transition-transform duration-300';
+    modal.className = 'bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform scale-95 transition-all duration-300 relative z-10';
     
     modal.innerHTML = `
         <h3 id="modal-title" class="text-xl font-bold font-montserrat text-gray-900 mb-2">Confirm Action</h3>
@@ -99,10 +110,12 @@ window.showModal = function(title, message, confirmBtnText = 'Confirm', confirmB
     });
     
     overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
     // trigger reflow
     void overlay.offsetWidth;
     overlay.classList.remove('opacity-0');
     modal.classList.remove('scale-95');
+    modal.classList.add('scale-100');
 }
 
 function hideModal() {
@@ -110,10 +123,12 @@ function hideModal() {
     const modal = document.getElementById('mock-modal');
     
     overlay.classList.add('opacity-0');
+    modal.classList.remove('scale-100');
     modal.classList.add('scale-95');
     
     setTimeout(() => {
         overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
     }, 300);
 }
 

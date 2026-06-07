@@ -1,6 +1,9 @@
 <?php
 // citizen-charter.php
 $page_title = 'Citizen Charter';
+$pageTitle = 'Citizen Charter - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Our Commitment to Public Service Excellence. The Citizen Charter reflects the Ministry\'s dedication to delivering reliable, timely, and high-quality services.';
+$metaKeywords = 'Citizen Charter, Ministry of Labour, Sri Lanka, Public Service, Transparency, Accountability';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>

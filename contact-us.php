@@ -178,6 +178,9 @@ $contact_departments = [
 ];
 
 $page_title = 'Contact Us';
+$pageTitle = 'Contact Us - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Get in touch with the Ministry of Labour, Sri Lanka. Find contact details for our officials, departments, and leave us a message.';
+$metaKeywords = 'Contact Us, Ministry of Labour, Sri Lanka, Phone, Email, Address, Inquiry';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -316,10 +319,10 @@ include 'includes/sub-hero.php';
 
 <!-- Department Modals -->
 <?php foreach($contact_departments as $dept): ?>
-<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
+<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
     
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar">
+    <div class="relative w-full max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar transform scale-95 transition-all duration-300">
         <button onclick="closeModal('<?php echo $dept['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-gray-300 transition-colors z-10 bg-secondary rounded-full p-1">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -362,8 +365,11 @@ include 'includes/sub-hero.php';
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
+                const card = modal.querySelector('.transform');
+                if(card) { card.classList.remove('scale-95'); card.classList.add('scale-100'); }
             }, 10);
             document.body.classList.add('overflow-hidden');
         }
@@ -373,8 +379,11 @@ include 'includes/sub-hero.php';
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.classList.add('opacity-0');
+            const card = modal.querySelector('.transform');
+            if(card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
             setTimeout(() => {
                 modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }, 300);
             document.body.classList.remove('overflow-hidden');
         }
@@ -389,8 +398,7 @@ include 'includes/sub-hero.php';
         const submitBtn = document.getElementById('submitBtn');
         const spinner = document.getElementById('submitSpinner');
         const btnText = submitBtn.querySelector('span');
-        const toast = document.getElementById('toast');
-        const toastMessage = document.getElementById('toast-message');
+
 
         // Show loading state
         submitBtn.disabled = true;
@@ -402,7 +410,7 @@ include 'includes/sub-hero.php';
         const formData = new FormData(form);
 
         // Send AJAX request
-        fetch('process-contact.php', {
+        fetch('process-contact', {
             method: 'POST',
             body: formData
         })
@@ -415,20 +423,18 @@ include 'includes/sub-hero.php';
             btnText.textContent = 'Send Message';
 
             if (data.success) {
-                // Show success toast
-                if(toast && toastMessage) {
-                    toastMessage.textContent = 'Message sent successfully!';
-                    toast.classList.remove('opacity-0', 'translate-y-4');
-                    setTimeout(() => {
-                        toast.classList.add('opacity-0', 'translate-y-4');
-                    }, 4000);
+                if (window.showToast) {
+                    window.showToast('Message sent successfully!', 'success');
                 } else {
                     alert('Message sent successfully!');
                 }
                 form.reset();
             } else {
-                // Show error
-                alert('Failed to send message: ' + (data.message || 'Unknown error'));
+                if (window.showToast) {
+                    window.showToast(data.message || 'Failed to send message.', 'error');
+                } else {
+                    alert('Failed to send message: ' + (data.message || 'Unknown error'));
+                }
             }
         })
         .catch(error => {
@@ -438,7 +444,11 @@ include 'includes/sub-hero.php';
             submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
             spinner.classList.add('hidden');
             btnText.textContent = 'Send Message';
-            alert('An error occurred. Please try again later.');
+            if (window.showToast) {
+                window.showToast('An error occurred. Please try again later.', 'error');
+            } else {
+                alert('An error occurred. Please try again later.');
+            }
         });
     });
 </script>

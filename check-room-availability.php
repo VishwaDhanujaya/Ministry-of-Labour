@@ -1,4 +1,12 @@
 <?php
+/**
+ * Check Room Availability
+ *
+ * This script handles AJAX requests to check room availability for a given date range.
+ *
+ * @package MinistryOfLabour
+ * @subpackage Bookings
+ */
 require_once 'admin/includes/db.php';
 
 header('Content-Type: application/json');
@@ -7,12 +15,12 @@ $start_date = $_GET['start'] ?? '';
 $end_date = $_GET['end'] ?? '';
 
 if (!$start_date || !$end_date) {
-    echo json_encode(['error' => 'Please select both Check-in and Check-out dates.']);
+    echo json_encode(['success' => false, 'message' => 'Please select both Check-in and Check-out dates.']);
     exit;
 }
 
 if (strtotime($start_date) >= strtotime($end_date)) {
-    echo json_encode(['error' => 'Check-out date must be after Check-in date.']);
+    echo json_encode(['success' => false, 'message' => 'Check-out date must be after Check-in date.']);
     exit;
 }
 
@@ -84,5 +92,6 @@ try {
     ]);
     
 } catch (Exception $e) {
-    echo json_encode(['error' => 'Database error while checking availability.']);
+    error_log("Database error while checking availability: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Database error while checking availability.']);
 }

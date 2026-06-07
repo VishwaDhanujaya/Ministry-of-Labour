@@ -5,6 +5,9 @@ require_once 'admin/includes/db.php';
 $galleryAlbums = $pdo->query("SELECT * FROM gallery WHERE status = 'Public' ORDER BY created_at DESC")->fetchAll();
 
 $page_title = 'Gallery Albums';
+$pageTitle = 'Gallery - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Explore the visual highlights and recent events of the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Gallery, Photos, Events, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -27,7 +30,7 @@ include 'includes/sub-hero.php';
                 <?php foreach ($galleryAlbums as $album): ?>
                 <!-- Gallery Album Item -->
                 <a href="gallery-album.php?id=<?= $album['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[320px] shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer block">
-                    <img src="admin/<?= htmlspecialchars($album['cover_image']) ?>"
+                    <img loading="lazy" src="admin/<?= htmlspecialchars($album['cover_image']) ?>"
                         alt="<?= htmlspecialchars($album['title']); ?>"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     
@@ -66,7 +69,7 @@ include 'includes/sub-hero.php';
         <div
             class="w-full h-[50vh] md:h-[60vh] bg-premium-card-fallback rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
             <div class="absolute inset-0 bg-mesh-pattern opacity-10 animate-pulse-slow"></div>
-            <img id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
+            <img loading="lazy" id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
             <div id="lightbox-placeholder" class="flex flex-col items-center justify-center">
                 <svg class="w-20 h-20 text-white/20" fill="none" stroke="currentColor" stroke-width="1.2"
                     viewBox="0 0 24 24">

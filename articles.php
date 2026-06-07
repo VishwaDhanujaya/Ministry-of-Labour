@@ -20,6 +20,9 @@ foreach ($allArticlesRaw as $article) {
 $recentPosts = array_slice($allArticles, 0, 10);
 
 $page_title = 'Articles';
+$pageTitle = 'Articles - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Read the latest news, updates, notices, and insights from the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, News, Articles, Updates, Media, Notices';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -53,7 +56,7 @@ include 'includes/sub-hero.php';
                         <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col" data-category="<?= htmlspecialchars($article['category']) ?>">
                             <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
-                                    <img src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                                    <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                                 <?php else: ?>
                                     <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 <?php endif; ?>

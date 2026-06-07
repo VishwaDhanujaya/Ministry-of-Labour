@@ -25,6 +25,13 @@ $imgStmt->execute([$id]);
 $images = $imgStmt->fetchAll();
 
 $page_title = $album['title'] . ' - Gallery Album';
+$pageTitle = strip_tags($album['title']);
+$metaDescription = mb_substr(strip_tags($album['title']), 0, 160) . ' photo gallery from the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Gallery, Album, Photos, Ministry of Labour, Sri Lanka';
+if (!empty($album['cover_image']) && file_exists('admin/' . $album['cover_image'])) {
+    $ogImage = 'admin/' . $album['cover_image'];
+}
+
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -52,7 +59,7 @@ include 'includes/sub-hero.php';
                 <?php foreach ($images as $img): ?>
                 <!-- Single Image Item (Triggers Lightbox) -->
                 <div class="gallery-item group relative bg-gray-100 rounded-xl overflow-hidden aspect-square shadow-sm cursor-pointer block" data-caption="<?= htmlspecialchars($album['title']) ?>">
-                    <img src="admin/<?= htmlspecialchars($img['image_path']) ?>"
+                    <img loading="lazy" src="admin/<?= htmlspecialchars($img['image_path']) ?>"
                         alt="<?= htmlspecialchars($album['title']); ?>"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     
@@ -75,7 +82,7 @@ include 'includes/sub-hero.php';
     </button>
     <div class="w-full max-w-4xl flex flex-col items-center">
         <div class="w-full h-[50vh] md:h-[70vh] bg-black/50 rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
-            <img id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
+            <img loading="lazy" id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
         </div>
         <p id="lightbox-caption" class="text-white text-base md:text-lg font-semibold font-montserrat mt-6 text-center max-w-xl leading-relaxed tracking-tight text-glow"></p>
     </div>

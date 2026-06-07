@@ -1,6 +1,9 @@
 <?php
 // downloads.php
 $page_title = 'Downloads';
+$pageTitle = 'Downloads - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Download important documents, application forms, annual reports, and labour legislations from the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Downloads, Forms, Reports, Legislations, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>

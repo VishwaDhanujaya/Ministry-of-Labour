@@ -50,11 +50,20 @@ CREATE TABLE IF NOT EXISTS `article_images` (
 CREATE TABLE IF NOT EXISTS `gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
-  `image_path` varchar(255) NOT NULL,
-  `status` enum('Draft', 'Published') NOT NULL DEFAULT 'Published',
+  `cover_image` varchar(255) NOT NULL,
+  `status` enum('Public', 'Private') NOT NULL DEFAULT 'Public',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `gallery_images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gallery_id` int(11) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`gallery_id`) REFERENCES `gallery`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `bookings` (
@@ -73,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert default super admin if none exists (Password: admin)
+-- Insert default super admin if none exists (Password: Ministry@2026!)
 INSERT INTO `admins` (`name`, `email`, `password_hash`, `role`, `access_level`) 
-SELECT 'superadmin', 'admin@gmail.com', '$2y$10$ywnQbcv9xGJ7kNLRMXWcNuAw76F4rmNzH982ccivZ1ZTt5mgxKjxG', 'super_admin', 'full_access'
-WHERE NOT EXISTS (SELECT 1 FROM `admins` WHERE `email` = 'admin@gmail.com');
+SELECT 'superadmin', 'admin@labourmin.gov.lk', '$2y$10$4ZL/LExe7wldrou49bkGf.3vNet7naY1gaG5aTD01Ec9Q1eaaUISW', 'super_admin', 'full_access'
+WHERE NOT EXISTS (SELECT 1 FROM `admins` WHERE `email` = 'admin@labourmin.gov.lk');

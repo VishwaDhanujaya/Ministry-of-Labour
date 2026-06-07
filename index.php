@@ -33,6 +33,9 @@ foreach ($specialNoticesRaw as $notice) {
 // Fetch gallery items
 $galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Public' ORDER BY created_at DESC LIMIT 4")->fetchAll();
 
+$pageTitle = 'Home - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri Lanka, Employees Provident Fund, Mehewara Piyasa, Industrial Relations, Occupational Safety';
 include 'includes/header.php';
 ?>
 
@@ -137,7 +140,7 @@ include 'includes/header.php';
         <div class="w-full lg:w-[45%]">
             <div
                 class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] h-[450px] lg:h-[530px] w-full bg-gray-50">
-                <img src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
+                <img loading="lazy" src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
                     class="w-full h-full object-cover">
             </div>
         </div>
@@ -390,7 +393,7 @@ include 'includes/header.php';
                     <div>
                         <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                             <?php if(!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
-                                <img src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                                <img loading="lazy" src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                             <?php else: ?>
                                 <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             <?php endif; ?>
@@ -450,7 +453,7 @@ include 'includes/header.php';
                 <?php foreach($galleryItems as $item): ?>
                 <!-- Media Item -->
                 <a href="gallery-album.php?id=<?= $item['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[280px] shadow-sm cursor-pointer block">
-                    <img src="admin/<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img loading="lazy" src="admin/<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(102,102,102,0)_0%,rgba(10,10,10,0.8)_100%)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="absolute inset-0 p-4 sm:p-6 flex flex-col justify-end w-full z-10">
                         <p class="text-white font-semibold font-montserrat text-xs sm:text-sm line-clamp-2 leading-snug"><?= htmlspecialchars($item['title']) ?></p>
@@ -477,7 +480,7 @@ include 'includes/header.php';
         <div
             class="w-full h-[50vh] md:h-[60vh] bg-premium-card-fallback rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
             <div class="absolute inset-0 bg-mesh-pattern opacity-10 animate-pulse-slow"></div>
-            <img id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
+            <img loading="lazy" id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
             <div id="lightbox-placeholder" class="flex flex-col items-center justify-center">
                 <svg class="w-20 h-20 text-white/20" fill="none" stroke="currentColor" stroke-width="1.2"
                     viewBox="0 0 24 24">

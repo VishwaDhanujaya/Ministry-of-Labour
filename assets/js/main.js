@@ -304,13 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (lightboxPlaceholder) lightboxPlaceholder.classList.remove('hidden');
                 }
                 
-                lightbox.classList.remove('opacity-0', 'pointer-events-none');
+                lightbox.classList.remove('hidden');
+                lightbox.classList.add('flex');
+                setTimeout(() => {
+                    lightbox.classList.remove('opacity-0');
+                    const card = lightbox.querySelector('.transform');
+                    if(card) { card.classList.remove('scale-95'); card.classList.add('scale-100'); }
+                }, 10);
                 document.body.classList.add('overflow-hidden');
             });
         });
 
         const closeLightbox = () => {
-            lightbox.classList.add('opacity-0', 'pointer-events-none');
+            lightbox.classList.add('opacity-0');
+            const card = lightbox.querySelector('.transform');
+            if(card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+            }, 300);
             document.body.classList.remove('overflow-hidden');
             
             const lightboxImageEl = document.getElementById('lightbox-img');
@@ -365,18 +377,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // 10. NEWSLETTER FORM & TOAST BULLETINS
     // ==========================================
     const newsletterForm = document.getElementById('newsletter-form');
-    const toast = document.getElementById('toast');
-
-    if (newsletterForm && toast) {
+    if (newsletterForm) {
         newsletterForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
-            }, 3500);
+            if (window.showToast) {
+                window.showToast('Successfully subscribed!', 'success');
+            }
             newsletterForm.reset();
         });
     }
+
+    let toastTimeout;
+    function initToastContainer() {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-3';
+            document.body.appendChild(container);
+        }
+    }
+
+    window.showToast = function(message, type = 'success') {
+        initToastContainer();
+        const container = document.getElementById('toast-container');
+        const toastEl = document.createElement('div');
+        
+        let bgClass = type === 'success' ? 'from-primary to-[#1a3656]' : (type === 'error' ? 'from-red-600 to-red-800' : 'from-gray-700 to-gray-900');
+        toastEl.className = `bg-gradient-to-r text-white py-3.5 px-6 rounded-xl shadow-2xl border border-white/10 opacity-0 translate-y-4 transition-all duration-500 z-50 flex items-center gap-3 ${bgClass}`;
+        
+        let iconHtml = type === 'success' ? 
+            `<svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` : 
+            `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
+
+        toastEl.innerHTML = `
+            <div class="w-7 h-7 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+                ${iconHtml}
+            </div>
+            <span class="font-inter text-sm font-semibold">${message}</span>
+        `;
+        
+        container.appendChild(toastEl);
+        
+        setTimeout(() => {
+            toastEl.classList.remove('translate-y-4', 'opacity-0');
+        }, 10);
+        
+        setTimeout(() => {
+            toastEl.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => toastEl.remove(), 500);
+        }, 3500);
+    };
 
     // ==========================================
     // 11. FLOAT SCROLL-TO-TOP CONTROL

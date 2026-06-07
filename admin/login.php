@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Logo -->
         <div class="relative z-10 flex flex-col items-center">
-            <img src="../assets/img/logo.png" alt="Ministry of Labour Logo"
+            <img loading="lazy" src="../assets/img/logo.png" alt="Ministry of Labour Logo"
                 class="w-80 lg:w-[420px] h-auto object-contain drop-shadow-md">
         </div>
     </div>

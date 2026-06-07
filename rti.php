@@ -1,6 +1,9 @@
 <?php
 // rti.php
 $page_title = 'RTI <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Right to Information)</span>';
+$pageTitle = 'Right to Information (RTI) - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Learn about the Right to Information (RTI) Act in Sri Lanka, how to request information from the Ministry of Labour, and download necessary RTI forms and documents.';
+$metaKeywords = 'Right to Information, RTI, Ministry of Labour, Sri Lanka, Information Request';
 $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
     ['label' => 'RTI']

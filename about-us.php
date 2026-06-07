@@ -85,7 +85,7 @@ $departments = [
                 'phone' => '+94 (0)112 586337',
                 'fax' => '+94 (0)112 589267',
                 'email' => 'adsec.dev@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/dev-lal.webp'
             ],
             [
                 'name' => 'Mr. P D Chandana Pathirage',
@@ -93,7 +93,7 @@ $departments = [
                 'phone' => '+94 (0)11 2502807',
                 'fax' => '',
                 'email' => 'dir.dev@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/dev-chandana.webp'
             ]
         ]
     ],
@@ -107,7 +107,7 @@ $departments = [
                 'phone' => '+94 (0)112 368594',
                 'fax' => '',
                 'email' => '',
-                'image' => ''
+                'image' => 'assets/img/about-us/planning-preethika.webp'
             ],
             [
                 'name' => 'Ms. M.P.D.C.W.Kumari',
@@ -115,7 +115,7 @@ $departments = [
                 'phone' => '+94 (0) 1125 82171',
                 'fax' => '',
                 'email' => '',
-                'image' => ''
+                'image' => 'assets/img/about-us/planning-kumari.webp'
             ]
         ]
     ],
@@ -129,7 +129,7 @@ $departments = [
                 'phone' => '+94 (0)112 505161',
                 'fax' => '',
                 'email' => '',
-                'image' => ''
+                'image' => 'assets/img/about-us/finance-fonseka.webp'
             ],
             [
                 'name' => 'Ms. S S Shiroma Nandani',
@@ -137,7 +137,7 @@ $departments = [
                 'phone' => '+94 (0)112 368204',
                 'fax' => '+94 (0)112 368204',
                 'email' => 'ca@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/finance-nandani.webp'
             ]
         ]
     ],
@@ -151,7 +151,7 @@ $departments = [
                 'phone' => '+94 (0)112 369422',
                 'fax' => '',
                 'email' => 'cia@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/internal-abeysinghe.webp'
             ]
         ]
     ],
@@ -165,7 +165,7 @@ $departments = [
                 'phone' => '+94 (0)112 368609',
                 'fax' => '+94 (0)112 368609',
                 'email' => 'sas.fr@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/foreign-vasanthan.webp'
             ],
             [
                 'name' => 'Mrs. M.N.H.Peiris',
@@ -173,13 +173,16 @@ $departments = [
                 'phone' => '+94 (0)112 504478',
                 'fax' => '',
                 'email' => 'as.fr@labourmin.gov.lk',
-                'image' => ''
+                'image' => 'assets/img/about-us/foreign-peiris.webp'
             ]
         ]
     ]
 ];
 
 $page_title = 'About Us';
+$pageTitle = 'About Us - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Learn about the Ministry of Labour, Sri Lanka, our vision, mission, and the key officials dedicated to fostering fair employment and protecting workers\' rights.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, About Us, Vision, Mission, Officials, Departments';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -190,11 +193,11 @@ include 'includes/sub-hero.php';
         <!-- Collage -->
         <div class="w-full lg:w-1/2">
             <div class="grid grid-cols-2 gap-4">
-                <img src="assets/img/about-us/overview-1.webp" alt="Ministry Building"
+                <img loading="lazy" src="assets/img/about-us/overview-1.webp" alt="Ministry Building"
                     class="w-full h-48 md:h-64 object-cover rounded-2xl md:rounded-3xl shadow-sm">
-                <img src="assets/img/about-us/overview-2.webp" alt="Official Speaker"
+                <img loading="lazy" src="assets/img/about-us/overview-2.webp" alt="Official Speaker"
                     class="w-full h-48 md:h-64 object-cover rounded-2xl md:rounded-3xl shadow-sm">
-                <img src="assets/img/about-us/overview-3.webp" alt="Audience"
+                <img loading="lazy" src="assets/img/about-us/overview-3.webp" alt="Audience"
                     class="col-span-2 w-full h-64 md:h-80 object-cover rounded-2xl md:rounded-3xl shadow-sm">
             </div>
         </div>
@@ -243,32 +246,32 @@ include 'includes/sub-hero.php';
             class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth items-center">
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-1.png" alt="Partner 1"
+                <img loading="lazy" src="assets/img/about-us/partner-1.png" alt="Partner 1"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-2.png" alt="Partner 2"
+                <img loading="lazy" src="assets/img/about-us/partner-2.png" alt="Partner 2"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-3.png" alt="Partner 3"
+                <img loading="lazy" src="assets/img/about-us/partner-3.png" alt="Partner 3"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-4.png" alt="Partner 4"
+                <img loading="lazy" src="assets/img/about-us/partner-4.png" alt="Partner 4"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-5.png" alt="Partner 5"
+                <img loading="lazy" src="assets/img/about-us/partner-5.png" alt="Partner 5"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
                 class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img src="assets/img/about-us/partner-6.png" alt="Partner 6"
+                <img loading="lazy" src="assets/img/about-us/partner-6.png" alt="Partner 6"
                     class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
             </div>
         </div>
@@ -323,15 +326,15 @@ include 'includes/sub-hero.php';
 
                 <div
                     class="relative group rounded-xl border-[0.5px] border-[#D4D4D4] bg-gray-50 p-2 max-w-[380px] w-full mr-auto">
-                    <img src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart"
+                    <img loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart"
                         class="w-full h-40 md:h-48 lg:h-56 object-contain rounded-lg cursor-pointer mix-blend-multiply"
-                        onclick="document.getElementById('org-chart-modal').classList.remove('hidden'); document.getElementById('org-chart-modal').classList.add('flex');">
+                        onclick="const m=document.getElementById('org-chart-modal'); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>m.classList.remove('opacity-0'),10);">
 
                     <!-- Action Buttons -->
                     <div
                         class="absolute bottom-3 right-3 flex items-center bg-white/90 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-200 shadow-sm opacity-90 group-hover:opacity-100 transition-opacity">
                         <button
-                            onclick="document.getElementById('org-chart-modal').classList.remove('hidden'); document.getElementById('org-chart-modal').classList.add('flex');"
+                            onclick="const m=document.getElementById('org-chart-modal'); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>m.classList.remove('opacity-0'),10);"
                             class="p-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
                             title="Preview">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
@@ -356,14 +359,14 @@ include 'includes/sub-hero.php';
     </div>
 
     <!-- Organizational Chart Modal -->
-    <div id="org-chart-modal" class="fixed inset-0 z-[100] bg-black/80 hidden items-center justify-center p-4 md:p-10">
+    <div id="org-chart-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-10 transition-opacity duration-300 opacity-0">
         <!-- Close overlay background -->
-        <div class="absolute inset-0 cursor-pointer"
-            onclick="document.getElementById('org-chart-modal').classList.add('hidden'); document.getElementById('org-chart-modal').classList.remove('flex');">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            onclick="const m=document.getElementById('org-chart-modal'); m.classList.add('opacity-0'); setTimeout(()=>{m.classList.add('hidden'); m.classList.remove('flex');},300);">
         </div>
-        <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center z-10">
+        <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center z-10 bg-white rounded-2xl shadow-2xl transform transition-all duration-300">
             <button
-                onclick="document.getElementById('org-chart-modal').classList.add('hidden'); document.getElementById('org-chart-modal').classList.remove('flex');"
+                onclick="const m=document.getElementById('org-chart-modal'); m.classList.add('opacity-0'); setTimeout(()=>{m.classList.add('hidden'); m.classList.remove('flex');},300);"
                 class="absolute -top-12 right-0 md:-right-8 text-white/80 hover:text-white transition-colors p-2"
                 title="Close">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
@@ -372,8 +375,8 @@ include 'includes/sub-hero.php';
                     <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
             </button>
-            <img src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart Full Size"
-                class="w-full h-auto max-h-[85vh] object-contain bg-white rounded-lg shadow-2xl relative z-20">
+            <img loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart Full Size"
+                class="w-full h-auto max-h-[85vh] object-contain rounded-lg relative z-20">
         </div>
     </div>
 </section>
@@ -390,7 +393,7 @@ include 'includes/sub-hero.php';
                     class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
                     <div class="overflow-hidden bg-gray-100 flex items-center justify-center h-[380px]">
                         <?php if ($official['image']): ?>
-                            <img src="<?php echo $official['image']; ?>" alt="<?php echo $official['name']; ?>"
+                            <img loading="lazy" src="<?php echo $official['image']; ?>" alt="<?php echo $official['name']; ?>"
                                 class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
                         <?php else: ?>
                             <svg class="w-24 h-24 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
@@ -472,10 +475,10 @@ include 'includes/sub-hero.php';
                         <?php foreach ($dept['people'] as $person): ?>
                             <div
                                 class="bg-white rounded-2xl overflow-hidden border-[0.5px] border-[#D4D4D4] shadow-sm hover:shadow-md transition-shadow group">
-                                <div class="overflow-hidden bg-gray-100 flex items-center justify-center h-40 sm:h-56">
+                                <div class="overflow-hidden bg-gray-100 flex items-center justify-center aspect-square">
                                     <?php if ($person['image']): ?>
-                                        <img src="<?php echo $person['image']; ?>" alt="<?php echo $person['name']; ?>"
-                                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                                        <img loading="lazy" src="<?php echo $person['image']; ?>" alt="<?php echo $person['name']; ?>"
+                                            class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                                     <?php else: ?>
                                         <svg class="w-16 h-16 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                             <path
@@ -799,20 +802,18 @@ include 'includes/sub-hero.php';
 
     function copyToClipboard(text, message) {
         navigator.clipboard.writeText(text).then(() => {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toast-message');
-            if(toast && toastMessage) {
-                toastMessage.textContent = message;
-                toast.classList.remove('opacity-0', 'translate-y-4');
-                setTimeout(() => {
-                    toast.classList.add('opacity-0', 'translate-y-4');
-                }, 3000);
+            if (window.showToast) {
+                window.showToast(message, 'success');
             } else {
                 alert(message + ' : ' + text);
             }
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            alert('Failed to copy email. Your browser may not support this feature.');
+            if (window.showToast) {
+                window.showToast('Failed to copy email. Your browser may not support this feature.', 'error');
+            } else {
+                alert('Failed to copy email. Your browser may not support this feature.');
+            }
         });
     }
 </script>

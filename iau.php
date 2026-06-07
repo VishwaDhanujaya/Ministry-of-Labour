@@ -138,7 +138,10 @@ $iau_staff = [
     ]
 ];
 
-$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(International Audit Unit)</span>';
+$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Internal Audit Unit)</span>';
+$pageTitle = 'Internal Audit Unit (IAU) - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Learn about the Internal Audit Unit (IAU) of the Ministry of Labour, its objectives, responsibilities, and find contact information for the unit\'s staff.';
+$metaKeywords = 'Internal Audit Unit, IAU, Integrity, Accountability, Ministry of Labour, Sri Lanka';
 $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
     ['label' => 'IAU']
@@ -158,7 +161,7 @@ include 'includes/sub-hero.php';
         <!-- Key Objectives Card -->
         <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] p-6 md:p-10 shadow-sm flex flex-col lg:flex-row gap-10 items-center">
             <div class="w-full lg:w-2/5">
-                <img src="assets/img/IAU/about-iau.webp" alt="IAU Meeting" class="w-full h-auto object-cover rounded-2xl shadow-sm">
+                <img loading="lazy" src="assets/img/IAU/about-iau.webp" alt="IAU Meeting" class="w-full h-auto object-cover rounded-2xl shadow-sm">
             </div>
             <div class="w-full lg:w-3/5">
                 <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-4">Key Objectives of the Internal Affairs Unit (IAU)</h3>

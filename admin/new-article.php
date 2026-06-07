@@ -277,7 +277,7 @@ include 'includes/header.php';
                         <div id="cover-preview" class="mt-4 flex gap-4 flex-wrap">
                             <?php if ($article && $article['cover_image']): ?>
                                 <div class="relative group">
-                                    <img src="<?= htmlspecialchars($article['cover_image']) ?>" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm">
+                                    <img loading="lazy" src="<?= htmlspecialchars($article['cover_image']) ?>" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm">
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -305,7 +305,7 @@ include 'includes/header.php';
                             <?php if ($article_images): ?>
                                 <?php foreach($article_images as $img): ?>
                                     <div class="relative group">
-                                        <img src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
+                                        <img loading="lazy" src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
                                         <a href="new-article.php?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </a>
@@ -429,7 +429,7 @@ window.previewSingleImage = function(input, previewId) {
     if (input.files && input.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-            preview.innerHTML = `<div class="relative group"><img src="${e.target.result}" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-xs font-bold px-2 text-center">New Image</span></div></div>`;
+            preview.innerHTML = `<div class="relative group"><img loading="lazy" src="${e.target.result}" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-xs font-bold px-2 text-center">New Image</span></div></div>`;
         }
         reader.readAsDataURL(input.files[0]);
     }
@@ -442,7 +442,7 @@ window.previewMultipleImages = function(input, previewId) {
         Array.from(input.files).forEach(file => {
             const reader = new FileReader();
             reader.onload = function(e) {
-                html += `<div class="relative group"><img src="${e.target.result}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-1 text-center">New</span></div></div>`;
+                html += `<div class="relative group"><img loading="lazy" src="${e.target.result}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-1 text-center">New</span></div></div>`;
                 preview.innerHTML = html;
             }
             reader.readAsDataURL(file);

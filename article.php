@@ -41,6 +41,13 @@ foreach ($recentPostsRaw as $post) {
 }
 
 $page_title = 'Articles';
+$pageTitle = strip_tags($article['title']);
+$metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
+$metaKeywords = 'Ministry of Labour, News, Articles, Sri Lanka, Updates, ' . strip_tags($article['category']);
+if (!empty($article['cover_image'])) {
+    $ogImage = 'admin/' . $article['cover_image'];
+}
+
 $breadcrumbs = [
     ['label' => 'Articles', 'url' => 'articles.php'],
     ['label' => htmlspecialchars($article['title'])]
@@ -66,7 +73,7 @@ include 'includes/sub-hero.php';
 
                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
                 <div class="mb-10 rounded-2xl overflow-hidden shadow-sm">
-                    <img src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
+                    <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
                 </div>
                 <?php endif; ?>
 
@@ -80,7 +87,7 @@ include 'includes/sub-hero.php';
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <?php foreach($additionalImages as $img): ?>
                             <div class="rounded-xl overflow-hidden shadow-sm aspect-square bg-gray-100">
-                                <img src="admin/<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                                <img loading="lazy" src="admin/<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
                             </div>
                         <?php endforeach; ?>
                     </div>
