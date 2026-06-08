@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->SMTPAuth   = true;
         $mail->Username   = $env['SMTP_USER'] ?? '';
         $mail->Password   = $env['SMTP_PASS'] ?? '';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = $env['SMTP_PORT'] ?? 587;
 
         // Recipients
@@ -233,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $headers .= "Reply-To: $fullname <$email>\r\n";
         $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
         
-        if (mail($receiver, $subject, $textBody, $headers)) {
+        if (@mail($receiver, $subject, $textBody, $headers)) {
             echo json_encode(['success' => true, 'message' => 'Message has been sent']);
         } else {
             error_log("Native mail() fallback failed.");

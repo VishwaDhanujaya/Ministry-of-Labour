@@ -121,43 +121,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($error)) {
-        if ($article) {
-            $stmt = $pdo->prepare("UPDATE articles SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
-            $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
-            $article_id = $article['id'];
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO articles (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
-            $article_id = $pdo->lastInsertId();
-        }
+        try {
+            if ($article) {
+                $stmt = $pdo->prepare("UPDATE articles SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+                $article_id = $article['id'];
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO articles (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+                $article_id = $pdo->lastInsertId();
+            }
 
-        if ($success_db) {
-            $success = "Article " . ($status === 'Draft' ? "saved as draft." : "published successfully.");
-            
-            // Handle multiple images
-            if (isset($_FILES['additional_images'])) {
-                foreach ($_FILES['additional_images']['tmp_name'] as $key => $tmp_name) {
-                    if ($_FILES['additional_images']['error'][$key] === UPLOAD_ERR_OK) {
-                        $file = [
-                            'name' => $_FILES['additional_images']['name'][$key],
-                            'type' => $_FILES['additional_images']['type'][$key],
-                            'tmp_name' => $tmp_name,
-                            'error' => $_FILES['additional_images']['error'][$key],
-                            'size' => $_FILES['additional_images']['size'][$key],
-                        ];
-                        $uploadResult = handleFileUpload($file, 'uploads/news');
-                        if ($uploadResult['success']) {
-                            $imgPath = $uploadResult['path'];
-                            $imgStmt = $pdo->prepare("INSERT INTO article_images (article_id, image_path) VALUES (?, ?)");
-                            $imgStmt->execute([$article_id, $imgPath]);
+            if ($success_db) {
+                $success = "Article " . ($status === 'Draft' ? "saved as draft." : "published successfully.");
+                
+                // Handle multiple images
+                if (isset($_FILES['additional_images'])) {
+                    foreach ($_FILES['additional_images']['tmp_name'] as $key => $tmp_name) {
+                        if ($_FILES['additional_images']['error'][$key] === UPLOAD_ERR_OK) {
+                            $file = [
+                                'name' => $_FILES['additional_images']['name'][$key],
+                                'type' => $_FILES['additional_images']['type'][$key],
+                                'tmp_name' => $tmp_name,
+                                'error' => $_FILES['additional_images']['error'][$key],
+                                'size' => $_FILES['additional_images']['size'][$key],
+                            ];
+                            $uploadResult = handleFileUpload($file, 'uploads/news');
+                            if ($uploadResult['success']) {
+                                $imgPath = $uploadResult['path'];
+                                $imgStmt = $pdo->prepare("INSERT INTO article_images (article_id, image_path) VALUES (?, ?)");
+                                $imgStmt->execute([$article_id, $imgPath]);
+                            }
                         }
                     }
                 }
+                header("Location: articles.php");
+                exit;
+            } else {
+                $error = "Failed to save article to database.";
             }
-            header("Location: articles.php");
-            exit;
-        } else {
-            $error = "Failed to save article to database.";
+        } catch (PDOException $e) {
+            $error = "Database Error: " . $e->getMessage() . " - Please ensure your server database is up-to-date with your local changes.";
         }
     }
 }

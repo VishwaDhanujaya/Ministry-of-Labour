@@ -15,19 +15,26 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
     }
 
     $mimeType = '';
+    
     if (function_exists('finfo_open')) {
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mimeType = finfo_file($finfo, $file['tmp_name']);
-        finfo_close($finfo);
-    } elseif (function_exists('mime_content_type')) {
-        $mimeType = mime_content_type($file['tmp_name']);
-    } else {
+        $finfo = @finfo_open(FILEINFO_MIME_TYPE);
+        if ($finfo !== false) {
+            $mimeType = @finfo_file($finfo, $file['tmp_name']);
+            @finfo_close($finfo);
+        }
+    }
+    
+    if (empty($mimeType) && function_exists('mime_content_type')) {
+        $mimeType = @mime_content_type($file['tmp_name']);
+    }
+    
+    if (empty($mimeType)) {
         // Fallback for images if all else fails
         $imgSize = @getimagesize($file['tmp_name']);
-        if ($imgSize !== false) {
+        if ($imgSize !== false && isset($imgSize['mime'])) {
             $mimeType = $imgSize['mime'];
         } else {
-            $mimeType = $file['type'];
+            $mimeType = $file['type'] ?? '';
         }
     }
 

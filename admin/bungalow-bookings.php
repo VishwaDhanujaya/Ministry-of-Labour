@@ -24,6 +24,69 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     if ($new_status) {
         $stmt = $pdo->prepare("UPDATE bookings SET status = ? WHERE id = ?");
         $stmt->execute([$new_status, $id]);
+
+        // Send Email Notification
+        $stmt = $pdo->prepare("SELECT * FROM bookings WHERE id = ?");
+        $stmt->execute([$id]);
+        $booking = $stmt->fetch();
+        
+        if ($booking && !empty($booking['email'])) {
+            $autoloadPath = __DIR__ . '/../vendor/autoload.php';
+            if (file_exists($autoloadPath)) {
+                require_once $autoloadPath;
+            }
+            
+            $envPath = __DIR__ . '/../.env';
+            $env = file_exists($envPath) ? parse_ini_file($envPath) : [];
+            
+            $subject = "";
+            $textBody = "";
+            
+            if ($new_status === 'Confirmed') {
+                $subject = "Your Bungalow Booking is Confirmed - Ministry of Labour";
+                $textBody = "Dear {$booking['applicant_name']},\n\nYour booking request for {$booking['bungalow_name']} Bungalow has been CONFIRMED.\n\nDetails:\nBungalow: {$booking['bungalow_name']}\nRoom Type: {$booking['room_type']}\nCheck-in: {$booking['start_date']}\nCheck-out: {$booking['end_date']}\n\nThank you,\nMinistry of Labour";
+            } elseif ($new_status === 'Cancelled') {
+                $subject = "Your Bungalow Booking has been Cancelled - Ministry of Labour";
+                $textBody = "Dear {$booking['applicant_name']},\n\nWe regret to inform you that your booking request for {$booking['bungalow_name']} Bungalow has been CANCELLED.\n\nDetails:\nBungalow: {$booking['bungalow_name']}\nRoom Type: {$booking['room_type']}\nCheck-in: {$booking['start_date']}\nCheck-out: {$booking['end_date']}\n\nIf you have any questions, please contact us.\n\nThank you,\nMinistry of Labour";
+            }
+            
+            if (!empty($subject)) {
+                $mailSent = false;
+                if (class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
+                    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
+                    try {
+                        $mail->isSMTP();
+                        $mail->Host       = $env['SMTP_HOST'] ?? 'smtp.gmail.com';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = $env['SMTP_USER'] ?? '';
+                        $mail->Password   = $env['SMTP_PASS'] ?? '';
+                        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                        $mail->Port       = $env['SMTP_PORT'] ?? 587;
+
+                        $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
+                        $fromName  = $env['MAIL_FROM_NAME'] ?? 'Ministry of Labour';
+                        $mail->setFrom($fromEmail, $fromName);
+                        $mail->addAddress($booking['email'], $booking['applicant_name']);
+                        
+                        $mail->isHTML(false);
+                        $mail->Subject = $subject;
+                        $mail->Body    = $textBody;
+                        $mail->send();
+                        $mailSent = true;
+                    } catch (\Exception $e) {
+                        error_log("Mailer Error in bookings: {$mail->ErrorInfo}");
+                    }
+                }
+                
+                if (!$mailSent) {
+                    $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
+                    $headers = "From: $fromEmail\r\n";
+                    $headers .= "Reply-To: $fromEmail\r\n";
+                    @mail($booking['email'], $subject, $textBody, $headers);
+                }
+            }
+        }
+
         header("Location: bungalow-bookings.php");
         exit;
     }

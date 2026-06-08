@@ -77,46 +77,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($error)) {
-        if ($gallery) {
-            $stmt = $pdo->prepare("UPDATE gallery SET title=?, cover_image=?, status=? WHERE id=?");
-            $success_db = $stmt->execute([$title, $cover_image, $status, $gallery['id']]);
-            $gallery_id = $gallery['id'];
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO gallery (title, cover_image, status) VALUES (?, ?, ?)");
-            $success_db = $stmt->execute([$title, $cover_image, $status]);
-            $gallery_id = $pdo->lastInsertId();
-        }
+        try {
+            if ($gallery) {
+                $stmt = $pdo->prepare("UPDATE gallery SET title=?, cover_image=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $cover_image, $status, $gallery['id']]);
+                $gallery_id = $gallery['id'];
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO gallery (title, cover_image, status) VALUES (?, ?, ?)");
+                $success_db = $stmt->execute([$title, $cover_image, $status]);
+                $gallery_id = $pdo->lastInsertId();
+            }
 
-        if ($success_db) {
-            $success = "Album saved successfully.";
-            
-            // Handle Multiple Images Upload
-            if (isset($_FILES['gallery_images'])) {
-                $files = $_FILES['gallery_images'];
-                for ($i = 0; $i < count($files['name']); $i++) {
-                    if ($files['error'][$i] === UPLOAD_ERR_OK) {
-                        $singleFile = [
-                            'name' => $files['name'][$i],
-                            'type' => $files['type'][$i],
-                            'tmp_name' => $files['tmp_name'][$i],
-                            'error' => $files['error'][$i],
-                            'size' => $files['size'][$i]
-                        ];
-                        
-                        $uploadResult = handleFileUpload($singleFile, 'uploads/gallery');
-                        if ($uploadResult['success']) {
-                            $img_path = $uploadResult['path'];
-                            $imgStmt = $pdo->prepare("INSERT INTO gallery_images (gallery_id, image_path) VALUES (?, ?)");
-                            $imgStmt->execute([$gallery_id, $img_path]);
+            if ($success_db) {
+                $success = "Album saved successfully.";
+                
+                // Handle Multiple Images Upload
+                if (isset($_FILES['gallery_images'])) {
+                    $files = $_FILES['gallery_images'];
+                    for ($i = 0; $i < count($files['name']); $i++) {
+                        if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                            $singleFile = [
+                                'name' => $files['name'][$i],
+                                'type' => $files['type'][$i],
+                                'tmp_name' => $files['tmp_name'][$i],
+                                'error' => $files['error'][$i],
+                                'size' => $files['size'][$i]
+                            ];
+                            
+                            $uploadResult = handleFileUpload($singleFile, 'uploads/gallery');
+                            if ($uploadResult['success']) {
+                                $img_path = $uploadResult['path'];
+                                $imgStmt = $pdo->prepare("INSERT INTO gallery_images (gallery_id, image_path) VALUES (?, ?)");
+                                $imgStmt->execute([$gallery_id, $img_path]);
+                            }
                         }
                     }
                 }
-            }
 
-            header("Location: gallery.php");
-            exit;
-        } else {
-            $error = "Failed to save the album.";
+                header("Location: gallery.php");
+                exit;
+            } else {
+                $error = "Failed to save the album.";
+            }
+        } catch (PDOException $e) {
+            $error = "Database Error: " . $e->getMessage() . " - Please ensure your server database is up-to-date.";
         }
     }
 }
