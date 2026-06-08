@@ -72,8 +72,10 @@ include 'includes/sub-hero.php';
                 </div>
 
                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
-                <div class="mb-10 rounded-2xl overflow-hidden shadow-sm">
-                    <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-auto object-cover max-h-[500px]">
+                <div class="mb-10 rounded-2xl overflow-hidden shadow-sm cursor-pointer group">
+                    <a data-fslightbox="gallery" href="admin/<?= htmlspecialchars($article['cover_image']) ?>" class="block w-full h-full">
+                        <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-auto object-cover max-h-[500px] hover:scale-105 transition-transform duration-500">
+                    </a>
                 </div>
                 <?php endif; ?>
 
@@ -84,11 +86,12 @@ include 'includes/sub-hero.php';
                 <?php if (!empty($additionalImages)): ?>
                 <div class="mb-12">
                     <h3 class="text-xl font-semibold font-montserrat text-[#2D2D43] mb-6">Gallery</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                         <?php foreach($additionalImages as $img): ?>
-                            <div class="rounded-xl overflow-hidden shadow-sm aspect-square bg-gray-100">
-                                <img loading="lazy" src="admin/<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
-                            </div>
+                            <a data-fslightbox="gallery" href="admin/<?= htmlspecialchars($img['image_path']) ?>" class="block rounded-xl overflow-hidden shadow-sm aspect-square bg-gray-100 cursor-pointer group relative active:scale-95 transition-transform duration-200">
+                                <img loading="lazy" src="admin/<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover md:group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/10 opacity-0 active:opacity-100 md:group-hover:opacity-100 transition-opacity duration-200"></div>
+                            </a>
                         <?php endforeach; ?>
                     </div>
                 </div>

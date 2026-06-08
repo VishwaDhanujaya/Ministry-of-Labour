@@ -82,41 +82,43 @@ include 'includes/sub-hero.php';
             <!-- Gallery -->
             <div class="mb-8">
                 <!-- Main Image -->
-                <div class="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-[20px] overflow-hidden mb-4">
-                    <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" alt="Ampara Circuit Bungalow"
-                        class="w-full h-full object-cover">
+                <div class="w-full h-[300px] md:h-[400px] lg:h-[450px] rounded-[20px] overflow-hidden mb-4 relative cursor-pointer group">
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" class="block w-full h-full">
+                        <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" alt="Ampara Circuit Bungalow"
+                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                    </a>
                 </div>
                 <!-- Thumbnails -->
-                <div class="grid grid-cols-5 gap-2 md:gap-4">
-                    <div
-                        class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
+                <div class="flex overflow-x-auto md:grid md:grid-cols-5 gap-3 md:gap-4 pb-2 md:pb-0 snap-x snap-mandatory hide-scrollbar">
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bungalow-2.webp"
+                        class="block w-[30%] shrink-0 md:w-auto aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors snap-start">
                         <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-2.webp" alt="Thumbnail 1"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div
-                        class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bungalow-3.webp"
+                        class="block w-[30%] shrink-0 md:w-auto aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors snap-start">
                         <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-3.webp" alt="Thumbnail 2"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div
-                        class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bungalow-4.webp"
+                        class="block w-[30%] shrink-0 md:w-auto aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors snap-start">
                         <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-4.webp" alt="Thumbnail 3"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div
-                        class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors">
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bungalow-5.webp"
+                        class="block w-[30%] shrink-0 md:w-auto aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors snap-start">
                         <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bungalow-5.webp" alt="Thumbnail 4"
-                            class="w-full h-full object-cover">
-                    </div>
-                    <div
-                        class="aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors relative group">
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                    </a>
+                    <a data-fslightbox="gallery" href="assets/img/circuit-bunglalow/ampara/ampara-bunglalow-6.webp"
+                        class="block w-[30%] shrink-0 md:w-auto aspect-video md:aspect-[4/3] rounded-lg md:rounded-[12px] overflow-hidden cursor-pointer border-2 border-transparent hover:border-secondary transition-colors relative group snap-start">
                         <img loading="lazy" src="assets/img/circuit-bunglalow/ampara/ampara-bunglalow-6.webp" alt="Thumbnail 5"
-                            class="w-full h-full object-cover">
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
                         <div
-                            class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            class="absolute inset-0 bg-black/40 md:bg-black/40 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             <span class="text-white font-medium text-sm">+More</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 

@@ -84,6 +84,8 @@
 
     <!-- Interactive JS assets -->
     <script src="assets/js/main.js"></script>
+    <!-- Lightbox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
 
 </body>
 </html>

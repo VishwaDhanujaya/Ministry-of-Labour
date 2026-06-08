@@ -1732,6 +1732,10 @@ h1, h2, h3, h4, h5, h6 {
   width: 160px;
 }
 
+.w-\[30\%\] {
+  width: 30%;
+}
+
 .w-\[60\%\] {
   width: 60%;
 }
@@ -2014,10 +2018,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .grid-cols-7 {
@@ -2805,6 +2805,10 @@ h1, h2, h3, h4, h5, h6 {
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
+}
+
+.bg-black\/10 {
+  background-color: rgb(0 0 0 / 0.1);
 }
 
 .bg-black\/20 {
@@ -4505,6 +4509,10 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.active\:opacity-100:active {
+  opacity: 1;
+}
+
 .group:hover .group-hover\:pointer-events-auto {
   pointer-events: auto;
 }
@@ -4775,6 +4783,10 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
   }
 
+  .md\:grid {
+    display: grid;
+  }
+
   .md\:hidden {
     display: none;
   }
@@ -4835,10 +4847,6 @@ h1, h2, h3, h4, h5, h6 {
     height: 650px;
   }
 
-  .md\:h-\[70vh\] {
-    height: 70vh;
-  }
-
   .md\:min-h-\[400px\] {
     min-height: 400px;
   }
@@ -4890,6 +4898,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .md\:grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .md\:flex-row {
@@ -4974,6 +4986,10 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom-width: 0px;
   }
 
+  .md\:bg-black\/40 {
+    background-color: rgb(0 0 0 / 0.4);
+  }
+
   .md\:p-10 {
     padding: 2.5rem;
   }
@@ -5056,6 +5072,10 @@ h1, h2, h3, h4, h5, h6 {
   .md\:py-8 {
     padding-top: 2rem;
     padding-bottom: 2rem;
+  }
+
+  .md\:pb-0 {
+    padding-bottom: 0px;
   }
 
   .md\:pb-2 {
@@ -5178,6 +5198,20 @@ h1, h2, h3, h4, h5, h6 {
   .md\:text-xs {
     font-size: 0.75rem;
     line-height: 1rem;
+  }
+
+  .md\:opacity-0 {
+    opacity: 0;
+  }
+
+  .group:hover .md\:group-hover\:scale-110 {
+    --tw-scale-x: 1.1;
+    --tw-scale-y: 1.1;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .group:hover .md\:group-hover\:opacity-100 {
+    opacity: 1;
   }
 }
 
