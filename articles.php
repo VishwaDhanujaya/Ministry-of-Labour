@@ -67,11 +67,11 @@ include 'includes/sub-hero.php';
                                     <span class="bg-[#FFF0F0] text-secondary px-2.5 py-1 rounded font-bold uppercase tracking-wider text-[10px]"><?= htmlspecialchars($article['category']) ?></span>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
-                                    <a href="article.php?id=<?= $article['id'] ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
+                                    <a href="article/<?= $article['id'] ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
                                     <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
-                                    <a href="article.php?id=<?= $article['id'] ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
+                                    <a href="article/<?= $article['id'] ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-4">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="article.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
+                                <a href="article/<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span>
                                     <span class="notranslate"><?= htmlspecialchars($post['title']) ?></span>
                                 </a>

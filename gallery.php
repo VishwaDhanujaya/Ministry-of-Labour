@@ -29,7 +29,7 @@ include 'includes/sub-hero.php';
             <?php else: ?>
                 <?php foreach ($galleryAlbums as $album): ?>
                 <!-- Gallery Album Item -->
-                <a href="gallery-album.php?id=<?= $album['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[320px] shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer block">
+                <a href="gallery-album/<?= $album['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[320px] shadow-[0_4px_20px_rgb(0,0,0,0.04)] cursor-pointer block">
                     <img loading="lazy" src="admin/<?= htmlspecialchars($album['cover_image']) ?>"
                         alt="<?= htmlspecialchars($album['title']); ?>"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">

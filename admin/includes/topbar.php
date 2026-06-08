@@ -15,7 +15,7 @@
         </a>
         
         
-        <div class="flex items-center ml-1 md:ml-2 border-l border-gray-300 pl-4 md:pl-6 relative group cursor-pointer">
+        <div class="flex items-center ml-1 md:ml-2 border-l border-gray-300 pl-4 md:pl-6 relative cursor-pointer" onclick="toggleUserDropdown(event)">
             <?php $currentUser = getLoggedInAdmin(); ?>
             <div class="w-8 h-8 md:w-10 md:h-10 rounded bg-[#4E0000] text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
                 <?= htmlspecialchars(getInitials($currentUser['name'] ?? 'Admin')) ?>
@@ -26,7 +26,7 @@
             </div>
             
             <!-- Dropdown -->
-            <div class="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div id="user-dropdown-menu" class="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50">
                 <a href="logout.php" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-50 transition-colors font-medium flex items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     Logout
@@ -49,4 +49,19 @@ function toggleSidebar() {
         overlay.classList.add('hidden');
     }
 }
+
+function toggleUserDropdown(e) {
+    e.stopPropagation();
+    const dropdown = document.getElementById('user-dropdown-menu');
+    if (dropdown) {
+        dropdown.classList.toggle('hidden');
+    }
+}
+
+document.addEventListener('click', function() {
+    const dropdown = document.getElementById('user-dropdown-menu');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+    }
+});
 </script>

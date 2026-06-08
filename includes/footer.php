@@ -30,7 +30,7 @@
                     <div>
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Quick Links</h3>
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
-                            <li><a href="index.php" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
+                            <li><a href="home" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
                             <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
                             <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
                             <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>

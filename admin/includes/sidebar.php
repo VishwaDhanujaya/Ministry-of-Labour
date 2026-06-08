@@ -9,7 +9,7 @@
     </div>
 
     <!-- Navigation -->
-    <div class="flex-1 py-8 custom-scrollbar">
+    <div class="flex-1 py-6 overflow-y-auto custom-scrollbar flex flex-col">
         <!-- Group: MAIN -->
         <div class="mb-8">
             <h3 class="px-8 text-[11px] font-medium text-white/60 tracking-wider mb-3">MAIN</h3>
@@ -90,12 +90,13 @@
     <!-- User Profile Bottom -->
     <div class="p-6 shrink-0 border-t border-white/5">
         <div class="flex items-center bg-black/20 rounded-xl p-3 cursor-pointer hover:bg-black/30 transition-colors">
+            <?php $sidebarUser = getLoggedInAdmin(); ?>
             <div class="w-10 h-10 rounded-lg bg-[#320000] text-white flex items-center justify-center font-bold text-sm shrink-0">
-                AS
+                <?= htmlspecialchars(getInitials($sidebarUser['name'] ?? 'Admin')) ?>
             </div>
             <div class="ml-3 overflow-hidden">
-                <p class="text-sm font-semibold text-white truncate">A. Silva</p>
-                <p class="text-[11px] text-white/60 truncate mt-0.5">Super Admin</p>
+                <p class="text-sm font-semibold text-white truncate"><?= htmlspecialchars($sidebarUser['name'] ?? 'Admin') ?></p>
+                <p class="text-[11px] text-white/60 truncate mt-0.5 capitalize"><?= htmlspecialchars(str_replace('_', ' ', $sidebarUser['role'] ?? 'Admin')) ?></p>
             </div>
         </div>
     </div>

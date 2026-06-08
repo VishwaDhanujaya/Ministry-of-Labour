@@ -21,11 +21,11 @@ include 'includes/header.php';
         </p>
         
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="index.php" class="w-full sm:w-auto inline-flex items-center justify-center bg-[#B08920] text-white font-bold px-8 py-3.5 rounded-lg hover:bg-[#8e6e19] transition-colors shadow-md text-sm tracking-wide">
+            <a href="home" class="w-full sm:w-auto inline-flex items-center justify-center bg-[#B08920] text-white font-bold px-8 py-3.5 rounded-lg hover:bg-[#8e6e19] transition-colors shadow-md text-sm tracking-wide">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Return to Homepage
             </a>
-            <a href="contact-us.php" class="w-full sm:w-auto inline-flex items-center justify-center bg-white border-2 border-gray-200 text-gray-700 font-bold px-8 py-3 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-colors shadow-sm text-sm tracking-wide">
+            <a href="contact-us" class="w-full sm:w-auto inline-flex items-center justify-center bg-white border-2 border-gray-200 text-gray-700 font-bold px-8 py-3 rounded-lg hover:border-gray-300 hover:bg-gray-50 transition-colors shadow-sm text-sm tracking-wide">
                 Contact Support
             </a>
         </div>

@@ -129,7 +129,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-4">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="article.php?id=<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
+                                <a href="article/<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
                                     <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
                                     <span class="notranslate"><?= htmlspecialchars($post['title']) ?></span>
                                 </a>

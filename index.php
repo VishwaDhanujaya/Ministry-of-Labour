@@ -379,7 +379,7 @@ include 'includes/header.php';
                 <h2 class="section-title">
                     Latest Articles</h2>
             </div>
-            <a href="articles.php" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
+            <a href="articles" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
                 <span>View All</span>
             </a>
         </div>
@@ -412,7 +412,7 @@ include 'includes/header.php';
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="article.php?id=<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="article/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
                             Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -440,7 +440,7 @@ include 'includes/header.php';
                 <h2 class="section-title">
                     Media Gallery</h2>
             </div>
-            <a href="gallery.php"
+            <a href="gallery"
                 class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-[12px] uppercase tracking-wider">
                 <span>View All</span>
             </a>
@@ -452,7 +452,7 @@ include 'includes/header.php';
             <?php else: ?>
                 <?php foreach($galleryItems as $item): ?>
                 <!-- Media Item -->
-                <a href="gallery-album.php?id=<?= $item['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[280px] shadow-sm cursor-pointer block">
+                <a href="gallery-album/<?= $item['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[280px] shadow-sm cursor-pointer block">
                     <img loading="lazy" src="admin/<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(102,102,102,0)_0%,rgba(10,10,10,0.8)_100%)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div class="absolute inset-0 p-4 sm:p-6 flex flex-col justify-end w-full z-10">
@@ -582,7 +582,7 @@ include 'includes/header.php';
                                 <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
                                 <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
-                            <a href="article.php?id=<?= $notice['id'] ?>"
+                            <a href="article/<?= $notice['id'] ?>"
                                 class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
                         </div>
                         <?php endforeach; ?>
