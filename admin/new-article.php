@@ -205,9 +205,9 @@ include 'includes/header.php';
                     <div>
                         <div class="flex justify-between items-center mb-2">
                             <label class="block text-[13px] font-semibold text-gray-800">Article Title (English) <span class="text-red-500">*</span></label>
-                            <button type="button" onclick="autoTranslate()" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                            <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-                                Auto Translate
+                                Auto Translate Title
                             </button>
                         </div>
                         <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter article headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
@@ -240,7 +240,13 @@ include 'includes/header.php';
 
                     <!-- Full Article Body -->
                     <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Article Body (English) <span class="text-red-500">*</span></label>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-[13px] font-semibold text-gray-800">Article Body (English) <span class="text-red-500">*</span></label>
+                            <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                Auto Translate Body
+                            </button>
+                        </div>
                         <textarea id="content_en" name="content" placeholder="Full article content" rows="8" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article ? htmlspecialchars($article['content']) : '' ?></textarea>
                     </div>
 
@@ -450,42 +456,60 @@ window.previewMultipleImages = function(input, previewId) {
     }
 }
 
-async function autoTranslate() {
+async function translateText(text, fromLang, toLang) {
+    if (!text) return '';
+    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
+    const data = await res.json();
+    return data[0].map(x => x[0]).join('');
+}
+
+async function autoTranslateTitle() {
     const titleEn = document.getElementById('title_en').value;
-    const contentEn = document.getElementById('content_en').value;
-    
-    if (!titleEn && !contentEn) {
-        alert('Please enter English title or content to translate.');
+    if (!titleEn) {
+        alert('Please enter English title to translate.');
         return;
     }
 
-    const translateBtn = document.querySelector('button[onclick="autoTranslate()"]');
+    const translateBtn = document.getElementById('translate-title-btn');
     const originalText = translateBtn.innerHTML;
     translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
     translateBtn.disabled = true;
 
     try {
-        if (titleEn) {
-            const resSi = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=${encodeURIComponent(titleEn)}`);
-            const dataSi = await resSi.json();
-            document.getElementById('title_si').value = dataSi[0].map(x => x[0]).join('');
-
-            const resTa = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ta&dt=t&q=${encodeURIComponent(titleEn)}`);
-            const dataTa = await resTa.json();
-            document.getElementById('title_ta').value = dataTa[0].map(x => x[0]).join('');
-        }
-
-        if (contentEn) {
-            const resSi = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=si&dt=t&q=${encodeURIComponent(contentEn)}`);
-            const dataSi = await resSi.json();
-            document.getElementById('content_si').value = dataSi[0].map(x => x[0]).join('');
-
-            const resTa = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ta&dt=t&q=${encodeURIComponent(contentEn)}`);
-            const dataTa = await resTa.json();
-            document.getElementById('content_ta').value = dataTa[0].map(x => x[0]).join('');
-        }
+        const titleSi = await translateText(titleEn, 'en', 'si');
+        document.getElementById('title_si').value = titleSi;
+        
+        const titleTa = await translateText(titleEn, 'en', 'ta');
+        document.getElementById('title_ta').value = titleTa;
     } catch (err) {
-        alert('Translation failed. Please try again or enter manually.');
+        alert('Title translation failed. Please try again or enter manually.');
+        console.error(err);
+    } finally {
+        translateBtn.innerHTML = originalText;
+        translateBtn.disabled = false;
+    }
+}
+
+async function autoTranslateBody() {
+    const contentEn = document.getElementById('content_en').value;
+    if (!contentEn) {
+        alert('Please enter English content to translate.');
+        return;
+    }
+
+    const translateBtn = document.getElementById('translate-body-btn');
+    const originalText = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+    translateBtn.disabled = true;
+
+    try {
+        const contentSi = await translateText(contentEn, 'en', 'si');
+        document.getElementById('content_si').value = contentSi;
+        
+        const contentTa = await translateText(contentEn, 'en', 'ta');
+        document.getElementById('content_ta').value = contentTa;
+    } catch (err) {
+        alert('Body translation failed. Please try again or enter manually.');
         console.error(err);
     } finally {
         translateBtn.innerHTML = originalText;
