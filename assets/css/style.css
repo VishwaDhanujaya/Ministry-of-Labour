@@ -1054,10 +1054,6 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0px;
 }
 
-.-top-12 {
-  top: -3rem;
-}
-
 .bottom-0 {
   bottom: 0px;
 }
@@ -1204,6 +1200,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .m-0 {
   margin: 0px;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 .mx-2 {
@@ -1400,6 +1400,20 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-line-clamp: 3;
 }
 
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.line-clamp-6 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
 .block {
   display: block;
 }
@@ -1434,6 +1448,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .hidden {
   display: none;
+}
+
+.aspect-\[4\/3\] {
+  aspect-ratio: 4/3;
 }
 
 .aspect-\[4\/5\] {
@@ -1584,16 +1602,8 @@ h1, h2, h3, h4, h5, h6 {
   max-height: 70vh;
 }
 
-.max-h-\[85vh\] {
-  max-height: 85vh;
-}
-
 .max-h-\[90vh\] {
   max-height: 90vh;
-}
-
-.max-h-full {
-  max-height: 100%;
 }
 
 .min-h-\[300px\] {
@@ -1964,6 +1974,14 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+  cursor: zoom-out;
+}
+
 .select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -2252,6 +2270,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .divide-white\/20 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(255 255 255 / 0.2);
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .overflow-hidden {
@@ -2595,10 +2617,6 @@ h1, h2, h3, h4, h5, h6 {
   border-color: rgb(255 255 255 / 0.1);
 }
 
-.border-white\/15 {
-  border-color: rgb(255 255 255 / 0.15);
-}
-
 .border-white\/20 {
   border-color: rgb(255 255 255 / 0.2);
 }
@@ -2825,6 +2843,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .bg-black\/60 {
   background-color: rgb(0 0 0 / 0.6);
+}
+
+.bg-black\/90 {
+  background-color: rgb(0 0 0 / 0.9);
 }
 
 .bg-blue-100 {
@@ -4160,6 +4182,11 @@ h1, h2, h3, h4, h5, h6 {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:-translate-y-1:hover {
+  --tw-translate-y: -0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -4169,6 +4196,12 @@ h1, h2, h3, h4, h5, h6 {
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hover\:scale-\[1\.02\]:hover {
+  --tw-scale-x: 1.02;
+  --tw-scale-y: 1.02;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -4253,6 +4286,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .hover\:bg-black\/30:hover {
   background-color: rgb(0 0 0 / 0.3);
+}
+
+.hover\:bg-black\/40:hover {
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+.hover\:bg-black\/80:hover {
+  background-color: rgb(0 0 0 / 0.8);
 }
 
 .hover\:bg-blue-100:hover {
@@ -4363,11 +4404,6 @@ h1, h2, h3, h4, h5, h6 {
   color: rgb(255 0 0 / var(--tw-text-opacity, 1));
 }
 
-.hover\:text-gray-300:hover {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity, 1));
-}
-
 .hover\:text-gray-600:hover {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity, 1));
@@ -4410,6 +4446,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .hover\:underline:hover {
   text-decoration-line: underline;
+}
+
+.hover\:shadow-2xl:hover {
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .hover\:shadow-lg:hover {
@@ -4723,10 +4765,6 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
   }
 
-  .md\:-right-8 {
-    right: -2rem;
-  }
-
   .md\:right-6 {
     right: 1.5rem;
   }
@@ -4869,6 +4907,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .md\:w-\[35\%\] {
     width: 35%;
+  }
+
+  .md\:w-\[40\%\] {
+    width: 40%;
   }
 
   .md\:w-\[65\%\] {

@@ -191,7 +191,7 @@ include 'includes/sub-hero.php';
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white">
     <div class="container mx-auto flex flex-col lg:flex-row gap-16 items-center">
         <!-- Collage -->
-        <div class="w-full lg:w-1/2">
+        <div class="w-full lg:w-1/2" data-aos="fade-right">
             <div class="grid grid-cols-2 gap-4">
                 <img loading="lazy" src="assets/img/about-us/overview-1.webp" alt="Ministry Building"
                     class="w-full h-48 md:h-64 object-cover rounded-2xl md:rounded-3xl shadow-sm">
@@ -202,7 +202,7 @@ include 'includes/sub-hero.php';
             </div>
         </div>
         <!-- Content -->
-        <div class="w-full lg:w-1/2">
+        <div class="w-full lg:w-1/2" data-aos="fade-left">
             <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6">Overview</h2>
             <div class="space-y-4 text-gray-600 font-inter text-[15px] leading-relaxed mb-10">
                 <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
@@ -240,7 +240,7 @@ include 'includes/sub-hero.php';
 
 <!-- Our Partners -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA] border-t border-b border-gray-100">
-    <div class="container mx-auto">
+    <div class="container mx-auto" data-aos="fade-up">
         <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-12 text-center">Our Partners</h2>
         <div id="partners-track"
             class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth items-center">
@@ -302,7 +302,7 @@ include 'includes/sub-hero.php';
 <!-- Vision & Mission / Organizational Chart -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white">
     <div class="container mx-auto">
-        <div class="flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4]">
+        <div class="flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4]" data-aos="fade-up">
             <!-- Vision & Mission -->
             <div
                 class="w-full lg:w-[65%] bg-primary text-white p-8 md:p-10 lg:p-12 flex flex-col justify-center relative">
@@ -326,17 +326,17 @@ include 'includes/sub-hero.php';
 
                 <div
                     class="relative group rounded-xl border-[0.5px] border-[#D4D4D4] bg-gray-50 p-2 max-w-[380px] w-full mr-auto">
-                    <img loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart"
-                        class="w-full h-40 md:h-48 lg:h-56 object-contain rounded-lg cursor-pointer mix-blend-multiply"
-                        onclick="const m=document.getElementById('org-chart-modal'); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>m.classList.remove('opacity-0'),10);">
+                    <a href="javascript:void(0)" onclick="openOrgChart()" class="block">
+                        <img loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart"
+                            class="w-full h-40 md:h-48 lg:h-56 object-contain rounded-lg cursor-pointer mix-blend-multiply transition-transform hover:scale-[1.02]">
+                    </a>
 
                     <!-- Action Buttons -->
                     <div
                         class="absolute bottom-3 right-3 flex items-center bg-white/90 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-200 shadow-sm opacity-90 group-hover:opacity-100 transition-opacity">
-                        <button
-                            onclick="const m=document.getElementById('org-chart-modal'); m.classList.remove('hidden'); m.classList.add('flex'); setTimeout(()=>m.classList.remove('opacity-0'),10);"
-                            class="p-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
-                            title="Preview">
+                        <button onclick="openOrgChart()"
+                            class="p-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
+                            title="Preview (Zoom & Pan)">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
@@ -358,36 +358,89 @@ include 'includes/sub-hero.php';
         </div>
     </div>
 
-    <!-- Organizational Chart Modal -->
-    <div id="org-chart-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-10 transition-opacity duration-300 opacity-0">
-        <!-- Close overlay background -->
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
-            onclick="const m=document.getElementById('org-chart-modal'); m.classList.add('opacity-0'); setTimeout(()=>{m.classList.add('hidden'); m.classList.remove('flex');},300);">
-        </div>
-        <div class="relative w-full max-w-6xl max-h-full flex flex-col items-center z-10 bg-white rounded-2xl shadow-2xl transform transition-all duration-300">
-            <button
-                onclick="const m=document.getElementById('org-chart-modal'); m.classList.add('opacity-0'); setTimeout(()=>{m.classList.add('hidden'); m.classList.remove('flex');},300);"
-                class="absolute -top-12 right-0 md:-right-8 text-white/80 hover:text-white transition-colors p-2"
-                title="Close">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-            <img loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart Full Size"
-                class="w-full h-auto max-h-[85vh] object-contain rounded-lg relative z-20">
+    <!-- Simple Zoomable Organizational Chart Modal -->
+    <div id="org-chart-modal" class="fixed inset-0 z-[100] hidden flex-col transition-opacity duration-300 opacity-0 bg-black/90 backdrop-blur-sm">
+        <button onclick="closeOrgChart()" class="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 text-white rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95" title="Close">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <!-- The flex and m-auto trick ensures smooth centering when small, and correct top-left scrolling when large without instantly swapping classes! -->
+        <div class="w-full h-full overflow-auto flex p-4 md:p-8" onclick="if(event.target === this) closeOrgChart()">
+            <img id="org-chart-image" loading="lazy" src="assets/img/about-us/organizational-chart.webp" alt="Organizational Chart Full Size" 
+                class="bg-white p-2 rounded-lg shadow-2xl cursor-zoom-in transition-all duration-300 ease-out m-auto" 
+                style="width: 70%; max-width: 70%; max-height: 75vh; object-fit: contain;"
+                onclick="toggleZoom(this)" title="Click to zoom in/out">
         </div>
     </div>
+    
+    <script>
+    let isZoomed = false;
+    
+    function toggleZoom(img) {
+        isZoomed = !isZoomed;
+        
+        if (isZoomed) {
+            // Zoom in: Smoothly animate width and max-dimensions
+            const targetWidth = window.innerWidth < 768 ? '300vw' : '150vw';
+            img.style.width = targetWidth;
+            img.style.maxWidth = targetWidth;
+            img.style.maxHeight = targetWidth; // Allow vertical expansion too
+            
+            img.classList.remove('cursor-zoom-in');
+            img.classList.add('cursor-zoom-out');
+        } else {
+            // Zoom out: Smoothly restore to fit screen
+            const initialWidth = window.innerWidth < 768 ? '90%' : '70%';
+            const initialMaxHeight = window.innerWidth < 768 ? '85vh' : '75vh';
+            img.style.width = initialWidth;
+            img.style.maxWidth = initialWidth;
+            img.style.maxHeight = initialMaxHeight;
+            
+            img.classList.remove('cursor-zoom-out');
+            img.classList.add('cursor-zoom-in');
+        }
+    }
+    
+    function openOrgChart() {
+        const m = document.getElementById('org-chart-modal');
+        const img = document.getElementById('org-chart-image');
+        
+        // Reset zoom state on open
+        isZoomed = false;
+        const initialWidth = window.innerWidth < 768 ? '90%' : '70%';
+        const initialMaxHeight = window.innerWidth < 768 ? '85vh' : '75vh';
+        img.style.width = initialWidth;
+        img.style.maxWidth = initialWidth;
+        img.style.maxHeight = initialMaxHeight;
+        
+        img.classList.remove('cursor-zoom-out');
+        img.classList.add('cursor-zoom-in');
+        
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+        setTimeout(() => m.classList.remove('opacity-0'), 10);
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeOrgChart() {
+        const m = document.getElementById('org-chart-modal');
+        m.classList.add('opacity-0');
+        setTimeout(() => {
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+            document.body.style.overflow = '';
+        }, 300);
+    }
+    </script>
 </section>
 
 <!-- Our Officials -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA]">
     <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14">Our Officials</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14" data-aos="fade-up">Our Officials</h2>
 
         <!-- Top Officials -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20" data-aos="zoom-in" data-aos-delay="100">
             <?php foreach ($top_officials as $official): ?>
                 <div
                     class="bg-white rounded-3xl overflow-hidden shadow-sm border-[0.5px] border-[#D4D4D4] hover:shadow-md transition-shadow group">
@@ -546,7 +599,7 @@ include 'includes/sub-hero.php';
 
 <!-- How We Operate -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white">
-    <div class="container mx-auto">
+    <div class="container mx-auto" data-aos="fade-up">
         <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12">How We Operate</h2>
 
         <div class="bg-white rounded-2xl border-[0.5px] border-[#D4D4D4] shadow-lg overflow-hidden">

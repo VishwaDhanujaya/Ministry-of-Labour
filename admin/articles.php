@@ -119,10 +119,12 @@ include 'includes/header.php';
                     </tr>
                     <?php else: ?>
                     <?php foreach ($newsList as $news): ?>
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'new-article.php?id=<?= $news['id'] ?>', 'articles.php?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
                         <td class="py-5 px-6">
                             <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
-                                <img loading="lazy" src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-12 h-12 rounded object-cover border border-gray-200 shadow-sm">
+                                <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
+                                    <img loading="lazy" src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                </a>
                             <?php else: ?>
                                 <div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center border border-gray-200">
                                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -130,7 +132,38 @@ include 'includes/header.php';
                             <?php endif; ?>
                         </td>
                         <td class="py-5 px-6 font-medium text-gray-900 w-1/4">
-                            <?= htmlspecialchars($news['title']) ?>
+                            <span class="text-left hover:text-[#4E0000] transition-colors focus:outline-none">
+                                <?= htmlspecialchars($news['title']) ?>
+                            </span>
+                            <div id="preview-content-<?= $news['id'] ?>" class="hidden">
+                                <div class="flex flex-col md:flex-row gap-6">
+                                    <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
+                                        <div class="w-full md:w-[40%] shrink-0">
+                                            <img src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full aspect-[4/3] object-cover rounded-xl shadow-sm border border-gray-100">
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="w-full md:w-[40%] shrink-0 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 aspect-[4/3]">
+                                            <span class="text-gray-400 text-sm">No Cover Image</span>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <div class="flex-1 flex flex-col">
+                                        <div class="flex flex-wrap gap-2 mb-3">
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['category']) ?></span>
+                                            <span class="px-2 py-1 <?= $news['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?> text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['status']) ?></span>
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
+                                        </div>
+                                        
+                                        <div class="text-[13px] text-gray-600 line-clamp-6 leading-relaxed mb-4">
+                                            <?= nl2br(htmlspecialchars(strip_tags($news['content'] ?? ''))) ?>
+                                        </div>
+                                        
+                                        <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-[12px] text-gray-500 font-medium">
+                                            <span>By <?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <?php if ($news['is_featured']): ?>
                                 <div class="mt-1.5"><span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">Featured Notice</span></div>
                             <?php endif; ?>
@@ -153,10 +186,10 @@ include 'includes/header.php';
                         </td>
                         <td class="py-5 px-6">
                             <div class="flex items-center space-x-2">
-                                <a href="new-article.php?id=<?= $news['id'] ?>" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                <a href="new-article.php?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
-                                <a href="articles.php?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="js-delete-row p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="articles.php?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this article?');" class="js-delete-row p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -169,5 +202,55 @@ include 'includes/header.php';
         </div>
     </main>
 </div>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="hidePreviewModal()"></div>
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col">
+        <div class="flex justify-between items-start mb-4">
+            <h3 id="preview-title" class="text-xl font-bold font-montserrat text-gray-900"></h3>
+            <button onclick="hidePreviewModal()" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="preview-content-container" class="text-[14px] text-gray-700 overflow-y-auto pr-2 mb-6 flex-1"></div>
+        <div class="flex justify-end gap-3 pt-4 border-t border-gray-100 shrink-0">
+            <a id="preview-edit-btn" href="#" class="px-5 py-2 bg-gray-100 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-200 transition-colors">Edit</a>
+            <a id="preview-delete-btn" href="#" onclick="return confirm('Are you sure you want to delete this?');" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors">Delete</a>
+        </div>
+    </div>
+</div>
+<script>
+function showPreviewModal(id, title, editUrl, deleteUrl) {
+    document.getElementById('preview-title').textContent = title;
+    document.getElementById('preview-content-container').innerHTML = document.getElementById('preview-content-' + id).innerHTML;
+    document.getElementById('preview-edit-btn').href = editUrl;
+    document.getElementById('preview-delete-btn').href = deleteUrl;
+    
+    const modal = document.getElementById('preview-modal');
+    const modalBox = modal.querySelector('.bg-white');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    void modal.offsetWidth; // trigger reflow
+    modal.classList.remove('opacity-0');
+    modalBox.classList.remove('scale-95');
+    modalBox.classList.add('scale-100');
+}
+
+function hidePreviewModal() {
+    const modal = document.getElementById('preview-modal');
+    const modalBox = modal.querySelector('.bg-white');
+    
+    modal.classList.add('opacity-0');
+    modalBox.classList.remove('scale-100');
+    modalBox.classList.add('scale-95');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+}
+</script>
 
 <?php include 'includes/footer.php'; ?>

@@ -50,6 +50,9 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <!-- Compiled Tailwind and Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 
+    <!-- AOS CSS for smooth scroll animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <!-- Language specific font overrides -->
     <?php if ($current_lang === 'si'): ?>
     <style>

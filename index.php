@@ -46,7 +46,7 @@ include 'includes/header.php';
     <div class="absolute inset-0 opacity-55 bg-home-hero-gradient">
     </div>
 
-    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">
+    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
         <div class="max-w-2xl">
             <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2">Welcome to</h2>
             <h1
@@ -56,12 +56,12 @@ include 'includes/header.php';
                 The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
                 building a dynamic workforce that drives Sri Lanka's economic development.
             </p>
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
                 <a href="#citizen-services"
-                    class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter">Explore
+                    class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Explore
                     Services</a>
                 <a href="#news-section"
-                    class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary">View
+                    class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform">View
                     Notices</a>
             </div>
         </div>
@@ -103,7 +103,7 @@ include 'includes/header.php';
 <!-- About Section -->
 <section class="py-20 md:py-28 px-4 md:px-16" id="about-us">
     <div class="container mx-auto flex flex-col lg:flex-row items-center gap-16">
-        <div class="w-full lg:w-[55%]">
+        <div class="w-full lg:w-[55%]" data-aos="fade-right">
             <p class="section-subtitle">About
                 Us</p>
             <h2 class="section-title">
@@ -123,12 +123,12 @@ include 'includes/header.php';
             
             <!-- Statistics Cards -->
             <div class="about-stats-container">
-                <div class="about-stat-card">
+                <div class="about-stat-card hover:-translate-y-1 transition-transform duration-300">
                     <div class="about-stat-card-accent"></div>
                     <span class="about-stat-number">8</span>
                     <span class="about-stat-label">Services</span>
                 </div>
-                <div class="about-stat-card">
+                <div class="about-stat-card hover:-translate-y-1 transition-transform duration-300">
                     <div class="about-stat-card-accent"></div>
                     <span class="about-stat-number">5+</span>
                     <span class="about-stat-label">Partners</span>
@@ -137,11 +137,11 @@ include 'includes/header.php';
         </div>
 
         <!-- Styled administrative image container -->
-        <div class="w-full lg:w-[45%]">
+        <div class="w-full lg:w-[45%]" data-aos="fade-left">
             <div
-                class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] h-[450px] lg:h-[530px] w-full bg-gray-50">
+                class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] h-[450px] lg:h-[530px] w-full bg-gray-50 hover:shadow-2xl transition-shadow duration-500">
                 <img loading="lazy" src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
-                    class="w-full h-full object-cover">
+                    class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
             </div>
         </div>
     </div>
@@ -153,7 +153,7 @@ include 'includes/header.php';
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/keyfocus.webp');"></div>
     <div class="absolute inset-0 bg-primary/90"></div>
-    <div class="container mx-auto relative z-10">
+    <div class="container mx-auto relative z-10" data-aos="fade-up">
         <div class="mb-12">
             <div>
                 <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Our Progress</p>
@@ -243,7 +243,7 @@ include 'includes/header.php';
 <!-- Citizen Services -->
 <section class="py-20 md:py-28 px-4 md:px-16" id="citizen-services">
     <div class="container mx-auto">
-        <div class="text-left mb-12">
+        <div class="text-left mb-12" data-aos="fade-up">
             <p class="section-subtitle">Our Services</p>
             <h2 class="section-title mb-3">Citizen Services</h2>
             <p class="text-gray-500 font-inter font-normal text-sm md:text-base mb-10">Access key services offered by the Ministry of Labour and its institutions.</p>
@@ -372,7 +372,7 @@ include 'includes/header.php';
 <!-- Latest Articles -->
 <section class="py-20 md:py-32 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
     <div class="container mx-auto">
-        <div class="flex justify-between items-end mb-12">
+        <div class="flex justify-between items-end mb-12" data-aos="fade-up">
             <div>
                 <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
                     Updates & Announcements</p>
@@ -470,7 +470,7 @@ include 'includes/header.php';
     class="fixed inset-0 bg-[#070e17]/95 backdrop-blur-md z-[120] opacity-0 pointer-events-none transition-all duration-500 flex flex-col justify-center items-center p-4">
     <!-- Close button -->
     <button id="lightbox-close" aria-label="Close Lightbox"
-        class="absolute top-6 right-6 w-11 h-11 bg-white/5 border border-white/15 rounded-full flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all focus:outline-none">
+        class="absolute top-6 right-6 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none shadow-lg">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>

@@ -190,13 +190,13 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-6xl">
         
         <!-- Get In Touch Title -->
-        <div class="text-center mb-12">
+        <div class="text-center mb-12" data-aos="fade-up">
             <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter">Get In Touch</p>
             <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Stay updated with Ministry of Labour</h2>
         </div>
 
         <!-- Info Boxes -->
-        <div class="flex flex-col lg:flex-row rounded-2xl overflow-hidden border border-gray-200 mb-16 md:mb-20 shadow-sm">
+        <div class="flex flex-col lg:flex-row rounded-2xl overflow-hidden border border-gray-200 mb-16 md:mb-20 shadow-sm" data-aos="fade-up" data-aos-delay="100">
             <!-- Address -->
             <a href="https://maps.app.goo.gl/uXfX4g7XWw9AFTLd8" target="_blank" rel="noopener noreferrer" class="flex-1 bg-secondary text-white p-6 sm:p-8 lg:p-10 flex flex-col items-start justify-center hover:bg-secondary/90 transition-colors group cursor-pointer">
                 <div class="flex items-center gap-4 mb-4">
@@ -251,7 +251,7 @@ include 'includes/sub-hero.php';
         </div>
 
         <!-- Form and Map Container -->
-        <div class="bg-[#F9F9F9] rounded-[24px] p-6 sm:p-8 md:p-12 flex flex-col lg:flex-row gap-10 lg:gap-16 mb-16 md:mb-20 border border-gray-200">
+        <div class="bg-[#F9F9F9] rounded-[24px] p-6 sm:p-8 md:p-12 flex flex-col lg:flex-row gap-10 lg:gap-16 mb-16 md:mb-20 border border-gray-200" data-aos="fade-up" data-aos-delay="200">
             
             <!-- Form -->
             <div class="flex-1">
@@ -305,8 +305,8 @@ include 'includes/sub-hero.php';
         </div>
 
         <!-- Contact Numbers -->
-        <h3 class="text-xl md:text-[22px] font-semibold font-montserrat text-gray-900 mb-5 md:mb-6">Contact Numbers</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200 rounded-2xl overflow-hidden font-inter">
+        <h3 class="text-xl md:text-[22px] font-semibold font-montserrat text-gray-900 mb-5 md:mb-6" data-aos="fade-up">Contact Numbers</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200 rounded-2xl overflow-hidden font-inter" data-aos="fade-up" data-aos-delay="100">
             <?php foreach($contact_departments as $dept): ?>
             <div onclick="openModal('<?php echo $dept['id']; ?>')" class="bg-[#FAFAFA] cursor-pointer py-6 md:py-8 px-2 sm:px-4 flex items-center justify-center font-medium text-gray-900 text-sm md:text-[15px] hover:bg-gray-100 transition-colors text-center h-full">
                 <?php echo $dept['title']; ?>
@@ -323,7 +323,7 @@ include 'includes/sub-hero.php';
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
     
     <div class="relative w-full max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar transform scale-95 transition-all duration-300">
-        <button onclick="closeModal('<?php echo $dept['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-gray-300 transition-colors z-10 bg-secondary rounded-full p-1">
+        <button onclick="closeModal('<?php echo $dept['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white transition-all z-10 bg-black/20 hover:bg-black/40 rounded-full p-1.5 active:scale-95 flex items-center justify-center focus:outline-none">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         

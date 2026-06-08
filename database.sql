@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `bookings` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Insert default super admin if none exists (Password: Ministry@2026!)
+-- Insert default super admin if none exists (Password: admin)
 INSERT INTO `admins` (`name`, `email`, `password_hash`, `role`, `access_level`) 
-SELECT 'superadmin', 'admin@labourmin.gov.lk', '$2y$10$4ZL/LExe7wldrou49bkGf.3vNet7naY1gaG5aTD01Ec9Q1eaaUISW', 'super_admin', 'full_access'
-WHERE NOT EXISTS (SELECT 1 FROM `admins` WHERE `email` = 'admin@labourmin.gov.lk');
+SELECT 'admin', 'admin@gmail.com', '$2y$10$oo33MA0kG6xP.4SiUXAW2O6wOuiB.uBdAz5DKKmewjqq8GsXmx0hK', 'super_admin', 'full_access'
+WHERE NOT EXISTS (SELECT 1 FROM `admins` WHERE `email` = 'admin@gmail.com');

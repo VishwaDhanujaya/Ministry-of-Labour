@@ -86,6 +86,32 @@
     <script src="assets/js/main.js"></script>
     <!-- Lightbox -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+    <!-- AOS JS for smooth scroll animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dynamically add data-aos to all sections to ensure animations are "everywhere"
+            document.querySelectorAll('section').forEach(function(section) {
+                if (!section.hasAttribute('data-aos') && !section.querySelector('[data-aos]')) {
+                    section.setAttribute('data-aos', 'fade-up');
+                }
+            });
+            
+            // Stagger animations for cards
+            document.querySelectorAll('.news-card, .service-card, .focus-card').forEach(function(card, index) {
+                if (!card.hasAttribute('data-aos')) {
+                    card.setAttribute('data-aos', 'fade-up');
+                    card.setAttribute('data-aos-delay', (index % 4) * 100);
+                }
+            });
 
+            AOS.init({
+                duration: 500,
+                once: true,
+                offset: 20,
+                easing: 'ease-out'
+            });
+        });
+    </script>
 </body>
 </html>

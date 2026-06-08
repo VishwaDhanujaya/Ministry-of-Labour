@@ -310,7 +310,7 @@ include 'includes/sub-hero.php';
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('<?php echo $staff['id']; ?>')"></div>
     
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[600px] bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white">
-        <button onclick="closeModal('<?php echo $staff['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white hover:text-gray-300 transition-colors">
+        <button onclick="closeModal('<?php echo $staff['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white transition-all z-10 bg-black/20 hover:bg-black/40 rounded-full p-1.5 active:scale-95 flex items-center justify-center focus:outline-none">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         

@@ -59,7 +59,7 @@ include 'includes/sub-hero.php';
     class="fixed inset-0 bg-[#070e17]/95 backdrop-blur-md z-[120] opacity-0 pointer-events-none transition-all duration-500 flex flex-col justify-center items-center p-4">
     <!-- Close button -->
     <button id="lightbox-close" aria-label="Close Lightbox"
-        class="absolute top-6 right-6 w-11 h-11 bg-white/5 border border-white/15 rounded-full flex items-center justify-center text-white hover:bg-white/10 active:scale-95 transition-all focus:outline-none">
+        class="absolute top-6 right-6 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none shadow-lg">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>

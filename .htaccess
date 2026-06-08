@@ -58,4 +58,4 @@ RedirectMatch 404 /\.git
 </IfModule>
 
 # Custom 404 Error Page
-ErrorDocument 404 /Ministry-of-Labour/404.php
+ErrorDocument 404 /404.php
