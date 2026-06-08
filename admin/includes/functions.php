@@ -14,9 +14,22 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
         return ['success' => false, 'error' => 'File size exceeds maximum limit.'];
     }
 
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mimeType = finfo_file($finfo, $file['tmp_name']);
-    finfo_close($finfo);
+    $mimeType = '';
+    if (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+    } elseif (function_exists('mime_content_type')) {
+        $mimeType = mime_content_type($file['tmp_name']);
+    } else {
+        // Fallback for images if all else fails
+        $imgSize = @getimagesize($file['tmp_name']);
+        if ($imgSize !== false) {
+            $mimeType = $imgSize['mime'];
+        } else {
+            $mimeType = $file['type'];
+        }
+    }
 
     if (!in_array($mimeType, $allowedTypes)) {
         return ['success' => false, 'error' => 'Invalid file type.'];
