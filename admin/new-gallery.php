@@ -24,7 +24,7 @@ if (isset($_GET['delete_image']) && isset($_GET['id'])) {
             unlink($img['image_path']);
         }
         $pdo->prepare("DELETE FROM gallery_images WHERE id = ?")->execute([$img_id]);
-        header("Location: new-gallery.php?id=" . $gallery_id . "&success=image_deleted");
+        header("Location: new-gallery?id=" . $gallery_id . "&success=image_deleted");
         exit;
     }
 }
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                header("Location: gallery.php");
+                header("Location: gallery");
                 exit;
             } else {
                 $error = "Failed to save the album.";
@@ -140,7 +140,7 @@ include 'includes/header.php';
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
         <!-- Header -->
         <div class="flex items-center gap-4 mb-8">
-            <a href="gallery.php" class="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors">
+            <a href="gallery" class="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             </a>
             <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $pageTitle ?></h2>
@@ -225,7 +225,7 @@ include 'includes/header.php';
                                         <?php foreach ($gallery_images as $img): ?>
                                             <div class="relative group">
                                                 <img loading="lazy" src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
-                                                <a href="new-gallery.php?id=<?= $gallery['id'] ?>&delete_image=<?= $img['id'] ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <a href="new-gallery?id=<?= $gallery['id'] ?>&delete_image=<?= $img['id'] ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                 </a>
                                             </div>
@@ -257,7 +257,7 @@ include 'includes/header.php';
                             <p class="text-[13px] text-gray-500">No recent albums.</p>
                         <?php else: ?>
                             <?php foreach($recentAlbums as $album): ?>
-                            <a href="new-gallery.php?id=<?= $album['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer group mb-4 border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                            <a href="new-gallery?id=<?= $album['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer group mb-4 border-b border-gray-50 pb-4 last:border-0 last:pb-0">
                                 <h4 class="font-semibold text-gray-900 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($album['title']) ?></h4>
                                 <div class="mt-1 flex items-center gap-2">
                                     <?php if ($album['status'] === 'Public'): ?>

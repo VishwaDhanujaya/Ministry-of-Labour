@@ -85,7 +85,7 @@ include 'includes/header.php';
             <div class="lg:col-span-2">
                 <div class="flex justify-between items-center mb-5">
                     <h3 class="text-2xl font-bold font-montserrat text-gray-900">Recent Articles</h3>
-                    <a href="articles.php" class="px-5 py-2 border border-[#4E0000] rounded-md text-[13px] font-bold text-[#4E0000] hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
+                    <a href="articles" class="px-5 py-2 border border-[#4E0000] rounded-md text-[13px] font-bold text-[#4E0000] hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
                 </div>
                 
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden overflow-x-auto">
@@ -126,7 +126,7 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                 </td>
                                 <td class="py-5 px-6 text-right">
-                                    <a href="new-article.php?id=<?= $article['id'] ?>" class="text-gray-500 hover:text-[#13273F] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></a>
+                                    <a href="new-article?id=<?= $article['id'] ?>" class="text-gray-500 hover:text-[#13273F] transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></a>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -169,7 +169,7 @@ include 'includes/header.php';
                         <?php endif; ?>
                     </div>
                     <div class="p-5 mt-2">
-                        <a href="bungalow-bookings.php" class="block text-center w-full py-2.5 bg-transparent border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
+                        <a href="bungalow-bookings" class="block text-center w-full py-2.5 bg-transparent border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-[#4E0000] hover:text-white transition-colors">View All</a>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@
             
             <!-- Dropdown -->
             <div id="user-dropdown-menu" class="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg hidden z-50">
-                <a href="logout.php" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-50 transition-colors font-medium flex items-center">
+                <a href="logout" class="block w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-gray-50 transition-colors font-medium flex items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     Logout
                 </a>

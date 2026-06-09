@@ -17,7 +17,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     } elseif ($action === 'delete') {
         $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = ?");
         $stmt->execute([$id]);
-        header("Location: bungalow-bookings.php");
+        header("Location: bungalow-bookings");
         exit;
     }
 
@@ -87,7 +87,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             }
         }
 
-        header("Location: bungalow-bookings.php");
+        header("Location: bungalow-bookings");
         exit;
     }
 }
@@ -345,18 +345,18 @@ include 'includes/header.php';
                                 <button type="button" onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="flex-1 py-2 bg-white border border-gray-300 rounded-md text-gray-700 font-bold text-[12px] hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">View Details</button>
                                 
                                 <?php if ($booking['status'] === 'Pending'): ?>
-                                    <a href="bungalow-bookings.php?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to cancel this booking?');" class="px-3 py-2 bg-white border border-red-200 text-red-600 rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm" title="Reject">
+                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to cancel this booking?');" class="px-3 py-2 bg-white border border-red-200 text-red-600 rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm" title="Reject">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                     </a>
-                                    <a href="bungalow-bookings.php?action=approve&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to approve this booking?');" class="flex-1 py-2 bg-[#0A6C5B] text-white text-center rounded-md font-bold text-[12px] hover:bg-[#085a4c] transition-all shadow-sm">Approve</a>
+                                    <a href="bungalow-bookings?action=approve&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to approve this booking?');" class="flex-1 py-2 bg-[#0A6C5B] text-white text-center rounded-md font-bold text-[12px] hover:bg-[#085a4c] transition-all shadow-sm">Approve</a>
                                 <?php endif; ?>
                                 
                                 <?php if ($booking['status'] === 'Confirmed'): ?>
-                                    <a href="bungalow-bookings.php?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to cancel this confirmed booking?');" class="flex-1 py-2 bg-white border border-red-200 text-red-600 text-center rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm">Cancel Booking</a>
+                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to cancel this confirmed booking?');" class="flex-1 py-2 bg-white border border-red-200 text-red-600 text-center rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm">Cancel Booking</a>
                                 <?php endif; ?>
 
                                 <?php if ($booking['status'] === 'Cancelled'): ?>
-                                    <a href="bungalow-bookings.php?action=delete&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to permanently delete this cancelled booking?');" class="flex-1 py-2 bg-white border border-gray-300 text-gray-600 text-center rounded-md font-bold text-[12px] hover:bg-gray-100 hover:text-gray-900 transition-all shadow-sm">Delete Record</a>
+                                    <a href="bungalow-bookings?action=delete&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to permanently delete this cancelled booking?');" class="flex-1 py-2 bg-white border border-gray-300 text-gray-600 text-center rounded-md font-bold text-[12px] hover:bg-gray-100 hover:text-gray-900 transition-all shadow-sm">Delete Record</a>
                                 <?php endif; ?>
                             </div>
                         </div>

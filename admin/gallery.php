@@ -27,7 +27,7 @@ if (isset($_GET['delete'])) {
         }
         
         $pdo->prepare("DELETE FROM gallery WHERE id = ?")->execute([$del_id]);
-        header("Location: gallery.php");
+        header("Location: gallery");
         exit;
     }
 }
@@ -54,7 +54,7 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900">Gallery Albums</h2>
-            <a href="new-gallery.php" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
+            <a href="new-gallery" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
                 <span class="mr-1.5 text-lg leading-none">+</span> New Album
             </a>
         </div>
@@ -108,7 +108,7 @@ include 'includes/header.php';
                     </tr>
                     <?php else: ?>
                     <?php foreach ($galleries as $gallery): ?>
-                    <tr class="hover:bg-gray-50 transition-colors group cursor-pointer" onclick="showPreviewModal(<?= $gallery['id'] ?>, '<?= htmlspecialchars(addslashes($gallery['title'])) ?>', 'new-gallery.php?id=<?= $gallery['id'] ?>', 'gallery.php?delete=<?= $gallery['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
+                    <tr class="hover:bg-gray-50 transition-colors group cursor-pointer" onclick="showPreviewModal(<?= $gallery['id'] ?>, '<?= htmlspecialchars(addslashes($gallery['title'])) ?>', 'new-gallery?id=<?= $gallery['id'] ?>', 'gallery?delete=<?= $gallery['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
                         <td class="py-4 px-6">
                             <?php if(!empty($gallery['cover_image']) && file_exists($gallery['cover_image'])): ?>
                                 <a data-fslightbox="gallery" href="<?= htmlspecialchars($gallery['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
@@ -167,10 +167,10 @@ include 'includes/header.php';
                         </td>
                         <td class="py-4 px-6">
                             <div class="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <a href="new-gallery.php?id=<?= $gallery['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                <a href="new-gallery?id=<?= $gallery['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
-                                <a href="gallery.php?delete=<?= $gallery['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this album and all its images?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="gallery?delete=<?= $gallery['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this album and all its images?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>

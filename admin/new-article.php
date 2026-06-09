@@ -24,7 +24,7 @@ if (isset($_GET['delete_image']) && isset($_GET['id'])) {
             unlink($img['image_path']);
         }
         $pdo->prepare("DELETE FROM article_images WHERE id = ?")->execute([$img_id]);
-        header("Location: new-article.php?id=" . $article_id . "&success=image_deleted");
+        header("Location: new-article?id=" . $article_id . "&success=image_deleted");
         exit;
     }
 }
@@ -56,7 +56,7 @@ if (isset($_GET['delete_draft'])) {
 
     $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ? AND status = 'Draft'");
     $stmt->execute([$del_id]);
-    header("Location: new-article.php");
+    header("Location: new-article");
     exit;
 }
 
@@ -67,7 +67,7 @@ if (isset($_GET['id'])) {
     $stmt->execute([$id]);
     $article = $stmt->fetch();
     if (!$article) {
-        header("Location: articles.php");
+        header("Location: articles");
         exit;
     }
     
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 }
-                header("Location: articles.php");
+                header("Location: articles");
                 exit;
             } else {
                 $error = "Failed to save article to database.";
@@ -183,7 +183,7 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $article ? 'Edit Article' : 'New Article' ?></h2>
-            <a href="articles.php" class="bg-white border border-[#4E0000] text-[#4E0000] px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-gray-50 transition-colors shadow-sm flex items-center">
+            <a href="articles" class="bg-white border border-[#4E0000] text-[#4E0000] px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-gray-50 transition-colors shadow-sm flex items-center">
                 Back to Articles
             </a>
         </div>
@@ -316,7 +316,7 @@ include 'includes/header.php';
                                 <?php foreach($article_images as $img): ?>
                                     <div class="relative group">
                                         <img loading="lazy" src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
-                                        <a href="new-article.php?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <a href="new-article?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </a>
                                     </div>
@@ -329,7 +329,7 @@ include 'includes/header.php';
                     <div class="flex justify-between items-center pt-4">
                         <div>
                             <?php if ($article): ?>
-                                <a href="articles.php?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center">
+                                <a href="articles?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this article?');" class="px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     Delete
                                 </a>
@@ -393,14 +393,14 @@ include 'includes/header.php';
                         <?php else: ?>
                             <?php foreach($recentDrafts as $draft): ?>
                             <div class="flex items-start justify-between gap-2 mb-4 group relative border-b border-gray-50 pb-4 last:border-0 last:pb-0">
-                                <a href="new-article.php?id=<?= $draft['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer flex-1">
+                                <a href="new-article?id=<?= $draft['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer flex-1">
                                     <h4 class="font-semibold text-gray-900 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
                                     <p class="text-[11px] text-gray-500">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
                                     <div class="mt-1">
                                         <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
                                     </div>
                                 </a>
-                                <a href="new-article.php?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
+                                <a href="new-article?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>

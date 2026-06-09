@@ -30,7 +30,7 @@ if (isset($_GET['delete'])) {
     
     $stmt = $pdo->prepare("DELETE FROM articles WHERE id = ?");
     $stmt->execute([$del_id]);
-    header("Location: articles.php");
+    header("Location: articles");
     exit;
 }
 
@@ -50,7 +50,7 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900">Articles</h2>
-            <a href="new-article.php" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
+            <a href="new-article" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
                 <span class="mr-1.5 text-lg leading-none">+</span> New Article
             </a>
         </div>
@@ -119,7 +119,7 @@ include 'includes/header.php';
                     </tr>
                     <?php else: ?>
                     <?php foreach ($newsList as $news): ?>
-                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'new-article.php?id=<?= $news['id'] ?>', 'articles.php?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
+                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'new-article?id=<?= $news['id'] ?>', 'articles?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
                         <td class="py-5 px-6">
                             <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
                                 <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
@@ -186,10 +186,10 @@ include 'includes/header.php';
                         </td>
                         <td class="py-5 px-6">
                             <div class="flex items-center space-x-2">
-                                <a href="new-article.php?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                <a href="new-article?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
-                                <a href="articles.php?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this article?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="articles?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this article?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>

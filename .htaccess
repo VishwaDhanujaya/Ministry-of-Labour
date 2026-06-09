@@ -25,11 +25,10 @@ RewriteRule ^admin/login\.php$ %1/admin/login [R=301,L]
 # Serve admin/login.php when admin/login is accessed
 RewriteRule ^admin/login/?$ admin/login.php [L]
 
-# Redirect to non-php extension (except index, and exclude ANY path containing /admin/)
+# Redirect to non-php extension (except index)
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} ^(.*)/([^/.]+)\.php$ [NC]
 RewriteCond %2 !=index
-RewriteCond %{REQUEST_URI} !/admin/ [NC]
 RewriteRule ^ %{REQUEST_SCHEME}://%{HTTP_HOST}%1/%2 [R=301,L]
 
 # Pretty URLs
