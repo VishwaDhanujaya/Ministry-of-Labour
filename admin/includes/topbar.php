@@ -10,7 +10,7 @@
     </div>
     
     <div class="flex items-center space-x-3 md:space-x-5">
-        <a href="../index.php" target="_blank" class="hidden sm:inline-flex bg-[#4E0000] text-white px-5 md:px-6 py-2 rounded-md font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm">
+        <a href="../home" target="_blank" class="hidden sm:inline-flex bg-[#4E0000] text-white px-5 md:px-6 py-2 rounded-md font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm">
             Visit Site
         </a>
         

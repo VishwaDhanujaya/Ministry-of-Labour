@@ -3,17 +3,33 @@ Options -MultiViews
 
 # Redirect /index to /home only for the root
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
-RewriteRule ^index(?:\.php)?/?$ home [R=301,L]
+RewriteCond %{REQUEST_URI} ^(.*?)/index(?:\.php)?/?$
+RewriteRule ^index(?:\.php)?/?$ %1/home [R=301,L]
 
-# Serve index.php when /home is accessed (root)
+# Serve index.php when /home is accessed (root only, not admin/home)
 RewriteRule ^home(?:\.php)?/?$ index.php [L]
-# Serve index.php when /home is accessed in any subdirectory (like admin/home due to cached 301s)
-RewriteRule ^(.*)/home(?:\.php)?/?$ $1/index.php [L]
 
-# Redirect to non-php extension (except index)
+# Admin dashboard: redirect admin/ or admin/index(.php) to admin/dashboard
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} ^(.*?)/admin
+RewriteRule ^admin(?:/|/index(?:\.php)?)?$ %1/admin/dashboard [R=301,L]
+
+# Serve admin/index.php when admin/dashboard is accessed
+RewriteRule ^admin/dashboard/?$ admin/index.php [L]
+
+# Admin login: redirect admin/login(.php) to admin/login
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} ^(.*?)/admin
+RewriteRule ^admin/login\.php$ %1/admin/login [R=301,L]
+
+# Serve admin/login.php when admin/login is accessed
+RewriteRule ^admin/login/?$ admin/login.php [L]
+
+# Redirect to non-php extension (except index, and exclude ANY path containing /admin/)
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} ^(.*)/([^/.]+)\.php$ [NC]
 RewriteCond %2 !=index
+RewriteCond %{REQUEST_URI} !/admin/ [NC]
 RewriteRule ^ %{REQUEST_SCHEME}://%{HTTP_HOST}%1/%2 [R=301,L]
 
 # Pretty URLs
@@ -24,6 +40,11 @@ RewriteRule ^gallery-album/([0-9]+)/?$ gallery-album.php?id=$1 [QSA,L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php [L]
+
+# Custom 404 Error Handling (Replaces hardcoded ErrorDocument)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ 404.php [L]
 
 # Protect .env file, .sql files, and .git folders
 <FilesMatch "\.(env|sql|json|lock)$">
@@ -71,6 +92,3 @@ RedirectMatch 404 /\.git
     ExpiresByType image/x-icon "access plus 1 year"
     ExpiresDefault "access plus 2 days"
 </IfModule>
-
-# Custom 404 Error Page
-ErrorDocument 404 /Ministry-of-Labour/404.php

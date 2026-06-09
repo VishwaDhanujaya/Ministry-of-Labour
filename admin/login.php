@@ -7,7 +7,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 if (isLoggedIn()) {
-    header("Location: index.php");
+    header("Location: dashboard");
     exit;
 }
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             session_regenerate_id(true); // Prevent Session Fixation
             loginAdmin($admin['id'], $admin['name'], $admin['role']);
             session_write_close(); // Force session to write to disk before redirect
-            header("Location: index.php");
+            header("Location: dashboard");
             exit;
         } else {
             // Generic error message to prevent username enumeration

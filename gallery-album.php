@@ -3,7 +3,7 @@
 require_once 'admin/includes/db.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: gallery.php');
+    header('Location: gallery');
     exit;
 }
 
@@ -15,7 +15,7 @@ $stmt->execute([$id]);
 $album = $stmt->fetch();
 
 if (!$album) {
-    header('Location: gallery.php');
+    header('Location: gallery');
     exit;
 }
 

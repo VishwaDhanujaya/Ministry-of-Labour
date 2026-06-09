@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(['success' => true, 'message' => 'Your booking request has been submitted successfully and is pending approval.']);
                 exit;
             }
-            header("Location: ampara-circuit-bungalow.php?success=1");
+            header("Location: ampara-circuit-bungalow?success=1");
             exit;
         } catch (PDOException $e) {
             $error = "Failed to submit booking: " . $e->getMessage();

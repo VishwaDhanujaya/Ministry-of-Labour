@@ -4,7 +4,7 @@ require_once 'admin/includes/db.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) {
-    header("Location: articles.php");
+    header("Location: articles");
     exit;
 }
 
@@ -13,7 +13,7 @@ $stmt->execute([$id]);
 $article = $stmt->fetch();
 
 if (!$article) {
-    header("Location: articles.php");
+    header("Location: articles");
     exit;
 }
 
@@ -49,7 +49,7 @@ if (!empty($article['cover_image'])) {
 }
 
 $breadcrumbs = [
-    ['label' => 'Articles', 'url' => 'articles.php'],
+    ['label' => 'Articles', 'url' => 'articles'],
     ['label' => htmlspecialchars($article['title'])]
 ];
 include 'includes/header.php';

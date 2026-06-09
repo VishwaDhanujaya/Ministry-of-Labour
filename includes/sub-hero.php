@@ -10,7 +10,7 @@
             <?php echo isset($page_title) ? $page_title : 'Ministry of Labour'; ?>
         </h1>
         <div class="flex items-center text-[13px] md:text-sm font-inter text-gray-300">
-            <a href="index" class="hover:text-white transition-colors">Home</a>
+            <a href="home" class="hover:text-white transition-colors">Home</a>
             <?php
             if (isset($breadcrumbs) && is_array($breadcrumbs)) {
                 foreach ($breadcrumbs as $index => $crumb) {
