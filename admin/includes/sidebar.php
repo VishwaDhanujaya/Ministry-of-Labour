@@ -5,7 +5,7 @@
 <aside id="admin-sidebar" class="w-64 bg-[#4E0000] text-white flex-col h-full shrink-0 z-50 fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out flex">
     <!-- Logo Area -->
     <div class="h-20 flex items-center px-6 shrink-0 pt-4">
-        <img loading="lazy" src="../assets/img/logo.png" alt="Ministry of Labour" class="h-12 w-auto object-contain">
+        <img loading="lazy" src="<?= $base_url ?>assets/img/logo.png" alt="Ministry of Labour" class="h-12 w-auto object-contain">
     </div>
 
     <!-- Navigation -->
@@ -42,14 +42,14 @@
             </ul>
         </div>
 
-        <!-- Group: BOOKINGS -->
+        <!-- Group: OFFICIALS -->
         <div class="mb-8">
-            <h3 class="px-8 text-[11px] font-medium text-white/60 tracking-wider mb-3">BOOKINGS</h3>
+            <h3 class="px-8 text-[11px] font-medium text-white/60 tracking-wider mb-3">OFFICIALS</h3>
             <ul>
                 <li>
-                    <a href="bungalow-bookings" class="flex items-center px-8 py-2.5 <?= ($current_page == 'bungalow-bookings') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
-                        <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span>Bungalow Bookings</span>
+                    <a href="officials" class="flex items-center px-8 py-2.5 <?= ($current_page == 'officials') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
+                        <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <span>Officials & Contacts</span>
                     </a>
                 </li>
             </ul>

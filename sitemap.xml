@@ -45,9 +45,5 @@
         <priority>0.8</priority>
         <changefreq>monthly</changefreq>
     </url>
-    <url>
-        <loc>https://labourmin.gov.lk/ampara-circuit-bungalow</loc>
-        <priority>0.8</priority>
-        <changefreq>monthly</changefreq>
-    </url>
+
 </urlset>

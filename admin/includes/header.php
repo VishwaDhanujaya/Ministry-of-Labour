@@ -5,8 +5,12 @@ require_once __DIR__ . '/functions.php';
 
 requireLogin();
 
-// Determine base URL for assets if needed
-$base_url = '../';
+// Compute an absolute base URL so assets load correctly under URL rewriting.
+// e.g. if the site root is /Ministry-of-Labour/, base_url = '/Ministry-of-Labour/'
+$scriptDir   = str_replace('\\', '/', dirname(dirname(dirname(__FILE__)))); // project root (absolute filesystem)
+$docRoot     = str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
+$base_path   = substr($scriptDir, strlen($docRoot)); // e.g. '/Ministry-of-Labour'
+$base_url    = rtrim($base_path, '/') . '/';          // e.g. '/Ministry-of-Labour/'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,9 +25,9 @@ $base_url = '../';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600&family=Noto+Sans+Tamil:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
-    <link rel="icon" href="../assets/img/emblem.png" type="image/png">
+    <link rel="icon" href="<?= $base_url ?>assets/img/emblem.png" type="image/png">
     
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css">
 </head>
 <body class="bg-[#F8F9FA] text-gray-800 antialiased font-inter h-screen flex overflow-hidden">

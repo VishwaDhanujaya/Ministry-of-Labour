@@ -2,6 +2,12 @@
 require_once 'includes/auth.php';
 require_once 'includes/db.php';
 
+// Compute absolute base URL so assets load correctly under URL rewriting.
+$scriptDir = str_replace('\\', '/', dirname(dirname(__FILE__))); // project root
+$docRoot   = str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
+$base_path = substr($scriptDir, strlen($docRoot));               // e.g. '/Ministry-of-Labour'
+$base_url  = rtrim($base_path, '/') . '/';                       // e.g. '/Ministry-of-Labour/'
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -53,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" href="../assets/img/emblem.png" type="image/png">
+    <link rel="icon" href="<?= $base_url ?>assets/img/emblem.png" type="image/png">
 
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css">
 
     <style>
         .font-inter {
@@ -85,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Left Side: Image with Gradient Overlay -->
     <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-[#4E0000]">
         <!-- Background Image (using inline style for reliable loading without Tailwind compilation) -->
-        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('assets/img/login-admin.webp');">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('<?= $base_url ?>admin/assets/img/login-admin.webp');">
         </div>
 
         <!-- Gradient Overlay -->
@@ -94,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Logo -->
         <div class="relative z-10 flex flex-col items-center">
-            <img loading="lazy" src="../assets/img/logo.png" alt="Ministry of Labour Logo"
+            <img loading="lazy" src="<?= $base_url ?>assets/img/logo.png" alt="Ministry of Labour Logo"
                 class="w-80 lg:w-[420px] h-auto object-contain drop-shadow-md">
         </div>
     </div>

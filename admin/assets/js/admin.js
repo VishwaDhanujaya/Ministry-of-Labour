@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobalInteractions();
     initTableFiltering();
     initFormValidation();
-    initBookingActions();
+
     initDateScroller();
     initDragAndDrop();
 });
@@ -301,43 +301,6 @@ function initFormValidation() {
 }
 
 
-// --- Bungalow Bookings ---
-
-function initBookingActions() {
-    const approveBtns = document.querySelectorAll('.js-booking-approve');
-    const rejectBtns = document.querySelectorAll('.js-booking-reject');
-    
-    approveBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = e.target.closest('.js-booking-card');
-            showModal('Approve Booking', 'Are you sure you want to approve this booking?', 'Approve', 'bg-[#0A6C5B] hover:bg-[#075043]', () => {
-                updateBookingStatus(card, 'Confirmed', 'bg-[#0A6C5B]/30 text-[#D1F1E8]');
-                showToast('Booking approved successfully', 'success');
-            });
-        });
-    });
-    
-    rejectBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const card = e.target.closest('.js-booking-card');
-            showModal('Reject Booking', 'Are you sure you want to reject this booking?', 'Reject', 'bg-red-600 hover:bg-red-700', () => {
-                updateBookingStatus(card, 'Cancelled', 'bg-red-900/40 text-red-300');
-                showToast('Booking rejected', 'success');
-            });
-        });
-    });
-}
-
-function updateBookingStatus(card, newText, newClasses) {
-    const statusPill = card.querySelector('.js-status-pill');
-    if (statusPill) {
-        statusPill.textContent = newText;
-        statusPill.className = `js-status-pill px-2.5 py-0.5 rounded text-[10px] font-bold ${newClasses}`;
-    }
-    // Optionally disable buttons
-    const footer = card.querySelector('.bg-\\[\\#E5E7EB\\]');
-    if(footer) footer.style.opacity = '0.5';
-}
 
 function initDateScroller() {
     const dates = document.querySelectorAll('.js-date-block');

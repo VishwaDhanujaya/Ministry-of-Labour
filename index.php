@@ -329,19 +329,7 @@ include 'includes/header.php';
                 </div>
 
             </div>
-            <!-- Service Card 7 -->
-            <div class="service-card" data-title="Dangerous Occurrences"
-                data-keywords="dangerous accident occurrence crash disaster chemical fire construction report">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">07</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Bungalow Booking</h3>
-                    <p class="service-card-desc">Book Ministry circuit bungalows for official use.</p>
-                </div>
 
-            </div>
             <!-- Service Card 8 -->
             <div class="service-card" data-title="Complaint Board"
                 data-keywords="complaint board portal query tracking case status check">
