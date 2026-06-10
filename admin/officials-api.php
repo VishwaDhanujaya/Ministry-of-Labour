@@ -1,14 +1,17 @@
 <?php
 // admin/officials-api.php
-session_start();
+require_once 'includes/auth.php'; // Updated to use auth.php
 require_once 'includes/db.php';
 require_once '../includes/officials-service.php';
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['admin_id'])) {
-    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-    exit;
+// CSRF validation
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        exit;
+    }
 }
 
 // Only super_admin and admin allowed (if editor has role = 'editor', reject)
@@ -44,16 +47,19 @@ try {
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = 'uploads/officials/';
                 if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
+                    mkdir($uploadDir, 0755, true);
                 }
+
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mime = finfo_file($finfo, $_FILES['image']['tmp_name']);
+                $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
+                
+                if (!in_array($mime, $allowedMimes)) {
+                    throw new Exception('Invalid file type.');
+                }
+                finfo_close($finfo);
 
                 $fileExt = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-                $allowedExts = ['jpg', 'jpeg', 'png', 'webp'];
-                
-                if (!in_array($fileExt, $allowedExts)) {
-                    throw new Exception('Invalid file type. Only JPG, PNG and WEBP allowed.');
-                }
-
                 $nameSlug = preg_replace('/[^a-z0-9]+/', '-', strtolower($data['name']));
                 $nameSlug = trim($nameSlug, '-');
                 $divPrefix = $data['category'] === 'top' ? 'top' : 'div' . $data['division_id'];

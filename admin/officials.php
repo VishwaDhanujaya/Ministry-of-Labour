@@ -86,7 +86,7 @@ include 'includes/header.php';
         <!-- Division Tabs -->
         <?php foreach ($divisions as $div): ?>
         <div id="tab-div-<?= $div['id_db'] ?? $div['id'] ?>" class="tab-content hidden">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50 text-gray-600 border-b border-gray-200 text-xs uppercase tracking-wider">
@@ -149,8 +149,8 @@ include 'includes/header.php';
 <!-- Modal Form -->
 <div id="official-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col">
-        <form id="official-form" onsubmit="saveOfficial(event)">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col overflow-hidden">
+        <form id="official-form" onsubmit="saveOfficial(event)" class="flex flex-col max-h-[90vh] w-full">
             <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                 <h3 id="modal-title" class="text-xl font-bold text-gray-900">Add Official</h3>
                 <button type="button" onclick="closeModal()" class="text-gray-400 hover:text-gray-600 focus:outline-none">
@@ -161,6 +161,7 @@ include 'includes/header.php';
             <div class="p-6 overflow-y-auto space-y-4 text-sm flex-1">
                 <input type="hidden" id="field-id" name="id">
                 <input type="hidden" id="field-category" name="category" value="division">
+                <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                 <input type="hidden" id="field-top-role" name="top_role">
                 
                 <div id="division-select-container">
@@ -172,7 +173,7 @@ include 'includes/header.php';
                     </select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 font-medium mb-1.5">Full Name <span class="text-red-500">*</span></label>
                         <input type="text" id="field-name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#4E0000] focus:border-[#4E0000]">
@@ -188,7 +189,7 @@ include 'includes/header.php';
                     <input type="text" id="field-designation" name="designation" placeholder="e.g. Additional Secretary (Admin)" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#4E0000] focus:border-[#4E0000]">
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-gray-700 font-medium mb-1.5">Phone <span class="text-gray-400 font-normal text-xs">(Optional)</span></label>
                         <input type="text" id="field-phone" name="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-[#4E0000] focus:border-[#4E0000]">
@@ -214,7 +215,7 @@ include 'includes/header.php';
                             <p class="text-xs text-gray-400">Choose a new file below to replace it.</p>
                         </div>
                     </div>
-                    <input type="file" id="field-image" name="image" accept=".jpg,.jpeg,.png,.webp" class="w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100 border border-gray-300 rounded-md p-1">
+                    <input type="file" id="field-image" name="image" accept=".jpg,.jpeg,.png,.webp" class="w-full text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 border border-gray-200 rounded-md p-1 focus:outline-none">
                     <p class="text-xs text-gray-400 mt-1">Leave empty to keep existing image. Recommended: 300x300 WEBP or JPG.</p>
                 </div>
             </div>
@@ -350,6 +351,7 @@ async function saveOfficial(e) {
 
     const formData = new FormData(e.target);
     formData.append('action', 'save_official');
+    // csrf_token is already included from the hidden field in the form
 
     try {
         const res = await fetch('officials-api', { method: 'POST', body: formData });
@@ -375,6 +377,7 @@ async function deleteOfficial(id) {
     const formData = new FormData();
     formData.append('action', 'delete_official');
     formData.append('id', id);
+    formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
 
     try {
         const res = await fetch('officials-api', { method: 'POST', body: formData });
@@ -406,6 +409,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const formData = new FormData();
                     formData.append('action', 'update_sort_order');
                     formData.append('order', JSON.stringify(orderedIds));
+                    formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
                     
                     try {
                         const res = await fetch('officials-api', { method: 'POST', body: formData });

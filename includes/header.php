@@ -187,8 +187,19 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Citizen Charter</a>
 
 
-                <a href="downloads"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Downloads</a>
+                <div class="relative group">
+                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'publications' || $current_page == 'procurements') ? 'text-[#13273F] border-[#13273F]' : 'border-transparent hover:text-[#13273F] hover:border-gray-300' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
+                        Resources
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown -->
+                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                        <div class="py-1">
+                            <a href="publications" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'publications') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Publications</a>
+                            <a href="procurements" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'procurements') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Procurements</a>
+                        </div>
+                    </div>
+                </div>
 
                 <a href="articles"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'articles') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Articles</a>
@@ -263,7 +274,11 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 <a href="citizen-charter" class="pl-3 py-1 <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Citizen Charter</a>
 
 
-                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Downloads</a>
+                <div class="flex flex-col space-y-2 py-1">
+                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Resources</div>
+                    <a href="publications" class="pl-6 py-1 <?= ($current_page == 'publications') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Publications</a>
+                    <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Procurements</a>
+                </div>
                 <a href="articles" class="pl-3 py-1 <?= ($current_page == 'articles') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Articles</a>
                 <a href="gallery" class="pl-3 py-1 <?= ($current_page == 'gallery') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Gallery</a>
             </nav>

@@ -4,8 +4,8 @@
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
         <div>
-            <h1 class="text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">Admin Dashboard</h1>
-            <p class="text-[11px] md:text-[13px] text-gray-600 mt-0.5 md:mt-1 font-medium">Monday, Mar 09, 2026</p>
+            <h1 class="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 tracking-tight">Admin Dashboard</h1>
+            <p class="text-[11px] md:text-[13px] text-gray-600 mt-0.5 md:mt-1 font-medium"><?= date('l, M d, Y') ?></p>
         </div>
     </div>
     

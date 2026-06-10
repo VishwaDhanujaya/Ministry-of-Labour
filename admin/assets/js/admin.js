@@ -9,9 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobalInteractions();
     initTableFiltering();
     initFormValidation();
-
-    initDateScroller();
-    initDragAndDrop();
 });
 
 // --- UI Utilities (Toasts & Modals) ---
@@ -234,15 +231,8 @@ function initTableFiltering() {
             });
         });
     });
-    
-    // Edit Buttons in Tables
-    const editBtns = document.querySelectorAll('.js-edit-row');
-    editBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Future edit logic here
-        });
-    });
 }
+
 
 
 // --- Form Validation (Upload & Settings) ---
@@ -288,86 +278,4 @@ function initFormValidation() {
             // If valid, the form will submit normally to PHP
         });
     });
-    
-    // Specific mock for "Save as Draft" - Removed to allow actual form submission
-    /*
-    const draftBtns = document.querySelectorAll('.js-save-draft');
-    draftBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            showToast('Draft saved securely.', 'success');
-        });
-    });
-    */
-}
-
-
-
-function initDateScroller() {
-    const dates = document.querySelectorAll('.js-date-block');
-    if(dates.length === 0) return;
-    
-    dates.forEach(date => {
-        date.addEventListener('click', () => {
-            // Remove active from all
-            dates.forEach(d => {
-                d.className = 'js-date-block flex flex-col items-center justify-center w-16 h-20 bg-[#F9FAFB] text-gray-800 rounded-lg border border-gray-200 shrink-0 cursor-pointer hover:bg-gray-50 transition-colors';
-                const dot = d.querySelector('div');
-                if(dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-gray-300';
-            });
-            
-            // Set active to clicked
-            date.className = 'js-date-block flex flex-col items-center justify-center w-16 h-20 bg-[#13273F] text-white rounded-lg border border-[#13273F] shrink-0 cursor-pointer shadow-md transform scale-105 transition-transform';
-            const dot = date.querySelector('div');
-            if(dot) dot.className = 'w-1.5 h-1.5 rounded-full bg-[#FDECB1]';
-        });
-    });
-}
-
-
-// --- Drag and Drop Mock ---
-
-function initDragAndDrop() {
-    const dropzone = document.querySelector('.js-dropzone');
-    if (!dropzone) return;
-    
-    dropzone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropzone.classList.add('border-[#4E0000]', 'bg-gray-50');
-    });
-    
-    dropzone.addEventListener('dragleave', () => {
-        dropzone.classList.remove('border-[#4E0000]', 'bg-gray-50');
-    });
-    
-    dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropzone.classList.remove('border-[#4E0000]', 'bg-gray-50');
-        
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            updateDropzoneText(dropzone, files[0].name);
-        }
-    });
-    
-    dropzone.addEventListener('click', () => {
-        // Mock file input click
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = (e) => {
-            if (e.target.files.length > 0) {
-                updateDropzoneText(dropzone, e.target.files[0].name);
-            }
-        };
-        input.click();
-    });
-}
-
-function updateDropzoneText(dropzone, filename) {
-    const mainText = dropzone.querySelector('p:first-child');
-    if (mainText) {
-        mainText.textContent = `Selected: ${filename}`;
-        mainText.classList.add('text-[#4E0000]', 'font-bold');
-        showToast('Image attached', 'success');
-    }
 }

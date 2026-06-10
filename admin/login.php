@@ -86,10 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 
-<body class="bg-white text-gray-800 antialiased font-inter h-screen flex overflow-hidden">
+<body class="bg-white text-gray-800 antialiased font-inter min-h-screen flex flex-col lg:flex-row">
 
     <!-- Left Side: Image with Gradient Overlay -->
-    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-[#4E0000]">
+    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-[#4E0000] min-h-screen shrink-0">
         <!-- Background Image (using inline style for reliable loading without Tailwind compilation) -->
         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('<?= $base_url ?>admin/assets/img/login-admin.webp');">
         </div>
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <!-- Right Side: Login Form -->
-    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center relative p-8">
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center relative p-8 min-h-screen shrink-0 overflow-y-auto">
 
         <div class="w-full max-w-[420px]">
             <h2 class="text-[36px] font-bold text-black text-center mb-12 font-montserrat">Admin Login</h2>

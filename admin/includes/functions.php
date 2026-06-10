@@ -46,9 +46,9 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
     $info = pathinfo($file['name']);
     $ext = strtolower($info['extension'] ?? '');
     
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
     if (!in_array($ext, $allowedExtensions)) {
-        return ['success' => false, 'error' => 'Invalid file extension. Only JPG, PNG, and WEBP are allowed.'];
+        return ['success' => false, 'error' => 'Invalid file extension. Only JPG, PNG, WEBP, and PDF are allowed.'];
     }
 
     $basename = $info['filename'];

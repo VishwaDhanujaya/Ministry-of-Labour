@@ -12,18 +12,14 @@ if (isset($_GET['delete'])) {
     $stmt = $pdo->prepare("SELECT cover_image FROM articles WHERE id = ?");
     $stmt->execute([$del_id]);
     $art = $stmt->fetch();
-    if ($art && !empty($art['cover_image']) && file_exists('../admin/' . $art['cover_image'])) {
-        unlink('../admin/' . $art['cover_image']);
-    } elseif ($art && !empty($art['cover_image']) && file_exists($art['cover_image'])) {
+    if ($art && !empty($art['cover_image']) && file_exists($art['cover_image'])) {
         unlink($art['cover_image']);
     }
 
     $imgStmt = $pdo->prepare("SELECT image_path FROM article_images WHERE article_id = ?");
     $imgStmt->execute([$del_id]);
     while ($img = $imgStmt->fetch()) {
-        if (!empty($img['image_path']) && file_exists('../admin/' . $img['image_path'])) {
-            unlink('../admin/' . $img['image_path']);
-        } elseif (!empty($img['image_path']) && file_exists($img['image_path'])) {
+        if (!empty($img['image_path']) && file_exists($img['image_path'])) {
             unlink($img['image_path']);
         }
     }
@@ -62,8 +58,8 @@ include 'includes/header.php';
                 <input type="text" placeholder="Search by article..." class="js-table-search w-full pl-10 pr-4 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-800 placeholder-gray-400">
             </div>
             
-            <div class="flex gap-4">
-                <div class="relative w-40">
+            <div class="grid grid-cols-2 sm:flex sm:items-center gap-3 w-full sm:w-auto">
+                <div class="relative w-full sm:w-40">
                     <svg class="w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                     <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Categories</option>
@@ -73,7 +69,7 @@ include 'includes/header.php';
                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 
-                <div class="relative w-36">
+                <div class="relative w-full sm:w-36">
                     <svg class="w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                     <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Status</option>
@@ -83,7 +79,7 @@ include 'includes/header.php';
                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
 
-                <button class="js-reset-filter px-4 py-2.5 bg-white border border-red-200 rounded-md text-[13px] font-medium text-red-500 flex items-center hover:bg-red-50 transition-colors">
+                <button class="js-reset-filter col-span-2 sm:col-span-1 px-4 py-2.5 bg-white border border-red-200 rounded-md text-[13px] font-medium text-red-500 flex items-center justify-center hover:bg-red-50 transition-colors">
                     <svg class="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                     Reset Filter
                 </button>
