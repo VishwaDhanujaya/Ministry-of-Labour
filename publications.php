@@ -19,7 +19,7 @@ $publications = $stmt->fetchAll();
         
         <!-- Filters and Search -->
         <div class="flex flex-col md:flex-row gap-4 mb-8">
-            <div class="relative flex-1 max-w-[60%]">
+            <div class="relative flex-1 w-full md:max-w-[60%]">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
@@ -60,10 +60,10 @@ $publications = $stmt->fetchAll();
                             </td>
                             <td class="px-6 py-4 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-3">
-                                    <a href="admin/<?= htmlspecialchars($pub['pdf_path']) ?>" target="_blank" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
+                                    <button type="button" data-pdf-url="admin/<?= htmlspecialchars($pub['pdf_path']) ?>" data-pdf-title="<?= htmlspecialchars($pub['title']) ?>" class="open-pdf-modal inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors focus:outline-none">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         View
-                                    </a>
+                                    </button>
                                     <span class="text-gray-300">|</span>
                                     <a href="admin/<?= htmlspecialchars($pub['pdf_path']) ?>" download class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -103,4 +103,5 @@ function filterTable() {
 }
 </script>
 
+<?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>

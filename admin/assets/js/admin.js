@@ -55,9 +55,10 @@ function initModalContainer() {
     overlay = document.createElement('div');
     overlay.id = 'modal-overlay';
     overlay.className = 'fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0';
+    overlay.style.zIndex = '9999';
     
     const bg = document.createElement('div');
-    bg.className = 'absolute inset-0 bg-black/60 backdrop-blur-sm';
+    bg.className = 'absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none';
     overlay.appendChild(bg);
     
     const modal = document.createElement('div');
@@ -279,3 +280,4 @@ function initFormValidation() {
         });
     });
 }
+

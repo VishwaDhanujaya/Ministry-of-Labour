@@ -330,6 +330,20 @@ include 'includes/header.php';
 
             </div>
 
+            <!-- Service Card 7 -->
+            <div class="service-card" data-title="Bungalow Booking"
+                data-keywords="bungalow booking reservation circuit book official stay lodge room travel reserve">
+                <div>
+                    <div class="service-card-icon">
+                        <span class="font-semibold font-montserrat text-sm">07</span>
+                    </div>
+                    <h3 class="service-card-title">
+                        Bungalow Booking</h3>
+                    <p class="service-card-desc">Book Ministry circuit bungalows for official use.</p>
+                </div>
+
+            </div>
+
             <!-- Service Card 8 -->
             <div class="service-card" data-title="Complaint Board"
                 data-keywords="complaint board portal query tracking case status check">
@@ -453,106 +467,7 @@ include 'includes/header.php';
     </div>
 </section>
 
-<!-- Lightbox Modal container for Media Gallery -->
-<div id="lightbox-modal"
-    class="fixed inset-0 bg-[#070e17]/95 backdrop-blur-md z-[120] opacity-0 pointer-events-none transition-all duration-500 flex flex-col justify-center items-center p-4">
-    <!-- Close button -->
-    <button id="lightbox-close" aria-label="Close Lightbox"
-        class="absolute top-6 right-6 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none shadow-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
-    <!-- Content -->
-    <div class="w-full max-w-4xl flex flex-col items-center">
-        <div
-            class="w-full h-[50vh] md:h-[60vh] bg-premium-card-fallback rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-mesh-pattern opacity-10 animate-pulse-slow"></div>
-            <img loading="lazy" id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
-            <div id="lightbox-placeholder" class="flex flex-col items-center justify-center">
-                <svg class="w-20 h-20 text-white/20" fill="none" stroke="currentColor" stroke-width="1.2"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
-                    </path>
-                </svg>
-            </div>
-        </div>
-        <p id="lightbox-caption"
-            class="text-white text-base md:text-lg font-semibold font-montserrat mt-6 text-center max-w-xl leading-relaxed tracking-tight text-glow">
-        </p>
-    </div>
-</div>
 
-<!-- Downloads & Special Notices -->
-<section class="py-16 md:py-24 px-4 md:px-16 container mx-auto">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-        <!-- Downloads Column -->
-        <div class="bg-[#F7F7F7] rounded-[32px] border-[0.5px] border-[#D4D4D4] p-8 md:p-10 flex flex-col justify-between">
-            <div>
-                <p class="text-secondary/80 font-semibold text-xs md:text-sm uppercase tracking-[0.15em] mb-3 font-inter">
-                    Important Documents and Resources</p>
-                <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 tracking-tight">
-                    Downloads</h2>
-
-                <div class="space-y-3.5">
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">Application Forms</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">Annual Reports</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">List of Valid Trade Unions</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">Authorized Persons Appointed Under Factories Ordinance</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">Labour Legislations</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                    <a href="#"
-                        class="flex justify-between items-center p-4 md:p-5 rounded-2xl border border-gray-200/60 hover:border-secondary hover:shadow-md transition-all duration-300 group bg-white">
-                        <span class="font-semibold text-gray-800 font-inter group-hover:text-primary text-[15px] tracking-tight">Statistics</span>
-                        <div class="w-10 h-10 rounded-lg bg-secondary text-white flex items-center justify-center group-hover:bg-[#320000] transition-colors shrink-0 ml-4">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
 
         <!-- Special Notices Column -->
         <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col justify-between">

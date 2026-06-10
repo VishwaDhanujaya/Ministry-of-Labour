@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (lightboxPlaceholder) lightboxPlaceholder.classList.remove('hidden');
                 }
                 
-                lightbox.classList.remove('hidden');
+                lightbox.classList.remove('hidden', 'pointer-events-none');
                 lightbox.classList.add('flex');
                 setTimeout(() => {
                     lightbox.classList.remove('opacity-0');
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = lightbox.querySelector('.transform');
             if(card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
             setTimeout(() => {
-                lightbox.classList.add('hidden');
+                lightbox.classList.add('hidden', 'pointer-events-none');
                 lightbox.classList.remove('flex');
             }, 300);
             document.body.classList.remove('overflow-hidden');
@@ -484,3 +484,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+

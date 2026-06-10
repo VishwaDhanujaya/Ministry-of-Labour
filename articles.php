@@ -95,9 +95,7 @@ include 'includes/sub-hero.php';
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text"
-                                class="block w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13px] placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-inter"
-                                placeholder="Search">
+                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400" placeholder="Search articles...">
                         </div>
                     </div>
 
@@ -127,15 +125,39 @@ include 'includes/sub-hero.php';
 document.addEventListener('DOMContentLoaded', function() {
     const filterBtns = document.querySelectorAll('.filter-btn, .sidebar-filter-btn');
     const articles = document.querySelectorAll('.article-card');
+    const searchInput = document.getElementById('searchInput');
+
+    let currentFilter = 'all';
+
+    function filterArticles() {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        
+        articles.forEach(article => {
+            const matchesFilter = currentFilter === 'all' || article.getAttribute('data-category') === currentFilter;
+            const titleElement = article.querySelector('h3 a');
+            const title = titleElement ? titleElement.innerText.toLowerCase() : '';
+            const matchesSearch = title.includes(searchTerm);
+            
+            if (matchesFilter && matchesSearch) {
+                article.style.display = 'flex';
+            } else {
+                article.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', filterArticles);
+    }
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            const filter = this.getAttribute('data-filter');
+            currentFilter = this.getAttribute('data-filter');
             
             // Update active state on main filter buttons
             document.querySelectorAll('.filter-btn').forEach(b => {
-                if(b.getAttribute('data-filter') === filter) {
+                if(b.getAttribute('data-filter') === currentFilter) {
                     b.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-300', 'hover:text-gray-900');
                     b.classList.add('bg-secondary', 'text-white');
                 } else {
@@ -144,14 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Filter articles
-            articles.forEach(article => {
-                if (filter === 'all' || article.getAttribute('data-category') === filter) {
-                    article.style.display = 'flex';
-                } else {
-                    article.style.display = 'none';
-                }
-            });
+            filterArticles();
         });
     });
 });

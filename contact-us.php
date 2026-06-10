@@ -108,7 +108,7 @@ include 'includes/sub-hero.php';
                     </div>
 
                     <div class="pt-2 md:pt-4 text-center md:text-left">
-                        <button type="submit" id="submitBtn" class="w-full md:w-auto bg-secondary text-white font-medium rounded-lg text-[13px] px-8 py-3 hover:bg-secondary/90 transition-colors font-inter inline-flex justify-center items-center gap-2">
+                        <button type="submit" id="submitBtn" class="btn-primary w-full md:w-auto font-inter gap-2">
                             <span>Send Message</span>
                             <svg id="submitSpinner" class="hidden w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -147,7 +147,7 @@ include 'includes/sub-hero.php';
 
 <!-- Department Modals -->
 <?php foreach($contact_departments as $dept): ?>
-<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
+<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0" style="z-index: 9999;">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
     
     <div class="relative w-full max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar transform scale-95 transition-all duration-300">
@@ -192,6 +192,9 @@ include 'includes/sub-hero.php';
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
+            if (modal.parentNode !== document.body) {
+                document.body.appendChild(modal);
+            }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             setTimeout(() => {
@@ -226,7 +229,6 @@ include 'includes/sub-hero.php';
         const submitBtn = document.getElementById('submitBtn');
         const spinner = document.getElementById('submitSpinner');
         const btnText = submitBtn.querySelector('span');
-
 
         // Show loading state
         submitBtn.disabled = true;

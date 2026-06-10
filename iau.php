@@ -306,7 +306,7 @@ include 'includes/sub-hero.php';
 
 <!-- Staff Modals -->
 <?php foreach($iau_staff as $staff): ?>
-<div id="<?php echo $staff['id']; ?>" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300">
+<div id="<?php echo $staff['id']; ?>" class="fixed inset-0 z-[110] hidden opacity-0 transition-opacity duration-300" style="z-index: 9999;">
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('<?php echo $staff['id']; ?>')"></div>
     
     <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[600px] bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white">

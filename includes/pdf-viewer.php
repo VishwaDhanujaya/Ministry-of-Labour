@@ -24,7 +24,7 @@
                 <path d="M3 16v3a2 2 0 0 0 2 2h3"></path>
                 <path d="M16 21h3a2 2 0 0 0 2-2v-3"></path>
             </svg>
-            Preview
+            Open PDF
         </button>
         <!-- Download Icon -->
         <a href="<?php echo htmlspecialchars($pdfUrl); ?>" download aria-label="Download PDF" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#13273F] hover:text-white transition-colors shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75">
@@ -94,3 +94,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+

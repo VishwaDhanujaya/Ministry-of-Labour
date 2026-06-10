@@ -21,8 +21,18 @@ include 'includes/sub-hero.php';
             <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Visual Highlights</h2>
         </div>
 
+        <!-- Filters and Search -->
+        <div class="flex flex-col md:flex-row justify-center gap-4 mb-10">
+            <div class="relative flex-1 w-full md:max-w-xl mx-auto">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-3 font-inter transition-colors outline-none shadow-sm placeholder-gray-400" placeholder="Search albums by title...">
+            </div>
+        </div>
+
         <!-- Gallery Grid -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
+        <div id="albums-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             
             <?php if(empty($galleryAlbums)): ?>
                 <div class="col-span-2 lg:col-span-4 text-center text-gray-500 py-10">No gallery albums available yet.</div>
@@ -54,35 +64,30 @@ include 'includes/sub-hero.php';
     </div>
 </section>
 
-<!-- Lightbox Modal container for Media Gallery -->
-<div id="lightbox-modal"
-    class="fixed inset-0 bg-[#070e17]/95 backdrop-blur-md z-[120] opacity-0 pointer-events-none transition-all duration-500 flex flex-col justify-center items-center p-4">
-    <!-- Close button -->
-    <button id="lightbox-close" aria-label="Close Lightbox"
-        class="absolute top-6 right-6 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 rounded-full flex items-center justify-center text-white active:scale-95 transition-all focus:outline-none shadow-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
-    <!-- Content -->
-    <div class="w-full max-w-4xl flex flex-col items-center">
-        <div
-            class="w-full h-[50vh] md:h-[60vh] bg-premium-card-fallback rounded-2xl border border-white/10 shadow-2xl flex items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-mesh-pattern opacity-10 animate-pulse-slow"></div>
-            <img loading="lazy" id="lightbox-img" src="" alt="" class="absolute inset-0 w-full h-full object-contain hidden z-10">
-            <div id="lightbox-placeholder" class="flex flex-col items-center justify-center">
-                <svg class="w-20 h-20 text-white/20" fill="none" stroke="currentColor" stroke-width="1.2"
-                    viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
-                    </path>
-                </svg>
-            </div>
-        </div>
-        <p id="lightbox-caption"
-            class="text-white text-base md:text-lg font-semibold font-montserrat mt-6 text-center max-w-xl leading-relaxed tracking-tight text-glow">
-        </p>
-    </div>
-</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const albumsGrid = document.getElementById('albums-grid');
+    if (searchInput && albumsGrid) {
+        const albums = albumsGrid.querySelectorAll('a.group');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            albums.forEach(album => {
+                const titleElement = album.querySelector('h3');
+                const title = titleElement ? titleElement.innerText.toLowerCase() : '';
+                if (title.includes(searchTerm)) {
+                    album.style.display = 'block';
+                } else {
+                    album.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>
+
+

@@ -301,4 +301,4 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
         </div>
     </div>
 
-    <main id="main-content" class="flex-grow">
+    <main id="main-content" class="flex-grow animate-fade-in">
