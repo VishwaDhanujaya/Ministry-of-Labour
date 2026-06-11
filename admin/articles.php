@@ -202,7 +202,7 @@ include 'includes/header.php';
 </div>
 
 <!-- Preview Modal -->
-<div id="preview-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0" style="z-index: 9999;">
+<div id="preview-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="hidePreviewModal()"></div>
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col">
         <div class="flex justify-between items-start mb-4">
@@ -252,4 +252,5 @@ function hidePreviewModal() {
 </script>
 
 <?php include 'includes/footer.php'; ?>
+
 

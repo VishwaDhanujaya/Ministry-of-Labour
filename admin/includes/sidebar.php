@@ -74,6 +74,19 @@
             </ul>
         </div>
 
+        <!-- Group: BOOKINGS -->
+        <div class="mb-8">
+            <h3 class="px-8 text-[11px] font-medium text-white/60 tracking-wider mb-3">BOOKINGS</h3>
+            <ul>
+                <li>
+                    <a href="bungalow-bookings" class="flex items-center px-8 py-2.5 <?= ($current_page == 'bungalow-bookings') ? 'bg-white text-[#4E0000]' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-colors">
+                        <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span>Bungalow Bookings</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <!-- Group: SYSTEM -->
         <div class="mb-8">
             <h3 class="px-8 text-[11px] font-medium text-white/60 tracking-wider mb-3">SYSTEM</h3>

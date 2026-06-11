@@ -186,7 +186,7 @@ include 'includes/sub-hero.php';
     </div>
 
     <!-- Simple Zoomable Organizational Chart Modal -->
-    <div id="org-chart-modal" class="fixed inset-0 z-[100] hidden flex-col transition-opacity duration-300 opacity-0 bg-black/90 backdrop-blur-sm" style="z-index: 9999;">
+    <div id="org-chart-modal" class="fixed inset-0 z-[150] hidden flex-col transition-opacity duration-300 opacity-0 bg-black/90 backdrop-blur-sm">
         <button onclick="closeOrgChart()" class="absolute top-4 right-4 md:top-6 md:right-6 z-50 w-11 h-11 bg-black/60 hover:bg-black/80 border border-white/20 text-white rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95" title="Close">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>

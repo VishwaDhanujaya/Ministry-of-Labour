@@ -219,7 +219,7 @@ include 'includes/header.php';
         </div>
 
         <!-- Add/Edit Modal -->
-        <div id="procModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4" style="z-index: 9999;">
+        <div id="procModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden transform transition-all flex flex-col max-h-[90vh]">
                 <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50/50">
                     <h3 class="text-lg font-bold font-montserrat text-gray-900 flex items-center" id="modalTitle">

@@ -147,7 +147,7 @@ include 'includes/header.php';
 </div>
 
 <!-- Modal Form -->
-<div id="official-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0" style="z-index: 9999;">
+<div id="official-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal()"></div>
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col overflow-hidden">
         <form id="official-form" onsubmit="saveOfficial(event)" class="flex flex-col max-h-[90vh] w-full">

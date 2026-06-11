@@ -147,7 +147,7 @@ include 'includes/sub-hero.php';
 
 <!-- Department Modals -->
 <?php foreach($contact_departments as $dept): ?>
-<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0" style="z-index: 9999;">
+<div id="<?php echo $dept['id']; ?>" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
     
     <div class="relative w-full max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar transform scale-95 transition-all duration-300">

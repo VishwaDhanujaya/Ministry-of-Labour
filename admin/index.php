@@ -7,8 +7,17 @@ requireLogin();
 $newsCount = $pdo->query("SELECT COUNT(*) FROM articles")->fetchColumn();
 $newsThisMonth = $pdo->query("SELECT COUNT(*) FROM articles WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())")->fetchColumn();
 
-
 $galleryCount = $pdo->query("SELECT COUNT(*) FROM gallery WHERE status = 'Published'")->fetchColumn();
+
+// Fetch bungalow booking stats
+$pendingBookings = 0;
+$totalBookings = 0;
+try {
+    $pendingBookings = $pdo->query("SELECT COUNT(*) FROM bookings WHERE status = 'Pending'")->fetchColumn();
+    $totalBookings   = $pdo->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
+} catch (PDOException $e) {
+    // bookings table may not exist yet — fail silently
+}
 
 // Fetch recent articles
 $recentNews = $pdo->query("SELECT n.*, a.name as author_name FROM articles n LEFT JOIN admins a ON n.author_id = a.id ORDER BY n.created_at DESC LIMIT 5")->fetchAll();
@@ -26,8 +35,8 @@ include 'includes/header.php';
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
         <h2 class="text-3xl font-bold font-montserrat text-gray-900 mb-8">Overview</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <!-- Card 1 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Card 1: Articles -->
             <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div>
@@ -43,7 +52,7 @@ include 'includes/header.php';
                     <span><?= $newsThisMonth ?> new this month</span>
                 </div>
             </div>
-            <!-- Card 2 -->
+            <!-- Card 2: Gallery -->
             <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div>
@@ -58,6 +67,22 @@ include 'includes/header.php';
                     <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     <span>Active items</span>
                 </div>
+            </div>
+            <!-- Card 3: Pending Bookings -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-[13px] font-medium text-amber-600 uppercase tracking-wide">Pending Bookings</p>
+                        <p class="text-4xl font-bold text-gray-900 font-montserrat mt-2"><?= sprintf('%02d', $pendingBookings) ?></p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    </div>
+                </div>
+                <a href="bungalow-bookings" class="flex items-center text-[12px] font-medium text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md hover:bg-amber-100 transition-colors w-fit">
+                    <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    <span><?= $totalBookings ?> total bookings</span>
+                </a>
             </div>
         </div>
 

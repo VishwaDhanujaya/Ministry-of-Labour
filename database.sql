@@ -1,4 +1,4 @@
-﻿-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: mol_db
 -- ------------------------------------------------------
@@ -251,34 +251,55 @@ UNLOCK TABLES;
 -- Dump completed on 2026-06-10 10:33:13
 
 --
--- Table structure for table \publications\
+-- Table structure for table `publications`
 --
 
-DROP TABLE IF EXISTS \publications\;
-CREATE TABLE \publications\ (
-  \id\ int(11) NOT NULL AUTO_INCREMENT,
-  \	itle\ varchar(255) NOT NULL,
-  \description\ text DEFAULT NULL,
-  \pdf_path\ varchar(255) NOT NULL,
-  \status\ enum('Draft','Published') NOT NULL DEFAULT 'Draft',
-  \created_at\ timestamp NULL DEFAULT current_timestamp(),
-  \updated_at\ timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\id\)
+DROP TABLE IF EXISTS `publications`;
+CREATE TABLE `publications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `pdf_path` varchar(255) NOT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table \procurements\
+-- Table structure for table `procurements`
 --
 
-DROP TABLE IF EXISTS \procurements\;
-CREATE TABLE \procurements\ (
-  \id\ int(11) NOT NULL AUTO_INCREMENT,
-  \	itle\ varchar(255) NOT NULL,
-  \description\ text DEFAULT NULL,
-  \pdf_path\ varchar(255) NOT NULL,
-  \status\ enum('Draft','Published') NOT NULL DEFAULT 'Draft',
-  \created_at\ timestamp NULL DEFAULT current_timestamp(),
-  \updated_at\ timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (\id\)
+DROP TABLE IF EXISTS `procurements`;
+CREATE TABLE `procurements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `pdf_path` varchar(255) NOT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE IF NOT EXISTS `bookings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bungalow_name` varchar(100) NOT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `room_type` varchar(100) NOT NULL,
+  `no_of_rooms` int(11) NOT NULL DEFAULT 1,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `status` enum('Pending','Confirmed','Cancelled') NOT NULL DEFAULT 'Pending',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
