@@ -3,10 +3,12 @@ require_once 'includes/auth.php';
 require_once 'includes/db.php';
 
 // Compute absolute base URL so assets load correctly under URL rewriting.
-$scriptDir = str_replace('\\', '/', dirname(dirname(__FILE__))); // project root
-$docRoot   = str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
-$base_path = substr($scriptDir, strlen($docRoot));               // e.g. '/Ministry-of-Labour'
-$base_url  = rtrim($base_path, '/') . '/';                       // e.g. '/Ministry-of-Labour/'
+$script_path = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])); // e.g. /admin
+$base_dir    = str_replace('\\', '/', dirname($script_path));            // e.g. /
+if ($base_dir === '\\' || $base_dir === '/') {
+    $base_dir = '';
+}
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir . '/';
 
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);

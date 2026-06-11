@@ -6,11 +6,12 @@ require_once __DIR__ . '/functions.php';
 requireLogin();
 
 // Compute an absolute base URL so assets load correctly under URL rewriting.
-// e.g. if the site root is /Ministry-of-Labour/, base_url = '/Ministry-of-Labour/'
-$scriptDir   = str_replace('\\', '/', dirname(dirname(dirname(__FILE__)))); // project root (absolute filesystem)
-$docRoot     = str_replace('\\', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/'));
-$base_path   = substr($scriptDir, strlen($docRoot)); // e.g. '/Ministry-of-Labour'
-$base_url    = rtrim($base_path, '/') . '/';          // e.g. '/Ministry-of-Labour/'
+$script_path = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])); // e.g. /admin
+$base_dir    = str_replace('\\', '/', dirname($script_path));            // e.g. /
+if ($base_dir === '\\' || $base_dir === '/') {
+    $base_dir = '';
+}
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir . '/';
 ?>
 <!DOCTYPE html>
 <html lang="en">
