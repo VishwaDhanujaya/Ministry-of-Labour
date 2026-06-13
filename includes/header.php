@@ -57,7 +57,11 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <link rel="icon" href="assets/img/emblem.png" type="image/png">
 
     <!-- Compiled Tailwind and Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <?php
+    $css_path = dirname(__DIR__) . '/assets/css/style.css';
+    $css_version = file_exists($css_path) ? filemtime($css_path) : time();
+    ?>
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= $css_version ?>">
 
     <!-- AOS CSS for smooth scroll animations -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

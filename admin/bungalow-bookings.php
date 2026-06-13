@@ -31,13 +31,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $booking = $stmt->fetch();
         
         if ($booking && !empty($booking['email'])) {
-            $autoloadPath = __DIR__ . '/../vendor/autoload.php';
-            if (file_exists($autoloadPath)) {
-                require_once $autoloadPath;
-            }
-            
-            $envPath = __DIR__ . '/../.env';
-            $env = file_exists($envPath) ? parse_ini_file($envPath) : [];
+            require_once __DIR__ . '/../includes/Mailer.php';
             
             $subject = "";
             $textBody = "";
@@ -51,39 +45,12 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             }
             
             if (!empty($subject)) {
-                $mailSent = false;
-                if (class_exists('\PHPMailer\PHPMailer\PHPMailer')) {
-                    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
-                    try {
-                        $mail->isSMTP();
-                        $mail->Host       = $env['SMTP_HOST'] ?? 'smtp.gmail.com';
-                        $mail->SMTPAuth   = true;
-                        $mail->Username   = $env['SMTP_USER'] ?? '';
-                        $mail->Password   = $env['SMTP_PASS'] ?? '';
-                        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-                        $mail->Port       = $env['SMTP_PORT'] ?? 587;
-
-                        $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
-                        $fromName  = $env['MAIL_FROM_NAME'] ?? 'Ministry of Labour';
-                        $mail->setFrom($fromEmail, $fromName);
-                        $mail->addAddress($booking['email'], $booking['applicant_name']);
-                        
-                        $mail->isHTML(false);
-                        $mail->Subject = $subject;
-                        $mail->Body    = $textBody;
-                        $mail->send();
-                        $mailSent = true;
-                    } catch (\Exception $e) {
-                        error_log("Mailer Error in bookings: {$mail->ErrorInfo}");
-                    }
-                }
-                
-                if (!$mailSent) {
-                    $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
-                    $headers = "From: $fromEmail\r\n";
-                    $headers .= "Reply-To: $fromEmail\r\n";
-                    @mail($booking['email'], $subject, $textBody, $headers);
-                }
+                \App\Utilities\Mailer::sendEmail(
+                    $booking['email'],
+                    $subject,
+                    nl2br($textBody),
+                    $textBody
+                );
             }
         }
 

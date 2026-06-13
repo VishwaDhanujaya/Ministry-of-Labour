@@ -2,20 +2,32 @@
 // db.php
 $envPath = __DIR__ . '/../../.env';
 $app_env = 'production'; // Default to production for safety
+$env = [];
 
 if (file_exists($envPath)) {
-    $env = parse_ini_file($envPath);
-    $host = $env['DB_HOST'] ?? 'localhost';
-    $dbname = $env['DB_NAME'] ?? 'mol_db';
-    $user = $env['DB_USER'] ?? 'root';
-    $pass = $env['DB_PASS'] ?? '';
-    $app_env = $env['APP_ENV'] ?? 'production';
-} else {
-    $host = 'localhost';
-    $dbname = 'mol_db';
-    $user = 'root';
-    $pass = '';
+    if (function_exists('parse_ini_file')) {
+        $env = @parse_ini_file($envPath);
+    }
+    if (empty($env)) {
+        // Fallback manual parser if parse_ini_file is disabled or failed
+        $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (is_array($lines)) {
+            foreach ($lines as $line) {
+                if (strpos(trim($line), '#') === 0) continue;
+                if (strpos($line, '=') !== false) {
+                    list($key, $value) = explode('=', $line, 2);
+                    $env[trim($key)] = trim($value, " \t\n\r\0\x0B\"'");
+                }
+            }
+        }
+    }
 }
+
+$host = $env['DB_HOST'] ?? 'localhost';
+$dbname = $env['DB_NAME'] ?? 'mol_db';
+$user = $env['DB_USER'] ?? 'root';
+$pass = $env['DB_PASS'] ?? '';
+$app_env = $env['APP_ENV'] ?? 'production';
 
 // Dynamically handle error display based on the environment
 if ($app_env === 'development') {

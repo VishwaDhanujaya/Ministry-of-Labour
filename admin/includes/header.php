@@ -29,6 +29,10 @@ $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 
     <link rel="icon" href="<?= $base_url ?>assets/img/emblem.png" type="image/png">
     
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css">
+    <?php
+    $css_path = dirname(dirname(__DIR__)) . '/assets/css/style.css';
+    $css_version = file_exists($css_path) ? filemtime($css_path) : time();
+    ?>
+    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css?v=<?= $css_version ?>">
 </head>
 <body class="bg-[#F8F9FA] text-gray-800 antialiased font-inter h-screen flex overflow-hidden">

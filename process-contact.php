@@ -8,13 +8,7 @@
  * @package MinistryOfLabour
  * @subpackage Contact
  */
-$autoloadPath = __DIR__ . '/vendor/autoload.php';
-if (file_exists($autoloadPath)) {
-    require $autoloadPath;
-}
-
-$envPath = __DIR__ . '/.env';
-$env = file_exists($envPath) ? parse_ini_file($envPath) : [];
+require_once __DIR__ . '/includes/Mailer.php';
 
 header('Content-Type: application/json');
 
@@ -35,40 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $mailSent = false;
-
-    if (class_exists('PHPMailer\PHPMailer\PHPMailer')) {
-        $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
-
-        try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host       = $env['SMTP_HOST'] ?? 'smtp.gmail.com';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $env['SMTP_USER'] ?? '';
-        $mail->Password   = $env['SMTP_PASS'] ?? '';
-        $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $env['SMTP_PORT'] ?? 587;
-
-        // Recipients
-        $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
-        $fromName  = $env['MAIL_FROM_NAME'] ?? 'Ministry of Labour Portal';
-        $mail->setFrom($fromEmail, $fromName);
-        
-        $receiver = $env['CONTACT_RECEIVER'] ?? 'info@labourmin.gov.lk';
-        $mail->addAddress($receiver);
-        
-        $mail->addReplyTo($email, $fullname);
-
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = 'New Contact Form Submission: ' . $fullname;
-
-        // Embed the logo
-        $mail->addEmbeddedImage(__DIR__ . '/assets/img/logo.png', 'ministry_logo');
-
-        // Beautiful HTML UI
-        $htmlContent = '
+    $receiver = \App\Utilities\Mailer::env('CONTACT_RECEIVER', 'info@labourmin.gov.lk');
+    $subject = 'New Contact Form Submission: ' . $fullname;
+    $altBody = "New message from $fullname\nEmail: $email\nPhone: $phone\n\nMessage:\n$messageBody";
+    
+    $htmlContent = '
         <!DOCTYPE html>
         <html>
         <head>
@@ -209,36 +174,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </html>
         ';
 
-        $mail->Body    = $htmlContent;
-        $mail->AltBody = "New message from $fullname\nEmail: $email\nPhone: $phone\n\nMessage:\n$messageBody";
+    $mailSent = \App\Utilities\Mailer::sendEmail(
+        $receiver,
+        $subject,
+        $htmlContent,
+        $altBody,
+        $email,
+        $fullname,
+        [__DIR__ . '/assets/img/logo.png' => 'ministry_logo']
+    );
 
-            $mail->send();
-            $mailSent = true;
-            echo json_encode(['success' => true, 'message' => 'Message has been sent']);
-        } catch (\Exception $e) {
-            error_log("Mailer Error: {$mail->ErrorInfo}");
-        }
-    }
-
-    if (!$mailSent) {
-        // Native mail() fallback
-        $receiver = $env['CONTACT_RECEIVER'] ?? 'info@labourmin.gov.lk';
-        $fromEmail = $env['MAIL_FROM_ADDRESS'] ?? 'info@labourmin.gov.lk';
-        $fromName  = $env['MAIL_FROM_NAME'] ?? 'Ministry of Labour Portal';
-        
-        $subject = 'New Contact Form Submission: ' . $fullname;
-        $textBody = "New message from $fullname\nEmail: $email\nPhone: $phone\n\nMessage:\n$messageBody";
-        
-        $headers = "From: $fromName <$fromEmail>\r\n";
-        $headers .= "Reply-To: $fullname <$email>\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-        
-        if (@mail($receiver, $subject, $textBody, $headers)) {
-            echo json_encode(['success' => true, 'message' => 'Message has been sent']);
-        } else {
-            error_log("Native mail() fallback failed.");
-            echo json_encode(['success' => false, 'message' => 'Message could not be sent. Please try again later.']);
-        }
+    if ($mailSent) {
+        echo json_encode(['success' => true, 'message' => 'Message has been sent']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Message could not be sent. Please try again later.']);
     }
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);

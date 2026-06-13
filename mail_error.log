@@ -1,0 +1,6 @@
+[2026-06-13 09:16:42] Mailer Error: SMTP Error: Could not connect to SMTP host. Failed to connect to server SMTP server error: Failed to connect to server SMTP code: 10060 Additional SMTP info: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+SMTP Debug Log:
+SMTP ERROR: Failed to connect to server: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond (10060)
+SMTP Error: Could not connect to SMTP host. Failed to connect to server
+
+------------------------------------------

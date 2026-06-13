@@ -243,7 +243,11 @@
 
 
     <!-- Interactive JS assets -->
-    <script src="assets/js/main.js"></script>
+    <?php
+    $js_path = dirname(__DIR__) . '/assets/js/main.js';
+    $js_version = file_exists($js_path) ? filemtime($js_path) : time();
+    ?>
+    <script src="assets/js/main.js?v=<?= $js_version ?>"></script>
     <!-- Lightbox -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
     <!-- AOS JS for smooth scroll animations -->

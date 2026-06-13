@@ -64,7 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="<?= $base_url ?>assets/img/emblem.png" type="image/png">
 
     <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css">
+    <?php
+    $css_path = dirname(__DIR__) . '/assets/css/style.css';
+    $css_version = file_exists($css_path) ? filemtime($css_path) : time();
+    ?>
+    <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css?v=<?= $css_version ?>">
 
     <style>
         .font-inter {
