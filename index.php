@@ -468,218 +468,207 @@ include 'includes/header.php';
 </section>
 
 
-
-        <!-- Special Notices Column -->
-        <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col justify-between">
-            <div>
-                <div class="bg-primary text-white py-6 px-8 relative overflow-hidden">
-                    <h3 class="font-semibold text-xl md:text-2xl font-montserrat flex items-center relative z-10">Special Notices</h3>
+<!-- Downloads & Special Notices Section -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-white" id="downloads-notices">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            
+            <!-- Downloads Column -->
+            <div class="bg-[#FAFAFA] rounded-[32px] p-8 md:p-12 flex flex-col self-start">
+                <p class="text-secondary font-medium text-xs md:text-[13px] tracking-[0.15em] mb-3 font-inter uppercase">
+                    Important Documents and Resources
+                </p>
+                <h3 class="font-semibold text-3xl md:text-4xl font-montserrat mb-8 text-primary">Downloads</h3>
+                
+                <div class="flex flex-col space-y-3.5">
+                    <?php
+                    $downloads = [
+                        ['title' => 'Publications', 'url' => 'publications.php'],
+                        ['title' => 'Procurements', 'url' => 'procurements.php']
+                    ];
+                    foreach($downloads as $download):
+                    ?>
+                    <a href="<?= $download['url'] ?>" class="group flex items-center justify-between bg-white border border-gray-200 rounded-[16px] px-6 py-4 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
+                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= $download['title'] ?></span>
+                        <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+                            <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </a>
+                    <?php endforeach; ?>
                 </div>
-                <div class="divide-y divide-gray-200 bg-white">
+            </div>
+
+            <!-- Special Notices Column -->
+            <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col h-full">
+                <div class="bg-primary text-white py-6 px-8 relative overflow-hidden shrink-0">
+                    <h3 class="font-medium text-[20px] md:text-[22px] font-montserrat flex items-center relative z-10 tracking-wide">Special Notices</h3>
+                </div>
+                <div class="divide-y divide-gray-100 bg-white flex-grow flex flex-col">
                     <?php if(empty($specialNotices)): ?>
-                        <div class="p-8 text-center text-gray-500 font-inter">No special notices available at the moment.</div>
+                        <div class="p-8 text-center text-gray-500 font-inter flex-grow flex items-center justify-center">No special notices available at the moment.</div>
                     <?php else: ?>
                         <?php foreach($specialNotices as $notice): ?>
-                        <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200">
+                        <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200 flex-grow">
                             <div class="flex-grow">
-                                <h4 class="text-gray-800 font-semibold font-montserrat mb-1.5 text-[15px] md:text-[16px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
-                                <p class="text-[13px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
+                                <h4 class="text-gray-800 font-medium font-inter mb-2 text-[14px] md:text-[15px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
+                                <p class="text-[12.5px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
                             <a href="article/<?= $notice['id'] ?>"
-                                class="border border-secondary/70 text-secondary hover:bg-secondary hover:text-white text-[12px] font-bold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap tracking-wide font-inter shrink-0">Read More</a>
+                                class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0">Read More</a>
                         </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
+
 <!-- Institutions -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-white border-t border-gray-100" id="affiliated-institutions">
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
     <div class="container mx-auto">
         <div class="mb-14">
             <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                Affiliated
-                Bodies</p>
+                Affiliated Bodies</p>
             <h2 class="section-title">
                 Institutions</h2>
         </div>
 
-        <div class="flex flex-col md:flex-row gap-8 lg:gap-12 bg-white rounded-2xl">
+        <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
             <!-- Vertical Tabs -->
-            <div class="w-full md:w-[35%] flex flex-col space-y-2">
+            <div class="w-full md:w-[32%] flex flex-col space-y-2.5 relative z-10">
                 <button
-                    class="text-left px-5 py-4 bg-primary text-white font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 shadow-md cursor-pointer focus:outline-none inst-tab-btn active"
+                    class="group relative text-left px-6 py-4 bg-primary text-white font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 shadow-lg cursor-pointer focus:outline-none inst-tab-btn active overflow-hidden"
                     data-target="inst-dol">
-                    Department of Labour
+                    <span class="relative z-10 flex items-center justify-between">Department of Labour <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
-                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-niosh">
-                    NIOSH Sri Lanka
+                    <span class="relative z-10 flex items-center justify-between">NIOSH Sri Lanka <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
-                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-svfb">
-                    Shrama Vasana Fund Board
+                    <span class="relative z-10 flex items-center justify-between">Shrama Vasana Fund Board <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
-                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-wc">
-                    Workmen's Compensation Office
+                    <span class="relative z-10 flex items-center justify-between">Workmen's Compensation Office <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
-                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-epf">
-                    Employees' Provident Fund Dept
+                    <span class="relative z-10 flex items-center justify-between">Employees' Provident Fund Dept <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
-                    class="text-left px-5 py-4 text-gray-600 hover:bg-gray-50 font-semibold text-[14px] rounded-xl font-montserrat transition-all duration-300 border border-transparent hover:border-gray-200 cursor-pointer focus:outline-none inst-tab-btn"
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-etf">
-                    Employees' Trust Fund Board
+                    <span class="relative z-10 flex items-center justify-between">Employees' Trust Fund Board <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
             </div>
 
             <!-- Content Area -->
-            <div class="w-full md:w-[65%]">
-                <div
-                    class="bg-gray-50 rounded-3xl p-8 md:p-10 border-[0.5px] border-[#D4D4D4] shadow-inner min-h-[380px] flex flex-col justify-between">
+            <div class="w-full md:w-[68%]">
+                <div class="bg-white rounded-[2rem] p-8 md:p-12 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[450px] flex flex-col justify-start relative overflow-hidden transition-all duration-500">
+                    <!-- Top accent line -->
+                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-secondary to-primary"></div>
 
                     <!-- Panel: Department of Labour (Active by default) -->
-                    <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-300 active-panel-block">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">Department
-                            of Labour</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>The Department of Labour was initially established to look into the welfare of Indian
-                                Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of
-                                Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the
-                                Department of Indian Immigrant Labour.</p>
-                            <p>However, with the gradual expansion of the indigenous segment of the labour force, labour
-                                perse became a force to be reckoned with. In these circumstances the colonial rulers
-                                were compelled to look beyond their limited scope of looking into the welfare of Indian
-                                Immigrant Labour and had to take measures for the welfare and well-being of all the
-                                workers alike, Accordingly, in 1931 the Department of Indian Immigrant Labour was
-                                transformed into the General Department of Labour- the state agency responsible for
-                                ensuring the welfare of both Indian Migrant Labour as well as indigenous labour,
-                                Initially the Head of the Department was designated as Controller of Labour, but in 1944
-                                the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner
-                                General of Labour.</p>
+                    <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
+                            <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
 
                     <!-- Panel: NIOSH -->
-                    <div id="inst-panel-inst-niosh" class="inst-panel hidden transition-all duration-300">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">National
-                            Institute of Occupational Safety and Health (NIOSH)</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and
-                                formulating policies concerning occupational health and physical safety in commercial
-                                and manufacturing workspace environments.</p>
-                            <p>By organizing vocational safety drills and safety compliance auditing programs, the
-                                institute helps domestic industries minimize hazard risks and comply with national
-                                factories ordinance mandates.</p>
+                    <div id="inst-panel-inst-niosh" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and Health (NIOSH)</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
+                            <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
 
                     <!-- Panel: Shrama Vasana Fund Board -->
-                    <div id="inst-panel-inst-svfb" class="inst-panel hidden transition-all duration-300">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">Shrama
-                            Vasana Fund Board</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>The Shrama Vasana Fund Board serves to manage medical aid distributions, child vocational
-                                scholarships, and emergency distress grants for formal industrial workers in Sri Lanka.
-                            </p>
-                            <p>The board regularly runs employee welfare lotteries to secure operational funds,
-                                facilitating safety and health security programs for workers under difficult financial
-                                brackets.</p>
+                    <div id="inst-panel-inst-svfb" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Shrama Vasana Fund Board</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The Shrama Vasana Fund Board serves to manage medical aid distributions, child vocational scholarships, and emergency distress grants for formal industrial workers in Sri Lanka.</p>
+                            <p>The board regularly runs employee welfare lotteries to secure operational funds, facilitating safety and health security programs for workers under difficult financial brackets.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
 
                     <!-- Panel: Workmen's Compensation Office -->
-                    <div id="inst-panel-inst-wc" class="inst-panel hidden transition-all duration-300">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">Office of
-                            the Commissioner for Workmen's Compensation</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing
-                                formal compensation claims arising from workplace physical injuries or accidental death
-                                in Sri Lanka.</p>
-                            <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring
-                                employers distribute prompt and legal payouts to affected families.</p>
+                    <div id="inst-panel-inst-wc" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
+                            <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
 
                     <!-- Panel: EPF -->
-                    <div id="inst-panel-inst-epf" class="inst-panel hidden transition-all duration-300">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">Employees'
-                            Provident Fund Department</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>The largest social security financial fund in Sri Lanka, the EPF Department registers and
-                                maintains savings and compound dividend interest profiles for millions of formal
-                                employees.</p>
-                            <p>Operating jointly with the Central Bank of Sri Lanka, the fund administers payout
-                                registrations, housing loan releases, and employer payment compliance auditing.</p>
+                    <div id="inst-panel-inst-epf" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Employees' Provident Fund Department</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The largest social security financial fund in Sri Lanka, the EPF Department registers and maintains savings and compound dividend interest profiles for millions of formal employees.</p>
+                            <p>Operating jointly with the Central Bank of Sri Lanka, the fund administers payout registrations, housing loan releases, and employer payment compliance auditing.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>
 
                     <!-- Panel: ETF -->
-                    <div id="inst-panel-inst-etf" class="inst-panel hidden transition-all duration-300">
-                        <h3 class="text-2xl font-semibold text-primary mb-6 font-montserrat tracking-tight">Employees'
-                            Trust Fund Board (ETF)</h3>
-                        <div class="space-y-5 text-gray-600 text-[14.5px] font-inter leading-relaxed mb-10">
-                            <p>The ETF Board secures and administers member contributions to provide workers with
-                                medical benefits, retirement insurance, and housing loans separately from basic EPF
-                                allocations.</p>
-                            <p>The fund invests aggressively in stable domestic securities to maximize bonus dividends
-                                and welfare opportunities for registered private sector workforces.</p>
+                    <div id="inst-panel-inst-etf" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Employees' Trust Fund Board (ETF)</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The ETF Board secures and administers member contributions to provide workers with medical benefits, retirement insurance, and housing loans separately from basic EPF allocations.</p>
+                            <p>The fund invests aggressively in stable domestic securities to maximize bonus dividends and welfare opportunities for registered private sector workforces.</p>
                         </div>
-                        <a href="#"
-                            class="inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-extrabold text-xs tracking-wider px-8 py-3 rounded-lg uppercase transition-all shadow-sm active:scale-95">
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
                             <span>Read More</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                    d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
                             </svg>
                         </a>
                     </div>

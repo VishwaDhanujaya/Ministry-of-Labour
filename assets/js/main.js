@@ -350,26 +350,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const instPanels = document.querySelectorAll('.inst-panel');
 
     instBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active formatting
-            instBtns.forEach(b => {
-                b.classList.remove('bg-primary', 'text-white', 'active');
-                b.classList.add('text-gray-600', 'hover:bg-gray-50');
-            });
-            // Add active formatting to current
-            btn.classList.add('bg-primary', 'text-white', 'active');
-            btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
-
-            const targetId = btn.getAttribute('data-target');
+        btn.addEventListener('click', function() {
+            // Hide all panels
             instPanels.forEach(panel => {
-                if (panel.id === `inst-panel-${targetId}`) {
-                    panel.classList.remove('hidden');
-                    panel.classList.add('active-panel-block');
-                } else {
-                    panel.classList.add('hidden');
-                    panel.classList.remove('active-panel-block');
+                panel.classList.remove('block', 'animate-[fadeIn_0.4s_ease-out]');
+                panel.classList.add('hidden');
+            });
+
+            // Show target panel
+            const targetId = this.getAttribute('data-target');
+            const targetPanel = document.getElementById('inst-panel-' + targetId);
+            if (targetPanel) {
+                targetPanel.classList.remove('hidden');
+                setTimeout(() => {
+                    targetPanel.classList.add('block', 'animate-[fadeIn_0.4s_ease-out]');
+                }, 10);
+            }
+
+            // Reset all buttons styling
+            instBtns.forEach(b => {
+                b.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'active');
+                b.classList.add('text-gray-600', 'bg-white', 'hover:bg-gray-50', 'border', 'border-gray-200', 'hover:border-gray-300', 'hover:shadow-md');
+                
+                const svg = b.querySelector('svg');
+                if (svg) {
+                    svg.classList.remove('transform', 'group-hover:translate-x-1');
+                    svg.classList.add('opacity-0', 'group-hover:opacity-100', 'transform', '-translate-x-2', 'group-hover:translate-x-0', 'text-primary');
                 }
             });
+
+            // Set active styling on current button
+            this.classList.add('bg-primary', 'text-white', 'shadow-lg', 'active');
+            this.classList.remove('text-gray-600', 'bg-white', 'hover:bg-gray-50', 'border', 'border-gray-200', 'hover:border-gray-300', 'hover:shadow-md');
+
+            const activeSvg = this.querySelector('svg');
+            if (activeSvg) {
+                activeSvg.classList.remove('opacity-0', 'group-hover:opacity-100', 'transform', '-translate-x-2', 'group-hover:translate-x-0', 'text-primary');
+                activeSvg.classList.add('transform', 'group-hover:translate-x-1');
+            }
         });
     });
 
