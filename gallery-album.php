@@ -24,6 +24,10 @@ $imgStmt = $pdo->prepare("SELECT * FROM gallery_images WHERE gallery_id = ? ORDE
 $imgStmt->execute([$id]);
 $images = $imgStmt->fetchAll();
 
+if (!empty($album['cover_image'])) {
+    array_unshift($images, ['image_path' => $album['cover_image']]);
+}
+
 $page_title = $album['title'] . ' - Gallery Album';
 $pageTitle = strip_tags($album['title']);
 $metaDescription = mb_substr(strip_tags($album['title']), 0, 160) . ' photo gallery from the Ministry of Labour, Sri Lanka.';
@@ -58,8 +62,8 @@ include 'includes/sub-hero.php';
             <?php else: ?>
                 <?php foreach ($images as $img): ?>
                 <!-- Single Image Item (Triggers Lightbox) -->
-                <a data-fslightbox="gallery" href="admin/<?= htmlspecialchars($img['image_path']) ?>" class="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square shadow-sm cursor-pointer block active:scale-95 transition-transform duration-200">
-                    <img loading="lazy" src="admin/<?= htmlspecialchars($img['image_path']) ?>"
+                <a data-fslightbox="gallery" href="<?= $base_url ?>admin/<?= htmlspecialchars($img['image_path']) ?>" class="group relative bg-gray-100 rounded-xl overflow-hidden aspect-square shadow-sm cursor-pointer block active:scale-95 transition-transform duration-200">
+                    <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($img['image_path']) ?>"
                         alt="<?= htmlspecialchars($album['title']); ?>"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     

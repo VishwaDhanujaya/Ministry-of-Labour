@@ -118,6 +118,39 @@ INSERT INTO `articles` VALUES (1,'38 New Labour Officers Receive Appointment Let
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bookings`
+--
+
+DROP TABLE IF EXISTS `bookings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bungalow_name` varchar(100) NOT NULL,
+  `applicant_name` varchar(150) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `room_type` varchar(100) NOT NULL,
+  `no_of_rooms` int(11) NOT NULL DEFAULT 1,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `status` enum('Pending','Confirmed','Cancelled') NOT NULL DEFAULT 'Pending',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bookings`
+--
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+INSERT INTO `bookings` VALUES (1,'Ampara','Test','07000000','gallagevishwa@gmail.com','VIP Room',1,'2026-06-15','2026-06-22','Confirmed','2026-06-11 09:12:33'),(2,'Ampara','Test','07000000','gallagevishwa@gmail.com','A/C Triple Room',1,'2026-06-22','2026-06-29','Pending','2026-06-22 04:11:30');
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `divisions`
 --
 
@@ -238,39 +271,14 @@ LOCK TABLES `officials` WRITE;
 INSERT INTO `officials` VALUES (1,'top','minister',NULL,'Hon. Minister of Labour','Hon. Minister Anil Jayantha Fernando','','minister@labourmin.gov.lk','+94 (0)112 368175','+94 (0)112 588950','admin/uploads/officials/minister-anil-jayantha-fernando.webp',1,1,'2026-06-09 10:35:01','2026-06-09 11:18:37'),(2,'top','deputy_minister',NULL,'Hon. Deputy Minister of Labour','Mr. Mahinda Jayasinghe','','majayasinghe@gmail.com','+94 (0)112 368526','+94 (0)112 369340','admin/uploads/officials/deputy-minister-mahinda-jayasinghe.webp',2,1,'2026-06-09 10:35:01','2026-06-09 11:19:31'),(3,'top','secretary',NULL,'Secretary','Mr. S.M.Piyatissa',NULL,'slmol@slt.lk','+94 (0)112 368164','+94 (0)112 582938','admin/uploads/officials/secretary-sm-piyatissa.webp',3,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(4,'division',NULL,1,'Additional Secretary (Administration)','Ms. T P Muditha Pathmajay','Additional Secretary (Administration)','adsec.admin@labourmin.gov.lk','+94 (0)112 368938','+94 (0)112 368165','admin/uploads/officials/admin-muditha-pathmajay.webp',1,1,'2026-06-09 10:35:01','2026-06-09 10:54:45'),(5,'division',NULL,1,'Senior Assistant Secretary (Administration)','Mr. L.T.G.D Darshana','Senior Assistant Secretary (Administration)','sas.admin@labourmin.gov.lk','+94 (0)112 368304','+94 (0)112 368200','admin/uploads/officials/admin-darshana-ltgd.webp',2,1,'2026-06-09 10:35:01','2026-06-09 10:54:45'),(6,'division',NULL,1,'Assistant Secretary (Procurement)','Ms. S Luxiga','Assistant Secretary (Procurement)','','+94 (0)112 368136','','admin/uploads/officials/admin-luxiga-s.webp',3,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(7,'division',NULL,1,'Assistant Secretary (Establishment)','Ms. Yashoda Thissera','Assistant Secretary (Establishment)','as.est@labourmin.gov.lk','+94 (0) 112 368264','','admin/uploads/officials/admin-yashoda-thissera.webp',4,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(8,'division',NULL,1,'Legal Officer','Ms. W P A G Wijesooriya','Legal Officer','labourminlegal@gmail.com','+94 (0)112 582046','','admin/uploads/officials/admin-wijesooriya-wpag.webp',5,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(9,'division',NULL,2,'Additional Secretary (Development)','Mr. Lal Samarasekara','Additional Secretary (Development)','adsec.dev@labourmin.gov.lk','+94 (0)112 586337','+94 (0)112 589267','admin/uploads/officials/dev-lal-samarasekara.webp',1,1,'2026-06-09 10:35:01','2026-06-09 16:39:31'),(10,'division',NULL,2,'Director (Development)','Mr. P D Chandana Pathirage','Director (Development)','dir.dev@labourmin.gov.lk','+94 (0)11 2502807','','admin/uploads/officials/dev-chandana-pathirage.webp',2,1,'2026-06-09 10:35:01','2026-06-09 16:39:31'),(11,'division',NULL,3,'Director General (Planning)','Ms. I V N Preethika Kumuduni','Director General (Planning)','','+94 (0)112 368594','','admin/uploads/officials/planning-preethika-kumuduni.webp',1,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(12,'division',NULL,3,'Deputy Director (Planning)','Ms. M.P.D.C.W.Kumari','Deputy Director (Planning)','','+94 (0) 1125 82171','','admin/uploads/officials/planning-kumari-mpdcw.webp',2,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(13,'division',NULL,4,'Chief Finance Officer','Mrs. G.C.N. Fonseka','Chief Finance Officer','','+94 (0)112 505161','','admin/uploads/officials/finance-fonseka-gcn.webp',1,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(14,'division',NULL,4,'Chief Accountant','Ms. S S Shiroma Nandani','Chief Accountant','ca@labourmin.gov.lk','+94 (0)112 368204','+94 (0)112 368204','admin/uploads/officials/finance-nandani-shiroma.webp',2,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(15,'division',NULL,5,'Chief Internal Auditor','Mrs. A.M.M.K. Abeysinghe','Chief Internal Auditor','cia@labourmin.gov.lk','+94 (0)112 369422','','admin/uploads/officials/internal-audit-abeysinghe-ammk.webp',1,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(16,'division',NULL,6,'Senior Assistant Secretary (Foreign Relations)','Mr. B Vasanthan','Senior Assistant Secretary (Foreign Relations)','sas.fr@labourmin.gov.lk','+94 (0)112 368609','+94 (0)112 368609','admin/uploads/officials/foreign-relations-vasanthan-b.webp',1,1,'2026-06-09 10:35:01','2026-06-09 10:35:01'),(17,'division',NULL,6,'Assistant Secretary (FR)','Mrs. M.N.H.Peiris','Assistant Secretary (FR)','as.fr@labourmin.gov.lk','+94 (0)112 504478','','admin/uploads/officials/foreign-relations-peiris-mnh.webp',2,1,'2026-06-09 10:35:01','2026-06-09 10:35:01');
 /*!40000 ALTER TABLE `officials` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2026-06-10 10:33:13
-
---
--- Table structure for table `publications`
---
-
-DROP TABLE IF EXISTS `publications`;
-CREATE TABLE `publications` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `pdf_path` varchar(255) NOT NULL,
-  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `procurements`
 --
 
 DROP TABLE IF EXISTS `procurements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `procurements` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
@@ -281,25 +289,52 @@ CREATE TABLE `procurements` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `bookings`
+-- Dumping data for table `procurements`
 --
 
-CREATE TABLE IF NOT EXISTS `bookings` (
+LOCK TABLES `procurements` WRITE;
+/*!40000 ALTER TABLE `procurements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `procurements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `publications`
+--
+
+DROP TABLE IF EXISTS `publications`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `publications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `bungalow_name` varchar(100) NOT NULL,
-  `applicant_name` varchar(150) NOT NULL,
-  `phone` varchar(50) NOT NULL,
-  `email` varchar(150) NOT NULL,
-  `room_type` varchar(100) NOT NULL,
-  `no_of_rooms` int(11) NOT NULL DEFAULT 1,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `status` enum('Pending','Confirmed','Cancelled') NOT NULL DEFAULT 'Pending',
+  `title` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `pdf_path` varchar(255) NOT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
   `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `publications`
+--
+
+LOCK TABLES `publications` WRITE;
+/*!40000 ALTER TABLE `publications` DISABLE KEYS */;
+/*!40000 ALTER TABLE `publications` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-06-22 12:01:11

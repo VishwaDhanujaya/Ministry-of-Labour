@@ -334,6 +334,9 @@ include 'includes/sub-hero.php';
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
+            if (modal.parentNode !== document.body) {
+                document.body.appendChild(modal);
+            }
             modal.classList.remove('hidden');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
