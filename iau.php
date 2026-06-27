@@ -138,10 +138,10 @@ $iau_staff = [
     ]
 ];
 
-$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Internal Audit Unit)</span>';
-$pageTitle = 'Internal Audit Unit (IAU) - Ministry of Labour - Sri Lanka';
-$metaDescription = 'Learn about the Internal Audit Unit (IAU) of the Ministry of Labour, its objectives, responsibilities, and find contact information for the unit\'s staff.';
-$metaKeywords = 'Internal Audit Unit, IAU, Integrity, Accountability, Ministry of Labour, Sri Lanka';
+$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Internal Affairs Unit)</span>';
+$pageTitle = 'Internal Affairs Unit (IAU) - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Learn about the Internal Affairs Unit (IAU) of the Ministry of Labour, its objectives, responsibilities, and find contact information for the unit\'s staff.';
+$metaKeywords = 'Internal Affairs Unit, IAU, Integrity, Accountability, Ministry of Labour, Sri Lanka';
 $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
     ['label' => 'IAU']
@@ -155,7 +155,7 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-6">About the Unit</h2>
         <p class="text-gray-600 font-inter text-[15px] leading-relaxed mb-12 max-w-5xl">
-            The Internal Audit Unit (IAU) of the Ministry of Labour provides independent and objective assurance on the effectiveness of internal controls, risk management, and governance processes. This unit conducts financial, performance, and compliance audits across all divisions and affiliated institutions.
+            The Internal Affairs Unit (IAU) of the Ministry of Labour is committed to promoting integrity, transparency, and accountability while actively working to prevent bribery and corruption. The unit is responsible for implementing institutional integrity action plans and collaborating with national anti-corruption bodies like CIABOC.
         </p>
 
         <!-- Key Objectives Card -->
@@ -217,7 +217,7 @@ include 'includes/sub-hero.php';
                         <p class="text-[#FAFAFA] font-inter text-sm leading-relaxed pt-1">
                             Internal Affairs Unit,<br>
                             Ministry of Labour<br>
-                            10th Floor, Mehewara Piyasa, Narahenpita, Colombo 05
+                            6th Floor, Mehewara Piyasa, Narahenpita, Colombo 05
                         </p>
                     </div>
                     
@@ -252,6 +252,17 @@ include 'includes/sub-hero.php';
                             </div>
                         </a>
                         <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 70 722 7977</a>
+                    </div>
+
+                    <!-- QR Code Section -->
+                    <div class="border-t border-white/10 pt-6 mt-6 flex flex-col items-center">
+                        <p class="text-xs text-white/70 mb-3 font-medium tracking-wide">Scan to Submit Complaints / Suggestions</p>
+                        <div class="w-32 h-32 bg-white/5 rounded-2xl flex flex-col items-center justify-center border border-dashed border-white/20 hover:border-white/40 transition-colors group cursor-pointer">
+                            <svg class="w-8 h-8 text-white/40 group-hover:text-white/60 transition-colors mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-[10px] text-white/40 group-hover:text-white/60 transition-colors text-center px-2 font-medium">QR Code Pending</span>
+                        </div>
                     </div>
                 </div>
             </div>

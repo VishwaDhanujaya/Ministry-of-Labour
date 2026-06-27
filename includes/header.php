@@ -291,6 +291,16 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">
+                <!-- Mobile Language Selector -->
+                <div class="pb-2">
+                    <div class="text-[11px] uppercase tracking-wider text-gray-400 font-bold mb-2.5 pl-1">Select Language</div>
+                    <div class="grid grid-cols-3 gap-2 bg-gray-50 rounded-xl p-1 border border-gray-200/50 notranslate">
+                        <button onclick="changeLanguage('si')" class="<?= $current_lang === 'si' ? 'bg-[#13273F] text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                        <button onclick="changeLanguage('ta')" class="<?= $current_lang === 'ta' ? 'bg-[#13273F] text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                        <button onclick="changeLanguage('en')" class="<?= $current_lang === 'en' ? 'bg-[#13273F] text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 font-inter text-xs tracking-wide">English</button>
+                    </div>
+                </div>
+
                 <a href="contact-us"
                     class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase">Contact Us</a>
                 <div class="flex justify-center space-x-5 text-gray-400 py-2">
@@ -307,5 +317,62 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
             </div>
         </div>
     </div>
+
+    <!-- Mobile Language Selector Popup Modal -->
+    <?php if (!isset($_COOKIE['lang'])): ?>
+        <div id="mobile-lang-popup" class="md:hidden fixed inset-0 bg-[#13273F]/60 backdrop-blur-sm z-[200] flex items-end justify-center transition-opacity duration-300 ease-out opacity-0 pointer-events-none">
+            <div class="bg-white w-full rounded-t-[2rem] p-6 pb-8 transform translate-y-full transition-transform duration-300 ease-out max-w-md mx-auto shadow-2xl relative border-t border-gray-100 flex flex-col items-center">
+                <!-- Drag Handle indicator -->
+                <div class="w-12 h-1 bg-gray-200 rounded-full mb-6"></div>
+                
+                <h3 class="text-sm font-bold text-gray-900 font-montserrat mb-2 text-center">Select Language / භාෂාව තෝරන්න / மொழியைத் தேர்ந்தெடுக்கவும்</h3>
+                <p class="text-[11px] text-gray-500 font-inter mb-6 text-center">Choose your preferred language to continue</p>
+                
+                <div class="w-full flex flex-col gap-3 notranslate">
+                    <button onclick="changeLanguage('si')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-[#13273F] text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Sans Sinhala', sans-serif;">
+                        <span>සිංහල</span>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <button onclick="changeLanguage('ta')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-[#13273F] text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Sans Tamil', sans-serif;">
+                        <span>தமிழ்</span>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <button onclick="changeLanguage('en')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-[#13273F] text-sm font-inter flex items-center justify-between transition-all active:scale-98">
+                        <span>English</span>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+                
+                <button onclick="closeMobileLangPopup()" class="mt-5 text-[11px] text-gray-400 font-semibold hover:text-gray-600 transition-colors uppercase tracking-wider py-2 cursor-pointer">
+                    Dismiss
+                </button>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Show the popup on mobile if no language cookie is set and not prompted this session
+                if (window.innerWidth < 768 && !sessionStorage.getItem('lang_prompted')) {
+                    const popup = document.getElementById('mobile-lang-popup');
+                    const drawer = popup.querySelector('div');
+                    popup.classList.remove('pointer-events-none');
+                    setTimeout(() => {
+                        popup.classList.remove('opacity-0');
+                        drawer.classList.remove('translate-y-full');
+                    }, 300);
+                }
+            });
+            
+            function closeMobileLangPopup() {
+                sessionStorage.setItem('lang_prompted', 'true');
+                const popup = document.getElementById('mobile-lang-popup');
+                const drawer = popup.querySelector('div');
+                drawer.classList.add('translate-y-full');
+                popup.classList.add('opacity-0');
+                setTimeout(() => {
+                    popup.classList.add('pointer-events-none');
+                }, 300);
+            }
+        </script>
+    <?php endif; ?>
 
     <main id="main-content" class="flex-grow animate-fade-in">
