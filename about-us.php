@@ -8,8 +8,8 @@ $departments   = getDivisions($pdo);
 
 $page_title = 'About Us';
 $pageTitle = 'About Us - Ministry of Labour - Sri Lanka';
-$metaDescription = 'Learn about the Ministry of Labour, Sri Lanka, our vision, mission, and the key officials dedicated to fostering fair employment and protecting workers\' rights.';
-$metaKeywords = 'Ministry of Labour, Sri Lanka, About Us, Vision, Mission, Officials, Departments';
+$metaDescription = 'Learn about the Ministry of Labour, Sri Lanka, our vision, mission, key officials, and the Citizen Charter outlining our commitment to public service excellence.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, About Us, Vision, Mission, Officials, Departments, Citizen Charter, Public Service';
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -427,213 +427,10 @@ include 'includes/sub-hero.php';
     </div>
 </section>
 
-<!-- How We Operate -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-white">
-    <div class="container mx-auto" data-aos="fade-up">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12">How We Operate</h2>
 
-        <div class="bg-white rounded-2xl border-[0.5px] border-[#D4D4D4] shadow-lg overflow-hidden">
-            <!-- Tabs Navigation -->
-            <div class="flex flex-col md:flex-row border-b border-gray-100 bg-gray-50/50" id="operate-tabs">
-                <button onclick="switchOperateTab('objectives')" id="tab-btn-objectives"
-                    class="flex-1 px-6 py-5 text-center font-bold font-montserrat text-sm md:text-base transition-all bg-[#13273F] text-white cursor-pointer">
-                    Objectives
-                </button>
-                <button onclick="switchOperateTab('thrust-areas')" id="tab-btn-thrust-areas"
-                    class="flex-1 px-6 py-5 text-center font-semibold font-montserrat text-sm md:text-base transition-all text-gray-500 hover:text-primary hover:bg-gray-50/80 border-y md:border-y-0 md:border-x border-gray-100 cursor-pointer">
-                    Major Thrust Areas
-                </button>
-                <button onclick="switchOperateTab('legal-framework')" id="tab-btn-legal-framework"
-                    class="flex-1 px-6 py-5 text-center font-semibold font-montserrat text-sm md:text-base transition-all text-gray-500 hover:text-primary hover:bg-gray-50/80 cursor-pointer">
-                    Related Institutional and Legal Framework
-                </button>
-            </div>
-
-            <!-- Tab Contents -->
-            <div class="p-8 md:p-12">
-                <!-- Objectives Content -->
-                <div id="tab-content-objectives" class="operate-tab-content">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To empower and
-                                strengthen the industrial relationship</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To ensure
-                                private
-                                occupation growth and decent work</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To eliminate
-                                child
-                                labour</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To protect and
-                                empower
-                                employed women and promote occupational safety and health</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To expedite
-                                relevant
-                                statutory reforms</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">To take action
-                                to
-                                develop a comprehensive social protection strategy</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Thrust Areas Content -->
-                <div id="tab-content-thrust-areas" class="operate-tab-content hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Industrial Peace and Harmony:</strong> Maintaining stability and productivity in
-                                industrial relations.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Labour
-                                    Standards and Enforcement:</strong> Rigorous inspections and enforcement of
-                                statutory working conditions.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Occupational Safety and Health (OSH):</strong> Developing and mandating safety
-                                measures in work environments.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Social
-                                    Protection Systems:</strong> Managing robust retirement security, welfare, and trust
-                                funds (EPF/ETF).</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Education, Training, & Research:</strong> Fostering professional skills to
-                                elevate workforce competitiveness.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Vulnerable Group Safeguards:</strong> Prioritizing the complete elimination of
-                                child labour and promoting gender equity.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Legal Framework Content -->
-                <div id="tab-content-legal-framework" class="operate-tab-content hidden">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Industrial Disputes Act No. 43 of 1950:</strong> The core legislation regulating
-                                dispute resolutions and employment terminations.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Shop and
-                                    Office Employees Act No. 19 of 1954:</strong> Sets working hours, holidays, leaves,
-                                and basic workplace regulations.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium">
-                                <strong>Employees' Provident Fund (EPF) & ETF Acts:</strong> Mandates employer and
-                                worker contributions toward retirement trust benefits.</p>
-                        </div>
-                        <div class="flex items-start gap-4">
-                            <svg class="mt-0.5 w-5 h-5 text-[#8B1A1A] shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <p class="text-gray-700 font-inter text-[15px] leading-relaxed font-medium"><strong>Wages
-                                    Boards Ordinance & Factories Ordinance:</strong> Enforces minimum wage standards and
-                                occupational factory safety rules.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Divisions & Functions -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="divisions-functions">
+<section class="py-20 md:py-28 px-4 md:px-16 bg-white" id="divisions-functions">
     <div class="container mx-auto" data-aos="fade-up">
         <div class="mb-14">
             <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
@@ -936,6 +733,39 @@ include 'includes/sub-hero.php';
     </div>
 </section>
 
+<!-- Citizen Charter Section -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="citizen-charter">
+    <div class="container mx-auto flex flex-col lg:flex-row gap-16" data-aos="fade-up">
+        
+        <!-- Left Side: Main Text -->
+        <div class="w-full lg:w-[45%]">
+            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Public Commitment</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 leading-tight">
+                Our Commitment to Public<br>Service Excellence
+            </h2>
+            <div class="space-y-6 text-gray-600 font-inter text-[15px] leading-relaxed pr-0 md:pr-4">
+                <p>
+                    The Citizen Charter reflects the Ministry's dedication to delivering reliable, timely, and high-quality services to all citizens. It clearly defines our service standards, responsibilities, and the rights of the public, ensuring transparency and accountability in every interaction.
+                </p>
+                <p>
+                    Through this charter, we aim to build trust, improve service delivery, and create a responsive system that prioritizes the needs and expectations of the people we serve.
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side: PDF Viewer -->
+        <div class="w-full lg:w-[55%] flex justify-center items-start">
+            <?php 
+                $pdfId = 'citizen-charter-doc';
+                $pdfUrl = 'assets/img/citizen-charter/citizen-charter.pdf';
+                $pdfTitle = 'Citizen Charter';
+                include 'includes/pdf-viewer.php'; 
+            ?>
+        </div>
+
+    </div>
+</section>
+
 <style>
     /* Custom simple fade-in animation to keep JS clean */
     @keyframes fadeIn {
@@ -1014,32 +844,7 @@ include 'includes/sub-hero.php';
         <?php endforeach; ?>
     }
 
-    function switchOperateTab(tabId) {
-        // Hide all tab contents
-        document.querySelectorAll('.operate-tab-content').forEach(content => {
-            content.classList.add('hidden');
-        });
 
-        // Show target tab content
-        document.getElementById('tab-content-' + tabId).classList.remove('hidden');
-
-        // Reset all tab buttons classes
-        const activeClasses = ['bg-[#13273F]', 'text-white', 'font-bold'];
-        const inactiveClasses = ['text-gray-500', 'hover:text-primary', 'hover:bg-gray-50/80', 'font-semibold'];
-
-        const tabs = ['objectives', 'thrust-areas', 'legal-framework'];
-
-        tabs.forEach(tId => {
-            const btn = document.getElementById('tab-btn-' + tId);
-            if (tId === tabId) {
-                btn.classList.add(...activeClasses);
-                btn.classList.remove(...inactiveClasses);
-            } else {
-                btn.classList.remove(...activeClasses);
-                btn.classList.add(...inactiveClasses);
-            }
-        });
-    }
 
     function copyToClipboard(text, message) {
         navigator.clipboard.writeText(text).then(() => {
@@ -1059,5 +864,5 @@ include 'includes/sub-hero.php';
     }
 </script>
 
+<?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>
-

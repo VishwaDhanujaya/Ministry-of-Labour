@@ -176,7 +176,7 @@
                             <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
                             <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
                             <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
-                            <li><a href="citizen-charter" class="hover:text-yellow-400 hover:underline transition-all">Citizen Charter</a></li>
+
                             <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                             <li><a href="articles" class="hover:text-yellow-400 hover:underline transition-all">Articles</a></li>
                             <li><a href="gallery" class="hover:text-yellow-400 hover:underline transition-all">Gallery</a></li>

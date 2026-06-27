@@ -57,9 +57,8 @@ include 'includes/header.php';
                 building a dynamic workforce that drives Sri Lanka's economic development.
             </p>
             <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
-                <a href="#citizen-services"
-                    class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Explore
-                    Services</a>
+                <a href="#quick-links"
+                    class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Quick Links</a>
                 <a href="#news-section"
                     class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform">View
                     Notices</a>
@@ -121,18 +120,11 @@ include 'includes/header.php';
                     and semi-government sectors while contributing to national economic development.</p>
             </div>
             
-            <!-- Statistics Cards -->
-            <div class="about-stats-container">
-                <div class="about-stat-card hover:-translate-y-1 transition-transform duration-300">
-                    <div class="about-stat-card-accent"></div>
-                    <span class="about-stat-number">8</span>
-                    <span class="about-stat-label">Services</span>
-                </div>
-                <div class="about-stat-card hover:-translate-y-1 transition-transform duration-300">
-                    <div class="about-stat-card-accent"></div>
-                    <span class="about-stat-number">5+</span>
-                    <span class="about-stat-label">Partners</span>
-                </div>
+            <!-- Read More Button -->
+            <div class="mt-8">
+                <a href="about-us" class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-all duration-300 text-[13px] tracking-wider font-inter inline-block hover:shadow-lg hover:-translate-y-1 transform">
+                    Read More
+                </a>
             </div>
         </div>
 
@@ -147,8 +139,8 @@ include 'includes/header.php';
     </div>
 </section>
 
-<!-- Key Focus Areas -->
-<section class="relative py-20 md:py-28 px-4 md:px-16 text-white overflow-hidden bg-primary">
+<!-- Quick Links -->
+<section class="relative py-20 md:py-28 px-4 md:px-16 text-white overflow-hidden bg-primary" id="quick-links">
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/keyfocus.webp');"></div>
@@ -156,220 +148,107 @@ include 'includes/header.php';
     <div class="container mx-auto relative z-10" data-aos="fade-up">
         <div class="mb-12">
             <div>
-                <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Our Progress</p>
-                <h2 class="section-title text-white mb-0">Key Focus Areas</h2>
-                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3">Strategic priorities driving Sri Lanka's labour development.</p>
+                <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Quick Access</p>
+                <h2 class="section-title text-white mb-0">Quick Links</h2>
+                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3">Direct access to our most crucial portals and services.</p>
             </div>
         </div>
 
         <div class="relative">
             <div id="carousel-track"
-                class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth">
-                <!-- Card 1 -->
-                <div class="focus-card">
+                class="flex lg:grid lg:grid-cols-3 gap-6 overflow-x-auto lg:overflow-visible scrollbar-none snap-x snap-mandatory py-4 scroll-smooth">
+                <!-- Card 1: NLAC -->
+                <a href="about-us#divisions-functions" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
-                        <div class="focus-card-icon">
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Acts Amendment</h3>
-                        <p class="focus-card-desc">Updating and reforming labour
-                            legislation for a modern economy.</p>
+                        <h3 class="focus-card-title">NLAC</h3>
+                        <p class="focus-card-desc">National Labour Advisory Council — consultative labour governance and social dialogue.</p>
                     </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="focus-card">
+                </a>
+                
+                <!-- Card 2: Ampara Circuit Bungalow -->
+                <a href="ampara-circuit-bungalow" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
-                        <div class="focus-card-icon">
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M4.263 15.518a9.008 9.008 0 013.714-6.32l.332-.215a12.448 12.448 0 006.377-6.326m-10.423 12.86l.332-.215a9.009 9.009 0 018.794-.21l.33.167m-10.423 12.9a9.008 9.008 0 014.2-12.87m10.423 12.86l.332-.215a9.009 9.009 0 00-8.794-.21l-.33.167m10.423 12.9a9.008 9.008 0 00-4.2-12.87m0 0a9.008 9.008 0 014.2 12.87m-4.2-12.87l-.33-.167a9.009 9.009 0 00-8.794.21M18 14.5c0-2-3-4-3-4s-3 2-3 4h6z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Training for
-                            employees</h3>
-                        <p class="focus-card-desc">National Institute of Labour
-                            Studies programmes and certification.</p>
+                        <h3 class="focus-card-title">Circuit Bungalow</h3>
+                        <p class="focus-card-desc">Book and reserve the Ministry's comfortable circuit bungalow in Ampara online.</p>
                     </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="focus-card">
+                </a>
+
+                <!-- Card 3: Publications -->
+                <a href="publications" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
-                        <div class="focus-card-icon">
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Industrial
-                            Relations</h3>
-                        <p class="focus-card-desc">Promoting harmonious
-                            employer-employee relationships nationwide.</p>
+                        <h3 class="focus-card-title">Publications</h3>
+                        <p class="focus-card-desc">Access official publications, reports, acts, and statistical bulletins.</p>
                     </div>
-                </div>
-                <!-- Card 4 -->
-                <div class="focus-card">
+                </a>
+
+                <!-- Card 4: Compensation -->
+                <a href="#affiliated-institutions" onclick="document.querySelector('[data-target=\'inst-wc\']').click();" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
-                        <div class="focus-card-icon">
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
-                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">NLAC
-                        </h3>
-                        <p class="focus-card-desc">National Labour Advisory Council
-                            — consultative labour governance.</p>
+                        <h3 class="focus-card-title">Compensation</h3>
+                        <p class="focus-card-desc">Submit and track workmen's compensation claims for workplace accidents or injuries.</p>
                     </div>
-                </div>
+                </a>
+
+                <!-- Card 5: RTI -->
+                <a href="rti" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                    <div>
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="focus-card-title">RTI Portal</h3>
+                        <p class="focus-card-desc">Submit information requests under the Right to Information Act in Sri Lanka.</p>
+                    </div>
+                </a>
+
+                <!-- Card 6: Complaints -->
+                <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                    <div>
+                        <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                        </div>
+                        <h3 class="focus-card-title">Complaints (WhatsApp)</h3>
+                        <p class="focus-card-desc">Submit complaints directly via WhatsApp to our official number: 070 722 7877.</p>
+                    </div>
+                </a>
             </div>
             
             <!-- Interactive Dots -->
-            <div class="flex justify-center mt-12 gap-3" id="carousel-dots-container">
+            <div class="flex lg:hidden justify-center mt-12 gap-3" id="carousel-dots-container">
                 <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 carousel-dot dark-bg-dot active shadow-sm" aria-label="Go to slide 1"></button>
                 <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 2"></button>
                 <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 3"></button>
                 <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 4"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 5"></button>
+                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 6"></button>
             </div>
         </div>
 </section>
 
-<!-- Citizen Services -->
-<section class="py-20 md:py-28 px-4 md:px-16" id="citizen-services">
-    <div class="container mx-auto">
-        <div class="text-left mb-12" data-aos="fade-up">
-            <p class="section-subtitle">Our Services</p>
-            <h2 class="section-title mb-3">Citizen Services</h2>
-            <p class="text-gray-500 font-inter font-normal text-sm md:text-base mb-10">Access key services offered by the Ministry of Labour and its institutions.</p>
-        </div>
 
-        <!-- Cards Container -->
-        <div id="services-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <!-- Service Card 1 -->
-            <div class="service-card" data-title="Apply EPF"
-                data-keywords="epf apply provident fund social security retirement balance registry">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">01</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Apply EPF</h3>
-                    <p class="service-card-desc">Employees' Provident Fund applications and member services.</p>
-                </div>
-
-            </div>
-            <!-- Service Card 2 -->
-            <div class="service-card" data-title="Apply Compensation"
-                data-keywords="compensation claim accident injury workplace death file factories">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">02</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Apply Compensation</h3>
-                    <p class="service-card-desc">Workmen's compensation claims and dispute resolution.</p>
-                </div>
-
-            </div>
-            <!-- Service Card 3 -->
-            <div class="service-card" data-title="Industrial Safety"
-                data-keywords="safety hazard inspections factories building check compliance ordinance">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">03</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Industrial Safety</h3>
-                    <p class="service-card-desc">Workplace safety standards, inspections and compliance.</p>
-                </div>
-
-            </div>
-            <!-- Service Card 4 -->
-            <div class="service-card" data-title="Labour Circulars"
-                data-keywords="circulars news acts gazette bulletin rules minimum wage official">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">04</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Labour Disputes</h3>
-                    <p class="service-card-desc">File and track other labour-related disputes.</p>
-                </div>
-
-            </div>
-            <!-- Service Card 5 -->
-            <div class="service-card" data-title="Apply Labour ID"
-                data-keywords="id card register labour identity formal informal workforce verification">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">05</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Apply under RTI</h3>
-                    <p class="service-card-desc">Request information under the Right to Information Act.</p>
-                </div>
-
-            </div>
-            <!-- Service Card 6 -->
-            <div class="service-card" data-title="Complaint to termination"
-                data-keywords="complaint dispute termination firing salary pay grievance legal mediation">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">06</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Complaint: Termination</h3>
-                    <p class="service-card-desc">Complaints management for wrongful termination cases.</p>
-                </div>
-
-            </div>
-
-            <!-- Service Card 7 -->
-            <div class="service-card" data-title="Bungalow Booking"
-                data-keywords="bungalow booking reservation circuit book official stay lodge room travel reserve">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">07</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Bungalow Booking</h3>
-                    <p class="service-card-desc">Book Ministry circuit bungalows for official use.</p>
-                </div>
-
-            </div>
-
-            <!-- Service Card 8 -->
-            <div class="service-card" data-title="Complaint Board"
-                data-keywords="complaint board portal query tracking case status check">
-                <div>
-                    <div class="service-card-icon">
-                        <span class="font-semibold font-montserrat text-sm">08</span>
-                    </div>
-                    <h3 class="service-card-title">
-                        Complaints Portal</h3>
-                    <p class="service-card-desc">Online complaints management system for all workers.</p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Dynamic No Results block hidden by default -->
-        <div id="search-no-results" class="hidden text-center py-16 text-gray-500 font-inter">
-            <svg class="w-12 h-12 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <h4 class="text-lg font-semibold text-primary font-montserrat">No Services Found</h4>
-            <p class="text-sm mt-1">Try searching for keywords like "EPF", "Safety", or "Claims".</p>
-        </div>
-    </div>
-</section>
 
 <!-- Latest Articles -->
 <section class="py-20 md:py-32 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">

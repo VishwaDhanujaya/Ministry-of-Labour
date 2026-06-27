@@ -170,8 +170,10 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
         <div class="container mx-auto px-4 md:px-8 py-3.5 flex justify-between items-center">
             <!-- Logo Area -->
             <div class="flex items-center">
-                <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka"
-                    class="h-12 md:h-14 w-auto object-contain">
+                <a href="home" class="block">
+                    <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka"
+                        class="h-12 md:h-14 w-auto object-contain">
+                </a>
             </div>
 
             <!-- Desktop Navigation with Interactive Dropdowns -->
@@ -187,8 +189,7 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 <a href="rti"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?> notranslate">RTI</a>
 
-                <a href="citizen-charter"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Citizen Charter</a>
+
 
 
                 <div class="relative group">
@@ -258,7 +259,9 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
             class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-y-auto">
             <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
                 <div class="flex items-center">
-                    <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
+                    <a href="home" class="block">
+                        <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
+                    </a>
                 </div>
                 <button id="mobile-menu-close" aria-label="Close Mobile Menu"
                     class="p-1 rounded-lg text-gray-400 hover:text-primary hover:bg-gray-50 transition-colors">
@@ -275,7 +278,7 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">About Us</a>
                 <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">IAU</a>
                 <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">RTI</a>
-                <a href="citizen-charter" class="pl-3 py-1 <?= ($current_page == 'citizen-charter') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Citizen Charter</a>
+
 
 
                 <div class="flex flex-col space-y-2 py-1">
