@@ -3,7 +3,7 @@
 require_once 'admin/includes/db.php';
 
 // Fetch recent news (limit 3)
-$recentNewsRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+$recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
 $recentNews = [];
 foreach ($recentNewsRaw as $news) {
     if ($current_lang === 'si') {
@@ -17,7 +17,7 @@ foreach ($recentNewsRaw as $news) {
 }
 
 // Fetch special notices (limit 4) - Note: Special Notices are removed, this can be safely removed or kept for legacy news
-$specialNoticesRaw = $pdo->query("SELECT * FROM articles WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
+$specialNoticesRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
 $specialNotices = [];
 foreach ($specialNoticesRaw as $notice) {
     if ($current_lang === 'si') {
@@ -30,8 +30,7 @@ foreach ($specialNoticesRaw as $notice) {
     $specialNotices[] = $notice;
 }
 
-// Fetch gallery items
-$galleryItems = $pdo->query("SELECT * FROM gallery WHERE status = 'Public' ORDER BY created_at DESC LIMIT 4")->fetchAll();
+
 
 $pageTitle = 'Home - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
@@ -39,33 +38,125 @@ $metaKeywords = 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri
 include 'includes/header.php';
 ?>
 
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 <!-- Hero Section -->
-<section class="relative h-[550px] md:h-[650px] flex items-center bg-primary overflow-hidden">
+<section class="relative min-h-[550px] md:min-h-[650px] xl:h-[650px] flex items-center bg-primary overflow-hidden py-16 xl:py-0">
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/hero.webp');"></div>
-    <div class="absolute inset-0 opacity-55 bg-home-hero-gradient">
-    </div>
+    <div class="absolute inset-0 opacity-55 bg-home-hero-gradient"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
-        <div class="max-w-2xl">
-            <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2">Welcome to</h2>
-            <h1
-                class="text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-6 leading-none tracking-tighter uppercase">
-                Ministry of Labour</h1>
-            <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-gray-300 max-w-xl">
-                The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
-                building a dynamic workforce that drives Sri Lanka's economic development.
-            </p>
-            <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
-                <a href="#quick-links"
-                    class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Quick Links</a>
-                <a href="#news-section"
-                    class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform">View
-                    Notices</a>
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative">
+            
+            <!-- Left Side: Welcome Text (Old design restored) -->
+            <div class="max-w-2xl w-full">
+                <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2">Welcome to</h2>
+                <h1 class="text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-6 leading-none tracking-tighter uppercase">
+                    Ministry of Labour</h1>
+                <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-gray-300 max-w-xl">
+                    The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
+                    building a dynamic workforce that drives Sri Lanka's economic development.
+                </p>
+                <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
+                    <a href="#quick-links"
+                        class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Quick Links</a>
+                    <a href="#news-section"
+                        class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform">View
+                        Notices</a>
+                </div>
             </div>
+
+            <!-- Right Side: News Slider (Floating on Desktop, hidden on mobile) -->
+            <div class="hidden xl:block xl:w-[450px] shrink-0 xl:absolute xl:right-0 xl:top-1/2 xl:-translate-y-1/2 z-30" data-aos="fade-left" data-aos-delay="200">
+                <p class="text-gray-300 font-bold text-xs uppercase tracking-widest mb-3 font-inter">Latest Updates</p>
+                <div class="swiper heroSwiper rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-md">
+                    <div class="swiper-wrapper">
+                        <?php if(empty($recentNews)): ?>
+                            <div class="swiper-slide p-8 text-center text-gray-300 flex items-center justify-center h-[350px] md:h-[450px] lg:h-[500px]">
+                                No recent news available.
+                            </div>
+                        <?php else: ?>
+                            <?php foreach($recentNews as $news): ?>
+                            <div class="swiper-slide relative h-[350px] md:h-[450px] lg:h-[500px] group flex flex-col justify-end">
+                                <?php 
+                                $coverImage = !empty($news['cover_image']) ? trim($news['cover_image']) : '';
+                                $hasImage = false;
+                                $imageSrc = '';
+                                if ($coverImage) {
+                                    $cleanPath = ltrim($coverImage, '/');
+                                    if (file_exists('admin/' . $cleanPath)) {
+                                        $imageSrc = 'admin/' . $cleanPath;
+                                        $hasImage = true;
+                                    } elseif (file_exists($cleanPath)) {
+                                        $imageSrc = $cleanPath;
+                                        $hasImage = true;
+                                    }
+                                }
+                                
+                                if ($hasImage): ?>
+                                    <img loading="lazy" src="<?= htmlspecialchars($imageSrc) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <?php else: ?>
+                                    <img loading="lazy" src="assets/img/hero.webp" alt="<?= htmlspecialchars($news['title']) ?>" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60">
+                                <?php endif; ?>
+                                
+                                <!-- Gradient overlay for text readability -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/80 to-transparent"></div>
+                                
+                                <div class="relative z-10 p-6 md:p-8">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="text-[10px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
+                                        <span class="text-xs text-gray-200 font-inter font-medium"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
+                                    </div>
+                                    <h3 class="text-lg md:text-xl font-semibold text-white font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
+                                        <?= htmlspecialchars($news['title']) ?>
+                                    </h3>
+                                    <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-white/90 font-bold text-xs hover:text-yellow-400 transition-colors uppercase tracking-wider gap-1.5 group/btn">
+                                        Read More <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="swiper-pagination !bottom-4"></div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var swiper = new Swiper(".heroSwiper", {
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    });
+</script>
+<style>
+    .heroSwiper .swiper-pagination-bullet {
+        background: white;
+        opacity: 0.4;
+    }
+    .heroSwiper .swiper-pagination-bullet-active {
+        background: #FBBF24;
+        opacity: 1;
+    }
+</style>
 
 <!-- Stats Bar -->
 <div class="bg-secondary text-white py-10 relative z-20">
@@ -258,16 +349,16 @@ include 'includes/header.php';
                 <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
                     Updates & Announcements</p>
                 <h2 class="section-title">
-                    Latest Articles</h2>
+                    Latest News</h2>
             </div>
-            <a href="articles" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
+            <a href="news" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
                 <span>View All</span>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php if(empty($recentNews)): ?>
-                <div class="col-span-3 text-center text-gray-500 py-10">No recent articles available.</div>
+                <div class="col-span-3 text-center text-gray-500 py-10">No recent news available.</div>
             <?php else: ?>
                 <?php foreach($recentNews as $news): ?>
                 <div class="news-card">
@@ -293,7 +384,7 @@ include 'includes/header.php';
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="article/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
                             Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -303,45 +394,10 @@ include 'includes/header.php';
         </div>
 
         <div class="mt-10 text-center md:hidden">
-            <a href="#"
+            <a href="news"
                 class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase">
-                <span>View All Articles</span>
+                <span>View All News</span>
             </a>
-        </div>
-    </div>
-</section>
-
-<!-- Media Gallery -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-white border-t border-gray-100" id="media-gallery">
-    <div class="container mx-auto">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                    Recent Events & Activities</p>
-                <h2 class="section-title">
-                    Media Gallery</h2>
-            </div>
-            <a href="gallery"
-                class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-[12px] uppercase tracking-wider">
-                <span>View All</span>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-            <?php if(empty($galleryItems)): ?>
-                <div class="col-span-2 lg:col-span-4 text-center text-gray-500 py-10">No gallery items available.</div>
-            <?php else: ?>
-                <?php foreach($galleryItems as $item): ?>
-                <!-- Media Item -->
-                <a href="gallery-album/<?= $item['id'] ?>" class="group relative bg-gray-100 rounded-[20px] overflow-hidden aspect-[4/5] sm:aspect-[3/4] md:aspect-[4/5] lg:aspect-auto lg:h-[280px] shadow-sm cursor-pointer block">
-                    <img loading="lazy" src="admin/<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(102,102,102,0)_0%,rgba(10,10,10,0.8)_100%)] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div class="absolute inset-0 p-4 sm:p-6 flex flex-col justify-end w-full z-10">
-                        <p class="text-white font-semibold font-montserrat text-xs sm:text-sm line-clamp-2 leading-snug"><?= htmlspecialchars($item['title']) ?></p>
-                    </div>
-                </a>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -392,7 +448,7 @@ include 'includes/header.php';
                                 <h4 class="text-gray-800 font-medium font-inter mb-2 text-[14px] md:text-[15px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
                                 <p class="text-[12.5px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
-                            <a href="article/<?= $notice['id'] ?>"
+                            <a href="news/<?= $notice['id'] ?>"
                                 class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0">Read More</a>
                         </div>
                         <?php endforeach; ?>

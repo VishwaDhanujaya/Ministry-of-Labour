@@ -206,11 +206,8 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                     </div>
                 </div>
 
-                <a href="articles"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'articles') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Articles</a>
-
-                <a href="gallery"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'gallery') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Gallery</a>
+                <a href="news"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">News</a>
 
                 <a href="contact-us"
                     class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact Us</a>
@@ -286,8 +283,7 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                     <a href="publications" class="pl-6 py-1 <?= ($current_page == 'publications') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Publications</a>
                     <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Procurements</a>
                 </div>
-                <a href="articles" class="pl-3 py-1 <?= ($current_page == 'articles') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Articles</a>
-                <a href="gallery" class="pl-3 py-1 <?= ($current_page == 'gallery') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Gallery</a>
+                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">News</a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">

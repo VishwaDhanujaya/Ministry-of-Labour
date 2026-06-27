@@ -32,8 +32,7 @@ RewriteCond %2 !=index
 RewriteRule ^ %{REQUEST_SCHEME}://%{HTTP_HOST}%1/%2 [R=301,L]
 
 # Pretty URLs
-RewriteRule ^article/([0-9]+)/?$ article.php?id=$1 [QSA,L]
-RewriteRule ^gallery-album/([0-9]+)/?$ gallery-album.php?id=$1 [QSA,L]
+RewriteRule ^news/([0-9]+)/?$ news-single.php?id=$1 [QSA,L]
 RewriteRule ^admin/officials$ admin/officials.php [L]
 RewriteRule ^admin/officials-api$ admin/officials-api.php [L]
 
