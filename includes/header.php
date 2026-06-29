@@ -193,21 +193,38 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
 
 
                 <div class="relative group">
-                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'publications' || $current_page == 'procurements') ? 'text-[#13273F] border-[#13273F]' : 'border-transparent hover:text-[#13273F] hover:border-gray-300' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
-                        Resources
+                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'learning-platforms-local' || $current_page == 'learning-platforms-foreign') ? 'text-[#13273F] border-[#13273F]' : 'border-transparent hover:text-[#13273F] hover:border-gray-300' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
+                        Learning Platforms
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="publications" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'publications') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Publications</a>
+                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Local</a>
+                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Foreign</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'procurements' || $current_page == 'vacancies') ? 'text-[#13273F] border-[#13273F]' : 'border-transparent hover:text-[#13273F] hover:border-gray-300' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
+                        Announcements
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown -->
+                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                        <div class="py-1">
                             <a href="procurements" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'procurements') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Procurements</a>
+                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Vacancies</a>
                         </div>
                     </div>
                 </div>
 
                 <a href="news"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">News</a>
+
+                <a href="downloads"
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">Downloads</a>
 
                 <a href="contact-us"
                     class="bg-[#4E0000] text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact Us</a>
@@ -279,11 +296,18 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
 
 
                 <div class="flex flex-col space-y-2 py-1">
-                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Resources</div>
-                    <a href="publications" class="pl-6 py-1 <?= ($current_page == 'publications') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Publications</a>
+                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Learning Platforms</div>
+                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Local</a>
+                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Foreign</a>
+                </div>
+
+                <div class="flex flex-col space-y-2 py-1">
+                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Announcements</div>
                     <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Procurements</a>
+                    <a href="vacancies" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Vacancies</a>
                 </div>
                 <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">News</a>
+                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Downloads</a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">

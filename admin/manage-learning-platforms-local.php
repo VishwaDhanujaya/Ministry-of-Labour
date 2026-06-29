@@ -4,7 +4,7 @@ require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 requireLogin();
 
-$current_page = "manage-publications";
+$current_page = "manage-learning-platforms-local";
 $error = '';
 $success = '';
 
@@ -13,7 +13,7 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT pdf_path FROM publications WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT pdf_path FROM learning_platforms_local WHERE id = ?");
     $stmt->execute([$del_id]);
     $pub = $stmt->fetch();
     
@@ -21,11 +21,11 @@ if (isset($_GET['delete'])) {
         if (!empty($pub['pdf_path']) && file_exists($pub['pdf_path'])) {
             unlink($pub['pdf_path']);
         }
-        $stmt = $pdo->prepare("DELETE FROM publications WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM learning_platforms_local WHERE id = ?");
         $stmt->execute([$del_id]);
-        $success = "Publication deleted successfully.";
+        $success = "Local Learning Platform deleted successfully.";
     } else {
-        $error = "Publication not found.";
+        $error = "Local Learning Platform not found.";
     }
 }
 
@@ -44,14 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
                 $error = "PDF file is required.";
             } else {
-                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/publications', ['application/pdf']);
+                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf']);
                 if ($uploadResult['success']) {
                     $pdf_path = $uploadResult['path'];
-                    $stmt = $pdo->prepare("INSERT INTO publications (title, description, pdf_path, status) VALUES (?, ?, ?, ?)");
+                    $stmt = $pdo->prepare("INSERT INTO learning_platforms_local (title, description, pdf_path, status) VALUES (?, ?, ?, ?)");
                     if ($stmt->execute([$title, $description, $pdf_path, $status])) {
-                        $success = "Publication added successfully.";
+                        $success = "Local Learning Platform added successfully.";
                     } else {
-                        $error = "Failed to add publication.";
+                        $error = "Failed to add learning_platform_local.";
                     }
                 } else {
                     $error = $uploadResult['error'];
@@ -60,18 +60,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         } elseif ($action === 'edit') {
             $edit_id = (int)$_POST['pub_id'];
             
-            $stmt = $pdo->prepare("SELECT pdf_path FROM publications WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT pdf_path FROM learning_platforms_local WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             
             if (!$existing) {
-                $error = "Publication not found.";
+                $error = "Local Learning Platform not found.";
             } else {
                 $pdf_path = $existing['pdf_path'];
                 
                 // If new file uploaded
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
-                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/publications', ['application/pdf']);
+                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf']);
                     if ($uploadResult['success']) {
                         if (!empty($pdf_path) && file_exists($pdf_path)) {
                             unlink($pdf_path);
@@ -83,11 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE publications SET title = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
+                    $stmt = $pdo->prepare("UPDATE learning_platforms_local SET title = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
                     if ($stmt->execute([$title, $description, $pdf_path, $status, $edit_id])) {
-                        $success = "Publication updated successfully.";
+                        $success = "Local Learning Platform updated successfully.";
                     } else {
-                        $error = "Failed to update publication.";
+                        $error = "Failed to update learning_platform_local.";
                     }
                 }
             }
@@ -95,9 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Fetch Publications
-$stmt = $pdo->query("SELECT * FROM publications ORDER BY created_at DESC");
-$publications = $stmt->fetchAll();
+// Fetch Local Learning Platforms
+$stmt = $pdo->query("SELECT * FROM learning_platforms_local ORDER BY created_at DESC");
+$learning_platforms_local = $stmt->fetchAll();
 
 include 'includes/header.php'; 
 ?>
@@ -108,11 +108,14 @@ include 'includes/header.php';
     <?php include 'includes/topbar.php'; ?>
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+        <!-- Include Quill CSS -->
+        <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+        
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage Publications</h2>
+            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage Local Learning Platforms</h2>
             <button onclick="openAddModal()" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
-                <span class="mr-1.5 text-lg leading-none">+</span> New Publication
+                <span class="mr-1.5 text-lg leading-none">+</span> New Local Learning Platform
             </button>
         </div>
 
@@ -167,19 +170,19 @@ include 'includes/header.php';
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <?php if (empty($publications)): ?>
+                    <?php if (empty($learning_platforms_local)): ?>
                     <tr>
                         <td colspan="5" class="py-16 px-6">
                             <div class="flex flex-col items-center justify-center text-center">
                                 <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
                                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 </div>
-                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No publications found</p>
+                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No local learning platforms found</p>
                             </div>
                         </td>
                     </tr>
                     <?php else: ?>
-                    <?php foreach ($publications as $pub): ?>
+                    <?php foreach ($learning_platforms_local as $pub): ?>
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="py-4 px-6">
                             <p class="text-[13px] font-medium text-gray-900"><?= htmlspecialchars($pub['title']) ?></p>
@@ -206,7 +209,7 @@ include 'includes/header.php';
                                 <button onclick='openEditModal(<?= json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </button>
-                                <a href="manage-publications?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this publication?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="manage-learning-platforms-local?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this local learning platform?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -224,7 +227,7 @@ include 'includes/header.php';
                 <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50/50">
                     <h3 class="text-lg font-bold font-montserrat text-gray-900 flex items-center" id="modalTitle">
                         <svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        Add New Publication
+                        Add New Local Learning Platform
                     </h3>
                     <button type="button" onclick="closePubModal()" class="text-gray-400 hover:text-gray-600 transition-colors bg-white hover:bg-gray-100 rounded-full p-1">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -240,7 +243,7 @@ include 'includes/header.php';
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="pubTitle" required placeholder="Publication title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                                <input type="text" name="title" id="pubTitle" required placeholder="Local Learning Platform title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
                             </div>
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Status</label>
@@ -256,7 +259,10 @@ include 'includes/header.php';
 
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2">Description (Optional)</label>
-                            <textarea name="description" id="pubDescription" rows="3" placeholder="Brief description of the publication" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400"></textarea>
+                            <input type="hidden" name="description" id="pubDescriptionInput">
+                            <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                                <div id="pubDescription" style="height: 150px;"></div>
+                            </div>
                         </div>
 
                         <div>
@@ -270,7 +276,7 @@ include 'includes/header.php';
                                 Cancel
                             </button>
                             <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-sm">
-                                Save Publication
+                                Save Local Learning Platform
                             </button>
                         </div>
                     </form>
@@ -280,12 +286,12 @@ include 'includes/header.php';
 
         <script>
         function openAddModal() {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Publication';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Local Learning Platform';
             document.getElementById('formAction').value = 'add';
             document.getElementById('pubId').value = '';
             
             document.getElementById('pubTitle').value = '';
-            document.getElementById('pubDescription').value = '';
+            quillPub.setText('');
             document.getElementById('pubStatus').value = 'Published';
             document.getElementById('pubPdf').value = '';
             
@@ -293,7 +299,7 @@ include 'includes/header.php';
             document.getElementById('pdfLabel').innerHTML = 'PDF File <span class="text-red-500">*</span>';
             document.getElementById('editPdfHint').classList.add('hidden');
             
-            document.getElementById('submitBtnText').textContent = 'Create Publication';
+            document.getElementById('submitBtnText').textContent = 'Create Local Learning Platform';
             
             const modal = document.getElementById('pubModal');
             modal.classList.remove('hidden');
@@ -301,12 +307,12 @@ include 'includes/header.php';
         }
 
         function openEditModal(pub) {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Publication';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Local Learning Platform';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('pubId').value = pub.id;
             
             document.getElementById('pubTitle').value = pub.title;
-            document.getElementById('pubDescription').value = pub.description || '';
+            quillPub.root.innerHTML = pub.description || '';
             document.getElementById('pubStatus').value = pub.status;
             document.getElementById('pubPdf').value = '';
             
@@ -325,6 +331,32 @@ include 'includes/header.php';
             const modal = document.getElementById('pubModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }
+        
+        // Include Quill JS
+        </script>
+        <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+        <script>
+        // Initialize Quill editor
+        const quillPub = new Quill('#pubDescription', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Sync Quill content to hidden input on form submit
+        const form = document.getElementById('pubForm');
+        if (form) {
+            form.addEventListener('submit', function() {
+                const html = quillPub.root.innerHTML;
+                document.getElementById('pubDescriptionInput').value = (html === '<p><br></p>') ? '' : html;
+            });
         }
         </script>
     </main>

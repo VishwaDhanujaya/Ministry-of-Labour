@@ -85,6 +85,23 @@ include 'includes/sub-hero.php';
             <div class="flex-1">
                 <h3 class="text-[22px] md:text-[26px] font-semibold font-montserrat text-gray-900 mb-6 md:mb-8">Leave Us A Message</h3>
                 
+                <!-- WhatsApp Complaints Callout -->
+                <div class="mb-8 p-5 bg-[#EFF8F6] border border-teal-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4" data-aos="fade-up">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center shrink-0 shadow-sm text-white">
+                            <!-- Clean simple WhatsApp / Message SVG -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider">Complaints Hotline</p>
+                            <p class="text-base font-bold text-teal-900 font-inter notranslate mt-0.5">070 722 7877 <span class="text-xs font-normal text-teal-700/80">(WhatsApp Only)</span></p>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95">
+                        Send Message
+                    </a>
+                </div>
+                
                 <form id="contactForm" class="space-y-4 md:space-y-5">
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name <span class="text-red-500">*</span></label>

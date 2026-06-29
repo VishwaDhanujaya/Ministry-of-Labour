@@ -444,13 +444,8 @@ include 'includes/sub-hero.php';
             <div class="w-full md:w-[32%] flex flex-col space-y-2.5 relative z-10">
                 <button
                     class="group relative text-left px-6 py-4 bg-primary text-white font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 shadow-lg cursor-pointer focus:outline-none div-tab-btn active overflow-hidden"
-                    data-target="div-mol">
-                    <span class="relative z-10 flex items-center justify-between">Ministry of Labour <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none div-tab-btn"
                     data-target="div-admin">
-                    <span class="relative z-10 flex items-center justify-between">Administration Division <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
+                    <span class="relative z-10 flex items-center justify-between">Administration Division <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
                     class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none div-tab-btn"
@@ -480,40 +475,8 @@ include 'includes/sub-hero.php';
                     <!-- Top accent line -->
                     <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-secondary to-primary"></div>
 
-                    <!-- Ministry of Labour -->
-                    <div id="div-panel-div-mol" class="div-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Core Focus</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Ministry of Labour</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                            <p class="text-lg text-gray-700 leading-relaxed"><strong class="text-primary font-semibold">Mission:</strong> The prime mission of the Ministry of Labour is to formulate and implement policies to enhance the contribution of the local labour force to economic development by protecting the occupational rights of private and semi-government employees, ensuring social security, ensuring industrial peace, directing skilled labour to the job market, providing employment, ensuring job security and promoting productivity in the country.</p>
-                            
-                            <div class="bg-gray-50/80 rounded-2xl p-6 border border-gray-100 mt-8">
-                                <h4 class="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
-                                    <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                                    Key Functions
-                                </h4>
-                                <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                                    <li class="pl-1">Policy formulation, implementation, monitoring and following up of programmes and projects in relation to the subjects of Labour, based on national policies.</li>
-                                    <li class="pl-1">Dealing with other matters relating to the administration of the Labour Tribunals.</li>
-                                    <li class="pl-1">Formulation and implementation of policies for labour relations standards, employee administration, welfare and health in line with international standards.</li>
-                                    <li class="pl-1">Maintenance of cooperation with International Labour Organization and International Social Security Associations.</li>
-                                    <li class="pl-1">Ratification and implementation of International Labour Organization conventions in Sri Lanka.</li>
-                                    <li class="pl-1">Representing Sri Lanka at the International Labour Conference.</li>
-                                    <li class="pl-1">Administration and regulation of Employees' Provident Fund, private provident Fund and private pension schemes.</li>
-                                    <li class="pl-1">Providing guidance and facilitating for labour relations and the resolution of labour disputes.</li>
-                                    <li class="pl-1">Registration of trade unions and introduction and implementation of positive measures for harnessing activities.</li>
-                                    <li class="pl-1">Coordinating social security matters with the Ministry of Finance.</li>
-                                    <li class="pl-1">Eliminating barriers for women to effectively occupy executive and management positions.</li>
-                                    <li class="pl-1">Providing the necessary support and guidance for career guidance and career development.</li>
-                                    <li class="pl-1">Providing guidance and facilitating for planning and implementing the necessary training and research.</li>
-                                    <li class="pl-1">Providing the necessary guidelines and facilitating to establish and enhance occupational safety and health in the workplace.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Administration Division -->
-                    <div id="div-panel-div-admin" class="div-panel hidden">
+                    <div id="div-panel-div-admin" class="div-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
                         <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Administration Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">

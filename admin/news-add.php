@@ -180,6 +180,9 @@ include 'includes/header.php';
     <?php include 'includes/topbar.php'; ?>
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+        <!-- Include Quill CSS -->
+        <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+        
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $article ? 'Edit News' : 'Add News' ?></h2>
@@ -251,18 +254,27 @@ include 'includes/header.php';
                                 Auto Translate Body
                             </button>
                         </div>
-                        <textarea id="content_en" name="content" placeholder="Full news content" rows="8" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article ? htmlspecialchars($article['content']) : '' ?></textarea>
+                        <input type="hidden" name="content" id="content_en_input">
+                        <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                            <div id="content_en" style="height: 250px;"><?= $article ? $article['content'] : '' ?></div>
+                        </div>
                     </div>
 
                     <!-- Translated Bodies -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <div class="space-y-6 mt-6">
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Sinhala)</label>
-                            <textarea id="content_si" name="content_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" placeholder="Sinhala translation" rows="6" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article && isset($article['content_si']) ? htmlspecialchars($article['content_si']) : '' ?></textarea>
+                            <input type="hidden" name="content_si" id="content_si_input">
+                            <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                                <div id="content_si" style="height: 200px;"><?= $article && isset($article['content_si']) ? $article['content_si'] : '' ?></div>
+                            </div>
                         </div>
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Tamil)</label>
-                            <textarea id="content_ta" name="content_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" placeholder="Tamil translation" rows="6" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400 resize-y"><?= $article && isset($article['content_ta']) ? htmlspecialchars($article['content_ta']) : '' ?></textarea>
+                            <input type="hidden" name="content_ta" id="content_ta_input">
+                            <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                                <div id="content_ta" style="height: 200px;"><?= $article && isset($article['content_ta']) ? $article['content_ta'] : '' ?></div>
+                            </div>
                         </div>
                     </div>
 
@@ -414,6 +426,42 @@ include 'includes/header.php';
     </main>
 </div>
 
+        <!-- Include Quill JS -->
+        <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+        
+        <script>
+        // Initialize Quill editors
+        const quillOptions = {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image'],
+                    ['clean']
+                ]
+            }
+        };
+        const quillEn = new Quill('#content_en', quillOptions);
+        const quillSi = new Quill('#content_si', quillOptions);
+        const quillTa = new Quill('#content_ta', quillOptions);
+
+        // Sync Quill content to hidden inputs on form submit
+        const form = document.querySelector('.js-validate-form');
+        if (form) {
+            form.addEventListener('submit', function() {
+                // Only save if it's not totally empty (Quill default empty is <p><br></p>)
+                const enHtml = quillEn.root.innerHTML;
+                const siHtml = quillSi.root.innerHTML;
+                const taHtml = quillTa.root.innerHTML;
+                
+                document.getElementById('content_en_input').value = (enHtml === '<p><br></p>') ? '' : enHtml;
+                document.getElementById('content_si_input').value = (siHtml === '<p><br></p>') ? '' : siHtml;
+                document.getElementById('content_ta_input').value = (taHtml === '<p><br></p>') ? '' : taHtml;
+            });
+        }
+        </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const categorySelect = document.getElementById('category-select');
@@ -496,7 +544,7 @@ async function autoTranslateTitle() {
 }
 
 async function autoTranslateBody() {
-    const contentEn = document.getElementById('content_en').value;
+    const contentEn = quillEn.getText().trim();
     if (!contentEn) {
         alert('Please enter English content to translate.');
         return;
@@ -509,10 +557,10 @@ async function autoTranslateBody() {
 
     try {
         const contentSi = await translateText(contentEn, 'en', 'si');
-        document.getElementById('content_si').value = contentSi;
+        quillSi.setText(contentSi + '\n');
         
         const contentTa = await translateText(contentEn, 'en', 'ta');
-        document.getElementById('content_ta').value = contentTa;
+        quillTa.setText(contentTa + '\n');
     } catch (err) {
         alert('Body translation failed. Please try again or enter manually.');
         console.error(err);

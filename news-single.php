@@ -44,9 +44,18 @@ $page_title = 'News';
 $pageTitle = strip_tags($article['title']);
 $metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
 $metaKeywords = 'Ministry of Labour, News, Sri Lanka, Updates, ' . strip_tags($article['category']);
-if (!empty($article['cover_image'])) {
-    $ogImage = 'admin/' . $article['cover_image'];
+
+// Determine absolute base URL dynamically
+$base_dir_news = dirname($_SERVER['SCRIPT_NAME']);
+if ($base_dir_news === '\\' || $base_dir_news === '/') {
+    $base_dir_news = '';
 }
+$site_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir_news . '/';
+
+if (!empty($article['cover_image'])) {
+    $ogImage = $site_url . 'admin/' . ltrim($article['cover_image'], '/');
+}
+$ogUrl = $site_url . 'news/' . $article['id'];
 
 $breadcrumbs = [
     ['label' => 'News', 'url' => 'news'],

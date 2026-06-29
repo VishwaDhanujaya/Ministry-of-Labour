@@ -274,16 +274,16 @@ include 'includes/header.php';
                     </div>
                 </a>
 
-                <!-- Card 3: Publications -->
-                <a href="publications" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <!-- Card 3: Learning Platforms -->
+                <a href="learning-platforms-local" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Publications</h3>
-                        <p class="focus-card-desc">Access official publications, reports, acts, and statistical bulletins.</p>
+                        <h3 class="focus-card-title">Learning Platforms</h3>
+                        <p class="focus-card-desc">Access official learning platforms and resources.</p>
                     </div>
                 </a>
 
@@ -418,7 +418,8 @@ include 'includes/header.php';
                 <div class="flex flex-col space-y-3.5">
                     <?php
                     $downloads = [
-                        ['title' => 'Publications', 'url' => 'publications.php'],
+                        ['title' => 'Learning Platforms (Local)', 'url' => 'learning-platforms-local'],
+                        ['title' => 'Learning Platforms (Foreign)', 'url' => 'learning-platforms-foreign'],
                         ['title' => 'Procurements', 'url' => 'procurements.php']
                     ];
                     foreach($downloads as $download):
@@ -443,7 +444,7 @@ include 'includes/header.php';
                         <div class="p-8 text-center text-gray-500 font-inter flex-grow flex items-center justify-center">No special notices available at the moment.</div>
                     <?php else: ?>
                         <?php foreach($specialNotices as $notice): ?>
-                        <div class="p-6 md:p-8 flex justify-between items-center gap-6 hover:bg-gray-50/50 transition-colors duration-200 flex-grow">
+                        <div class="p-6 md:p-8 flex justify-between items-start gap-6 hover:bg-gray-50/50 transition-colors duration-200 flex-grow">
                             <div class="flex-grow">
                                 <h4 class="text-gray-800 font-medium font-inter mb-2 text-[14px] md:text-[15px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
                                 <p class="text-[12.5px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
