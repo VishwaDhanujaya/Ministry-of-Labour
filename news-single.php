@@ -43,7 +43,7 @@ foreach ($recentPostsRaw as $post) {
 $page_title = 'News';
 $pageTitle = strip_tags($article['title']);
 $metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
-$metaKeywords = 'Ministry of Labour, News, Sri Lanka, Updates, ' . strip_tags($article['category']);
+$metaKeywords = 'Ministry of Labour, News, Sri Lanka, Updates';
 
 // Determine absolute base URL dynamically
 $base_dir_news = dirname($_SERVER['SCRIPT_NAME']);
@@ -76,7 +76,7 @@ include 'includes/sub-hero.php';
                 </h2>
                 
                 <div class="flex items-center gap-6 text-[13px] font-inter text-gray-500 font-medium mb-8 pb-4 border-b border-gray-200">
-                    <span><?= htmlspecialchars($article['category']) ?></span>
+
                     <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
                 </div>
 

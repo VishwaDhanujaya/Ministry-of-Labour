@@ -82,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title']);
     $title_si = trim($_POST['title_si'] ?? '');
     $title_ta = trim($_POST['title_ta'] ?? '');
-    $category = $_POST['category'];
     $content = trim($_POST['content']);
     $content_si = trim($_POST['content_si'] ?? '');
     $content_ta = trim($_POST['content_ta'] ?? '');
@@ -113,22 +112,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($status === 'Draft') {
-        if (empty($category)) $category = 'Media'; // Default fallback for drafts
         if (empty($content)) $content = '';
     } else {
-        if (empty($category)) $error = "Category is required to publish.";
         if (empty($content)) $error = "Content is required to publish.";
     }
 
     if (empty($error)) {
         try {
             if ($article) {
-                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
                 $article_id = $article['id'];
             } else {
-                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
                 $article_id = $pdo->lastInsertId();
             }
 
@@ -232,18 +229,6 @@ include 'includes/header.php';
                         </div>
                     </div>
 
-                    <!-- Category -->
-                    <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Category <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <select name="category" id="category-select" required class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
-                                <option value="">Select Category</option>
-                                <option value="Media" <?= ($article && $article['category'] === 'Media') ? 'selected' : '' ?>>Media</option>
-                                <option value="Notices" <?= ($article && $article['category'] === 'Notices') ? 'selected' : '' ?>>Notices</option>
-                            </select>
-                            <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
 
                     <!-- Full Article Body -->
                     <div>

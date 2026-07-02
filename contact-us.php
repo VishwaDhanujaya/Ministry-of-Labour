@@ -1,5 +1,12 @@
 <?php
 // contact-us.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require_once 'admin/includes/db.php';
 require_once 'includes/officials-service.php';
 
@@ -103,6 +110,7 @@ include 'includes/sub-hero.php';
                 </div>
                 
                 <form id="contactForm" class="space-y-4 md:space-y-5">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name <span class="text-red-500">*</span></label>
                         <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="John Doe">

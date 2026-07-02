@@ -82,6 +82,9 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <?php endif; ?>
 
     <style>
+        html, body {
+            overflow-x: clip !important;
+        }
         /* Hide Google Translate top frame, tooltips, and hover popups completely */
         iframe.goog-te-banner-frame,
         .goog-te-banner-frame.skiptranslate,
@@ -200,8 +203,8 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Local</a>
-                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Foreign</a>
+                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Local Publications</a>
+                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Foreign Publications</a>
                         </div>
                     </div>
                 </div>
@@ -231,20 +234,8 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
 
                 <div class="h-5 w-px bg-gray-200 mx-2 shrink-0"></div>
 
-                <!-- Expanding Search Bar Container -->
+                <!-- Search Button -->
                 <div class="relative flex items-center">
-                    <div id="search-bar-container"
-                        class="flex items-center bg-white border border-gray-200 rounded-lg px-2 py-1 shadow-sm opacity-0 pointer-events-none transition-all duration-300 w-0 overflow-hidden absolute right-0 top-1/2 -translate-y-1/2 z-50">
-                        <input type="text" id="header-search-input" placeholder="Search..."
-                            class="w-full bg-transparent text-xs font-inter focus:outline-none pr-6 pl-1 py-0.5">
-                        <button id="search-close-btn"
-                            class="absolute right-2 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
                     <button id="search-btn" aria-label="Search"
                         class="text-gray-400 hover:text-[#13273F] p-1.5 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-center shrink-0 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -255,20 +246,56 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 </div>
             </nav>
 
-            <!-- Mobile Menu Trigger Button -->
-            <button id="mobile-menu-trigger" aria-label="Open Mobile Menu"
-                class="xl:hidden text-[#13273F] hover:bg-gray-50 p-1.5 rounded-lg focus:outline-none transition-colors duration-200">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </button>
+            <!-- Mobile Menu Trigger Buttons -->
+            <div class="flex items-center space-x-2 xl:hidden">
+                <!-- Mobile Search Button -->
+                <button id="mobile-search-btn" aria-label="Search"
+                    class="text-gray-400 hover:text-[#13273F] p-1.5 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-center shrink-0 cursor-pointer">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                <!-- Mobile Menu Hamburger Trigger -->
+                <button id="mobile-menu-trigger" aria-label="Open Mobile Menu"
+                    class="text-[#13273F] hover:bg-gray-50 p-1.5 rounded-lg focus:outline-none transition-colors duration-200">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Expanding Search Panel (Pops under search icon and header, flush with bottom border) -->
+        <div id="search-bar-container"
+            class="absolute right-4 md:right-8 top-full bg-white border-l border-r border-b border-gray-200 rounded-b-2xl shadow-[0_15px_30px_rgba(19,39,63,0.1)] z-55 w-0 overflow-hidden opacity-0 pointer-events-none transition-all duration-300">
+            <div class="p-3 w-[calc(100vw-2rem)] sm:w-80 md:w-96">
+                <div class="relative flex items-center bg-gray-50 border border-gray-200 rounded-xl px-2.5 py-1.5 focus-within:border-secondary focus-within:ring-2 focus-within:ring-secondary/15 transition-all">
+                    <svg class="w-3.5 h-3.5 text-gray-450 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" id="header-search-input" placeholder="Search news, vacancies, procurements..."
+                        class="w-full bg-transparent text-xs font-inter focus:outline-none pr-6 pl-0.5 placeholder-gray-400 text-gray-900">
+                    <button id="search-close-btn"
+                        class="absolute right-2.5 text-gray-400 hover:text-gray-655 focus:outline-none cursor-pointer p-0.5 rounded-full hover:bg-gray-200/50 transition-colors">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Search Suggestions Container inside the popover panel -->
+                <div id="search-suggestions-container" class="mt-2.5 max-h-64 overflow-y-auto custom-scrollbar hidden border-t border-gray-100 pt-2">
+                    <!-- Dynamic suggestions list -->
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- Mobile Slide-out Menu Drawer -->
     <div id="mobile-menu"
-        class="fixed inset-0 bg-[#13273F]/40 backdrop-blur-sm z-[100] opacity-0 pointer-events-none transition-all duration-300">
+        class="fixed inset-0 bg-[#13273F]/40 backdrop-blur-sm z-[100] opacity-0 pointer-events-none invisible transition-all duration-300">
         <div id="mobile-menu-drawer"
             class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-y-auto">
             <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
@@ -297,8 +324,8 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
 
                 <div class="flex flex-col space-y-2 py-1">
                     <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Learning Platforms</div>
-                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Local</a>
-                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Foreign</a>
+                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Local Publications</a>
+                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Foreign Publications</a>
                 </div>
 
                 <div class="flex flex-col space-y-2 py-1">

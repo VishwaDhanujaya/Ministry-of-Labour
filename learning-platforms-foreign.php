@@ -1,6 +1,6 @@
 <?php
-$page_title = 'Foreign Learning Platforms';
-$pageTitle = 'Foreign Learning Platforms - Ministry of Labour - Sri Lanka';
+$page_title = 'Foreign Publications';
+$pageTitle = 'Foreign Publications - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Download important foreign learning resources, reports, and documents from the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'Foreign Learning Platforms, Reports, Documents, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
@@ -23,12 +23,12 @@ $learning_platforms_foreign = $stmt->fetchAll();
                 <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                     <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </div>
-                <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none" placeholder="Search foreign learning platforms by title..." onkeyup="filterTable()">
+                <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none" placeholder="Search foreign publications by title..." onkeyup="filterTable()">
             </div>
         </div>
 
         <!-- Section Title -->
-        <h2 class="text-[20px] font-medium font-montserrat text-primary mb-4">Latest Foreign Learning Platforms</h2>
+        <h2 class="text-[20px] font-medium font-montserrat text-primary mb-4">Latest Foreign Publications</h2>
 
         <!-- Table -->
         <div class="bg-white rounded-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border-[0.5px] border-[#E5E7EB] overflow-hidden mb-12">
@@ -44,7 +44,7 @@ $learning_platforms_foreign = $stmt->fetchAll();
                     <tbody class="divide-y divide-[#E5E7EB]">
                         <?php if (empty($learning_platforms_foreign)): ?>
                         <tr>
-                            <td colspan="3" class="px-6 py-8 text-center text-gray-500">No foreign learning platforms available at the moment.</td>
+                            <td colspan="3" class="px-6 py-8 text-center text-gray-500">No foreign publications available at the moment.</td>
                         </tr>
                         <?php else: ?>
                         <?php foreach ($learning_platforms_foreign as $pub): ?>

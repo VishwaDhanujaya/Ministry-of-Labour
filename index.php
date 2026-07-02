@@ -3,7 +3,7 @@
 require_once 'admin/includes/db.php';
 
 // Fetch recent news (limit 3)
-$recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND category = 'Media' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+$recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
 $recentNews = [];
 foreach ($recentNewsRaw as $news) {
     if ($current_lang === 'si') {
@@ -16,18 +16,21 @@ foreach ($recentNewsRaw as $news) {
     $recentNews[] = $news;
 }
 
-// Fetch special notices (limit 4) - Note: Special Notices are removed, this can be safely removed or kept for legacy news
-$specialNoticesRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND category = 'Notices' AND is_featured = 1 ORDER BY created_at DESC LIMIT 4")->fetchAll();
-$specialNotices = [];
-foreach ($specialNoticesRaw as $notice) {
-    if ($current_lang === 'si') {
-        if (!empty($notice['title_si'])) $notice['title'] = $notice['title_si'];
-        if (!empty($notice['content_si'])) $notice['content'] = $notice['content_si'];
-    } elseif ($current_lang === 'ta') {
-        if (!empty($notice['title_ta'])) $notice['title'] = $notice['title_ta'];
-        if (!empty($notice['content_ta'])) $notice['content'] = $notice['content_ta'];
-    }
-    $specialNotices[] = $notice;
+// Fetch Vacancies and Procurements for Announcements (limit 4 combined)
+$vacanciesRaw = $pdo->query("SELECT id, title, 'Vacancy' as type, pdf_path, created_at, description FROM vacancies WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+$procurementsRaw = $pdo->query("SELECT id, title, 'Procurement' as type, pdf_path, created_at, description FROM procurements WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+
+$announcementsRaw = array_merge($vacanciesRaw, $procurementsRaw);
+// Sort by created_at descending
+usort($announcementsRaw, function($a, $b) {
+    return strtotime($b['created_at']) - strtotime($a['created_at']);
+});
+$announcementsRaw = array_slice($announcementsRaw, 0, 4);
+
+$announcements = [];
+foreach ($announcementsRaw as $notice) {
+    $notice['content'] = $notice['description'];
+    $announcements[] = $notice;
 }
 
 
@@ -43,8 +46,12 @@ include 'includes/header.php';
 
 <!-- Hero Section -->
 <section class="relative min-h-[550px] md:min-h-[650px] xl:h-[650px] flex items-center bg-primary overflow-hidden py-16 xl:py-0">
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+    <!-- Desktop Hero Image -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none hidden md:block"
         style="background-image: url('assets/img/hero.webp');"></div>
+    <!-- Mobile Hero Image -->
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none block md:hidden"
+        style="background-image: url('assets/img/mobile-hero.webp');"></div>
     <div class="absolute inset-0 opacity-55 bg-home-hero-gradient"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
@@ -68,8 +75,8 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Right Side: News Slider (Floating on Desktop, hidden on mobile) -->
-            <div class="hidden xl:block xl:w-[450px] shrink-0 xl:absolute xl:right-0 xl:top-1/2 xl:-translate-y-1/2 z-30" data-aos="fade-left" data-aos-delay="200">
+            <!-- Right Side: News Slider (Floating on Desktop, stacked on mobile) -->
+            <div class="w-full xl:w-[450px] shrink-0 xl:absolute xl:right-0 xl:top-1/2 xl:-translate-y-1/2 z-30" data-aos="fade-left" data-aos-delay="200">
                 <p class="text-gray-300 font-bold text-xs uppercase tracking-widest mb-3 font-inter">Latest Updates</p>
                 <div class="swiper heroSwiper rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-md">
                     <div class="swiper-wrapper">
@@ -106,7 +113,6 @@ include 'includes/header.php';
                                 
                                 <div class="relative z-10 p-6 md:p-8">
                                     <div class="flex items-center gap-3 mb-3">
-                                        <span class="text-[10px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
                                         <span class="text-xs text-gray-200 font-inter font-medium"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                     </div>
                                     <h3 class="text-lg md:text-xl font-semibold text-white font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
@@ -328,14 +334,7 @@ include 'includes/header.php';
             </div>
             
             <!-- Interactive Dots -->
-            <div class="flex lg:hidden justify-center mt-12 gap-3" id="carousel-dots-container">
-                <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 carousel-dot dark-bg-dot active shadow-sm" aria-label="Go to slide 1"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 2"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 3"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 4"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 5"></button>
-                <button class="w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/50 transition-all duration-300 carousel-dot dark-bg-dot" aria-label="Go to slide 6"></button>
-            </div>
+            <div class="flex lg:hidden justify-center mt-12 gap-3" id="carousel-dots-container"></div>
         </div>
 </section>
 
@@ -373,7 +372,6 @@ include 'includes/header.php';
                         <div class="p-8 pb-4">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
-                                <span class="text-[9px] font-bold text-secondary bg-[#FFF0F0] px-2.5 py-1 rounded uppercase tracking-wider font-inter"><?= htmlspecialchars($news['category']) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2 notranslate">
                                 <?= htmlspecialchars($news['title']) ?>
@@ -420,7 +418,7 @@ include 'includes/header.php';
                     $downloads = [
                         ['title' => 'Learning Platforms (Local)', 'url' => 'learning-platforms-local'],
                         ['title' => 'Learning Platforms (Foreign)', 'url' => 'learning-platforms-foreign'],
-                        ['title' => 'Procurements', 'url' => 'procurements.php']
+                        ['title' => 'Procurements', 'url' => 'procurements']
                     ];
                     foreach($downloads as $download):
                     ?>
@@ -434,23 +432,32 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Special Notices Column -->
+            <!-- Announcements Column -->
             <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col h-full">
-                <div class="bg-primary text-white py-6 px-8 relative overflow-hidden shrink-0">
-                    <h3 class="font-medium text-[20px] md:text-[22px] font-montserrat flex items-center relative z-10 tracking-wide">Special Notices</h3>
+                <div class="bg-primary text-white py-4 px-6 relative overflow-hidden shrink-0">
+                    <h3 class="font-medium text-[18px] md:text-[20px] font-montserrat flex items-center relative z-10 tracking-wide">Announcements</h3>
                 </div>
                 <div class="divide-y divide-gray-100 bg-white flex-grow flex flex-col">
-                    <?php if(empty($specialNotices)): ?>
-                        <div class="p-8 text-center text-gray-500 font-inter flex-grow flex items-center justify-center">No special notices available at the moment.</div>
+                    <?php if(empty($announcements)): ?>
+                        <div class="p-6 text-center text-gray-500 font-inter flex-grow flex items-center justify-center">No announcements available at the moment.</div>
                     <?php else: ?>
-                        <?php foreach($specialNotices as $notice): ?>
-                        <div class="p-6 md:p-8 flex justify-between items-start gap-6 hover:bg-gray-50/50 transition-colors duration-200 flex-grow">
+                        <?php foreach($announcements as $notice): 
+                            $isVacancy = ($notice['type'] === 'Vacancy');
+                            $hasPdf = !empty($notice['pdf_path']) && !$isVacancy;
+                            $btnUrl = $hasPdf ? htmlspecialchars($notice['pdf_path']) : ($isVacancy ? 'vacancies' : 'procurements');
+                            $btnTarget = $hasPdf ? '_blank' : '_self';
+                            $btnText = $hasPdf ? 'View PDF' : 'Read More';
+                        ?>
+                        <div class="p-4 md:p-5 flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors duration-200">
                             <div class="flex-grow">
-                                <h4 class="text-gray-800 font-medium font-inter mb-2 text-[14px] md:text-[15px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
-                                <p class="text-[12.5px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
+                                <div class="mb-1">
+                                    <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold uppercase tracking-wider rounded"><?= $notice['type'] ?></span>
+                                </div>
+                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
+                                <p class="text-[12px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
-                            <a href="news/<?= $notice['id'] ?>"
-                                class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[13px] font-semibold px-5 py-2.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0">Read More</a>
+                            <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>"
+                                class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-semibold px-4 py-1.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0"><?= $btnText ?></a>
                         </div>
                         <?php endforeach; ?>
                     <?php endif; ?>

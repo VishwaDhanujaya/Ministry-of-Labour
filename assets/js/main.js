@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const openMobileMenu = () => {
         if (mobileMenu && mobileDrawer) {
-            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
             mobileDrawer.classList.remove('translate-x-full');
             document.body.classList.add('overflow-hidden');
         }
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeMobileMenu = () => {
         if (mobileMenu && mobileDrawer) {
-            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('opacity-0', 'pointer-events-none', 'invisible');
             mobileDrawer.classList.add('translate-x-full');
             document.body.classList.remove('overflow-hidden');
         }
@@ -163,31 +163,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 6. REUSABLE CAROUSEL SLIDER WITH DOTS
     // ==========================================
-    const initDotSlider = (trackId, dotsContainerId, dotClass) => {
+    const initDotSlider = (trackId, dotsContainerId, dotClassName) => {
         const track = document.getElementById(trackId);
         const dotsContainer = document.getElementById(dotsContainerId);
-        const dots = document.querySelectorAll(dotClass);
 
-        if (!track) return;
+        if (!track || !dotsContainer) return;
+
+        // Clear existing static dots if any
+        dotsContainer.innerHTML = '';
+
+        const slidesCount = track.children.length;
+        if (slidesCount <= 1) return;
+
+        // Generate dots dynamically
+        const dots = [];
+        const isDarkBg = dotsContainerId.includes('carousel'); // Check if it needs dark background dots style
+
+        for (let i = 0; i < slidesCount; i++) {
+            const btn = document.createElement('button');
+            btn.className = `rounded-full transition-all duration-300 ${dotClassName} shadow-sm`;
+            btn.setAttribute('aria-label', `Go to slide ${i + 1}`);
+            
+            if (isDarkBg) {
+                btn.classList.add('dark-bg-dot');
+            }
+            
+            dotsContainer.appendChild(btn);
+            dots.push(btn);
+        }
 
         const updateDots = () => {
             if (!track.firstElementChild || dots.length === 0) return;
             
             // Check if slider actually needs to scroll
             if (track.scrollWidth <= track.clientWidth) {
-                if (dotsContainer) dotsContainer.classList.add('hidden');
-                if (dotsContainer) dotsContainer.classList.remove('flex');
+                dotsContainer.classList.add('hidden');
+                dotsContainer.classList.remove('flex');
                 return;
             } else {
-                if (dotsContainer) dotsContainer.classList.remove('hidden');
-                if (dotsContainer) dotsContainer.classList.add('flex');
+                dotsContainer.classList.remove('hidden');
+                dotsContainer.classList.add('flex');
             }
 
             const scrollLeft = track.scrollLeft;
-            // Determine gap by computing styles or assuming it's gap-6 (24px) or gap-8 (32px) etc.
-            // Since we use gap-6 (24px) usually, let's just use a more dynamic approach or standard 24px.
-            // Actually, offsetWidth + gap might vary if gap is responsive.
-            // A more robust way to get card total width is to look at distance between first and second children.
             let cardWidth = track.firstElementChild.offsetWidth;
             if (track.children.length > 1) {
                 cardWidth = track.children[1].offsetLeft - track.children[0].offsetLeft;
@@ -204,8 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     dot.classList.remove('bg-gray-300', 'bg-white/30', 'hover:bg-white/50', 'w-2.5');
                 } else {
                     dot.classList.remove('bg-secondary', 'w-8');
-                    // We need a fallback color if not on dark background. 
-                    // Let's use data attribute or base class to know if it's light or dark mode.
                     if (dot.classList.contains('dark-bg-dot')) {
                         dot.classList.add('bg-white/30', 'hover:bg-white/50', 'w-2.5');
                     } else {
@@ -240,9 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Initialize Key Focus Areas Slider
-    initDotSlider('carousel-track', 'carousel-dots-container', '.carousel-dot');
+    initDotSlider('carousel-track', 'carousel-dots-container', 'carousel-dot');
     // Initialize Partners Slider
-    initDotSlider('partners-track', 'partners-dots-container', '.partner-dot');
+    initDotSlider('partners-track', 'partners-dots-container', 'partner-dot');
 
     // ==========================================
     // 7. CITIZEN SERVICES LIVE SEARCH FILTER
@@ -465,29 +481,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // 12. HEADER SEARCH BAR TOGGLE
+    // 12. HEADER SEARCH BAR TOGGLE & AUTOCOMPLETE
     // ==========================================
     const searchBtn = document.getElementById('search-btn');
+    const mobileSearchBtn = document.getElementById('mobile-search-btn');
     const searchBarContainer = document.getElementById('search-bar-container');
     const searchCloseBtn = document.getElementById('search-close-btn');
     const headerSearchInput = document.getElementById('header-search-input');
+    const searchSuggestionsContainer = document.getElementById('search-suggestions-container');
+    let searchDebounceTimeout = null;
 
-    if (searchBtn && searchBarContainer) {
-        searchBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            searchBarContainer.classList.remove('opacity-0', 'pointer-events-none', 'w-0');
-            searchBarContainer.classList.add('opacity-100', 'pointer-events-auto', 'w-48');
-            if (headerSearchInput) headerSearchInput.focus();
-        });
-    }
+    const showSuggestions = () => {
+        if (!searchSuggestionsContainer) return;
+        searchSuggestionsContainer.classList.remove('hidden');
+        setTimeout(() => {
+            searchSuggestionsContainer.classList.remove('scale-95', 'opacity-0');
+            searchSuggestionsContainer.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    };
+
+    const hideSuggestions = () => {
+        if (!searchSuggestionsContainer) return;
+        searchSuggestionsContainer.classList.remove('scale-100', 'opacity-100');
+        searchSuggestionsContainer.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            searchSuggestionsContainer.classList.add('hidden');
+        }, 200);
+    };
+
+    const openHeaderSearch = () => {
+        if (!searchBarContainer) return;
+        searchBarContainer.classList.remove('opacity-0', 'pointer-events-none', 'w-0');
+        searchBarContainer.classList.add('opacity-100', 'pointer-events-auto', 'w-[calc(100vw-2rem)]', 'sm:w-80', 'md:w-96');
+        if (headerSearchInput) {
+            headerSearchInput.value = '';
+            headerSearchInput.focus();
+        }
+    };
 
     const closeHeaderSearch = () => {
-        if (searchBarContainer) {
-            searchBarContainer.classList.add('opacity-0', 'pointer-events-none', 'w-0');
-            searchBarContainer.classList.remove('opacity-100', 'pointer-events-auto', 'w-48');
-        }
+        if (!searchBarContainer) return;
+        searchBarContainer.classList.remove('opacity-100', 'pointer-events-auto', 'w-[calc(100vw-2rem)]', 'sm:w-80', 'md:w-96');
+        searchBarContainer.classList.add('opacity-0', 'pointer-events-none', 'w-0');
         if (headerSearchInput) headerSearchInput.value = '';
+        hideSuggestions();
+        setTimeout(() => {
+            if (searchSuggestionsContainer) searchSuggestionsContainer.innerHTML = '';
+        }, 200);
     };
+
+    const handleSearchToggle = (e) => {
+        e.stopPropagation();
+        if (searchBarContainer && searchBarContainer.classList.contains('pointer-events-none')) {
+            openHeaderSearch();
+        } else {
+            closeHeaderSearch();
+        }
+    };
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', handleSearchToggle);
+    }
+
+    if (mobileSearchBtn) {
+        mobileSearchBtn.addEventListener('click', handleSearchToggle);
+    }
 
     if (searchCloseBtn) {
         searchCloseBtn.addEventListener('click', (e) => {
@@ -497,9 +555,152 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('click', (e) => {
-        if (searchBarContainer && !searchBarContainer.contains(e.target) && e.target !== searchBtn) {
+        const isSearchBtn = (searchBtn && (searchBtn === e.target || searchBtn.contains(e.target))) ||
+                            (mobileSearchBtn && (mobileSearchBtn === e.target || mobileSearchBtn.contains(e.target)));
+        if (searchBarContainer && !searchBarContainer.contains(e.target) && !isSearchBtn) {
             closeHeaderSearch();
+        } else if (searchSuggestionsContainer && !searchSuggestionsContainer.contains(e.target) && e.target !== headerSearchInput) {
+            hideSuggestions();
         }
     });
+
+    if (headerSearchInput && searchSuggestionsContainer) {
+        let activeSuggestionIndex = -1;
+
+        const highlightSuggestion = (items) => {
+            items.forEach((item, idx) => {
+                if (idx === activeSuggestionIndex) {
+                    item.classList.add('bg-gray-50/90', 'border-l-secondary');
+                    item.classList.remove('border-l-transparent');
+                    item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                } else {
+                    item.classList.remove('bg-gray-50/90', 'border-l-secondary');
+                    item.classList.add('border-l-transparent');
+                }
+            });
+        };
+
+        headerSearchInput.addEventListener('keydown', (e) => {
+            const items = searchSuggestionsContainer.querySelectorAll('.suggestion-item');
+            if (items.length === 0 || searchSuggestionsContainer.classList.contains('hidden')) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeSuggestionIndex++;
+                if (activeSuggestionIndex >= items.length) activeSuggestionIndex = 0;
+                highlightSuggestion(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeSuggestionIndex--;
+                if (activeSuggestionIndex < 0) activeSuggestionIndex = items.length - 1;
+                highlightSuggestion(items);
+            } else if (e.key === 'Enter') {
+                if (activeSuggestionIndex > -1) {
+                    e.preventDefault();
+                    items[activeSuggestionIndex].click();
+                }
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                hideSuggestions();
+            }
+        });
+
+        headerSearchInput.addEventListener('input', (e) => {
+            clearTimeout(searchDebounceTimeout);
+            const query = e.target.value.trim();
+            activeSuggestionIndex = -1;
+
+            if (query.length < 2) {
+                hideSuggestions();
+                setTimeout(() => {
+                    searchSuggestionsContainer.innerHTML = '';
+                }, 200);
+                return;
+            }
+
+            // Show suggestions container and displaying a loading indicator
+            showSuggestions();
+            searchSuggestionsContainer.innerHTML = `
+                <div class="p-5 text-center text-gray-500 flex items-center justify-center gap-2.5">
+                    <svg class="animate-spin h-4 w-4 text-[#13273F]" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-xs font-inter font-medium text-gray-500">Searching records...</span>
+                </div>
+            `;
+
+            searchDebounceTimeout = setTimeout(() => {
+                fetch('search-suggest.php?q=' + encodeURIComponent(query))
+                    .then(res => res.json())
+                    .then(data => {
+                        activeSuggestionIndex = -1;
+                        if (data.length === 0) {
+                            searchSuggestionsContainer.innerHTML = `
+                                <div class="p-6 text-center flex flex-col items-center justify-center">
+                                    <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center mb-3 border border-gray-100">
+                                        <svg class="w-4.5 h-4.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <p class="text-xs font-semibold text-gray-900 font-inter">No matches found</p>
+                                    <p class="text-[11px] text-gray-400 font-inter mt-1 leading-normal">Try adjusting keywords or check spelling</p>
+                                </div>
+                            `;
+                        } else {
+                            let html = '<div class="py-1.5 divide-y divide-gray-50">';
+                            data.forEach(item => {
+                                const escapedTitle = item.title.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                                
+                                // Category-specific premium badges styling
+                                let badgeClass = '';
+                                if (item.type === 'News') {
+                                    badgeClass = 'bg-red-50 text-[#4E0000] border-red-100';
+                                } else if (item.type === 'Vacancy') {
+                                    badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                                } else if (item.type === 'Page') {
+                                    badgeClass = 'bg-indigo-50 text-indigo-700 border-indigo-100';
+                                } else {
+                                    badgeClass = 'bg-blue-50 text-blue-700 border-blue-100';
+                                }
+
+                                html += `
+                                    <a href="${item.url}" class="suggestion-item block px-4 py-3 hover:bg-gray-50/80 transition-all duration-200 border-l-4 border-l-transparent flex items-center justify-between gap-3">
+                                        <div class="flex flex-col min-w-0">
+                                            <span class="text-[12.5px] font-semibold text-gray-900 font-inter line-clamp-2 leading-snug">${escapedTitle}</span>
+                                            <span class="text-[10px] text-gray-400 font-inter mt-0.5">${item.type} Page</span>
+                                        </div>
+                                        <span class="text-[8.5px] px-2 py-0.5 rounded font-bold uppercase tracking-wider shrink-0 font-inter border ${badgeClass}">${item.type}</span>
+                                    </a>
+                                `;
+                            });
+                            html += '</div>';
+                            searchSuggestionsContainer.innerHTML = html;
+                        }
+                    })
+                    .catch(err => {
+                        console.error('Search autocomplete fetch failed:', err);
+                        searchSuggestionsContainer.innerHTML = `
+                            <div class="p-5 text-center text-xs text-red-500 font-inter flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span>Failed to fetch suggestions</span>
+                            </div>
+                        `;
+                    });
+            }, 300);
+        });
+
+        // Prevent suggestions container click from closing the search bar
+        searchSuggestionsContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // Also show suggestions again if input is clicked/focused and has text
+        headerSearchInput.addEventListener('focus', () => {
+            if (headerSearchInput.value.trim().length >= 2) {
+                showSuggestions();
+            }
+        });
+    }
 });
 

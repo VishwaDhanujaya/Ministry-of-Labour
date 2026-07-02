@@ -95,7 +95,6 @@ include 'includes/header.php';
                     <tr class="bg-[#13273F] text-white">
                         <th class="py-4 px-6 font-medium text-[15px] w-16">Image</th>
                         <th class="py-4 px-6 font-medium text-[15px]">Title</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Category</th>
                         <th class="py-4 px-6 font-medium text-[15px]">Author</th>
                         <th class="py-4 px-6 font-medium text-[15px]">Date</th>
                         <th class="py-4 px-6 font-medium text-[15px]">Status & Visibility</th>
@@ -147,7 +146,6 @@ include 'includes/header.php';
                                     
                                     <div class="flex-1 flex flex-col">
                                         <div class="flex flex-wrap gap-2 mb-3">
-                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['category']) ?></span>
                                             <span class="px-2 py-1 <?= $news['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?> text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['status']) ?></span>
                                             <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                         </div>
@@ -166,7 +164,6 @@ include 'includes/header.php';
                                 <div class="mt-1.5"><span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">Featured Notice</span></div>
                             <?php endif; ?>
                         </td>
-                        <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['category']) ?></td>
                         <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
                         <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
                         <td class="py-5 px-6">

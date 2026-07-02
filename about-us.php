@@ -104,25 +104,7 @@ include 'includes/sub-hero.php';
         </div>
 
         <!-- Sticky Slide Dots -->
-        <div class="flex justify-center mt-8 gap-2.5 pb-2" id="partners-dots-container">
-            <button class="w-8 h-2.5 rounded-full bg-secondary transition-all duration-300 partner-dot active shadow-sm"
-                aria-label="Go to slide 1"></button>
-            <button
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
-                aria-label="Go to slide 2"></button>
-            <button
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
-                aria-label="Go to slide 3"></button>
-            <button
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
-                aria-label="Go to slide 4"></button>
-            <button
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
-                aria-label="Go to slide 5"></button>
-            <button
-                class="w-2.5 h-2.5 rounded-full bg-gray-300 hover:bg-gray-400 transition-all duration-300 partner-dot"
-                aria-label="Go to slide 6"></button>
-        </div>
+        <div class="flex justify-center mt-8 gap-2.5 pb-2" id="partners-dots-container"></div>
     </div>
 </section>
 

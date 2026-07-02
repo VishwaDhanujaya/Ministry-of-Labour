@@ -27,6 +27,7 @@
             </div>
 
             <form id="booking-form" method="POST" action="">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                 <div class="p-6 space-y-5 max-h-[70vh] overflow-y-auto">
                     <div class="p-3.5 bg-amber-50/60 border border-amber-200/50 rounded-xl flex items-start gap-2.5">
                         <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

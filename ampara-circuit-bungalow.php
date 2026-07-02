@@ -6,55 +6,124 @@ require_once 'admin/includes/db.php';
 $success = isset($_GET['success']) && $_GET['success'] == 1;
 $error = '';
 
-// Disable dates calculation removed. Availability check is now dynamic via AJAX.
-$disabled_dates_json = "[]";
+// Calculate disabled dates (fully booked or entire bungalow booked)
+$disabled_dates = [];
+try {
+    $bookings = $pdo->query("SELECT start_date, end_date, room_type, no_of_rooms FROM bookings WHERE bungalow_name = 'Ampara' AND status = 'Confirmed' AND end_date >= CURRENT_DATE()")->fetchAll(PDO::FETCH_ASSOC);
+
+    $dateMap = [];
+    foreach ($bookings as $b) {
+        $start = new DateTime($b['start_date']);
+        $end = new DateTime($b['end_date']);
+        $interval = new DateInterval('P1D');
+        $period = new DatePeriod($start, $interval, $end->modify('+1 day'));
+        
+        foreach ($period as $dateObj) {
+            $dateStr = $dateObj->format('Y-m-d');
+            if (!isset($dateMap[$dateStr])) {
+                $dateMap[$dateStr] = [
+                    'VIP Room' => 0,
+                    'A/C Triple Room' => 0,
+                    'A/C Double Room' => 0,
+                    'Entire Bungalow' => 0
+                ];
+            }
+            $type = $b['room_type'];
+            if (isset($dateMap[$dateStr][$type])) {
+                $dateMap[$dateStr][$type] += $b['no_of_rooms'];
+            }
+        }
+    }
+
+    $capacities = [
+        'VIP Room' => 1,
+        'A/C Triple Room' => 4,
+        'A/C Double Room' => 1
+    ];
+
+    foreach ($dateMap as $dateStr => $booked) {
+        if ($booked['Entire Bungalow'] > 0) {
+            $disabled_dates[] = $dateStr;
+            continue;
+        }
+        
+        $fullyBooked = true;
+        foreach ($capacities as $type => $cap) {
+            if ($booked[$type] < $cap) {
+                $fullyBooked = false;
+                break;
+            }
+        }
+        if ($fullyBooked) {
+            $disabled_dates[] = $dateStr;
+        }
+    }
+} catch (Exception $e) {
+    error_log("Failed to load disabled dates: " . $e->getMessage());
+}
+$disabled_dates_json = json_encode($disabled_dates);
+// Generate CSRF token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $start_date = $_POST['start_date'] ?? '';
-    $end_date = $_POST['end_date'] ?? '';
-    $applicant_name = trim($_POST['applicant_name'] ?? '');
-    $telephone = trim($_POST['telephone'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $room_types = $_POST['room_type'] ?? [];
-    if (!is_array($room_types)) {
-        $room_types = [$room_types];
-    }
-    
+    // CSRF Protection Check
+    $submittedToken = $_POST['csrf_token'] ?? '';
     $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     $acceptsJson = isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
 
-    if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email) || empty($room_types)) {
-        $error = "Please fill in all required fields.";
+    if (empty($submittedToken) || !hash_equals($_SESSION['csrf_token'] ?? '', $submittedToken)) {
+        $error = "Security check failed: Invalid CSRF token.";
         if ($isAjax || $acceptsJson) {
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => $error]);
             exit;
         }
     } else {
-        try {
-            $room_qtys = $_POST['room_qty'] ?? [];
-            $pdo->beginTransaction();
-            $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, phone, email, room_type, no_of_rooms, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            foreach ($room_types as $room_type) {
-                $qty = isset($room_qtys[$room_type]) ? (int) $room_qtys[$room_type] : 1;
-                if ($qty < 1) $qty = 1;
-                $stmt->execute(['Ampara', $applicant_name, $telephone, $email, $room_type, $qty, $start_date, $end_date]);
-            }
-            $pdo->commit();
+        $start_date = $_POST['start_date'] ?? '';
+        $end_date = $_POST['end_date'] ?? '';
+        $applicant_name = trim($_POST['applicant_name'] ?? '');
+        $telephone = trim($_POST['telephone'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $room_types = $_POST['room_type'] ?? [];
+        if (!is_array($room_types)) {
+            $room_types = [$room_types];
+        }
+
+        if (empty($start_date) || empty($end_date) || empty($applicant_name) || empty($telephone) || empty($email) || empty($room_types)) {
+            $error = "Please fill in all required fields.";
             if ($isAjax || $acceptsJson) {
                 header('Content-Type: application/json');
-                echo json_encode(['success' => true, 'message' => 'Your booking request has been submitted successfully and is pending approval.']);
+                echo json_encode(['success' => false, 'message' => $error]);
                 exit;
             }
-            header("Location: ampara-circuit-bungalow?success=1");
-            exit;
-        } catch (PDOException $e) {
-            $error = "Failed to submit booking: " . $e->getMessage();
-            if ($isAjax || $acceptsJson) {
-                error_log($error);
-                header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'message' => 'Database error while submitting booking.']);
+        } else {
+            try {
+                $room_qtys = $_POST['room_qty'] ?? [];
+                $pdo->beginTransaction();
+                $stmt = $pdo->prepare("INSERT INTO bookings (bungalow_name, applicant_name, phone, email, room_type, no_of_rooms, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                foreach ($room_types as $room_type) {
+                    $qty = isset($room_qtys[$room_type]) ? (int) $room_qtys[$room_type] : 1;
+                    if ($qty < 1) $qty = 1;
+                    $stmt->execute(['Ampara', $applicant_name, $telephone, $email, $room_type, $qty, $start_date, $end_date]);
+                }
+                $pdo->commit();
+                if ($isAjax || $acceptsJson) {
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true, 'message' => 'Your booking request has been submitted successfully and is pending approval.']);
+                    exit;
+                }
+                header("Location: ampara-circuit-bungalow?success=1");
                 exit;
+            } catch (PDOException $e) {
+                $error = "Failed to submit booking: " . $e->getMessage();
+                if ($isAjax || $acceptsJson) {
+                    error_log($error);
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => false, 'message' => 'Database error while submitting booking.']);
+                    exit;
+                }
             }
         }
     }

@@ -40,12 +40,7 @@ include 'includes/sub-hero.php';
             <!-- Articles Content -->
             <div class="w-full lg:w-2/3">
                 
-                <!-- Filters -->
-                <div class="flex flex-wrap gap-3 mb-8">
-                    <button class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition-colors bg-secondary text-white" data-filter="all">All</button>
-                    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-colors bg-gray-100 text-gray-600 hover:bg-gray-300 hover:text-gray-900" data-filter="Media">Media</button>
-                    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition-colors bg-gray-100 text-gray-600 hover:bg-gray-300 hover:text-gray-900" data-filter="Notices">Notices</button>
-                </div>
+                <!-- Filters removed -->
 
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12" id="articles-grid">
@@ -53,7 +48,7 @@ include 'includes/sub-hero.php';
                         <div class="col-span-2 text-gray-500 py-4">No news found.</div>
                     <?php else: ?>
                         <?php foreach ($allArticles as $article): ?>
-                        <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col" data-category="<?= htmlspecialchars($article['category']) ?>">
+                        <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
                             <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
                                     <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
@@ -64,7 +59,6 @@ include 'includes/sub-hero.php';
                             <div class="p-8 pt-6 pb-8 flex flex-col flex-grow">
                                 <div class="flex justify-between items-center mb-4 text-xs text-gray-500 font-inter font-medium">
                                     <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
-                                    <span class="bg-[#FFF0F0] text-secondary px-2.5 py-1 rounded font-bold uppercase tracking-wider text-[10px]"><?= htmlspecialchars($article['category']) ?></span>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
                                     <a href="news/<?= $article['id'] ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
@@ -133,12 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
         
         articles.forEach(article => {
-            const matchesFilter = currentFilter === 'all' || article.getAttribute('data-category') === currentFilter;
             const titleElement = article.querySelector('h3 a');
             const title = titleElement ? titleElement.innerText.toLowerCase() : '';
             const matchesSearch = title.includes(searchTerm);
             
-            if (matchesFilter && matchesSearch) {
+            if (matchesSearch) {
                 article.style.display = 'flex';
             } else {
                 article.style.display = 'none';
@@ -150,25 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('input', filterArticles);
     }
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            currentFilter = this.getAttribute('data-filter');
-            
-            // Update active state on main filter buttons
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                if(b.getAttribute('data-filter') === currentFilter) {
-                    b.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-300', 'hover:text-gray-900');
-                    b.classList.add('bg-secondary', 'text-white');
-                } else {
-                    b.classList.remove('bg-secondary', 'text-white');
-                    b.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-300', 'hover:text-gray-900');
-                }
-            });
-
-            filterArticles();
-        });
-    });
 });
 </script>
 

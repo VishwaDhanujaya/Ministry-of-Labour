@@ -8,11 +8,22 @@
  * @package MinistryOfLabour
  * @subpackage Contact
  */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/includes/Mailer.php';
 
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // CSRF Protection Check
+    $submittedToken = $_POST['csrf_token'] ?? '';
+    if (empty($submittedToken) || !hash_equals($_SESSION['csrf_token'] ?? '', $submittedToken)) {
+        echo json_encode(['success' => false, 'message' => 'Security check failed: Invalid CSRF token.']);
+        exit;
+    }
+
     $fullname = $_POST['fullname'] ?? '';
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';

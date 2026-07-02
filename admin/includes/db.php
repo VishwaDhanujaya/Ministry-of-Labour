@@ -23,7 +23,10 @@ if (file_exists($envPath)) {
     }
 }
 
-$host = $env['DB_HOST'] ?? 'localhost';
+$host = $env['DB_HOST'] ?? '127.0.0.1';
+if ($host === 'localhost') {
+    $host = '127.0.0.1';
+}
 $dbname = $env['DB_NAME'] ?? 'mol_db';
 $user = $env['DB_USER'] ?? 'root';
 $pass = $env['DB_PASS'] ?? '';
@@ -60,10 +63,10 @@ try {
     
     if ($isAjax || $acceptsJson) {
         header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'message' => 'Database connection failed.']);
+        echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
         exit;
     } else {
-        echo "<html><body><h2>Database connection failed.</h2><p>Please try again later.</p></body></html>";
+        echo "<html><body><h2>Database connection failed.</h2><p>" . $e->getMessage() . "</p></body></html>";
         exit;
     }
 }
