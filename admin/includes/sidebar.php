@@ -5,7 +5,11 @@
 <aside id="admin-sidebar" class="w-64 bg-[#4E0000] text-white flex-col h-full shrink-0 z-50 fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out flex">
     <!-- Logo Area -->
     <div class="h-20 flex items-center px-6 shrink-0 pt-4">
-        <img loading="lazy" src="<?= $base_url ?? '../' ?>assets/img/logo.png" alt="Ministry of Labour" class="h-12 w-auto object-contain">
+        <?php
+        $logo_path = dirname(dirname(__DIR__)) . '/assets/img/logo.png';
+        $logo_version = file_exists($logo_path) ? filemtime($logo_path) : time();
+        ?>
+        <img loading="lazy" src="<?= $base_url ?? '../' ?>assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour" class="h-12 w-auto object-contain">
     </div>
 
     <!-- Navigation -->

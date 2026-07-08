@@ -106,7 +106,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Logo -->
         <div class="relative z-10 flex flex-col items-center">
-            <img loading="lazy" src="<?= $base_url ?>assets/img/logo.png" alt="Ministry of Labour Logo"
+            <?php
+            $logo_path = dirname(__DIR__) . '/assets/img/logo.png';
+            $logo_version = file_exists($logo_path) ? filemtime($logo_path) : time();
+            ?>
+            <img loading="lazy" src="<?= $base_url ?>assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour Logo"
                 class="w-80 lg:w-[420px] h-auto object-contain drop-shadow-md">
         </div>
     </div>

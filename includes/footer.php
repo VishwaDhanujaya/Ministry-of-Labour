@@ -152,7 +152,11 @@
                 <!-- Col 1 -->
                 <div class="lg:col-span-4 lg:pr-8">
                     <div class="flex items-center mb-6">
-                        <img loading="lazy" src="assets/img/logo.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
+                        <?php
+                        $logo_path = dirname(__DIR__) . '/assets/img/logo.png';
+                        $logo_version = file_exists($logo_path) ? filemtime($logo_path) : time();
+                        ?>
+                        <img loading="lazy" src="assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
                     </div>
                     <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
                         Committed to fostering productive labour relations, safeguarding workers' rights, and promoting decent work for all citizens of Sri Lanka.

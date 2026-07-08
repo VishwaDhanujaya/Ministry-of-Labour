@@ -54,7 +54,11 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Favicon / Tab Emblem -->
-    <link rel="icon" href="assets/img/emblem.png" type="image/png">
+    <?php
+    $emblem_path = dirname(__DIR__) . '/assets/img/emblem.png';
+    $emblem_version = file_exists($emblem_path) ? filemtime($emblem_path) : time();
+    ?>
+    <link rel="icon" href="assets/img/emblem.png?v=<?= $emblem_version ?>" type="image/png">
 
     <!-- Compiled Tailwind and Custom CSS -->
     <?php
@@ -174,7 +178,11 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
             <!-- Logo Area -->
             <div class="flex items-center">
                 <a href="home" class="block">
-                    <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka"
+                    <?php
+                    $logo_black_path = dirname(__DIR__) . '/assets/img/logo-black.png';
+                    $logo_black_version = file_exists($logo_black_path) ? filemtime($logo_black_path) : time();
+                    ?>
+                    <img src="assets/img/logo-black.png?v=<?= $logo_black_version ?>" alt="Ministry of Labour - Government of Sri Lanka"
                         class="h-12 md:h-14 w-auto object-contain">
                 </a>
             </div>
@@ -301,7 +309,7 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
             <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
                 <div class="flex items-center">
                     <a href="home" class="block">
-                        <img src="assets/img/logo-black.png" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
+                        <img src="assets/img/logo-black.png?v=<?= $logo_black_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
                     </a>
                 </div>
                 <button id="mobile-menu-close" aria-label="Close Mobile Menu"
