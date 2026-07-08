@@ -45,7 +45,7 @@ include 'includes/header.php';
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 <!-- Hero Section -->
-<section class="relative min-h-[550px] md:min-h-[650px] xl:h-[650px] flex items-center bg-primary overflow-hidden py-16 xl:py-0">
+<section class="relative min-h-[550px] md:min-h-[650px] xl:min-h-[700px] flex items-center bg-primary overflow-hidden py-16 md:py-20 xl:py-24">
     <!-- Desktop Hero Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none hidden md:block"
         style="background-image: url('assets/img/hero.webp');"></div>
@@ -55,7 +55,7 @@ include 'includes/header.php';
     <div class="absolute inset-0 opacity-55 bg-home-hero-gradient"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
-        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative">
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative w-full">
             
             <!-- Left Side: Welcome Text (Old design restored) -->
             <div class="max-w-2xl w-full">
@@ -66,27 +66,27 @@ include 'includes/header.php';
                     The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
                     building a dynamic workforce that drives Sri Lanka's economic development.
                 </p>
-                <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="flex flex-wrap gap-3 sm:gap-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="#quick-links"
-                        class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform">Quick Links</a>
+                        class="bg-secondary text-white font-semibold py-2.5 px-5 sm:py-3.5 sm:px-8 rounded-lg transition-colors duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform text-center flex items-center justify-center">Quick Links</a>
                     <a href="#news-section"
-                        class="border border-white text-white font-semibold py-3.5 px-8 rounded-lg transition-colors duration-300 text-[13px] tracking-wider font-inter flex items-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform">View
+                        class="border border-white text-white font-semibold py-2.5 px-5 sm:py-3.5 sm:px-8 rounded-lg transition-colors duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter flex items-center justify-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform text-center">View
                         Notices</a>
                 </div>
             </div>
 
             <!-- Right Side: News Slider (Floating on Desktop, stacked on mobile) -->
-            <div class="w-full xl:w-[450px] shrink-0 xl:absolute xl:right-0 xl:top-1/2 xl:-translate-y-1/2 z-30" data-aos="fade-left" data-aos-delay="200">
+            <div class="w-full max-w-xl mx-auto xl:mx-0 xl:w-[450px] shrink-0 z-30 xl:absolute xl:right-0 xl:-bottom-20" data-aos="fade-left" data-aos-delay="200">
                 <p class="text-gray-300 font-bold text-xs uppercase tracking-widest mb-3 font-inter">Latest Updates</p>
                 <div class="swiper heroSwiper rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-md">
                     <div class="swiper-wrapper">
                         <?php if(empty($recentNews)): ?>
-                            <div class="swiper-slide p-8 text-center text-gray-300 flex items-center justify-center h-[350px] md:h-[450px] lg:h-[500px]">
+                            <div class="swiper-slide p-8 text-center text-gray-300 flex items-center justify-center h-[320px] sm:h-[350px] md:h-[400px] xl:h-[460px]">
                                 No recent news available.
                             </div>
                         <?php else: ?>
                             <?php foreach($recentNews as $news): ?>
-                            <div class="swiper-slide relative h-[350px] md:h-[450px] lg:h-[500px] group flex flex-col justify-end">
+                            <div class="swiper-slide relative h-[320px] sm:h-[350px] md:h-[400px] xl:h-[460px] group flex flex-col justify-end">
                                 <?php 
                                 $coverImage = !empty($news['cover_image']) ? trim($news['cover_image']) : '';
                                 $hasImage = false;
@@ -127,7 +127,9 @@ include 'includes/header.php';
                         <?php endif; ?>
                     </div>
                     <!-- Pagination -->
+                    <?php if (count($recentNews) > 1): ?>
                     <div class="swiper-pagination !bottom-4"></div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -141,11 +143,11 @@ include 'includes/header.php';
     document.addEventListener("DOMContentLoaded", function() {
         var swiper = new Swiper(".heroSwiper", {
             spaceBetween: 20,
-            loop: true,
-            autoplay: {
+            loop: <?= count($recentNews) > 1 ? 'true' : 'false' ?>,
+            autoplay: <?= count($recentNews) > 1 ? '{
                 delay: 5000,
                 disableOnInteraction: false,
-            },
+            }' : 'false' ?>,
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
@@ -252,10 +254,9 @@ include 'includes/header.php';
         </div>
 
         <div class="relative">
-            <div id="carousel-track"
-                class="flex lg:grid lg:grid-cols-3 gap-6 overflow-x-auto lg:overflow-visible scrollbar-none snap-x snap-mandatory py-4 scroll-smooth">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 py-4">
                 <!-- Card 1: NLAC -->
-                <a href="about-us#divisions-functions" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="about-us#divisions-functions" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -268,7 +269,7 @@ include 'includes/header.php';
                 </a>
                 
                 <!-- Card 2: Ampara Circuit Bungalow -->
-                <a href="ampara-circuit-bungalow" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="ampara-circuit-bungalow" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -279,9 +280,9 @@ include 'includes/header.php';
                         <p class="focus-card-desc">Book and reserve the Ministry's comfortable circuit bungalow in Ampara online.</p>
                     </div>
                 </a>
-
+ 
                 <!-- Card 3: Learning Platforms -->
-                <a href="learning-platforms-local" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="learning-platforms-local" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -292,22 +293,22 @@ include 'includes/header.php';
                         <p class="focus-card-desc">Access official learning platforms and resources.</p>
                     </div>
                 </a>
-
-                <!-- Card 4: Compensation -->
-                <a href="#affiliated-institutions" onclick="document.querySelector('[data-target=\'inst-wc\']').click();" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+ 
+                <!-- Card 4: News -->
+                <a href="news" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Compensation</h3>
-                        <p class="focus-card-desc">Submit and track workmen's compensation claims for workplace accidents or injuries.</p>
+                        <h3 class="focus-card-title">News Updates</h3>
+                        <p class="focus-card-desc">Read the latest news, updates, announcements, and notices from the Ministry.</p>
                     </div>
                 </a>
-
+ 
                 <!-- Card 5: RTI -->
-                <a href="rti" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="rti" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -318,9 +319,9 @@ include 'includes/header.php';
                         <p class="focus-card-desc">Submit information requests under the Right to Information Act in Sri Lanka.</p>
                     </div>
                 </a>
-
+ 
                 <!-- Card 6: Complaints -->
-                <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="focus-card lg:min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -332,9 +333,6 @@ include 'includes/header.php';
                     </div>
                 </a>
             </div>
-            
-            <!-- Interactive Dots -->
-            <div class="flex lg:hidden justify-center mt-12 gap-3" id="carousel-dots-container"></div>
         </div>
 </section>
 
@@ -416,6 +414,7 @@ include 'includes/header.php';
                 <div class="flex flex-col space-y-3.5">
                     <?php
                     $downloads = [
+                        ['title' => 'Acts & Amendments', 'url' => 'downloads'],
                         ['title' => 'Learning Platforms (Local)', 'url' => 'learning-platforms-local'],
                         ['title' => 'Learning Platforms (Foreign)', 'url' => 'learning-platforms-foreign'],
                         ['title' => 'Procurements', 'url' => 'procurements']
@@ -489,28 +488,23 @@ include 'includes/header.php';
                 </button>
                 <button
                     class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-niosh">
-                    <span class="relative z-10 flex items-center justify-between">NIOSH Sri Lanka <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
+                    data-target="inst-dme">
+                    <span class="relative z-10 flex items-center justify-between">Department of Manpower and Employment <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
                     class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-svfb">
-                    <span class="relative z-10 flex items-center justify-between">Shrama Vasana Fund Board <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
+                    data-target="inst-nils">
+                    <span class="relative z-10 flex items-center justify-between">National Institute of Labour Studies <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
+                </button>
+                <button
+                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
+                    data-target="inst-niosh">
+                    <span class="relative z-10 flex items-center justify-between">National Institute of Occupational Safety and health <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
                 <button
                     class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
                     data-target="inst-wc">
-                    <span class="relative z-10 flex items-center justify-between">Workmen's Compensation Office <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-epf">
-                    <span class="relative z-10 flex items-center justify-between">Employees' Provident Fund Dept <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-etf">
-                    <span class="relative z-10 flex items-center justify-between">Employees' Trust Fund Board <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
+                    <span class="relative z-10 flex items-center justify-between">Office of the Commissioner for Workmen's Compensation <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
                 </button>
             </div>
 
@@ -523,7 +517,7 @@ include 'includes/header.php';
                     <!-- Panel: Department of Labour (Active by default) -->
                     <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
                             <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
                             <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
@@ -536,10 +530,42 @@ include 'includes/header.php';
                         </a>
                     </div>
 
+                    <!-- Panel: DME -->
+                    <div id="inst-panel-inst-dme" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Manpower and Employment</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
+                            <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
+                        </div>
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <!-- Panel: NILS -->
+                    <div id="inst-panel-inst-nils" class="inst-panel hidden">
+                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Labour Studies</h3>
+                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
+                            <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
+                            <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
+                        </div>
+                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
+
                     <!-- Panel: NIOSH -->
                     <div id="inst-panel-inst-niosh" class="inst-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and Health (NIOSH)</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and health</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
                             <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
                             <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
@@ -552,26 +578,10 @@ include 'includes/header.php';
                         </a>
                     </div>
 
-                    <!-- Panel: Shrama Vasana Fund Board -->
-                    <div id="inst-panel-inst-svfb" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Shrama Vasana Fund Board</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The Shrama Vasana Fund Board serves to manage medical aid distributions, child vocational scholarships, and emergency distress grants for formal industrial workers in Sri Lanka.</p>
-                            <p>The board regularly runs employee welfare lotteries to secure operational funds, facilitating safety and health security programs for workers under difficult financial brackets.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
                     <!-- Panel: Workmen's Compensation Office -->
                     <div id="inst-panel-inst-wc" class="inst-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
                             <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
                             <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
@@ -584,37 +594,6 @@ include 'includes/header.php';
                         </a>
                     </div>
 
-                    <!-- Panel: EPF -->
-                    <div id="inst-panel-inst-epf" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Employees' Provident Fund Department</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The largest social security financial fund in Sri Lanka, the EPF Department registers and maintains savings and compound dividend interest profiles for millions of formal employees.</p>
-                            <p>Operating jointly with the Central Bank of Sri Lanka, the fund administers payout registrations, housing loan releases, and employer payment compliance auditing.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Panel: ETF -->
-                    <div id="inst-panel-inst-etf" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Employees' Trust Fund Board (ETF)</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The ETF Board secures and administers member contributions to provide workers with medical benefits, retirement insurance, and housing loans separately from basic EPF allocations.</p>
-                            <p>The fund invests aggressively in stable domestic securities to maximize bonus dividends and welfare opportunities for registered private sector workforces.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
 
                 </div>
             </div>

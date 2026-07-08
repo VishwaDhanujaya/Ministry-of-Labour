@@ -8,7 +8,7 @@ $iau_staff = [
         'name' => 'Ms. T.P. Muditha Pathmajay',
         'designation' => 'Additional Secretary (Development)',
         'phone' => '0718123025',
-        'email' => 'leagl@labourmin.gov.lk'
+        'email' => 'mpathmajay@gmail.com'
     ],
     [
         'id' => 'staff-2',
@@ -16,125 +16,98 @@ $iau_staff = [
         'department' => 'Ministry of Labour',
         'name' => 'Mr. P.D. Chandana Pathirage',
         'designation' => 'Director (Development)',
-        'phone' => '0712273538',
+        'phone' => '0713373538',
         'email' => 'pstchandana@gmail.com'
     ],
     [
         'id' => 'staff-3',
-        'title' => 'Integrity Officer',
+        'title' => 'Member',
         'department' => 'Department of Manpower and Employment',
-        'name' => 'Mrs. C.K. Wijemanna',
+        'name' => 'Mrs. W. C. K. Wijemanna',
         'designation' => 'Additional Director General',
         'phone' => '0776182082',
         'email' => 'kumudinichampa@yahoo.com'
     ],
     [
         'id' => 'staff-4',
-        'title' => 'Integrity Officer',
+        'title' => 'Member',
         'department' => 'National Institute of Labour Studies',
         'name' => 'Mrs. W.D.D. Weerathunga',
         'designation' => 'Administrative Officer',
         'phone' => '0776911027',
-        'email' => 'Deepikaweerathunga2@gmail.com'
+        'email' => 'deepikaweerathunga2@gmail.com'
     ],
     [
         'id' => 'staff-5',
-        'title' => 'Integrity Officer',
+        'title' => 'Member',
         'department' => 'National Institute of Occupational Safety and Health',
-        'name' => 'Mr. P.M.C.K. Perera',
+        'name' => 'Mr. P.M.K. Perera',
         'designation' => 'Assistant Director (Finance)',
         'phone' => '0773956382',
         'email' => 'mohan@niosh.gov.lk'
     ],
     [
         'id' => 'staff-6',
-        'title' => 'Integrity Officer',
-        'department' => 'Shrama Vasana Fund',
-        'name' => 'H.W. Thilakarathne',
-        'designation' => 'Manager',
-        'phone' => '0712809917',
-        'email' => 'Thilak22@hotmail.com'
+        'title' => 'Member',
+        'department' => 'Office of the Commissioner for Workmen’s Compensation',
+        'name' => 'Mrs. Y. Ganga',
+        'designation' => 'Accountant',
+        'phone' => '076-4500454',
+        'email' => 'm.kganga4@gmail.com'
     ],
     [
         'id' => 'staff-7',
         'title' => 'Member',
-        'department' => 'Foreign Relations Division',
-        'name' => 'Mr. B.Vasanthan',
-        'designation' => 'Senior Assistant Secretary (Foreign relations)',
-        'phone' => '071-8249900',
-        'email' => 'bvasanthan@yahoo.com'
+        'department' => 'Shrama Vasana Fund',
+        'name' => 'Mr. H.W. Thilakarathne',
+        'designation' => 'Manager',
+        'phone' => '0712809917',
+        'email' => 'thilak22@hotmail.com'
     ],
     [
         'id' => 'staff-8',
         'title' => 'Member',
-        'department' => 'Accounts Division',
-        'name' => 'Mrs. S.S. Shiroma Nandani',
-        'designation' => 'Chief Accountant',
-        'phone' => '075-2261785',
-        'email' => 'shiromanandani@yahoo.com'
+        'department' => 'Foreign Relations Division',
+        'name' => 'Mr. B. Vasanthan',
+        'designation' => 'Senior Assistant Secretary (Foreign Relations)',
+        'phone' => '0718249902',
+        'email' => 'bvasanthan@yahoo.com'
     ],
     [
         'id' => 'staff-9',
         'title' => 'Member',
-        'department' => 'Planning Division',
-        'name' => 'Mrs. M.P.D.C. W.Kumari',
-        'designation' => 'Deputy Director (Planning)',
-        'phone' => '071-6897218',
-        'email' => 'Kuma Ig@yahoo.com'
+        'department' => 'Accounts Division',
+        'name' => 'Mrs. S.S. Shiroma Nandani',
+        'designation' => 'Chief Accountant',
+        'phone' => '0752261785',
+        'email' => 'shiromanandani@yahoo.com'
     ],
     [
         'id' => 'staff-10',
         'title' => 'Member',
-        'department' => 'Procurement Division',
+        'department' => 'Planning Division',
+        'name' => 'Mrs. M.P.D.C. W. Kumari',
+        'designation' => 'Deputy Director (Planning)',
+        'phone' => '0716897218',
+        'email' => 'kuma_lg@yahoo.com'
+    ],
+    [
+        'id' => 'staff-11',
+        'title' => 'Member',
+        'department' => 'Administration Division',
         'name' => 'Mrs. S. Luxiga',
-        'designation' => 'Assistant Secretary (Procurement)',
+        'designation' => 'Assistant Secretary (Administration)',
         'phone' => '0779265869',
         'email' => 'skluxi@gmail.com'
     ],
     [
-        'id' => 'staff-11',
+        'id' => 'staff-12',
         'title' => 'Member',
         'department' => 'Legal Division',
         'name' => 'Mrs. W.P.A.G. Wijesooriya',
         'designation' => 'Legal Officer',
         'phone' => '0763526589',
         'email' => 'gayaniew1@gmail.com'
-    ],
-    [
-        'id' => 'staff-12',
-        'title' => 'Member',
-        'department' => 'Media Unit',
-        'name' => 'Mr.W.K.S. Kumara',
-        'designation' => 'News Officer',
-        'phone' => '0718000103',
-        'email' => 'sarathkalugamage@gmail.com'
-    ],
-    [
-        'id' => 'staff-13',
-        'title' => 'Member',
-        'department' => 'Development Officer',
-        'name' => 'Ms. S.R. Thenuwara',
-        'designation' => 'Development Officer',
-        'phone' => '0712833681',
-        'email' => 'sawanithenuwara3@gmail.com'
-    ],
-    [
-        'id' => 'staff-14',
-        'title' => 'Member',
-        'department' => 'Office Employee Service',
-        'name' => 'Mrs. W.A.R.H. Wanniarachchi',
-        'designation' => 'Office Employee Service',
-        'phone' => '0719596380',
-        'email' => 'hasiniwanniarachchi35@gmail.com'
-    ],
-    [
-        'id' => 'staff-15',
-        'title' => 'Member',
-        'department' => 'Driver',
-        'name' => 'Mr.W.A.A.S.Senarathna',
-        'designation' => '',
-        'phone' => '0765603863',
-        'email' => 'Anuradhasanjeewa234@gmail.com'
     ]
 ];
 
@@ -222,46 +195,43 @@ include 'includes/sub-hero.php';
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <a href="mailto:iau.labour@gmail.com" class="shrink-0" title="Email">
+                        <a href="mailto:iaunit.mol@gmail.com" class="shrink-0" title="Email">
                             <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
                         </a>
-                        <a href="mailto:iau.labour@gmail.com" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">iau.labour@gmail.com</a>
+                        <a href="mailto:iaunit.mol@gmail.com" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">iaunit.mol@gmail.com</a>
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <a href="tel:+94112369367" class="shrink-0" title="Call">
+                        <a href="tel:+94112368938" class="shrink-0" title="Call">
                             <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                 </svg>
                             </div>
                         </a>
-                        <a href="tel:+94112369367" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 11 236 9367</a>
+                        <a href="tel:+94112368938" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 11 236 8938</a>
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="shrink-0" title="WhatsApp">
+                        <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="shrink-0" title="WhatsApp">
                             <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12.031 0C5.405 0 0 5.405 0 12.031c0 2.115.548 4.17 1.588 5.986L.048 23.953l6.082-1.597c1.745.952 3.702 1.455 5.753 1.455h.005c6.622 0 12.025-5.404 12.025-12.03 0-3.21-1.25-6.227-3.518-8.497A11.968 11.968 0 0012.031 0zm0 21.802h-.005c-1.79 0-3.543-.481-5.076-1.39l-.364-.216-3.771.989.999-3.676-.237-.377a10.024 10.024 0 01-1.536-5.328c0-5.522 4.495-10.016 10.019-10.016 2.678 0 5.195 1.042 7.086 2.936a9.98 9.98 0 012.934 7.084c-.001 5.524-4.496 10.019-10.02 10.019zm5.498-7.514c-.301-.151-1.782-.879-2.059-.98-.276-.1-.478-.151-.678.151-.201.302-.78 1.018-.954 1.22-.175.201-.352.226-.653.075-.302-.15-1.272-.469-2.424-1.494-.897-.798-1.503-1.785-1.678-2.087-.175-.302-.019-.465.132-.616.136-.136.302-.352.453-.528.151-.176.201-.302.302-.503.1-.201.05-.377-.025-.528-.075-.15-.678-1.634-.93-2.237-.245-.589-.494-.509-.678-.519-.175-.008-.377-.008-.578-.008-.201 0-.528.075-.804.377-.276.302-1.055 1.03-1.055 2.513 0 1.483 1.08 2.915 1.231 3.116.151.201 2.126 3.245 5.147 4.549.719.311 1.28.496 1.718.636.722.23 1.38.197 1.897.12.58-.087 1.782-.729 2.033-1.433.251-.703.251-1.307.176-1.433-.075-.126-.276-.201-.578-.352z"/>
                                 </svg>
                             </div>
                         </a>
-                        <a href="https://wa.me/94707227977" target="_blank" rel="noopener noreferrer" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 70 722 7977</a>
+                        <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate">+94 70 722 7877</a>
                     </div>
 
                     <!-- QR Code Section -->
                     <div class="border-t border-white/10 pt-6 mt-6 flex flex-col items-center">
                         <p class="text-xs text-white/70 mb-3 font-medium tracking-wide">Scan to Submit Complaints / Suggestions</p>
-                        <div class="w-32 h-32 bg-white/5 rounded-2xl flex flex-col items-center justify-center border border-dashed border-white/20 hover:border-white/40 transition-colors group cursor-pointer">
-                            <svg class="w-8 h-8 text-white/40 group-hover:text-white/60 transition-colors mb-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-[10px] text-white/40 group-hover:text-white/60 transition-colors text-center px-2 font-medium">QR Code Pending</span>
+                        <div class="w-40 h-40 bg-white p-2 rounded-2xl flex items-center justify-center shadow-sm">
+                            <img loading="lazy" src="assets/img/IAU/IAU_QR.png" alt="IAU QR Code" class="w-full h-full object-contain rounded-lg">
                         </div>
                     </div>
                 </div>
@@ -284,9 +254,6 @@ include 'includes/sub-hero.php';
                 <?php endif; ?>
             </div>
             <?php endforeach; ?>
-            <div class="bg-white p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
-                <!-- Empty Cell -->
-            </div>
         </div>
     </div>
 </section>

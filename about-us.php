@@ -66,40 +66,37 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Our Partners -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA] border-t border-b border-gray-100">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#FAFAFA] border-t border-b border-gray-100">
     <div class="container mx-auto" data-aos="fade-up">
-        <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-12 text-center">Our Partners</h2>
+        <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center">Our Partners</h2>
         <div id="partners-track"
-            class="flex gap-6 overflow-x-auto scrollbar-none snap-x snap-mandatory py-4 scroll-smooth items-center">
+            class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 py-8 justify-items-center items-center">
             <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-1.png" alt="Partner 1"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                <img loading="lazy" src="assets/img/about-us/presidential-secretariat.png" alt="Presidential Secretariat"
+                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-2.png" alt="Partner 2"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                <img loading="lazy" src="assets/img/about-us/department-of-labour.png" alt="Department of Labour"
+                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-3.png" alt="Partner 3"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                <img loading="lazy" src="assets/img/about-us/ilo.png" alt="International Labour Organization (ILO)"
+                    class="max-h-14 md:max-h-20 lg:max-h-22 max-w-[140px] md:max-w-[180px] lg:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300">
             </div>
             <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-4.png" alt="Partner 4"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
-            </div>
-            <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-5.png" alt="Partner 5"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
-            </div>
-            <div
-                class="snap-start shrink-0 min-w-[calc(50%-12px)] md:min-w-[calc(33.333%-16px)] lg:min-w-[calc(16.666%-20px)] flex justify-center">
-                <img loading="lazy" src="assets/img/about-us/partner-6.png" alt="Partner 6"
-                    class="h-12 md:h-16 lg:h-20 w-auto object-contain hover:scale-105 transition-transform duration-300">
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                <?php if (file_exists('assets/img/about-us/etf.png')): ?>
+                    <img loading="lazy" src="assets/img/about-us/etf.png" alt="Employees' Trust Fund (ETF)"
+                        class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[200px] md:max-w-[260px] lg:max-w-[315px] object-contain hover:scale-105 transition-transform duration-300">
+                <?php else: ?>
+                    <div class="h-full w-full max-w-[220px] bg-gray-100 border border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-400 font-semibold hover:scale-105 transition-transform duration-300 hover:border-primary/30 group">
+                        <span class="text-xs text-gray-400 group-hover:text-primary transition-colors text-center px-2">Employees' Trust Fund (ETF)</span>
+                        <span class="text-[9px] text-gray-400/80 uppercase tracking-widest mt-1">Logo Placeholder</span>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -460,7 +457,7 @@ include 'includes/sub-hero.php';
                     <!-- Administration Division -->
                     <div id="div-panel-div-admin" class="div-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Administration Division</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Administration Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
                             <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Administration</strong> and <strong>Establishments Division</strong>.</p>
                             
@@ -490,11 +487,11 @@ include 'includes/sub-hero.php';
                                     <div>
                                         <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
                                         <p class="text-primary font-semibold mt-2 text-[15px]">Ms. T.P Muditha Pathmajay</p>
-                                        <p class="text-[13px] text-gray-500 mb-3">Additional Secretary (Administration)</p>
+                                        <p class="text-[13px] text-gray-500 mb-3">Additional Secretary (Development)</p>
                                         <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                            <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +94 (0)112 368938</div>
+                                            <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> 0718123025</div>
                                             <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg> +94 (0)112 368165</div>
-                                            <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:adsec.admin@labourmin.gov.lk" class="text-secondary hover:underline font-medium">adsec.admin@labourmin.gov.lk</a></div>
+                                            <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:mpathmajay@gmail.com" class="text-secondary hover:underline font-medium">mpathmajay@gmail.com</a></div>
                                         </div>
                                     </div>
                                 </div>
@@ -505,7 +502,7 @@ include 'includes/sub-hero.php';
                     <!-- Development Division -->
                     <div id="div-panel-div-dev" class="div-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Development Division</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Development Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
                             <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Development Division</strong> and <strong>Foreign Relations Division</strong>.</p>
                             
@@ -557,7 +554,7 @@ include 'includes/sub-hero.php';
                     <!-- Finance Division -->
                     <div id="div-panel-div-finance" class="div-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Finance Division</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Finance Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
                             <p class="text-lg text-gray-700 leading-relaxed"><strong class="text-primary font-semibold">Mission:</strong> To ensure effective financial management, prudent utilization of public funds, compliance with financial regulations and the provision of sound financial planning and budgeting and reporting services to support the ministry's objectives efficiently and transparently.</p>
                             
@@ -596,7 +593,7 @@ include 'includes/sub-hero.php';
                     <!-- Internal Audit Division -->
                     <div id="div-panel-div-audit" class="div-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Internal Audit Division</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Internal Audit Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
                             <h4 class="font-bold text-gray-900 text-lg mt-4 flex items-center gap-2">
                                 <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
@@ -635,7 +632,7 @@ include 'includes/sub-hero.php';
                     <!-- Planning & Monitoring Division -->
                     <div id="div-panel-div-planning" class="div-panel hidden">
                         <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                        <h3 class="text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Planning & Monitoring Division</h3>
+                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Planning & Monitoring Division</h3>
                         <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
                             <p class="text-gray-700 bg-gray-50/80 p-4 rounded-xl border border-gray-100">Devising plans of the Ministry and all institutions under its purview required for navigating the development plans towards the set targets, and the implementation of them, progress review and follow up thereof are the key functions of this division.</p>
                             
@@ -684,7 +681,7 @@ include 'includes/sub-hero.php';
         
         <!-- Left Side: Main Text -->
         <div class="w-full lg:w-[45%]">
-            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Public Commitment</p>
+            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Citizen Charter</p>
             <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 leading-tight">
                 Our Commitment to Public<br>Service Excellence
             </h2>

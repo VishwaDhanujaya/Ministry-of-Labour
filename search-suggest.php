@@ -33,7 +33,7 @@ try {
             'titles' => [
                 'en' => 'Home - Ministry of Labour',
                 'si' => 'මුල් පිටුව - කම්කරු අමාත්‍යාංශය',
-                'ta' => 'முகப்பு பக்கம் - தொழில் அமைச்சு'
+                'ta' => 'முகப்பு பக்கம் - தோழில் அமைச்சு'
             ],
             'keywords' => ['home', 'index', 'welcome', 'main', 'මුල් පිටුව', 'කම්කරු', 'முகப்பு']
         ],
@@ -67,11 +67,11 @@ try {
         [
             'url' => 'iau',
             'titles' => [
-                'en' => 'Internal Audit Unit (IAU)',
-                'si' => 'අභ්‍යන්තර විගණන අංශය',
-                'ta' => 'உள் தணிக்கை பிரிவு'
+                'en' => 'Internal Affairs Unit (IAU)',
+                'si' => 'අභ්‍යන්තර කටයුතු අංශය (IAU)',
+                'ta' => 'உள்விவகாரப் பிரிவு (IAU)'
             ],
-            'keywords' => ['iau', 'internal audit', 'audit', 'financial control', 'අභ්‍යන්තර විගණන', 'විගණන', 'உள் தணிக்கை']
+            'keywords' => ['iau', 'internal affairs', 'integrity', 'bribery', 'corruption', 'complaints', 'ciaboc', 'අභ්‍යන්තර කටයුතු', 'දූෂණ', 'உள்விவகார']
         ],
         [
             'url' => 'rti',

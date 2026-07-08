@@ -201,16 +201,16 @@
     @apply text-gray-500 text-[13.5px] font-inter leading-relaxed;
   }
   .focus-card {
-    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-3xl p-8 border-[0.5px] border-[#D4D4D4] flex flex-col justify-between;
+    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border-[0.5px] border-[#D4D4D4] flex flex-col justify-between;
   }
   .focus-card-icon {
-    @apply w-12 h-12 bg-secondary text-white flex items-center justify-center mb-6 rounded-lg;
+    @apply w-10 h-10 sm:w-12 sm:h-12 bg-secondary text-white flex items-center justify-center mb-3 sm:mb-6 rounded-lg;
   }
   .focus-card-title {
-    @apply text-lg font-semibold font-montserrat mb-4 text-primary leading-tight;
+    @apply text-[15px] sm:text-lg font-semibold font-montserrat mb-2 sm:mb-4 text-primary leading-tight;
   }
   .focus-card-desc {
-    @apply text-gray-500 text-[14px] font-inter leading-relaxed;
+    @apply text-gray-500 text-[11.5px] sm:text-[14px] font-inter leading-relaxed;
   }
   .news-card {
     @apply bg-white rounded-3xl shadow-md overflow-hidden hover:shadow-xl transition-all border-[0.5px] border-[#D4D4D4] flex flex-col justify-between h-full;
