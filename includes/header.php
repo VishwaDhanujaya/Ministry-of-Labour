@@ -194,8 +194,19 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 <a href="about-us"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?>">About Us</a>
 
-                <a href="iau"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?> notranslate">IAU</a>
+                <div class="relative group">
+                    <a href="iau" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-[#13273F] border-[#13273F]' : 'border-transparent hover:text-[#13273F] hover:border-gray-300' ?> flex items-center gap-1 focus:outline-none cursor-pointer notranslate">
+                        IAU
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </a>
+                    <!-- Dropdown -->
+                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                        <div class="py-1">
+                            <a href="iau" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Overview</a>
+                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Current Updates</a>
+                        </div>
+                    </div>
+                </div>
 
                 <a href="rti"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-[#13273F] border-[#13273F]' : 'hover:text-[#13273F] border-transparent hover:border-gray-300' ?> notranslate">RTI</a>
@@ -326,7 +337,14 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
                 <a href="home"
                     class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">Home</a>
                 <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?>">About Us</a>
-                <a href="iau" class="pl-3 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">IAU</a>
+                <div class="flex flex-col space-y-2 py-1">
+                    <a href="iau" class="pl-3 text-gray-700 hover:text-primary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors notranslate">
+                        IAU
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                    <a href="iau" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Overview</a>
+                    <a href="iau-updates" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'text-gray-500 hover:text-primary rounded transition-colors' ?>">Current Updates</a>
+                </div>
                 <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-[#13273F] bg-gray-50 border-l-4 border-[#13273F] rounded-r-md' : 'hover:text-primary rounded transition-colors' ?> notranslate">RTI</a>
 
 

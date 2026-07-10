@@ -311,10 +311,10 @@ include 'includes/header.php';
                                     </span>
                                     <p class="pl-1">or drag and drop</p>
                                 </div>
-                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP (multiple allowed)</p>
+                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 5MB each (multiple allowed)</p>
                             </div>
                         </div>
-                        <div id="additional-preview" class="mt-4 flex gap-4 flex-wrap">
+                        <div class="mt-4 flex gap-4 flex-wrap">
                             <?php if ($article_images): ?>
                                 <?php foreach($article_images as $img): ?>
                                     <div class="relative group">
@@ -325,6 +325,7 @@ include 'includes/header.php';
                                     </div>
                                 <?php endforeach; ?>
                             <?php endif; ?>
+                            <div id="additional-preview" class="flex gap-4 flex-wrap"></div>
                         </div>
                     </div>
 
@@ -496,27 +497,95 @@ document.addEventListener('DOMContentLoaded', function() {
 window.previewSingleImage = function(input, previewId) {
     const preview = document.getElementById(previewId);
     if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            if (typeof window.showToast === 'function') {
+                window.showToast('Cover image size exceeds the maximum limit of 5MB.', 'error');
+            } else {
+                alert('Cover image size exceeds the maximum limit of 5MB.');
+            }
+            input.value = ''; // clear selection
+            return;
+        }
         const reader = new FileReader();
         reader.onload = function(e) {
             preview.innerHTML = `<div class="relative group"><img loading="lazy" src="${e.target.result}" class="h-32 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-xs font-bold px-2 text-center">New Image</span></div></div>`;
         }
-        reader.readAsDataURL(input.files[0]);
+        reader.readAsDataURL(file);
     }
 }
 
+let selectedAdditionalFiles = [];
+
 window.previewMultipleImages = function(input, previewId) {
     const preview = document.getElementById(previewId);
-    let html = '';
-    if (input.files) {
-        Array.from(input.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                html += `<div class="relative group"><img loading="lazy" src="${e.target.result}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-1 text-center">New</span></div></div>`;
-                preview.innerHTML = html;
-            }
-            reader.readAsDataURL(file);
-        });
+    if (!input.files) return;
+
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    let newFiles = Array.from(input.files);
+    let hasLargeFile = false;
+    let acceptedFiles = [];
+
+    newFiles.forEach(file => {
+        if (file.size > maxSize) {
+            hasLargeFile = true;
+        } else {
+            acceptedFiles.push(file);
+        }
+    });
+
+    if (hasLargeFile) {
+        if (typeof window.showToast === 'function') {
+            window.showToast('One or more selected images exceed the maximum limit of 5MB and were skipped.', 'error');
+        } else {
+            alert('One or more selected images exceed the maximum limit of 5MB and were skipped.');
+        }
     }
+
+    selectedAdditionalFiles = selectedAdditionalFiles.concat(acceptedFiles);
+    
+    syncAdditionalFilesInput(input);
+    renderAdditionalPreviews(preview, input);
+}
+
+function syncAdditionalFilesInput(input) {
+    if (typeof DataTransfer === 'undefined') return;
+    const dt = new DataTransfer();
+    selectedAdditionalFiles.forEach(file => dt.items.add(file));
+    input.files = dt.files;
+}
+
+function renderAdditionalPreviews(previewDiv, input) {
+    previewDiv.innerHTML = '';
+    
+    selectedAdditionalFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'relative group';
+            itemDiv.innerHTML = `
+                <img loading="lazy" src="${e.target.result}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                    <span class="text-white text-[10px] font-bold px-1 text-center">New</span>
+                </div>
+                <button type="button" onclick="removeAdditionalFile(${index}, '${previewDiv.id}', '${input.id}')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            `;
+            previewDiv.appendChild(itemDiv);
+        }
+        reader.readAsDataURL(file);
+    });
+}
+
+window.removeAdditionalFile = function(index, previewId, inputId) {
+    selectedAdditionalFiles.splice(index, 1);
+    const input = document.getElementById(inputId);
+    const preview = document.getElementById(previewId);
+    
+    syncAdditionalFilesInput(input);
+    renderAdditionalPreviews(preview, input);
 }
 
 async function translateText(text, fromLang, toLang) {

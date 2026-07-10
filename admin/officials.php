@@ -54,7 +54,7 @@ include 'includes/header.php';
         <div id="tab-top" class="tab-content active">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <?php foreach ($topOfficials as $official): ?>
-                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col">
+                <div onclick="showPreviewModal(<?= $official['id'] ?>, '<?= htmlspecialchars(addslashes($official['name'])) ?>', 'top', <?= htmlspecialchars(json_encode($official, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)" class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col cursor-pointer hover:shadow-md hover:border-gray-300 transition-all duration-200">
                     <div class="p-6 flex-1 text-center">
                         <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
                             <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-32 h-32 rounded-full object-cover mx-auto mb-4 border border-gray-200">
@@ -71,8 +71,34 @@ include 'includes/header.php';
                             <?php if ($official['phone']): ?><p><strong>Phone:</strong> <?= htmlspecialchars($official['phone']) ?></p><?php endif; ?>
                             <?php if ($official['fax']): ?><p><strong>Fax:</strong> <?= htmlspecialchars($official['fax']) ?></p><?php endif; ?>
                         </div>
+
+                        <!-- Hidden Preview Content -->
+                        <div id="preview-content-<?= $official['id'] ?>" class="hidden">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <div class="w-full md:w-[35%] shrink-0 text-center">
+                                    <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
+                                        <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-32 h-32 rounded-xl object-cover border border-gray-200 mx-auto shadow-sm">
+                                    <?php else: ?>
+                                        <div class="w-32 h-32 rounded-xl bg-gray-100 flex items-center justify-center border border-gray-200 mx-auto">
+                                            <span class="text-gray-400 text-xs">No Image</span>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="flex-1 flex flex-col justify-center text-left">
+                                    <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200 self-start mb-2">Top Official</span>
+                                    <h4 class="text-lg font-bold text-gray-900"><?= htmlspecialchars($official['name']) ?></h4>
+                                    <p class="text-sm font-semibold text-[#4E0000] mt-1"><?= htmlspecialchars($official['title']) ?></p>
+                                    
+                                    <div class="text-[13px] text-gray-600 mt-4 space-y-2 border-t border-gray-100 pt-4">
+                                        <?php if ($official['email']): ?><p><strong>Email:</strong> <?= htmlspecialchars($official['email']) ?></p> <?php endif; ?>
+                                        <?php if ($official['phone']): ?><p><strong>Phone:</strong> <?= htmlspecialchars($official['phone']) ?></p> <?php endif; ?>
+                                        <?php if ($official['fax']): ?><p><strong>Fax:</strong> <?= htmlspecialchars($official['fax']) ?></p> <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="border-t border-gray-100 bg-gray-50 px-6 py-3 flex justify-center">
+                    <div class="border-t border-gray-100 bg-gray-50 px-6 py-3 flex justify-center" onclick="event.stopPropagation();">
                         <button onclick="openModal('top', <?= htmlspecialchars(json_encode($official)) ?>)" class="text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold flex items-center">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             Edit Details
@@ -104,8 +130,8 @@ include 'includes/header.php';
                         </tr>
                         <?php else: ?>
                             <?php foreach ($div['people'] as $person): ?>
-                            <tr data-id="<?= $person['id'] ?>" class="hover:bg-gray-50 bg-white transition-colors">
-                                <td class="py-3 px-4 text-gray-400 cursor-move drag-handle">
+                            <tr data-id="<?= $person['id'] ?>" onclick="showPreviewModal(<?= $person['id'] ?>, '<?= htmlspecialchars(addslashes($person['name'])) ?>', 'division', <?= htmlspecialchars(json_encode($person, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)" class="hover:bg-gray-50 bg-white transition-colors cursor-pointer group">
+                                <td class="py-3 px-4 text-gray-400 cursor-move drag-handle" onclick="event.stopPropagation();">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                                 </td>
                                 <td class="py-3 px-4">
@@ -118,14 +144,39 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                 </td>
                                 <td class="py-3 px-4">
-                                    <div class="font-semibold text-gray-900 text-sm"><?= htmlspecialchars($person['name']) ?></div>
+                                    <div class="font-semibold text-gray-900 text-sm group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($person['name']) ?></div>
                                     <div class="text-xs text-gray-500"><?= htmlspecialchars($person['designation'] ?? $person['title']) ?></div>
+                                    
+                                    <!-- Hidden Preview Content -->
+                                    <div id="preview-content-<?= $person['id'] ?>" class="hidden">
+                                        <div class="flex flex-col md:flex-row gap-6">
+                                            <div class="w-full md:w-[35%] shrink-0 text-center">
+                                                <?php if ($person['image_path']): ?>
+                                                    <img src="../<?= htmlspecialchars($person['image_path']) ?>" class="w-32 h-32 rounded-xl object-cover border border-gray-200 mx-auto shadow-sm">
+                                                <?php else: ?>
+                                                    <div class="w-32 h-32 rounded-xl bg-gray-100 flex items-center justify-center border border-gray-200 mx-auto">
+                                                        <span class="text-gray-400 text-xs">No Image</span>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="flex-1 flex flex-col justify-center text-left">
+                                                <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200 self-start mb-2"><?= htmlspecialchars($div['title']) ?></span>
+                                                <h4 class="text-lg font-bold text-gray-900"><?= htmlspecialchars($person['name']) ?></h4>
+                                                <p class="text-sm font-semibold text-[#4E0000] mt-1"><?= htmlspecialchars($person['designation'] ?? $person['title']) ?></p>
+                                                
+                                                <div class="text-[13px] text-gray-600 mt-4 space-y-2 border-t border-gray-100 pt-4">
+                                                    <?php if ($person['email']): ?><p><strong>Email:</strong> <?= htmlspecialchars($person['email']) ?></p> <?php endif; ?>
+                                                    <?php if ($person['phone']): ?><p><strong>Phone:</strong> <?= htmlspecialchars($person['phone']) ?></p> <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td class="py-3 px-4 text-xs text-gray-600 space-y-0.5">
                                     <?php if ($person['email']): ?><div><span class="font-medium">E:</span> <?= htmlspecialchars($person['email']) ?></div><?php endif; ?>
                                     <?php if ($person['phone']): ?><div><span class="font-medium">P:</span> <?= htmlspecialchars($person['phone']) ?></div><?php endif; ?>
                                 </td>
-                                <td class="py-3 px-4 text-right">
+                                <td class="py-3 px-4 text-right" onclick="event.stopPropagation();">
                                     <div class="flex items-center justify-end space-x-2">
                                         <button onclick='openModal("division", <?= htmlspecialchars(json_encode($person), ENT_QUOTES, "UTF-8") ?>)' class="p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -216,7 +267,7 @@ include 'includes/header.php';
                         </div>
                     </div>
                     <input type="file" id="field-image" name="image" accept=".jpg,.jpeg,.png,.webp" class="w-full text-xs text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-100 file:text-gray-800 hover:file:bg-gray-200 border border-gray-200 rounded-md p-1 focus:outline-none">
-                    <p class="text-xs text-gray-400 mt-1">Leave empty to keep existing image. Recommended: 300x300 WEBP or JPG.</p>
+                    <p class="text-xs text-gray-400 mt-1">Leave empty to keep existing image. Max file size: 5MB. Recommended: 300x300 WEBP or JPG.</p>
                 </div>
             </div>
 
@@ -349,6 +400,22 @@ async function saveOfficial(e) {
     btn.disabled = true;
     btn.textContent = 'Saving...';
 
+    const fileInput = document.getElementById('field-image');
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            if (typeof window.showToast === 'function') {
+                window.showToast('Profile image size exceeds the maximum limit of 5MB.', 'error');
+            } else {
+                alert('Profile image size exceeds the maximum limit of 5MB.');
+            }
+            btn.disabled = false;
+            btn.textContent = 'Save Official';
+            return;
+        }
+    }
+
     const formData = new FormData(e.target);
     formData.append('action', 'save_official');
     // csrf_token is already included from the hidden field in the form
@@ -454,6 +521,76 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+});
+</script>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0 bg-black/50 backdrop-blur-sm">
+    <div class="absolute inset-0" onclick="hidePreviewModal()"></div>
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-0 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50">
+            <h3 id="preview-title" class="text-lg font-bold font-montserrat text-gray-900 truncate pr-4">Official Details</h3>
+            <button onclick="hidePreviewModal()" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none p-1 rounded-md hover:bg-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="preview-content-container" class="text-[14px] text-gray-700 overflow-y-auto p-6 md:p-8 flex-1"></div>
+        <div class="flex justify-between items-center p-5 border-t border-gray-100 bg-gray-50 shrink-0">
+            <span class="text-xs text-gray-500 font-medium">Quick Preview</span>
+            <div class="flex gap-3">
+                <button id="preview-edit-btn" class="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">Edit</button>
+                <button id="preview-delete-btn" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors shadow-sm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let activePreviewCategory = null;
+let activePreviewData = null;
+
+function showPreviewModal(id, title, category, itemData) {
+    document.getElementById('preview-content-container').innerHTML = document.getElementById('preview-content-' + id).innerHTML;
+    activePreviewCategory = category;
+    activePreviewData = itemData;
+    
+    const modal = document.getElementById('preview-modal');
+    const modalBox = modal.querySelector('.bg-white');
+    
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    void modal.offsetWidth; // trigger reflow
+    modal.classList.remove('opacity-0');
+    modalBox.classList.remove('scale-95');
+    modalBox.classList.add('scale-100');
+}
+
+function hidePreviewModal() {
+    const modal = document.getElementById('preview-modal');
+    const modalBox = modal.querySelector('.bg-white');
+    
+    modal.classList.add('opacity-0');
+    modalBox.classList.remove('scale-100');
+    modalBox.classList.add('scale-95');
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }, 300);
+}
+
+document.getElementById('preview-edit-btn').addEventListener('click', function() {
+    if (activePreviewData) {
+        hidePreviewModal();
+        openModal(activePreviewCategory, activePreviewData);
+    }
+});
+
+document.getElementById('preview-delete-btn').addEventListener('click', function() {
+    if (activePreviewData) {
+        hidePreviewModal();
+        deleteOfficial(activePreviewData.id);
+    }
 });
 </script>
 

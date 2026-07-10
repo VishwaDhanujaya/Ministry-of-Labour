@@ -45,6 +45,9 @@ try {
             }
 
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+                if ($_FILES['image']['size'] > 5242880) { // 5MB
+                    throw new Exception('Profile image size exceeds the maximum limit of 5MB.');
+                }
                 $uploadDir = 'uploads/officials/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0755, true);

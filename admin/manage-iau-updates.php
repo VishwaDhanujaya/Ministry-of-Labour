@@ -4,7 +4,7 @@ require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 requireLogin();
 
-$current_page = "manage-procurements";
+$current_page = "manage-iau-updates";
 $error = '';
 $success = '';
 
@@ -13,19 +13,16 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT pdf_path FROM procurements WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id FROM iau_updates WHERE id = ?");
     $stmt->execute([$del_id]);
-    $proc = $stmt->fetch();
+    $notice = $stmt->fetch();
     
-    if ($proc) {
-        if (!empty($proc['pdf_path']) && file_exists($proc['pdf_path'])) {
-            unlink($proc['pdf_path']);
-        }
-        $stmt = $pdo->prepare("DELETE FROM procurements WHERE id = ?");
+    if ($notice) {
+        $stmt = $pdo->prepare("DELETE FROM iau_updates WHERE id = ?");
         $stmt->execute([$del_id]);
-        $success = "Procurement deleted successfully.";
+        $success = "IAU update deleted successfully.";
     } else {
-        $error = "Procurement not found.";
+        $error = "IAU update not found.";
     }
 }
 
@@ -34,61 +31,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     requireCsrfToken('POST', 'post');
     $action = $_POST['action'];
     $title = trim($_POST['title']);
-    $category = $_POST['category'] ?? 'Notice';
-    $description = trim($_POST['description']);
+    $content = trim($_POST['content']);
     $status = $_POST['status'];
     
     if (empty($title)) {
         $error = "Title is required.";
     } else {
         if ($action === 'add') {
-            if (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
-                $error = "PDF file is required.";
+            $stmt = $pdo->prepare("INSERT INTO iau_updates (title, content, status) VALUES (?, ?, ?)");
+            if ($stmt->execute([$title, $content, $status])) {
+                $success = "IAU update added successfully.";
             } else {
-                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/procurements', ['application/pdf'], 5242880);
-                if ($uploadResult['success']) {
-                    $pdf_path = $uploadResult['path'];
-                    $stmt = $pdo->prepare("INSERT INTO procurements (title, category, description, pdf_path, status) VALUES (?, ?, ?, ?, ?)");
-                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status])) {
-                        $success = "Procurement added successfully.";
-                    } else {
-                        $error = "Failed to add procurement.";
-                    }
-                } else {
-                    $error = $uploadResult['error'];
-                }
+                $error = "Failed to add IAU update.";
             }
         } elseif ($action === 'edit') {
-            $edit_id = (int)$_POST['proc_id'];
+            $edit_id = (int)$_POST['update_id'];
             
-            $stmt = $pdo->prepare("SELECT pdf_path FROM procurements WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id FROM iau_updates WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             
             if (!$existing) {
-                $error = "Procurement not found.";
+                $error = "IAU update not found.";
             } else {
-                $pdf_path = $existing['pdf_path'];
-                
-                // If new file uploaded
-                if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
-                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/procurements', ['application/pdf'], 5242880);
-                    if ($uploadResult['success']) {
-                        if (!empty($pdf_path) && file_exists($pdf_path)) {
-                            unlink($pdf_path);
-                        }
-                        $pdf_path = $uploadResult['path'];
-                    } else {
-                        $error = $uploadResult['error'];
-                    }
-                }
-                
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE procurements SET title = ?, category = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status, $edit_id])) {
-                        $success = "Procurement updated successfully.";
+                    $stmt = $pdo->prepare("UPDATE iau_updates SET title = ?, content = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $content, $status, $edit_id])) {
+                        $success = "IAU update updated successfully.";
                     } else {
-                        $error = "Failed to update procurement.";
+                        $error = "Failed to update IAU update.";
                     }
                 }
             }
@@ -96,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-// Fetch Procurements
-$stmt = $pdo->query("SELECT * FROM procurements ORDER BY created_at DESC");
-$procurements = $stmt->fetchAll();
+// Fetch iau_updates
+$stmt = $pdo->query("SELECT * FROM iau_updates ORDER BY created_at DESC");
+$updates = $stmt->fetchAll();
 
 include 'includes/header.php'; 
 ?>
@@ -114,14 +85,11 @@ include 'includes/header.php';
         
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage Procurements</h2>
+            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage IAU Updates</h2>
             <button onclick="openAddModal()" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
-                <span class="mr-1.5 text-lg leading-none">+</span> New Procurement
+                <span class="mr-1.5 text-lg leading-none">+</span> New Update
             </button>
         </div>
-
-        
-        
 
         <!-- Filter Bar -->
         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -133,15 +101,6 @@ include 'includes/header.php';
                 </div>
             
             <div class="grid grid-cols-2 sm:flex sm:items-center gap-3 w-full sm:w-auto">
-                <div class="relative w-full sm:w-40">
-                    <select class="js-table-filter w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
-                        <option value="">All Categories</option>
-                        <option value="Plan">Plan</option>
-                        <option value="Notice">Notice</option>
-                        <option value="Award">Award</option>
-                    </select>
-                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
                 <div class="relative w-full sm:w-40">
                     <select class="js-table-filter w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Statuses</option>
@@ -163,81 +122,61 @@ include 'includes/header.php';
                 <thead>
                     <tr class="bg-[#F9FAFB] border-b border-gray-100">
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Title</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Category</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">PDF</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Status</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Date Added</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
-                    <?php if (empty($procurements)): ?>
+                    <?php if (empty($updates)): ?>
                     <tr>
-                        <td colspan="5" class="py-16 px-6">
+                        <td colspan="4" class="py-16 px-6">
                             <div class="flex flex-col items-center justify-center text-center">
                                 <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
                                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                                 </div>
-                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No procurements found</p>
+                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No IAU updates found</p>
                             </div>
                         </td>
                     </tr>
                     <?php else: ?>
-                    <?php foreach ($procurements as $proc): ?>
-                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $proc['id'] ?>, '<?= htmlspecialchars(addslashes($proc['title'])) ?>', 'manage-procurements?delete=<?= $proc['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($proc, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
+                    <?php foreach ($updates as $update): ?>
+                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $update['id'] ?>, '<?= htmlspecialchars(addslashes($update['title'])) ?>', 'manage-iau-updates?delete=<?= $update['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($update, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                         <td class="py-4 px-6">
-                            <p class="text-[13px] font-medium text-gray-900 group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($proc['title']) ?></p>
-                            <?php if(!empty($proc['description'])): ?>
-                                <p class="text-[12px] text-gray-500 truncate w-48" title="<?= htmlspecialchars($proc['description']) ?>"><?= htmlspecialchars($proc['description']) ?></p>
+                            <p class="text-[13px] font-medium text-gray-900 group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($update['title']) ?></p>
+                            <?php if(!empty($update['content'])): ?>
+                                <p class="text-[12px] text-gray-500 truncate w-48" title="<?= htmlspecialchars(strip_tags($update['content'])) ?>"><?= htmlspecialchars(strip_tags($update['content'])) ?></p>
                             <?php endif; ?>
                             
                             <!-- Hidden Preview Content -->
-                            <div id="preview-content-<?= $proc['id'] ?>" class="hidden">
+                            <div id="preview-content-<?= $update['id'] ?>" class="hidden">
                                 <div class="flex flex-col gap-4">
                                     <div class="flex flex-wrap gap-2">
-                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200"><?= htmlspecialchars($proc['category'] ?? 'Notice') ?></span>
-                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold <?= $proc['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?>"><?= htmlspecialchars($proc['status']) ?></span>
-                                        <span class="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($proc['created_at'])) ?></span>
+                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold <?= $update['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?>"><?= htmlspecialchars($update['status']) ?></span>
+                                        <span class="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($update['created_at'])) ?></span>
                                     </div>
-                                    <?php if (!empty($proc['description'])): ?>
+                                    <?php if (!empty($update['content'])): ?>
                                         <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
-                                            <?= $proc['description'] ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($proc['pdf_path'])): ?>
-                                        <div class="border-t border-gray-100 pt-4 mt-2">
-                                            <a href="<?= htmlspecialchars($proc['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                                                View Attached PDF
-                                            </a>
+                                            <?= $update['content'] ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         </td>
                         <td class="py-4 px-6">
-                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200"><?= htmlspecialchars($proc['category'] ?? 'Notice') ?></span>
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="<?= htmlspecialchars($proc['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                                View PDF
-                            </a>
-                        </td>
-                        <td class="py-4 px-6">
-                            <?php if ($proc['status'] === 'Published'): ?>
+                            <?php if ($update['status'] === 'Published'): ?>
                             <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#13273F] text-white">Published</span>
                             <?php else: ?>
                             <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-gray-200 text-gray-800">Draft</span>
                             <?php endif; ?>
                         </td>
-                        <td class="py-4 px-6 text-[13px] text-gray-600"><?= date('M d, Y', strtotime($proc['created_at'])) ?></td>
+                        <td class="py-4 px-6 text-[13px] text-gray-600"><?= date('M d, Y', strtotime($update['created_at'])) ?></td>
                         <td class="py-4 px-6 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <button onclick='event.stopPropagation(); openEditModal(<?= json_encode($proc, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                <button onclick='event.stopPropagation(); openEditModal(<?= json_encode($update, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </button>
-                                <a href="manage-procurements?delete=<?= $proc['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this procurement?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="manage-iau-updates?delete=<?= $update['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this IAU update?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -250,44 +189,33 @@ include 'includes/header.php';
         </div>
 
         <!-- Add/Edit Modal -->
-        <div id="procModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div id="updateModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden transform transition-all flex flex-col max-h-[90vh]">
                 <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50/50">
                     <h3 class="text-lg font-bold font-montserrat text-gray-900 flex items-center" id="modalTitle">
                         <svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        Add New Procurement
+                        Add New Update
                     </h3>
-                    <button type="button" onclick="closeProcModal()" class="text-gray-400 hover:text-gray-600 transition-colors bg-white hover:bg-gray-100 rounded-full p-1">
+                    <button type="button" onclick="closeUpdateModal()" class="text-gray-400 hover:text-gray-600 transition-colors bg-white hover:bg-gray-100 rounded-full p-1">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
                 </div>
                 
                 <div class="p-6 overflow-y-auto">
-                    <form id="procForm" action="" method="POST" enctype="multipart/form-data" class="js-validate-form space-y-6">
+                    <form id="updateForm" action="" method="POST" class="js-validate-form space-y-6">
                         <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                         <input type="hidden" name="action" id="formAction" value="add">
-                        <input type="hidden" name="proc_id" id="procId" value="">
+                        <input type="hidden" name="update_id" id="updateId" value="">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="procTitle" required placeholder="Procurement title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
-                            </div>
-                            <div>
-                                <label class="block text-[13px] font-medium text-gray-800 mb-2">Category</label>
-                                <div class="relative">
-                                    <select name="category" id="procCategory" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer">
-                                        <option value="Plan">Procurement Plan</option>
-                                        <option value="Notice">Procurement Notice</option>
-                                        <option value="Award">Contract Award Details</option>
-                                    </select>
-                                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </div>
+                                <input type="text" name="title" id="updateTitle" required placeholder="Update title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
                             </div>
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Status</label>
                                 <div class="relative">
-                                    <select name="status" id="procStatus" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                    <select name="status" id="updateStatus" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer">
                                         <option value="Published">Published</option>
                                         <option value="Draft">Draft</option>
                                     </select>
@@ -297,25 +225,19 @@ include 'includes/header.php';
                         </div>
 
                         <div>
-                            <label class="block text-[13px] font-medium text-gray-800 mb-2">Description (Optional)</label>
-                            <input type="hidden" name="description" id="procDescriptionInput">
+                            <label class="block text-[13px] font-medium text-gray-800 mb-2">Content (Optional)</label>
+                            <input type="hidden" name="content" id="updateContentInput">
                             <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
-                                <div id="procDescription" style="height: 150px;"></div>
+                                <div id="updateContent" style="height: 150px;"></div>
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[13px] font-medium text-gray-800 mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
-                            <input type="file" name="pdf_file" id="procPdf" accept="application/pdf" required class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900">
-                            <p id="editPdfHint" class="text-[12px] text-gray-500 hidden mt-2">Leave blank to keep current PDF.</p>
-                        </div>
-
                         <div class="pt-4 mt-2 flex justify-end gap-3 border-t border-gray-100">
-                            <button type="button" onclick="closeProcModal()" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-medium hover:bg-gray-50 transition-colors">
+                            <button type="button" onclick="closeUpdateModal()" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-medium hover:bg-gray-50 transition-colors">
                                 Cancel
                             </button>
                             <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-sm">
-                                Save Procurement
+                                Save Update
                             </button>
                         </div>
                     </form>
@@ -325,51 +247,39 @@ include 'includes/header.php';
 
         <script>
         function openAddModal() {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Procurement';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Update';
             document.getElementById('formAction').value = 'add';
-            document.getElementById('procId').value = '';
+            document.getElementById('updateId').value = '';
             
-            document.getElementById('procTitle').value = '';
-            document.getElementById('procCategory').value = 'Notice';
-            quillProc.setText('');
-            document.getElementById('procStatus').value = 'Published';
-            document.getElementById('procPdf').value = '';
+            document.getElementById('updateTitle').value = '';
+            quillUpdate.setText('');
+            document.getElementById('updateStatus').value = 'Published';
             
-            document.getElementById('procPdf').required = true;
-            document.getElementById('pdfLabel').innerHTML = 'PDF File <span class="text-red-500">*</span>';
-            document.getElementById('editPdfHint').classList.add('hidden');
+            document.getElementById('submitBtnText').textContent = 'Create Update';
             
-            document.getElementById('submitBtnText').textContent = 'Create Procurement';
-            
-            const modal = document.getElementById('procModal');
+            const modal = document.getElementById('updateModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
-        function openEditModal(proc) {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Procurement';
+        function openEditModal(update) {
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Update';
             document.getElementById('formAction').value = 'edit';
-            document.getElementById('procId').value = proc.id;
+            document.getElementById('updateId').value = update.id;
             
-            document.getElementById('procTitle').value = proc.title;
-            document.getElementById('procCategory').value = proc.category || 'Notice';
-            quillProc.root.innerHTML = proc.description || '';
-            document.getElementById('procStatus').value = proc.status;
-            document.getElementById('procPdf').value = '';
-            
-            document.getElementById('procPdf').required = false;
-            document.getElementById('pdfLabel').textContent = 'PDF File (New)';
-            document.getElementById('editPdfHint').classList.remove('hidden');
+            document.getElementById('updateTitle').value = update.title;
+            quillUpdate.root.innerHTML = update.content || '';
+            document.getElementById('updateStatus').value = update.status;
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             
-            const modal = document.getElementById('procModal');
+            const modal = document.getElementById('updateModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
-        function closeProcModal() {
-            const modal = document.getElementById('procModal');
+        function closeUpdateModal() {
+            const modal = document.getElementById('updateModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
@@ -379,7 +289,7 @@ include 'includes/header.php';
         <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
         <script>
         // Initialize Quill editor
-        const quillProc = new Quill('#procDescription', {
+        const quillUpdate = new Quill('#updateContent', {
             theme: 'snow',
             modules: {
                 toolbar: [
@@ -392,11 +302,11 @@ include 'includes/header.php';
         });
 
         // Sync Quill content to hidden input on form submit
-        const form = document.getElementById('procForm');
+        const form = document.getElementById('updateForm');
         if (form) {
             form.addEventListener('submit', function() {
-                const html = quillProc.root.innerHTML;
-                document.getElementById('procDescriptionInput').value = (html === '<p><br></p>') ? '' : html;
+                const html = quillUpdate.root.innerHTML;
+                document.getElementById('updateContentInput').value = (html === '<p><br></p>') ? '' : html;
             });
         }
         </script>
@@ -466,5 +376,3 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
-
-

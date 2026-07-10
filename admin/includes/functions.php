@@ -11,7 +11,8 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
     }
 
     if ($file['size'] > $maxSize) {
-        return ['success' => false, 'error' => 'File size exceeds maximum limit.'];
+        $maxSizeMB = round($maxSize / (1024 * 1024), 2);
+        return ['success' => false, 'error' => 'File size exceeds maximum limit of ' . $maxSizeMB . 'MB.'];
     }
 
     $mimeType = '';

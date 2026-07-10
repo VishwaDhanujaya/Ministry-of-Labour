@@ -253,7 +253,7 @@ include 'includes/header.php';
                         $end = new DateTime($booking['end_date']);
                         $nights = $end->diff($start)->format("%a");
                         ?>
-                        <div class="js-booking-card rounded-xl border border-gray-200 border-t-4 <?= $borderAccent ?> overflow-hidden shadow-sm hover:shadow-md bg-white flex flex-col transition-all duration-200 relative group">
+                        <div onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="js-booking-card rounded-xl border border-gray-200 border-t-4 <?= $borderAccent ?> overflow-hidden shadow-sm hover:shadow-md bg-white flex flex-col transition-all duration-200 relative group cursor-pointer hover:border-gray-300">
                             
                             <!-- Header Area -->
                             <div class="px-5 pt-5 pb-4">
@@ -308,7 +308,7 @@ include 'includes/header.php';
                             </div>
                             
                             <!-- Action Footer -->
-                            <div class="bg-gray-50/80 p-4 border-t border-gray-100 flex gap-2.5">
+                            <div class="bg-gray-50/80 p-4 border-t border-gray-100 flex gap-2.5" onclick="event.stopPropagation();">
                                 <button type="button" onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="flex-1 py-2 bg-white border border-gray-300 rounded-md text-gray-700 font-bold text-[12px] hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">View Details</button>
                                 
                                 <?php if ($booking['status'] === 'Pending'): ?>

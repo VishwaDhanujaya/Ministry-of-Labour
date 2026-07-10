@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
                 $error = "PDF file is required.";
             } else {
-                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf']);
+                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
                 if ($uploadResult['success']) {
                     $pdf_path = $uploadResult['path'];
                     $stmt = $pdo->prepare("INSERT INTO learning_platforms_foreign (title, description, pdf_path, status) VALUES (?, ?, ?, ?)");
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 
                 // If new file uploaded
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
-                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf']);
+                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
                     if ($uploadResult['success']) {
                         if (!empty($pdf_path) && file_exists($pdf_path)) {
                             unlink($pdf_path);
@@ -173,15 +173,38 @@ include 'includes/header.php';
                     </tr>
                     <?php else: ?>
                     <?php foreach ($learning_platforms_foreign as $pub): ?>
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $pub['id'] ?>, '<?= htmlspecialchars(addslashes($pub['title'])) ?>', 'manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                         <td class="py-4 px-6">
-                            <p class="text-[13px] font-medium text-gray-900"><?= htmlspecialchars($pub['title']) ?></p>
+                            <p class="text-[13px] font-medium text-gray-900 group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($pub['title']) ?></p>
                             <?php if(!empty($pub['description'])): ?>
                                 <p class="text-[12px] text-gray-500 truncate w-48" title="<?= htmlspecialchars($pub['description']) ?>"><?= htmlspecialchars($pub['description']) ?></p>
                             <?php endif; ?>
+                            
+                            <!-- Hidden Preview Content -->
+                            <div id="preview-content-<?= $pub['id'] ?>" class="hidden">
+                                <div class="flex flex-col gap-4">
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold <?= $pub['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?>"><?= htmlspecialchars($pub['status']) ?></span>
+                                        <span class="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($pub['created_at'])) ?></span>
+                                    </div>
+                                    <?php if (!empty($pub['description'])): ?>
+                                        <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
+                                            <?= $pub['description'] ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($pub['pdf_path'])): ?>
+                                        <div class="border-t border-gray-100 pt-4 mt-2">
+                                            <a href="<?= htmlspecialchars($pub['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                                                View Attached PDF
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
                         </td>
                         <td class="py-4 px-6">
-                            <a href="<?= htmlspecialchars($pub['pdf_path']) ?>" target="_blank" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
+                            <a href="<?= htmlspecialchars($pub['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                                 View PDF
                             </a>
@@ -196,10 +219,10 @@ include 'includes/header.php';
                         <td class="py-4 px-6 text-[13px] text-gray-600"><?= date('M d, Y', strtotime($pub['created_at'])) ?></td>
                         <td class="py-4 px-6 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <button onclick='openEditModal(<?= json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                                <button onclick='event.stopPropagation(); openEditModal(<?= json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </button>
-                                <a href="manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this foreign learning platform?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this foreign learning platform?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -348,6 +371,68 @@ include 'includes/header.php';
                 document.getElementById('pubDescriptionInput').value = (html === '<p><br></p>') ? '' : html;
             });
         }
+        </script>
+
+        <!-- Preview Modal -->
+        <div id="preview-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0 bg-black/50 backdrop-blur-sm">
+            <div class="absolute inset-0" onclick="hidePreviewModal()"></div>
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl p-0 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col overflow-hidden">
+                <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50">
+                    <h3 id="preview-title" class="text-lg font-bold font-montserrat text-gray-900 truncate pr-4"></h3>
+                    <button onclick="hidePreviewModal()" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none p-1 rounded-md hover:bg-gray-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div id="preview-content-container" class="text-[14px] text-gray-700 overflow-y-auto p-6 md:p-8 flex-1 prose max-w-none"></div>
+                <div class="flex justify-between items-center p-5 border-t border-gray-100 bg-gray-50 shrink-0">
+                    <span class="text-xs text-gray-500 font-medium">Quick Preview</span>
+                    <div class="flex gap-3">
+                        <button id="preview-edit-btn" class="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">Edit</button>
+                        <a id="preview-delete-btn" href="#" data-confirm="Are you sure you want to delete this?" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors shadow-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        let activePreviewData = null;
+        function showPreviewModal(id, title, deleteUrl, itemData) {
+            document.getElementById('preview-title').textContent = title;
+            document.getElementById('preview-content-container').innerHTML = document.getElementById('preview-content-' + id).innerHTML;
+            document.getElementById('preview-delete-btn').href = deleteUrl;
+            activePreviewData = itemData;
+            
+            const modal = document.getElementById('preview-modal');
+            const modalBox = modal.querySelector('.bg-white');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            void modal.offsetWidth; // trigger reflow
+            modal.classList.remove('opacity-0');
+            modalBox.classList.remove('scale-95');
+            modalBox.classList.add('scale-100');
+        }
+
+        function hidePreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            const modalBox = modal.querySelector('.bg-white');
+            
+            modal.classList.add('opacity-0');
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        document.getElementById('preview-edit-btn').addEventListener('click', function() {
+            if (activePreviewData) {
+                hidePreviewModal();
+                openEditModal(activePreviewData);
+            }
+        });
         </script>
     </main>
 </div>
