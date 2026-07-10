@@ -3,6 +3,10 @@ $page_title = 'Local Publications';
 $pageTitle = 'Local Publications - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Download important local learning resources, reports, and documents from the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'Local Learning Platforms, Reports, Documents, Ministry of Labour, Sri Lanka';
+$breadcrumbs = [
+    ['label' => 'Learning Platforms', 'url' => 'learning-platforms'],
+    ['label' => 'Local Publications']
+];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 

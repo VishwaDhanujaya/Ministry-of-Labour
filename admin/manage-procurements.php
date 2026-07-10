@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     requireCsrfToken('POST', 'post');
     $action = $_POST['action'];
     $title = trim($_POST['title']);
+    $category = $_POST['category'] ?? 'Notice';
     $description = trim($_POST['description']);
     $status = $_POST['status'];
     
@@ -47,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/procurements', ['application/pdf']);
                 if ($uploadResult['success']) {
                     $pdf_path = $uploadResult['path'];
-                    $stmt = $pdo->prepare("INSERT INTO procurements (title, description, pdf_path, status) VALUES (?, ?, ?, ?)");
-                    if ($stmt->execute([$title, $description, $pdf_path, $status])) {
+                    $stmt = $pdo->prepare("INSERT INTO procurements (title, category, description, pdf_path, status) VALUES (?, ?, ?, ?, ?)");
+                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status])) {
                         $success = "Procurement added successfully.";
                     } else {
                         $error = "Failed to add procurement.";
@@ -83,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE procurements SET title = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $description, $pdf_path, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE procurements SET title = ?, category = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status, $edit_id])) {
                         $success = "Procurement updated successfully.";
                     } else {
                         $error = "Failed to update procurement.";
@@ -119,18 +120,8 @@ include 'includes/header.php';
             </button>
         </div>
 
-        <?php if (!empty($error)): ?>
-            <div class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-600 text-[13px] font-medium flex items-center">
-                <svg class="w-5 h-5 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-        <?php if (!empty($success)): ?>
-            <div class="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 text-green-700 text-[13px] font-medium flex items-center">
-                <svg class="w-5 h-5 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                <?= htmlspecialchars($success) ?>
-            </div>
-        <?php endif; ?>
+        
+        
 
         <!-- Filter Bar -->
         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -142,6 +133,15 @@ include 'includes/header.php';
                 </div>
             
             <div class="grid grid-cols-2 sm:flex sm:items-center gap-3 w-full sm:w-auto">
+                <div class="relative w-full sm:w-40">
+                    <select class="js-table-filter w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
+                        <option value="">All Categories</option>
+                        <option value="Plan">Plan</option>
+                        <option value="Notice">Notice</option>
+                        <option value="Award">Award</option>
+                    </select>
+                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
                 <div class="relative w-full sm:w-40">
                     <select class="js-table-filter w-full pl-4 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Statuses</option>
@@ -163,6 +163,7 @@ include 'includes/header.php';
                 <thead>
                     <tr class="bg-[#F9FAFB] border-b border-gray-100">
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Title</th>
+                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Category</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">PDF</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Status</th>
                         <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Date Added</th>
@@ -191,6 +192,9 @@ include 'includes/header.php';
                             <?php endif; ?>
                         </td>
                         <td class="py-4 px-6">
+                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200"><?= htmlspecialchars($proc['category'] ?? 'Notice') ?></span>
+                        </td>
+                        <td class="py-4 px-6">
                             <a href="<?= htmlspecialchars($proc['pdf_path']) ?>" target="_blank" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                                 View PDF
@@ -209,7 +213,7 @@ include 'includes/header.php';
                                 <button onclick='openEditModal(<?= json_encode($proc, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </button>
-                                <a href="manage-procurements?delete=<?= $proc['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this procurement?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="manage-procurements?delete=<?= $proc['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this procurement?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -240,10 +244,21 @@ include 'includes/header.php';
                         <input type="hidden" name="action" id="formAction" value="add">
                         <input type="hidden" name="proc_id" id="procId" value="">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Title <span class="text-red-500">*</span></label>
                                 <input type="text" name="title" id="procTitle" required placeholder="Procurement title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                            </div>
+                            <div>
+                                <label class="block text-[13px] font-medium text-gray-800 mb-2">Category</label>
+                                <div class="relative">
+                                    <select name="category" id="procCategory" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                        <option value="Plan">Procurement Plan</option>
+                                        <option value="Notice">Procurement Notice</option>
+                                        <option value="Award">Contract Award Details</option>
+                                    </select>
+                                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Status</label>
@@ -291,6 +306,7 @@ include 'includes/header.php';
             document.getElementById('procId').value = '';
             
             document.getElementById('procTitle').value = '';
+            document.getElementById('procCategory').value = 'Notice';
             quillProc.setText('');
             document.getElementById('procStatus').value = 'Published';
             document.getElementById('procPdf').value = '';
@@ -312,6 +328,7 @@ include 'includes/header.php';
             document.getElementById('procId').value = proc.id;
             
             document.getElementById('procTitle').value = proc.title;
+            document.getElementById('procCategory').value = proc.category || 'Notice';
             quillProc.root.innerHTML = proc.description || '';
             document.getElementById('procStatus').value = proc.status;
             document.getElementById('procPdf').value = '';

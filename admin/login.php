@@ -121,17 +121,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="w-full max-w-[420px]">
             <h2 class="text-[36px] font-bold text-black text-center mb-12 font-montserrat">Admin Login</h2>
 
-            <?php if (!empty($error)): ?>
-                <div class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium">
-                    <?= htmlspecialchars($error) ?>
-                </div>
-            <?php endif; ?>
 
-            <form action="" method="POST" class="space-y-6">
+
+            <form id="loginForm" action="" method="POST" class="js-validate-form space-y-6">
                 <!-- Email Input -->
                 <div class="relative">
                     <input type="email" id="email" name="email" required autocomplete="off" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors"
+                        class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="email"
                         class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
@@ -140,16 +136,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <!-- Password Input -->
-                <div class="relative">
+                <div class="relative group">
                     <input type="password" id="password" name="password" required autocomplete="new-password"
-                        class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors"
+                        class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="password"
                         class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
                         Password <span class="text-red-500">*</span>
                     </label>
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4E0000] focus:outline-none transition-colors">
-                        <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4E0000] focus:outline-none transition-colors" title="Toggle password visibility">
+                        <svg id="eye-icon" class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                         </svg>
@@ -158,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Submit Button -->
                 <div class="pt-4">
-                    <button type="submit"
-                        class="w-full bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg py-3.5 transition-colors text-[15px] shadow-sm font-montserrat tracking-wide">
+                    <button type="submit" id="loginBtn"
+                        class="w-full bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg py-3.5 transition-all duration-200 text-[15px] shadow-md hover:shadow-lg font-montserrat tracking-wide flex justify-center items-center gap-2">
                         Login
                     </button>
                 </div>
@@ -171,6 +167,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             © 2026 Copyright SLTDIGITAL
         </div>
     </div>
+
+    <!-- Include admin.js for toasts and loading states -->
+    <?php
+    $admin_js_path = dirname(__DIR__) . '/admin/assets/js/admin.js';
+    $admin_js_version = file_exists($admin_js_path) ? filemtime($admin_js_path) : time();
+    ?>
+    <script src="<?= $base_url ?>admin/assets/js/admin.js?v=<?= $admin_js_version ?>"></script>
 
     <script>
         function togglePassword() {
@@ -184,6 +187,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
             }
         }
+
+        <?php if (!empty($error)): ?>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof window.showToast === 'function') {
+                window.showToast(<?= json_encode($error) ?>, 'error');
+            }
+        });
+        <?php endif; ?>
     </script>
 </body>
 

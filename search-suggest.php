@@ -128,6 +128,15 @@ try {
             'keywords' => ['procurements', 'tenders', 'bids', 'purchasing', 'ප්‍රසම්පාදන', 'ටෙන්ඩර්', 'கொள்முதல்']
         ],
         [
+            'url' => 'learning-platforms',
+            'titles' => [
+                'en' => 'Learning Platforms & Publications',
+                'si' => 'ඉගෙනුම් වේදිකා සහ ප්‍රකාශන',
+                'ta' => 'கற்றல் தளங்கள் மற்றும் வெளியீடுகள்'
+            ],
+            'keywords' => ['learning', 'platforms', 'publications', 'training', 'courses', 'education', 'ඉගෙනුම්', 'ප්‍රකාශන', 'කற்றல்']
+        ],
+        [
             'url' => 'learning-platforms-local',
             'titles' => [
                 'en' => 'Local Training & Learning Platforms',

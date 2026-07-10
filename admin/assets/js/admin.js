@@ -29,16 +29,48 @@ window.showToast = function(message, type = 'success') {
     const container = document.getElementById('toast-container');
     const toast = document.createElement('div');
     
-    // Styling based on type
-    let bgClass = type === 'success' ? 'bg-[#0A6C5B]' : (type === 'error' ? 'bg-red-600' : 'bg-gray-800');
-    toast.className = `px-6 py-3.5 rounded-xl shadow-2xl text-white text-[13px] font-bold transform transition-all duration-300 translate-y-10 opacity-0 ${bgClass}`;
-    toast.textContent = message;
+    // Status colors mapping
+    const statusColors = {
+        success: {
+            bg: 'bg-green-500/10 border-green-500/20 text-green-400',
+            bar: 'bg-green-500',
+            icon: `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
+        },
+        error: {
+            bg: 'bg-red-500/10 border-red-500/20 text-red-400',
+            bar: 'bg-red-500',
+            icon: `<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`
+        },
+        info: {
+            bg: 'bg-[#4E0000]/10 border-[#4E0000]/20 text-red-300',
+            bar: 'bg-[#4E0000]',
+            icon: `<svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+        }
+    };
+    
+    const config = statusColors[type] || statusColors.info;
+    
+    // Modern glassmorphism layout matching header/sidebar (#13273F)
+    toast.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] text-white text-[13px] font-semibold transform transition-all duration-300 translate-y-10 opacity-0 bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full`;
+    
+    toast.innerHTML = `
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config.bg} border">
+            ${config.icon}
+        </div>
+        <div class="flex-1 text-gray-100 font-inter leading-snug">${message}</div>
+        <button type="button" onclick="this.parentElement.remove()" class="absolute top-1/2 -translate-y-1/2 right-3 text-white/40 hover:text-white transition-colors focus:outline-none p-1 rounded-md hover:bg-white/5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="absolute bottom-0 left-0 h-1 transition-all duration-[3000ms] ease-linear w-full ${config.bar}" style="width: 100%" id="toast-progress"></div>
+    `;
     
     container.appendChild(toast);
     
     // Animate in
     setTimeout(() => {
         toast.classList.remove('translate-y-10', 'opacity-0');
+        const progress = toast.querySelector('#toast-progress');
+        if (progress) progress.style.width = '0%';
     }, 10);
     
     // Animate out
@@ -63,14 +95,21 @@ function initModalContainer() {
     
     const modal = document.createElement('div');
     modal.id = 'mock-modal';
-    modal.className = 'bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform scale-95 transition-all duration-300 relative z-10';
+    modal.className = 'bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 relative z-10 overflow-hidden border border-gray-100';
     
     modal.innerHTML = `
-        <h3 id="modal-title" class="text-xl font-bold font-montserrat text-gray-900 mb-2">Confirm Action</h3>
-        <p id="modal-message" class="text-[13px] text-gray-600 mb-6">Are you sure you want to proceed?</p>
-        <div class="flex justify-end gap-3">
-            <button id="modal-cancel" class="px-5 py-2 border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors">Cancel</button>
-            <button id="modal-confirm" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors">Confirm</button>
+        <div class="p-6 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-50 text-red-600 mb-4" id="modal-icon-container">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <h3 id="modal-title" class="text-[17px] font-bold text-gray-900 font-montserrat mb-2">Confirm Action</h3>
+            <p id="modal-message" class="text-[13px] text-gray-500 font-inter leading-relaxed px-2">Are you sure you want to proceed?</p>
+        </div>
+        <div class="bg-gray-50 px-6 py-4 flex flex-row-reverse gap-3 border-t border-gray-100">
+            <button id="modal-confirm" type="button" class="px-5 py-2.5 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors shadow-sm focus:outline-none">Confirm</button>
+            <button id="modal-cancel" type="button" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors focus:outline-none">Cancel</button>
         </div>
     `;
     
@@ -92,9 +131,28 @@ window.showModal = function(title, message, confirmBtnText = 'Confirm', confirmB
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-message').textContent = message;
     
+    const iconContainer = document.getElementById('modal-icon-container');
+    const isDestructive = confirmBtnText.toLowerCase().includes('delete') || confirmBtnText.toLowerCase().includes('reject') || message.toLowerCase().includes('delete') || message.toLowerCase().includes('reject') || message.toLowerCase().includes('cancel');
+    
+    if (isDestructive) {
+        iconContainer.className = 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-50 text-red-600 mb-4';
+        iconContainer.innerHTML = `
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+        `;
+    } else {
+        iconContainer.className = 'mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-50 text-blue-600 mb-4';
+        iconContainer.innerHTML = `
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        `;
+    }
+    
     const confirmBtn = document.getElementById('modal-confirm');
     confirmBtn.textContent = confirmBtnText;
-    confirmBtn.className = `px-5 py-2 text-white rounded-md text-[13px] font-bold transition-colors ${confirmBtnClass}`;
+    confirmBtn.className = `px-5 py-2.5 text-white rounded-md text-[13px] font-bold transition-colors shadow-sm focus:outline-none ${confirmBtnClass}`;
     
     currentConfirmCallback = onConfirm;
     
@@ -144,6 +202,38 @@ function initGlobalInteractions() {
             }
         });
     }
+
+    // Intercept clicks on links/buttons with data-confirm
+    document.addEventListener('click', function(e) {
+        const confirmEl = e.target.closest('[data-confirm]');
+        if (confirmEl) {
+            if (!confirmEl.dataset.confirmed) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const message = confirmEl.getAttribute('data-confirm');
+                const isDelete = message.toLowerCase().includes('delete') || message.toLowerCase().includes('reject');
+                const btnClass = isDelete ? 'bg-red-600 hover:bg-red-700' : 'bg-[#4E0000] hover:bg-[#320000]';
+                const btnText = isDelete ? 'Delete' : 'Confirm';
+                const title = isDelete ? 'Delete Action' : 'Confirm Action';
+                
+                // Show modal overlay
+                initModalContainer();
+                
+                window.showModal(
+                    title, 
+                    message, 
+                    btnText, 
+                    btnClass, 
+                    function() {
+                        confirmEl.dataset.confirmed = 'true';
+                        confirmEl.click();
+                        delete confirmEl.dataset.confirmed;
+                    }
+                );
+            }
+        }
+    }, true); // useCapture = true is key to intercept before other click handlers
 }
 
 
@@ -239,44 +329,118 @@ function initTableFiltering() {
 // --- Form Validation (Upload & Settings) ---
 
 function initFormValidation() {
-    const forms = document.querySelectorAll('.js-validate-form');
+    const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
+        // Skip dirtiness check for forms that shouldn't have it (like search filters or login)
+        const skipDirtyCheck = form.classList.contains('js-no-dirty-check') || form.action.includes('login.php') || window.location.href.includes('login');
+        
+        // Function to serialize form, including handling Quill if present
+        const getFormState = () => {
+            // Trigger any pre-submit syncs if they exist (like Quill)
+            if (typeof window.syncQuillToHidden === 'function') {
+                window.syncQuillToHidden();
+            }
+            
+            const formData = new FormData(form);
+            // Ignore csrf_token since it might not be the real changed data we care about, though it shouldn't change
+            // Actually it's fine to keep it.
+            return new URLSearchParams(formData).toString();
+        };
+
+        let initialState = '';
+        if (!skipDirtyCheck) {
+            // Capture initial state after a short delay to allow rich text editors to initialize
+            setTimeout(() => {
+                initialState = getFormState();
+            }, 500);
+        }
+
         form.addEventListener('submit', (e) => {
+            // Check form dirtiness first
+            if (!skipDirtyCheck && initialState !== '') {
+                const currentState = getFormState();
+                if (currentState === initialState) {
+                    e.preventDefault();
+                    if (typeof window.showToast === 'function') {
+                        window.showToast("No changes have been made.", "info");
+                    }
+                    
+                    // Reset any loading spinners on the submit button that might have been triggered by other scripts
+                    const btn = e.submitter || form.querySelector('button[type="submit"]');
+                    if (btn && btn.dataset.originalContent) {
+                        btn.innerHTML = btn.dataset.originalContent;
+                        btn.disabled = false;
+                    }
+                    return;
+                }
+            }
+            
             let isValid = true;
             const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
             
             // Check if the submission was triggered by a button with formnovalidate (like Save as Draft)
-            if (e.submitter && e.submitter.hasAttribute('formnovalidate')) {
-                return; // Skip custom JS validation, let it submit to PHP
-            }
+            const skipValidation = e.submitter && e.submitter.hasAttribute('formnovalidate');
             
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
+            if (!skipValidation) {
+                // Validate required fields
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('border-red-500', 'focus:ring-red-500');
+                    } else {
+                        field.classList.remove('border-red-500', 'focus:ring-red-500');
+                    }
+                });
+                
+                // Special password check for Settings
+                const pwd = form.querySelector('.js-pwd');
+                const pwdConfirm = form.querySelector('.js-pwd-confirm');
+                
+                if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
                     isValid = false;
-                    field.classList.add('border-red-500', 'focus:ring-red-500');
-                } else {
-                    field.classList.remove('border-red-500', 'focus:ring-red-500');
+                    pwdConfirm.classList.add('border-red-500');
+                    showToast('Passwords do not match', 'error');
                 }
-            });
-            
-            // Special password check for Settings
-            const pwd = form.querySelector('.js-pwd');
-            const pwdConfirm = form.querySelector('.js-pwd-confirm');
-            
-            if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
-                isValid = false;
-                pwdConfirm.classList.add('border-red-500');
-                showToast('Passwords do not match', 'error');
-            }
 
-            if (!isValid) {
-                e.preventDefault();
-                showToast('Please correct errors before submitting', 'error');
-                return;
+                if (!isValid) {
+                    e.preventDefault();
+                    showToast('Please correct errors before submitting', 'error');
+                    return;
+                }
             }
             
-            // If valid, the form will submit normally to PHP
+            // If valid (or validation bypassed), apply loading state to the submit button
+            const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                // Determine processing text based on original text
+                const originalText = submitBtn.textContent.trim();
+                let processingText = "Processing...";
+                if (originalText.toLowerCase() === 'login') processingText = 'Authenticating...';
+                else if (originalText.toLowerCase().includes('save')) processingText = 'Saving...';
+                else if (originalText.toLowerCase().includes('publish')) processingText = 'Publishing...';
+
+                // Save original content in case we need to revert (though usually page reloads)
+                if (!submitBtn.dataset.originalContent) {
+                    submitBtn.dataset.originalContent = submitBtn.innerHTML;
+                }
+
+                // Add spinner and processing text
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    ${processingText}
+                `;
+                
+                // Disable the button to prevent double submission
+                // We add a tiny delay so the form data from this button (if it has name/value) is still submitted
+                setTimeout(() => {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                }, 10);
+            }
         });
     });
 }

@@ -360,37 +360,63 @@ async function saveOfficial(e) {
         if (json.success) {
             window.location.reload();
         } else {
-            alert(json.message || 'An error occurred.');
+            if (typeof window.showToast === 'function') {
+                window.showToast(json.message || 'An error occurred.', 'error');
+            } else {
+                alert(json.message || 'An error occurred.');
+            }
             btn.disabled = false;
             btn.textContent = 'Save Official';
         }
     } catch (err) {
-        alert('Network error.');
+        if (typeof window.showToast === 'function') {
+            window.showToast('Network error.', 'error');
+        } else {
+            alert('Network error.');
+        }
         btn.disabled = false;
         btn.textContent = 'Save Official';
     }
 }
 
 async function deleteOfficial(id) {
-    if (!confirm('Are you sure you want to delete this official?')) return;
-    
-    const formData = new FormData();
-    formData.append('action', 'delete_official');
-    formData.append('id', id);
-    formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
+    window.showModal(
+        'Delete Action',
+        'Are you sure you want to delete this official?',
+        'Delete',
+        'bg-red-600 hover:bg-red-700',
+        async function() {
+            const formData = new FormData();
+            formData.append('action', 'delete_official');
+            formData.append('id', id);
+            formData.append('csrf_token', document.querySelector('input[name="csrf_token"]').value);
 
-    try {
-        const res = await fetch('officials-api', { method: 'POST', body: formData });
-        const json = await res.json();
+            try {
+                const res = await fetch('officials-api', { method: 'POST', body: formData });
+                const json = await res.json();
 
-        if (json.success) {
-            document.querySelector(`tr[data-id="${id}"]`).remove();
-        } else {
-            alert(json.message || 'An error occurred.');
+                if (json.success) {
+                    const row = document.querySelector(`tr[data-id="${id}"]`);
+                    if (row) row.remove();
+                    if (typeof window.showToast === 'function') {
+                        window.showToast('Official deleted successfully', 'success');
+                    }
+                } else {
+                    if (typeof window.showToast === 'function') {
+                        window.showToast(json.message || 'An error occurred.', 'error');
+                    } else {
+                        alert(json.message || 'An error occurred.');
+                    }
+                }
+            } catch (err) {
+                if (typeof window.showToast === 'function') {
+                    window.showToast('Network error.', 'error');
+                } else {
+                    alert('Network error.');
+                }
+            }
         }
-    } catch (err) {
-        alert('Network error.');
-    }
+    );
 }
 
 // Initialize SortableJS for each division table
@@ -414,7 +440,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     try {
                         const res = await fetch('officials-api', { method: 'POST', body: formData });
                         const json = await res.json();
-                        if (!json.success) alert(json.message || 'Failed to update order');
+                        if (!json.success) {
+                             if (typeof window.showToast === 'function') {
+                                 window.showToast(json.message || 'Failed to update order', 'error');
+                             } else {
+                                 alert(json.message || 'Failed to update order');
+                             }
+                         }
                     } catch (err) {
                         console.error('Network error during sort update');
                     }

@@ -140,7 +140,10 @@ include 'includes/header.php';
                         </div>
                     </div>
 
-                    <div class="pt-2 flex justify-end">
+                    <div class="pt-2 flex flex-col sm:flex-row justify-end gap-3">
+                        <a href="index" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="px-6 py-3 border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white text-center flex items-center justify-center">
+                            Cancel
+                        </a>
                         <button type="submit" class="px-8 py-3 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-sm">
                             Save All Changes
                         </button>

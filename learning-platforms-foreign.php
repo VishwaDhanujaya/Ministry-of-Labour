@@ -3,6 +3,10 @@ $page_title = 'Foreign Publications';
 $pageTitle = 'Foreign Publications - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Download important foreign learning resources, reports, and documents from the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'Foreign Learning Platforms, Reports, Documents, Ministry of Labour, Sri Lanka';
+$breadcrumbs = [
+    ['label' => 'Learning Platforms', 'url' => 'learning-platforms'],
+    ['label' => 'Foreign Publications']
+];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 

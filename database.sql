@@ -368,6 +368,33 @@ INSERT INTO `learning_platforms_foreign` VALUES
 /*!40000 ALTER TABLE `learning_platforms_foreign` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Table structure for table `statistics`
+--
+
+DROP TABLE IF EXISTS `statistics`;
+CREATE TABLE `statistics` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `stat_key` VARCHAR(50) UNIQUE NOT NULL,
+  `stat_label` VARCHAR(100) NOT NULL,
+  `stat_value` VARCHAR(50) NOT NULL,
+  `stat_suffix` VARCHAR(10) DEFAULT '',
+  `display_order` INT DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `statistics`
+--
+
+LOCK TABLES `statistics` WRITE;
+INSERT INTO `statistics` (`stat_key`, `stat_label`, `stat_value`, `stat_suffix`, `display_order`) VALUES
+('ilo_conventions', 'ILO Ratified Conventions', '44', '', 1),
+('labour_acts', 'Labour Acts Enforced', '32', '+', 2),
+('affiliated_institutions', 'Affiliated Institutions', '5', '', 3),
+('total_visitors', 'Total Visitors', '1250', '', 4);
+UNLOCK TABLES;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -379,3 +406,19 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-06-27 11:44:03
+
+--
+-- Table structure for table `special_notices`
+--
+
+DROP TABLE IF EXISTS `special_notices`;
+CREATE TABLE `special_notices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` text DEFAULT NULL,
+  `status` enum('Draft','Published') NOT NULL DEFAULT 'Draft',
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

@@ -33,6 +33,59 @@ foreach ($announcementsRaw as $notice) {
     $announcements[] = $notice;
 }
 
+// Fetch statistics with fallback defaults
+$statisticsList = [];
+try {
+    $statisticsList = $pdo->query("SELECT * FROM statistics ORDER BY display_order ASC")->fetchAll();
+} catch (PDOException $e) {
+    // Fail silently, defaults will be used
+}
+
+$stats = [
+    'ilo_conventions' => [
+        'stat_label' => 'ILO Ratified Conventions',
+        'stat_label_si' => 'අනුමත කරන ලද ILO සම්මුතීන්',
+        'stat_label_ta' => 'ஒப்புதல் அளிக்கப்பட்ட ஐ.எல்.ஓ உடன்படிக்கைகள்',
+        'stat_value' => '44',
+        'stat_suffix' => ''
+    ],
+    'labour_acts' => [
+        'stat_label' => 'Labour Acts Enforced',
+        'stat_label_si' => 'බලාත්මක කළ කම්කරු පනත්',
+        'stat_label_ta' => 'அமுல்படுத்தப்பட்ட தொழிலாளர் சட்டங்கள்',
+        'stat_value' => '32',
+        'stat_suffix' => '+'
+    ],
+    'affiliated_institutions' => [
+        'stat_label' => 'Affiliated Institutions',
+        'stat_label_si' => 'අනුබද්ධ ආයතන',
+        'stat_label_ta' => 'இணைந்த நிறுவனங்கள்',
+        'stat_value' => '5',
+        'stat_suffix' => ''
+    ],
+    'total_visitors' => [
+        'stat_label' => 'Total Visitors',
+        'stat_label_si' => 'මුළු අමුත්තන් සංඛ්‍යාව',
+        'stat_label_ta' => 'மொத்த பார்வையாளர்கள்',
+        'stat_value' => '1250',
+        'stat_suffix' => ''
+    ]
+];
+
+if (!empty($statisticsList)) {
+    foreach ($statisticsList as $row) {
+        $key = $row['stat_key'];
+        if (isset($stats[$key])) {
+            $stats[$key]['stat_value'] = $row['stat_value'];
+            if (isset($row['stat_label']) && !empty($row['stat_label'])) $stats[$key]['stat_label'] = $row['stat_label'];
+            if (isset($row['stat_label_si']) && !empty($row['stat_label_si'])) $stats[$key]['stat_label_si'] = $row['stat_label_si'];
+            if (isset($row['stat_label_ta']) && !empty($row['stat_label_ta'])) $stats[$key]['stat_label_ta'] = $row['stat_label_ta'];
+            if (isset($row['stat_suffix'])) $stats[$key]['stat_suffix'] = $row['stat_suffix'];
+        }
+    }
+}
+
+
 
 
 $pageTitle = 'Home - Ministry of Labour - Sri Lanka';
@@ -52,17 +105,17 @@ include 'includes/header.php';
     <!-- Mobile Hero Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none block md:hidden"
         style="background-image: url('assets/img/mobile-hero.webp');"></div>
-    <div class="absolute inset-0 opacity-55 bg-home-hero-gradient"></div>
+    <div class="absolute inset-0 opacity-25 bg-home-hero-gradient"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
         <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative w-full">
             
             <!-- Left Side: Welcome Text (Old design restored) -->
             <div class="max-w-2xl w-full">
-                <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2">Welcome to</h2>
-                <h1 class="text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-6 leading-none tracking-tighter uppercase">
+                <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2 text-shadow-premium">Welcome to</h2>
+                <h1 class="text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-6 leading-none tracking-tighter uppercase text-shadow-premium">
                     Ministry of Labour</h1>
-                <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-gray-300 max-w-xl">
+                <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-white text-shadow-premium max-w-xl">
                     The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
                     building a dynamic workforce that drives Sri Lanka's economic development.
                 </p>
@@ -75,94 +128,46 @@ include 'includes/header.php';
                 </div>
             </div>
 
-            <!-- Right Side: News Slider (Floating on Desktop, stacked on mobile) -->
-            <div class="w-full max-w-xl mx-auto xl:mx-0 xl:w-[450px] shrink-0 z-30 xl:absolute xl:right-0 xl:-bottom-20" data-aos="fade-left" data-aos-delay="200">
-                <p class="text-gray-300 font-bold text-xs uppercase tracking-widest mb-3 font-inter">Latest Updates</p>
-                <div class="swiper heroSwiper rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 bg-white/5 backdrop-blur-md">
-                    <div class="swiper-wrapper">
-                        <?php if(empty($recentNews)): ?>
-                            <div class="swiper-slide p-8 text-center text-gray-300 flex items-center justify-center h-[320px] sm:h-[350px] md:h-[400px] xl:h-[460px]">
-                                No recent news available.
-                            </div>
-                        <?php else: ?>
-                            <?php foreach($recentNews as $news): ?>
-                            <div class="swiper-slide relative h-[320px] sm:h-[350px] md:h-[400px] xl:h-[460px] group flex flex-col justify-end">
-                                <?php 
-                                $coverImage = !empty($news['cover_image']) ? trim($news['cover_image']) : '';
-                                $hasImage = false;
-                                $imageSrc = '';
-                                if ($coverImage) {
-                                    $cleanPath = ltrim($coverImage, '/');
-                                    if (file_exists('admin/' . $cleanPath)) {
-                                        $imageSrc = 'admin/' . $cleanPath;
-                                        $hasImage = true;
-                                    } elseif (file_exists($cleanPath)) {
-                                        $imageSrc = $cleanPath;
-                                        $hasImage = true;
-                                    }
-                                }
-                                
-                                if ($hasImage): ?>
-                                    <img loading="lazy" src="<?= htmlspecialchars($imageSrc) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
-                                <?php else: ?>
-                                    <img loading="lazy" src="assets/img/hero.webp" alt="<?= htmlspecialchars($news['title']) ?>" class="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-60">
-                                <?php endif; ?>
-                                
-                                <!-- Gradient overlay for text readability -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/80 to-transparent"></div>
-                                
-                                <div class="relative z-10 p-6 md:p-8">
-                                    <div class="flex items-center gap-3 mb-3">
-                                        <span class="text-xs text-gray-200 font-inter font-medium"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
-                                    </div>
-                                    <h3 class="text-lg md:text-xl font-semibold text-white font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
-                                        <?= htmlspecialchars($news['title']) ?>
-                                    </h3>
-                                    <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-white/90 font-bold text-xs hover:text-yellow-400 transition-colors uppercase tracking-wider gap-1.5 group/btn">
-                                        Read More <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                    </a>
-                                </div>
-                            </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
-                    <!-- Pagination -->
-                    <?php if (count($recentNews) > 1): ?>
-                    <div class="swiper-pagination !bottom-4"></div>
-                    <?php endif; ?>
-                </div>
-            </div>
 
+
+        </div>
+    </div>
+    <!-- Scrolling News Bar -->
+    <div class="absolute bottom-0 left-0 w-full z-40 bg-black/40 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-14 shadow-lg">
+        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center">
+            Latest News
+        </div>
+        
+        <div class="flex-1 overflow-hidden relative flex items-center h-full group">
+            <div class="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] items-center">
+                <?php if(!empty($recentNews)): ?>
+                    <?php 
+                    // Duplicate for seamless infinite scrolling
+                    $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
+                    foreach($tickerNews as $news): 
+                    ?>
+                        <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link">
+                            <?= htmlspecialchars($news['title']) ?>
+                            <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                        <span class="w-1 h-1 rounded-full bg-white/30 mx-2"></span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <span class="text-gray-300 mx-8 font-inter text-sm">No recent news available.</span>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var swiper = new Swiper(".heroSwiper", {
-            spaceBetween: 20,
-            loop: <?= count($recentNews) > 1 ? 'true' : 'false' ?>,
-            autoplay: <?= count($recentNews) > 1 ? '{
-                delay: 5000,
-                disableOnInteraction: false,
-            }' : 'false' ?>,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-        });
-    });
-</script>
 <style>
-    .heroSwiper .swiper-pagination-bullet {
-        background: white;
-        opacity: 0.4;
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-25%); } 
     }
-    .heroSwiper .swiper-pagination-bullet-active {
-        background: #FBBF24;
-        opacity: 1;
+    .animate-marquee {
+        animation: marquee 40s linear infinite;
+        will-change: transform;
     }
 </style>
 
@@ -170,30 +175,29 @@ include 'includes/header.php';
 <div class="bg-secondary text-white py-10 relative z-20">
     <div class="container mx-auto px-4 md:px-16 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-white/20">
-            <div class="px-4 stat-box notranslate" data-target="6.2" data-suffix="M+" data-multiplier="1">
+            <?php 
+            $orderedKeys = ['ilo_conventions', 'labour_acts', 'affiliated_institutions', 'total_visitors'];
+            foreach ($orderedKeys as $key): 
+                $stat = $stats[$key];
+                $label = $stat['stat_label'];
+                if ($current_lang === 'si' && !empty($stat['stat_label_si'])) {
+                    $label = $stat['stat_label_si'];
+                } elseif ($current_lang === 'ta' && !empty($stat['stat_label_ta'])) {
+                    $label = $stat['stat_label_ta'];
+                }
+                
+                $isLink = ($key === 'affiliated_institutions');
+                $elTag = $isLink ? 'a' : 'div';
+                $linkHref = $isLink ? ' href="#affiliated-institutions"' : '';
+                $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 block' : '';
+            ?>
+            <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
                 <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
-                        class="stat-number">0</span>M+</div>
+                        class="stat-number">0</span><?= htmlspecialchars($stat['stat_suffix']) ?></div>
                 <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
-                    Workers Protected</div>
-            </div>
-            <div class="px-4 stat-box notranslate" data-target="32" data-suffix="+">
-                <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
-                        class="stat-number">0</span>+</div>
-                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
-                    Labour Acts Enforced</div>
-            </div>
-            <div class="px-4 stat-box notranslate" data-target="14">
-                <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
-                        class="stat-number">0</span></div>
-                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
-                    Affiliated Institutions</div>
-            </div>
-            <div class="px-4 stat-box notranslate" data-target="1250">
-                <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
-                        class="stat-number">0</span></div>
-                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
-                    Total Visitors</div>
-            </div>
+                    <?= htmlspecialchars($label) ?></div>
+            </<?= $elTag ?>>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
@@ -282,7 +286,7 @@ include 'includes/header.php';
                 </a>
  
                 <!-- Card 3: Learning Platforms -->
-                <a href="learning-platforms-local" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="learning-platforms" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

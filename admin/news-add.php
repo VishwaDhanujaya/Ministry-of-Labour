@@ -15,7 +15,7 @@ if (isset($_GET['delete_image']) && isset($_GET['id'])) {
     $img_id = (int)$_GET['delete_image'];
     $article_id = (int)$_GET['id'];
     
-    $stmt = $pdo->prepare("SELECT image_path FROM article_images WHERE id = ? AND article_id = ?");
+    $stmt = $pdo->prepare("SELECT image_path FROM news_images WHERE id = ? AND news_id = ?");
     $stmt->execute([$img_id, $article_id]);
     $img = $stmt->fetch();
     
@@ -23,7 +23,7 @@ if (isset($_GET['delete_image']) && isset($_GET['id'])) {
         if (file_exists($img['image_path'])) {
             unlink($img['image_path']);
         }
-        $pdo->prepare("DELETE FROM article_images WHERE id = ?")->execute([$img_id]);
+        $pdo->prepare("DELETE FROM news_images WHERE id = ?")->execute([$img_id]);
         header("Location: news-add?id=" . $article_id . "&success=image_deleted");
         exit;
     }
@@ -46,7 +46,7 @@ if (isset($_GET['delete_draft'])) {
         unlink($art['cover_image']);
     }
     
-    $imgStmt = $pdo->prepare("SELECT image_path FROM article_images WHERE article_id = ?");
+    $imgStmt = $pdo->prepare("SELECT image_path FROM news_images WHERE news_id = ?");
     $imgStmt->execute([$del_id]);
     while ($img = $imgStmt->fetch()) {
         if (!empty($img['image_path']) && file_exists($img['image_path'])) {
@@ -72,7 +72,7 @@ if (isset($_GET['id'])) {
     }
     
     // Fetch additional images
-    $imgStmt = $pdo->prepare("SELECT * FROM article_images WHERE article_id = ?");
+    $imgStmt = $pdo->prepare("SELECT * FROM news_images WHERE news_id = ?");
     $imgStmt->execute([$id]);
     $article_images = $imgStmt->fetchAll();
 }
@@ -85,7 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content']);
     $content_si = trim($_POST['content_si'] ?? '');
     $content_ta = trim($_POST['content_ta'] ?? '');
-    $visibility = $_POST['visibility'] ?? 'public';
+    $category = $_POST['category'] ?? 'Media';
+    $visibility = strtolower($_POST['visibility'] ?? 'public');
     $is_featured = ($_POST['is_featured'] ?? 'no') === 'yes' ? 1 : 0;
     
     // Check which button was clicked
@@ -120,12 +121,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($error)) {
         try {
             if ($article) {
-                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
                 $article_id = $article['id'];
             } else {
-                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
                 $article_id = $pdo->lastInsertId();
             }
 
@@ -146,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $uploadResult = handleFileUpload($file, 'uploads/news');
                             if ($uploadResult['success']) {
                                 $imgPath = $uploadResult['path'];
-                                $imgStmt = $pdo->prepare("INSERT INTO article_images (article_id, image_path) VALUES (?, ?)");
+                                $imgStmt = $pdo->prepare("INSERT INTO news_images (news_id, image_path) VALUES (?, ?)");
                                 $imgStmt->execute([$article_id, $imgPath]);
                             }
                         }
@@ -188,16 +189,7 @@ include 'includes/header.php';
             </a>
         </div>
 
-        <?php if (!empty($error)): ?>
-            <div class="mb-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-medium">
-                <?= htmlspecialchars($error) ?>
-            </div>
-        <?php endif; ?>
-        <?php if (!empty($success)): ?>
-            <div class="mb-6 p-4 rounded-lg bg-green-50 border border-green-200 text-green-600 text-sm font-medium">
-                <?= htmlspecialchars($success) ?>
-            </div>
-        <?php endif; ?>
+
 
         <form action="" method="POST" enctype="multipart/form-data" class="js-validate-form js-reset-on-success">
             <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
@@ -205,60 +197,74 @@ include 'includes/header.php';
                 <!-- Left Column: Main Form (Col 2) -->
                 <div class="lg:col-span-2 space-y-6">
                     
-                    <!-- Article Title -->
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-[13px] font-semibold text-gray-800">News Title (English) <span class="text-red-500">*</span></label>
-                            <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-                                Auto Translate Title
-                            </button>
-                        </div>
-                        <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter news headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                    <!-- Language Tabs -->
+                    <div class="flex space-x-1 border-b border-gray-200 mb-6">
+                        <button type="button" class="lang-tab-btn active px-6 py-3 text-[13px] font-bold border-b-2 border-[#4E0000] text-[#4E0000] transition-colors focus:outline-none" data-target="lang-en">
+                            English
+                        </button>
+                        <button type="button" class="lang-tab-btn px-6 py-3 text-[13px] font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors focus:outline-none" data-target="lang-si">
+                            Sinhala
+                        </button>
+                        <button type="button" class="lang-tab-btn px-6 py-3 text-[13px] font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors focus:outline-none" data-target="lang-ta">
+                            Tamil
+                        </button>
                     </div>
 
-                    <!-- Translated Titles -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                    <!-- English Tab -->
+                    <div id="lang-en" class="lang-tab-content block">
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-[13px] font-semibold text-gray-800">News Title (English) <span class="text-red-500">*</span></label>
+                                    <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                        Auto Translate Title
+                                    </button>
+                                </div>
+                                <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter news headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span class="text-red-500">*</span></label>
+                                    <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                        Auto Translate Body
+                                    </button>
+                                </div>
+                                <input type="hidden" name="content" id="content_en_input">
+                                <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
+                                    <div id="content_en" style="height: 300px;"><?= $article ? $article['content'] : '' ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sinhala Tab -->
+                    <div id="lang-si" class="lang-tab-content hidden space-y-6">
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Title (Sinhala)</label>
-                            <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Sinhala)</label>
+                            <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
-                        <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Title (Tamil)</label>
-                            <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-900 placeholder-gray-400">
-                        </div>
-                    </div>
-
-
-                    <!-- Full Article Body -->
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span class="text-red-500">*</span></label>
-                            <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
-                                Auto Translate Body
-                            </button>
-                        </div>
-                        <input type="hidden" name="content" id="content_en_input">
-                        <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
-                            <div id="content_en" style="height: 250px;"><?= $article ? $article['content'] : '' ?></div>
-                        </div>
-                    </div>
-
-                    <!-- Translated Bodies -->
-                    <div class="space-y-6 mt-6">
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Sinhala)</label>
                             <input type="hidden" name="content_si" id="content_si_input">
                             <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
-                                <div id="content_si" style="height: 200px;"><?= $article && isset($article['content_si']) ? $article['content_si'] : '' ?></div>
+                                <div id="content_si" style="height: 300px;"><?= $article && isset($article['content_si']) ? $article['content_si'] : '' ?></div>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Tamil Tab -->
+                    <div id="lang-ta" class="lang-tab-content hidden space-y-6">
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Tamil)</label>
+                            <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Tamil)</label>
                             <input type="hidden" name="content_ta" id="content_ta_input">
                             <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
-                                <div id="content_ta" style="height: 200px;"><?= $article && isset($article['content_ta']) ? $article['content_ta'] : '' ?></div>
+                                <div id="content_ta" style="height: 300px;"><?= $article && isset($article['content_ta']) ? $article['content_ta'] : '' ?></div>
                             </div>
                         </div>
                     </div>
@@ -313,7 +319,7 @@ include 'includes/header.php';
                                 <?php foreach($article_images as $img): ?>
                                     <div class="relative group">
                                         <img loading="lazy" src="<?= htmlspecialchars($img['image_path']) ?>" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm">
-                                        <a href="news-add?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Delete this image?')" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <a href="news-add?id=<?= $article['id'] ?>&delete_image=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Delete this image?" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                         </a>
                                     </div>
@@ -323,21 +329,26 @@ include 'includes/header.php';
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center pt-4">
+                    <div class="sticky bottom-4 z-50 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-200 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8">
                         <div>
                             <?php if ($article): ?>
-                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this news item?');" class="w-full sm:w-auto px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center justify-center">
+                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center justify-center">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     Delete
                                 </a>
                             <?php endif; ?>
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white text-center flex items-center justify-center">
+                                Cancel
+                            </a>
+                            <?php if (!$article || $article['status'] === 'Draft'): ?>
                             <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white">
-                                Save as Draft
+                                <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
-                            <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-6 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors">
-                                Publish News
+                            <?php endif; ?>
+                            <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-md">
+                                <?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?>
                             </button>
                         </div>
                     </div>
@@ -352,13 +363,26 @@ include 'includes/header.php';
                         <h3 class="font-medium text-[15px]">Publish Options</h3>
                     </div>
                     <div class="p-6 space-y-6">
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Category <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <select name="category" id="category-select" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer" required>
+                                    <option value="" disabled <?= !$article ? 'selected' : '' ?>>Select Category</option>
+                                    <option value="Media" <?= ($article && $article['category'] === 'Media') ? 'selected' : '' ?>>Media</option>
+                                    <option value="Notices" <?= ($article && $article['category'] === 'Notices') ? 'selected' : '' ?>>Notices</option>
+                                </select>
+                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+
                         <!-- Visibility -->
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">Visibility <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <select name="visibility" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
-                                    <option value="Public" <?= ($article && $article['visibility'] === 'public') ? 'selected' : '' ?>>Public</option>
-                                    <option value="Private" <?= ($article && $article['visibility'] === 'private') ? 'selected' : '' ?>>Private</option>
+                                    <option value="public" <?= ($article && $article['visibility'] === 'public') ? 'selected' : '' ?>>Public</option>
+                                    <option value="private" <?= ($article && $article['visibility'] === 'private') ? 'selected' : '' ?>>Private</option>
                                 </select>
                                 <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
@@ -397,7 +421,7 @@ include 'includes/header.php';
                                         <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
                                     </div>
                                 </a>
-                                <a href="news-add?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="return confirm('Are you sure you want to delete this draft?');" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
+                                <a href="news-add?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this draft?" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -433,18 +457,19 @@ include 'includes/header.php';
         const quillTa = new Quill('#content_ta', quillOptions);
 
         // Sync Quill content to hidden inputs on form submit
+        window.syncQuillToHidden = function() {
+            const enHtml = quillEn.root.innerHTML;
+            const siHtml = quillSi.root.innerHTML;
+            const taHtml = quillTa.root.innerHTML;
+            
+            document.getElementById('content_en_input').value = (enHtml === '<p><br></p>') ? '' : enHtml;
+            document.getElementById('content_si_input').value = (siHtml === '<p><br></p>') ? '' : siHtml;
+            document.getElementById('content_ta_input').value = (taHtml === '<p><br></p>') ? '' : taHtml;
+        };
+
         const form = document.querySelector('.js-validate-form');
         if (form) {
-            form.addEventListener('submit', function() {
-                // Only save if it's not totally empty (Quill default empty is <p><br></p>)
-                const enHtml = quillEn.root.innerHTML;
-                const siHtml = quillSi.root.innerHTML;
-                const taHtml = quillTa.root.innerHTML;
-                
-                document.getElementById('content_en_input').value = (enHtml === '<p><br></p>') ? '' : enHtml;
-                document.getElementById('content_si_input').value = (siHtml === '<p><br></p>') ? '' : siHtml;
-                document.getElementById('content_ta_input').value = (taHtml === '<p><br></p>') ? '' : taHtml;
-            });
+            form.addEventListener('submit', window.syncQuillToHidden);
         }
         </script>
 <script>
@@ -500,6 +525,38 @@ async function translateText(text, fromLang, toLang) {
     const data = await res.json();
     return data[0].map(x => x[0]).join('');
 }
+
+// Tab Switching Logic
+document.addEventListener('DOMContentLoaded', function() {
+    const tabBtns = document.querySelectorAll('.lang-tab-btn');
+    const tabContents = document.querySelectorAll('.lang-tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active classes from all buttons
+            tabBtns.forEach(b => {
+                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]');
+                b.classList.add('border-transparent', 'text-gray-500');
+            });
+            // Add active class to clicked button
+            btn.classList.add('active', 'border-[#4E0000]', 'text-[#4E0000]');
+            btn.classList.remove('border-transparent', 'text-gray-500');
+
+            // Hide all contents
+            tabContents.forEach(c => {
+                c.classList.add('hidden');
+                c.classList.remove('block');
+            });
+
+            // Show target content
+            const target = document.getElementById(btn.dataset.target);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+            }
+        });
+    });
+});
 
 async function autoTranslateTitle() {
     const titleEn = document.getElementById('title_en').value;

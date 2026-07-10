@@ -437,30 +437,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.getElementById('toast-container');
         const toastEl = document.createElement('div');
         
-        let bgClass = type === 'success' ? 'from-primary to-[#1a3656]' : (type === 'error' ? 'from-red-600 to-red-800' : 'from-gray-700 to-gray-900');
-        toastEl.className = `bg-gradient-to-r text-white py-3.5 px-6 rounded-xl shadow-2xl border border-white/10 opacity-0 translate-y-4 transition-all duration-500 z-50 flex items-center gap-3 ${bgClass}`;
+        const statusColors = {
+            success: {
+                bg: 'bg-green-500/10 border-green-500/20 text-green-400',
+                bar: 'bg-green-500',
+                icon: `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
+            },
+            error: {
+                bg: 'bg-red-500/10 border-red-500/20 text-red-400',
+                bar: 'bg-red-500',
+                icon: `<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`
+            },
+            info: {
+                bg: 'bg-[#4E0000]/10 border-[#4E0000]/20 text-red-300',
+                bar: 'bg-[#4E0000]',
+                icon: `<svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+            }
+        };
         
-        let iconHtml = type === 'success' ? 
-            `<svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>` : 
-            `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`;
-
+        const config = statusColors[type] || statusColors.info;
+        
+        toastEl.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] text-white text-[13px] font-semibold transform transition-all duration-300 translate-y-10 opacity-0 bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full z-50`;
+        
         toastEl.innerHTML = `
-            <div class="w-7 h-7 bg-white/10 rounded-full flex items-center justify-center shrink-0">
-                ${iconHtml}
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config.bg} border">
+                ${config.icon}
             </div>
-            <span class="font-inter text-sm font-semibold">${message}</span>
+            <div class="flex-1 text-gray-100 font-inter leading-snug">${message}</div>
+            <button type="button" onclick="this.parentElement.remove()" class="absolute top-1/2 -translate-y-1/2 right-3 text-white/40 hover:text-white transition-colors focus:outline-none p-1 rounded-md hover:bg-white/5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="absolute bottom-0 left-0 h-1 transition-all duration-[3000ms] ease-linear w-full ${config.bar}" style="width: 100%" id="toast-progress"></div>
         `;
         
         container.appendChild(toastEl);
         
         setTimeout(() => {
-            toastEl.classList.remove('translate-y-4', 'opacity-0');
+            toastEl.classList.remove('translate-y-10', 'opacity-0');
+            const progress = toastEl.querySelector('#toast-progress');
+            if (progress) progress.style.width = '0%';
         }, 10);
         
         setTimeout(() => {
-            toastEl.classList.add('translate-y-4', 'opacity-0');
-            setTimeout(() => toastEl.remove(), 500);
-        }, 3500);
+            toastEl.classList.add('translate-y-10', 'opacity-0');
+            setTimeout(() => toastEl.remove(), 300);
+        }, 3000);
     };
 
     // ==========================================
@@ -703,4 +724,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
 

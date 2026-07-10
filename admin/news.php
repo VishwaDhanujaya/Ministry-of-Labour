@@ -116,7 +116,7 @@ include 'includes/header.php';
                     </tr>
                     <?php else: ?>
                     <?php foreach ($newsList as $news): ?>
-                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
+                    <tr class="hover:bg-[#F8FAFC] transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
                         <td class="py-5 px-6">
                             <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
                                 <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
@@ -169,12 +169,12 @@ include 'includes/header.php';
                         <td class="py-5 px-6">
                             <div class="flex flex-col gap-1.5 items-start">
                                 <?php if ($news['status'] === 'Published'): ?>
-                                <span class="px-3 py-1 rounded bg-[#EDF7F4] text-[#166952] text-[11px] font-bold">Published</span>
+                                <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
                                 <?php else: ?>
-                                <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
+                                <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
                                 <?php endif; ?>
                                 
-                                <span class="px-3 py-1 rounded <?= strtolower($news['visibility']) === 'public' ? 'bg-[#EFF3F8] text-[#294B73]' : 'bg-[#F4F4F5] text-[#45454E]' ?> text-[11px] font-bold">
+                                <span class="px-2.5 py-1 rounded-md <?= strtolower($news['visibility']) === 'public' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-50 text-gray-700 border border-gray-200' ?> text-[11px] font-bold shadow-sm">
                                     <?= htmlspecialchars(ucfirst($news['visibility'] ?? 'Public')) ?>
                                 </span>
                             </div>
@@ -184,7 +184,7 @@ include 'includes/header.php';
                                 <a href="news-add?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 </a>
-                                <a href="news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation(); return confirm('Are you sure you want to delete this news item?');" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                <a href="news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this news item?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -201,17 +201,20 @@ include 'includes/header.php';
 <!-- Preview Modal -->
 <div id="preview-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="hidePreviewModal()"></div>
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col">
-        <div class="flex justify-between items-start mb-4">
-            <h3 id="preview-title" class="text-xl font-bold font-montserrat text-gray-900"></h3>
-            <button onclick="hidePreviewModal()" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl p-0 transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col overflow-hidden">
+        <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50">
+            <h3 id="preview-title" class="text-lg font-bold font-montserrat text-gray-900 truncate pr-4"></h3>
+            <button onclick="hidePreviewModal()" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none p-1 rounded-md hover:bg-gray-200">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
-        <div id="preview-content-container" class="text-[14px] text-gray-700 overflow-y-auto pr-2 mb-6 flex-1"></div>
-        <div class="flex justify-end gap-3 pt-4 border-t border-gray-100 shrink-0">
-            <a id="preview-edit-btn" href="#" class="px-5 py-2 bg-gray-100 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-200 transition-colors">Edit</a>
-            <a id="preview-delete-btn" href="#" onclick="return confirm('Are you sure you want to delete this?');" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors">Delete</a>
+        <div id="preview-content-container" class="text-[14px] text-gray-700 overflow-y-auto p-6 md:p-8 flex-1 prose max-w-none"></div>
+        <div class="flex justify-between items-center p-5 border-t border-gray-100 bg-gray-50 shrink-0">
+            <span class="text-xs text-gray-500 font-medium">Quick Preview</span>
+            <div class="flex gap-3">
+                <a id="preview-edit-btn" href="#" class="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">Edit News</a>
+                <a id="preview-delete-btn" href="#" data-confirm="Are you sure you want to delete this?" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors shadow-sm">Delete</a>
+            </div>
         </div>
     </div>
 </div>
