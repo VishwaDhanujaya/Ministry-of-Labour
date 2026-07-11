@@ -76,6 +76,7 @@ include 'includes/header.php';
                     <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Status</option>
                         <option value="Published">Published</option>
+                        <option value="Pending Approval">Pending Approval</option>
                         <option value="Draft">Draft</option>
                     </select>
                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -167,9 +168,11 @@ include 'includes/header.php';
                         <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
                         <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
                         <td class="py-5 px-6">
-                            <div class="flex flex-col gap-1.5 items-start">
+                            <div class="flex flex-wrap items-center gap-1.5">
                                 <?php if ($news['status'] === 'Published'): ?>
                                 <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
+                                <?php elseif ($news['status'] === 'Pending Approval'): ?>
+                                <span class="px-2.5 py-1 rounded-md bg-yellow-50 text-yellow-700 border border-yellow-200 text-[11px] font-bold shadow-sm">Pending Approval</span>
                                 <?php else: ?>
                                 <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
                                 <?php endif; ?>

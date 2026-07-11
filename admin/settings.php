@@ -75,16 +75,7 @@ include 'includes/header.php';
             <div class="mb-14">
                 <h3 class="text-2xl font-bold font-montserrat text-gray-900 mb-6">Account Settings</h3>
                 
-                <?php if ($error): ?>
-                    <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6 text-sm font-inter">
-                        <?= htmlspecialchars($error) ?>
-                    </div>
-                <?php endif; ?>
-                <?php if ($success): ?>
-                    <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6 text-sm font-inter">
-                        <?= htmlspecialchars($success) ?>
-                    </div>
-                <?php endif; ?>
+
 
                 <form action="" method="POST" class="js-validate-form space-y-8">
                         <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">

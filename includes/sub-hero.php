@@ -6,7 +6,7 @@
     </div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-semibold font-montserrat mb-4 leading-none tracking-tighter <?php echo isset($title_classes) ? $title_classes : ''; ?>">
+        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold font-montserrat mb-4 leading-none tracking-tighter <?php echo isset($title_classes) ? $title_classes : ''; ?>">
             <?php echo isset($page_title) ? $page_title : 'Ministry of Labour'; ?>
         </h1>
         <div class="flex items-center text-[13px] md:text-sm font-inter text-gray-300">

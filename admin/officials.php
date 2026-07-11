@@ -396,6 +396,11 @@ function closeModal() {
 // API Calls
 async function saveOfficial(e) {
     e.preventDefault();
+    
+    if (typeof window.validateForm === 'function' && !window.validateForm(e.target)) {
+        return;
+    }
+    
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.textContent = 'Saving...';

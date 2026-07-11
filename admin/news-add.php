@@ -90,7 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $is_featured = ($_POST['is_featured'] ?? 'no') === 'yes' ? 1 : 0;
     
     // Check which button was clicked
-    $status = isset($_POST['save_draft']) ? 'Draft' : 'Published';
+    if (isset($_POST['save_draft'])) {
+        $status = 'Draft';
+    } elseif (isset($_POST['submit_approval'])) {
+        $status = 'Pending Approval';
+    } else {
+        $status = hasPermission('approve_news') ? 'Published' : 'Pending Approval';
+    }
 
     // File upload logic
     $cover_image = $article ? $article['cover_image'] : null;
@@ -131,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($success_db) {
-                $success = "News item " . ($status === 'Draft' ? "saved as draft." : "published successfully.");
+                $success = "News item " . ($status === 'Draft' ? "saved as draft." : ($status === 'Pending Approval' ? "submitted for approval." : "published successfully."));
                 
                 // Handle multiple images
                 if (isset($_FILES['additional_images'])) {
@@ -343,14 +349,20 @@ include 'includes/header.php';
                             <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white text-center flex items-center justify-center">
                                 Cancel
                             </a>
-                            <?php if (!$article || $article['status'] === 'Draft'): ?>
+                            <?php if (!$article || $article['status'] === 'Draft' || $article['status'] === 'Pending Approval'): ?>
                             <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white">
                                 <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
                             <?php endif; ?>
+                            <?php if (hasPermission('approve_news')): ?>
                             <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-md">
                                 <?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?>
                             </button>
+                            <?php else: ?>
+                            <button type="submit" name="submit_approval" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-md">
+                                <?= $article && $article['status'] === 'Pending Approval' ? 'Update Request' : 'Submit for Approval' ?>
+                            </button>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -630,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function autoTranslateTitle() {
     const titleEn = document.getElementById('title_en').value;
     if (!titleEn) {
-        alert('Please enter English title to translate.');
+        showToast('Please enter an English title to translate.', 'warning');
         return;
     }
 
@@ -646,7 +658,7 @@ async function autoTranslateTitle() {
         const titleTa = await translateText(titleEn, 'en', 'ta');
         document.getElementById('title_ta').value = titleTa;
     } catch (err) {
-        alert('Title translation failed. Please try again or enter manually.');
+        showToast('Title translation failed. Please try again or enter manually.', 'error');
         console.error(err);
     } finally {
         translateBtn.innerHTML = originalText;
@@ -657,7 +669,7 @@ async function autoTranslateTitle() {
 async function autoTranslateBody() {
     const contentEn = quillEn.getText().trim();
     if (!contentEn) {
-        alert('Please enter English content to translate.');
+        showToast('Please enter English content to translate.', 'warning');
         return;
     }
 
@@ -673,7 +685,7 @@ async function autoTranslateBody() {
         const contentTa = await translateText(contentEn, 'en', 'ta');
         quillTa.setText(contentTa + '\n');
     } catch (err) {
-        alert('Body translation failed. Please try again or enter manually.');
+        showToast('Body translation failed. Please try again or enter manually.', 'error');
         console.error(err);
     } finally {
         translateBtn.innerHTML = originalText;

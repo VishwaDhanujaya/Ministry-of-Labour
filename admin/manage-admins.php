@@ -3,9 +3,7 @@ require_once 'includes/db.php';
 require_once 'includes/auth.php';
 requireLogin();
 
-if (!isSuperAdmin()) {
-    die("Access Denied.");
-}
+requirePermission('manage_users');
 
 $current_page = "manage-admins";
 $error = '';
@@ -129,8 +127,8 @@ include 'includes/header.php';
                     <svg class="w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                     <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
                         <option value="">All Roles</option>
-                        <option value="Super Admin">Super Admin</option>
-                        <option value="Admin">Admin</option>
+                        <option value="Executive Officer">Executive Officer</option>
+                        <option value="Content Editor">Content Editor</option>
                     </select>
                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
@@ -174,18 +172,18 @@ include 'includes/header.php';
                                 <div class="flex items-center">
                                     <?php 
                                     $roleColor = 'bg-gray-800';
-                                    if ($adm['role'] === 'super_admin') $roleColor = 'bg-[#320000]';
-                                    elseif ($adm['role'] === 'admin') $roleColor = 'bg-[#13273F]';
+                                    if ($adm['role'] === 'executive_officer') $roleColor = 'bg-[#320000]';
+                                    elseif ($adm['role'] === 'content_editor') $roleColor = 'bg-[#13273F]';
                                     ?>
                                     <div class="w-8 h-8 rounded-full <?= $roleColor ?> text-white flex items-center justify-center font-bold text-xs mr-3"><?= htmlspecialchars(getInitials($adm['name'])) ?></div>
                                     <p class="text-[13px] font-medium text-gray-900"><?= htmlspecialchars($adm['name']) ?></p>
                                 </div>
                             </td>
                             <td class="py-4 px-6">
-                                <?php if ($adm['role'] === 'super_admin'): ?>
-                                <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#13273F] text-white">Super Admin</span>
+                                <?php if ($adm['role'] === 'executive_officer'): ?>
+                                <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#13273F] text-white">Executive Officer</span>
                                 <?php else: ?>
-                                <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-gray-200 text-gray-800">Admin</span>
+                                <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-gray-200 text-gray-800">Content Editor</span>
                                 <?php endif; ?>
                             </td>
                             <td class="py-4 px-6 text-[13px] text-gray-600"><?= htmlspecialchars($adm['email']) ?></td>
@@ -249,8 +247,8 @@ include 'includes/header.php';
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Role</label>
                                 <div class="relative">
                                     <select name="role" id="adminRole" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer transition-shadow">
-                                        <option value="super_admin">Super Admin</option>
-                                        <option value="admin">Admin</option>
+                                        <option value="executive_officer">Executive Officer</option>
+                                        <option value="content_editor">Content Editor</option>
                                     </select>
                                     <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
@@ -296,7 +294,7 @@ include 'includes/header.php';
             
             document.getElementById('adminName').value = '';
             document.getElementById('adminEmail').value = '';
-            document.getElementById('adminRole').value = 'super_admin';
+            document.getElementById('adminRole').value = 'executive_officer';
             document.getElementById('adminPassword').value = '';
             document.getElementById('adminConfirmPassword').value = '';
             

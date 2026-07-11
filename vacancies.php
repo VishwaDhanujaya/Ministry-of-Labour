@@ -28,7 +28,7 @@ $vacancies = $stmt->fetchAll();
         </div>
 
         <!-- Section Title -->
-        <h2 class="text-[20px] font-medium font-montserrat text-primary mb-4">Job Vacancies & Opportunities</h2>
+        <h2 class="text-lg md:text-[20px] font-medium font-montserrat text-primary mb-4">Job Vacancies & Opportunities</h2>
 
         <!-- Table -->
         <div class="bg-white rounded-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border-[0.5px] border-[#E5E7EB] overflow-hidden mb-12">

@@ -21,6 +21,10 @@ if (isLoggedIn()) {
 
 $error = '';
 
+if (isset($_GET['timeout'])) {
+    $error = "You have been logged out due to inactivity.";
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -192,6 +196,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof window.showToast === 'function') {
                 window.showToast(<?= json_encode($error) ?>, 'error');
+                
+                // Clean up URL parameters without refreshing
+                const url = new URL(window.location);
+                if (url.searchParams.has('timeout')) {
+                    url.searchParams.delete('timeout');
+                    window.history.replaceState({}, '', url);
+                }
             }
         });
         <?php endif; ?>

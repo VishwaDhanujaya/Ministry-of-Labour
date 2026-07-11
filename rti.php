@@ -66,68 +66,64 @@ $rti_texts = [
     ]
 ];
 
+require_once 'admin/includes/db.php';
+
+$rti_division = $pdo->query("SELECT id FROM divisions WHERE slug = 'rti-officers'")->fetchColumn();
+$rti_officers_raw = [];
+if ($rti_division) {
+    $stmt = $pdo->prepare("SELECT * FROM officials WHERE division_id = ? AND is_active = 1 ORDER BY sort_order ASC, id ASC");
+    $stmt->execute([$rti_division]);
+    $rti_officers_raw = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 $officers_list = [
-    'designated' => [
-        'en' => [
-            'name' => 'Mr. Lal Samarasekara',
-            'designation' => 'Additional Secretary (Development)',
-            'address' => 'Ministry of Labour, 6th Floor, "Mehewara Piyesa", Narahenpita, Colombo 05',
-            'tel' => '+94 11 258 6337',
-        ],
-        'si' => [
-            'name' => 'ලාල් සමරසේකර මහතා',
-            'designation' => 'අතිරේක ලේකම් (සංවර්ධන)',
-            'address' => 'කම්කරු අමාත්‍යංශය, හයවන මහල, “මෙහෙවර පියෙස”, නාරාහේන්පිට, කොළඹ 05',
-            'tel' => '011-2586337',
-        ],
-        'ta' => [
-            'name' => 'திரு. லால் சமரசேகர',
-            'designation' => 'மேலதிக செயலாளர் (அபிவிருத்தி)',
-            'address' => 'தோழில் அமைச்சு, 6வது மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05',
-            'tel' => '+94 11 258 6337',
-        ]
-    ],
-    'information' => [
-        'en' => [
-            'name' => 'Mr. P.D. Chandana Pathirage',
-            'designation' => 'Director (Development)',
-            'address' => 'Ministry of Labour, 6th Floor, "Mehewara Piyesa", Narahenpita, Colombo 05',
-            'tel' => '+94 11 250 2807',
-            'fax' => '+94 11 236 8165',
-            'email' => 'dir.dev@labourmin.gov.lk',
-        ],
-        'si' => [
-            'name' => 'පී.ඩී. චන්දන පතිරගේ මහතා',
-            'designation' => 'අධ්‍යක්ෂ (සංවර්ධන)',
-            'address' => 'කම්කරු අමාත්‍යංශය, හයවන මහල, “මෙහෙවර පියෙස”, නාරාහේන්පිට, කොළඹ 05',
-            'tel' => '011-2502807',
-            'fax' => '011-2368165',
-            'email' => 'dir.dev@labourmin.gov.lk',
-        ],
-        'ta' => [
-            'name' => 'திரு. பி.டி. சந்தன பத்திரகே',
-            'designation' => 'பணிப்பாளர் (அபிவிருத்தி)',
-            'address' => 'தோழில் அமைச்சு, 6வது மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05',
-            'tel' => '+94 11 250 2807',
-            'fax' => '+94 11 236 8165',
-            'email' => 'dir.dev@labourmin.gov.lk',
-        ]
-    ],
-    'central' => [
-        'en' => [
-            'name' => 'Mr. W.L.I.N. Senarathna',
-            'designation' => 'Development Officer',
-        ],
-        'si' => [
-            'name' => 'ඩබ්.එල්.අයි.එන්. සේනාරත්න මහතා',
-            'designation' => 'සංවර්ධන නිලධාරී',
-        ],
-        'ta' => [
-            'name' => 'திரு. டபிள்யூ. எல். ஐ. என். சேனாரத்ன',
-            'designation' => 'அபிவிருத்தி அதிகாரி',
-        ]
-    ]
+    'designated' => [],
+    'information' => [],
+    'central' => []
 ];
+
+// Predefined translated addresses
+$ministry_address = [
+    'en' => 'Ministry of Labour, 6th Floor, "Mehewara Piyesa", Narahenpita, Colombo 05',
+    'si' => 'කම්කරු අමාත්‍යංශය, හයවන මහල, “මෙහෙවර පියෙස”, නාරාහේන්පිට, කොළඹ 05',
+    'ta' => 'தோழில் அமைச்சு, 6வது மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05'
+];
+
+foreach ($rti_officers_raw as $officer) {
+    $title_lower = strtolower($officer['title']);
+    $type = 'information';
+    if (strpos($title_lower, 'designated') !== false) {
+        $type = 'designated';
+    } elseif (strpos($title_lower, 'central') !== false) {
+        $type = 'central';
+    }
+    
+    $address = $ministry_address[$current_lang];
+    
+    $officers_list[$type][] = [
+        'name' => $officer['name'],
+        'designation' => $officer['designation'],
+        'address' => $address,
+        'tel' => $officer['phone'],
+        'fax' => $officer['fax'],
+        'email' => $officer['email'],
+    ];
+}
+
+if (!function_exists('get_initials')) {
+    function get_initials($name) {
+        $clean_name = preg_replace('/^(Mr\.|Mrs\.|Ms\.|Dr\.|Prof\.|Rev\.)\s+/i', '', $name);
+        $words = explode(' ', trim($clean_name));
+        $initials = '';
+        foreach ($words as $w) {
+            if (mb_strlen($w) > 0) {
+                $initials .= mb_substr($w, 0, 1);
+                if (mb_strlen($initials) >= 2) break;
+            }
+        }
+        return mb_strtoupper($initials);
+    }
+}
 
 if ($current_lang === 'si') {
     $page_title = 'තොරතුරු දැනගැනීමේ අයිතිය <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(RTI)</span>';
@@ -287,7 +283,7 @@ include 'includes/sub-hero.php';
             <!-- Left Column: Commitment text -->
             <div class="w-full lg:w-1/2" data-aos="fade-right">
                 <span class="section-subtitle"><?= $current_lang === 'si' ? 'විනිවිදභාවය සහ වගවීම' : ($current_lang === 'ta' ? 'வெளிப்படைத்தன்மை & பொறுப்புக்கூறல்' : 'Transparency & Accountability') ?></span>
-                <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6"><?= $current_lang === 'si' ? 'තොරතුරු දැනගැනීමේ අයිතිය' : ($current_lang === 'ta' ? 'தகவல் அறியும் உரிமை' : 'Right to Information') ?></h2>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6"><?= $current_lang === 'si' ? 'තොරතුරු දැනගැනීමේ අයිතිය' : ($current_lang === 'ta' ? 'தகவல் அறியும் உரிமை' : 'Right to Information') ?></h2>
                 <div class="bg-[#FAFAFA] border-l-4 border-secondary p-6 rounded-r-2xl shadow-sm">
                     <p class="text-gray-800 font-inter text-[15px] md:text-[16px] leading-relaxed font-semibold notranslate">
                         <?= htmlspecialchars($rti_texts[$current_lang]['intro']) ?>
@@ -347,147 +343,95 @@ include 'includes/sub-hero.php';
 <section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-200">
     <div class="container mx-auto max-w-5xl">
         <span class="section-subtitle block text-center md:text-left"><?= $current_lang === 'si' ? 'අමාත්‍යාංශ කාර්ය මණ්ඩලය' : ($current_lang === 'ta' ? 'அமைச்சு ஊழியர்கள்' : 'Ministry Officials') ?></span>
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_texts[$current_lang]['officers_title']) ?>
         </h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="100">
-            <!-- Designated Officer Card -->
-            <div class="bg-white rounded-[32px] border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between h-full group">
-                <div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300">
-                            LS
-                        </div>
+            <?php foreach (['designated', 'information', 'central'] as $type): ?>
+                <?php foreach ($officers_list[$type] as $officer): ?>
+                    <div class="bg-white rounded-[32px] border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between h-full group">
                         <div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
-                                <?= htmlspecialchars($rti_texts[$current_lang]['designated_officer']) ?>
-                            </span>
-                            <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate">
-                                <?= htmlspecialchars($officers_list['designated'][$current_lang]['name']) ?>
-                            </h3>
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300">
+                                    <?= htmlspecialchars(get_initials($officer['name'])) ?>
+                                </div>
+                                <div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
+                                        <?= htmlspecialchars($rti_texts[$current_lang][$type . '_officer']) ?>
+                                    </span>
+                                    <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate">
+                                        <?= htmlspecialchars($officer['name']) ?>
+                                    </h3>
+                                </div>
+                            </div>
+                            
+                            <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate">
+                                <?= htmlspecialchars($officer['designation']) ?>
+                            </p>
+                            
+                            <?php if (!empty($officer['address']) || !empty($officer['tel']) || !empty($officer['fax']) || !empty($officer['email'])): ?>
+                            <div class="space-y-4 border-t border-gray-100 pt-6 font-inter text-[13px] text-gray-600">
+                                <?php if (!empty($officer['address'])): ?>
+                                <div class="flex items-start gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400 mt-0.5">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="notranslate leading-relaxed"><?= nl2br(htmlspecialchars($officer['address'])) ?></span>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($officer['tel'])): ?>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                        </svg>
+                                    </div>
+                                    <a href="tel:<?= htmlspecialchars(str_replace(' ', '', $officer['tel'])) ?>" class="hover:text-secondary transition-colors notranslate font-semibold">
+                                        <?= htmlspecialchars($officer['tel']) ?>
+                                    </a>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($officer['fax'])): ?>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="notranslate font-semibold"><?= htmlspecialchars($officer['fax']) ?></span>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($officer['email'])): ?>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <a href="mailto:<?= htmlspecialchars($officer['email']) ?>" class="hover:text-secondary transition-colors notranslate text-xs break-all">
+                                        <?= htmlspecialchars($officer['email']) ?>
+                                    </a>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php elseif ($type === 'central'): ?>
+                            <div class="border-t border-gray-100 pt-6 font-inter text-[13px] text-gray-500">
+                                <p class="leading-relaxed">
+                                    <?= $current_lang === 'si' ? 'කම්කරු අමාත්‍යාංශයේ තොරතුරු දැනගැනීමේ අයදුම්පත් සහ සම්බන්ධීකරණ කටයුතු භාර නිලධාරී.' : ($current_lang === 'ta' ? 'தொழில் அமைச்சின் தகவல் அறியும் விண்ணப்பங்கள் மற்றும் ஒருங்கிணைப்புக்கு பொறுப்பான அதிகாரி.' : 'Responsible for the coordination of RTI applications and processes within the Ministry of Labour.') ?>
+                                </p>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    
-                    <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate">
-                        <?= htmlspecialchars($officers_list['designated'][$current_lang]['designation']) ?>
-                    </p>
-                    
-                    <div class="space-y-4 border-t border-gray-100 pt-6 font-inter text-[13px] text-gray-600">
-                        <div class="flex items-start gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400 mt-0.5">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                            </div>
-                            <span class="notranslate leading-relaxed"><?= htmlspecialchars($officers_list['designated'][$current_lang]['address']) ?></span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                            </div>
-                            <a href="tel:<?= htmlspecialchars(str_replace(' ', '', $officers_list['designated'][$current_lang]['tel'])) ?>" class="hover:text-secondary transition-colors notranslate font-semibold">
-                                <?= htmlspecialchars($officers_list['designated'][$current_lang]['tel']) ?>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Information Officer Card -->
-            <div class="bg-white rounded-[32px] border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between h-full group">
-                <div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300">
-                            CP
-                        </div>
-                        <div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
-                                <?= htmlspecialchars($rti_texts[$current_lang]['information_officer']) ?>
-                            </span>
-                            <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate">
-                                <?= htmlspecialchars($officers_list['information'][$current_lang]['name']) ?>
-                            </h3>
-                        </div>
-                    </div>
-                    
-                    <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate">
-                        <?= htmlspecialchars($officers_list['information'][$current_lang]['designation']) ?>
-                    </p>
-                    
-                    <div class="space-y-4 border-t border-gray-100 pt-6 font-inter text-[13px] text-gray-600">
-                        <div class="flex items-start gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400 mt-0.5">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                            </div>
-                            <span class="notranslate leading-relaxed"><?= htmlspecialchars($officers_list['information'][$current_lang]['address']) ?></span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                            </div>
-                            <a href="tel:<?= htmlspecialchars(str_replace(' ', '', $officers_list['information'][$current_lang]['tel'])) ?>" class="hover:text-secondary transition-colors notranslate font-semibold">
-                                <?= htmlspecialchars($officers_list['information'][$current_lang]['tel']) ?>
-                            </a>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                                </svg>
-                            </div>
-                            <span class="notranslate font-semibold"><?= htmlspecialchars($officers_list['information'][$current_lang]['fax']) ?></span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center shrink-0 text-gray-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                            <a href="mailto:<?= htmlspecialchars($officers_list['information'][$current_lang]['email']) ?>" class="hover:text-secondary transition-colors notranslate text-xs break-all">
-                                <?= htmlspecialchars($officers_list['information'][$current_lang]['email']) ?>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Central Officer Card -->
-            <div class="bg-white rounded-[32px] border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between h-full group">
-                <div>
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300">
-                            NS
-                        </div>
-                        <div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
-                                <?= htmlspecialchars($rti_texts[$current_lang]['central_officer']) ?>
-                            </span>
-                            <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate">
-                                <?= htmlspecialchars($officers_list['central'][$current_lang]['name']) ?>
-                            </h3>
-                        </div>
-                    </div>
-                    
-                    <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate">
-                        <?= htmlspecialchars($officers_list['central'][$current_lang]['designation']) ?>
-                    </p>
-
-                    <div class="border-t border-gray-100 pt-6 font-inter text-[13px] text-gray-500">
-                        <p class="leading-relaxed">
-                            <?= $current_lang === 'si' ? 'කම්කරු අමාත්‍යාංශයේ තොරතුරු දැනගැනීමේ අයදුම්පත් සහ සම්බන්ධීකරණ කටයුතු භාර නිලධාරී.' : ($current_lang === 'ta' ? 'தொழில் அமைச்சின் தகவல் அறியும் விண்ணப்பங்கள் மற்றும் ஒருங்கிணைப்புக்கு பொறுப்பான அதிகாரி.' : 'Responsible for the coordination of RTI applications and processes within the Ministry of Labour.') ?>
-                        </p>
-                    </div>
-                </div>
-            </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -496,7 +440,7 @@ include 'includes/sub-hero.php';
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-gray-200">
     <div class="container mx-auto max-w-5xl">
         <span class="section-subtitle block text-center md:text-left"><?= htmlspecialchars($rti_details[$current_lang]['section_subtitle']) ?></span>
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_details[$current_lang]['section_title']) ?>
         </h2>
         

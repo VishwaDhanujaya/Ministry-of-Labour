@@ -29,9 +29,58 @@ function requireLogin() {
     }
 }
 
-function isSuperAdmin() {
+// Auto-migrate legacy or corrupted sessions to executive_officer
+if (isset($_SESSION['admin_role']) && in_array($_SESSION['admin_role'], ['super_admin', 'admin', ''])) {
+    $_SESSION['admin_role'] = 'executive_officer';
+}
+
+// Inactivity check (5 minutes = 300 seconds)
+if (isset($_SESSION['admin_id'])) {
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 300)) {
+        session_unset();
+        session_destroy();
+        $current_script = basename($_SERVER['SCRIPT_NAME']);
+        if ($current_script !== 'login.php' && $current_script !== 'logout.php') {
+            header("Location: login.php?timeout=1");
+            exit;
+        }
+    }
+    $_SESSION['last_activity'] = time();
+}
+
+// Centralized Role Capabilities Mapping
+$role_capabilities = [
+    'executive_officer' => [
+        'manage_users', 'approve_news', 'manage_news', 'manage_bookings',
+        'manage_iau', 'manage_learning', 'manage_procurements',
+        'manage_notices', 'manage_statistics', 'manage_vacancies',
+        'manage_officials', 'manage_settings'
+    ],
+    'content_editor' => [
+        'manage_news'
+    ]
+];
+
+function hasPermission($capability) {
     if (!isLoggedIn()) return false;
-    return ($_SESSION['admin_role'] ?? '') === 'super_admin';
+    global $role_capabilities;
+    $role = $_SESSION['admin_role'] ?? '';
+    if (!isset($role_capabilities[$role])) {
+        return false;
+    }
+    return in_array($capability, $role_capabilities[$role]);
+}
+
+function requirePermission($capability) {
+    if (!hasPermission($capability)) {
+        header("Location: index.php?error=forbidden");
+        exit;
+    }
+}
+
+// Backward-compatible alias
+function isSuperAdmin() {
+    return hasPermission('manage_users');
 }
 
 function getLoggedInAdmin() {
@@ -47,6 +96,7 @@ function loginAdmin($id, $name, $role) {
     $_SESSION['admin_id'] = $id;
     $_SESSION['admin_name'] = $name;
     $_SESSION['admin_role'] = $role;
+    $_SESSION['last_activity'] = time();
 }
 
 function logoutAdmin() {

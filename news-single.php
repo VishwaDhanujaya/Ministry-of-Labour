@@ -71,7 +71,7 @@ include 'includes/sub-hero.php';
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-16">
             <!-- Main Content -->
             <div class="w-full lg:w-2/3">
-                <h2 class="text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight notranslate">
+                <h2 class="text-2xl sm:text-3xl md:text-[38px] font-semibold font-montserrat text-[#2D2D43] mb-6 leading-tight notranslate">
                     <?= htmlspecialchars($article['title']) ?>
                 </h2>
                 

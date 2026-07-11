@@ -137,7 +137,7 @@ include 'includes/header.php';
                 </div>
                 
                 <div class="p-6">
-                    <form id="statForm" action="" method="POST" class="space-y-6">
+                    <form id="statForm" action="" method="POST" class="js-validate-form space-y-6">
                         <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
                         <input type="hidden" name="action" value="edit">
                         <input type="hidden" name="stat_id" id="modalStatId" value="">

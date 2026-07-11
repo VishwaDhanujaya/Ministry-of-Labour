@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (fontResetBtn) {
         fontResetBtn.addEventListener('click', () => {
-            htmlEl.style.fontSize = '16px';
+            htmlEl.style.fontSize = '';
             setActiveFontBtn(fontResetBtn);
         });
     }

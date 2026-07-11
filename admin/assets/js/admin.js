@@ -376,38 +376,17 @@ function initFormValidation() {
                 }
             }
             
-            let isValid = true;
-            const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
-            
-            // Check if the submission was triggered by a button with formnovalidate (like Save as Draft)
+            // Call the globally exportable validation helper
             const skipValidation = e.submitter && e.submitter.hasAttribute('formnovalidate');
-            
-            if (!skipValidation) {
-                // Validate required fields
-                requiredFields.forEach(field => {
-                    if (!field.value.trim()) {
-                        isValid = false;
-                        field.classList.add('border-red-500', 'focus:ring-red-500');
-                    } else {
-                        field.classList.remove('border-red-500', 'focus:ring-red-500');
-                    }
-                });
-                
-                // Special password check for Settings
-                const pwd = form.querySelector('.js-pwd');
-                const pwdConfirm = form.querySelector('.js-pwd-confirm');
-                
-                if (pwd && pwdConfirm && pwd.value !== pwdConfirm.value) {
-                    isValid = false;
-                    pwdConfirm.classList.add('border-red-500');
-                    showToast('Passwords do not match', 'error');
+            if (!window.validateForm(form, skipValidation)) {
+                e.preventDefault();
+                // Reset loading spinners if validation failed
+                const btn = e.submitter || form.querySelector('button[type="submit"]');
+                if (btn && btn.dataset.originalContent) {
+                    btn.innerHTML = btn.dataset.originalContent;
+                    btn.disabled = false;
                 }
-
-                if (!isValid) {
-                    e.preventDefault();
-                    showToast('Please correct errors before submitting', 'error');
-                    return;
-                }
+                return;
             }
             
             // If valid (or validation bypassed), apply loading state to the submit button
@@ -418,6 +397,7 @@ function initFormValidation() {
                 let processingText = "Processing...";
                 if (originalText.toLowerCase() === 'login') processingText = 'Authenticating...';
                 else if (originalText.toLowerCase().includes('save')) processingText = 'Saving...';
+                else if (originalText.toLowerCase().includes('submit')) processingText = 'Submitting...';
                 else if (originalText.toLowerCase().includes('publish')) processingText = 'Publishing...';
 
                 // Save original content in case we need to revert (though usually page reloads)
@@ -444,4 +424,195 @@ function initFormValidation() {
         });
     });
 }
+
+// Global Validation Helper (allows AJAX forms like officials.php to reuse custom validation styles)
+window.validateForm = function(form, skipValidation = false) {
+    let isValid = true;
+    const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+    
+    // Clear any existing custom error messages
+    form.querySelectorAll('.custom-error-msg').forEach(el => el.remove());
+    form.querySelectorAll('.border-red-500').forEach(el => el.classList.remove('border-red-500', 'focus:ring-red-500'));
+
+    if (skipValidation) return true;
+
+    let firstInvalidField = null;
+
+    // Validate required fields
+    requiredFields.forEach(field => {
+        let fieldError = '';
+        
+        // 1. Required Check
+        if (!field.value.trim()) {
+            let label = form.querySelector(`label[for="${field.id}"]`) || field.closest('div')?.querySelector('label');
+            const fieldName = label ? label.textContent.replace('*', '').trim() : 'This field';
+            fieldError = `${fieldName} is required.`;
+        } 
+        // 2. Email format check
+        else if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.value.trim())) {
+            fieldError = 'Please enter a valid email address.';
+        }
+        // 3. Password length check
+        else if (field.type === 'password' && (field.classList.contains('js-pwd') || field.id.includes('Password')) && field.value.length < 6) {
+            fieldError = 'Password must be at least 6 characters.';
+        }
+
+        if (fieldError) {
+            isValid = false;
+            
+            // Handle file inputs that are styled/hidden (e.g. cover image)
+            if (field.type === 'file' && field.classList.contains('sr-only')) {
+                const dropzone = field.closest('.border-dashed');
+                if (dropzone) {
+                    dropzone.classList.add('border-red-500', 'bg-red-50/10');
+                    if (!firstInvalidField) firstInvalidField = dropzone;
+                    
+                    const errorMsg = document.createElement('p');
+                    errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+                    errorMsg.textContent = fieldError;
+                    dropzone.insertAdjacentElement('afterend', errorMsg);
+                }
+            } else {
+                field.classList.add('border-red-500', 'focus:ring-red-500');
+                if (!firstInvalidField) firstInvalidField = field;
+
+                // Add custom error message below field
+                const errorMsg = document.createElement('p');
+                errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold transition-all duration-200';
+                errorMsg.textContent = fieldError;
+                
+                // Insert after the field, or after its relative container if it has a custom icon/wrapper
+                const parent = field.parentElement;
+                if (parent && parent.classList.contains('relative')) {
+                    parent.insertAdjacentElement('afterend', errorMsg);
+                } else {
+                    field.insertAdjacentElement('afterend', errorMsg);
+                }
+            }
+        }
+    });
+
+    // Quill Editor Checks (typically hidden inputs representing rich text)
+    const quillInputs = form.querySelectorAll('#content_en_input, #content_si_input, #content_ta_input');
+    quillInputs.forEach(input => {
+        // Sync Quill editors first
+        if (typeof window.syncQuillToHidden === 'function') {
+            window.syncQuillToHidden();
+        }
+        // Only validate if it's the primary content (English/default)
+        if (input.id === 'content_en_input' && !input.value.trim()) {
+            isValid = false;
+            const quillEditor = form.querySelector('#content_en');
+            if (quillEditor) {
+                const quillContainer = quillEditor.closest('.border');
+                if (quillContainer) {
+                    quillContainer.classList.add('border-red-500');
+                    if (!firstInvalidField) firstInvalidField = quillEditor;
+                    
+                    const errorMsg = document.createElement('p');
+                    errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+                    errorMsg.textContent = 'News Body (English) is required.';
+                    quillContainer.insertAdjacentElement('afterend', errorMsg);
+                }
+            }
+        }
+    });
+
+    // Optional but filled password check (e.g. for edits where password is not required but filled)
+    const optionalPwds = form.querySelectorAll('input[type="password"]:not([required])');
+    optionalPwds.forEach(field => {
+        if (field.value.trim() && field.value.length < 6) {
+            isValid = false;
+            field.classList.add('border-red-500', 'focus:ring-red-500');
+            if (!firstInvalidField) firstInvalidField = field;
+
+            const errorMsg = document.createElement('p');
+            errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+            errorMsg.textContent = 'Password must be at least 6 characters.';
+            
+            const parent = field.parentElement;
+            if (parent && parent.classList.contains('relative')) {
+                parent.insertAdjacentElement('afterend', errorMsg);
+            } else {
+                field.insertAdjacentElement('afterend', errorMsg);
+            }
+        }
+    });
+
+    // Special password confirmation check for Settings / Manage Admins
+    const pwd = form.querySelector('.js-pwd');
+    const pwdConfirm = form.querySelector('.js-pwd-confirm');
+    
+    if (pwd && pwdConfirm && (pwd.value.trim() || pwdConfirm.value.trim()) && pwd.value !== pwdConfirm.value) {
+        isValid = false;
+        pwdConfirm.classList.add('border-red-500');
+        if (!firstInvalidField) firstInvalidField = pwdConfirm;
+
+        const errorMsg = document.createElement('p');
+        errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+        errorMsg.textContent = 'Passwords do not match.';
+        
+        const parent = pwdConfirm.parentElement;
+        if (parent && parent.classList.contains('relative')) {
+            parent.insertAdjacentElement('afterend', errorMsg);
+        } else {
+            pwdConfirm.insertAdjacentElement('afterend', errorMsg);
+        }
+    }
+
+    // Inline dynamic clearing as user types
+    const handleInputClear = (e) => {
+        const field = e.target;
+        field.classList.remove('border-red-500', 'focus:ring-red-500');
+        const container = field.parentElement;
+        const errorSibling = container.classList.contains('relative') ? container.nextElementSibling : field.nextElementSibling;
+        if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+            errorSibling.remove();
+        }
+        
+        // Clear custom file dropzone error
+        if (field.type === 'file') {
+            const dropzone = field.closest('.border-dashed');
+            if (dropzone) {
+                dropzone.classList.remove('border-red-500', 'bg-red-50/10');
+                const dropzoneSibling = dropzone.nextElementSibling;
+                if (dropzoneSibling && dropzoneSibling.classList.contains('custom-error-msg')) {
+                    dropzoneSibling.remove();
+                }
+            }
+        }
+    };
+    
+    // Clear custom Quill error when user types in Quill editor
+    form.querySelectorAll('.ql-editor').forEach(editor => {
+        editor.addEventListener('keyup', () => {
+            const quillContainer = editor.closest('.border');
+            if (quillContainer) {
+                quillContainer.classList.remove('border-red-500');
+                const errorSibling = quillContainer.nextElementSibling;
+                if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+                    errorSibling.remove();
+                }
+            }
+        });
+    });
+    
+    const allFieldsToBind = form.querySelectorAll('input, textarea, select');
+    allFieldsToBind.forEach(field => {
+        field.addEventListener('input', handleInputClear);
+        field.addEventListener('change', handleInputClear);
+    });
+
+    if (!isValid) {
+        showToast('Please correct errors before submitting', 'error');
+        
+        // Scroll to first invalid field smoothly
+        if (firstInvalidField) {
+            firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => firstInvalidField.focus(), 300);
+        }
+    }
+
+    return isValid;
+};
 

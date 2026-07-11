@@ -34,7 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     <?php if (isset($_GET['error'])): ?>
         if (typeof window.showToast === 'function') {
-            window.showToast(<?= json_encode($_GET['error']) ?>, 'error');
+            <?php
+            $error_messages = [
+                'forbidden' => 'You do not have permission to access that page.',
+                'unauthorized' => 'Please log in to continue.',
+            ];
+            $error_key = $_GET['error'];
+            $error_msg = $error_messages[$error_key] ?? $error_key;
+            $error_type = ($error_key === 'forbidden') ? 'warning' : 'error';
+            ?>
+            window.showToast(<?= json_encode($error_msg) ?>, <?= json_encode($error_type) ?>);
             
             // Clean up URL parameters without refreshing
             const url = new URL(window.location);

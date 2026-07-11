@@ -33,7 +33,7 @@ include 'includes/sub-hero.php';
         <!-- Section Title -->
         <div class="text-center mb-12">
             <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter uppercase">Our Blog</p>
-            <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Latest Insights</h2>
+            <h2 class="text-2xl sm:text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Latest Insights</h2>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">

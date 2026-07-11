@@ -98,7 +98,7 @@ include 'includes/header.php';
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
 <!-- Hero Section -->
-<section class="relative min-h-[550px] md:min-h-[650px] xl:min-h-[700px] flex items-center bg-primary overflow-hidden py-16 md:py-20 xl:py-24">
+<section class="relative min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-120px)] flex items-center bg-primary overflow-hidden py-12 md:py-16 xl:py-20">
     <!-- Desktop Hero Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none hidden md:block"
         style="background-image: url('assets/img/hero.webp');"></div>
@@ -113,9 +113,9 @@ include 'includes/header.php';
             <!-- Left Side: Welcome Text (Old design restored) -->
             <div class="max-w-2xl w-full">
                 <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2 text-shadow-premium">Welcome to</h2>
-                <h1 class="text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-6 leading-none tracking-tighter uppercase text-shadow-premium">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-4 md:mb-6 leading-none tracking-tighter uppercase text-shadow-premium">
                     Ministry of Labour</h1>
-                <p class="text-[13px] md:text-base font-inter mb-10 leading-relaxed text-white text-shadow-premium max-w-xl">
+                <p class="text-[13px] md:text-base font-inter mb-6 md:mb-10 leading-relaxed text-white text-shadow-premium max-w-xl">
                     The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
                     building a dynamic workforce that drives Sri Lanka's economic development.
                 </p>
