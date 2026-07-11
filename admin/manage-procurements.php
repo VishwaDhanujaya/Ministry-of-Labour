@@ -206,7 +206,7 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                     <?php if (!empty($proc['pdf_path'])): ?>
                                         <div class="border-t border-gray-100 pt-4 mt-2">
-                                            <a href="<?= htmlspecialchars($proc['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                            <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                                                 View Attached PDF
                                             </a>
@@ -219,7 +219,7 @@ include 'includes/header.php';
                             <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#F3F4F6] text-gray-800 border border-gray-200"><?= htmlspecialchars($proc['category'] ?? 'Notice') ?></span>
                         </td>
                         <td class="py-4 px-6">
-                            <a href="<?= htmlspecialchars($proc['pdf_path']) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
+                            <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
                                 View PDF
                             </a>

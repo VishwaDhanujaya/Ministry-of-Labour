@@ -73,3 +73,53 @@ try {
 
 // Determine current language from cookie for fetching dynamic article content globally
 $current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+
+if (!function_exists('resolvePdfUrl')) {
+    function resolvePdfUrl($path) {
+        if (empty($path) || $path === '#') return '#';
+        $trimmed = ltrim($path, '/');
+        
+        // If it is already fully qualified or external
+        if (strpos($trimmed, 'http://') === 0 || strpos($trimmed, 'https://') === 0) {
+            return $path;
+        }
+        
+        // Since db.php is inside admin/includes/, project root is __DIR__/../..
+        $project_root = str_replace('\\', '/', realpath(__DIR__ . '/../..'));
+        $doc_root = isset($_SERVER['DOCUMENT_ROOT']) ? str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']) : '';
+        
+        // Calculate the web-accessible base directory relative to domain root
+        $base_dir = '';
+        if (!empty($doc_root)) {
+            // Check if project root starts with document root case-insensitively
+            if (stripos($project_root, $doc_root) === 0) {
+                $base_dir = substr($project_root, strlen($doc_root));
+            }
+        } else {
+            // Fallback for CLI execution
+            $base_dir = '/Ministry-of-Labour';
+        }
+        
+        $base_dir = str_replace('\\', '/', $base_dir);
+        $base_dir = '/' . ltrim($base_dir, '/');
+        if ($base_dir === '/') {
+            $base_dir = '';
+        }
+        
+        $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http');
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $base_url = $protocol . '://' . $host . $base_dir . '/';
+        
+        // Check physical file existence relative to project root
+        $file_in_admin = $project_root . '/admin/' . $trimmed;
+        $file_in_root = $project_root . '/' . $trimmed;
+        
+        if (file_exists($file_in_admin)) {
+            return $base_url . 'admin/' . $trimmed;
+        } elseif (file_exists($file_in_root)) {
+            return $base_url . $trimmed;
+        } else {
+            return $base_url . 'admin/' . $trimmed; // fallback
+        }
+    }
+}

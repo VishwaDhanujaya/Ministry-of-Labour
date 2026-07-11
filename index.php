@@ -447,7 +447,7 @@ include 'includes/header.php';
                         <?php foreach($announcements as $notice): 
                             $isVacancy = ($notice['type'] === 'Vacancy');
                             $hasPdf = !empty($notice['pdf_path']) && !$isVacancy;
-                            $btnUrl = $hasPdf ? htmlspecialchars($notice['pdf_path']) : ($isVacancy ? 'vacancies' : 'procurements');
+                            $btnUrl = $hasPdf ? htmlspecialchars(resolvePdfUrl($notice['pdf_path'])) : ($isVacancy ? 'vacancies' : 'procurements');
                             $btnTarget = $hasPdf ? '_blank' : '_self';
                             $btnText = $hasPdf ? 'View PDF' : 'Read More';
                         ?>
