@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Asia/Colombo');
+
 // db.php
 $envPath = __DIR__ . '/../../.env';
 $app_env = 'production'; // Default to production for safety
@@ -75,7 +77,7 @@ try {
 $current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
 
 if (!function_exists('resolvePdfUrl')) {
-    function resolvePdfUrl($path) {
+    function resolvePdfUrl(string $path) {
         if (empty($path) || $path === '#') return '#';
         $trimmed = ltrim($path, '/');
         

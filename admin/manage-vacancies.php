@@ -112,37 +112,7 @@ include 'includes/header.php';
             </div>
         <?php endif; ?>
 
-        <!-- Filter Bar -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="relative flex-1 w-full md:max-w-[50%]">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
-                </span>
-                <input type="text" placeholder="Search by vacancy title..." class="js-table-search bg-slate-50 border border-slate-200/70 text-slate-700 text-[13px] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] block w-full pl-10 pr-4 py-2.5 font-inter transition-all outline-none">
-            </div>
-            
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="relative flex-1 md:w-48">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
-                    </span>
-                    <select class="js-table-filter w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] font-semibold text-slate-700 appearance-none cursor-pointer hover:bg-slate-100/50 transition-colors">
-                        <option value="">All Statuses</option>
-                        <option value="Published">Published</option>
-                        <option value="Draft">Draft</option>
-                    </select>
-                    <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
-                    </span>
-                </div>
-
-                <button class="js-reset-filter px-5 py-2.5 bg-rose-50/50 border border-rose-100/50 rounded-xl text-[12.5px] font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-all shadow-sm">
-                    Reset
-                </button>
-            </div>
-        </div>
-
-        <!-- Table -->
+        <!-- Table with integrated filter bar -->
         <?php
         $headers = [
             ['label' => 'Title', 'class' => ''],
@@ -172,6 +142,14 @@ include 'includes/header.php';
                                     <?= $proc['description'] ?>
                                 </div>
                             <?php endif; ?>
+                            <?php if (!empty($proc['pdf_path'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2">
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        View Attached PDF
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </td>
@@ -199,9 +177,22 @@ include 'includes/header.php';
             'minWidth' => '700px',
             'emptyTitle' => 'No vacancies found',
             'emptySubtitle' => 'There are no vacancies matching your criteria.',
+            'filters' => [
+                'search' => ['placeholder' => 'Search by vacancy title...', 'maxWidth' => '50%'],
+                'filters' => [
+                    [
+                        'icon' => 'status',
+                        'placeholder' => 'All Statuses',
+                        'options' => ['Published' => 'Published', 'Draft' => 'Draft']
+                    ]
+                ],
+                'reset' => true
+            ],
             'pagination' => [
                 'total_items' => count($vacancies),
-                'showing_count' => count($vacancies)
+                'showing_count' => count($vacancies),
+                'per_page' => 10,
+                'enable_paging' => true
             ]
         ]);
         ?>

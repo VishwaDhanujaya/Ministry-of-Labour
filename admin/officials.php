@@ -304,16 +304,20 @@ include 'includes/header.php';
                 
                 <div id="division-select-container">
                     <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Division <span class="text-red-500">*</span></label>
-                    <div class="relative">
-                        <select id="field-division-id" name="division_id" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 appearance-none cursor-pointer pr-10 font-medium">
-                            <?php foreach ($divisions as $div): ?>
-                            <option value="<?= $div['id_db'] ?? $div['id'] ?>"><?= htmlspecialchars($div['title']) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
-                        </span>
-                    </div>
+                    <?php
+                    $divOptions = [];
+                    foreach ($divisions as $div) {
+                        $divOptions[$div['id_db'] ?? $div['id']] = $div['title'];
+                    }
+                    echo renderDropdown([
+                        'id' => 'field-division-id',
+                        'name' => 'division_id',
+                        'options' => $divOptions,
+                        'placeholder' => false,
+                        'context' => 'form',
+                        'width' => 'w-full'
+                    ]);
+                    ?>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

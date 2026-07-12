@@ -266,27 +266,24 @@ include 'includes/header.php';
                         </div>
                         
                         <!-- Bungalow Filter Selector -->
-                        <div class="relative w-full lg:w-72 shrink-0">
-                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
-                            </span>
-                            <select class="js-bungalow-filter w-full max-w-full truncate pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] font-semibold text-slate-700 appearance-none cursor-pointer hover:bg-slate-100/50 transition-all">
-                                <option value="">All Bungalows</option>
-                                <?php
-                                $bungalows = $pdo->query("SELECT DISTINCT bungalow_name FROM bookings ORDER BY bungalow_name")->fetchAll(PDO::FETCH_COLUMN);
-                                foreach($bungalows as $bName) {
-                                    $displayName = $bName;
-                                    if (stripos($bName, 'Bungalow') === false) {
-                                        $displayName .= ' Bungalow';
-                                    }
-                                    echo '<option value="' . htmlspecialchars($bName) . '">' . htmlspecialchars($displayName) . '</option>';
-                                }
-                                ?>
-                            </select>
-                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
-                            </span>
-                        </div>
+                        <?php
+                        $bungalows = $pdo->query("SELECT DISTINCT bungalow_name FROM bookings ORDER BY bungalow_name")->fetchAll(PDO::FETCH_COLUMN);
+                        $bungOptions = [];
+                        foreach($bungalows as $bName) {
+                            $displayName = $bName;
+                            if (stripos($bName, 'Bungalow') === false) {
+                                $displayName .= ' Bungalow';
+                            }
+                            $bungOptions[$bName] = $displayName;
+                        }
+                        echo renderDropdown([
+                            'class' => 'js-bungalow-filter',
+                            'placeholder' => 'All Bungalows',
+                            'options' => $bungOptions,
+                            'icon' => 'home',
+                            'width' => 'w-full lg:w-72 shrink-0'
+                        ]);
+                        ?>
                     </div>
                 </div>
 

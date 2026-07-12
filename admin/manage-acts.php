@@ -136,50 +136,7 @@ include 'includes/header.php';
             </div>
         <?php endif; ?>
 
-        <!-- Filter Bar -->
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div class="relative flex-1 w-full md:max-w-[40%]">
-                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
-                </span>
-                <input type="text" placeholder="Search by title or reference..." class="js-table-search bg-slate-50 border border-slate-200/70 text-slate-700 text-[13px] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] block w-full pl-10 pr-4 py-2.5 font-inter transition-all outline-none">
-            </div>
-            
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="relative flex-1 md:w-44">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.44 1.44 0 002.036 0l4.319-4.319a1.44 1.44 0 000-2.036L10.01 3.659A2.25 2.25 0 008.59 3z"></path></svg>
-                    </span>
-                    <select class="js-table-filter w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] font-semibold text-slate-700 appearance-none cursor-pointer hover:bg-slate-100/50 transition-all">
-                        <option value="">All Categories</option>
-                        <option value="Acts">Acts</option>
-                        <option value="Amendments">Amendments</option>
-                    </select>
-                    <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
-                    </span>
-                </div>
-                <div class="relative flex-1 md:w-44">
-                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" /></svg>
-                    </span>
-                    <select class="js-table-filter w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] font-semibold text-slate-700 appearance-none cursor-pointer hover:bg-slate-100/50 transition-all">
-                        <option value="">All Statuses</option>
-                        <option value="Published">Published</option>
-                        <option value="Draft">Draft</option>
-                    </select>
-                    <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
-                    </span>
-                </div>
-
-                <button class="js-reset-filter px-5 py-2.5 bg-rose-50/50 border border-rose-100/50 rounded-xl text-[12.5px] font-bold text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-all shadow-sm">
-                    Reset
-                </button>
-            </div>
-        </div>
-
-        <!-- Table -->
+        <!-- Table with integrated filter bar -->
         <?php
         $headers = [
             ['label' => 'Title & Ref', 'class' => ''],
@@ -256,12 +213,31 @@ include 'includes/header.php';
             'minWidth' => '900px',
             'emptyTitle' => 'No Acts or Amendments found',
             'emptySubtitle' => 'There are no acts matching your criteria.',
+            'filters' => [
+                'search' => ['placeholder' => 'Search by title or reference...', 'maxWidth' => '40%'],
+                'filters' => [
+                    [
+                        'icon' => 'tag',
+                        'placeholder' => 'All Categories',
+                        'options' => ['Acts' => 'Acts', 'Amendments' => 'Amendments']
+                    ],
+                    [
+                        'icon' => 'filter',
+                        'placeholder' => 'All Statuses',
+                        'options' => ['Published' => 'Published', 'Draft' => 'Draft']
+                    ]
+                ],
+                'reset' => true
+            ],
             'pagination' => [
                 'total_items' => count($acts),
-                'showing_count' => count($acts)
+                'showing_count' => count($acts),
+                'per_page' => 10,
+                'enable_paging' => true
             ]
         ]);
         ?>
+
 
         <!-- Add/Edit Modal -->
         <div id="actModal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-all duration-300 opacity-0">

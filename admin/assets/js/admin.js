@@ -237,7 +237,7 @@ function initGlobalInteractions() {
 }
 
 
-// --- Table Filtering Logic ---
+// --- Table Filtering & Pagination Logic ---
 
 function initTableFiltering() {
     const searchInputs = document.querySelectorAll('.js-table-search');
@@ -246,18 +246,29 @@ function initTableFiltering() {
     
     if (searchInputs.length === 0 && filterSelects.length === 0) return;
 
-    function applyFilters() {
+    // Pagination state
+    let currentPage = 1;
+    let currentPerPage = 'all';
+
+    // Read per-page from the pagination container if it exists
+    const paginationContainer = document.querySelector('.js-table-pagination');
+    if (paginationContainer) {
+        const pp = parseInt(paginationContainer.dataset.perPage);
+        currentPerPage = (pp && pp > 0) ? pp : 'all';
+    }
+
+    function getFilteredItems() {
         const table = document.querySelector('.js-filterable-table tbody');
         const cardsContainer = document.querySelectorAll('.js-booking-card');
         
-        let itemsToFilter = [];
+        let allItems = [];
         if (table) {
-            itemsToFilter = Array.from(table.querySelectorAll('tr'));
+            allItems = Array.from(table.querySelectorAll('tr:not(.js-empty-state)'));
         } else if (cardsContainer.length > 0) {
-            itemsToFilter = Array.from(cardsContainer);
+            allItems = Array.from(cardsContainer);
         }
         
-        if (itemsToFilter.length === 0) return;
+        if (allItems.length === 0) return { all: [], filtered: [] };
         
         const searchTerm = searchInputs.length > 0 ? searchInputs[0].value.toLowerCase() : '';
         
@@ -269,7 +280,8 @@ function initTableFiltering() {
             }
         });
         
-        itemsToFilter.forEach(item => {
+        const filtered = [];
+        allItems.forEach(item => {
             let matchesSearch = true;
             if (searchTerm) {
                 matchesSearch = item.textContent.toLowerCase().includes(searchTerm);
@@ -286,30 +298,181 @@ function initTableFiltering() {
             }
             
             if (matchesSearch && matchesSelects) {
-                item.style.display = '';
-            } else {
-                item.style.display = 'none';
+                filtered.push(item);
             }
         });
+
+        return { all: allItems, filtered };
+    }
+
+    function applyFiltersAndPaginate() {
+        const { all, filtered } = getFilteredItems();
+        if (all.length === 0) return;
+
+        // Hide all items first
+        all.forEach(item => item.style.display = 'none');
+
+        const totalFiltered = filtered.length;
+        const perPage = currentPerPage === 'all' ? totalFiltered : parseInt(currentPerPage);
+        const totalPages = perPage > 0 ? Math.ceil(totalFiltered / perPage) : 1;
+
+        // Clamp current page
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+
+        // Calculate visible range
+        const startIdx = (currentPage - 1) * perPage;
+        const endIdx = Math.min(startIdx + perPage, totalFiltered);
+
+        // Show only items in range
+        for (let i = startIdx; i < endIdx; i++) {
+            filtered[i].style.display = '';
+        }
+
+        // Handle empty state
+        const table = document.querySelector('.js-filterable-table tbody');
+        if (table) {
+            let emptyRow = table.querySelector('.js-empty-state');
+            if (totalFiltered === 0) {
+                if (!emptyRow) {
+                    emptyRow = document.createElement('tr');
+                    emptyRow.className = 'js-empty-state';
+                    emptyRow.innerHTML = `<td colspan="99" class="py-16 px-6 text-center text-slate-400">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100 shadow-inner">
+                            <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
+                        </div>
+                        <span class="font-bold text-slate-700 block mb-1">No matching results</span>
+                        <span class="text-xs text-slate-400">Try adjusting your filters or search keywords</span>
+                    </td>`;
+                    table.appendChild(emptyRow);
+                }
+                emptyRow.style.display = '';
+            } else if (emptyRow) {
+                emptyRow.style.display = 'none';
+            }
+        }
+
+        // Update pagination UI
+        updatePaginationUI(totalFiltered, perPage, totalPages);
+    }
+
+    function updatePaginationUI(totalFiltered, perPage, totalPages) {
+        if (!paginationContainer) return;
+
+        const infoEl = paginationContainer.querySelector('.js-pagination-info');
+        const buttonsEl = paginationContainer.querySelector('.js-pagination-buttons');
+
+        if (totalFiltered === 0) {
+            if (infoEl) infoEl.innerHTML = '<span class="text-slate-400">No entries to display</span>';
+            if (buttonsEl) buttonsEl.innerHTML = '';
+            return;
+        }
+
+        const startItem = ((currentPage - 1) * perPage) + 1;
+        const endItem = Math.min(currentPage * perPage, totalFiltered);
+
+        // Update info text
+        if (infoEl) {
+            infoEl.innerHTML = `Showing <span class="font-semibold text-slate-800">${startItem}</span> to <span class="font-semibold text-slate-800">${endItem}</span> of <span class="font-semibold text-slate-800">${totalFiltered}</span> entries`;
+        }
+
+        // Render pagination buttons
+        if (buttonsEl) {
+            if (currentPerPage === 'all' || totalPages <= 1) {
+                buttonsEl.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+
+            // Prev Button
+            if (currentPage === 1) {
+                html += `<button disabled class="px-3.5 py-1.5 border border-slate-200 text-slate-400 rounded-xl text-[12px] font-bold cursor-not-allowed bg-slate-50/50">Prev</button>`;
+            } else {
+                html += `<button data-page="${currentPage - 1}" class="js-page-btn px-3.5 py-1.5 border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 rounded-xl text-[12px] font-bold transition-all">Prev</button>`;
+            }
+
+            // Page numbers
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, startPage + 4);
+            if (endPage - startPage < 4) {
+                startPage = Math.max(1, endPage - 4);
+            }
+
+            if (startPage > 1) {
+                html += `<button data-page="1" class="js-page-btn px-3 py-1.5 border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 rounded-xl text-[12px] font-bold transition-all">1</button>`;
+                if (startPage > 2) html += `<span class="px-1.5 text-slate-400 text-xs self-end pb-1">…</span>`;
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    html += `<button class="px-3 py-1.5 border border-[#4E0000] bg-[#4E0000] text-white font-bold rounded-xl text-[12px] shadow-sm">${i}</button>`;
+                } else {
+                    html += `<button data-page="${i}" class="js-page-btn px-3 py-1.5 border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 rounded-xl text-[12px] font-bold transition-all">${i}</button>`;
+                }
+            }
+
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="px-1.5 text-slate-400 text-xs self-end pb-1">…</span>`;
+                html += `<button data-page="${totalPages}" class="js-page-btn px-3 py-1.5 border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 rounded-xl text-[12px] font-bold transition-all">${totalPages}</button>`;
+            }
+
+            // Next Button
+            if (currentPage === totalPages) {
+                html += `<button disabled class="px-3.5 py-1.5 border border-slate-200 text-slate-400 rounded-xl text-[12px] font-bold cursor-not-allowed bg-slate-50/50">Next</button>`;
+            } else {
+                html += `<button data-page="${currentPage + 1}" class="js-page-btn px-3.5 py-1.5 border border-slate-200 text-slate-600 bg-white hover:bg-slate-50 rounded-xl text-[12px] font-bold transition-all">Next</button>`;
+            }
+
+            buttonsEl.innerHTML = html;
+
+            // Bind page button clicks
+            buttonsEl.querySelectorAll('.js-page-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentPage = parseInt(btn.dataset.page);
+                    applyFiltersAndPaginate();
+                });
+            });
+        }
+    }
+
+    // When filters change, reset to page 1
+    function onFilterChange() {
+        currentPage = 1;
+        applyFiltersAndPaginate();
     }
 
     searchInputs.forEach(input => {
-        input.addEventListener('input', applyFilters);
+        input.addEventListener('input', onFilterChange);
     });
     
     filterSelects.forEach(select => {
-        select.addEventListener('change', () => {
-            applyFilters();
-        });
+        select.addEventListener('change', onFilterChange);
     });
     
     resetBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             searchInputs.forEach(input => input.value = '');
             filterSelects.forEach(select => select.value = '');
-            applyFilters();
+            currentPage = 1;
+            onFilterChange();
         });
     });
+
+    // Items-per-page selector
+    const perPageSelect = document.querySelector('.js-per-page-select');
+    if (perPageSelect) {
+        perPageSelect.addEventListener('change', () => {
+            currentPerPage = perPageSelect.value === 'all' ? 'all' : parseInt(perPageSelect.value);
+            currentPage = 1;
+            applyFiltersAndPaginate();
+        });
+    }
+
+    // Initial pagination render
+    if (paginationContainer) {
+        applyFiltersAndPaginate();
+    }
 
     // Delete Buttons in Tables
     const deleteBtns = document.querySelectorAll('.js-delete-row');
@@ -336,15 +499,16 @@ function initFormValidation() {
         const skipDirtyCheck = form.classList.contains('js-no-dirty-check') || form.action.includes('login.php') || window.location.href.includes('login');
         
         // Function to serialize form, including handling Quill if present
-        const getFormState = () => {
+        const getFormState = (submitter = null) => {
             // Trigger any pre-submit syncs if they exist (like Quill)
             if (typeof window.syncQuillToHidden === 'function') {
                 window.syncQuillToHidden();
             }
             
             const formData = new FormData(form);
-            // Ignore csrf_token since it might not be the real changed data we care about, though it shouldn't change
-            // Actually it's fine to keep it.
+            if (submitter && submitter.name) {
+                formData.append(submitter.name, submitter.value);
+            }
             return new URLSearchParams(formData).toString();
         };
 
@@ -359,7 +523,8 @@ function initFormValidation() {
         form.addEventListener('submit', (e) => {
             // Check form dirtiness first
             if (!skipDirtyCheck && initialState !== '') {
-                const currentState = getFormState();
+                const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
+                const currentState = getFormState(submitBtn);
                 if (currentState === initialState) {
                     e.preventDefault();
                     if (typeof window.showToast === 'function') {

@@ -135,6 +135,8 @@ include 'includes/header.php';
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none block md:hidden"
         style="background-image: url('assets/img/mobile-hero.webp');"></div>
     <div class="absolute inset-0 opacity-25 bg-home-hero-gradient"></div>
+    <!-- Bottom gradient overlay to blend hero image and improve legibility at the bottom -->
+    <div class="absolute inset-x-0 bottom-0 h-96 opacity-70 bg-home-hero-bottom-gradient pointer-events-none"></div>
 
     <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
         <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative w-full">
@@ -150,10 +152,9 @@ include 'includes/header.php';
                 </p>
                 <div class="flex flex-wrap gap-3 sm:gap-4" data-aos="fade-up" data-aos-delay="300">
                     <a href="#quick-links"
-                        class="bg-secondary text-white font-semibold py-2.5 px-5 sm:py-3.5 sm:px-8 rounded-lg transition-colors duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter hover:shadow-lg hover:-translate-y-1 transform text-center flex items-center justify-center">Quick Links</a>
+                        class="bg-secondary/70 backdrop-blur-md text-white font-semibold py-2 px-4 sm:py-3.5 sm:px-8 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter hover:shadow-xl hover:-translate-y-1 transform text-center flex items-center justify-center">Quick Links</a>
                     <a href="#news-section"
-                        class="border border-white text-white font-semibold py-2.5 px-5 sm:py-3.5 sm:px-8 rounded-lg transition-colors duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter flex items-center justify-center hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-1 transform text-center">View
-                        Notices</a>
+                        class="bg-white/10 backdrop-blur-md text-white font-semibold py-2 px-4 sm:py-3.5 sm:px-8 rounded-lg border border-white/20 hover:border-white transition-all duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter flex items-center justify-center hover:bg-white hover:text-primary hover:shadow-xl hover:-translate-y-1 transform text-center">View Notices</a>
                 </div>
             </div>
 

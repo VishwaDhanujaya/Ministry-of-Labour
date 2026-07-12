@@ -85,9 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content = trim($_POST['content']);
     $content_si = trim($_POST['content_si'] ?? '');
     $content_ta = trim($_POST['content_ta'] ?? '');
-    $category = $_POST['category'] ?? 'Media';
     $visibility = strtolower($_POST['visibility'] ?? 'public');
-    $is_featured = ($_POST['is_featured'] ?? 'no') === 'yes' ? 1 : 0;
     
     // Check which button was clicked
     if (isset($_POST['save_draft'])) {
@@ -127,12 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($error)) {
         try {
             if ($article) {
-                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, category=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, is_featured=?, status=? WHERE id=?");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $article['id']]);
+                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $status, $article['id']]);
                 $article_id = $article['id'];
             } else {
-                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, category, content, content_si, content_ta, cover_image, visibility, is_featured, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $category, $content, $content_si, $content_ta, $cover_image, $visibility, $is_featured, $status, $_SESSION['admin_id']]);
+                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, content, content_si, content_ta, cover_image, visibility, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $status, $_SESSION['admin_id']]);
                 $article_id = $pdo->lastInsertId();
             }
 
@@ -159,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 }
-                header("Location: news");
+                header("Location: news?success=saved");
                 exit;
             } else {
                 $error = "Failed to save news to database.";
@@ -188,17 +186,23 @@ include 'includes/header.php';
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
         <?php if (!empty($success)): ?>
-            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
-                <svg class="w-4.5 h-4.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span><?= htmlspecialchars($success) ?></span>
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (typeof window.showToast === 'function') {
+                        window.showToast("<?= htmlspecialchars(addslashes($success)) ?>", "success");
+                    }
+                });
+            </script>
         <?php endif; ?>
 
         <?php if (!empty($error)): ?>
-            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
-                <svg class="w-4.5 h-4.5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                <span><?= htmlspecialchars($error) ?></span>
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (typeof window.showToast === 'function') {
+                        window.showToast("<?= htmlspecialchars(addslashes($error)) ?>", "error");
+                    }
+                });
+            </script>
         <?php endif; ?>
 
         <!-- Header -->
@@ -207,13 +211,21 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
             </div>
-            <a href="news" class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg text-[13px] font-semibold hover:bg-slate-50 transition-colors shadow-sm flex items-center gap-2">
-                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <a href="news" class="group bg-white border border-slate-200 hover:border-[#4E0000]/30 text-slate-600 hover:text-[#4E0000] px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-[#4E0000]/5 transition-all flex items-center gap-1.5 shadow-sm">
+                <svg class="w-4 h-4 text-slate-450 group-hover:text-[#4E0000] group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                 Back to News
             </a>
         </div>
 
-
+        <?php if ($article && $article['status'] === 'Published' && !hasPermission('approve_news')): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 flex items-start gap-3 text-[13px] font-medium shadow-sm animate-fadeIn">
+                <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <div>
+                    <strong class="block font-bold text-amber-900 mb-0.5">Editing a Published Article</strong>
+                    Any changes you make will require approval. Saving will unpublish this article and return it to "Pending Approval" status.
+                </div>
+            </div>
+        <?php endif; ?>
 
         <form action="" method="POST" enctype="multipart/form-data" class="js-validate-form js-reset-on-success">
             <input type="hidden" name="csrf_token" value="<?= generateCsrfToken() ?>">
@@ -222,14 +234,14 @@ include 'includes/header.php';
                 <div class="lg:col-span-2 space-y-6">
                     
                     <!-- Language Tabs -->
-                    <div class="inline-flex p-1 bg-slate-100 rounded-xl mb-6 shadow-inner border border-slate-200/40">
-                        <button type="button" class="lang-tab-btn active px-5 py-2 text-[12.5px] font-bold rounded-lg text-slate-800 bg-white shadow-sm transition-all focus:outline-none" data-target="lang-en">
+                    <div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl mb-6 shadow-inner border border-slate-200/40 relative">
+                        <button type="button" class="lang-tab-btn active px-6 py-2.5 text-[13px] font-bold rounded-xl text-[#4E0000] bg-white shadow-sm transition-all focus:outline-none relative z-10" data-target="lang-en">
                             English
                         </button>
-                        <button type="button" class="lang-tab-btn px-5 py-2 text-[12.5px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all focus:outline-none" data-target="lang-si">
+                        <button type="button" class="lang-tab-btn px-6 py-2.5 text-[13px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all focus:outline-none relative z-10 hover:bg-slate-50/50" data-target="lang-si">
                             Sinhala
                         </button>
-                        <button type="button" class="lang-tab-btn px-5 py-2 text-[12.5px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all focus:outline-none" data-target="lang-ta">
+                        <button type="button" class="lang-tab-btn px-6 py-2.5 text-[13px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all focus:outline-none relative z-10 hover:bg-slate-50/50" data-target="lang-ta">
                             Tamil
                         </button>
                     </div>
@@ -354,7 +366,7 @@ include 'includes/header.php';
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="sticky bottom-4 z-50 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100/80 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8">
+                    <div class="sticky bottom-4 z-50 bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/50 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8 ring-1 ring-slate-900/5">
                         <div>
                             <?php if ($article): ?>
                                 <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-rose-200/60 text-rose-500 hover:bg-rose-50 rounded-xl text-[13px] font-bold transition-all inline-flex items-center justify-center">
@@ -364,21 +376,26 @@ include 'includes/header.php';
                             <?php endif; ?>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center">
+                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center shadow-sm">
                                 Cancel
                             </a>
                             <?php if (!$article || $article['status'] === 'Draft' || $article['status'] === 'Pending Approval'): ?>
-                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white">
+                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 hover:text-[#4E0000] hover:border-[#4E0000]/30 transition-all bg-white shadow-sm flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                                 <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
                             <?php endif; ?>
                             <?php if (hasPermission('approve_news')): ?>
-                            <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#13273F] to-[#254974] text-white rounded-xl text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
-                                <?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?>
+                            <button type="submit" name="publish" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#6a0000] text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(78,0,0,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                                <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span class="relative z-10"><?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?></span>
                             </button>
                             <?php else: ?>
-                            <button type="submit" name="submit_approval" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#13273F] to-[#254974] text-white rounded-xl text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
-                                <?= $article && $article['status'] === 'Pending Approval' ? 'Update Request' : 'Submit for Approval' ?>
+                            <button type="submit" name="submit_approval" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+                                <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                                <span class="relative z-10"><?= $article && $article['status'] === 'Pending Approval' ? 'Update Request' : 'Submit for Approval' ?></span>
                             </button>
                             <?php endif; ?>
                         </div>
@@ -387,56 +404,45 @@ include 'includes/header.php';
                 </div> <!-- End Main Form wrapper, sidebar starts outside form -->
 
             <!-- Right Column: Sidebar Widgets (Col 1) -->
-            <div class="space-y-8">
+            <div class="space-y-6">
                 <!-- Publish Options Widget -->
-                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div class="bg-gradient-to-r from-[#13273F] to-[#254974] text-white p-5">
-                        <h3 class="font-bold font-montserrat text-[14px]">Publish Options</h3>
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+                    <div class="bg-slate-50/80 border-b border-slate-100 text-slate-800 p-5 backdrop-blur-sm">
+                        <h3 class="font-bold font-montserrat text-[14px] flex items-center gap-2">
+                            <svg class="w-4 h-4 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            Publish Options
+                        </h3>
                     </div>
                     <div class="p-6 space-y-6">
-                        <!-- Category -->
-                        <div>
-                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Category <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <select name="category" id="category-select" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer" required>
-                                    <option value="" disabled <?= !$article ? 'selected' : '' ?>>Select Category</option>
-                                    <option value="Media" <?= ($article && $article['category'] === 'Media') ? 'selected' : '' ?>>Media</option>
-                                    <option value="Notices" <?= ($article && $article['category'] === 'Notices') ? 'selected' : '' ?>>Notices</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <!-- Visibility -->
                         <div>
                             <label class="block text-[13px] font-semibold text-slate-700 mb-2">Visibility <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <select name="visibility" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
-                                    <option value="public" <?= ($article && $article['visibility'] === 'public') ? 'selected' : '' ?>>Public</option>
-                                    <option value="private" <?= ($article && $article['visibility'] === 'private') ? 'selected' : '' ?>>Private</option>
-                                </select>
-                            </div>
+                            <?php
+                            $visSel = ($article && isset($article['visibility'])) ? $article['visibility'] : 'public';
+                            echo renderDropdown([
+                                'name' => 'visibility',
+                                'options' => ['public' => 'Public', 'private' => 'Private'],
+                                'selected' => $visSel,
+                                'placeholder' => false,
+                                'required' => true,
+                                'context' => 'form',
+                                'width' => 'w-full'
+                            ]);
+                            ?>
                         </div>
 
-                        <!-- Featured Article (Only for Notices) -->
-                        <div id="featured-block" style="display: none;">
-                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Featured Notice?</label>
-                            <div class="relative">
-                                <select name="is_featured" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
-                                    <option value="no" <?= ($article && $article['is_featured'] == 0) ? 'selected' : '' ?>>No</option>
-                                    <option value="yes" <?= ($article && $article['is_featured'] == 1) ? 'selected' : '' ?>>Yes</option>
-                                </select>
-                            </div>
                         </div>
                     </div>
                 </div>
 
 
                 <!-- Recent Drafts Widget -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                <!-- Recent Drafts Widget -->
-                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
-                    <div class="bg-gradient-to-r from-[#13273F] to-[#254974] text-white p-5">
-                        <h3 class="font-bold font-montserrat text-[14px]">Recent Drafts</h3>
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
+                    <div class="bg-slate-50/80 border-b border-slate-100 text-slate-800 p-5 backdrop-blur-sm">
+                        <h3 class="font-bold font-montserrat text-[14px] flex items-center gap-2">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                            Recent Drafts
+                        </h3>
                     </div>
                     <div class="p-6">
                         <?php if(empty($recentDrafts)): ?>
@@ -501,27 +507,6 @@ include 'includes/header.php';
         if (form) {
             form.addEventListener('submit', window.syncQuillToHidden);
         }
-        </script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const categorySelect = document.getElementById('category-select');
-    const featuredBlock = document.getElementById('featured-block');
-    
-    function updateFeaturedVisibility() {
-        if (categorySelect.value === 'Notices') {
-            featuredBlock.style.display = 'block';
-        } else {
-            featuredBlock.style.display = 'none';
-            // Reset to no when hidden
-            featuredBlock.querySelector('select').value = 'no';
-        }
-    }
-    
-    categorySelect.addEventListener('change', updateFeaturedVisibility);
-    
-    // Run on load
-    updateFeaturedVisibility();
-});
 
 window.previewSingleImage = function(input, previewId) {
     const preview = document.getElementById(previewId);
@@ -633,12 +618,12 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', () => {
             // Remove active classes from all buttons
             tabBtns.forEach(b => {
-                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]', 'bg-white', 'shadow-sm', 'text-slate-800');
-                b.classList.add('border-transparent', 'text-gray-500', 'text-slate-600');
+                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]', 'bg-white', 'shadow-sm', 'text-slate-800', 'font-bold');
+                b.classList.add('border-transparent', 'text-gray-500', 'text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
             });
             // Add active class to clicked button
-            btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-slate-800');
-            btn.classList.remove('border-transparent', 'text-gray-500', 'text-slate-600');
+            btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-[#4E0000]', 'font-bold');
+            btn.classList.remove('border-transparent', 'text-gray-500', 'text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
 
             // Hide all contents
             tabContents.forEach(c => {

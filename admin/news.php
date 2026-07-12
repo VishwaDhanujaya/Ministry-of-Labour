@@ -26,12 +26,38 @@ if (isset($_GET['delete'])) {
     
     $stmt = $pdo->prepare("DELETE FROM news WHERE id = ?");
     $stmt->execute([$del_id]);
-    header("Location: news");
+    header("Location: news?success=deleted");
     exit;
 }
 
+// Handle Approve
+if (isset($_GET['approve'])) {
+    requireCsrfToken('GET', 'get');
+    if (!hasPermission('approve_news')) {
+        header("Location: index.php?error=forbidden");
+        exit;
+    }
+    $app_id = (int)$_GET['approve'];
+    $stmt = $pdo->prepare("UPDATE news SET status = 'Published' WHERE id = ?");
+    $stmt->execute([$app_id]);
+    header("Location: news?success=approved");
+    exit;
+}
+
+// Active tab
+$activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'all';
+$canApprove = hasPermission('approve_news');
+
+// Count pending approvals
+$pendingCountStmt = $pdo->query("SELECT COUNT(*) FROM news WHERE status = 'Pending Approval'");
+$pendingCount = $pendingCountStmt->fetchColumn();
+
 // Fetch Articles
-$stmt = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id ORDER BY n.created_at DESC");
+$whereClause = "";
+if ($activeTab === 'approvals' && $canApprove) {
+    $whereClause = "WHERE n.status = 'Pending Approval'";
+}
+$stmt = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id $whereClause ORDER BY n.created_at DESC");
 $newsList = $stmt->fetchAll();
 
 include 'includes/header.php'; 
@@ -44,52 +70,32 @@ include 'includes/header.php';
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex justify-between items-center mb-6">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900">News</h2>
             <a href="news-add" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
                 <span class="mr-1.5 text-lg leading-none">+</span> Add News
             </a>
         </div>
 
-        <!-- Filter Bar -->
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div class="relative flex-1 w-full md:max-w-[60%]">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                    <input type="text" placeholder="Search news..." class="js-table-search bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 pr-4 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400">
-                </div>
-            
-            <div class="grid grid-cols-2 sm:flex sm:items-center gap-3 w-full sm:w-auto">
-                <div class="relative w-full sm:w-40">
-                    <svg class="w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                    <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
-                        <option value="">All Categories</option>
-                        <option value="Media">Media</option>
-                        <option value="Notices">Notices</option>
-                    </select>
-                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-                
-                <div class="relative w-full sm:w-36">
-                    <svg class="w-3.5 h-3.5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
-                    <select class="js-table-filter w-full pl-9 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
-                        <option value="">All Status</option>
-                        <option value="Published">Published</option>
-                        <option value="Pending Approval">Pending Approval</option>
-                        <option value="Draft">Draft</option>
-                    </select>
-                    <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                </div>
-
-                <button class="js-reset-filter col-span-2 sm:col-span-1 px-4 py-2.5 bg-white border border-red-200 rounded-md text-[13px] font-medium text-red-500 flex items-center justify-center hover:bg-red-50 transition-colors">
-                    <svg class="w-3.5 h-3.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                    Reset Filter
-                </button>
-            </div>
+        <?php if ($canApprove): ?>
+        <div class="mb-6 border-b border-gray-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <a href="news?tab=all" class="<?= $activeTab === 'all' ? 'border-[#4E0000] text-[#4E0000]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors">
+                    All News
+                </a>
+                <a href="news?tab=approvals" class="<?= $activeTab === 'approvals' ? 'border-[#4E0000] text-[#4E0000]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors flex items-center">
+                    Review & Approvals
+                    <?php if ($pendingCount > 0): ?>
+                        <span class="ml-2 bg-amber-100 text-amber-800 py-0.5 px-2.5 rounded-full text-[11px] font-bold inline-block">
+                            <?= $pendingCount ?>
+                        </span>
+                    <?php endif; ?>
+                </a>
+            </nav>
         </div>
+        <?php endif; ?>
 
-        <!-- Table -->
+        <!-- Table with integrated filter bar -->
         <?php
         $headers = [
             ['label' => 'Image', 'class' => 'w-16'],
@@ -102,15 +108,18 @@ include 'includes/header.php';
         
         renderAdminTable($headers, $newsList, function($news) {
             ?>
-            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
+            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer <?= $news['status'] === 'Pending Approval' ? 'bg-amber-50/40 relative' : '' ?>" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= ($news['status'] === 'Pending Approval' && hasPermission('approve_news')) ? "'news?approve={$news['id']}&csrf_token=" . generateCsrfToken() . "'" : "null" ?>)">
+                <?php if ($news['status'] === 'Pending Approval'): ?>
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
+                <?php endif; ?>
                 <td class="py-5 px-6">
                     <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
                         <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
                             <img loading="lazy" src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
                         </a>
                     <?php else: ?>
-                        <div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center border border-gray-200">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div class="w-12 h-12 rounded bg-slate-100 border border-slate-200/70 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 001.5-1.5V4.5a1.5 1.5 0 00-1.5-1.5H3.75a1.5 1.5 0 00-1.5 1.5v15a1.5 1.5 0 001.5 1.5z" /></svg>
                         </div>
                     <?php endif; ?>
                 </td>
@@ -146,9 +155,6 @@ include 'includes/header.php';
                             </div>
                         </div>
                     </div>
-                    <?php if ($news['is_featured']): ?>
-                        <div class="mt-1.5"><span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">Featured Notice</span></div>
-                    <?php endif; ?>
                 </td>
                 <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
                 <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
@@ -183,14 +189,43 @@ include 'includes/header.php';
             'emptyTitle' => 'No news found',
             'emptySubtitle' => 'There are no news items matching your criteria.',
             'emptyIcon' => 'news',
+            'filters' => [
+                'search' => ['placeholder' => 'Search news...', 'maxWidth' => '50%'],
+                'filters' => [
+                    [
+                        'icon' => 'status',
+                        'placeholder' => 'All Status',
+                        'options' => ['Published' => 'Published', 'Pending Approval' => 'Pending Approval', 'Draft' => 'Draft']
+                    ]
+                ],
+                'reset' => true
+            ],
             'pagination' => [
                 'total_items' => count($newsList),
-                'showing_count' => count($newsList)
+                'showing_count' => count($newsList),
+                'per_page' => 10,
+                'enable_paging' => true
             ]
         ]);
         ?>
     </main>
+
+    <?php if (isset($_GET['success'])): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof window.showToast === 'function') {
+                <?php if ($_GET['success'] == 'approved'): ?>
+                window.showToast("Article approved and published successfully.", "success");
+                <?php elseif ($_GET['success'] == 'deleted'): ?>
+                window.showToast("Article deleted successfully.", "success");
+                <?php endif; ?>
+            }
+        });
+    </script>
+    <?php endif; ?>
+
 </div>
+
 
 <!-- Preview Modal -->
 <div id="preview-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0">
@@ -206,6 +241,10 @@ include 'includes/header.php';
         <div class="flex justify-between items-center p-5 border-t border-gray-100 bg-gray-50 shrink-0">
             <span class="text-xs text-gray-500 font-medium">Quick Preview</span>
             <div class="flex gap-3">
+                <a id="preview-approve-btn" href="#" class="hidden px-5 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-md text-[13px] font-bold hover:shadow-lg transition-all shadow-sm items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    Approve & Publish
+                </a>
                 <a id="preview-edit-btn" href="#" class="px-5 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors shadow-sm">Edit News</a>
                 <a id="preview-delete-btn" href="#" data-confirm="Are you sure you want to delete this?" class="px-5 py-2 bg-red-600 text-white rounded-md text-[13px] font-bold hover:bg-red-700 transition-colors shadow-sm">Delete</a>
             </div>
@@ -213,11 +252,21 @@ include 'includes/header.php';
     </div>
 </div>
 <script>
-function showPreviewModal(id, title, editUrl, deleteUrl) {
+function showPreviewModal(id, title, editUrl, deleteUrl, approveUrl = null) {
     document.getElementById('preview-title').textContent = title;
     document.getElementById('preview-content-container').innerHTML = document.getElementById('preview-content-' + id).innerHTML;
     document.getElementById('preview-edit-btn').href = editUrl;
     document.getElementById('preview-delete-btn').href = deleteUrl;
+    
+    const approveBtn = document.getElementById('preview-approve-btn');
+    if (approveUrl) {
+        approveBtn.href = approveUrl;
+        approveBtn.classList.remove('hidden');
+        approveBtn.classList.add('inline-flex');
+    } else {
+        approveBtn.classList.add('hidden');
+        approveBtn.classList.remove('inline-flex');
+    }
     
     const modal = document.getElementById('preview-modal');
     const modalBox = modal.querySelector('.bg-white');

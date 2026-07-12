@@ -131,7 +131,7 @@ $categoryColors = [
         </div>
 
         <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
@@ -163,7 +163,7 @@ $categoryColors = [
         </div>
 
         <!-- List View Layout Container -->
-        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12 hidden">
+        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12">
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-600 font-inter">
                     <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100">
@@ -229,7 +229,7 @@ $categoryColors = [
 
 <script>
 let currentPage = 1;
-let currentView = 'grid'; // 'grid' or 'list'
+let currentView = 'list'; // 'grid' or 'list'
 let filteredIndexes = [];
 
 // Capture all documents from PHP
@@ -417,7 +417,7 @@ function goToPage(page) {
 
 // Init page
 document.addEventListener('DOMContentLoaded', () => {
-    changeView('grid');
+    changeView('list');
 });
 </script>
 

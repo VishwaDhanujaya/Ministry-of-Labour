@@ -10,184 +10,379 @@ require_once 'admin/includes/db.php';
 
 // Fetch published procurements
 $stmt = $pdo->query("SELECT * FROM procurements WHERE status = 'Published' ORDER BY created_at DESC");
-$all_procurements = $stmt->fetchAll();
+$raw_procurements = $stmt->fetchAll();
 
-$categorized_procurements = [
-    'Plan' => [],
-    'Notice' => [],
-    'Award' => []
+$all_documents = [];
+$categoryMapping = [
+    'Plan' => 'Procurement Plans',
+    'Notice' => 'Procurement Notices',
+    'Award' => 'Contract Award Details'
 ];
 
-foreach ($all_procurements as $proc) {
-    $cat = $proc['category'] ?? 'Notice';
-    if (!isset($categorized_procurements[$cat])) {
-        $categorized_procurements[$cat] = [];
-    }
-    $categorized_procurements[$cat][] = $proc;
+$categoryColors = [
+    'Procurement Plans' => 'bg-blue-50 text-blue-700 border-blue-100',
+    'Procurement Notices' => 'bg-amber-50 text-amber-700 border-amber-100',
+    'Contract Award Details' => 'bg-emerald-50 text-emerald-700 border-emerald-100'
+];
+
+foreach ($raw_procurements as $proc) {
+    $rawCat = $proc['category'] ?? 'Notice';
+    $userCat = $categoryMapping[$rawCat] ?? 'Procurement Notices';
+    $all_documents[] = [
+        'title' => $proc['title'],
+        'description' => $proc['description'] ?? '',
+        'ref' => date('Y-m-d', strtotime($proc['created_at'])),
+        'category' => $userCat,
+        'pdf_path' => !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : '',
+        'created_at' => $proc['created_at']
+    ];
 }
+
+$categories = array_unique(array_column($all_documents, 'category'));
 ?>
 
-<!-- Content Section -->
-<section class="py-12 md:py-16 px-4 md:px-16 bg-white min-h-[50vh]">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#F9FAFB] min-h-[75vh]">
     <div class="container mx-auto max-w-6xl">
         
-        <!-- Filters and Search -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-            <h2 class="text-xl md:text-[24px] font-bold font-montserrat text-primary">Procurements</h2>
-            <div class="relative w-full md:max-w-[40%]">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <!-- Controls Bar -->
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
+            <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+                
+                <!-- Search -->
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="Search procurements by title or date..." onkeyup="resetPaginationAndFilter()">
                 </div>
-                <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm" placeholder="Search procurements by title..." onkeyup="filterTable()">
-            </div>
-        </div>
+                
+                <!-- Filters & Views -->
+                <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
+                    
 
-        <!-- Tabs Navigation -->
-        <div class="flex space-x-2 border-b border-gray-200 mb-8 overflow-x-auto" id="procurementTabs">
-            <button class="tab-btn active px-6 py-3.5 text-[14px] font-semibold border-b-2 border-primary text-primary transition-colors whitespace-nowrap focus:outline-none flex items-center gap-2" data-target="tab-plans">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                Procurement Plans
-            </button>
-            <button class="tab-btn px-6 py-3.5 text-[14px] font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors whitespace-nowrap focus:outline-none flex items-center gap-2" data-target="tab-notices">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                Procurement Notices
-            </button>
-            <button class="tab-btn px-6 py-3.5 text-[14px] font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors whitespace-nowrap focus:outline-none flex items-center gap-2" data-target="tab-awards">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                Contract Award Details
-            </button>
-        </div>
 
-        <!-- Tab Contents -->
-        <?php 
-        $tabs = [
-            'tab-plans' => ['title' => 'Procurement Plans', 'data' => $categorized_procurements['Plan']],
-            'tab-notices' => ['title' => 'Procurement Notices', 'data' => $categorized_procurements['Notice']],
-            'tab-awards' => ['title' => 'Contract Award Details', 'data' => $categorized_procurements['Award']]
-        ];
-        
-        $isFirst = true;
-        foreach($tabs as $id => $tab): 
-        ?>
-        <div id="<?= $id ?>" class="tab-content <?= $isFirst ? 'block' : 'hidden' ?>">
-            <div class="bg-white rounded-[16px] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border-[0.5px] border-[#E5E7EB] overflow-hidden mb-12">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-gray-600 font-inter dataTable">
-                        <thead class="bg-primary text-gray-200">
-                            <tr>
-                                <th class="px-6 py-4 font-normal text-[14px] w-full md:w-auto">Title & Description</th>
-                                <th class="px-6 py-4 font-normal text-[14px] w-32 shrink-0">Published Date</th>
-                                <th class="px-6 py-4 font-normal text-[14px] text-right w-48 shrink-0">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#E5E7EB]">
-                            <?php if (empty($tab['data'])): ?>
-                            <tr>
-                                <td colspan="3" class="px-6 py-12 text-center">
-                                    <div class="flex flex-col items-center justify-center text-gray-500">
-                                        <svg class="w-12 h-12 mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                                        <p>No <?= strtolower($tab['title']) ?> available at the moment.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php else: ?>
-                            <?php foreach ($tab['data'] as $proc): ?>
-                            <tr class="hover:bg-gray-50/80 transition-colors group search-row cursor-pointer" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
-                                 'title' => $proc['title'],
-                                 'content' => $proc['description'] ?? '',
-                                 'date' => date('M d, Y', strtotime($proc['created_at'])),
-                                 'category' => 'Procurement ' . ($proc['category'] ?? 'Notice'),
-                                 'pdf_path' => !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : ''
-                             ])) ?>)">
-                                <td class="px-6 py-4 search-target">
-                                    <h3 class="font-medium text-gray-900 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($proc['title']) ?></h3>
-                                    <?php if (!empty($proc['description'])): ?>
-                                    <div class="text-[13px] text-gray-500 mt-1 prose prose-sm max-w-none notranslate"><?= $proc['description'] ?></div>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="px-6 py-4 text-[13px] whitespace-nowrap">
-                                    <?= date('M d, Y', strtotime($proc['created_at'])) ?>
-                                </td>
-                                <td class="px-6 py-4 text-right whitespace-nowrap" onclick="event.stopPropagation();">
-                                    <div class="flex items-center justify-end gap-3">
-                                        <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors focus:outline-none bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
-                                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            View
-                                        </a>
-                                        <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" download class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
-                                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                            Download
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                    <!-- Items per page -->
+                    <div class="relative w-full sm:w-36">
+                        <select id="itemsPerPage" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
+                            <option value="12">12 per page</option>
+                            <option value="24">24 per page</option>
+                            <option value="48">48 per page</option>
+                            <option value="all">Show All</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+
+                    <!-- View Toggle -->
+                    <div class="bg-gray-100 p-1 rounded-xl flex items-center shrink-0">
+                        <button onclick="changeView('grid')" id="btnGridView" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all focus:outline-none" title="Grid View">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                        </button>
+                        <button onclick="changeView('list')" id="btnListView" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all focus:outline-none" title="List View">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
-        <?php 
-        $isFirst = false;
-        endforeach; 
-        ?>
+
+        <!-- Grid View Layout Container -->
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
+            <?php foreach ($all_documents as $index => $doc): 
+                $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
+            ?>
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                'title' => $doc['title'],
+                'content' => $doc['description'],
+                'date' => date('M d, Y', strtotime($doc['created_at'])),
+                'category' => $doc['category'],
+                'pdf_path' => $doc['pdf_path'] ?? ''
+            ])) ?>)">
+                <div>
+                    <!-- Badge & Icon -->
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <!-- Title -->
+                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-[#4E0000] transition-colors group-hover:text-secondary"><?= htmlspecialchars($doc['title']) ?></h3>
+                    <!-- Reference Date -->
+                    <p class="text-xs text-gray-500 font-medium font-inter mb-6">Published: <?= htmlspecialchars($doc['ref']) ?></p>
+                </div>
+                <!-- Action Button -->
+                <?php if (!empty($doc['pdf_path'])): ?>
+                <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-[#4E0000] hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm" onclick="event.stopPropagation();">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download Document
+                </a>
+                <?php else: ?>
+                <button class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-400 border border-gray-200 rounded-xl text-[13px] font-bold cursor-not-allowed" onclick="event.stopPropagation();" disabled>
+                    No Document Available
+                </button>
+                <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- List View Layout Container -->
+        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-gray-600 font-inter">
+                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 font-semibold text-[13.5px]">Document Title</th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48">Category</th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40">Published Date</th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <?php foreach ($all_documents as $index => $doc): 
+                            $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
+                        ?>
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                            'title' => $doc['title'],
+                            'content' => $doc['description'],
+                            'date' => date('M d, Y', strtotime($doc['created_at'])),
+                            'category' => $doc['category'],
+                            'pdf_path' => $doc['pdf_path'] ?? ''
+                        ])) ?>)">
+                            <td class="px-6 py-4">
+                                <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                            </td>
+                            <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
+                                <?= htmlspecialchars($doc['ref']) ?>
+                            </td>
+                            <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
+                                <?php if (!empty($doc['pdf_path'])): ?>
+                                <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-[#4E0000] hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    Download
+                                </a>
+                                <?php else: ?>
+                                <span class="text-xs text-gray-400 italic">No Document</span>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResultsMsg" class="hidden py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12">
+            <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="text-[17px] font-bold text-gray-800 mb-1">No documents matched your search</p>
+            <p class="text-sm text-gray-400">Try adjusting your filters or search keywords</p>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+            <div class="text-sm text-gray-500 font-inter">
+                Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
+            </div>
+            <div class="flex items-center gap-1.5" id="paginationButtons">
+                <!-- Pagination buttons will be injected here -->
+            </div>
+        </div>
 
     </div>
 </section>
 
 <script>
-// Tab Switching Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.tab-btn');
-    const contents = document.querySelectorAll('.tab-content');
+let currentPage = 1;
+let currentView = 'list'; // 'grid' or 'list'
+let filteredIndexes = [];
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active classes from all tabs
-            tabs.forEach(t => {
-                t.classList.remove('active', 'border-primary', 'text-primary');
-                t.classList.add('border-transparent', 'text-gray-500');
-            });
+// Capture all documents from PHP
+const documents = <?php echo json_encode(array_map(function($doc, $i) {
+    return [
+        'index' => $i,
+        'title' => strtolower($doc['title']),
+        'ref' => strtolower($doc['ref']),
+        'category' => strtolower($doc['category'])
+    ];
+}, $all_documents, array_keys($all_documents))); ?>;
 
-            // Add active class to clicked tab
-            tab.classList.remove('border-transparent', 'text-gray-500');
-            tab.classList.add('active', 'border-primary', 'text-primary');
+function changeView(view) {
+    currentView = view;
+    
+    // Toggle active state on buttons
+    const btnGrid = document.getElementById('btnGridView');
+    const btnList = document.getElementById('btnListView');
+    const gridContainer = document.getElementById('gridViewContainer');
+    const listContainer = document.getElementById('listViewContainer');
+    
+    if (view === 'grid') {
+        btnGrid.classList.add('bg-white', 'text-secondary', 'shadow-sm');
+        btnGrid.classList.remove('text-gray-500');
+        btnList.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
+        btnList.classList.add('text-gray-500');
+        
+        gridContainer.classList.remove('hidden');
+        listContainer.classList.add('hidden');
+    } else {
+        btnList.classList.add('bg-white', 'text-secondary', 'shadow-sm');
+        btnList.classList.remove('text-gray-500');
+        btnGrid.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
+        btnGrid.classList.add('text-gray-500');
+        
+        listContainer.classList.remove('hidden');
+        gridContainer.classList.add('hidden');
+    }
+    
+    filterTable();
+}
 
-            // Hide all content
-            contents.forEach(c => {
-                c.classList.remove('block');
-                c.classList.add('hidden');
-            });
+function resetPaginationAndFilter() {
+    currentPage = 1;
+    filterTable();
+}
 
-            // Show target content
-            const target = tab.getAttribute('data-target');
-            document.getElementById(target).classList.remove('hidden');
-            document.getElementById(target).classList.add('block');
-        });
-    });
-});
-
-// Improved Filter Logic across all tables
 function filterTable() {
-    let input = document.getElementById("searchInput");
-    let filter = input.value.toLowerCase();
+    const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
+    const itemsPerPage = document.getElementById("itemsPerPage").value;
     
-    // Select all rows with class search-row across all tabs
-    let rows = document.querySelectorAll(".search-row");
-    
-    rows.forEach(row => {
-        let td = row.querySelector(".search-target");
-        if (td) {
-            let txtValue = td.textContent || td.innerText;
-            if (txtValue.toLowerCase().indexOf(filter) > -1) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
-            }
+    // Filter matching item indexes
+    filteredIndexes = [];
+    documents.forEach(doc => {
+        const matchesSearch = searchInput === "" || 
+                              doc.title.includes(searchInput) || 
+                              doc.ref.includes(searchInput);
+                                
+        if (matchesSearch) {
+            filteredIndexes.push(doc.index);
         }
     });
+    
+    // Hide all items (both grid cards and list rows)
+    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
+    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
+    
+    updatePaginationUI(itemsPerPage);
 }
+
+function updatePaginationUI(itemsPerPage) {
+    const noResultsMsg = document.getElementById('noResultsMsg');
+    const gridContainer = document.getElementById('gridViewContainer');
+    const listViewContainer = document.getElementById('listViewContainer');
+    const paginationControls = document.getElementById('paginationControls');
+    
+    const totalItems = filteredIndexes.length;
+    
+    if (totalItems === 0) {
+        noResultsMsg.classList.remove('hidden');
+        gridContainer.classList.add('hidden');
+        listViewContainer.classList.add('hidden');
+        paginationControls.classList.add('hidden');
+        return;
+    }
+    
+    noResultsMsg.classList.add('hidden');
+    if (currentView === 'grid') {
+        gridContainer.classList.remove('hidden');
+    } else {
+        listViewContainer.classList.remove('hidden');
+    }
+    
+    let startIdx = 0;
+    let endIdx = totalItems;
+    
+    if (itemsPerPage !== 'all') {
+        itemsPerPage = parseInt(itemsPerPage);
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+        
+        startIdx = (currentPage - 1) * itemsPerPage;
+        endIdx = Math.min(startIdx + itemsPerPage, totalItems);
+        
+        renderPaginationButtons(totalPages);
+        paginationControls.classList.remove('hidden');
+    } else {
+        paginationControls.classList.add('hidden');
+    }
+    
+    // Show only active items for this page depending on the current view
+    const selector = currentView === 'grid' ? '.document-card' : '.document-list-row';
+    const items = document.querySelectorAll(selector);
+    
+    for (let i = startIdx; i < endIdx; i++) {
+        const itemIdx = filteredIndexes[i];
+        // Find element matching this index
+        const el = Array.from(items).find(item => parseInt(item.getAttribute('data-index')) === itemIdx);
+        if (el) {
+            el.classList.remove('hidden');
+        }
+    }
+    
+    // Update labels
+    if (itemsPerPage !== 'all') {
+        document.getElementById('pageStart').innerText = startIdx + 1;
+        document.getElementById('pageEnd').innerText = endIdx;
+        document.getElementById('totalItems').innerText = totalItems;
+    }
+}
+
+function renderPaginationButtons(totalPages) {
+    const container = document.getElementById('paginationButtons');
+    let html = '';
+    
+    // Prev Button
+    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Prev</button>`;
+    
+    // Numbers
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    if (endPage - startPage < 4) {
+        startPage = Math.max(1, endPage - 4);
+    }
+    
+    if (startPage > 1) {
+        html += `<button onclick="goToPage(1)" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">1</button>`;
+        if (startPage > 2) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        if (i === currentPage) {
+            html += `<button class="px-3 py-2 border border-[#4E0000] bg-[#4E0000] text-white font-bold rounded-xl text-xs">${i}</button>`;
+        } else {
+            html += `<button onclick="goToPage(${i})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${i}</button>`;
+        }
+    }
+    
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
+        html += `<button onclick="goToPage(${totalPages})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${totalPages}</button>`;
+    }
+    
+    // Next Button
+    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Next</button>`;
+    
+    container.innerHTML = html;
+}
+
+function goToPage(page) {
+    currentPage = page;
+    
+    // Hide all currently visible
+    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
+    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
+    
+    const itemsPerPage = document.getElementById("itemsPerPage").value;
+    updatePaginationUI(itemsPerPage);
+}
+
+// Init page
+document.addEventListener('DOMContentLoaded', () => {
+    changeView('list');
+});
 </script>
 
 <?php include 'includes/pdf-modal.php'; ?>

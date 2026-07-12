@@ -51,28 +51,10 @@ $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 
         }
         select {
             appearance: none !important;
-            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23475569' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E") !important;
-            background-position: right 0.75rem center !important;
-            background-size: 1.15rem !important;
-            background-repeat: no-repeat !important;
-            padding-right: 2.5rem !important;
-            background-color: #F8FAFC !important;
-            border: 1px solid #E2E8F0 !important;
-            border-radius: 0.75rem !important;
-            color: #334155 !important;
-            transition: all 150ms ease !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
-        }
-        select:hover {
-            border-color: #CBD5E1 !important;
-            background-color: #F1F5F9 !important;
+            -webkit-appearance: none !important;
         }
         select:focus {
             outline: none !important;
-            background-color: #FFFFFF !important;
-            border-color: #13273F !important;
-            box-shadow: 0 0 0 3px rgba(19, 39, 63, 0.08) !important;
         }
     </style>
 </head>

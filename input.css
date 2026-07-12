@@ -134,6 +134,10 @@
                 linear-gradient(90deg, rgba(10, 10, 10, 0.4) 0%, rgba(102, 102, 102, 0) 100%);
   }
 
+  .bg-home-hero-bottom-gradient {
+    background: linear-gradient(to top, #13273F 0%, rgba(19, 39, 63, 0.7) 35%, rgba(19, 39, 63, 0) 100%);
+  }
+
   .bg-sub-hero-gradient {
     background: linear-gradient(90deg, #4E0000 0%, rgba(102, 102, 102, 0) 100%),
                 linear-gradient(90deg, #4E0000 0%, rgba(78, 0, 0, 0.4) 100%);
