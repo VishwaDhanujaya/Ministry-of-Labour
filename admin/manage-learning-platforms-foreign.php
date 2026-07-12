@@ -104,18 +104,35 @@ include 'includes/header.php';
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
-<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+<div class="flex-1 flex flex-col min-w-0 bg-[#F8F9FA] relative z-10 font-inter">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-[#F8F9FA]">
         <!-- Include Quill CSS -->
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
+        <?php if (!empty($success)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><?= htmlspecialchars($success) ?></span>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($error)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span><?= htmlspecialchars($error) ?></span>
+            </div>
+        <?php endif; ?>
+
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage Foreign Learning Platforms</h2>
-            <button onclick="openAddModal()" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
-                <span class="mr-1.5 text-lg leading-none">+</span> New Foreign Learning Platform
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Foreign Learning Platforms</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Publish and manage educational resources, documents, and guides for the foreign-employment workforce.</p>
+            </div>
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
+                <span class="mr-1.5 text-lg leading-none">+</span> New Platform Document
             </button>
         </div>
 
@@ -148,91 +165,83 @@ include 'includes/header.php';
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden overflow-x-auto mb-12">
-            <table class="js-filterable-table w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#F9FAFB] border-b border-gray-100">
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Title</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">PDF</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Date Added</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    <?php if (empty($learning_platforms_foreign)): ?>
-                    <tr>
-                        <td colspan="5" class="py-16 px-6">
-                            <div class="flex flex-col items-center justify-center text-center">
-                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                </div>
-                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No foreign learning platforms found</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php else: ?>
-                    <?php foreach ($learning_platforms_foreign as $pub): ?>
-                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $pub['id'] ?>, '<?= htmlspecialchars(addslashes($pub['title'])) ?>', 'manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
-                        <td class="py-4 px-6">
-                            <p class="text-[13px] font-medium text-gray-900 group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($pub['title']) ?></p>
-                            <?php if(!empty($pub['description'])): ?>
-                                <p class="text-[12px] text-gray-500 truncate w-48" title="<?= htmlspecialchars($pub['description']) ?>"><?= htmlspecialchars($pub['description']) ?></p>
-                            <?php endif; ?>
-                            
-                            <!-- Hidden Preview Content -->
-                            <div id="preview-content-<?= $pub['id'] ?>" class="hidden">
-                                <div class="flex flex-col gap-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold <?= $pub['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?>"><?= htmlspecialchars($pub['status']) ?></span>
-                                        <span class="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($pub['created_at'])) ?></span>
-                                    </div>
-                                    <?php if (!empty($pub['description'])): ?>
-                                        <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
-                                            <?= $pub['description'] ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if (!empty($pub['pdf_path'])): ?>
-                                        <div class="border-t border-gray-100 pt-4 mt-2">
-                                            <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                                                View Attached PDF
-                                            </a>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                                View PDF
-                            </a>
-                        </td>
-                        <td class="py-4 px-6">
-                            <?php if ($pub['status'] === 'Published'): ?>
-                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#13273F] text-white">Published</span>
-                            <?php else: ?>
-                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-gray-200 text-gray-800">Draft</span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="py-4 px-6 text-[13px] text-gray-600"><?= date('M d, Y', strtotime($pub['created_at'])) ?></td>
-                        <td class="py-4 px-6 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <button onclick='event.stopPropagation(); openEditModal(<?= json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                </button>
-                                <a href="manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this foreign learning platform?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+        <?php
+        $headers = [
+            ['label' => 'Title', 'class' => ''],
+            ['label' => 'PDF', 'class' => 'w-36'],
+            ['label' => 'Status', 'class' => 'w-36'],
+            ['label' => 'Date Added', 'class' => 'w-36'],
+            ['label' => 'Actions', 'class' => 'text-right w-32']
+        ];
+        
+        renderAdminTable($headers, $learning_platforms_foreign, function($pub) {
+            ?>
+            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $pub['id'] ?>, '<?= htmlspecialchars(addslashes($pub['title'])) ?>', 'manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
+                <td class="py-4 px-6">
+                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-[#4E0000] transition-colors leading-none mb-1"><?= htmlspecialchars($pub['title']) ?></p>
+                    <?php if(!empty($pub['description'])): ?>
+                        <p class="text-[11.5px] text-slate-400 truncate max-w-md mt-1.5" title="<?= htmlspecialchars($pub['description']) ?>"><?= htmlspecialchars($pub['description']) ?></p>
                     <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    
+                    <!-- Hidden Preview Content -->
+                    <div id="preview-content-<?= $pub['id'] ?>" class="hidden">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $pub['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200' ?>"><?= htmlspecialchars($pub['status']) ?></span>
+                                <span class="px-2.5 py-1 bg-gray-50 text-gray-600 border border-slate-100 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider"><?= date('M d, Y', strtotime($pub['created_at'])) ?></span>
+                            </div>
+                            <?php if (!empty($pub['description'])): ?>
+                                <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
+                                    <?= $pub['description'] ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty($pub['pdf_path'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2">
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        View Attached PDF
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-4 px-6">
+                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#721c1c] text-[13px] font-bold transition-colors">
+                        <svg class="w-4 h-4 mr-1.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                        View PDF
+                    </a>
+                </td>
+                <td class="py-4 px-6">
+                    <?php if ($pub['status'] === 'Published'): ?>
+                    <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
+                    <?php else: ?>
+                    <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
+                    <?php endif; ?>
+                </td>
+                <td class="py-4 px-6 text-[13px] text-slate-400 font-mono"><?= date('M d, Y', strtotime($pub['created_at'])) ?></td>
+                <td class="py-4 px-6 text-right" onclick="event.stopPropagation();">
+                    <div class="flex items-center justify-end gap-1.5">
+                        <button onclick='openEditModal(<?= json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100 hover:text-slate-800 text-slate-400 flex items-center justify-center transition-all shadow-sm" title="Edit">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg>
+                        </button>
+                        <a href="manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this foreign learning platform?" class="w-8.5 h-8.5 rounded-xl bg-rose-50/50 border border-rose-100/50 hover:bg-rose-50 hover:text-rose-600 text-rose-400 flex items-center justify-center transition-all shadow-sm" title="Delete">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }, [
+            'minWidth' => '800px',
+            'emptyTitle' => 'No foreign learning platforms found',
+            'emptySubtitle' => 'There are no foreign learning platforms matching your criteria.',
+            'pagination' => [
+                'total_items' => count($learning_platforms_foreign),
+                'showing_count' => count($learning_platforms_foreign)
+            ]
+        ]);
+        ?>
 
         <!-- Add/Edit Modal -->
         <div id="pubModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -280,7 +289,20 @@ include 'includes/header.php';
 
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
-                            <input type="file" name="pdf_file" id="pubPdf" accept="application/pdf" required class="w-full px-4 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900">
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-colors cursor-pointer bg-slate-50/50" onclick="document.getElementById('pubPdf').click()">
+                                <div class="space-y-1 text-center">
+                                    <svg class="mx-auto h-10 w-10 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    <div class="flex text-[13px] text-slate-600 justify-center mt-2">
+                                        <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974]">
+                                            <span>Upload a PDF file</span>
+                                            <input id="pubPdf" name="pdf_file" type="file" class="sr-only" accept="application/pdf" required onchange="document.getElementById('pdf-file-name-foreign').textContent = this.files[0] ? this.files[0].name : ''">
+                                        </span>
+                                        <p class="pl-1 text-slate-400">or drag and drop</p>
+                                    </div>
+                                    <p class="text-xs text-slate-400 mt-1">PDF document up to 5MB</p>
+                                    <p id="pdf-file-name-foreign" class="text-xs font-bold text-emerald-600 mt-2"></p>
+                                </div>
+                            </div>
                             <p id="editPdfHint" class="text-[12px] text-gray-500 hidden mt-2">Leave blank to keep current PDF.</p>
                         </div>
 
@@ -307,6 +329,7 @@ include 'includes/header.php';
             quillPub.setText('');
             document.getElementById('pubStatus').value = 'Published';
             document.getElementById('pubPdf').value = '';
+            document.getElementById('pdf-file-name-foreign').textContent = '';
             
             document.getElementById('pubPdf').required = true;
             document.getElementById('pdfLabel').innerHTML = 'PDF File <span class="text-red-500">*</span>';
@@ -328,6 +351,7 @@ include 'includes/header.php';
             quillPub.root.innerHTML = pub.description || '';
             document.getElementById('pubStatus').value = pub.status;
             document.getElementById('pubPdf').value = '';
+            document.getElementById('pdf-file-name-foreign').textContent = '';
             
             document.getElementById('pubPdf').required = false;
             document.getElementById('pdfLabel').textContent = 'PDF File (New)';

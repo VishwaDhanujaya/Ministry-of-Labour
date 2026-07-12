@@ -34,9 +34,9 @@ if (isset($_SESSION['admin_role']) && in_array($_SESSION['admin_role'], ['super_
     $_SESSION['admin_role'] = 'executive_officer';
 }
 
-// Inactivity check (5 minutes = 300 seconds)
+// Inactivity check (10 minutes = 600 seconds)
 if (isset($_SESSION['admin_id'])) {
-    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 300)) {
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 600)) {
         session_unset();
         session_destroy();
         $current_script = basename($_SERVER['SCRIPT_NAME']);

@@ -117,119 +117,189 @@ include 'includes/header.php';
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
-<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+<div class="flex-1 flex flex-col min-w-0 bg-slate-50 relative z-10">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Bungalow Bookings</h2>
-            <button class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
-                <span class="mr-1.5 text-lg leading-none">+</span> New Booking
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8">
+        <!-- Custom Styles for Premium UI & Micro-animations -->
+        <style>
+            .summary-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .summary-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
+            }
+            .booking-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .booking-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            }
+            .js-tab-filter {
+                transition: all 0.2s ease;
+            }
+            .js-day-cell {
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .js-day-cell:hover:not(.bg-\[\#13273F\]) {
+                background-color: #F1F5F9;
+                transform: scale(1.05);
+            }
+            .js-bungalow-filter {
+                padding-right: 2.5rem !important;
+                padding-left: 2.5rem !important;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            /* Smooth Modal Animations */
+            #viewModal.flex {
+                animation: fadeIn 0.25s ease-out forwards;
+            }
+            #viewModal .modal-container {
+                animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes slideUp {
+                from { transform: scale(0.9) translateY(20px); opacity: 0; }
+                to { transform: scale(1) translateY(0); opacity: 1; }
+            }
+        </style>
+
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Bungalow Bookings</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Monitor reservations, approve room occupancy, and view guest timelines.</p>
+            </div>
+            <button class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+                New Booking
             </button>
         </div>
 
         <div class="grid grid-cols-1 xl:grid-cols-4 gap-8">
-<!-- Main Content -->
-                <div class="xl:col-span-3">
-                
+            <!-- Main Content -->
+            <div class="xl:col-span-3 space-y-8">
                 
                 <!-- Summary Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                    <!-- Card 1 -->
-                    <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex justify-between items-start">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Total Bookings -->
+                    <div class="summary-card bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-slate-50 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
-                                <p class="text-[12px] font-medium text-gray-500 uppercase tracking-wide">Total Bookings</p>
-                                <p class="text-3xl font-bold font-montserrat text-gray-900 mt-2"><?= sprintf('%02d', $totalBookings) ?></p>
+                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total Bookings</p>
+                                <p class="text-3xl font-bold font-montserrat text-slate-800 mt-2"><?= sprintf('%02d', $totalBookings) ?></p>
                             </div>
-                            <div class="w-10 h-10 rounded-lg bg-gray-50 text-gray-600 flex items-center justify-center shrink-0 border border-gray-100">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <div class="w-11 h-11 rounded-xl bg-slate-50 text-slate-600 flex items-center justify-center shrink-0 border border-slate-100 shadow-sm">
+                                <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <!-- Card 2 -->
-                    <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex justify-between items-start">
+
+                    <!-- Pending Cards -->
+                    <div class="summary-card bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-amber-50/50 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
-                                <p class="text-[12px] font-medium text-amber-600 uppercase tracking-wide">Pending</p>
-                                <p class="text-3xl font-bold font-montserrat text-gray-900 mt-2"><?= sprintf('%02d', $pendingBookings) ?></p>
+                                <p class="text-[11px] font-bold text-amber-600/80 uppercase tracking-wider">Pending Review</p>
+                                <p class="text-3xl font-bold font-montserrat text-slate-800 mt-2"><?= sprintf('%02d', $pendingBookings) ?></p>
                             </div>
-                            <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 border border-amber-100/60 shadow-sm">
+                                <svg class="w-5.5 h-5.5 animate-pulse" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <!-- Card 3 -->
-                    <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex justify-between items-start">
+
+                    <!-- Confirmed Cards -->
+                    <div class="summary-card bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-50/50 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
-                                <p class="text-[12px] font-medium text-teal-600 uppercase tracking-wide">Confirmed</p>
-                                <p class="text-3xl font-bold font-montserrat text-gray-900 mt-2"><?= sprintf('%02d', $confirmedBookings) ?></p>
+                                <p class="text-[11px] font-bold text-emerald-600/85 uppercase tracking-wider">Confirmed Stays</p>
+                                <p class="text-3xl font-bold font-montserrat text-slate-800 mt-2"><?= sprintf('%02d', $confirmedBookings) ?></p>
                             </div>
-                            <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 border border-teal-100">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100/60 shadow-sm">
+                                <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                         </div>
                     </div>
-                    <!-- Card 4 -->
-                    <div class="bg-white rounded-xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex justify-between items-start">
+
+                    <!-- Cancelled Cards -->
+                    <div class="summary-card bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex flex-col justify-between relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-rose-50/50 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                        <div class="flex justify-between items-start relative z-10">
                             <div>
-                                <p class="text-[12px] font-medium text-red-600 uppercase tracking-wide">Cancelled</p>
-                                <p class="text-3xl font-bold font-montserrat text-gray-900 mt-2"><?= sprintf('%02d', $cancelledBookings) ?></p>
+                                <p class="text-[11px] font-bold text-rose-600/85 uppercase tracking-wider">Cancelled / Rejected</p>
+                                <p class="text-3xl font-bold font-montserrat text-slate-800 mt-2"><?= sprintf('%02d', $cancelledBookings) ?></p>
                             </div>
-                            <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-100">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100/60 shadow-sm">
+                                <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Filter Bar & Tabs -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-                    <!-- Tabs -->
-                    <div class="flex items-center space-x-1 bg-gray-100/50 p-1 rounded-lg border border-gray-200">
-                        <button type="button" class="js-tab-filter px-5 py-2 text-[13px] font-medium rounded-md transition-colors text-gray-600 hover:text-gray-900" data-status="">All</button>
-                        <button type="button" class="js-tab-filter px-5 py-2 text-[13px] font-medium rounded-md transition-colors bg-white text-gray-900 shadow-sm border border-gray-200" data-status="Pending">Pending</button>
-                        <button type="button" class="js-tab-filter px-5 py-2 text-[13px] font-medium rounded-md transition-colors text-gray-600 hover:text-gray-900" data-status="Confirmed">Confirmed</button>
-                        <button type="button" class="js-tab-filter px-5 py-2 text-[13px] font-medium rounded-md transition-colors text-gray-600 hover:text-gray-900" data-status="Cancelled">Cancelled</button>
+                <!-- Filters & Search Panel -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] flex flex-col gap-5">
+                    <!-- iOS-style Sliding Segmented Tab Controller -->
+                    <div class="flex items-center space-x-1 bg-slate-100/80 p-1.5 rounded-xl border border-slate-200/40 w-full sm:w-fit">
+                        <button type="button" class="js-tab-filter flex-1 sm:flex-none px-6 py-2.5 text-[12.5px] font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800" data-status="">All</button>
+                        <button type="button" class="js-tab-filter flex-1 sm:flex-none px-6 py-2.5 text-[12.5px] font-bold rounded-lg transition-all bg-white text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-slate-200/30" data-status="Pending">Pending</button>
+                        <button type="button" class="js-tab-filter flex-1 sm:flex-none px-6 py-2.5 text-[12.5px] font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800" data-status="Confirmed">Confirmed</button>
+                        <button type="button" class="js-tab-filter flex-1 sm:flex-none px-6 py-2.5 text-[12.5px] font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800" data-status="Cancelled">Cancelled</button>
                     </div>
                     
-                    <div class="flex gap-4">
-                        <!-- Search -->
-                        <div class="relative w-64">
-                            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" placeholder="Search by name..." class="w-full pl-10 pr-4 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-800 placeholder-gray-400">
+                    <div class="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
+                        <!-- Search Box -->
+                        <div class="relative w-full lg:flex-1">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
+                            </span>
+                            <input type="text" placeholder="Search guests by name..." class="js-search-input w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 shadow-inner transition-all">
                         </div>
                         
-                        <!-- Bungalow Filter -->
-                        <div class="relative w-48">
-                            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                            <select class="js-bungalow-filter w-full pl-10 pr-10 py-2.5 bg-[#F9FAFB] border border-gray-100 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] font-medium text-gray-700 appearance-none cursor-pointer hover:bg-gray-50 transition-colors">
+                        <!-- Bungalow Filter Selector -->
+                        <div class="relative w-full lg:w-72 shrink-0">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
+                            </span>
+                            <select class="js-bungalow-filter w-full max-w-full truncate pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] font-semibold text-slate-700 appearance-none cursor-pointer hover:bg-slate-100/50 transition-all">
                                 <option value="">All Bungalows</option>
                                 <?php
                                 $bungalows = $pdo->query("SELECT DISTINCT bungalow_name FROM bookings ORDER BY bungalow_name")->fetchAll(PDO::FETCH_COLUMN);
                                 foreach($bungalows as $bName) {
-                                    echo '<option value="' . htmlspecialchars($bName) . '">' . htmlspecialchars($bName) . '</option>';
+                                    $displayName = $bName;
+                                    if (stripos($bName, 'Bungalow') === false) {
+                                        $displayName .= ' Bungalow';
+                                    }
+                                    echo '<option value="' . htmlspecialchars($bName) . '">' . htmlspecialchars($displayName) . '</option>';
                                 }
                                 ?>
                             </select>
-                            <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
+                            </span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bookings Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+                <!-- Bookings Grid Container -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                     
                     <?php if (empty($bookings)): ?>
-                        <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
-                            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-5 border border-gray-100 shadow-sm">
-                                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <div class="col-span-full py-24 flex flex-col items-center justify-center text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-5 border border-slate-100 shadow-inner">
+                                <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zM14.25 15h.008v.008H14.25V15zm0 2.25h.008v.008H14.25v-.008zM16.5 15h.008v.008H16.5V15zm0 2.25h.008v.008H16.5v-.008zM12 12.75h.008v.008H12v-.008zM9.75 12.75h.008v.008H9.75v-.008zM7.5 12.75h.008v.008H7.5v-.008zM14.25 12.75h.008v.008H14.25v-.008zM16.5 12.75h.008v.008H16.5v-.008z"></path></svg>
                             </div>
-                            <p class="text-[15px] font-bold text-gray-900 mb-1.5">No bookings found</p>
-                            <p class="text-[13px] text-gray-500">There are no bookings matching your criteria or currently in the system.</p>
+                            <h3 class="text-base font-bold text-slate-800 mb-1">No bookings registered</h3>
+                            <p class="text-xs text-slate-400 max-w-sm px-4">There are currently no bungalow bookings stored in the database matching this criteria.</p>
                         </div>
                     <?php else: ?>
                         <?php foreach ($bookings as $booking): ?>
@@ -238,14 +308,14 @@ include 'includes/header.php';
                         $statusClass = '';
                         $borderAccent = '';
                         if ($booking['status'] === 'Pending') {
-                            $statusClass = 'bg-[#FDF9ED] text-[#966708] border border-[#F5DE9B]';
-                            $borderAccent = 'border-t-[#D19717]';
+                            $statusClass = 'bg-yellow-50 text-yellow-700 border border-yellow-200';
+                            $borderAccent = 'border-t-[#D97706]';
                         } elseif ($booking['status'] === 'Confirmed') {
-                            $statusClass = 'bg-[#EDF7F4] text-[#166952] border border-[#A4D9C7]';
-                            $borderAccent = 'border-t-[#289174]';
+                            $statusClass = 'bg-green-50 text-green-700 border border-green-200';
+                            $borderAccent = 'border-t-[#059669]';
                         } elseif ($booking['status'] === 'Cancelled') {
-                            $statusClass = 'bg-[#FCF1F2] text-[#9E212D] border border-[#F2B8BC]';
-                            $borderAccent = 'border-t-[#D13645]';
+                            $statusClass = 'bg-rose-50 text-rose-700 border border-rose-200';
+                            $borderAccent = 'border-t-[#DC2626]';
                         }
 
                         // Calculate nights
@@ -253,77 +323,104 @@ include 'includes/header.php';
                         $end = new DateTime($booking['end_date']);
                         $nights = $end->diff($start)->format("%a");
                         ?>
-                        <div onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="js-booking-card rounded-xl border border-gray-200 border-t-4 <?= $borderAccent ?> overflow-hidden shadow-sm hover:shadow-md bg-white flex flex-col transition-all duration-200 relative group cursor-pointer hover:border-gray-300">
+                        <div onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="js-booking-card booking-card rounded-2xl border border-slate-200/75 border-t-4 <?= $borderAccent ?> overflow-hidden shadow-sm bg-white flex flex-col cursor-pointer hover:border-slate-300 relative group">
                             
                             <!-- Header Area -->
-                            <div class="px-5 pt-5 pb-4">
-                                <div class="flex justify-between items-start mb-3">
+                            <div class="px-5 pt-5 pb-3">
+                                <div class="flex justify-between items-start mb-2">
                                     <div>
-                                        <h3 class="font-bold text-gray-900 text-[16px] leading-tight"><span class="js-bungalow-name"><?= htmlspecialchars($booking['bungalow_name']) ?></span> Bungalow</h3>
-                                        <div class="flex items-center text-[#4E0000] text-[12px] font-medium mt-1.5">
-                                            <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                            <?= date('M j', strtotime($booking['start_date'])) ?> – <?= date('M j, Y', strtotime($booking['end_date'])) ?> (<?= $nights ?> nights)
-                                        </div>
+                                        <h3 class="font-bold text-slate-800 text-[15px] leading-snug flex items-center gap-1">
+                                            <span class="js-bungalow-name"><?= htmlspecialchars($booking['bungalow_name']) ?></span>
+                                        </h3>
+                                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">Bungalow</span>
                                     </div>
-                                    <span class="js-status-pill px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase <?= $statusClass ?> shadow-sm"><?= htmlspecialchars($booking['status']) ?></span>
+                                    <span class="js-status-pill px-2.5 py-1 rounded-md text-[11px] font-bold <?= $statusClass ?> shadow-sm"><?= htmlspecialchars($booking['status']) ?></span>
                                 </div>
                             </div>
                             
+                            <!-- Stay Timeline Widget (Aesthetic UX upgrade) -->
+                            <div class="px-5">
+                                <div class="flex items-center justify-between bg-slate-50/70 border border-slate-100 px-4 py-3 rounded-xl">
+                                    <div>
+                                        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-In</span>
+                                        <span class="font-bold text-slate-700 text-xs tracking-tight"><?= date('M d, Y', strtotime($booking['start_date'])) ?></span>
+                                    </div>
+                                    <div class="flex-1 flex flex-col items-center px-3">
+                                        <span class="text-[9.5px] font-bold text-[#13273F] bg-[#13273F]/5 px-2 py-0.5 rounded-full border border-[#13273F]/10 tracking-tight">
+                                            <?= $nights ?> <?= $nights == 1 ? 'Night' : 'Nights' ?>
+                                        </span>
+                                        <div class="w-full flex items-center justify-center mt-1">
+                                            <div class="w-full h-[1.5px] bg-slate-200 relative flex items-center justify-center">
+                                                <div class="absolute w-2 h-2 rounded-full bg-slate-300"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-Out</span>
+                                        <span class="font-bold text-slate-700 text-xs tracking-tight"><?= date('M d, Y', strtotime($booking['end_date'])) ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Body Area -->
-                            <div class="px-5 pb-6 flex-1">
-                                <div class="grid grid-cols-2 gap-y-4 gap-x-4 pt-4 border-t border-gray-100">
-                                    
+                            <div class="px-5 py-4 flex-1 flex flex-col justify-between">
+                                <div class="grid grid-cols-2 gap-y-4 gap-x-4 pt-3 border-t border-slate-100/80">
+                                    <!-- Applicant Info -->
                                     <div class="col-span-2 sm:col-span-1">
-                                        <p class="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Applicant</p>
+                                        <p class="text-[10px] uppercase text-slate-400 font-bold tracking-wider mb-1">Applicant</p>
                                         <div class="flex items-center">
-                                            <div class="w-6 h-6 rounded-full bg-[#13273F]/10 text-[#13273F] flex items-center justify-center text-[10px] font-bold mr-2 shrink-0">
+                                            <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] text-white flex items-center justify-center text-[10.5px] font-bold mr-2 shrink-0 shadow-sm">
                                                 <?= htmlspecialchars(substr($booking['applicant_name'] ?? 'A', 0, 1)) ?>
                                             </div>
-                                            <span class="js-applicant-name font-semibold text-gray-900 text-[13px] truncate"><?= htmlspecialchars($booking['applicant_name'] ?? '') ?></span>
+                                            <span class="js-applicant-name font-bold text-slate-800 text-[13px] truncate max-w-[120px]" title="<?= htmlspecialchars($booking['applicant_name'] ?? '') ?>"><?= htmlspecialchars($booking['applicant_name'] ?? '') ?></span>
                                         </div>
                                     </div>
                                     
+                                    <!-- Rooms Info -->
                                     <div class="col-span-2 sm:col-span-1">
-                                        <p class="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Room Selection</p>
-                                        <p class="font-medium text-gray-700 text-[13px] flex items-center">
-                                            <svg class="w-3.5 h-3.5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                            <span class="truncate text-gray-900" title="<?= htmlspecialchars($booking['room_type'] ?? '') ?>">
+                                        <p class="text-[10px] uppercase text-slate-400 font-bold tracking-wider mb-1">Rooms</p>
+                                        <p class="font-bold text-slate-700 text-[12.5px] flex items-center h-7">
+                                            <svg class="w-4 h-4 mr-1.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                            <span class="truncate" title="<?= htmlspecialchars($booking['room_type'] ?? '') ?>">
                                                 <?= htmlspecialchars($booking['room_type'] ?? '') ?>
                                                 <?php if (isset($booking['no_of_rooms']) && $booking['no_of_rooms'] > 1): ?>
-                                                    <span class="ml-1 text-[11px] bg-red-100/80 text-[#4E0000] px-1.5 py-0.5 rounded-md font-bold">x<?= $booking['no_of_rooms'] ?></span>
+                                                    <span class="ml-1 text-[10px] bg-red-50 text-[#4E0000] border border-red-100 px-1.5 py-0.5 rounded font-bold">x<?= $booking['no_of_rooms'] ?></span>
                                                 <?php endif; ?>
                                             </span>
                                         </p>
                                     </div>
                                     
-                                    <div class="col-span-2">
-                                        <p class="text-[10px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Contact</p>
-                                        <div class="flex flex-col sm:flex-row sm:items-center sm:gap-3 mt-0.5">
-                                            <p class="font-medium text-gray-700 text-[12px] truncate" title="<?= htmlspecialchars($booking['email'] ?? '') ?>"><?= htmlspecialchars($booking['email'] ?? 'No email') ?></p>
-                                            <p class="font-medium text-gray-400 text-[12px] hidden sm:block">•</p>
-                                            <p class="font-medium text-gray-500 text-[12px]"><?= htmlspecialchars($booking['phone'] ?? '') ?></p>
+                                    <!-- Contact Info -->
+                                    <div class="col-span-2 pt-1.5">
+                                        <div class="flex items-center text-slate-500 text-[11.5px] gap-1.5 truncate">
+                                            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
+                                            <span class="truncate" title="<?= htmlspecialchars($booking['email'] ?? '') ?>"><?= htmlspecialchars($booking['email'] ?? 'No email') ?></span>
+                                        </div>
+                                        <div class="flex items-center text-slate-500 text-[11.5px] gap-1.5 mt-1.5">
+                                            <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.802-5.194-4.172-7-7l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"></path></svg>
+                                            <span><?= htmlspecialchars($booking['phone'] ?? '') ?></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Action Footer -->
-                            <div class="bg-gray-50/80 p-4 border-t border-gray-100 flex gap-2.5" onclick="event.stopPropagation();">
-                                <button type="button" onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="flex-1 py-2 bg-white border border-gray-300 rounded-md text-gray-700 font-bold text-[12px] hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">View Details</button>
+                            <div class="bg-slate-50/70 p-4 border-t border-slate-100 flex gap-2.5" onclick="event.stopPropagation();">
+                                <button type="button" onclick="openViewModal(<?= htmlspecialchars(json_encode($booking)) ?>)" class="flex-1 py-2.5 bg-white border border-slate-200 hover:border-slate-300 rounded-lg text-slate-700 font-bold text-[12px] hover:text-slate-900 transition-all shadow-sm">View Details</button>
                                 
                                 <?php if ($booking['status'] === 'Pending'): ?>
-                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to cancel this booking?" class="px-3 py-2 bg-white border border-red-200 text-red-600 rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm" title="Reject">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to cancel this booking?" class="px-3.5 py-2.5 bg-white border border-rose-200 text-rose-600 rounded-lg font-bold text-[12px] hover:bg-rose-50 hover:border-rose-300 transition-all shadow-sm flex items-center justify-center" title="Reject">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                                     </a>
-                                    <a href="bungalow-bookings?action=approve&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to approve this booking?" class="flex-1 py-2 bg-[#0A6C5B] text-white text-center rounded-md font-bold text-[12px] hover:bg-[#085a4c] transition-all shadow-sm">Approve</a>
+                                    <a href="bungalow-bookings?action=approve&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to approve this booking?" class="flex-1 py-2.5 bg-[#0A6C5B] text-white text-center rounded-lg font-bold text-[12px] hover:bg-[#075346] hover:shadow-md transition-all shadow-sm">Approve</a>
                                 <?php endif; ?>
                                 
                                 <?php if ($booking['status'] === 'Confirmed'): ?>
-                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to cancel this confirmed booking?" class="flex-1 py-2 bg-white border border-red-200 text-red-600 text-center rounded-md font-bold text-[12px] hover:bg-red-50 transition-all shadow-sm">Cancel Booking</a>
+                                    <a href="bungalow-bookings?action=reject&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to cancel this confirmed booking?" class="flex-1 py-2.5 bg-white border border-rose-200 text-rose-600 text-center rounded-lg font-bold text-[12px] hover:bg-rose-50 hover:border-rose-300 transition-all shadow-sm">Cancel Booking</a>
                                 <?php endif; ?>
 
                                 <?php if ($booking['status'] === 'Cancelled'): ?>
-                                    <a href="bungalow-bookings?action=delete&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to permanently delete this cancelled booking?" class="flex-1 py-2 bg-white border border-gray-300 text-gray-600 text-center rounded-md font-bold text-[12px] hover:bg-gray-100 hover:text-gray-900 transition-all shadow-sm">Delete Record</a>
+                                    <a href="bungalow-bookings?action=delete&id=<?= $booking['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to permanently delete this cancelled booking?" class="flex-1 py-2.5 bg-white border border-slate-200 text-slate-500 text-center rounded-lg font-bold text-[12px] hover:bg-slate-100 hover:text-slate-700 transition-all shadow-sm">Delete Record</a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -333,25 +430,29 @@ include 'includes/header.php';
             </div>
 
 
-            <!-- Right Column: Sidebar Calendar -->
-            <div class="xl:col-span-1 space-y-4">
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden sticky top-8">
-                    <div class="bg-[#13273F] text-white p-4 flex justify-between items-center">
-                        <a href="?month=<?= $prevMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&lt;</a>
-                        <input type="month" id="calendar-month-picker" class="bg-transparent border-none text-white text-[15px] font-medium focus:outline-none focus:ring-0 cursor-pointer text-center [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" value="<?= htmlspecialchars($monthParam) ?>" onchange="window.location.href='?month='+this.value">
-                        <a href="?month=<?= $nextMonth ?>" class="p-1 hover:bg-white/10 rounded transition-colors">&gt;</a>
+            <!-- Right Column: Sidebar Calendar Redesign -->
+            <div class="xl:col-span-1 space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] overflow-hidden sticky top-8">
+                    <!-- Calendar Header -->
+                    <div class="bg-[#13273F] text-white p-4 flex justify-between items-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-[#13273F] to-[#203c5e] z-0"></div>
+                        <a href="?month=<?= $prevMonth ?>" class="p-2 hover:bg-white/10 rounded-lg transition-colors relative z-10 font-bold">&lt;</a>
+                        <input type="month" id="calendar-month-picker" class="bg-transparent border-none text-white text-[14.5px] font-bold focus:outline-none focus:ring-0 cursor-pointer text-center relative z-10 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" value="<?= htmlspecialchars($monthParam) ?>" onchange="window.location.href='?month='+this.value">
+                        <a href="?month=<?= $nextMonth ?>" class="p-2 hover:bg-white/10 rounded-lg transition-colors relative z-10 font-bold">&gt;</a>
                     </div>
-                    <div class="p-4">
-                        <div class="grid grid-cols-7 text-center mb-2">
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Su</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Mo</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Tu</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">We</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Th</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Fr</div>
-                            <div class="text-[11px] font-bold text-gray-400 uppercase">Sa</div>
+                    
+                    <!-- Calendar Grid -->
+                    <div class="p-4 relative z-10">
+                        <div class="grid grid-cols-7 text-center mb-3">
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Su</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mo</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tu</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">We</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Th</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Fr</div>
+                            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Sa</div>
                         </div>
-                        <div class="grid grid-cols-7 gap-1">
+                        <div class="grid grid-cols-7 gap-1.5">
                             <?php
                             // Empty cells for days before the 1st
                             for ($i = 0; $i < $startDayOfWeek; $i++) {
@@ -366,8 +467,8 @@ include 'includes/header.php';
                                 
                                 $isToday = ($dateKey === date('Y-m-d'));
                                 
-                                $baseClass = 'bg-white border border-gray-100 hover:border-gray-300 shadow-sm cursor-pointer';
-                                $textClass = 'text-gray-700';
+                                $baseClass = 'bg-white border border-slate-100 hover:border-slate-300 shadow-sm cursor-pointer';
+                                $textClass = 'text-slate-700 font-semibold';
                                 
                                 $dotsHtml = '';
                                 $jsonBookings = '[]';
@@ -382,23 +483,23 @@ include 'includes/header.php';
                                         if ($b['status'] === 'Confirmed') {
                                             $dots .= '<div class="w-1.5 h-1.5 rounded-full bg-[#0A6C5B]"></div>';
                                         } else {
-                                            $dots .= '<div class="w-1.5 h-1.5 rounded-full bg-[#A67C00]"></div>';
+                                            $dots .= '<div class="w-1.5 h-1.5 rounded-full bg-[#D97706]"></div>';
                                         }
                                     }
                                     
                                     if (!empty($dots)) {
                                         $dotsHtml = '<div class="flex gap-1 justify-center mt-0.5">' . $dots . '</div>';
-                                        $baseClass = 'bg-[#F4F7FB] border border-[#E1E8F0] hover:border-[#CBD5E1] shadow-inner cursor-pointer';
+                                        $baseClass = 'bg-[#F4F8FA] border border-[#E2EAF1] hover:border-slate-300 shadow-inner cursor-pointer';
                                     }
                                 }
 
                                 if ($isToday) {
-                                    $baseClass = 'bg-[#13273F] border-[#13273F] shadow-md cursor-pointer';
-                                    $textClass = 'text-white font-bold';
+                                    $baseClass = 'bg-[#13273F] border-[#13273F] shadow-[0_4px_12px_rgba(19,39,63,0.3)] cursor-pointer';
+                                    $textClass = 'text-white font-extrabold';
                                 }
 
                                 echo '<div onclick="showDayDetails(\''.$dateKey.'\', this)" data-bookings="'.$jsonBookings.'" class="js-day-cell h-10 rounded-lg flex flex-col items-center justify-center transition-all duration-200 ' . $baseClass . '">';
-                                echo '<span class="text-[13px] ' . $textClass . '">' . $day . '</span>';
+                                echo '<span class="text-[12.5px] ' . $textClass . '">' . $day . '</span>';
                                 echo $dotsHtml;
                                 echo '</div>';
                             }
@@ -406,21 +507,24 @@ include 'includes/header.php';
                         </div>
                         
                         <!-- Legend -->
-                        <div class="mt-4 pt-4 border-t border-gray-100 space-y-2">
-                            <div class="flex items-center text-[11px] text-gray-600">
-                                <div class="w-2 h-2 rounded-full bg-[#289174] mr-2 shrink-0"></div> Confirmed Reservation
+                        <div class="mt-5 pt-4 border-t border-slate-100 space-y-2.5">
+                            <div class="flex items-center text-[11px] text-slate-500 font-semibold">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#0A6C5B] mr-2.5 shrink-0 shadow-sm border border-emerald-600/10"></div> Confirmed Reservation
                             </div>
-                            <div class="flex items-center text-[11px] text-gray-600">
-                                <div class="w-2 h-2 rounded-full bg-[#D19717] mr-2 shrink-0"></div> Pending Request
+                            <div class="flex items-center text-[11px] text-slate-500 font-semibold">
+                                <div class="w-2.5 h-2.5 rounded-full bg-[#D97706] mr-2.5 shrink-0 shadow-sm border border-amber-600/10"></div> Pending Request
                             </div>
-                            <div class="text-[10px] text-gray-400 mt-2 italic">Click on a date to see details below.</div>
+                            <div class="text-[10px] text-slate-400 mt-3 italic font-medium">Click on a date cell to view specific guest details.</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Day Details Panel -->
-                <div id="day-details-panel" class="bg-white rounded-xl border border-gray-100 shadow-sm p-4 hidden sticky top-[480px]">
-                    <h4 id="day-details-title" class="font-semibold text-[#13273F] border-b border-gray-100 pb-2 mb-3 text-[14px]"></h4>
+                <!-- Day Details Panel Redesign -->
+                <div id="day-details-panel" class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] p-5 hidden sticky top-[480px] z-10">
+                    <h4 id="day-details-title" class="font-bold text-[#13273F] border-b border-slate-100 pb-3 mb-4 text-[13.5px] tracking-tight flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Selected Date Details
+                    </h4>
                     <div id="day-details-content" class="space-y-3">
                         <!-- Dynamic details go here -->
                     </div>
@@ -431,20 +535,28 @@ include 'includes/header.php';
     </main>
 </div>
 
-<!-- View Modal -->
-<div id="viewModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-    <div class="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden transform transition-all flex flex-col max-h-[90vh]">
-        <div class="flex justify-between items-center p-5 border-b border-gray-100">
-            <h3 class="text-lg font-bold font-montserrat text-gray-900" id="modal-title">Booking Details</h3>
-            <button type="button" onclick="closeViewModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+<!-- Deluxe View Modal Redesign -->
+<div id="viewModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all flex flex-col max-h-[90vh] modal-container border border-slate-100">
+        <!-- Modal Header -->
+        <div class="flex justify-between items-center px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+            <h3 class="text-base font-extrabold font-montserrat text-slate-800 tracking-tight flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                Booking Confirmation Detail
+            </h3>
+            <button type="button" onclick="closeViewModal()" class="text-slate-400 hover:text-slate-600 transition-colors bg-white hover:bg-slate-100 rounded-lg p-1.5 border border-slate-200/50 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
-        <div class="p-6 overflow-y-auto" id="modal-content">
-            <!-- Dynamic Content -->
+        
+        <!-- Modal Body Content -->
+        <div class="px-6 py-5 overflow-y-auto" id="modal-content">
+            <!-- Dynamic Content loaded here -->
         </div>
-        <div class="p-5 border-t border-gray-100 bg-gray-50 flex justify-end">
-            <button type="button" onclick="closeViewModal()" class="px-4 py-2 bg-white border border-gray-300 rounded text-[13px] font-medium text-gray-700 hover:bg-gray-50">Close</button>
+        
+        <!-- Modal Footer -->
+        <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex justify-end shrink-0">
+            <button type="button" onclick="closeViewModal()" class="px-5 py-2.5 bg-white border border-slate-200 rounded-lg text-[12.5px] font-bold text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm">Close Window</button>
         </div>
     </div>
 </div>
@@ -465,27 +577,37 @@ function showDayDetails(dateKey, element) {
     document.querySelectorAll('.js-day-cell').forEach(el => {
         el.classList.remove('ring-2', 'ring-[#0A6C5B]', 'border-[#0A6C5B]');
     });
-    element.classList.add('ring-2', 'ring-[#0A6C5B]', 'border-[#0A6C5B]');
+    
+    // Only add ring to non-today cells, to avoid overlapping colors
+    if (!element.classList.contains('bg-[#13273F]')) {
+        element.classList.add('ring-2', 'ring-[#0A6C5B]', 'border-[#0A6C5B]');
+    }
     
     const panel = document.getElementById('day-details-panel');
     const title = document.getElementById('day-details-title');
     const content = document.getElementById('day-details-content');
     
-    title.textContent = formatDate(dateKey);
+    title.innerHTML = `
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        ${formatDate(dateKey)} Details
+    `;
     content.innerHTML = '';
     
     if (bookings.length === 0) {
-        content.innerHTML = '<p class="text-[13px] text-gray-500 italic">No bookings on this day.</p>';
+        content.innerHTML = '<p class="text-xs text-slate-400 italic py-2 text-center">No bookings scheduled on this date.</p>';
     } else {
         bookings.forEach(b => {
-            const statusColor = b.status === 'Confirmed' ? 'text-[#0A6C5B]' : 'text-[#A67C00]';
+            const statusColor = b.status === 'Confirmed' ? 'text-[#047857] bg-[#ECFDF5] border-[#A7F3D0]/60' : 'text-[#B45309] bg-[#FFFBEB] border-[#FDE68A]/60';
             content.innerHTML += `
-                <div class="p-3 bg-[#F9FAFB] rounded-lg border border-gray-100">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="font-bold text-[13px] text-gray-900">${b.name}</span>
-                        <span class="text-[11px] font-bold ${statusColor}">${b.status}</span>
+                <div class="p-3.5 bg-slate-50/70 rounded-xl border border-slate-200/50 flex flex-col gap-1.5 shadow-sm">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-[13px] text-slate-800">${b.name}</span>
+                        <span class="text-[9.5px] font-extrabold tracking-wide uppercase px-2 py-0.5 rounded-full border ${statusColor}">${b.status}</span>
                     </div>
-                    <div class="text-[12px] text-gray-500">${b.room}</div>
+                    <div class="text-[11.5px] text-slate-500 font-medium flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        ${b.room}
+                    </div>
                 </div>
             `;
         });
@@ -498,49 +620,91 @@ function openViewModal(booking) {
     const modal = document.getElementById('viewModal');
     const content = document.getElementById('modal-content');
     
+    // Status visual details
+    let statusPill = '';
+    if (booking.status === 'Pending') {
+        statusPill = 'text-[#B45309] bg-[#FFFBEB] border-[#FDE68A]';
+    } else if (booking.status === 'Confirmed') {
+        statusPill = 'text-[#047857] bg-[#ECFDF5] border-[#A7F3D0]';
+    } else {
+        statusPill = 'text-[#B91C1C] bg-[#FEF2F2] border-[#FEE2E2]';
+    }
+
+    const start = new Date(booking.start_date);
+    const end = new Date(booking.end_date);
+    const nights = Math.round((end - start) / (1000 * 60 * 60 * 24));
+    
     let html = `
-        <div class="space-y-4 text-[13px] text-gray-700">
-            <div class="grid grid-cols-2 gap-4">
+        <div class="space-y-5 text-[13px] text-slate-600 font-inter">
+            <!-- Top Status Summary -->
+            <div class="flex justify-between items-center bg-slate-50 border border-slate-100 p-4 rounded-xl">
                 <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Applicant</span>
-                    <span class="font-medium text-gray-900 text-[14px]">${booking.applicant_name}</span>
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Status</span>
+                    <span class="inline-block mt-1 text-[10.5px] font-extrabold tracking-wider uppercase px-2.5 py-0.5 rounded-full border ${statusPill}">${booking.status}</span>
                 </div>
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Status</span>
-                    <span class="font-bold">${booking.status}</span>
+                <div class="text-right">
+                    <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Bungalow</span>
+                    <span class="font-extrabold text-slate-800 text-[14px]">${booking.bungalow_name}</span>
                 </div>
             </div>
             
-            <div class="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Check-in</span>
-                    <span>${formatDate(booking.start_date)}</span>
-                </div>
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Check-out</span>
-                    <span>${formatDate(booking.end_date)}</span>
+            <!-- Dates Stay Timeline Component -->
+            <div>
+                <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-2">Reservation Timeline</span>
+                <div class="flex items-center justify-between bg-[#F8FAFC] border border-slate-200/50 p-4 rounded-xl relative shadow-inner">
+                    <div>
+                        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-in Date</span>
+                        <span class="font-bold text-[#13273F] text-[13px]">${formatDate(booking.start_date)}</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center px-4">
+                        <span class="text-[10px] font-extrabold text-[#13273F] bg-[#13273F]/5 px-2.5 py-1 rounded-full border border-[#13273F]/10 tracking-tight">
+                            ${nights} ${nights == 1 ? 'Night' : 'Nights'}
+                        </span>
+                        <div class="w-full h-[1.5px] bg-slate-200 mt-1 relative flex items-center justify-center">
+                            <div class="absolute w-2 h-2 rounded-full bg-slate-400"></div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-out Date</span>
+                        <span class="font-bold text-[#13273F] text-[13px]">${formatDate(booking.end_date)}</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
-                                <div>
-                                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Room</span>
-                                    <span>${booking.room_type} (Qty: ${booking.no_of_rooms || 1})</span>
-                                </div>
-                                <div>
-                                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Bungalow</span>
-                                    <span>${booking.bungalow_name}</span>
-                                </div>
-                            </div>
-            
-            <div class="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100">
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Phone</span>
-                    <span>${booking.phone}</span>
+            <!-- Booking Room details -->
+            <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-sm space-y-3.5">
+                <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50 pb-1.5">Room & Space Request</span>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-500">Selected Type</span>
+                    <span class="font-bold text-slate-800">${booking.room_type}</span>
                 </div>
-                <div>
-                    <span class="block text-[11px] font-bold text-gray-400 uppercase mb-1">Email</span>
-                    <span>${booking.email}</span>
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-500">Number of Rooms</span>
+                    <span class="font-extrabold text-[#4E0000] bg-red-50 border border-red-100 px-2 py-0.5 rounded text-xs">x${booking.no_of_rooms || 1}</span>
+                </div>
+            </div>
+
+            <!-- Guest Profile details -->
+            <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-sm space-y-3">
+                <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50 pb-1.5">Guest Information</span>
+                <div class="flex items-center mb-2.5">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] text-white flex items-center justify-center text-[12px] font-bold mr-3 shadow-sm">
+                        ${booking.applicant_name.substring(0, 1)}
+                    </div>
+                    <div>
+                        <span class="block font-bold text-slate-800 text-[14px]">${booking.applicant_name}</span>
+                        <span class="text-slate-400 text-xs font-semibold">Registered Applicant</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-2">
+                    <div>
+                        <span class="block text-[9.5px] font-bold text-slate-400 uppercase tracking-wider">Contact Number</span>
+                        <span class="font-semibold text-slate-700">${booking.phone}</span>
+                    </div>
+                    <div>
+                        <span class="block text-[9.5px] font-bold text-slate-400 uppercase tracking-wider">Email Address</span>
+                        <span class="font-semibold text-slate-700 truncate block" title="${booking.email}">${booking.email}</span>
+                    </div>
                 </div>
             </div>
             
@@ -559,7 +723,7 @@ function closeViewModal() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.querySelector('input[placeholder="Search by name..."]');
+    const searchInput = document.querySelector('.js-search-input');
     const bungalowSelect = document.querySelector('.js-bungalow-filter');
     const tabButtons = document.querySelectorAll('.js-tab-filter');
     const cards = document.querySelectorAll('.js-booking-card');
@@ -599,11 +763,11 @@ document.addEventListener('DOMContentLoaded', () => {
     tabButtons.forEach(btn => {
         btn.addEventListener('click', function() {
             tabButtons.forEach(b => {
-                b.classList.remove('bg-white', 'text-gray-900', 'shadow-sm', 'border-gray-200', 'border');
-                b.classList.add('text-gray-600', 'hover:text-gray-900');
+                b.classList.remove('bg-white', 'text-slate-800', 'shadow-[0_2px_8px_rgba(0,0,0,0.06)]', 'border-slate-200/30', 'border');
+                b.classList.add('text-slate-500', 'hover:text-slate-800');
             });
-            this.classList.remove('text-gray-600', 'hover:text-gray-900');
-            this.classList.add('bg-white', 'text-gray-900', 'shadow-sm', 'border', 'border-gray-200');
+            this.classList.remove('text-slate-500', 'hover:text-slate-800');
+            this.classList.add('bg-white', 'text-slate-800', 'shadow-[0_2px_8px_rgba(0,0,0,0.06)]', 'border', 'border-slate-200/30');
             
             currentStatus = this.getAttribute('data-status');
             filterCards();
@@ -616,3 +780,4 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <?php include 'includes/footer.php'; ?>
+

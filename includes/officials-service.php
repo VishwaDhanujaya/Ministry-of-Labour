@@ -86,6 +86,9 @@ function buildContactDepartments(PDO $pdo): array {
     }
 
     foreach ($divisions as $div) {
+        if ($div['slug'] === 'rti-officers') {
+            continue;
+        }
         $modalId = $div['slug'] . '-modal';
         // Maps
         if ($div['slug'] === 'administration') $modalId = 'admin-modal';

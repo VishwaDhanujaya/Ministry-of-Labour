@@ -92,9 +92,15 @@ foreach ($all_procurements as $proc) {
                             </tr>
                             <?php else: ?>
                             <?php foreach ($tab['data'] as $proc): ?>
-                            <tr class="hover:bg-gray-50/80 transition-colors group search-row">
+                            <tr class="hover:bg-gray-50/80 transition-colors group search-row cursor-pointer" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                                 'title' => $proc['title'],
+                                 'content' => $proc['description'] ?? '',
+                                 'date' => date('M d, Y', strtotime($proc['created_at'])),
+                                 'category' => 'Procurement ' . ($proc['category'] ?? 'Notice'),
+                                 'pdf_path' => !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : ''
+                             ])) ?>)">
                                 <td class="px-6 py-4 search-target">
-                                    <h3 class="font-medium text-gray-900 text-[14px]"><?= htmlspecialchars($proc['title']) ?></h3>
+                                    <h3 class="font-medium text-gray-900 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($proc['title']) ?></h3>
                                     <?php if (!empty($proc['description'])): ?>
                                     <div class="text-[13px] text-gray-500 mt-1 prose prose-sm max-w-none notranslate"><?= $proc['description'] ?></div>
                                     <?php endif; ?>
@@ -102,7 +108,7 @@ foreach ($all_procurements as $proc) {
                                 <td class="px-6 py-4 text-[13px] whitespace-nowrap">
                                     <?= date('M d, Y', strtotime($proc['created_at'])) ?>
                                 </td>
-                                <td class="px-6 py-4 text-right whitespace-nowrap">
+                                <td class="px-6 py-4 text-right whitespace-nowrap" onclick="event.stopPropagation();">
                                     <div class="flex items-center justify-end gap-3">
                                         <button type="button" data-pdf-url="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" data-pdf-title="<?= htmlspecialchars($proc['title']) ?>" class="open-pdf-modal inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors focus:outline-none bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>

@@ -47,9 +47,15 @@ $notices = $stmt->fetchAll();
                         </tr>
                         <?php else: ?>
                         <?php foreach ($notices as $notice): ?>
-                        <tr class="hover:bg-gray-50/80 transition-colors group">
+                        <tr class="hover:bg-gray-50/80 transition-colors group cursor-pointer" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                            'title' => $notice['title'],
+                            'content' => $notice['content'] ?? '',
+                            'date' => date('M d, Y', strtotime($notice['created_at'])),
+                            'category' => 'Special Notice',
+                            'pdf_path' => !empty($notice['pdf_path']) ? resolvePdfUrl($notice['pdf_path']) : ''
+                        ])) ?>)">
                             <td class="px-6 py-4">
-                                <h3 class="font-medium text-gray-900 text-[14px]"><?= htmlspecialchars($notice['title']) ?></h3>
+                                <h3 class="font-medium text-gray-900 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($notice['title']) ?></h3>
                                 <?php if (!empty($notice['content'])): ?>
                                 <div class="text-[13px] text-gray-500 mt-1 prose prose-sm max-w-none notranslate"><?= $notice['content'] ?></div>
                                 <?php endif; ?>

@@ -90,4 +90,6 @@ function getInitials($name) {
     }
     return substr($initials, 0, 2);
 }
+
+require_once __DIR__ . '/table-helper.php';
 ?>

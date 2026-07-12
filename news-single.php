@@ -40,6 +40,24 @@ foreach ($recentPostsRaw as $post) {
     $recentPosts[] = $post;
 }
 
+// Fetch Previous Article
+$prevStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND (created_at < ? OR (created_at = ? AND id < ?)) ORDER BY created_at DESC, id DESC LIMIT 1");
+$prevStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
+$prevArticle = $prevStmt->fetch();
+if ($prevArticle) {
+    if ($current_lang === 'si' && !empty($prevArticle['title_si'])) $prevArticle['title'] = $prevArticle['title_si'];
+    elseif ($current_lang === 'ta' && !empty($prevArticle['title_ta'])) $prevArticle['title'] = $prevArticle['title_ta'];
+}
+
+// Fetch Next Article
+$nextStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND (created_at > ? OR (created_at = ? AND id > ?)) ORDER BY created_at ASC, id ASC LIMIT 1");
+$nextStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
+$nextArticle = $nextStmt->fetch();
+if ($nextArticle) {
+    if ($current_lang === 'si' && !empty($nextArticle['title_si'])) $nextArticle['title'] = $nextArticle['title_si'];
+    elseif ($current_lang === 'ta' && !empty($nextArticle['title_ta'])) $nextArticle['title'] = $nextArticle['title_ta'];
+}
+
 $page_title = 'News';
 $pageTitle = strip_tags($article['title']);
 $metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
@@ -108,14 +126,29 @@ include 'includes/sub-hero.php';
 
                 <!-- Pagination Links -->
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
-                    <a href="#" class="group max-w-xs">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">&lt; Previous</div>
-                        <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed">The committee approved by the Cabinet to amend the labour laws is consulting the...</p>
+                    <?php if ($prevArticle): ?>
+                    <a href="news/<?= $prevArticle['id'] ?>" class="group max-w-xs block">
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-[#4E0000] transition-colors">&lt; Previous</div>
+                        <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($prevArticle['title']) ?></p>
                     </a>
-                    <a href="#" class="group max-w-xs text-left md:text-right">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">Next &gt;</div>
-                        <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed">Press release on private sector salary increase...</p>
+                    <?php else: ?>
+                    <div class="max-w-xs opacity-40">
+                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2">&lt; Previous</div>
+                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed">No older updates</p>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if ($nextArticle): ?>
+                    <a href="news/<?= $nextArticle['id'] ?>" class="group max-w-xs text-left md:text-right block">
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-[#4E0000] transition-colors">Next &gt;</div>
+                        <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($nextArticle['title']) ?></p>
                     </a>
+                    <?php else: ?>
+                    <div class="max-w-xs text-left md:text-right opacity-40">
+                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2">Next &gt;</div>
+                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed">No newer updates</p>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -135,12 +168,25 @@ include 'includes/sub-hero.php';
                     <!-- Recent Posts -->
                     <div class="mb-10">
                         <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6">Recent Posts</h3>
-                        <ul class="space-y-4">
+                        <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news/<?= $post['id'] ?>" class="flex text-[14px] text-[#4A4A4A] font-inter hover:text-secondary transition-colors leading-relaxed group">
-                                    <span class="mr-2 text-gray-400 group-hover:text-secondary transition-colors mt-0.5">&gt;</span> 
-                                    <span class="notranslate"><?= htmlspecialchars($post['title']) ?></span>
+                                <a href="news/<?= $post['id'] ?>" class="flex items-start gap-4 group">
+                                    <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
+                                        <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
+                                            <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <?php else: ?>
+                                            <div class="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300">
+                                                <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="text-[13.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors line-clamp-2 leading-snug notranslate" title="<?= htmlspecialchars($post['title']) ?>">
+                                            <?= htmlspecialchars($post['title']) ?>
+                                        </h4>
+                                        <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide mt-1 block"><?= date('M d, Y', strtotime($post['created_at'])) ?></span>
+                                    </div>
                                 </a>
                             </li>
                             <?php endforeach; ?>

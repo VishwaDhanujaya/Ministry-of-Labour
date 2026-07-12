@@ -76,17 +76,34 @@ include 'includes/header.php';
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
-<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+<div class="flex-1 flex flex-col min-w-0 bg-[#F8F9FA] relative z-10 font-inter">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-[#F8F9FA]">
         <!-- Include Quill CSS -->
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
+        <?php if (!empty($success)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><?= htmlspecialchars($success) ?></span>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($error)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span><?= htmlspecialchars($error) ?></span>
+            </div>
+        <?php endif; ?>
+
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">Manage Special Notices</h2>
-            <button onclick="openAddModal()" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Special Notices</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Publish and manage high-priority alerts and notices for the public portal.</p>
+            </div>
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
                 <span class="mr-1.5 text-lg leading-none">+</span> New Notice
             </button>
         </div>
@@ -117,76 +134,68 @@ include 'includes/header.php';
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden overflow-x-auto mb-12">
-            <table class="js-filterable-table w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#F9FAFB] border-b border-gray-100">
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Title</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider">Date Added</th>
-                        <th class="py-4 px-6 text-[12px] font-semibold text-gray-500 uppercase tracking-wider text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    <?php if (empty($notices)): ?>
-                    <tr>
-                        <td colspan="4" class="py-16 px-6">
-                            <div class="flex flex-col items-center justify-center text-center">
-                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                                </div>
-                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No special notices found</p>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php else: ?>
-                    <?php foreach ($notices as $notice): ?>
-                    <tr class="hover:bg-gray-50 transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $notice['id'] ?>, '<?= htmlspecialchars(addslashes($notice['title'])) ?>', 'manage-special-notices?delete=<?= $notice['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($notice, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
-                        <td class="py-4 px-6">
-                            <p class="text-[13px] font-medium text-gray-900 group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($notice['title']) ?></p>
-                            <?php if(!empty($notice['content'])): ?>
-                                <p class="text-[12px] text-gray-500 truncate w-48" title="<?= htmlspecialchars(strip_tags($notice['content'])) ?>"><?= htmlspecialchars(strip_tags($notice['content'])) ?></p>
-                            <?php endif; ?>
-                            
-                            <!-- Hidden Preview Content -->
-                            <div id="preview-content-<?= $notice['id'] ?>" class="hidden">
-                                <div class="flex flex-col gap-4">
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="px-2.5 py-1 rounded text-[11px] font-bold <?= $notice['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?>"><?= htmlspecialchars($notice['status']) ?></span>
-                                        <span class="px-2.5 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($notice['created_at'])) ?></span>
-                                    </div>
-                                    <?php if (!empty($notice['content'])): ?>
-                                        <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
-                                            <?= $notice['content'] ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <?php if ($notice['status'] === 'Published'): ?>
-                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-[#13273F] text-white">Published</span>
-                            <?php else: ?>
-                            <span class="px-2.5 py-1 rounded text-[11px] font-bold bg-gray-200 text-gray-800">Draft</span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="py-4 px-6 text-[13px] text-gray-600"><?= date('M d, Y', strtotime($notice['created_at'])) ?></td>
-                        <td class="py-4 px-6 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <button onclick='event.stopPropagation(); openEditModal(<?= json_encode($notice, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                </button>
-                                <a href="manage-special-notices?delete=<?= $notice['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this special notice?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+        <?php
+        $headers = [
+            ['label' => 'Title', 'class' => ''],
+            ['label' => 'Status', 'class' => 'w-36'],
+            ['label' => 'Date Added', 'class' => 'w-36'],
+            ['label' => 'Actions', 'class' => 'text-right w-32']
+        ];
+        
+        renderAdminTable($headers, $notices, function($notice) {
+            ?>
+            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $notice['id'] ?>, '<?= htmlspecialchars(addslashes($notice['title'])) ?>', 'manage-special-notices?delete=<?= $notice['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($notice, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
+                <td class="py-4 px-6">
+                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-[#4E0000] transition-colors leading-none mb-1"><?= htmlspecialchars($notice['title']) ?></p>
+                    <?php if(!empty($notice['content'])): ?>
+                        <p class="text-[11.5px] text-slate-400 truncate max-w-md mt-1.5" title="<?= htmlspecialchars(strip_tags($notice['content'])) ?>"><?= htmlspecialchars(strip_tags($notice['content'])) ?></p>
                     <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    
+                    <!-- Hidden Preview Content -->
+                    <div id="preview-content-<?= $notice['id'] ?>" class="hidden">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $notice['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200' ?>"><?= htmlspecialchars($notice['status']) ?></span>
+                                <span class="px-2.5 py-1 bg-gray-55 text-gray-600 border border-slate-100 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider"><?= date('M d, Y', strtotime($notice['created_at'])) ?></span>
+                            </div>
+                            <?php if (!empty($notice['content'])): ?>
+                                <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none">
+                                    <?= $notice['content'] ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="py-4 px-6">
+                    <?php if ($notice['status'] === 'Published'): ?>
+                    <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
+                    <?php else: ?>
+                    <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
+                    <?php endif; ?>
+                </td>
+                <td class="py-4 px-6 text-[13px] text-slate-400 font-mono"><?= date('M d, Y', strtotime($notice['created_at'])) ?></td>
+                <td class="py-4 px-6 text-right" onclick="event.stopPropagation();">
+                    <div class="flex items-center justify-end gap-1.5">
+                        <button onclick='openEditModal(<?= json_encode($notice, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' class="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-100 hover:bg-slate-100 hover:text-slate-800 text-slate-400 flex items-center justify-center transition-all shadow-sm" title="Edit">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg>
+                        </button>
+                        <a href="manage-special-notices?delete=<?= $notice['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this special notice?" class="w-8.5 h-8.5 rounded-xl bg-rose-50/50 border border-rose-100/50 hover:bg-rose-50 hover:text-rose-600 text-rose-400 flex items-center justify-center transition-all shadow-sm" title="Delete">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }, [
+            'minWidth' => '800px',
+            'emptyTitle' => 'No special notices found',
+            'emptySubtitle' => 'There are no special notices matching your criteria.',
+            'pagination' => [
+                'total_items' => count($notices),
+                'showing_count' => count($notices)
+            ]
+        ]);
+        ?>
 
         <!-- Add/Edit Modal -->
         <div id="noticeModal" class="fixed inset-0 z-[150] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">

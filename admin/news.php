@@ -90,114 +90,105 @@ include 'includes/header.php';
         </div>
 
         <!-- Table -->
-        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden overflow-x-auto">
-            <table class="js-filterable-table w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-[#13273F] text-white">
-                        <th class="py-4 px-6 font-medium text-[15px] w-16">Image</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Title</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Author</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Date</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Status & Visibility</th>
-                        <th class="py-4 px-6 font-medium text-[15px]">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 text-[13px]">
-                    <?php if (empty($newsList)): ?>
-                    <tr>
-                        <td colspan="7" class="py-16 px-6">
-                            <div class="flex flex-col items-center justify-center text-center">
-                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4 border border-gray-100">
-                                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
-                                </div>
-                                <p class="text-[14px] font-semibold text-gray-900 mb-1">No news found</p>
-                                <p class="text-[13px] text-gray-500">There are no news items matching your criteria.</p>
-                            </div>
-                        </td>
-                    </tr>
+        <?php
+        $headers = [
+            ['label' => 'Image', 'class' => 'w-16'],
+            ['label' => 'Title', 'class' => ''],
+            ['label' => 'Author', 'class' => ''],
+            ['label' => 'Date', 'class' => ''],
+            ['label' => 'Status & Visibility', 'class' => ''],
+            ['label' => 'Actions', 'class' => '']
+        ];
+        
+        renderAdminTable($headers, $newsList, function($news) {
+            ?>
+            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
+                <td class="py-5 px-6">
+                    <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
+                        <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
+                            <img loading="lazy" src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                        </a>
                     <?php else: ?>
-                    <?php foreach ($newsList as $news): ?>
-                    <tr class="hover:bg-[#F8FAFC] transition-colors cursor-pointer group" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>')">
-                        <td class="py-5 px-6">
-                            <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
-                                <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">
-                                    <img loading="lazy" src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                                </a>
-                            <?php else: ?>
-                                <div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center border border-gray-200">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                </div>
-                            <?php endif; ?>
-                        </td>
-                        <td class="py-5 px-6 font-medium text-gray-900 w-1/4">
-                            <span class="text-left hover:text-[#4E0000] transition-colors focus:outline-none">
-                                <?= htmlspecialchars($news['title']) ?>
-                            </span>
-                            <div id="preview-content-<?= $news['id'] ?>" class="hidden">
-                                <div class="flex flex-col md:flex-row gap-6">
-                                    <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
-                                        <div class="w-full md:w-[40%] shrink-0">
-                                            <img src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full aspect-[4/3] object-cover rounded-xl shadow-sm border border-gray-100">
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="w-full md:w-[40%] shrink-0 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 aspect-[4/3]">
-                                            <span class="text-gray-400 text-sm">No Cover Image</span>
-                                        </div>
-                                    <?php endif; ?>
-                                    
-                                    <div class="flex-1 flex flex-col">
-                                        <div class="flex flex-wrap gap-2 mb-3">
-                                            <span class="px-2 py-1 <?= $news['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?> text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['status']) ?></span>
-                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
-                                        </div>
-                                        
-                                        <div class="text-[13px] text-gray-600 line-clamp-6 leading-relaxed mb-4">
-                                            <?= nl2br(htmlspecialchars(strip_tags($news['content'] ?? ''))) ?>
-                                        </div>
-                                        
-                                        <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-[12px] text-gray-500 font-medium">
-                                            <span>By <?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php if ($news['is_featured']): ?>
-                                <div class="mt-1.5"><span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">Featured Notice</span></div>
-                            <?php endif; ?>
-                        </td>
-                        <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
-                        <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
-                        <td class="py-5 px-6">
-                            <div class="flex flex-wrap items-center gap-1.5">
-                                <?php if ($news['status'] === 'Published'): ?>
-                                <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
-                                <?php elseif ($news['status'] === 'Pending Approval'): ?>
-                                <span class="px-2.5 py-1 rounded-md bg-yellow-50 text-yellow-700 border border-yellow-200 text-[11px] font-bold shadow-sm">Pending Approval</span>
-                                <?php else: ?>
-                                <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
-                                <?php endif; ?>
-                                
-                                <span class="px-2.5 py-1 rounded-md <?= strtolower($news['visibility']) === 'public' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-50 text-gray-700 border border-gray-200' ?> text-[11px] font-bold shadow-sm">
-                                    <?= htmlspecialchars(ucfirst($news['visibility'] ?? 'Public')) ?>
-                                </span>
-                            </div>
-                        </td>
-                        <td class="py-5 px-6">
-                            <div class="flex items-center space-x-2">
-                                <a href="news-add?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                                </a>
-                                <a href="news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this news item?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+                        <div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center border border-gray-200">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
                     <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                </td>
+                <td class="py-5 px-6 font-medium text-gray-900 w-1/4">
+                    <span class="text-left hover:text-[#4E0000] transition-colors focus:outline-none">
+                        <?= htmlspecialchars($news['title']) ?>
+                    </span>
+                    <div id="preview-content-<?= $news['id'] ?>" class="hidden">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
+                                <div class="w-full md:w-[40%] shrink-0">
+                                    <img src="<?= htmlspecialchars($news['cover_image']) ?>" class="w-full aspect-[4/3] object-cover rounded-xl shadow-sm border border-gray-100">
+                                </div>
+                            <?php else: ?>
+                                <div class="w-full md:w-[40%] shrink-0 bg-gray-100 rounded-xl flex items-center justify-center border border-gray-200 aspect-[4/3]">
+                                    <span class="text-gray-400 text-sm">No Cover Image</span>
+                                </div>
+                            <?php endif; ?>
+                            
+                            <div class="flex-1 flex flex-col">
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="px-2 py-1 <?= $news['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?> text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['status']) ?></span>
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
+                                </div>
+                                
+                                <div class="text-[13px] text-gray-600 line-clamp-6 leading-relaxed mb-4">
+                                    <?= nl2br(htmlspecialchars(strip_tags($news['content'] ?? ''))) ?>
+                                </div>
+                                
+                                <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-[12px] text-gray-500 font-medium">
+                                    <span>By <?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if ($news['is_featured']): ?>
+                        <div class="mt-1.5"><span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-[10px] font-bold uppercase tracking-wider">Featured Notice</span></div>
+                    <?php endif; ?>
+                </td>
+                <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
+                <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
+                <td class="py-5 px-6">
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <?php if ($news['status'] === 'Published'): ?>
+                        <span class="px-2.5 py-1 rounded-md bg-green-50 text-green-700 border border-green-200 text-[11px] font-bold shadow-sm">Published</span>
+                        <?php elseif ($news['status'] === 'Pending Approval'): ?>
+                        <span class="px-2.5 py-1 rounded-md bg-yellow-50 text-yellow-700 border border-yellow-200 text-[11px] font-bold shadow-sm">Pending Approval</span>
+                        <?php else: ?>
+                        <span class="px-2.5 py-1 rounded-md bg-orange-50 text-orange-700 border border-orange-200 text-[11px] font-bold shadow-sm">Draft</span>
+                        <?php endif; ?>
+                        
+                        <span class="px-2.5 py-1 rounded-md <?= strtolower($news['visibility']) === 'public' ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-gray-50 text-gray-700 border border-gray-200' ?> text-[11px] font-bold shadow-sm">
+                            <?= htmlspecialchars(ucfirst($news['visibility'] ?? 'Public')) ?>
+                        </span>
+                    </div>
+                </td>
+                <td class="py-5 px-6">
+                    <div class="flex items-center space-x-2">
+                        <a href="news-add?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </a>
+                        <a href="news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this news item?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }, [
+            'emptyTitle' => 'No news found',
+            'emptySubtitle' => 'There are no news items matching your criteria.',
+            'emptyIcon' => 'news',
+            'pagination' => [
+                'total_items' => count($newsList),
+                'showing_count' => count($newsList)
+            ]
+        ]);
+        ?>
     </main>
 </div>
 

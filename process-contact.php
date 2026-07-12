@@ -12,11 +12,43 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/admin/includes/db.php';
 require_once __DIR__ . '/includes/Mailer.php';
 
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Google reCAPTCHA Verification
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+    if (empty($recaptchaResponse)) {
+        echo json_encode(['success' => false, 'message' => 'Please check the reCAPTCHA checkbox.']);
+        exit;
+    }
+
+    $recaptchaSecretKey = $env['RECAPTCHA_SECRET_KEY'] ?? '6LeIxAcTAAAAAGG-vFI1qg6EK68FjK00mFD-9hcY';
+    $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
+    
+    $postData = [
+        'secret' => $recaptchaSecretKey,
+        'response' => $recaptchaResponse,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? ''
+    ];
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $verifyUrl);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    
+    $responseData = json_decode($response, true);
+    if (!$responseData || !$responseData['success']) {
+        echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed. Please try again.']);
+        exit;
+    }
+
     // CSRF Protection Check
     $submittedToken = $_POST['csrf_token'] ?? '';
     if (empty($submittedToken) || !hash_equals($_SESSION['csrf_token'] ?? '', $submittedToken)) {

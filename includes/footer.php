@@ -179,11 +179,15 @@
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
                             <li><a href="home" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
                             <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
-                            <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
-                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
-
-                            <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                             <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all">News</a></li>
+                            <li><a href="special-notices" class="hover:text-yellow-400 hover:underline transition-all">Special Notices</a></li>
+                            <li><a href="vacancies" class="hover:text-yellow-400 hover:underline transition-all">Vacancies</a></li>
+                            <li><a href="procurements" class="hover:text-yellow-400 hover:underline transition-all">Procurements</a></li>
+                            <li><a href="learning-platforms" class="hover:text-yellow-400 hover:underline transition-all">Learning Platforms</a></li>
+                            <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
+                            <li><a href="iau-updates" class="hover:text-yellow-400 hover:underline transition-all">IAU Updates</a></li>
+                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
+                            <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                         </ul>
                     </div>
                 </div>
@@ -235,7 +239,47 @@
         <div class="bg-[#090F16] text-gray-400 py-6 border-t border-white/5 font-inter text-[13px] relative z-10">
             <div class="container mx-auto px-4 md:px-16 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p>&copy; 2026 SLT Digital. All rights reserved.</p>
-                <p>Last Updated: 18 Mar, 2026</p>
+                <p>Last Updated: <?php
+                    $last_updated_date = '18 Mar, 2026';
+                    if (!isset($pdo)) {
+                        $db_path = __DIR__ . '/../admin/includes/db.php';
+                        if (file_exists($db_path)) {
+                            try {
+                                require_once $db_path;
+                            } catch (Exception $e) {
+                                // ignore
+                            }
+                        }
+                    }
+                    if (isset($pdo)) {
+                        try {
+                            $queries = [
+                                "SELECT MAX(created_at) FROM news WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM special_notices WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM learning_platforms_local WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM learning_platforms_foreign WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM vacancies WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM procurements WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM acts_amendments WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM iau_updates WHERE status = 'Published'"
+                            ];
+                            $dates = [];
+                            foreach ($queries as $q) {
+                                $stmt = $pdo->query($q);
+                                $d = $stmt->fetchColumn();
+                                if ($d) {
+                                    $dates[] = strtotime($d);
+                                }
+                            }
+                            if (!empty($dates)) {
+                                $last_updated_date = date('j M, Y', max($dates));
+                            }
+                        } catch (PDOException $e) {
+                            // ignore
+                        }
+                    }
+                    echo $last_updated_date;
+                ?></p>
             </div>
         </div>
     </footer>
@@ -245,6 +289,81 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"></path></svg>
     </button>
 
+    <!-- Detail Preview Modal -->
+    <div id="detail-modal" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 transition-opacity duration-300 opacity-0 bg-black/60 backdrop-blur-sm">
+        <div class="absolute inset-0" onclick="closeDetailModal()"></div>
+        <div class="bg-white rounded-[24px] shadow-2xl w-full max-w-2xl p-0 transform scale-95 transition-all duration-300 relative z-10 max-h-[85vh] flex flex-col overflow-hidden border border-gray-100">
+            <!-- Header -->
+            <div class="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-[#FAFAFA] shrink-0">
+                <div class="flex-1 min-w-0 pr-4">
+                    <span id="modal-badge" class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border whitespace-nowrap uppercase tracking-wider bg-secondary/5 text-secondary border-secondary/10">Category</span>
+                    <h3 id="modal-title" class="text-[17px] font-bold font-montserrat text-gray-900 mt-2 truncate"></h3>
+                </div>
+                <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-250 text-gray-500 hover:text-gray-700 flex items-center justify-center transition-colors focus:outline-none shrink-0 cursor-pointer">
+                    <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Content Container -->
+            <div class="overflow-y-auto p-6 md:p-8 flex-grow">
+                <!-- Meta Date -->
+                <div class="flex items-center gap-1.5 text-xs text-gray-400 font-inter font-medium tracking-wide mb-4 pb-4 border-b border-gray-100 select-none">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span id="modal-date">Published Date</span>
+                </div>
+                <!-- Body Text -->
+                <div id="modal-body" class="text-[14.5px] text-gray-600 leading-relaxed font-inter prose max-w-none notranslate"></div>
+            </div>
+
+            <!-- Footer / Action bar -->
+            <div id="modal-footer" class="px-6 py-5 border-t border-gray-100 bg-[#FAFAFA] flex justify-end gap-3 shrink-0">
+                <button onclick="closeDetailModal()" class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer">Close</button>
+                <a id="modal-pdf-link" href="#" target="_blank" class="px-5 py-2.5 text-[13px] font-bold text-white bg-[#4E0000] hover:bg-[#3d0000] rounded-xl transition-all shadow-md flex items-center gap-1.5 focus:outline-none cursor-pointer">
+                    <svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                    View PDF Document
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function openDetailModal(data) {
+        const modal = document.getElementById('detail-modal');
+        document.getElementById('modal-title').textContent = data.title;
+        document.getElementById('modal-badge').textContent = data.category;
+        document.getElementById('modal-date').textContent = 'Published: ' + data.date;
+        document.getElementById('modal-body').innerHTML = data.content || '<p class="text-gray-400 italic">No description provided.</p>';
+        
+        const pdfLink = document.getElementById('modal-pdf-link');
+        if (data.pdf_path) {
+            pdfLink.href = data.pdf_path;
+            pdfLink.style.display = 'inline-flex';
+        } else {
+            pdfLink.style.display = 'none';
+        }
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.querySelector('.transform').classList.remove('scale-95');
+            modal.querySelector('.transform').classList.add('scale-100');
+        }, 10);
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeDetailModal() {
+        const modal = document.getElementById('detail-modal');
+        modal.classList.add('opacity-0');
+        modal.querySelector('.transform').classList.remove('scale-100');
+        modal.querySelector('.transform').classList.add('scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }, 300);
+        document.body.classList.remove('overflow-hidden');
+    }
+    </script>
 
     <!-- Interactive JS assets -->
     <?php

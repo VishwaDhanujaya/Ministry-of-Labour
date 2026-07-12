@@ -1,6 +1,20 @@
 <?php
 // index.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once 'admin/includes/db.php';
+
+// Increment unique visitor count
+if (!isset($_SESSION['has_visited_site'])) {
+    try {
+        $pdo->query("UPDATE statistics SET stat_value = CAST(stat_value AS UNSIGNED) + 1 WHERE stat_key = 'total_visitors'");
+        $_SESSION['has_visited_site'] = true;
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+}
+
 
 // Fetch recent news (limit 3)
 $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
@@ -76,11 +90,26 @@ if (!empty($statisticsList)) {
     foreach ($statisticsList as $row) {
         $key = $row['stat_key'];
         if (isset($stats[$key])) {
-            $stats[$key]['stat_value'] = $row['stat_value'];
+            $val = $row['stat_value'];
+            $suffix = $row['stat_suffix'] ?? '';
+            
+            // Format visitor count dynamically to K/M notation
+            if ($key === 'total_visitors' && is_numeric($val)) {
+                $num = (int)$val;
+                if ($num >= 1000000) {
+                    $val = round($num / 1000000, 1);
+                    $suffix = 'M' . $suffix;
+                } elseif ($num >= 1000) {
+                    $val = round($num / 1000, 1);
+                    $suffix = 'K' . $suffix;
+                }
+            }
+            
+            $stats[$key]['stat_value'] = $val;
             if (isset($row['stat_label']) && !empty($row['stat_label'])) $stats[$key]['stat_label'] = $row['stat_label'];
             if (isset($row['stat_label_si']) && !empty($row['stat_label_si'])) $stats[$key]['stat_label_si'] = $row['stat_label_si'];
             if (isset($row['stat_label_ta']) && !empty($row['stat_label_ta'])) $stats[$key]['stat_label_ta'] = $row['stat_label_ta'];
-            if (isset($row['stat_suffix'])) $stats[$key]['stat_suffix'] = $row['stat_suffix'];
+            $stats[$key]['stat_suffix'] = $suffix;
         }
     }
 }
@@ -134,7 +163,7 @@ include 'includes/header.php';
     </div>
     <!-- Scrolling News Bar -->
     <div class="absolute bottom-0 left-0 w-full z-40 bg-black/40 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-14 shadow-lg">
-        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center">
+        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center hidden md:flex">
             Latest News
         </div>
         

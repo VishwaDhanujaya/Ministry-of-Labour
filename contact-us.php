@@ -10,6 +10,8 @@ if (empty($_SESSION['csrf_token'])) {
 require_once 'admin/includes/db.php';
 require_once 'includes/officials-service.php';
 
+$recaptcha_site_key = $env['RECAPTCHA_SITE_KEY'] ?? '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+
 $contact_departments = buildContactDepartments($pdo);
 
 $page_title = 'Contact Us';
@@ -110,6 +112,7 @@ include 'includes/sub-hero.php';
                 </div>
                 
                 <form id="contactForm" class="space-y-4 md:space-y-5">
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name <span class="text-red-500">*</span></label>
@@ -132,14 +135,25 @@ include 'includes/sub-hero.php';
                         <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="How can we help you?"></textarea>
                     </div>
 
-                    <div class="pt-2 md:pt-4 text-center md:text-left">
-                        <button type="submit" id="submitBtn" class="btn-primary w-full md:w-auto font-inter gap-2">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 md:pt-4">
+                        <!-- Submit Button -->
+                        <!-- Submit Button -->
+                        <button type="submit" id="submitBtn" class="btn-primary w-full sm:w-auto font-inter gap-2 opacity-50 cursor-not-allowed" disabled>
                             <span>Send Message</span>
                             <svg id="submitSpinner" class="hidden w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
                         </button>
+ 
+                        <!-- Google reCAPTCHA -->
+                        <div class="shrink-0">
+                            <div class="g-recaptcha shadow-sm rounded-lg overflow-hidden border border-gray-200 bg-[#FAFAFA]" 
+                                 data-sitekey="<?= htmlspecialchars($recaptcha_site_key) ?>"
+                                 data-callback="onRecaptchaSuccess"
+                                 data-expired-callback="onRecaptchaExpired"
+                                 data-error-callback="onRecaptchaError"></div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -247,6 +261,27 @@ include 'includes/sub-hero.php';
 </script>
 
 <script>
+    // reCAPTCHA Callback Functions
+    function onRecaptchaSuccess(token) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    function onRecaptchaExpired() {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    function onRecaptchaError() {
+        onRecaptchaExpired();
+    }
+
     document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -271,11 +306,15 @@ include 'includes/sub-hero.php';
         })
         .then(response => response.json())
         .then(data => {
-            // Restore button
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            // Restore button text and hide spinner
             spinner.classList.add('hidden');
             btnText.textContent = 'Send Message';
+
+            // Reset recaptcha widget and disable submit button
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
+            }
+            onRecaptchaExpired();
 
             if (data.success) {
                 if (window.showToast) {
@@ -294,11 +333,16 @@ include 'includes/sub-hero.php';
         })
         .catch(error => {
             console.error('Error:', error);
-            // Restore button
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            // Restore button text and hide spinner
             spinner.classList.add('hidden');
             btnText.textContent = 'Send Message';
+            
+            // Reset recaptcha widget and disable submit button
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
+            }
+            onRecaptchaExpired();
+
             if (window.showToast) {
                 window.showToast('An error occurred. Please try again later.', 'error');
             } else {

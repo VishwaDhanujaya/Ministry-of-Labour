@@ -10,101 +10,17 @@ $metaKeywords = 'Downloads, Acts, Amendments, Procurements, Vacancies, Publicati
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 
-// Placeholder data for Acts
-$acts = [
-    [
-        'title' => 'Shop and Office Employees Act',
-        'ref' => 'Act No. 19 of 1954',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Wages Boards Ordinance',
-        'ref' => 'Ordinance No. 27 of 1941',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Employees\' Provident Fund Act',
-        'ref' => 'Act No. 15 of 1958',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Maternity Benefits Ordinance',
-        'ref' => 'Ordinance No. 32 of 1939',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Workmen\'s Compensation Ordinance',
-        'ref' => 'Ordinance No. 19 of 1934',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Factories Ordinance',
-        'ref' => 'Ordinance No. 45 of 1942',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ]
-];
-
-// Placeholder data for Amendments
-$amendments = [
-    [
-        'title' => 'Employees\' Provident Fund (Amendment) Act',
-        'ref' => 'Act No. 2 of 2012',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Shop and Office Employees (Regulation of Employment and Remuneration) (Amendment) Act',
-        'ref' => 'Act No. 14 of 2021',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Maternity Benefits (Amendment) Act',
-        'ref' => 'Act No. 15 of 2021',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ],
-    [
-        'title' => 'Minimum Wages (Indian Labour) (Amendment) Act',
-        'ref' => 'Act No. 16 of 2021',
-        'en' => '#',
-        'si' => '#',
-        'ta' => '#'
-    ]
-];
-
 $all_documents = [];
 
-// Add Acts
-foreach ($acts as $act) {
-    $act['category'] = 'Acts';
-    $act['pdf_path'] = $act['en']; 
-    $all_documents[] = $act;
-}
-
-// Add Amendments
-foreach ($amendments as $amendment) {
-    $amendment['category'] = 'Amendments';
-    $amendment['pdf_path'] = $amendment['en'];
-    $all_documents[] = $amendment;
-}
-
 try {
+    // Fetch Acts and Amendments
+    $stmt = $pdo->query("SELECT title, ref, category, created_at, pdf_path FROM acts_amendments WHERE status = 'Published' AND pdf_path != '' AND pdf_path IS NOT NULL");
+    while ($row = $stmt->fetch()) {
+        $row['ref'] = !empty($row['ref']) ? $row['ref'] : date('Y-m-d', strtotime($row['created_at']));
+        $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
+        $all_documents[] = $row;
+    }
+
     // Fetch Procurements
     $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path FROM procurements WHERE pdf_path != '' AND pdf_path IS NOT NULL");
     while ($row = $stmt->fetch()) {
@@ -219,7 +135,13 @@ $categoryColors = [
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>">
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                'title' => $doc['title'],
+                'content' => '<p class=\'text-gray-500 font-medium\'>Reference ID / Code: <span class=\'font-semibold text-gray-800 font-inter\'>' . htmlspecialchars($doc['ref']) . '</span></p>',
+                'date' => date('M d, Y', strtotime($doc['created_at'] ?? $doc['ref'])),
+                'category' => $doc['category'],
+                'pdf_path' => $doc['pdf_path'] ?? ''
+            ])) ?>)">
                 <div>
                     <!-- Badge & Icon -->
                     <div class="flex items-center justify-between mb-4">
@@ -227,12 +149,12 @@ $categoryColors = [
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <!-- Title -->
-                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
+                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-[#4E0000] transition-colors group-hover:text-secondary"><?= htmlspecialchars($doc['title']) ?></h3>
                     <!-- Reference -->
                     <p class="text-xs text-gray-500 font-medium font-inter mb-6">Ref: <?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
                 <!-- Action Button -->
-                <a href="<?= htmlspecialchars($doc['pdf_path'] ?? '#') ?>" <?php if(($doc['pdf_path'] ?? '#') !== '#') echo 'target="_blank"'; ?> class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-[#4E0000] hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm">
+                <a href="<?= htmlspecialchars($doc['pdf_path'] ?? '#') ?>" <?php if(($doc['pdf_path'] ?? '#') !== '#') echo 'target="_blank"'; ?> class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-[#4E0000] hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm" onclick="event.stopPropagation();">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     Download Document
                 </a>
@@ -256,9 +178,15 @@ $categoryColors = [
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150" data-index="<?= $index ?>">
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                            'title' => $doc['title'],
+                            'content' => '<p class=\'text-gray-500 font-medium\'>Reference ID / Code: <span class=\'font-semibold text-gray-800 font-inter\'>' . htmlspecialchars($doc['ref']) . '</span></p>',
+                            'date' => date('M d, Y', strtotime($doc['created_at'] ?? $doc['ref'])),
+                            'category' => $doc['category'],
+                            'pdf_path' => $doc['pdf_path'] ?? ''
+                        ])) ?>)">
                             <td class="px-6 py-4">
-                                <h3 class="font-bold text-gray-800 text-[14px]"><?= htmlspecialchars($doc['title']) ?></h3>
+                                <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
                             </td>
                             <td class="px-6 py-4">
                                 <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
@@ -266,7 +194,7 @@ $categoryColors = [
                             <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
                                 <?= htmlspecialchars($doc['ref']) ?>
                             </td>
-                            <td class="px-6 py-4 text-right">
+                            <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
                                 <a href="<?= htmlspecialchars($doc['pdf_path'] ?? '#') ?>" <?php if(($doc['pdf_path'] ?? '#') !== '#') echo 'target="_blank"'; ?> class="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-[#4E0000] hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     Download

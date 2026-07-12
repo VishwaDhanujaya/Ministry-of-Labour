@@ -75,12 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="<?= $base_url ?>assets/css/style.css?v=<?= $css_version ?>">
 
     <style>
-        .font-inter {
-            font-family: 'Inter', sans-serif;
+        body, input, select, textarea, button {
+            font-family: 'Inter', sans-serif !important;
         }
-
-        .font-montserrat {
-            font-family: 'Montserrat', sans-serif;
+        h1, h2, h3, h4, h5, h6, .font-montserrat {
+            font-family: 'Montserrat', sans-serif !important;
+        }
+        .font-inter {
+            font-family: 'Inter', sans-serif !important;
         }
 
         /* Custom Placeholder Styles to accommodate the red asterisk */

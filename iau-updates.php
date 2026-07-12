@@ -47,9 +47,15 @@ $updates = $stmt->fetchAll();
                         </tr>
                         <?php else: ?>
                         <?php foreach ($updates as $update): ?>
-                        <tr class="hover:bg-gray-50/80 transition-colors group">
+                        <tr class="hover:bg-gray-50/80 transition-colors group cursor-pointer" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                            'title' => $update['title'],
+                            'content' => $update['content'] ?? '',
+                            'date' => date('M d, Y', strtotime($update['created_at'])),
+                            'category' => 'IAU Update',
+                            'pdf_path' => !empty($update['pdf_path']) ? resolvePdfUrl($update['pdf_path']) : ''
+                        ])) ?>)">
                             <td class="px-6 py-4">
-                                <h3 class="font-medium text-gray-900 text-[14px]"><?= htmlspecialchars($update['title']) ?></h3>
+                                <h3 class="font-medium text-gray-900 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($update['title']) ?></h3>
                                 <?php if (!empty($update['content'])): ?>
                                 <div class="text-[13px] text-gray-500 mt-1 prose prose-sm max-w-none notranslate"><?= $update['content'] ?></div>
                                 <?php endif; ?>

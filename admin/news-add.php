@@ -180,17 +180,35 @@ include 'includes/header.php';
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
-<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+<div class="flex-1 flex flex-col min-w-0 bg-[#F8F9FA] relative z-10 font-inter">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-[#F8F9FA]">
         <!-- Include Quill CSS -->
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
+        <?php if (!empty($success)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span><?= htmlspecialchars($success) ?></span>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($error)): ?>
+            <div class="max-w-7xl mx-auto mb-6 p-4 rounded-xl bg-rose-50 border border-rose-100 text-rose-800 flex items-center gap-3 text-xs font-semibold shadow-sm animate-fadeIn">
+                <svg class="w-4.5 h-4.5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                <span><?= htmlspecialchars($error) ?></span>
+            </div>
+        <?php endif; ?>
+
         <!-- Header -->
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900"><?= $article ? 'Edit News' : 'Add News' ?></h2>
-            <a href="news" class="bg-white border border-[#4E0000] text-[#4E0000] px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-gray-50 transition-colors shadow-sm flex items-center">
+            <div>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
+            </div>
+            <a href="news" class="bg-white border border-slate-200 text-slate-600 px-4 py-2 rounded-lg text-[13px] font-semibold hover:bg-slate-50 transition-colors shadow-sm flex items-center gap-2">
+                <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Back to News
             </a>
         </div>
@@ -204,14 +222,14 @@ include 'includes/header.php';
                 <div class="lg:col-span-2 space-y-6">
                     
                     <!-- Language Tabs -->
-                    <div class="flex space-x-1 border-b border-gray-200 mb-6">
-                        <button type="button" class="lang-tab-btn active px-6 py-3 text-[13px] font-bold border-b-2 border-[#4E0000] text-[#4E0000] transition-colors focus:outline-none" data-target="lang-en">
+                    <div class="inline-flex p-1 bg-slate-100 rounded-xl mb-6 shadow-inner border border-slate-200/40">
+                        <button type="button" class="lang-tab-btn active px-5 py-2 text-[12.5px] font-bold rounded-lg text-slate-800 bg-white shadow-sm transition-all focus:outline-none" data-target="lang-en">
                             English
                         </button>
-                        <button type="button" class="lang-tab-btn px-6 py-3 text-[13px] font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors focus:outline-none" data-target="lang-si">
+                        <button type="button" class="lang-tab-btn px-5 py-2 text-[12.5px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all focus:outline-none" data-target="lang-si">
                             Sinhala
                         </button>
-                        <button type="button" class="lang-tab-btn px-6 py-3 text-[13px] font-bold border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors focus:outline-none" data-target="lang-ta">
+                        <button type="button" class="lang-tab-btn px-5 py-2 text-[12.5px] font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition-all focus:outline-none" data-target="lang-ta">
                             Tamil
                         </button>
                     </div>
@@ -277,20 +295,20 @@ include 'includes/header.php';
 
                     <!-- Cover Image -->
                     <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Cover Image <?= !$article ? '<span class="text-red-500">*</span>' : '' ?></label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-secondary transition-colors cursor-pointer bg-[#F9FAFB]" onclick="document.getElementById('cover_image').click()">
+                        <label class="block text-[13px] font-semibold text-slate-700 mb-2">Cover Image <?= !$article ? '<span class="text-red-500">*</span>' : '' ?></label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('cover_image').click()">
                             <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                <div class="flex text-[13px] text-gray-600 justify-center mt-2">
-                                    <span class="relative cursor-pointer rounded-md font-medium text-secondary hover:text-[#320000] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-secondary">
+                                <div class="flex text-[13px] text-slate-600 justify-center mt-2">
+                                    <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974] focus-within:outline-none">
                                         <span>Upload a file</span>
                                         <input id="cover_image" name="cover_image" type="file" class="sr-only" accept="image/png, image/jpeg, image/jpg, image/webp" <?= !$article ? 'required' : '' ?> onchange="previewSingleImage(this, 'cover-preview')">
                                     </span>
-                                    <p class="pl-1">or drag and drop</p>
+                                    <p class="pl-1 text-slate-400">or drag and drop</p>
                                 </div>
-                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 5MB</p>
+                                <p class="text-xs text-slate-400 mt-1">PNG, JPG, WEBP up to 5MB</p>
                             </div>
                         </div>
                         <div id="cover-preview" class="mt-4 flex gap-4 flex-wrap">
@@ -304,18 +322,18 @@ include 'includes/header.php';
                     
                     <!-- Additional Images -->
                     <div>
-                        <label class="block text-[13px] font-semibold text-gray-800 mb-2">Additional Images (Optional)</label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-secondary transition-colors cursor-pointer bg-[#F9FAFB]" onclick="document.getElementById('additional_images').click()">
+                        <label class="block text-[13px] font-semibold text-slate-700 mb-2">Additional Images (Optional)</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('additional_images').click()">
                             <div class="space-y-1 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                <div class="flex text-[13px] text-gray-600 justify-center mt-2">
-                                    <span class="relative cursor-pointer rounded-md font-medium text-secondary hover:text-[#320000] focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-secondary">
+                                <div class="flex text-[13px] text-slate-600 justify-center mt-2">
+                                    <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974] focus-within:outline-none">
                                         <span>Upload files</span>
                                         <input id="additional_images" name="additional_images[]" type="file" class="sr-only" multiple accept="image/png, image/jpeg, image/jpg, image/webp" onchange="previewMultipleImages(this, 'additional-preview')">
                                     </span>
-                                    <p class="pl-1">or drag and drop</p>
+                                    <p class="pl-1 text-slate-400">or drag and drop</p>
                                 </div>
                                 <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP up to 5MB each (multiple allowed)</p>
                             </div>
@@ -336,30 +354,30 @@ include 'includes/header.php';
                     </div>
 
                     <!-- Action Buttons -->
-                    <div class="sticky bottom-4 z-50 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-200 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8">
+                    <div class="sticky bottom-4 z-50 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100/80 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8">
                         <div>
                             <?php if ($article): ?>
-                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-md text-[13px] font-bold transition-colors inline-flex items-center justify-center">
+                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-rose-200/60 text-rose-500 hover:bg-rose-50 rounded-xl text-[13px] font-bold transition-all inline-flex items-center justify-center">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    Delete
+                                    Delete Article
                                 </a>
                             <?php endif; ?>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-gray-300 text-gray-700 rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white text-center flex items-center justify-center">
+                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center">
                                 Cancel
                             </a>
                             <?php if (!$article || $article['status'] === 'Draft' || $article['status'] === 'Pending Approval'): ?>
-                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-[#4E0000] text-[#4E0000] rounded-md text-[13px] font-bold hover:bg-gray-50 transition-colors bg-white">
+                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white">
                                 <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
                             <?php endif; ?>
                             <?php if (hasPermission('approve_news')): ?>
-                            <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-md">
+                            <button type="submit" name="publish" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#13273F] to-[#254974] text-white rounded-xl text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
                                 <?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?>
                             </button>
                             <?php else: ?>
-                            <button type="submit" name="submit_approval" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-md">
+                            <button type="submit" name="submit_approval" value="1" class="w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#13273F] to-[#254974] text-white rounded-xl text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
                                 <?= $article && $article['status'] === 'Pending Approval' ? 'Update Request' : 'Submit for Approval' ?>
                             </button>
                             <?php endif; ?>
@@ -371,45 +389,42 @@ include 'includes/header.php';
             <!-- Right Column: Sidebar Widgets (Col 1) -->
             <div class="space-y-8">
                 <!-- Publish Options Widget -->
-                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                    <div class="bg-[#13273F] text-white p-5">
-                        <h3 class="font-medium text-[15px]">Publish Options</h3>
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="bg-gradient-to-r from-[#13273F] to-[#254974] text-white p-5">
+                        <h3 class="font-bold font-montserrat text-[14px]">Publish Options</h3>
                     </div>
                     <div class="p-6 space-y-6">
                         <!-- Category -->
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Category <span class="text-red-500">*</span></label>
+                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Category <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <select name="category" id="category-select" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer" required>
                                     <option value="" disabled <?= !$article ? 'selected' : '' ?>>Select Category</option>
                                     <option value="Media" <?= ($article && $article['category'] === 'Media') ? 'selected' : '' ?>>Media</option>
                                     <option value="Notices" <?= ($article && $article['category'] === 'Notices') ? 'selected' : '' ?>>Notices</option>
                                 </select>
-                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
 
                         <!-- Visibility -->
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Visibility <span class="text-red-500">*</span></label>
+                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Visibility <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <select name="visibility" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
                                     <option value="public" <?= ($article && $article['visibility'] === 'public') ? 'selected' : '' ?>>Public</option>
                                     <option value="private" <?= ($article && $article['visibility'] === 'private') ? 'selected' : '' ?>>Private</option>
                                 </select>
-                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
 
                         <!-- Featured Article (Only for Notices) -->
                         <div id="featured-block" style="display: none;">
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">Featured Notice?</label>
+                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Featured Notice?</label>
                             <div class="relative">
                                 <select name="is_featured" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-300 text-[13px] text-gray-600 appearance-none cursor-pointer">
                                     <option value="no" <?= ($article && $article['is_featured'] == 0) ? 'selected' : '' ?>>No</option>
                                     <option value="yes" <?= ($article && $article['is_featured'] == 1) ? 'selected' : '' ?>>Yes</option>
                                 </select>
-                                <svg class="w-4 h-4 absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
                     </div>
@@ -418,23 +433,25 @@ include 'includes/header.php';
 
                 <!-- Recent Drafts Widget -->
                 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-                    <div class="bg-[#13273F] text-white p-5">
-                        <h3 class="font-medium text-[15px]">Recent Drafts</h3>
+                <!-- Recent Drafts Widget -->
+                <div class="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="bg-gradient-to-r from-[#13273F] to-[#254974] text-white p-5">
+                        <h3 class="font-bold font-montserrat text-[14px]">Recent Drafts</h3>
                     </div>
                     <div class="p-6">
                         <?php if(empty($recentDrafts)): ?>
                             <p class="text-[13px] text-gray-500">No recent drafts.</p>
                         <?php else: ?>
                             <?php foreach($recentDrafts as $draft): ?>
-                            <div class="flex items-start justify-between gap-2 mb-4 group relative border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                            <div class="flex items-start justify-between gap-2 mb-4 group relative border-b border-slate-50 pb-4 last:border-0 last:pb-0">
                                 <a href="news-add?id=<?= $draft['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer flex-1">
-                                    <h4 class="font-semibold text-gray-900 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
-                                    <p class="text-[11px] text-gray-500">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
+                                    <h4 class="font-bold text-slate-800 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
+                                    <p class="text-[11px] text-slate-400">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
                                     <div class="mt-1">
-                                        <span class="px-3 py-1 rounded bg-[#FCF1F2] text-[#9E212D] text-[11px] font-bold">Draft</span>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-wider font-mono">Draft</span>
                                     </div>
                                 </a>
-                                <a href="news-add?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this draft?" class="text-gray-400 hover:text-red-500 p-1.5 rounded hover:bg-red-50 transition-colors" title="Delete Draft">
+                                <a href="news-add?delete_draft=<?= $draft['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this draft?" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors" title="Delete Draft">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </a>
                             </div>
@@ -616,12 +633,12 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', () => {
             // Remove active classes from all buttons
             tabBtns.forEach(b => {
-                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]');
-                b.classList.add('border-transparent', 'text-gray-500');
+                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]', 'bg-white', 'shadow-sm', 'text-slate-800');
+                b.classList.add('border-transparent', 'text-gray-500', 'text-slate-600');
             });
             // Add active class to clicked button
-            btn.classList.add('active', 'border-[#4E0000]', 'text-[#4E0000]');
-            btn.classList.remove('border-transparent', 'text-gray-500');
+            btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-slate-800');
+            btn.classList.remove('border-transparent', 'text-gray-500', 'text-slate-600');
 
             // Hide all contents
             tabContents.forEach(c => {

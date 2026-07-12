@@ -4,7 +4,9 @@ require_once 'admin/includes/db.php';
 require_once 'includes/officials-service.php';
 
 $top_officials = getTopOfficials($pdo);
-$departments   = getDivisions($pdo);
+$departments   = array_values(array_filter(getDivisions($pdo), function($div) {
+    return $div['slug'] !== 'rti-officers';
+}));
 
 $page_title = 'About Us';
 $pageTitle = 'About Us - Ministry of Labour - Sri Lanka';
