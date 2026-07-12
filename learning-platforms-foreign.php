@@ -70,10 +70,10 @@ $learning_platforms_foreign = $stmt->fetchAll();
                             </td>
                             <td class="px-6 py-4 text-right whitespace-nowrap" onclick="event.stopPropagation();">
                                 <div class="flex items-center justify-end gap-3">
-                                    <button type="button" data-pdf-url="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" data-pdf-title="<?= htmlspecialchars($pub['title']) ?>" class="open-pdf-modal inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors focus:outline-none bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors focus:outline-none bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                         View
-                                    </button>
+                                    </a>
                                     <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" download class="inline-flex items-center text-[#4E0000] hover:text-[#320000] text-[13px] font-semibold transition-colors bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                         Download
