@@ -126,14 +126,21 @@ include 'includes/header.php';
 <!-- Swiper CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+<?php
+$hero_desktop_path = __DIR__ . '/assets/img/hero.webp';
+$hero_desktop_version = file_exists($hero_desktop_path) ? filemtime($hero_desktop_path) : time();
+
+$hero_mobile_path = __DIR__ . '/assets/img/mobile-hero.webp';
+$hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_path) : time();
+?>
 <!-- Hero Section -->
 <section class="relative min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-120px)] flex items-center bg-primary overflow-hidden py-12 md:py-16 xl:py-20">
     <!-- Desktop Hero Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none hidden md:block"
-        style="background-image: url('assets/img/hero.webp');"></div>
+        style="background-image: url('assets/img/hero.webp?v=<?= $hero_desktop_version ?>');"></div>
     <!-- Mobile Hero Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none block md:hidden"
-        style="background-image: url('assets/img/mobile-hero.webp');"></div>
+        style="background-image: url('assets/img/mobile-hero.webp?v=<?= $hero_mobile_version ?>');"></div>
     <div class="absolute inset-0 opacity-25 bg-home-hero-gradient"></div>
     <!-- Bottom gradient overlay to blend hero image and improve legibility at the bottom -->
     <div class="absolute inset-x-0 bottom-0 h-96 opacity-70 bg-home-hero-bottom-gradient pointer-events-none"></div>
