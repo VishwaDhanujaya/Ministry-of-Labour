@@ -188,6 +188,7 @@
                             <li><a href="iau-updates" class="hover:text-yellow-400 hover:underline transition-all">IAU Updates</a></li>
                             <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
                             <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
+                            <li><a href="nlac" class="hover:text-yellow-400 hover:underline transition-all notranslate">NLAC</a></li>
                         </ul>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once 'admin/includes/db.php';
+require_once 'includes/Cache.php';
 
 // Increment unique visitor count
 if (!isset($_SESSION['has_visited_site'])) {
@@ -17,7 +18,11 @@ if (!isset($_SESSION['has_visited_site'])) {
 
 
 // Fetch recent news (limit 3)
-$recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+$recentNewsRaw = Cache::get('home_recent_news', 300);
+if ($recentNewsRaw === null) {
+    $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+    Cache::set('home_recent_news', $recentNewsRaw);
+}
 $recentNews = [];
 foreach ($recentNewsRaw as $news) {
     if ($current_lang === 'si') {
@@ -31,15 +36,19 @@ foreach ($recentNewsRaw as $news) {
 }
 
 // Fetch Vacancies and Procurements for Announcements (limit 4 combined)
-$vacanciesRaw = $pdo->query("SELECT id, title, 'Vacancy' as type, pdf_path, created_at, description FROM vacancies WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
-$procurementsRaw = $pdo->query("SELECT id, title, 'Procurement' as type, pdf_path, created_at, description FROM procurements WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+$announcementsRaw = Cache::get('home_announcements', 300);
+if ($announcementsRaw === null) {
+    $vacanciesRaw = $pdo->query("SELECT id, title, 'Vacancy' as type, pdf_path, created_at, description FROM vacancies WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+    $procurementsRaw = $pdo->query("SELECT id, title, 'Procurement' as type, pdf_path, created_at, description FROM procurements WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
 
-$announcementsRaw = array_merge($vacanciesRaw, $procurementsRaw);
-// Sort by created_at descending
-usort($announcementsRaw, function($a, $b) {
-    return strtotime($b['created_at']) - strtotime($a['created_at']);
-});
-$announcementsRaw = array_slice($announcementsRaw, 0, 4);
+    $announcementsRaw = array_merge($vacanciesRaw, $procurementsRaw);
+    // Sort by created_at descending
+    usort($announcementsRaw, function($a, $b) {
+        return strtotime($b['created_at']) - strtotime($a['created_at']);
+    });
+    $announcementsRaw = array_slice($announcementsRaw, 0, 4);
+    Cache::set('home_announcements', $announcementsRaw);
+}
 
 $announcements = [];
 foreach ($announcementsRaw as $notice) {
@@ -48,11 +57,15 @@ foreach ($announcementsRaw as $notice) {
 }
 
 // Fetch statistics with fallback defaults
-$statisticsList = [];
-try {
-    $statisticsList = $pdo->query("SELECT * FROM statistics ORDER BY display_order ASC")->fetchAll();
-} catch (PDOException $e) {
-    // Fail silently, defaults will be used
+$statisticsList = Cache::get('home_statistics', 300);
+if ($statisticsList === null) {
+    $statisticsList = [];
+    try {
+        $statisticsList = $pdo->query("SELECT * FROM statistics ORDER BY display_order ASC")->fetchAll();
+        Cache::set('home_statistics', $statisticsList);
+    } catch (PDOException $e) {
+        // Fail silently, defaults will be used
+    }
 }
 
 $stats = [
@@ -171,7 +184,7 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
     </div>
     <!-- Scrolling News Bar -->
     <div class="absolute bottom-0 left-0 w-full z-40 bg-black/40 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-14 shadow-lg">
-        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] flex items-center justify-center hidden md:flex">
+        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex">
             Latest News
         </div>
         
@@ -213,7 +226,7 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
     <div class="container mx-auto px-4 md:px-16 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-white/20">
             <?php 
-            $orderedKeys = ['ilo_conventions', 'labour_acts', 'affiliated_institutions', 'total_visitors'];
+            $orderedKeys = ['affiliated_institutions', 'labour_acts', 'ilo_conventions', 'total_visitors'];
             foreach ($orderedKeys as $key): 
                 $stat = $stats[$key];
                 $label = $stat['stat_label'];
@@ -223,9 +236,15 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
                     $label = $stat['stat_label_ta'];
                 }
                 
-                $isLink = ($key === 'affiliated_institutions');
+                $isLink = ($key === 'affiliated_institutions' || $key === 'ilo_conventions');
                 $elTag = $isLink ? 'a' : 'div';
-                $linkHref = $isLink ? ' href="#affiliated-institutions"' : '';
+                if ($key === 'affiliated_institutions') {
+                    $linkHref = ' href="#affiliated-institutions"';
+                } elseif ($key === 'ilo_conventions') {
+                    $linkHref = ' href="https://normlex.ilo.org/dyn/nrmlx_en/f?p=NORMLEXPUB:11200:0::NO::P11200_COUNTRY_ID:103172" target="_blank" rel="noopener noreferrer"';
+                } else {
+                    $linkHref = '';
+                }
                 $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 block' : '';
             ?>
             <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
@@ -279,6 +298,143 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
     </div>
 </section>
 
+<!-- Institutions -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
+    <div class="container mx-auto">
+        <div class="mb-14">
+            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
+                Affiliated Bodies</p>
+            <h2 class="section-title">
+                Institutions</h2>
+        </div>
+
+        <!-- Unified Card Container Split Layout -->
+        <div class="w-full rounded-[2rem] border border-gray-100 bg-white shadow-[0_8px_30px_rgb(0,0,0,0.03)] overflow-hidden flex flex-col md:flex-row min-h-[480px] relative z-10">
+            <!-- Left Sidebar (Tabs Selectors) -->
+            <div class="w-full md:w-[38%] bg-gray-50/70 border-b md:border-b-0 md:border-r border-gray-200/80 flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible p-3 md:p-6 gap-2 scrollbar-none snap-x snap-mandatory scroll-smooth relative">
+                <!-- Card 1 -->
+                <button class="group inst-split-tab active snap-center" data-target="inst-dol">
+                    <span class="flex items-center">
+                        <!-- Briefcase Icon -->
+                        <span class="icon-bubble">
+                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        </span>
+                        <span class="truncate">Department of Labour</span>
+                    </span>
+                    <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                
+                <!-- Card 2 -->
+                <button class="group inst-split-tab snap-center" data-target="inst-dme">
+                    <span class="flex items-center">
+                        <!-- Users Icon -->
+                        <span class="icon-bubble">
+                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
+                        </span>
+                        <span class="truncate">Department of Manpower and Employment</span>
+                    </span>
+                    <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                
+                <!-- Card 3 -->
+                <button class="group inst-split-tab snap-center" data-target="inst-nils">
+                    <span class="flex items-center">
+                        <!-- Book Icon -->
+                        <span class="icon-bubble">
+                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </span>
+                        <span class="truncate">National Institute of Labour Studies</span>
+                    </span>
+                    <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                
+                <!-- Card 4 -->
+                <button class="group inst-split-tab snap-center" data-target="inst-niosh">
+                    <span class="flex items-center">
+                        <!-- Shield Icon -->
+                        <span class="icon-bubble">
+                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </span>
+                        <span class="truncate">National Institute of Occupational Safety & Health</span>
+                    </span>
+                    <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                
+                <!-- Card 5 -->
+                <button class="group inst-split-tab snap-center" data-target="inst-wc">
+                    <span class="flex items-center">
+                        <!-- Scale Icon -->
+                        <span class="icon-bubble">
+                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                        </span>
+                        <span class="truncate">Workmen's Compensation Office</span>
+                    </span>
+                    <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+            <!-- Right Content Area (Details) -->
+            <div class="w-full md:w-[62%] p-8 md:p-12 relative flex flex-col justify-start overflow-hidden bg-white">
+                <!-- Top accent line -->
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-secondary to-primary"></div>
+                
+                <!-- Decorative glowing orb -->
+                <div class="absolute -right-24 -bottom-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                <!-- Panel: Department of Labour (Active by default) -->
+                <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
+                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                        <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
+                        <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
+                    </div>
+                </div>
+
+                <!-- Panel: DME -->
+                <div id="inst-panel-inst-dme" class="inst-panel hidden">
+                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Manpower and Employment</h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                        <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
+                        <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
+                    </div>
+                </div>
+
+                <!-- Panel: NILS -->
+                <div id="inst-panel-inst-nils" class="inst-panel hidden">
+                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Labour Studies</h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                        <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
+                        <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
+                    </div>
+                </div>
+
+                <!-- Panel: NIOSH -->
+                <div id="inst-panel-inst-niosh" class="inst-panel hidden">
+                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and health</h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                        <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
+                        <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
+                    </div>
+                </div>
+
+                <!-- Panel: Workmen's Compensation Office -->
+                <div id="inst-panel-inst-wc" class="inst-panel hidden">
+                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                        <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
+                        <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Quick Links -->
 <section class="relative py-20 md:py-28 px-4 md:px-16 text-white overflow-hidden bg-primary" id="quick-links">
     <!-- Background Image with Overlay -->
@@ -297,7 +453,7 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
         <div class="relative">
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 py-4">
                 <!-- Card 1: NLAC -->
-                <a href="about-us#divisions-functions" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="nlac" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -317,7 +473,7 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Circuit Bungalow</h3>
+                        <h3 class="focus-card-title">Ampara Circuit Bungalow</h3>
                         <p class="focus-card-desc">Book and reserve the Ministry's comfortable circuit bungalow in Ampara online.</p>
                     </div>
                 </a>
@@ -455,7 +611,7 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
                 <div class="flex flex-col space-y-3.5">
                     <?php
                     $downloads = [
-                        ['title' => 'Acts & Amendments', 'url' => 'downloads'],
+                        ['title' => 'Acts & Amendments', 'url' => 'downloads?category=acts-amendments'],
                         ['title' => 'Learning Platforms (Local)', 'url' => 'learning-platforms-local'],
                         ['title' => 'Learning Platforms (Foreign)', 'url' => 'learning-platforms-foreign'],
                         ['title' => 'Procurements', 'url' => 'procurements']
@@ -509,137 +665,6 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
 </section>
 
 
-<!-- Institutions -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
-    <div class="container mx-auto">
-        <div class="mb-14">
-            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                Affiliated Bodies</p>
-            <h2 class="section-title">
-                Institutions</h2>
-        </div>
 
-        <div class="flex flex-col md:flex-row gap-8 lg:gap-12">
-            <!-- Vertical Tabs -->
-            <div class="w-full md:w-[32%] flex flex-col space-y-2.5 relative z-10">
-                <button
-                    class="group relative text-left px-6 py-4 bg-primary text-white font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 shadow-lg cursor-pointer focus:outline-none inst-tab-btn active overflow-hidden"
-                    data-target="inst-dol">
-                    <span class="relative z-10 flex items-center justify-between">Department of Labour <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-dme">
-                    <span class="relative z-10 flex items-center justify-between">Department of Manpower and Employment <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-nils">
-                    <span class="relative z-10 flex items-center justify-between">National Institute of Labour Studies <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-niosh">
-                    <span class="relative z-10 flex items-center justify-between">National Institute of Occupational Safety and health <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-                <button
-                    class="group relative text-left px-6 py-4 text-gray-600 bg-white hover:bg-gray-50 font-semibold text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 border border-gray-200 hover:border-gray-300 hover:shadow-md cursor-pointer focus:outline-none inst-tab-btn"
-                    data-target="inst-wc">
-                    <span class="relative z-10 flex items-center justify-between">Office of the Commissioner for Workmen's Compensation <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg></span>
-                </button>
-            </div>
-
-            <!-- Content Area -->
-            <div class="w-full md:w-[68%]">
-                <div class="bg-white rounded-[2rem] p-8 md:p-12 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] min-h-[450px] flex flex-col justify-start relative overflow-hidden transition-all duration-500">
-                    <!-- Top accent line -->
-                    <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary via-secondary to-primary"></div>
-
-                    <!-- Panel: Department of Labour (Active by default) -->
-                    <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
-                            <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Panel: DME -->
-                    <div id="inst-panel-inst-dme" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Manpower and Employment</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
-                            <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Panel: NILS -->
-                    <div id="inst-panel-inst-nils" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Labour Studies</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
-                            <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Panel: NIOSH -->
-                    <div id="inst-panel-inst-niosh" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and health</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
-                            <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-                    <!-- Panel: Workmen's Compensation Office -->
-                    <div id="inst-panel-inst-wc" class="inst-panel hidden">
-                        <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                        <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
-                        <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed mb-10">
-                            <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
-                            <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
-                        </div>
-                        <a href="#" class="mt-4 inline-flex items-center space-x-2 border-2 border-secondary text-secondary hover:bg-secondary hover:text-white font-bold text-[13px] tracking-wider px-8 py-3.5 rounded-xl uppercase transition-all shadow-sm hover:shadow-md active:scale-95 w-fit">
-                            <span>Read More</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
-                        </a>
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <?php include 'includes/footer.php'; ?>

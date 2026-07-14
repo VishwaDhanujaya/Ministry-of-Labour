@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/auth.php';
 require_once 'includes/db.php';
+require_once '../includes/Cache.php';
 
 // Compute absolute base URL so assets load correctly under URL rewriting.
 $script_path = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])); // e.g. /admin
@@ -26,26 +27,37 @@ if (isset($_GET['timeout'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+    $rateLimitKey = 'login_attempts_' . md5($ip);
+    $attempts = Cache::get($rateLimitKey, 900) ?? 0;
 
-    if (!empty($email) && !empty($password)) {
-        $stmt = $pdo->prepare("SELECT id, name, password_hash, role FROM admins WHERE email = :email");
-        $stmt->execute(['email' => $email]);
-        $admin = $stmt->fetch();
-
-        if ($admin && password_verify($password, $admin['password_hash'])) {
-            session_regenerate_id(true); // Prevent Session Fixation
-            loginAdmin($admin['id'], $admin['name'], $admin['role']);
-            session_write_close(); // Force session to write to disk before redirect
-            header("Location: dashboard");
-            exit;
-        } else {
-            // Generic error message to prevent username enumeration
-            $error = "Invalid email or password.";
-        }
+    if ($attempts >= 5) {
+        $error = "Too many failed attempts. Please try again in 15 minutes.";
     } else {
-        $error = "Please enter both email and password.";
+        $email = trim($_POST['email'] ?? '');
+        $password = $_POST['password'] ?? '';
+
+        if (!empty($email) && !empty($password)) {
+            $stmt = $pdo->prepare("SELECT id, name, password_hash, role FROM admins WHERE email = :email");
+            $stmt->execute(['email' => $email]);
+            $admin = $stmt->fetch();
+
+            if ($admin && password_verify($password, $admin['password_hash'])) {
+                Cache::forget($rateLimitKey); // Reset lockout on success
+                session_regenerate_id(true); // Prevent Session Fixation
+                loginAdmin($admin['id'], $admin['name'], $admin['role']);
+                session_write_close(); // Force session to write to disk before redirect
+                header("Location: dashboard");
+                exit;
+            } else {
+                $attempts++;
+                Cache::set($rateLimitKey, $attempts);
+                // Generic error message to prevent username enumeration
+                $error = "Invalid email or password. Attempt $attempts of 5.";
+            }
+        } else {
+            $error = "Please enter both email and password.";
+        }
     }
 }
 ?>

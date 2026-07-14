@@ -24,15 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $error = "Value is required.";
         } else {
             try {
-                $stmt = $pdo->prepare("SELECT id FROM statistics WHERE id = ?");
+                $stmt = $pdo->prepare("SELECT stat_key FROM statistics WHERE id = ?");
                 $stmt->execute([$edit_id]);
                 $existing = $stmt->fetch();
                 
                 if (!$existing) {
                     $error = "Statistic not found.";
+                } elseif ($existing['stat_key'] === 'total_visitors') {
+                    $error = "Total Visitors count is automated and cannot be edited.";
                 } else {
                     $stmt = $pdo->prepare("UPDATE statistics SET stat_value = ?, stat_suffix = ? WHERE id = ?");
                     if ($stmt->execute([$new_value, $new_suffix, $edit_id])) {
+                        // Clear the cache to make sure the homepage loads the new statistic
+                        require_once '../includes/Cache.php';
+                        Cache::forget('home_statistics');
                         $success = "Statistic updated successfully.";
                     } else {
                         $error = "Failed to update statistic.";
@@ -55,7 +60,7 @@ try {
 }
 
 // Icon mapper for brand styling
-function getStatIcon($key) {
+function getStatIcon(string $key): string {
     switch ($key) {
         case 'ilo_conventions':
             return '<svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>';
@@ -71,7 +76,7 @@ function getStatIcon($key) {
 }
 
 // Visitor count auto-formatter (matches home page logic)
-function formatVisitorCount($val) {
+function formatVisitorCount(mixed $val): string {
     if (is_numeric($val)) {
         $num = (int)$val;
         if ($num >= 1000000) {
@@ -143,12 +148,12 @@ include 'includes/header.php';
                     }
                 }
             ?>
-                <div onclick='openEditModal(<?= json_encode($stat, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)' 
-                     class="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between min-h-[190px] cursor-pointer group relative overflow-hidden">
+                <div <?php if ($stat['stat_key'] !== 'total_visitors'): ?>onclick='openEditModal(<?= json_encode($stat, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'<?php endif; ?> 
+                     class="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_16px_rgba(0,0,0,0.015)] <?php if ($stat['stat_key'] !== 'total_visitors'): ?>hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer<?php endif; ?> transform transition-all duration-300 flex flex-col justify-between min-h-[190px] group relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-[#13273F]/2 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
                     
                     <div class="flex justify-between items-start mb-3 relative z-10 w-full">
-                        <div class="w-12 h-12 bg-slate-50 text-[#13273F] rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-all group-hover:bg-[#13273F] group-hover:text-white">
+                        <div class="w-12 h-12 bg-slate-50 text-[#13273F] rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-all <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:bg-[#13273F] group-hover:text-white<?php endif; ?>">
                             <?= getStatIcon($stat['stat_key']) ?>
                         </div>
                         <div class="flex flex-col items-end gap-1">
@@ -169,9 +174,11 @@ include 'includes/header.php';
                         <p class="text-[10px] text-slate-300 font-mono mt-1">Raw DB: <?= htmlspecialchars($stat['stat_value']) ?><?= htmlspecialchars($stat['stat_suffix']) ?></p>
                     </div>
 
-                    <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between text-[11px] text-slate-400 group-hover:text-[#4E0000] transition-colors font-inter relative z-10 shrink-0">
-                        <span>Click to update counter</span>
-                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.89h2.25m-2.25 4.5h2.25m-3.83 5.06l3.29-3.29M3 20V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z"></path></svg>
+                    <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between text-[11px] text-slate-400 <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:text-[#4E0000]<?php endif; ?> transition-colors font-inter relative z-10 shrink-0">
+                        <span><?php echo $stat['stat_key'] === 'total_visitors' ? 'Automatically tracked' : 'Click to update counter'; ?></span>
+                        <?php if ($stat['stat_key'] !== 'total_visitors'): ?>
+                            <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.89h2.25m-2.25 4.5h2.25m-3.83 5.06l3.29-3.29M3 20V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z"></path></svg>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>

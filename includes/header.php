@@ -10,11 +10,23 @@ header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 
 $current_page = basename($_SERVER['PHP_SELF'], ".php");
 
+// Compute dynamic base URL first for absolute SEO URLs
+$base_dir = dirname($_SERVER['SCRIPT_NAME']);
+if ($base_dir === '\\' || $base_dir === '/') {
+    $base_dir = '';
+}
+$base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir . '/';
+
 $seoTitle = isset($pageTitle) ? $pageTitle : (isset($page_title) ? strip_tags($page_title) : 'Ministry of Labour - Government of Sri Lanka');
 $seoDesc = isset($metaDescription) ? $metaDescription : 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
 $seoKw = isset($metaKeywords) ? $metaKeywords : 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri Lanka, Employees Provident Fund, Mehewara Piyasa, Industrial Relations, Occupational Safety';
-$seoOgImage = isset($ogImage) ? $ogImage : 'assets/img/og-preview.jpg';
-$seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
+
+// Enforce absolute URLs for social scrapers
+$rawOgImage = isset($ogImage) ? $ogImage : 'assets/img/og-preview.jpg';
+$seoOgImage = (strpos($rawOgImage, 'http') === 0) ? $rawOgImage : $base_url . ltrim($rawOgImage, '/');
+
+$rawOgUrl = isset($ogUrl) ? $ogUrl : 'home';
+$seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($rawOgUrl, '/');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,13 +35,7 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <?php
-    $base_dir = dirname($_SERVER['SCRIPT_NAME']);
-    if ($base_dir === '\\' || $base_dir === '/') {
-        $base_dir = '';
-    }
-    $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir . '/';
-    ?>
+
     <base href="<?= htmlspecialchars($base_url, ENT_QUOTES, 'UTF-8') ?>">
 
     <!-- SEO Best Practices -->
@@ -44,9 +50,15 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?= htmlspecialchars($seoOgUrl, ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:title" content="<?= htmlspecialchars($seoTitle, ENT_QUOTES, 'UTF-8') ?>">
-    <meta property="og:description"
-        content="<?= htmlspecialchars($seoDesc, ENT_QUOTES, 'UTF-8') ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($seoDesc, ENT_QUOTES, 'UTF-8') ?>">
     <meta property="og:image" content="<?= htmlspecialchars($seoOgImage, ENT_QUOTES, 'UTF-8') ?>">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="<?= htmlspecialchars($seoOgUrl, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:title" content="<?= htmlspecialchars($seoTitle, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($seoDesc, ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="twitter:image" content="<?= htmlspecialchars($seoOgImage, ENT_QUOTES, 'UTF-8') ?>">
 
     <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,18 +143,18 @@ $seoOgUrl = isset($ogUrl) ? $ogUrl : 'https://www.labour.gov.lk/';
     <!-- Top Bar -->
     <div class="hidden md:flex bg-gradient-to-r from-[#13273F] via-[#2D2D43] to-[#13273F] text-white/90 text-[11px] md:text-xs py-1.5 px-4 md:px-8 flex-col md:flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
         <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start">
-            <a href="mailto:info@labour.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
+            <a href="mailto:info@labourmin.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">info@labour.gov.lk</span>
+                <span class="font-medium tracking-wide">info@labourmin.gov.lk</span>
             </a>
             <span class="text-white/20">|</span>
-            <a href="tel:+94112581141" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
+            <a href="tel:0112581991" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">+94 11 2581141</span>
+                <span class="font-medium tracking-wide">011 2581991</span>
             </a>
             <span class="text-white/20">|</span>
             <span class="flex items-center space-x-2 px-2.5 py-1.5 text-white/70">

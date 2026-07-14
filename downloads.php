@@ -91,11 +91,13 @@ $categoryColors = [
                 <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
                     
                     <!-- Category -->
+                    <?php $preselected_category = isset($_GET['category']) ? $_GET['category'] : ''; ?>
                     <div class="relative w-full sm:w-48">
                         <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="">All Categories</option>
+                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>>All Categories</option>
+                            <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>>Acts & Amendments</option>
                             <?php foreach ($categories as $cat): ?>
-                                <option value="<?= htmlspecialchars($cat) ?>"><?= htmlspecialchars($cat) ?></option>
+                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -289,8 +291,14 @@ function filterTable() {
                               doc.title.includes(searchInput) || 
                               doc.ref.includes(searchInput);
                               
-        const matchesCategory = categoryFilter === "" || 
-                                doc.category === categoryFilter;
+        let matchesCategory = false;
+        if (categoryFilter === "") {
+            matchesCategory = true;
+        } else if (categoryFilter === "acts-amendments") {
+            matchesCategory = (doc.category === "acts" || doc.category === "amendments");
+        } else {
+            matchesCategory = (doc.category === categoryFilter);
+        }
                                 
         if (matchesSearch && matchesCategory) {
             filteredIndexes.push(doc.index);

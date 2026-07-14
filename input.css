@@ -264,6 +264,72 @@
   .about-stat-label {
     @apply text-xs md:text-sm font-inter font-normal text-gray-600 text-center;
   }
+
+  /* Premium Affiliated Institutions & Divisions unified split-pane tab selector */
+  .inst-split-tab, .div-split-tab {
+    @apply flex items-center justify-between w-full text-left px-5 py-4 text-gray-500 font-semibold text-[14px] md:text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 cursor-pointer focus:outline-none relative whitespace-nowrap md:whitespace-normal;
+  }
+  .inst-split-tab:hover:not(.active), .div-split-tab:hover:not(.active) {
+    @apply text-primary bg-white/50 shadow-sm border-gray-200/30;
+  }
+  .inst-split-tab.active, .div-split-tab.active {
+    @apply bg-white text-secondary font-bold;
+  }
+  .inst-split-tab .icon-bubble, .div-split-tab .icon-bubble {
+    @apply w-9 h-9 rounded-xl bg-gray-200/30 text-gray-400 flex items-center justify-center mr-3.5 transition-all duration-300 shrink-0;
+  }
+  .inst-split-tab:hover:not(.active) .icon-bubble, .div-split-tab:hover:not(.active) .icon-bubble {
+    @apply bg-secondary/5 text-primary scale-105;
+  }
+  .inst-split-tab.active .icon-bubble, .div-split-tab.active .icon-bubble {
+    @apply bg-secondary/10 text-secondary scale-105;
+  }
+  .inst-split-tab .chevron-icon, .div-split-tab .chevron-icon {
+    @apply w-4 h-4 opacity-0 -translate-x-2 transition-all duration-300 text-secondary hidden md:block;
+  }
+  .inst-split-tab.active .chevron-icon, .div-split-tab.active .chevron-icon {
+    @apply opacity-100 translate-x-0;
+  }
+  .inst-split-tab:hover:not(.active) .chevron-icon, .div-split-tab:hover:not(.active) .chevron-icon {
+    @apply opacity-50 translate-x-0;
+  }
+
+  @media (min-width: 768px) {
+    .inst-split-tab, .div-split-tab {
+      @apply border-l-4 border-l-transparent rounded-r-none;
+    }
+    .inst-split-tab.active, .div-split-tab.active {
+      @apply border-l-4 border-l-secondary border-r border-r-white -mr-[1px] z-10 shadow-[0_10px_25px_rgba(19,39,63,0.06)];
+    }
+    .inst-split-tab:hover:not(.active), .div-split-tab:hover:not(.active) {
+      @apply border-l-4 border-l-gray-100;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .inst-split-tab, .div-split-tab {
+      @apply px-4 py-2.5 rounded-full border border-gray-200/60 bg-white/90 text-gray-500 text-xs shrink-0 w-auto shadow-sm flex items-center justify-center;
+    }
+    .inst-split-tab .icon-bubble, .div-split-tab .icon-bubble {
+      @apply w-6 h-6 rounded-lg bg-transparent text-gray-400 mr-2 p-0;
+    }
+    .inst-split-tab:hover:not(.active) .icon-bubble, .div-split-tab:hover:not(.active) .icon-bubble {
+      @apply bg-transparent text-primary scale-100;
+    }
+    .inst-split-tab.active .icon-bubble, .div-split-tab.active .icon-bubble {
+      @apply bg-transparent text-white scale-100;
+    }
+    .inst-split-tab:hover:not(.active), .div-split-tab:hover:not(.active) {
+      @apply text-primary bg-gray-50;
+    }
+    .inst-split-tab.active, .div-split-tab.active {
+      @apply text-white border-transparent shadow-md;
+      background: linear-gradient(135deg, #13273F 0%, #1a3656 100%);
+    }
+    .inst-split-tab.active .tab-icon, .div-split-tab.active .tab-icon {
+      @apply text-white;
+    }
+  }
 }
 
 

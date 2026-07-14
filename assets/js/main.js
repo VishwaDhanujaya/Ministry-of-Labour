@@ -359,53 +359,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
-    // 9. AFFILIATED INSTITUTIONS TABS
-    // ==========================================
-    const instBtns = document.querySelectorAll('.inst-tab-btn');
-    const instPanels = document.querySelectorAll('.inst-panel');
+     // ==========================================
+     // 9. AFFILIATED INSTITUTIONS TABS
+     // ==========================================
+     const instBtns = document.querySelectorAll('.inst-split-tab');
+     const instPanels = document.querySelectorAll('.inst-panel');
+ 
+     instBtns.forEach(btn => {
+         btn.addEventListener('click', function() {
+             // Hide all panels
+             instPanels.forEach(panel => {
+                 panel.classList.remove('block', 'animate-[fadeIn_0.4s_ease-out]');
+                 panel.classList.add('hidden');
+             });
+ 
+             // Show target panel
+             const targetId = this.getAttribute('data-target');
+             const targetPanel = document.getElementById('inst-panel-' + targetId);
+             if (targetPanel) {
+                 targetPanel.classList.remove('hidden');
+                 setTimeout(() => {
+                     targetPanel.classList.add('block', 'animate-[fadeIn_0.4s_ease-out]');
+                 }, 10);
+             }
+ 
+             // Reset active states and set it on the clicked button
+             instBtns.forEach(b => b.classList.remove('active'));
+             this.classList.add('active');
 
-    instBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Hide all panels
-            instPanels.forEach(panel => {
-                panel.classList.remove('block', 'animate-[fadeIn_0.4s_ease-out]');
-                panel.classList.add('hidden');
-            });
-
-            // Show target panel
-            const targetId = this.getAttribute('data-target');
-            const targetPanel = document.getElementById('inst-panel-' + targetId);
-            if (targetPanel) {
-                targetPanel.classList.remove('hidden');
-                setTimeout(() => {
-                    targetPanel.classList.add('block', 'animate-[fadeIn_0.4s_ease-out]');
-                }, 10);
-            }
-
-            // Reset all buttons styling
-            instBtns.forEach(b => {
-                b.classList.remove('bg-primary', 'text-white', 'shadow-lg', 'active');
-                b.classList.add('text-gray-600', 'bg-white', 'hover:bg-gray-50', 'border', 'border-gray-200', 'hover:border-gray-300', 'hover:shadow-md');
-                
-                const svg = b.querySelector('svg');
-                if (svg) {
-                    svg.classList.remove('transform', 'group-hover:translate-x-1');
-                    svg.classList.add('opacity-0', 'group-hover:opacity-100', 'transform', '-translate-x-2', 'group-hover:translate-x-0', 'text-primary');
-                }
-            });
-
-            // Set active styling on current button
-            this.classList.add('bg-primary', 'text-white', 'shadow-lg', 'active');
-            this.classList.remove('text-gray-600', 'bg-white', 'hover:bg-gray-50', 'border', 'border-gray-200', 'hover:border-gray-300', 'hover:shadow-md');
-
-            const activeSvg = this.querySelector('svg');
-            if (activeSvg) {
-                activeSvg.classList.remove('opacity-0', 'group-hover:opacity-100', 'transform', '-translate-x-2', 'group-hover:translate-x-0', 'text-primary');
-                activeSvg.classList.add('transform', 'group-hover:translate-x-1');
-            }
-        });
-    });
+             // Smoothly scroll clicked tab into center view on mobile
+             if (window.innerWidth < 768) {
+                 this.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+             }
+         });
+     });
 
     // ==========================================
     // 10. NEWSLETTER FORM & TOAST BULLETINS

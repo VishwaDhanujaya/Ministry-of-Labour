@@ -34,9 +34,9 @@ if (isset($_SESSION['admin_role']) && in_array($_SESSION['admin_role'], ['super_
     $_SESSION['admin_role'] = 'executive_officer';
 }
 
-// Inactivity check (10 minutes = 600 seconds)
+// Inactivity check (5 minutes = 300 seconds)
 if (isset($_SESSION['admin_id'])) {
-    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 600)) {
+    if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 300)) {
         session_unset();
         session_destroy();
         $current_script = basename($_SERVER['SCRIPT_NAME']);
@@ -61,7 +61,7 @@ $role_capabilities = [
     ]
 ];
 
-function hasPermission($capability) {
+function hasPermission(string $capability): bool {
     if (!isLoggedIn()) return false;
     global $role_capabilities;
     $role = $_SESSION['admin_role'] ?? '';
@@ -71,7 +71,7 @@ function hasPermission($capability) {
     return in_array($capability, $role_capabilities[$role]);
 }
 
-function requirePermission($capability) {
+function requirePermission(string $capability): void {
     if (!hasPermission($capability)) {
         header("Location: index.php?error=forbidden");
         exit;
@@ -92,7 +92,7 @@ function getLoggedInAdmin() {
     ];
 }
 
-function loginAdmin($id, $name, $role) {
+function loginAdmin(int $id, string $name, string $role): void {
     $_SESSION['admin_id'] = $id;
     $_SESSION['admin_name'] = $name;
     $_SESSION['admin_role'] = $role;
@@ -111,7 +111,7 @@ function generateCsrfToken() {
     return $_SESSION['csrf_token'];
 }
 
-function verifyCsrfToken($token) {
+function verifyCsrfToken(?string $token): bool {
     if (!isset($_SESSION['csrf_token']) || empty($token)) {
         return false;
     }
