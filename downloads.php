@@ -133,7 +133,7 @@ $categoryColors = [
         </div>
 
         <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style="display: none;">
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
@@ -217,7 +217,7 @@ $categoryColors = [
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
             <div class="text-sm text-gray-500 font-inter">
                 Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
             </div>
@@ -259,7 +259,7 @@ function changeView(view) {
         btnList.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
         btnList.classList.add('text-gray-500');
         
-        gridContainer.classList.remove('hidden');
+        gridContainer.style.display = 'grid';
         listContainer.classList.add('hidden');
     } else {
         btnList.classList.add('bg-white', 'text-secondary', 'shadow-sm');
@@ -268,7 +268,7 @@ function changeView(view) {
         btnGrid.classList.add('text-gray-500');
         
         listContainer.classList.remove('hidden');
-        gridContainer.classList.add('hidden');
+        gridContainer.style.display = 'none';
     }
     
     filterTable();
@@ -322,15 +322,15 @@ function updatePaginationUI(itemsPerPage) {
     
     if (totalItems === 0) {
         noResultsMsg.classList.remove('hidden');
-        gridContainer.classList.add('hidden');
+        gridContainer.style.display = 'none';
         listViewContainer.classList.add('hidden');
-        paginationControls.classList.add('hidden');
+        paginationControls.style.display = 'none';
         return;
     }
     
     noResultsMsg.classList.add('hidden');
     if (currentView === 'grid') {
-        gridContainer.classList.remove('hidden');
+        gridContainer.style.display = 'grid';
     } else {
         listViewContainer.classList.remove('hidden');
     }
@@ -348,9 +348,9 @@ function updatePaginationUI(itemsPerPage) {
         endIdx = Math.min(startIdx + itemsPerPage, totalItems);
         
         renderPaginationButtons(totalPages);
-        paginationControls.classList.remove('hidden');
+        paginationControls.style.display = 'flex';
     } else {
-        paginationControls.classList.add('hidden');
+        paginationControls.style.display = 'none';
     }
     
     // Show only active items for this page depending on the current view

@@ -214,8 +214,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="iau" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Overview</a>
-                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Current Updates</a>
+                            <a href="iau" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Overview</a>
+                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Current Updates</a>
                         </div>
                     </div>
                 </div>
@@ -234,8 +234,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Local Publications</a>
-                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Foreign Publications</a>
+                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Local Publications</a>
+                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Foreign Publications</a>
                         </div>
                     </div>
                 </div>
@@ -248,9 +248,9 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="procurements" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'procurements') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Procurements</a>
-                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Vacancies</a>
-                            <a href="special-notices" class="block px-4 py-2.5 text-[13px] text-gray-700 hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-[#13273F] font-bold' : '' ?>">Special Notices</a>
+                            <a href="procurements" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'procurements') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Procurements</a>
+                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Vacancies</a>
+                            <a href="special-notices" class="block px-4 py-2.5 text-[13px] hover:bg-gray-50 hover:text-[#13273F] <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-[#13273F] font-bold' : 'text-gray-700' ?>">Special Notices</a>
                         </div>
                     </div>
                 </div>
