@@ -211,8 +211,8 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
             </div>
-            <a href="news" class="group bg-white border border-slate-200 hover:border-[#4E0000]/30 text-slate-600 hover:text-[#4E0000] px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-[#4E0000]/5 transition-all flex items-center gap-1.5 shadow-sm">
-                <svg class="w-4 h-4 text-slate-450 group-hover:text-[#4E0000] group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm">
+                <svg class="w-4 h-4 text-slate-450 group-hover:text-secondary group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                 Back to News
             </a>
         </div>
@@ -235,7 +235,7 @@ include 'includes/header.php';
                     
                     <!-- Language Tabs -->
                     <div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl mb-6 shadow-inner border border-slate-200/40 relative">
-                        <button type="button" class="lang-tab-btn active px-6 py-2.5 text-[13px] font-bold rounded-xl text-[#4E0000] bg-white shadow-sm transition-all focus:outline-none relative z-10" data-target="lang-en">
+                        <button type="button" class="lang-tab-btn active px-6 py-2.5 text-[13px] font-bold rounded-xl text-secondary bg-white shadow-sm transition-all focus:outline-none relative z-10" data-target="lang-en">
                             English
                         </button>
                         <button type="button" class="lang-tab-btn px-6 py-2.5 text-[13px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all focus:outline-none relative z-10 hover:bg-slate-50/50" data-target="lang-si">
@@ -257,7 +257,7 @@ include 'includes/header.php';
                                         Auto Translate Title
                                     </button>
                                 </div>
-                                <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter news headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                                <input type="text" id="title_en" name="title" required value="<?= $article ? htmlspecialchars($article['title']) : '' ?>" placeholder="Enter news headline" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                             </div>
                             <div>
                                 <div class="flex justify-between items-center mb-2">
@@ -279,7 +279,7 @@ include 'includes/header.php';
                     <div id="lang-si" class="lang-tab-content hidden space-y-6">
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Sinhala)</label>
-                            <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Sinhala)</label>
@@ -294,7 +294,7 @@ include 'includes/header.php';
                     <div id="lang-ta" class="lang-tab-content hidden space-y-6">
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Tamil)</label>
-                            <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                            <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
                             <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Tamil)</label>
@@ -308,13 +308,13 @@ include 'includes/header.php';
                     <!-- Cover Image -->
                     <div>
                         <label class="block text-[13px] font-semibold text-slate-700 mb-2">Cover Image <?= !$article ? '<span class="text-red-500">*</span>' : '' ?></label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('cover_image').click()">
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-primary transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('cover_image').click()">
                             <div class="space-y-1 text-center">
                                 <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 <div class="flex text-[13px] text-slate-600 justify-center mt-2">
-                                    <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974] focus-within:outline-none">
+                                    <span class="relative cursor-pointer rounded-md font-bold text-primary hover:text-[#254974] focus-within:outline-none">
                                         <span>Upload a file</span>
                                         <input id="cover_image" name="cover_image" type="file" class="sr-only" accept="image/png, image/jpeg, image/jpg, image/webp" <?= !$article ? 'required' : '' ?> onchange="previewSingleImage(this, 'cover-preview')">
                                     </span>
@@ -335,13 +335,13 @@ include 'includes/header.php';
                     <!-- Additional Images -->
                     <div>
                         <label class="block text-[13px] font-semibold text-slate-700 mb-2">Additional Images (Optional)</label>
-                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('additional_images').click()">
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-primary transition-all duration-150 cursor-pointer bg-slate-50/50" onclick="document.getElementById('additional_images').click()">
                             <div class="space-y-1 text-center">
                                 <svg class="mx-auto h-10 w-10 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
                                 <div class="flex text-[13px] text-slate-600 justify-center mt-2">
-                                    <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974] focus-within:outline-none">
+                                    <span class="relative cursor-pointer rounded-md font-bold text-primary hover:text-[#254974] focus-within:outline-none">
                                         <span>Upload files</span>
                                         <input id="additional_images" name="additional_images[]" type="file" class="sr-only" multiple accept="image/png, image/jpeg, image/jpg, image/webp" onchange="previewMultipleImages(this, 'additional-preview')">
                                     </span>
@@ -380,13 +380,13 @@ include 'includes/header.php';
                                 Cancel
                             </a>
                             <?php if (!$article || $article['status'] === 'Draft' || $article['status'] === 'Pending Approval'): ?>
-                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 hover:text-[#4E0000] hover:border-[#4E0000]/30 transition-all bg-white shadow-sm flex items-center justify-center gap-2">
+                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 hover:text-secondary hover:border-secondary/30 transition-all bg-white shadow-sm flex items-center justify-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                                 <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
                             <?php endif; ?>
                             <?php if (hasPermission('approve_news')): ?>
-                            <button type="submit" name="publish" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#6a0000] text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(78,0,0,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                            <button type="submit" name="publish" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-secondary to-[#6a0000] text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(78,0,0,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
                                 <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                                 <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                 <span class="relative z-10"><?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?></span>
@@ -409,7 +409,7 @@ include 'includes/header.php';
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_2px_10px_rgb(0,0,0,0.02)] overflow-hidden">
                     <div class="bg-slate-50/80 border-b border-slate-100 text-slate-800 p-5 backdrop-blur-sm">
                         <h3 class="font-bold font-montserrat text-[14px] flex items-center gap-2">
-                            <svg class="w-4 h-4 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             Publish Options
                         </h3>
                     </div>
@@ -451,7 +451,7 @@ include 'includes/header.php';
                             <?php foreach($recentDrafts as $draft): ?>
                             <div class="flex items-start justify-between gap-2 mb-4 group relative border-b border-slate-50 pb-4 last:border-0 last:pb-0">
                                 <a href="news-add?id=<?= $draft['id'] ?>" class="flex flex-col gap-1.5 cursor-pointer flex-1">
-                                    <h4 class="font-bold text-slate-800 text-[13px] group-hover:text-[#4E0000] transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
+                                    <h4 class="font-bold text-slate-800 text-[13px] group-hover:text-secondary transition-colors leading-snug"><?= htmlspecialchars($draft['title'] ?: 'Untitled Draft') ?></h4>
                                     <p class="text-[11px] text-slate-400">Last edited <?= date('M d, Y', strtotime($draft['created_at'])) ?></p>
                                     <div class="mt-1">
                                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 uppercase tracking-wider font-mono">Draft</span>
@@ -618,11 +618,11 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', () => {
             // Remove active classes from all buttons
             tabBtns.forEach(b => {
-                b.classList.remove('active', 'border-[#4E0000]', 'text-[#4E0000]', 'bg-white', 'shadow-sm', 'text-slate-800', 'font-bold');
+                b.classList.remove('active', 'border-secondary', 'text-secondary', 'bg-white', 'shadow-sm', 'text-slate-800', 'font-bold');
                 b.classList.add('border-transparent', 'text-gray-500', 'text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
             });
             // Add active class to clicked button
-            btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-[#4E0000]', 'font-bold');
+            btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-secondary', 'font-bold');
             btn.classList.remove('border-transparent', 'text-gray-500', 'text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
 
             // Hide all contents

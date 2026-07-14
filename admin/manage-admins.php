@@ -107,7 +107,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Admins</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Configure and assign administrative roles, user credentials, and permission groups.</p>
             </div>
-            <button onclick="openAddModal()" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 New Admin
             </button>
@@ -140,18 +140,18 @@ include 'includes/header.php';
         renderAdminTable($headers, $admins, function($adm) {
             $roleColor = 'from-slate-600 to-slate-800';
             if ($adm['role'] === 'executive_officer') {
-                $roleColor = 'from-[#4E0000] to-[#721c1c]';
+                $roleColor = 'from-secondary to-[#721c1c]';
             } elseif ($adm['role'] === 'content_editor') {
-                $roleColor = 'from-[#13273F] to-[#254974]';
+                $roleColor = 'from-primary to-[#254974]';
             }
             
             $badgeClass = "bg-slate-50 text-slate-600 border-slate-100";
             $badgeLabel = str_replace('_', ' ', $adm['role']);
             if ($adm['role'] === 'executive_officer') {
-                $badgeClass = "bg-[#4E0000]/5 text-[#4E0000] border-[#4E0000]/10";
+                $badgeClass = "bg-secondary/5 text-secondary border-secondary/10";
                 $badgeLabel = "Executive Officer";
             } elseif ($adm['role'] === 'content_editor') {
-                $badgeClass = "bg-[#13273F]/5 text-[#13273F] border-[#13273F]/10";
+                $badgeClass = "bg-primary/5 text-primary border-primary/10";
                 $badgeLabel = "Content Editor";
             }
             ?>
@@ -161,7 +161,7 @@ include 'includes/header.php';
                         <div class="w-9 h-9 rounded-full bg-gradient-to-tr <?= $roleColor ?> text-white flex items-center justify-center font-extrabold text-xs mr-3 border-2 border-white shadow-sm ring-1 ring-slate-100 font-mono select-none">
                             <?= htmlspecialchars(getInitials($adm['name'])) ?>
                         </div>
-                        <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-[#4E0000] transition-colors leading-none"><?= htmlspecialchars($adm['name']) ?></p>
+                        <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-secondary transition-colors leading-none"><?= htmlspecialchars($adm['name']) ?></p>
                     </div>
                 </td>
                 <td class="py-4 px-6">
@@ -237,7 +237,7 @@ include 'includes/header.php';
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                                     </span>
-                                    <input type="text" name="name" id="adminName" required placeholder="Namal Perera" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 transition-all font-semibold">
+                                    <input type="text" name="name" id="adminName" required placeholder="Namal Perera" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 transition-all font-semibold">
                                 </div>
                             </div>
                             <div>
@@ -246,7 +246,7 @@ include 'includes/header.php';
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </span>
-                                    <select name="role" id="adminRole" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-600 appearance-none cursor-pointer transition-all font-semibold">
+                                    <select name="role" id="adminRole" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-600 appearance-none cursor-pointer transition-all font-semibold">
                                         <option value="executive_officer">Executive Officer</option>
                                         <option value="content_editor">Content Editor</option>
                                     </select>
@@ -264,7 +264,7 @@ include 'includes/header.php';
                                 <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
                                 </span>
-                                <input type="email" name="email" id="adminEmail" required placeholder="admin@labourmin.gov.lk" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
+                                <input type="email" name="email" id="adminEmail" required placeholder="admin@labourmin.gov.lk" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
                             </div>
                         </div>
 
@@ -276,7 +276,7 @@ include 'includes/header.php';
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                                     </span>
-                                    <input type="password" name="password" id="adminPassword" placeholder="Minimum 06 characters" class="js-pwd w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
+                                    <input type="password" name="password" id="adminPassword" placeholder="Minimum 06 characters" class="js-pwd w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
                                     <button type="button" onclick="toggleModalPwdVisibility('adminPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" id="eye-icon-adminPassword"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                     </button>
@@ -288,7 +288,7 @@ include 'includes/header.php';
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </span>
-                                    <input type="password" name="confirm_password" id="adminConfirmPassword" placeholder="Confirm password" class="js-pwd-confirm w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
+                                    <input type="password" name="confirm_password" id="adminConfirmPassword" placeholder="Confirm password" class="js-pwd-confirm w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 transition-all font-mono font-semibold">
                                     <button type="button" onclick="toggleModalPwdVisibility('adminConfirmPassword', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" id="eye-icon-adminConfirmPassword"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                     </button>
@@ -308,7 +308,7 @@ include 'includes/header.php';
                             <button type="button" onclick="closeAdminModal()" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-[12.5px] font-bold hover:bg-slate-50 transition-colors shadow-sm">
                                 Cancel
                             </button>
-                            <button type="submit" id="submitBtnText" class="px-7 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
+                            <button type="submit" id="submitBtnText" class="px-7 py-2.5 bg-gradient-to-r from-secondary to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
                                 Save Admin
                             </button>
                         </div>
@@ -319,7 +319,7 @@ include 'includes/header.php';
 
         <script>
         function openAddModal() {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg> Add New Admin';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg> Add New Admin';
             document.getElementById('formAction').value = 'add';
             document.getElementById('adminId').value = '';
             
@@ -357,7 +357,7 @@ include 'includes/header.php';
         }
 
         function openEditModal(admin) {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg> Edit Admin';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg> Edit Admin';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('adminId').value = admin.id;
             

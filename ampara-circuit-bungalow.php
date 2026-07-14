@@ -261,7 +261,7 @@ include 'includes/sub-hero.php';
                 <div class="space-y-3">
                     <button type="button"
                         onclick="openBookingModal()"
-                        class="w-full py-3 px-4 bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
+                        class="w-full py-3 px-4 bg-secondary hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
                         Check Availability & Book
                     </button>
                 </div>
@@ -802,7 +802,7 @@ include 'includes/sub-hero.php';
                 <div class="space-y-3">
                     <button type="button"
                         onclick="openBookingModal()"
-                        class="w-full py-3 px-4 bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
+                        class="w-full py-3 px-4 bg-secondary hover:bg-[#320000] text-white font-semibold rounded-lg transition-colors text-sm font-inter shadow-md">
                         Check Availability & Book
                     </button>
                 </div>
@@ -944,7 +944,7 @@ include 'includes/sub-hero.php';
                                 let qtyWrapper = null;
                                 const label = document.createElement('label');
                                 label.htmlFor = checkbox.id;
-                                label.className = 'flex items-center justify-between w-full p-3 text-gray-700 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-[#4E0000] peer-checked:bg-red-50 hover:bg-gray-50 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed transition-all shadow-sm';
+                                label.className = 'flex items-center justify-between w-full p-3 text-gray-700 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-secondary peer-checked:bg-red-50 hover:bg-gray-50 peer-disabled:opacity-50 peer-disabled:cursor-not-allowed transition-all shadow-sm';
 
                                 const span = document.createElement('span');
                                 span.className = 'text-[13px] font-medium font-inter pr-2';
@@ -1044,7 +1044,7 @@ include 'includes/sub-hero.php';
                                 });
 
                                 const iconHtml = `
-                                <svg class="w-4 h-4 text-[#4E0000] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
+                                <svg class="w-4 h-4 text-secondary absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 peer-checked:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                 </svg>
                             `;

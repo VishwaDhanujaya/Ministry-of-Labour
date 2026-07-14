@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="bg-white text-gray-800 antialiased font-inter min-h-screen flex flex-col lg:flex-row">
 
     <!-- Left Side: Image with Gradient Overlay -->
-    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-[#4E0000] min-h-screen shrink-0">
+    <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-secondary min-h-screen shrink-0">
         <!-- Background Image (using inline style for reliable loading without Tailwind compilation) -->
         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('<?= $base_url ?>admin/assets/img/login-admin.webp');">
         </div>
@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Email Input -->
                 <div class="relative">
                     <input type="email" id="email" name="email" required autocomplete="off" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors bg-white shadow-sm"
+                        class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="email"
                         class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
@@ -156,13 +156,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Password Input -->
                 <div class="relative group">
                     <input type="password" id="password" name="password" required autocomplete="new-password"
-                        class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#4E0000] focus:border-[#4E0000] transition-colors bg-white shadow-sm"
+                        class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="password"
                         class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
                         Password <span class="text-red-500">*</span>
                     </label>
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#4E0000] focus:outline-none transition-colors" title="Toggle password visibility">
+                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary focus:outline-none transition-colors" title="Toggle password visibility">
                         <svg id="eye-icon" class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -173,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Submit Button -->
                 <div class="pt-4">
                     <button type="submit" id="loginBtn"
-                        class="w-full bg-[#4E0000] hover:bg-[#320000] text-white font-semibold rounded-lg py-3.5 transition-all duration-200 text-[15px] shadow-md hover:shadow-lg font-montserrat tracking-wide flex justify-center items-center gap-2">
+                        class="w-full bg-secondary hover:bg-[#320000] text-white font-semibold rounded-lg py-3.5 transition-all duration-200 text-[15px] shadow-md hover:shadow-lg font-montserrat tracking-wide flex justify-center items-center gap-2">
                         Login
                     </button>
                 </div>

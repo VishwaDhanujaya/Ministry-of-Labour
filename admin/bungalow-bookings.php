@@ -177,7 +177,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Bungalow Bookings</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Monitor reservations, approve room occupancy, and view guest timelines.</p>
             </div>
-            <button class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
+            <button class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                 New Booking
             </button>
@@ -262,7 +262,7 @@ include 'includes/header.php';
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
                             </span>
-                            <input type="text" placeholder="Search guests by name..." class="js-search-input w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 shadow-inner transition-all">
+                            <input type="text" placeholder="Search guests by name..." class="js-search-input w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/70 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 shadow-inner transition-all">
                         </div>
                         
                         <!-- Bungalow Filter Selector -->
@@ -343,7 +343,7 @@ include 'includes/header.php';
                                         <span class="font-bold text-slate-700 text-xs tracking-tight"><?= date('M d, Y', strtotime($booking['start_date'])) ?></span>
                                     </div>
                                     <div class="flex-1 flex flex-col items-center px-3">
-                                        <span class="text-[9.5px] font-bold text-[#13273F] bg-[#13273F]/5 px-2 py-0.5 rounded-full border border-[#13273F]/10 tracking-tight">
+                                        <span class="text-[9.5px] font-bold text-primary bg-primary/5 px-2 py-0.5 rounded-full border border-primary/10 tracking-tight">
                                             <?= $nights ?> <?= $nights == 1 ? 'Night' : 'Nights' ?>
                                         </span>
                                         <div class="w-full flex items-center justify-center mt-1">
@@ -366,7 +366,7 @@ include 'includes/header.php';
                                     <div class="col-span-2 sm:col-span-1">
                                         <p class="text-[10px] uppercase text-slate-400 font-bold tracking-wider mb-1">Applicant</p>
                                         <div class="flex items-center">
-                                            <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] text-white flex items-center justify-center text-[10.5px] font-bold mr-2 shrink-0 shadow-sm">
+                                            <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-primary to-[#254974] text-white flex items-center justify-center text-[10.5px] font-bold mr-2 shrink-0 shadow-sm">
                                                 <?= htmlspecialchars(substr($booking['applicant_name'] ?? 'A', 0, 1)) ?>
                                             </div>
                                             <span class="js-applicant-name font-bold text-slate-800 text-[13px] truncate max-w-[120px]" title="<?= htmlspecialchars($booking['applicant_name'] ?? '') ?>"><?= htmlspecialchars($booking['applicant_name'] ?? '') ?></span>
@@ -381,7 +381,7 @@ include 'includes/header.php';
                                             <span class="truncate" title="<?= htmlspecialchars($booking['room_type'] ?? '') ?>">
                                                 <?= htmlspecialchars($booking['room_type'] ?? '') ?>
                                                 <?php if (isset($booking['no_of_rooms']) && $booking['no_of_rooms'] > 1): ?>
-                                                    <span class="ml-1 text-[10px] bg-red-50 text-[#4E0000] border border-red-100 px-1.5 py-0.5 rounded font-bold">x<?= $booking['no_of_rooms'] ?></span>
+                                                    <span class="ml-1 text-[10px] bg-red-50 text-secondary border border-red-100 px-1.5 py-0.5 rounded font-bold">x<?= $booking['no_of_rooms'] ?></span>
                                                 <?php endif; ?>
                                             </span>
                                         </p>
@@ -431,8 +431,8 @@ include 'includes/header.php';
             <div class="xl:col-span-1 space-y-6">
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] overflow-hidden sticky top-8">
                     <!-- Calendar Header -->
-                    <div class="bg-[#13273F] text-white p-4 flex justify-between items-center relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-[#13273F] to-[#203c5e] z-0"></div>
+                    <div class="bg-primary text-white p-4 flex justify-between items-center relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-[#203c5e] z-0"></div>
                         <a href="?month=<?= $prevMonth ?>" class="p-2 hover:bg-white/10 rounded-lg transition-colors relative z-10 font-bold">&lt;</a>
                         <input type="month" id="calendar-month-picker" class="bg-transparent border-none text-white text-[14.5px] font-bold focus:outline-none focus:ring-0 cursor-pointer text-center relative z-10 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" value="<?= htmlspecialchars($monthParam) ?>" onchange="window.location.href='?month='+this.value">
                         <a href="?month=<?= $nextMonth ?>" class="p-2 hover:bg-white/10 rounded-lg transition-colors relative z-10 font-bold">&gt;</a>
@@ -491,7 +491,7 @@ include 'includes/header.php';
                                 }
 
                                 if ($isToday) {
-                                    $baseClass = 'bg-[#13273F] border-[#13273F] shadow-[0_4px_12px_rgba(19,39,63,0.3)] cursor-pointer';
+                                    $baseClass = 'bg-primary border-primary shadow-[0_4px_12px_rgba(19,39,63,0.3)] cursor-pointer';
                                     $textClass = 'text-white font-extrabold';
                                 }
 
@@ -518,7 +518,7 @@ include 'includes/header.php';
                 
                 <!-- Day Details Panel Redesign -->
                 <div id="day-details-panel" class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] p-5 hidden sticky top-[480px] z-10">
-                    <h4 id="day-details-title" class="font-bold text-[#13273F] border-b border-slate-100 pb-3 mb-4 text-[13.5px] tracking-tight flex items-center gap-1.5">
+                    <h4 id="day-details-title" class="font-bold text-primary border-b border-slate-100 pb-3 mb-4 text-[13.5px] tracking-tight flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         Selected Date Details
                     </h4>
@@ -538,7 +538,7 @@ include 'includes/header.php';
         <!-- Modal Header -->
         <div class="flex justify-between items-center px-6 py-5 border-b border-slate-100 bg-slate-50/50">
             <h3 class="text-base font-extrabold font-montserrat text-slate-800 tracking-tight flex items-center gap-2">
-                <svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                 Booking Confirmation Detail
             </h3>
             <button type="button" onclick="closeViewModal()" class="text-slate-400 hover:text-slate-600 transition-colors bg-white hover:bg-slate-100 rounded-lg p-1.5 border border-slate-200/50 shadow-sm">
@@ -576,7 +576,7 @@ function showDayDetails(dateKey, element) {
     });
     
     // Only add ring to non-today cells, to avoid overlapping colors
-    if (!element.classList.contains('bg-[#13273F]')) {
+    if (!element.classList.contains('bg-primary')) {
         element.classList.add('ring-2', 'ring-[#0A6C5B]', 'border-[#0A6C5B]');
     }
     
@@ -651,10 +651,10 @@ function openViewModal(booking) {
                 <div class="flex items-center justify-between bg-[#F8FAFC] border border-slate-200/50 p-4 rounded-xl relative shadow-inner">
                     <div>
                         <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-in Date</span>
-                        <span class="font-bold text-[#13273F] text-[13px]">${formatDate(booking.start_date)}</span>
+                        <span class="font-bold text-primary text-[13px]">${formatDate(booking.start_date)}</span>
                     </div>
                     <div class="flex-1 flex flex-col items-center px-4">
-                        <span class="text-[10px] font-extrabold text-[#13273F] bg-[#13273F]/5 px-2.5 py-1 rounded-full border border-[#13273F]/10 tracking-tight">
+                        <span class="text-[10px] font-extrabold text-primary bg-primary/5 px-2.5 py-1 rounded-full border border-primary/10 tracking-tight">
                             ${nights} ${nights == 1 ? 'Night' : 'Nights'}
                         </span>
                         <div class="w-full h-[1.5px] bg-slate-200 mt-1 relative flex items-center justify-center">
@@ -663,7 +663,7 @@ function openViewModal(booking) {
                     </div>
                     <div class="text-right">
                         <span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider">Check-out Date</span>
-                        <span class="font-bold text-[#13273F] text-[13px]">${formatDate(booking.end_date)}</span>
+                        <span class="font-bold text-primary text-[13px]">${formatDate(booking.end_date)}</span>
                     </div>
                 </div>
             </div>
@@ -677,7 +677,7 @@ function openViewModal(booking) {
                 </div>
                 <div class="flex justify-between items-center">
                     <span class="text-slate-500">Number of Rooms</span>
-                    <span class="font-extrabold text-[#4E0000] bg-red-50 border border-red-100 px-2 py-0.5 rounded text-xs">x${booking.no_of_rooms || 1}</span>
+                    <span class="font-extrabold text-secondary bg-red-50 border border-red-100 px-2 py-0.5 rounded text-xs">x${booking.no_of_rooms || 1}</span>
                 </div>
             </div>
 
@@ -685,7 +685,7 @@ function openViewModal(booking) {
             <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-sm space-y-3">
                 <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50 pb-1.5">Guest Information</span>
                 <div class="flex items-center mb-2.5">
-                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] text-white flex items-center justify-center text-[12px] font-bold mr-3 shadow-sm">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-primary to-[#254974] text-white flex items-center justify-center text-[12px] font-bold mr-3 shadow-sm">
                         ${booking.applicant_name.substring(0, 1)}
                     </div>
                     <div>

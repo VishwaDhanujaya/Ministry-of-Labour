@@ -145,6 +145,9 @@ $hero_desktop_version = file_exists($hero_desktop_path) ? filemtime($hero_deskto
 
 $hero_mobile_path = __DIR__ . '/assets/img/mobile-hero.webp';
 $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_path) : time();
+
+$about_img_path = __DIR__ . '/assets/img/home-about.webp';
+$about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) : time();
 ?>
 <!-- Hero Section -->
 <section class="relative min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-120px)] flex items-center bg-primary overflow-hidden py-12 md:py-16 xl:py-20">
@@ -290,8 +293,8 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
         <!-- Styled administrative image container -->
         <div class="w-full lg:w-[45%]" data-aos="fade-left">
             <div
-                class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] h-[450px] lg:h-[530px] w-full bg-gray-50 hover:shadow-2xl transition-shadow duration-500">
-                <img loading="lazy" src="assets/img/home-about.webp" alt="Ministry of Labour Head Office"
+                class="rounded-3xl overflow-hidden shadow-lg border-[0.5px] border-[#D4D4D4] aspect-square w-full max-w-[450px] lg:max-w-none bg-gray-50 hover:shadow-2xl transition-shadow duration-500">
+                <img loading="lazy" src="assets/img/home-about.webp?v=<?= $about_img_version ?>" alt="Ministry of Labour Head Office"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
             </div>
         </div>

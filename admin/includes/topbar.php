@@ -1,6 +1,6 @@
-<header class="h-20 md:h-24 bg-[#4E0000]/10 flex items-center justify-between px-4 md:px-10 shrink-0">
+<header class="h-20 md:h-24 bg-secondary/10 flex items-center justify-between px-4 md:px-10 shrink-0">
     <div class="flex items-center gap-3 md:gap-0">
-        <button type="button" onclick="toggleSidebar()" class="md:hidden text-[#4E0000] p-1.5 hover:bg-[#4E0000]/10 rounded-md transition-colors">
+        <button type="button" onclick="toggleSidebar()" class="md:hidden text-secondary p-1.5 hover:bg-secondary/10 rounded-md transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
         </button>
         <div>
@@ -10,14 +10,14 @@
     </div>
     
     <div class="flex items-center space-x-3 md:space-x-5">
-        <a href="../home" target="_blank" class="hidden sm:inline-flex bg-[#4E0000] text-white px-5 md:px-6 py-2 rounded-md font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm">
+        <a href="../home" target="_blank" class="hidden sm:inline-flex bg-secondary text-white px-5 md:px-6 py-2 rounded-md font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm">
             Visit Site
         </a>
         
         
         <div class="flex items-center ml-1 md:ml-2 border-l border-gray-300 pl-4 md:pl-6 relative cursor-pointer" onclick="toggleUserDropdown(event)">
             <?php $currentUser = getLoggedInAdmin(); ?>
-            <div class="w-8 h-8 md:w-10 md:h-10 rounded bg-[#4E0000] text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded bg-secondary text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
                 <?= htmlspecialchars(getInitials($currentUser['name'] ?? 'Admin')) ?>
             </div>
             <div class="ml-2 md:ml-3 hidden md:block">

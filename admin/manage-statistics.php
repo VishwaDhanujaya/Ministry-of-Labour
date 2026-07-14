@@ -119,11 +119,11 @@ include 'includes/header.php';
 
         <!-- Info Alert: How Statistics Work -->
         <div class="mb-8 p-6 bg-white border border-slate-100 rounded-2xl flex flex-col md:flex-row items-start gap-4 shadow-[0_4px_16px_rgba(0,0,0,0.015)] font-inter">
-            <div class="w-10 h-10 rounded-xl bg-[#4E0000]/5 text-[#4E0000] flex items-center justify-center shrink-0 mt-0.5">
+            <div class="w-10 h-10 rounded-xl bg-secondary/5 text-secondary flex items-center justify-center shrink-0 mt-0.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708.283a.75.75 0 00-.475.692v.334m-.375 2.25h.007v.008H12v-.008zM12 3c7.243 0 12 4.757 12 12s-4.757 12-12 12S0 22.243 0 15 4.757 3 12 3z"></path></svg>
             </div>
             <div class="text-[12.5px] text-slate-600 leading-relaxed">
-                <p class="font-bold text-[#4E0000] text-sm mb-1">Portal Statistics Note</p>
+                <p class="font-bold text-secondary text-sm mb-1">Portal Statistics Note</p>
                 <ul class="list-disc pl-5 space-y-1 text-slate-500">
                     <li><strong>Total Visitors Counter (Automated):</strong> This metric tracks unique portal sessions dynamically and increments automatically. When it exceeds 999, the portal formats it into thousands (<code>K</code>) or millions (<code>M</code>) syntax (e.g. database value of <code>1250</code> displays as <code>1.3K</code>).</li>
                     <li><strong>Other Counters (Manual):</strong> (ILO Conventions, Labour Acts, Affiliated Institutions) are manually updated and display exactly as saved.</li>
@@ -150,15 +150,15 @@ include 'includes/header.php';
             ?>
                 <div <?php if ($stat['stat_key'] !== 'total_visitors'): ?>onclick='openEditModal(<?= json_encode($stat, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'<?php endif; ?> 
                      class="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_16px_rgba(0,0,0,0.015)] <?php if ($stat['stat_key'] !== 'total_visitors'): ?>hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer<?php endif; ?> transform transition-all duration-300 flex flex-col justify-between min-h-[190px] group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-[#13273F]/2 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/2 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
                     
                     <div class="flex justify-between items-start mb-3 relative z-10 w-full">
-                        <div class="w-12 h-12 bg-slate-50 text-[#13273F] rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-all <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:bg-[#13273F] group-hover:text-white<?php endif; ?>">
+                        <div class="w-12 h-12 bg-slate-50 text-primary rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-all <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:bg-primary group-hover:text-white<?php endif; ?>">
                             <?= getStatIcon($stat['stat_key']) ?>
                         </div>
                         <div class="flex flex-col items-end gap-1">
                             <?php if ($stat['stat_key'] === 'total_visitors'): ?>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-[#13273F]/5 text-[#13273F] border border-[#13273F]/10 font-mono">Automated</span>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-primary/5 text-primary border border-primary/10 font-mono">Automated</span>
                             <?php else: ?>
                                 <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/5 text-amber-700 border border-amber-500/10 font-mono">Manual</span>
                             <?php endif; ?>
@@ -174,7 +174,7 @@ include 'includes/header.php';
                         <p class="text-[10px] text-slate-300 font-mono mt-1">Raw DB: <?= htmlspecialchars($stat['stat_value']) ?><?= htmlspecialchars($stat['stat_suffix']) ?></p>
                     </div>
 
-                    <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between text-[11px] text-slate-400 <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:text-[#4E0000]<?php endif; ?> transition-colors font-inter relative z-10 shrink-0">
+                    <div class="mt-4 pt-3 border-t border-slate-50 flex items-center justify-between text-[11px] text-slate-400 <?php if ($stat['stat_key'] !== 'total_visitors'): ?>group-hover:text-secondary<?php endif; ?> transition-colors font-inter relative z-10 shrink-0">
                         <span><?php echo $stat['stat_key'] === 'total_visitors' ? 'Automatically tracked' : 'Click to update counter'; ?></span>
                         <?php if ($stat['stat_key'] !== 'total_visitors'): ?>
                             <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.89h2.25m-2.25 4.5h2.25m-3.83 5.06l3.29-3.29M3 20V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1H4a1 1 0 01-1-1z"></path></svg>
@@ -190,7 +190,7 @@ include 'includes/header.php';
             <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 transition-all duration-300 relative z-10 max-h-[90vh] flex flex-col border border-slate-100">
                 <div class="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50/50 shrink-0">
                     <h3 class="text-lg font-bold font-montserrat text-slate-800 flex items-center">
-                        <div class="w-8.5 h-8.5 rounded-xl bg-[#4E0000]/5 text-[#4E0000] flex items-center justify-center mr-2.5 border border-[#4E0000]/10">
+                        <div class="w-8.5 h-8.5 rounded-xl bg-secondary/5 text-secondary flex items-center justify-center mr-2.5 border border-secondary/10">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path></svg>
                         </div>
                         Edit Count & Suffix
@@ -214,11 +214,11 @@ include 'includes/header.php';
                         <div class="grid grid-cols-2 gap-4 font-inter">
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Count Value <span class="text-red-500">*</span></label>
-                                <input type="number" name="stat_value" id="modalStatValue" required placeholder="e.g. 5, 32, 1250" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 font-mono transition-all font-semibold">
+                                <input type="number" name="stat_value" id="modalStatValue" required placeholder="e.g. 5, 32, 1250" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 font-mono transition-all font-semibold">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Suffix</label>
-                                <input type="text" name="stat_suffix" id="modalStatSuffix" placeholder="e.g. +, %" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 font-mono transition-all font-semibold">
+                                <input type="text" name="stat_suffix" id="modalStatSuffix" placeholder="e.g. +, %" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 font-mono transition-all font-semibold">
                             </div>
                         </div>
 
@@ -227,9 +227,9 @@ include 'includes/header.php';
                             <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Live Portal Preview</h4>
                             
                             <div class="bg-white rounded-2xl p-5 border border-slate-100 flex items-center justify-between shadow-sm relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-20 h-20 bg-[#13273F]/2 rounded-bl-full opacity-50"></div>
+                                <div class="absolute top-0 right-0 w-20 h-20 bg-primary/2 rounded-bl-full opacity-50"></div>
                                 <div class="flex items-center gap-4 relative z-10">
-                                    <div class="w-11 h-11 bg-slate-50 text-[#13273F] rounded-xl flex items-center justify-center border border-slate-100" id="modalPreviewIcon">
+                                    <div class="w-11 h-11 bg-slate-50 text-primary rounded-xl flex items-center justify-center border border-slate-100" id="modalPreviewIcon">
                                         <!-- Dynamic Icon -->
                                     </div>
                                     <div>
@@ -248,7 +248,7 @@ include 'includes/header.php';
                             <button type="button" onclick="closeModal()" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-[12.5px] font-bold hover:bg-slate-50 transition-colors">
                                 Cancel
                             </button>
-                            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
+                            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-secondary to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
                                 Save Changes
                             </button>
                         </div>
@@ -292,15 +292,15 @@ include 'includes/header.php';
         function getJsStatIcon(key) {
             switch (key) {
                 case 'ilo_conventions':
-                    return '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>';
+                    return '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>';
                 case 'labour_acts':
-                    return '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
+                    return '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>';
                 case 'affiliated_institutions':
-                    return '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>';
+                    return '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>';
                 case 'total_visitors':
-                    return '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>';
+                    return '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>';
                 default:
-                    return '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>';
+                    return '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>';
             }
         }
 

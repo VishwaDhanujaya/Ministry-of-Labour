@@ -7,7 +7,7 @@
  *   - Container:   bg-white rounded-2xl border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)]
  *   - Header row:  bg-slate-50/50 text-slate-400 text-[11px] uppercase tracking-wider
  *   - Body rows:   hover:bg-slate-50/60 border-b border-slate-50/70
- *   - Pagination:  bg-[#13273F] (active), border-slate-200 (inactive), rounded-xl
+ *   - Pagination:  bg-primary (active), border-slate-200 (inactive), rounded-xl
  *   - Accent:      #4E0000 (maroon)
  */
 

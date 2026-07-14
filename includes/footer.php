@@ -7,7 +7,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-[#FAFAFA]">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-[#4E0000]/10 flex items-center justify-center text-[#4E0000]">
+                    <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
@@ -46,7 +46,7 @@
                                 <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Check-In *</label>
                                 <div class="relative">
                                     <input type="text" id="modal-check-in" name="start_date" required
-                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4E0000]/20 focus:border-[#4E0000] bg-white font-inter transition-all"
+                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
                                         placeholder="YYYY-MM-DD">
                                     <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -58,7 +58,7 @@
                                 <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Check-Out *</label>
                                 <div class="relative">
                                     <input type="text" id="modal-check-out" name="end_date" required
-                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4E0000]/20 focus:border-[#4E0000] bg-white font-inter transition-all"
+                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
                                         placeholder="YYYY-MM-DD">
                                     <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
@@ -95,7 +95,7 @@
                             <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Applicant Name *</label>
                             <div class="relative">
                                 <input type="text" name="applicant_name" required
-                                    class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4E0000]/20 focus:border-[#4E0000] bg-white font-inter transition-all"
+                                    class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
                                     placeholder="Enter applicant name">
                                 <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -109,7 +109,7 @@
                                 <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Telephone *</label>
                                 <div class="relative">
                                     <input type="text" name="telephone" required
-                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4E0000]/20 focus:border-[#4E0000] bg-white font-inter transition-all"
+                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
                                         placeholder="07XXXXXXXX">
                                     <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
@@ -121,7 +121,7 @@
                                 <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Email *</label>
                                 <div class="relative">
                                     <input type="email" name="email" required
-                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4E0000]/20 focus:border-[#4E0000] bg-white font-inter transition-all"
+                                        class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
                                         placeholder="example@mail.com">
                                     <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -138,7 +138,7 @@
                         onclick="closeBookingModal()"
                         class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 active:scale-95 transition-all font-inter focus:outline-none">Cancel</button>
                     <button type="submit" id="submit-booking-btn"
-                        class="px-6 py-2.5 text-[13px] font-bold text-white bg-[#4E0000] hover:bg-[#3d0000] rounded-xl active:scale-95 transition-all font-inter shadow-md shadow-red-950/10 focus:outline-none">Submit Booking Request</button>
+                        class="px-6 py-2.5 text-[13px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl active:scale-95 transition-all font-inter shadow-md shadow-red-950/10 focus:outline-none">Submit Booking Request</button>
                 </div>
             </form>
         </div>
@@ -319,7 +319,7 @@
             <!-- Footer / Action bar -->
             <div id="modal-footer" class="px-6 py-5 border-t border-gray-100 bg-[#FAFAFA] flex justify-end gap-3 shrink-0">
                 <button onclick="closeDetailModal()" class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer">Close</button>
-                <a id="modal-pdf-link" href="#" target="_blank" class="px-5 py-2.5 text-[13px] font-bold text-white bg-[#4E0000] hover:bg-[#3d0000] rounded-xl transition-all shadow-md flex items-center gap-1.5 focus:outline-none cursor-pointer">
+                <a id="modal-pdf-link" href="#" target="_blank" class="px-5 py-2.5 text-[13px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl transition-all shadow-md flex items-center gap-1.5 focus:outline-none cursor-pointer">
                     <svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                     View PDF Document
                 </a>

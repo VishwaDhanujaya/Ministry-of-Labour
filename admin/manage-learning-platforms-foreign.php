@@ -119,7 +119,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Foreign Learning Platforms</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Publish and manage educational resources, documents, and guides for the foreign-employment workforce.</p>
             </div>
-            <button onclick="openAddModal()" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
                 <span class="mr-1.5 text-lg leading-none">+</span> New Platform Document
             </button>
         </div>
@@ -141,7 +141,7 @@ include 'includes/header.php';
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $pub['id'] ?>, '<?= htmlspecialchars(addslashes($pub['title'])) ?>', 'manage-learning-platforms-foreign?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                 <td class="py-4 px-6">
-                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-[#4E0000] transition-colors leading-none mb-1"><?= htmlspecialchars($pub['title']) ?></p>
+                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-secondary transition-colors leading-none mb-1"><?= htmlspecialchars($pub['title']) ?></p>
                     <?php if(!empty($pub['description'])): ?>
                         <p class="text-[11.5px] text-slate-400 truncate max-w-md mt-1.5" title="<?= htmlspecialchars(strip_tags($pub['description'])) ?>"><?= htmlspecialchars(mb_strimwidth(strip_tags($pub['description']), 0, 80, '...')) ?></p>
                     <?php endif; ?>
@@ -158,7 +158,7 @@ include 'includes/header.php';
                             <?php endif; ?>
                             <?php if (!empty($pub['pdf_path'])): ?>
                                 <div class="border-t border-gray-100 pt-4 mt-2">
-                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
                                         <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                                         View Attached PDF
                                     </a>
@@ -169,7 +169,7 @@ include 'includes/header.php';
                 </td>
                 <td class="py-4 px-6">
                     <?php if(!empty($pub['pdf_path'])): ?>
-                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#721c1c] text-[13px] font-bold transition-colors">
+                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-secondary hover:text-[#721c1c] text-[13px] font-bold transition-colors">
                         <svg class="w-4 h-4 mr-1.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                         View PDF
                     </a>
@@ -226,7 +226,7 @@ include 'includes/header.php';
             <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden transform transition-all flex flex-col max-h-[90vh]">
                 <div class="flex justify-between items-center p-5 border-b border-gray-100 bg-gray-50/50">
                     <h3 class="text-lg font-bold font-montserrat text-gray-900 flex items-center" id="modalTitle">
-                        <svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                         Add New Foreign Learning Platform
                     </h3>
                     <button type="button" onclick="closePubModal()" class="text-gray-400 hover:text-gray-600 transition-colors bg-white hover:bg-gray-100 rounded-full p-1">
@@ -243,12 +243,12 @@ include 'includes/header.php';
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="pubTitle" required placeholder="Foreign Learning Platform title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-900 placeholder-gray-400">
+                                <input type="text" name="title" id="pubTitle" required placeholder="Foreign Learning Platform title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                             </div>
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Status</label>
                                 <div class="relative">
-                                    <select name="status" id="pubStatus" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4E0000] text-[13px] text-gray-600 appearance-none cursor-pointer">
+                                    <select name="status" id="pubStatus" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-600 appearance-none cursor-pointer">
                                         <option value="Published">Published</option>
                                         <option value="Draft">Draft</option>
                                     </select>
@@ -267,11 +267,11 @@ include 'includes/header.php';
 
                         <div>
                             <label class="block text-[13px] font-medium text-gray-800 mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
-                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-[#13273F] transition-colors cursor-pointer bg-slate-50/50" onclick="document.getElementById('pubPdf').click()">
+                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-primary transition-colors cursor-pointer bg-slate-50/50" onclick="document.getElementById('pubPdf').click()">
                                 <div class="space-y-1 text-center">
                                     <svg class="mx-auto h-10 w-10 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                     <div class="flex text-[13px] text-slate-600 justify-center mt-2">
-                                        <span class="relative cursor-pointer rounded-md font-bold text-[#13273F] hover:text-[#254974]">
+                                        <span class="relative cursor-pointer rounded-md font-bold text-primary hover:text-[#254974]">
                                             <span>Upload a PDF file</span>
                                             <input id="pubPdf" name="pdf_file" type="file" class="sr-only" accept="application/pdf" required onchange="document.getElementById('pdf-file-name-foreign').textContent = this.files[0] ? this.files[0].name : ''">
                                         </span>
@@ -288,7 +288,7 @@ include 'includes/header.php';
                             <button type="button" onclick="closePubModal()" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-medium hover:bg-gray-50 transition-colors">
                                 Cancel
                             </button>
-                            <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-[#4E0000] text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-sm">
+                            <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-secondary text-white rounded-md text-[13px] font-bold hover:bg-[#320000] transition-colors shadow-sm">
                                 Save Foreign Learning Platform
                             </button>
                         </div>
@@ -299,7 +299,7 @@ include 'includes/header.php';
 
         <script>
         function openAddModal() {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Foreign Learning Platform';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Foreign Learning Platform';
             document.getElementById('formAction').value = 'add';
             document.getElementById('pubId').value = '';
             
@@ -321,7 +321,7 @@ include 'includes/header.php';
         }
 
         function openEditModal(pub) {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-[#4E0000]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Foreign Learning Platform';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Foreign Learning Platform';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('pubId').value = pub.id;
             

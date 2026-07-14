@@ -103,10 +103,10 @@ include 'includes/header.php';
                 $roleClass = "bg-slate-50 text-slate-600 border-slate-100";
                 $roleLabel = str_replace('_', ' ', $role);
                 if ($role === 'executive_officer') {
-                    $roleClass = "bg-[#4E0000]/5 text-[#4E0000] border-[#4E0000]/10";
+                    $roleClass = "bg-secondary/5 text-secondary border-secondary/10";
                     $roleLabel = "Executive Officer";
                 } elseif ($role === 'content_editor') {
-                    $roleClass = "bg-[#13273F]/5 text-[#13273F] border-[#13273F]/10";
+                    $roleClass = "bg-primary/5 text-primary border-primary/10";
                     $roleLabel = "Content Editor";
                 } elseif ($role === 'super_admin') {
                     $roleClass = "bg-amber-500/5 text-amber-700 border-amber-500/10";
@@ -115,13 +115,13 @@ include 'includes/header.php';
             ?>
             <div class="w-full lg:w-1/3 bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] overflow-hidden flex flex-col shrink-0">
                 <!-- Color Banner -->
-                <div class="h-28 bg-gradient-to-r from-[#13273F] to-[#254974] relative overflow-hidden">
+                <div class="h-28 bg-gradient-to-r from-primary to-[#254974] relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full"></div>
                 </div>
                 <!-- Profile Block -->
                 <div class="px-6 pb-6 text-center flex-1">
                     <!-- Initials Avatar -->
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] text-white font-extrabold text-2xl flex items-center justify-center border-4 border-white shadow-md mx-auto -mt-10 relative z-10 ring-2 ring-slate-100/50">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-primary to-[#254974] text-white font-extrabold text-2xl flex items-center justify-center border-4 border-white shadow-md mx-auto -mt-10 relative z-10 ring-2 ring-slate-100/50">
                         <?= htmlspecialchars($initials) ?>
                     </div>
                     
@@ -179,7 +179,7 @@ include 'includes/header.php';
                                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                                         </span>
-                                        <input type="text" name="name" required value="<?= htmlspecialchars($current_user['name']) ?>" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                                        <input type="text" name="name" required value="<?= htmlspecialchars($current_user['name']) ?>" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                                     </div>
                                 </div>
 
@@ -189,7 +189,7 @@ include 'includes/header.php';
                                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path></svg>
                                         </span>
-                                        <input type="email" name="email" required value="<?= htmlspecialchars($current_user['email']) ?>" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                                        <input type="email" name="email" required value="<?= htmlspecialchars($current_user['email']) ?>" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                                     </div>
                                 </div>
 
@@ -218,7 +218,7 @@ include 'includes/header.php';
                                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                                         </span>
-                                        <input type="password" name="new_password" id="new_password" placeholder="Enter new password" class="js-pwd w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-mono">
+                                        <input type="password" name="new_password" id="new_password" placeholder="Enter new password" class="js-pwd w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-mono">
                                         <button type="button" onclick="togglePwdVisibility('new_password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" id="eye-icon-new_password"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                         </button>
@@ -231,7 +231,7 @@ include 'includes/header.php';
                                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                         </span>
-                                        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm new password" class="js-pwd-confirm w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-mono">
+                                        <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm new password" class="js-pwd-confirm w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-mono">
                                         <button type="button" onclick="togglePwdVisibility('confirm_password', this)" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" id="eye-icon-confirm_password"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                         </button>
@@ -251,7 +251,7 @@ include 'includes/header.php';
                             <a href="dashboard" class="px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[12.5px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center shadow-sm">
                                 Cancel
                             </a>
-                            <button type="submit" class="px-7 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
+                            <button type="submit" class="px-7 py-2.5 bg-gradient-to-r from-secondary to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
                                 Save All Changes
                             </button>
                         </div>

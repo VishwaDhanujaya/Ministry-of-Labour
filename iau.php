@@ -177,7 +177,7 @@ include 'includes/sub-hero.php';
 
         <!-- Right Side: Contact Card -->
         <div class="w-full lg:w-[35%] pt-2 md:pt-16">
-            <div class="bg-[#13273F] rounded-[32px] p-8 md:p-10 text-white shadow-lg sticky top-32">
+            <div class="bg-primary rounded-[32px] p-8 md:p-10 text-white shadow-lg sticky top-32">
                 <h3 class="text-xl md:text-2xl font-semibold font-montserrat mb-8 text-[#FAFAFA]">Submission of Suggestions/ ideas/<br>Complaints</h3>
                 
                 <div class="space-y-6">

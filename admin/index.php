@@ -52,7 +52,7 @@ include 'includes/header.php';
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-[#F8F9FA]">
         
         <!-- Welcome Banner -->
-        <div class="relative bg-gradient-to-r from-[#13273F] via-[#1E3E62] to-[#2D5C8F] rounded-2xl p-6 md:p-8 text-white mb-8 overflow-hidden shadow-[0_4px_20px_rgba(19,39,63,0.08)] border border-slate-100/10">
+        <div class="relative bg-gradient-to-r from-primary via-[#1E3E62] to-[#2D5C8F] rounded-2xl p-6 md:p-8 text-white mb-8 overflow-hidden shadow-[0_4px_20px_rgba(19,39,63,0.08)] border border-slate-100/10">
             <!-- Glass Decorative Rings -->
             <div class="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-white/5 border border-white/10 blur-[1px] pointer-events-none"></div>
             <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5 border border-white/10 blur-[1px] pointer-events-none"></div>
@@ -87,19 +87,19 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             <!-- News Count -->
             <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#4E0000] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div class="flex justify-between items-start">
                     <div>
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">News & Updates</span>
                         <p class="text-3xl font-extrabold text-slate-800 font-montserrat mt-2"><?= $newsCount ?></p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl bg-red-50 text-[#4E0000] flex items-center justify-center shrink-0 shadow-sm border border-red-100/50 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-red-50 text-secondary flex items-center justify-center shrink-0 shadow-sm border border-red-100/50 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
                     </div>
                 </div>
                 <div class="mt-5 pt-3.5 border-t border-slate-50 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
                     <span class="text-slate-400"><?= $newsThisMonth ?> new this month</span>
-                    <a href="news" class="text-[#4E0000] hover:text-[#721c1c] transition-colors flex items-center gap-1">
+                    <a href="news" class="text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1">
                         Manage
                         <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -173,43 +173,43 @@ include 'includes/header.php';
         <!-- Quick Shortcuts -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] p-6 mb-8">
             <h3 class="text-sm font-bold text-slate-800 font-montserrat mb-4 flex items-center gap-2 select-none">
-                <svg class="w-4 h-4 text-[#4E0000]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span>Quick Action Shortcuts</span>
             </h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="news-add" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-[#4E0000] border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
+                <a href="news-add" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-[#4E0000] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
                     </div>
                     <div>
-                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-[#4E0000] transition-colors block">Add News Update</span>
+                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors block">Add News Update</span>
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Publish alerts & press releases</span>
                     </div>
                 </a>
-                <a href="manage-special-notices" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-[#4E0000] border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
+                <a href="manage-special-notices" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-[#4E0000] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                     </div>
                     <div>
-                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-[#4E0000] transition-colors block">Create Special Notice</span>
+                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors block">Create Special Notice</span>
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Announce urgent updates</span>
                     </div>
                 </a>
-                <a href="officials" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-[#4E0000] border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
+                <a href="officials" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-[#4E0000] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                     </div>
                     <div>
-                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-[#4E0000] transition-colors block">Add Directory Official</span>
+                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors block">Add Directory Official</span>
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Update contacts & staff lists</span>
                     </div>
                 </a>
-                <a href="bungalow-bookings" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-[#4E0000] border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
+                <a href="bungalow-bookings" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
-                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-[#4E0000] transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                     <div>
-                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-[#4E0000] transition-colors block">View Bungalow Bookings</span>
+                        <span class="text-[12.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors block">View Bungalow Bookings</span>
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Review pending room requests</span>
                     </div>
                 </a>
@@ -221,7 +221,7 @@ include 'includes/header.php';
             <div class="lg:col-span-2">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-base font-bold font-montserrat text-slate-800">Recent News Updates</h3>
-                    <a href="news" class="text-xs font-bold text-[#4E0000] hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
+                    <a href="news" class="text-xs font-bold text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
                         View All
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -239,7 +239,7 @@ include 'includes/header.php';
                 renderAdminTable($headers, $recentNews, function($news) {
                     ?>
                     <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group">
-                        <td class="py-4 px-6 font-bold text-slate-800 max-w-xs truncate group-hover:text-[#4E0000] transition-colors"><?= htmlspecialchars($news['title']) ?></td>
+                        <td class="py-4 px-6 font-bold text-slate-800 max-w-xs truncate group-hover:text-secondary transition-colors"><?= htmlspecialchars($news['title']) ?></td>
                         <td class="py-4 px-6 text-slate-500 font-semibold text-[12px]"><?= htmlspecialchars($news['category']) ?></td>
                         <td class="py-4 px-6 text-slate-400 font-mono"><?= date('M j, Y', strtotime($news['created_at'])) ?></td>
                         <td class="py-4 px-6">
@@ -270,7 +270,7 @@ include 'includes/header.php';
             <div class="lg:col-span-1">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-base font-bold font-montserrat text-slate-800">Active Bookings</h3>
-                    <a href="bungalow-bookings" class="text-xs font-bold text-[#4E0000] hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
+                    <a href="bungalow-bookings" class="text-xs font-bold text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
                         View All
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -309,7 +309,7 @@ include 'includes/header.php';
                             <div class="p-4 rounded-xl bg-slate-50/50 hover:bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all duration-150 group flex flex-col justify-between cursor-pointer" onclick="window.location.href='bungalow-bookings'">
                                 <div class="flex justify-between items-start mb-2.5">
                                     <div>
-                                        <h4 class="font-bold text-slate-800 text-[13.5px] group-hover:text-[#4E0000] transition-colors leading-tight"><?= htmlspecialchars($bk['applicant_name']) ?></h4>
+                                        <h4 class="font-bold text-slate-800 text-[13.5px] group-hover:text-secondary transition-colors leading-tight"><?= htmlspecialchars($bk['applicant_name']) ?></h4>
                                         <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider mt-1 flex items-center gap-1 select-none">
                                             <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
                                             <span><?= htmlspecialchars($bk['bungalow_name']) ?></span>
@@ -324,7 +324,7 @@ include 'includes/header.php';
                                         <span class="font-bold text-slate-700"><?= date('M j', strtotime($bk['end_date'])) ?></span>
                                         <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-sans font-bold text-[9.5px] ml-1 shrink-0"><?= $nights ?>N</span>
                                     </div>
-                                    <a href="bungalow-bookings" class="px-3.5 py-1.5 bg-[#4E0000] hover:bg-[#320000] text-white rounded-lg text-[11px] font-bold shadow-sm transition-colors select-none">Review</a>
+                                    <a href="bungalow-bookings" class="px-3.5 py-1.5 bg-secondary hover:bg-[#320000] text-white rounded-lg text-[11px] font-bold shadow-sm transition-colors select-none">Review</a>
                                 </div>
                             </div>
                             <?php endforeach; ?>

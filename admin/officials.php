@@ -32,7 +32,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Officials & Contacts</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Manage ministry leadership, division heads, and contact list sort order.</p>
             </div>
-            <button onclick="openModal('division', null)" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
+            <button onclick="openModal('division', null)" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                 Add Official
             </button>
@@ -65,8 +65,8 @@ include 'includes/header.php';
                     $initials = substr($initials, 0, 2);
                 ?>
                 <div onclick="showPreviewModal(<?= $official['id'] ?>, '<?= htmlspecialchars(addslashes($official['name'])) ?>', 'top', <?= htmlspecialchars(json_encode($official, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)" class="bg-white rounded-2xl border border-slate-100 p-6 shadow-[0_4px_12px_rgba(0,0,0,0.015)] hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-[#13273F]/2 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
-                    <span class="absolute top-4 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13273F]/5 text-[#13273F] border border-[#13273F]/10 z-10">Top Official</span>
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-primary/2 rounded-bl-full -mr-4 -mt-4 opacity-50 z-0"></div>
+                    <span class="absolute top-4 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/5 text-primary border border-primary/10 z-10">Top Official</span>
                     
                     <div class="text-center relative z-10 flex-1 flex flex-col items-center">
                         <!-- Avatar -->
@@ -74,7 +74,7 @@ include 'includes/header.php';
                             <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
                                 <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-md ring-2 ring-slate-100">
                             <?php else: ?>
-                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-2 ring-slate-100">
+                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-2 ring-slate-100">
                                     <span class="text-white font-extrabold text-xl font-montserrat">
                                         <?= htmlspecialchars($initials) ?>
                                     </span>
@@ -114,7 +114,7 @@ include 'includes/header.php';
                                     <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
                                         <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-50">
                                     <?php else: ?>
-                                        <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-[#13273F] to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-50">
+                                        <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-50">
                                             <span class="text-white font-extrabold text-3xl font-montserrat">
                                                 <?= htmlspecialchars($initials) ?>
                                             </span>
@@ -122,9 +122,9 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                 </div>
                                 <div class="flex-1 text-center md:text-left mt-4 md:mt-0">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13273F]/5 text-[#13273F] border border-[#13273F]/10 mb-3">Top Official</span>
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/5 text-primary border border-primary/10 mb-3">Top Official</span>
                                     <h4 class="text-xl font-extrabold text-slate-800 leading-tight"><?= htmlspecialchars($official['name']) ?></h4>
-                                    <p class="text-xs font-bold text-[#4E0000] uppercase tracking-wider mt-1.5"><?= htmlspecialchars($official['title']) ?></p>
+                                    <p class="text-xs font-bold text-secondary uppercase tracking-wider mt-1.5"><?= htmlspecialchars($official['title']) ?></p>
                                     
                                     <div class="text-[13px] text-slate-600 mt-5 space-y-3 border-t border-slate-50 pt-5 text-left">
                                         <?php if ($official['email']): ?>
@@ -153,7 +153,7 @@ include 'includes/header.php';
                     
                     <div class="mt-6 pt-4 border-t border-slate-50 flex items-center justify-between shrink-0 relative z-10" onclick="event.stopPropagation();">
                         <span class="text-[11px] text-slate-400 font-medium">Quick Actions</span>
-                        <button onclick="openModal('top', <?= htmlspecialchars(json_encode($official)) ?>)" class="text-[#4E0000] hover:text-[#721c1c] text-[13px] font-bold flex items-center gap-1.5 transition-colors">
+                        <button onclick="openModal('top', <?= htmlspecialchars(json_encode($official)) ?>)" class="text-secondary hover:text-[#721c1c] text-[13px] font-bold flex items-center gap-1.5 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg>
                             Edit
                         </button>
@@ -193,7 +193,7 @@ include 'includes/header.php';
                             <?php if ($person['image_path']): ?>
                                 <img src="../<?= htmlspecialchars($person['image_path']) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-sm ring-1 ring-slate-100">
                             <?php else: ?>
-                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-[#13273F] to-[#254974] flex items-center justify-center border-2 border-white shadow-sm ring-1 ring-slate-100">
+                                <div class="w-full h-full rounded-full bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-sm ring-1 ring-slate-100">
                                     <span class="text-white font-bold text-xs font-montserrat">
                                         <?= htmlspecialchars($personInitials) ?>
                                     </span>
@@ -202,7 +202,7 @@ include 'includes/header.php';
                         </div>
                     </td>
                     <td class="py-4 px-6">
-                        <div class="font-bold text-slate-800 text-[13.5px] group-hover:text-[#4E0000] transition-colors leading-tight"><?= htmlspecialchars($person['name']) ?></div>
+                        <div class="font-bold text-slate-800 text-[13.5px] group-hover:text-secondary transition-colors leading-tight"><?= htmlspecialchars($person['name']) ?></div>
                         <div class="text-[11.5px] text-slate-400 font-semibold uppercase tracking-wide mt-0.5"><?= htmlspecialchars($person['designation'] ?? $person['title']) ?></div>
                         
                         <!-- Hidden Preview Content -->
@@ -212,7 +212,7 @@ include 'includes/header.php';
                                     <?php if ($person['image_path']): ?>
                                         <img src="../<?= htmlspecialchars($person['image_path']) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-55">
                                     <?php else: ?>
-                                        <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-[#13273F] to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-55">
+                                        <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-55">
                                             <span class="text-white font-extrabold text-3xl font-montserrat">
                                                 <?= htmlspecialchars($personInitials) ?>
                                             </span>
@@ -220,9 +220,9 @@ include 'includes/header.php';
                                     <?php endif; ?>
                                 </div>
                                 <div class="flex-1 text-center md:text-left mt-4 md:mt-0">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#13273F]/5 text-[#13273F] border border-[#13273F]/10 mb-3"><?= htmlspecialchars($div['title']) ?></span>
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/5 text-primary border border-primary/10 mb-3"><?= htmlspecialchars($div['title']) ?></span>
                                     <h4 class="text-xl font-extrabold text-slate-800 leading-tight"><?= htmlspecialchars($person['name']) ?></h4>
-                                    <p class="text-xs font-bold text-[#4E0000] uppercase tracking-wider mt-1.5"><?= htmlspecialchars($person['designation'] ?? $person['title']) ?></p>
+                                    <p class="text-xs font-bold text-secondary uppercase tracking-wider mt-1.5"><?= htmlspecialchars($person['designation'] ?? $person['title']) ?></p>
                                     
                                     <div class="text-[13px] text-slate-600 mt-5 space-y-3 border-t border-slate-50 pt-5 text-left">
                                         <?php if ($person['email']): ?>
@@ -323,33 +323,33 @@ include 'includes/header.php';
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="field-name" name="name" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                        <input type="text" id="field-name" name="name" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                     <div>
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label>
-                        <input type="text" id="field-title" name="title" required placeholder="e.g. Director General" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                        <input type="text" id="field-title" name="title" required placeholder="e.g. Director General" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                 </div>
 
                 <div id="designation-container">
                     <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Designation (Optional)</label>
-                    <input type="text" id="field-designation" name="designation" placeholder="e.g. Additional Secretary (Admin)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                    <input type="text" id="field-designation" name="designation" placeholder="e.g. Additional Secretary (Admin)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Phone (Optional)</label>
-                        <input type="text" id="field-phone" name="phone" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                        <input type="text" id="field-phone" name="phone" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                     <div>
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Fax (Optional)</label>
-                        <input type="text" id="field-fax" name="fax" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                        <input type="text" id="field-fax" name="fax" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Email (Optional)</label>
-                    <input type="email" id="field-email" name="email" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 transition-all font-medium">
+                    <input type="email" id="field-email" name="email" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                 </div>
 
                 <div>
@@ -377,7 +377,7 @@ include 'includes/header.php';
 
             <div class="p-5 border-t border-slate-100 flex justify-end gap-3 bg-slate-50 rounded-b-2xl">
                 <button type="button" onclick="closeModal()" class="px-5 py-2.5 text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-[12.5px] font-bold transition-all">Cancel</button>
-                <button type="submit" id="submit-btn" class="px-5 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">Save Official</button>
+                <button type="submit" id="submit-btn" class="px-5 py-2.5 bg-gradient-to-r from-secondary to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">Save Official</button>
             </div>
         </form>
     </div>

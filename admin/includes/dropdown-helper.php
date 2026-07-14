@@ -8,7 +8,7 @@
  *   - Background:  bg-slate-50  (#F8FAFC)
  *   - Border:      border-slate-200/70
  *   - Text:        text-slate-700  (#334155)
- *   - Focus ring:  ring-[#13273F]/20, border-[#13273F]
+ *   - Focus ring:  ring-primary/20, border-primary
  *   - Radius:      rounded-xl (0.75rem)
  *   - Font:        Inter 13px semibold
  */
@@ -69,7 +69,7 @@ function renderDropdown(array $config): string {
 
     // Base select classes — consistent across all dropdowns in the admin panel
     $selectClass = 'w-full py-2.5 bg-gray-50/50 border border-gray-200 rounded-xl '
-        . 'focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] '
+        . 'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary '
         . 'text-[12.5px] font-semibold text-slate-700 appearance-none cursor-pointer '
         . 'hover:bg-slate-100/50 transition-all';
 
@@ -155,7 +155,7 @@ function renderFilterBar(array $config): void {
                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
                 </span>
-                <input type="text" placeholder="<?= htmlspecialchars($placeholder) ?>" class="js-table-search bg-gray-50/50 border border-gray-200 text-slate-700 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none">
+                <input type="text" placeholder="<?= htmlspecialchars($placeholder) ?>" class="js-table-search bg-gray-50/50 border border-gray-200 text-slate-700 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none">
             </div>
         <?php endif; ?>
 

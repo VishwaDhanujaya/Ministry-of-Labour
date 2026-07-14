@@ -72,7 +72,7 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex justify-between items-center mb-6">
             <h2 class="text-3xl font-bold font-montserrat text-gray-900">News</h2>
-            <a href="news-add" class="bg-[#4E0000] text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
+            <a href="news-add" class="bg-secondary text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
                 <span class="mr-1.5 text-lg leading-none">+</span> Add News
             </a>
         </div>
@@ -80,10 +80,10 @@ include 'includes/header.php';
         <?php if ($canApprove): ?>
         <div class="mb-6 border-b border-gray-200">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <a href="news?tab=all" class="<?= $activeTab === 'all' ? 'border-[#4E0000] text-[#4E0000]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors">
+                <a href="news?tab=all" class="<?= $activeTab === 'all' ? 'border-secondary text-secondary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors">
                     All News
                 </a>
-                <a href="news?tab=approvals" class="<?= $activeTab === 'approvals' ? 'border-[#4E0000] text-[#4E0000]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors flex items-center">
+                <a href="news?tab=approvals" class="<?= $activeTab === 'approvals' ? 'border-secondary text-secondary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors flex items-center">
                     Review & Approvals
                     <?php if ($pendingCount > 0): ?>
                         <span class="ml-2 bg-amber-100 text-amber-800 py-0.5 px-2.5 rounded-full text-[11px] font-bold inline-block">
@@ -124,7 +124,7 @@ include 'includes/header.php';
                     <?php endif; ?>
                 </td>
                 <td class="py-5 px-6 font-medium text-gray-900 w-1/4">
-                    <span class="text-left hover:text-[#4E0000] transition-colors focus:outline-none">
+                    <span class="text-left hover:text-secondary transition-colors focus:outline-none">
                         <?= htmlspecialchars($news['title']) ?>
                     </span>
                     <div id="preview-content-<?= $news['id'] ?>" class="hidden">
@@ -175,7 +175,7 @@ include 'includes/header.php';
                 </td>
                 <td class="py-5 px-6">
                     <div class="flex items-center space-x-2">
-                        <a href="news-add?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-[#4E0000] transition-colors" title="Edit">
+                        <a href="news-add?id=<?= $news['id'] ?>" onclick="event.stopPropagation();" class="js-edit-row p-1.5 text-gray-400 hover:text-secondary transition-colors" title="Edit">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         </a>
                         <a href="news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" onclick="event.stopPropagation();" data-confirm="Are you sure you want to delete this news item?" class="p-1.5 text-gray-400 hover:text-red-500 transition-colors" title="Delete">

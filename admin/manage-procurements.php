@@ -118,7 +118,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Procurements</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Configure, edit, and publish procurement tenders and contract plans.</p>
             </div>
-            <button onclick="openAddModal()" class="bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm gap-1.5">
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm gap-1.5">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 New Procurement
             </button>
@@ -153,7 +153,7 @@ include 'includes/header.php';
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $proc['id'] ?>, '<?= htmlspecialchars(addslashes($proc['title'])) ?>', 'manage-procurements?delete=<?= $proc['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($proc, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                 <td class="py-4 px-6">
-                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-[#4E0000] transition-colors leading-none mb-1"><?= htmlspecialchars($proc['title']) ?></p>
+                    <p class="text-[13.5px] font-bold text-slate-800 group-hover:text-secondary transition-colors leading-none mb-1"><?= htmlspecialchars($proc['title']) ?></p>
                     <?php if(!empty($proc['description'])): ?>
                         <p class="text-[11.5px] text-slate-400 truncate max-w-md mt-1.5" title="<?= htmlspecialchars(strip_tags($proc['description'])) ?>"><?= htmlspecialchars(strip_tags($proc['description'])) ?></p>
                     <?php endif; ?>
@@ -173,7 +173,7 @@ include 'includes/header.php';
                             <?php endif; ?>
                             <?php if (!empty($proc['pdf_path'])): ?>
                                 <div class="border-t border-gray-100 pt-4 mt-2">
-                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-[#13273F] text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
                                         <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                                         View Attached PDF
                                     </a>
@@ -186,7 +186,7 @@ include 'includes/header.php';
                     <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 border border-slate-200 text-[11px] font-bold shadow-sm"><?= htmlspecialchars($proc['category'] ?? 'Notice') ?></span>
                 </td>
                 <td class="py-4 px-6">
-                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-[#4E0000] hover:text-[#721c1c] text-[13px] font-bold transition-colors">
+                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-secondary hover:text-[#721c1c] text-[13px] font-bold transition-colors">
                         <svg class="w-4 h-4 mr-1.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                         View PDF
                     </a>
@@ -262,12 +262,12 @@ include 'includes/header.php';
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div class="md:col-span-1">
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="procTitle" required placeholder="Procurement title" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-700 placeholder-slate-400 font-semibold">
+                                <input type="text" name="title" id="procTitle" required placeholder="Procurement title" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 font-semibold">
                             </div>
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Category</label>
                                 <div class="relative">
-                                    <select name="category" id="procCategory" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-600 appearance-none cursor-pointer font-semibold">
+                                    <select name="category" id="procCategory" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-600 appearance-none cursor-pointer font-semibold">
                                         <option value="Plan">Procurement Plan</option>
                                         <option value="Notice">Procurement Notice</option>
                                         <option value="Award">Contract Award Details</option>
@@ -280,7 +280,7 @@ include 'includes/header.php';
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Status</label>
                                 <div class="relative">
-                                    <select name="status" id="procStatus" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#13273F]/20 focus:border-[#13273F] text-[13px] text-slate-600 appearance-none cursor-pointer font-semibold">
+                                    <select name="status" id="procStatus" class="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-600 appearance-none cursor-pointer font-semibold">
                                         <option value="Published">Published</option>
                                         <option value="Draft">Draft</option>
                                     </select>
@@ -303,8 +303,8 @@ include 'includes/header.php';
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
                             
                             <!-- Premium Custom File Input -->
-                            <div class="relative border-2 border-dashed border-slate-200 rounded-xl p-6 hover:border-[#13273F] transition-all bg-slate-50/50 flex flex-col items-center justify-center cursor-pointer group text-center" onclick="document.getElementById('procPdf').click()">
-                                <svg class="w-8 h-8 text-slate-400 group-hover:text-[#13273F] transition-colors mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
+                            <div class="relative border-2 border-dashed border-slate-200 rounded-xl p-6 hover:border-primary transition-all bg-slate-50/50 flex flex-col items-center justify-center cursor-pointer group text-center" onclick="document.getElementById('procPdf').click()">
+                                <svg class="w-8 h-8 text-slate-400 group-hover:text-primary transition-colors mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
                                 <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block" id="pdfFileName">Select or drag PDF File</span>
                                 <span class="text-[10px] text-slate-400 mt-1 block">Only PDF documents up to 5MB are accepted</span>
                                 <input type="file" name="pdf_file" id="procPdf" accept="application/pdf" required class="hidden" onchange="showSelectedFileName(this)">
@@ -316,7 +316,7 @@ include 'includes/header.php';
                             <button type="button" onclick="closeProcModal()" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-[12.5px] font-bold hover:bg-slate-50 transition-colors">
                                 Cancel
                             </button>
-                            <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-gradient-to-r from-[#4E0000] to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
+                            <button type="submit" id="submitBtnText" class="px-6 py-2.5 bg-gradient-to-r from-secondary to-[#721c1c] text-white rounded-xl text-[12.5px] font-bold hover:shadow-md hover:brightness-110 active:scale-[0.98] transition-all">
                                 Save Procurement
                             </button>
                         </div>
@@ -338,7 +338,7 @@ include 'includes/header.php';
         }
 
         function openAddModal() {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> Add New Procurement';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> Add New Procurement';
             document.getElementById('formAction').value = 'add';
             document.getElementById('procId').value = '';
             
@@ -369,7 +369,7 @@ include 'includes/header.php';
         }
 
         function openEditModal(proc) {
-            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-[#13273F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg> Edit Procurement';
+            document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg> Edit Procurement';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('procId').value = proc.id;
             

@@ -41,11 +41,11 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-[#13273F] rounded-full transition-colors duration-300;
+    @apply bg-primary rounded-full transition-colors duration-300;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-[#4E0000];
+    @apply bg-secondary;
   }
 
   /* Custom thin subtle scrollbar */
@@ -125,30 +125,30 @@
 
   /* Premium CSS Fallbacks for Images */
   .bg-premium-hero {
-    background: linear-gradient(135deg, #13273F 0%, #1a3656 45%, #254c7b 70%, #4E0000 100%);
+    background: linear-gradient(135deg, theme('colors.primary') 0%, #1a3656 45%, #254c7b 70%, theme('colors.secondary') 100%);
   }
 
   .bg-home-hero-gradient {
-    background: linear-gradient(90deg, #4E0000 0%, rgba(102, 102, 102, 0) 100%),
+    background: linear-gradient(90deg, theme('colors.secondary') 0%, rgba(102, 102, 102, 0) 100%),
                 linear-gradient(90deg, rgba(78, 0, 0, 0.8) 0%, rgba(78, 0, 0, 0.2) 100%),
                 linear-gradient(90deg, rgba(10, 10, 10, 0.4) 0%, rgba(102, 102, 102, 0) 100%);
   }
 
   .bg-home-hero-bottom-gradient {
-    background: linear-gradient(to top, #13273F 0%, rgba(19, 39, 63, 0.7) 35%, rgba(19, 39, 63, 0) 100%);
+    background: linear-gradient(to top, theme('colors.primary') 0%, rgba(19, 39, 63, 0.7) 35%, rgba(19, 39, 63, 0) 100%);
   }
 
   .bg-sub-hero-gradient {
-    background: linear-gradient(90deg, #4E0000 0%, rgba(102, 102, 102, 0) 100%),
-                linear-gradient(90deg, #4E0000 0%, rgba(78, 0, 0, 0.4) 100%);
+    background: linear-gradient(90deg, theme('colors.secondary') 0%, rgba(102, 102, 102, 0) 100%),
+                linear-gradient(90deg, theme('colors.secondary') 0%, rgba(78, 0, 0, 0.4) 100%);
   }
 
   .bg-premium-card-fallback {
-    background: linear-gradient(135deg, #1a3656 0%, #13273F 100%);
+    background: linear-gradient(135deg, #1a3656 0%, theme('colors.primary') 100%);
   }
 
   .bg-premium-notice-fallback {
-    background: linear-gradient(135deg, #4E0000 0%, #300000 100%);
+    background: linear-gradient(135deg, theme('colors.secondary') 0%, #300000 100%);
   }
 
   .bg-mesh-pattern {
@@ -198,7 +198,7 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center bg-[#4E0000] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#320000] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-xs tracking-wider uppercase active:scale-95;
+    @apply inline-flex items-center justify-center bg-secondary text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#320000] hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-xs tracking-wider uppercase active:scale-95;
   }
   .btn-secondary {
     @apply inline-flex items-center justify-center bg-transparent border border-secondary text-secondary font-bold px-6 py-2.5 rounded-lg hover:bg-secondary hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-xs tracking-wider uppercase active:scale-95;
@@ -324,7 +324,7 @@
     }
     .inst-split-tab.active, .div-split-tab.active {
       @apply text-white border-transparent shadow-md;
-      background: linear-gradient(135deg, #13273F 0%, #1a3656 100%);
+      background: linear-gradient(135deg, theme('colors.primary') 0%, #1a3656 100%);
     }
     .inst-split-tab.active .tab-icon, .div-split-tab.active .tab-icon {
       @apply text-white;

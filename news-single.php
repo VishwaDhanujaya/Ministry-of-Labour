@@ -128,7 +128,7 @@ include 'includes/sub-hero.php';
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
                     <?php if ($prevArticle): ?>
                     <a href="news/<?= $prevArticle['id'] ?>" class="group max-w-xs block">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-[#4E0000] transition-colors">&lt; Previous</div>
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">&lt; Previous</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($prevArticle['title']) ?></p>
                     </a>
                     <?php else: ?>
@@ -140,7 +140,7 @@ include 'includes/sub-hero.php';
 
                     <?php if ($nextArticle): ?>
                     <a href="news/<?= $nextArticle['id'] ?>" class="group max-w-xs text-left md:text-right block">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-[#4E0000] transition-colors">Next &gt;</div>
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">Next &gt;</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($nextArticle['title']) ?></p>
                     </a>
                     <?php else: ?>

@@ -15,9 +15,9 @@
     </div>
     
     <!-- Hover Overlay -->
-    <div class="absolute inset-0 bg-[#13273F]/50 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col sm:flex-row items-center justify-center gap-4 z-20">
+    <div class="absolute inset-0 bg-primary/50 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col sm:flex-row items-center justify-center gap-4 z-20">
         <!-- Fullscreen / Preview Icon -->
-        <button type="button" data-pdf-url="<?php echo htmlspecialchars($pdfUrl); ?>" data-pdf-title="<?php echo htmlspecialchars($pdfTitle); ?>" class="open-pdf-modal bg-white text-[#13273F] px-6 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 duration-300 cursor-pointer">
+        <button type="button" data-pdf-url="<?php echo htmlspecialchars($pdfUrl); ?>" data-pdf-title="<?php echo htmlspecialchars($pdfTitle); ?>" class="open-pdf-modal bg-white text-primary px-6 py-3 rounded-xl font-semibold text-sm hover:bg-gray-100 transition-colors shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 duration-300 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8 3H5a2 2 0 0 0-2 2v3"></path>
                 <path d="M21 8V5a2 2 0 0 0-2-2h-3"></path>
@@ -27,7 +27,7 @@
             Open PDF
         </button>
         <!-- Download Icon -->
-        <a href="<?php echo htmlspecialchars($pdfUrl); ?>" download aria-label="Download PDF" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#13273F] hover:text-white transition-colors shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75">
+        <a href="<?php echo htmlspecialchars($pdfUrl); ?>" download aria-label="Download PDF" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-primary hover:text-white transition-colors shadow-lg flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
