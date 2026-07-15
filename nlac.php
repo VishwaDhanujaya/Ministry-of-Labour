@@ -80,9 +80,17 @@ include 'includes/sub-hero.php';
 
         <h3 class="text-2xl font-bold text-primary font-montserrat mb-8">Members of the National Labour Advisory Council</h3>
         
-        <h4 class="text-lg font-bold text-secondary font-montserrat mb-4">Employer Trade Unions– සේවා යෝජක වෘත්තීය සමිති</h4>
+        <div class="flex flex-wrap items-center gap-2 mb-8 bg-gray-100 p-1.5 rounded-xl max-w-xl">
+            <button id="btn-employer" onclick="showTab('employer')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all bg-primary text-white shadow">
+                Employer Trade Unions
+            </button>
+            <button id="btn-employee" onclick="showTab('employee')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all text-gray-500 hover:text-gray-800 hover:bg-white/50">
+                Employee Trade Unions
+            </button>
+        </div>
         
-        <div class="overflow-x-auto mb-12 rounded-xl border border-gray-200">
+        <!-- Employer Trade Unions -->
+        <div id="table-employer" class="tu-table overflow-x-auto mb-12 rounded-xl border border-gray-200">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
@@ -216,6 +224,170 @@ include 'includes/sub-hero.php';
                 </tbody>
             </table>
         </div>
+        
+        <!-- Employee Trade Unions -->
+        <div id="table-employee" class="tu-table hidden overflow-x-auto mb-12 rounded-xl border border-gray-200">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">No</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Title</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Designation</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name of TU</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm text-gray-600 font-inter divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">01</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">S.Rajamany</td>
+                        <td class="py-3 px-4">Vice President</td>
+                        <td class="py-3 px-4">Ceylon Workers’ Congress</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">02</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Vadivel Suresh</td>
+                        <td class="py-3 px-4">General Secretary</td>
+                        <td class="py-3 px-4">Lanka Jathika Estate Workers Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">03</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Leslie Devendra</td>
+                        <td class="py-3 px-4">General Secretary</td>
+                        <td class="py-3 px-4">Sri Lanka Nidahas Sewaka Sangamaya</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">04</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">S.Ramanathan</td>
+                        <td class="py-3 px-4">Secretary General</td>
+                        <td class="py-3 px-4">Joint Plantation Trade Union Centre</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">05</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Channa Sirinath Dissanayake</td>
+                        <td class="py-3 px-4">President</td>
+                        <td class="py-3 px-4">Ceylon Bank Employees Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">06</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">G.D. Indika Pushpakumara</td>
+                        <td class="py-3 px-4">General Secretary</td>
+                        <td class="py-3 px-4">Jathika Sewaka Sangamaya</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">07</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Amarapala Gamage</td>
+                        <td class="py-3 px-4">National Organizer/Senior Vice President</td>
+                        <td class="py-3 px-4">Podujana Pragathasheeli Sewaka Sangamaya</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">08</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Palitha Athukorale</td>
+                        <td class="py-3 px-4">Chairman</td>
+                        <td class="py-3 px-4">National Union of Seafarer Sri Lanka</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">09</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Nishantha Wanniarachchi</td>
+                        <td class="py-3 px-4">President</td>
+                        <td class="py-3 px-4">Ceylon Estate Staffs’ Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">10</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Warahena Liyanage Don Marcus</td>
+                        <td class="py-3 px-4">Member</td>
+                        <td class="py-3 px-4">Free Trade Zones and General Services Employees Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">11</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">J.M.A Premarathna</td>
+                        <td class="py-3 px-4">Secretary</td>
+                        <td class="py-3 px-4">All Ceylon Estate Workers Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">12</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Prasanga Medawatte</td>
+                        <td class="py-3 px-4">President</td>
+                        <td class="py-3 px-4">All Ceylon Port Public Employees’ Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">13</td>
+                        <td class="py-3 px-4">Ms</td>
+                        <td class="py-3 px-4">Lalitha Ranjani Dedduwakumara</td>
+                        <td class="py-3 px-4">Chief Organizer</td>
+                        <td class="py-3 px-4">Textile, Garment and Clothing Workers Union (TGCWU) <span class="text-xs text-gray-400 block font-normal font-sans">නිමි භාණ්ඩ ඇඟළුම් හා රෙදිපිළි සේවක සංගමය</span></td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">14</td>
+                        <td class="py-3 px-4">Ms</td>
+                        <td class="py-3 px-4">P.K Chamila Thushari</td>
+                        <td class="py-3 px-4">Secretary</td>
+                        <td class="py-3 px-4">Dabindu Collective</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">15</td>
+                        <td class="py-3 px-4">Ms</td>
+                        <td class="py-3 px-4">Eranga Amali Kalupahana</td>
+                        <td class="py-3 px-4">President</td>
+                        <td class="py-3 px-4">Centre for Working Women</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">16</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Amal Wedage</td>
+                        <td class="py-3 px-4">Deputy General Secretary</td>
+                        <td class="py-3 px-4">Ceylon Federation of Trade Unions</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">17</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">Janaka Adhikari (AAL)</td>
+                        <td class="py-3 px-4">General Secretary</td>
+                        <td class="py-3 px-4">Inter Company Employees Union</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="py-3 px-4">18</td>
+                        <td class="py-3 px-4">Mr</td>
+                        <td class="py-3 px-4">K.S Munasinghe</td>
+                        <td class="py-3 px-4">Co-Secretary</td>
+                        <td class="py-3 px-4">All Ceylon Transport Employees Union</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+        function showTab(type) {
+            const tableEmployer = document.getElementById('table-employer');
+            const tableEmployee = document.getElementById('table-employee');
+            const btnEmployer = document.getElementById('btn-employer');
+            const btnEmployee = document.getElementById('btn-employee');
+            
+            if (type === 'employer') {
+                tableEmployer.classList.remove('hidden');
+                tableEmployee.classList.add('hidden');
+                btnEmployer.className = "flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all bg-primary text-white shadow";
+                btnEmployee.className = "flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all text-gray-500 hover:text-gray-800 hover:bg-white/50";
+            } else {
+                tableEmployer.classList.add('hidden');
+                tableEmployee.classList.remove('hidden');
+                btnEmployer.className = "flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all text-gray-500 hover:text-gray-800 hover:bg-white/50";
+                btnEmployee.className = "flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all bg-primary text-white shadow";
+            }
+        }
+        </script>
 
         <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 max-w-lg">
             <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3">

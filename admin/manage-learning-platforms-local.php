@@ -138,6 +138,7 @@ include 'includes/header.php';
         ];
         
         renderAdminTable($headers, $learning_platforms_local, function($pub) {
+            $statusClass = $pub['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200';
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $pub['id'] ?>, '<?= htmlspecialchars(addslashes($pub['title'])) ?>', 'manage-learning-platforms-local?delete=<?= $pub['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($pub, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                 <td class="py-4 px-6">
@@ -150,7 +151,7 @@ include 'includes/header.php';
                     <div id="preview-content-<?= $pub['id'] ?>" class="hidden">
                         <div class="flex flex-col gap-4">
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $pub['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200' ?>"><?= htmlspecialchars($pub['status']) ?></span>
+                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $statusClass ?>"><?= htmlspecialchars($pub['status']) ?></span>
                                 <span class="px-2.5 py-1 bg-gray-50 text-gray-600 border border-slate-100 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider"><?= date('M d, Y', strtotime($pub['created_at'])) ?></span>
                             </div>
                             <?php if (!empty($pub['description'])): ?>
@@ -275,7 +276,7 @@ include 'includes/header.php';
                                         </span>
                                         <p class="pl-1 text-slate-400">or drag and drop</p>
                                     </div>
-                                    <p class="text-xs text-slate-400 mt-1">PDF document up to 5MB</p>
+                                    <p class="text-xs text-slate-400 mt-1">PDF document</p>
                                     <p id="pdf-file-name-local" class="text-xs font-bold text-emerald-600 mt-2"></p>
                                 </div>
                             </div>

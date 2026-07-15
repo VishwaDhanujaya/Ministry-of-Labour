@@ -148,6 +148,7 @@ include 'includes/header.php';
         ];
         
         renderAdminTable($headers, $acts, function($act) {
+            $statusClass = $act['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200';
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer" onclick="showPreviewModal(<?= $act['id'] ?>, '<?= htmlspecialchars(addslashes($act['title'])) ?>', 'manage-acts?delete=<?= $act['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= htmlspecialchars(json_encode($act, JSON_HEX_APOS | JSON_HEX_QUOT)) ?>)">
                 <td class="py-4 px-6">
@@ -161,7 +162,7 @@ include 'includes/header.php';
                         <div class="flex flex-col gap-4">
                             <div class="flex flex-wrap gap-2">
                                 <span class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shadow-sm"><?= htmlspecialchars($act['category']) ?></span>
-                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $act['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200' ?>"><?= htmlspecialchars($act['status']) ?></span>
+                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $statusClass ?>"><?= htmlspecialchars($act['status']) ?></span>
                                 <span class="px-2.5 py-1 bg-gray-50 text-gray-600 border border-slate-100 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider"><?= date('M d, Y', strtotime($act['created_at'])) ?></span>
                             </div>
                             <?php if (!empty($act['ref'])): ?>
@@ -302,7 +303,7 @@ include 'includes/header.php';
                             <div class="relative border-2 border-dashed border-slate-200 rounded-xl p-6 hover:border-primary transition-all bg-slate-50/50 flex flex-col items-center justify-center cursor-pointer group text-center" onclick="document.getElementById('actPdf').click()">
                                 <svg class="w-8 h-8 text-slate-400 group-hover:text-primary transition-colors mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
                                 <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block" id="pdfFileName">Select or drag PDF File</span>
-                                <span class="text-[10px] text-slate-400 mt-1 block">Only PDF documents up to 5MB are accepted</span>
+                                <span class="text-[10px] text-slate-400 mt-1 block">Only PDF documents are accepted</span>
                                 <input type="file" name="pdf_file" id="actPdf" accept="application/pdf" required class="hidden" onchange="showSelectedFileName(this)">
                             </div>
                             <p id="editPdfHint" class="text-[11px] text-slate-400 italic hidden mt-1.5">Leave blank if you wish to keep the currently uploaded PDF.</p>

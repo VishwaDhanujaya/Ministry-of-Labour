@@ -6,18 +6,24 @@ require_once '../includes/officials-service.php';
 
 header('Content-Type: application/json');
 
-// CSRF validation
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
-        exit;
-    }
+// Login and Role validation
+if (!isLoggedIn()) {
+    echo json_encode(['success' => false, 'message' => 'Session expired. Please log in again.']);
+    exit;
 }
 
 // Only super_admin and admin allowed (if editor has role = 'editor', reject)
 if (isset($_SESSION['admin_role']) && $_SESSION['admin_role'] === 'editor') {
     echo json_encode(['success' => false, 'message' => 'Forbidden']);
     exit;
+}
+
+// CSRF validation
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token'])) {
+        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        exit;
+    }
 }
 
 $action = $_POST['action'] ?? '';

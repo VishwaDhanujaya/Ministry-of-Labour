@@ -26,17 +26,21 @@ if (strtotime($start_date) >= strtotime($end_date)) {
 
 // Room capacities
 $capacities = [
-    'VIP Room' => 1,
-    'A/C Triple Room' => 4,
-    'A/C Double Room' => 1,
+    'Ground Floor Double Room (AC)' => 1,
+    'Ground Floor Single Room (AC)' => 1,
+    'Chalet Room (Single AC)' => 1,
+    'Upper Floor Double Room (AC)' => 3,
+    'Driver\'s Room (Single Non-AC)' => 1,
     'Entire Bungalow' => 1
 ];
 
 // Room labels for the dropdown
 $labels = [
-    'A/C Double Room' => 'A/C Double Room (2 Guests)',
-    'A/C Triple Room' => 'A/C Triple Room (3 Guests)',
-    'VIP Room' => 'VIP Room (Suite - 2 Guests)',
+    'Ground Floor Double Room (AC)' => 'Ground Floor Double Room (AC) - Max 2 Guests',
+    'Ground Floor Single Room (AC)' => 'Ground Floor Single Room (AC) - Max 1 Guest',
+    'Chalet Room (Single AC)' => 'Chalet Room (Single AC) - Max 1 Guest',
+    'Upper Floor Double Room (AC)' => 'Upper Floor Double Room (AC) - Max 4 Guests',
+    'Driver\'s Room (Single Non-AC)' => 'Driver\'s Room (Single Non-AC) - Max 2 Guests',
     'Entire Bungalow' => 'Entire Bungalow'
 ];
 

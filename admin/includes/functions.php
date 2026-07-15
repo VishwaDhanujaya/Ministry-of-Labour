@@ -10,9 +10,15 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
         return ['success' => false, 'error' => 'No file uploaded or upload error.'];
     }
 
-    if ($file['size'] > $maxSize) {
-        $maxSizeMB = round($maxSize / (1024 * 1024), 2);
-        return ['success' => false, 'error' => 'File size exceeds maximum limit of ' . $maxSizeMB . 'MB.'];
+    $info = pathinfo($file['name']);
+    $ext = strtolower($info['extension'] ?? '');
+
+    // Skip size limit for PDF files
+    if ($ext !== 'pdf') {
+        if ($file['size'] > $maxSize) {
+            $maxSizeMB = round($maxSize / (1024 * 1024), 2);
+            return ['success' => false, 'error' => 'File size exceeds maximum limit of ' . $maxSizeMB . 'MB.'];
+        }
     }
 
     $mimeType = '';

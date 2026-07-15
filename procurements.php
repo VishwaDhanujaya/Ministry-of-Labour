@@ -14,20 +14,20 @@ $raw_procurements = $stmt->fetchAll();
 
 $all_documents = [];
 $categoryMapping = [
-    'Plan' => 'Procurement Plans',
-    'Notice' => 'Procurement Notices',
+    'Plan' => 'Procurement Plan',
+    'Notice' => 'Procurement Notice',
     'Award' => 'Contract Award Details'
 ];
 
 $categoryColors = [
-    'Procurement Plans' => 'bg-blue-50 text-blue-700 border-blue-100',
-    'Procurement Notices' => 'bg-amber-50 text-amber-700 border-amber-100',
+    'Procurement Plan' => 'bg-blue-50 text-blue-700 border-blue-100',
+    'Procurement Notice' => 'bg-amber-50 text-amber-700 border-amber-100',
     'Contract Award Details' => 'bg-emerald-50 text-emerald-700 border-emerald-100'
 ];
 
 foreach ($raw_procurements as $proc) {
     $rawCat = $proc['category'] ?? 'Notice';
-    $userCat = $categoryMapping[$rawCat] ?? 'Procurement Notices';
+    $userCat = $categoryMapping[$rawCat] ?? 'Procurement Notice';
     $all_documents[] = [
         'title' => $proc['title'],
         'description' => $proc['description'] ?? '',
@@ -38,7 +38,12 @@ foreach ($raw_procurements as $proc) {
     ];
 }
 
-$categories = array_unique(array_column($all_documents, 'category'));
+$categories = [
+    'Procurement Plan',
+    'Procurement Notice',
+    'Contract Award Details'
+];
+$preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
 ?>
 
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F9FAFB] min-h-[75vh]">
@@ -59,7 +64,18 @@ $categories = array_unique(array_column($all_documents, 'category'));
                 <!-- Filters & Views -->
                 <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
                     
-
+                    <!-- Category Filter -->
+                    <div class="relative w-full sm:w-48">
+                        <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
+                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>>All Categories</option>
+                            <?php foreach ($categories as $cat): ?>
+                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
 
                     <!-- Items per page -->
                     <div class="relative w-full sm:w-36">
@@ -89,7 +105,7 @@ $categories = array_unique(array_column($all_documents, 'category'));
         </div>
 
         <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style="display: none;">
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
@@ -183,7 +199,7 @@ $categories = array_unique(array_column($all_documents, 'category'));
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
             <div class="text-sm text-gray-500 font-inter">
                 Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
             </div>
@@ -247,6 +263,7 @@ function resetPaginationAndFilter() {
 
 function filterTable() {
     const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
+    const categoryFilter = document.getElementById("categoryFilter").value.toLowerCase();
     const itemsPerPage = document.getElementById("itemsPerPage").value;
     
     // Filter matching item indexes
@@ -255,8 +272,11 @@ function filterTable() {
         const matchesSearch = searchInput === "" || 
                               doc.title.includes(searchInput) || 
                               doc.ref.includes(searchInput);
+                              
+        const matchesCategory = categoryFilter === "" || 
+                                doc.category === categoryFilter;
                                 
-        if (matchesSearch) {
+        if (matchesSearch && matchesCategory) {
             filteredIndexes.push(doc.index);
         }
     });

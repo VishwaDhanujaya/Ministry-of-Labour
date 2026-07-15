@@ -22,9 +22,15 @@ try {
     }
 
     // Fetch Procurements
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path FROM procurements WHERE pdf_path != '' AND pdf_path IS NOT NULL");
+    $categoryMapping = [
+        'Plan' => 'Procurement Plan',
+        'Notice' => 'Procurement Notice',
+        'Award' => 'Contract Award Details'
+    ];
+    $stmt = $pdo->query("SELECT title, created_at as ref, category, pdf_path FROM procurements WHERE pdf_path != '' AND pdf_path IS NOT NULL");
     while ($row = $stmt->fetch()) {
-        $row['category'] = 'Procurements';
+        $rawCat = $row['category'] ?? 'Notice';
+        $row['category'] = $categoryMapping[$rawCat] ?? 'Procurement Notice';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
         $all_documents[] = $row;
@@ -56,6 +62,15 @@ try {
         $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
         $all_documents[] = $row;
     }
+
+    // Fetch Special Notices
+    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path FROM special_notices WHERE status = 'Published' AND pdf_path != '' AND pdf_path IS NOT NULL");
+    while ($row = $stmt->fetch()) {
+        $row['category'] = 'Special Notices';
+        $row['ref'] = date('Y-m-d', strtotime($row['ref']));
+        $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
+        $all_documents[] = $row;
+    }
 } catch (PDOException $e) {
     // Silently continue
 }
@@ -65,10 +80,13 @@ $categories = array_unique(array_column($all_documents, 'category'));
 $categoryColors = [
     'Acts' => 'bg-blue-50 text-blue-700 border-blue-100',
     'Amendments' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
-    'Procurements' => 'bg-amber-50 text-amber-700 border-amber-100',
+    'Procurement Plan' => 'bg-blue-50 text-blue-700 border-blue-100',
+    'Procurement Notice' => 'bg-amber-50 text-amber-700 border-amber-100',
+    'Contract Award Details' => 'bg-emerald-50 text-emerald-700 border-emerald-100',
     'Vacancies' => 'bg-indigo-50 text-indigo-700 border-indigo-100',
     'Local Publications' => 'bg-purple-50 text-purple-700 border-purple-100',
-    'Foreign Publications' => 'bg-rose-50 text-rose-700 border-rose-100'
+    'Foreign Publications' => 'bg-rose-50 text-rose-700 border-rose-100',
+    'Special Notices' => 'bg-orange-50 text-orange-700 border-orange-100'
 ];
 ?>
 
@@ -96,6 +114,7 @@ $categoryColors = [
                         <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
                             <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>>All Categories</option>
                             <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>>Acts & Amendments</option>
+                            <option value="procurements" <?= ($preselected_category === 'procurements') ? 'selected' : '' ?>>All Procurements</option>
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
                             <?php endforeach; ?>
@@ -296,6 +315,8 @@ function filterTable() {
             matchesCategory = true;
         } else if (categoryFilter === "acts-amendments") {
             matchesCategory = (doc.category === "acts" || doc.category === "amendments");
+        } else if (categoryFilter === "procurements") {
+            matchesCategory = (doc.category === "procurement plan" || doc.category === "procurement notice" || doc.category === "contract award details");
         } else {
             matchesCategory = (doc.category === categoryFilter);
         }
