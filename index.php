@@ -272,12 +272,12 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 } else {
                     $linkHref = '';
                 }
-                $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 block' : '';
+                $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 hover block group' : '';
             ?>
             <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
-                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white"><span
+                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white <?= $isLink ? 'group-hover:text-yellow-400 transition-colors duration-300' : '' ?>"><span
                         class="stat-number">0</span><?= htmlspecialchars($stat['stat_suffix']) ?></div>
-                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium">
+                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium <?= $isLink ? 'group-hover:text-yellow-400/90 transition-colors duration-300' : '' ?>">
                     <?= htmlspecialchars($label) ?></div>
             </<?= $elTag ?>>
             <?php endforeach; ?>
@@ -586,17 +586,23 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div>
                         <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                             <?php if(!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
-                                <img loading="lazy" src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                                <a href="news/<?= $news['id'] ?>" class="w-full h-full block">
+                                    <img loading="lazy" src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                                </a>
                             <?php else: ?>
-                                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <a href="news/<?= $news['id'] ?>" class="w-full h-full flex items-center justify-center bg-gray-100 hover:bg-gray-200/50 transition-colors duration-300">
+                                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                </a>
                             <?php endif; ?>
                         </div>
                         <div class="p-8 pb-4">
                             <div class="flex justify-between items-center mb-4">
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                             </div>
-                            <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2 notranslate">
-                                <?= htmlspecialchars($news['title']) ?>
+                            <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
+                                <a href="news/<?= $news['id'] ?>" class="hover:text-yellow-600 transition-colors duration-300">
+                                    <?= htmlspecialchars($news['title']) ?>
+                                </a>
                             </h3>
                             <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-justify">
                                 <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
@@ -604,7 +610,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-yellow-600 transition-colors uppercase tracking-wider gap-1.5">
                             Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -646,8 +652,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     foreach($downloads as $download):
                     ?>
                     <a href="<?= $download['url'] ?>" class="group flex items-center justify-between bg-white border border-gray-200 rounded-[16px] px-6 py-4 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= $download['title'] ?></span>
-                        <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
+                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-yellow-600 transition-colors"><?= $download['title'] ?></span>
+                        <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-yellow-500 group-hover:text-primary transition-colors">
                             <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </div>
                     </a>
@@ -676,7 +682,11 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <div class="mb-1">
                                     <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold uppercase tracking-wider rounded"><?= $notice['type'] ?></span>
                                 </div>
-                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate"><?= htmlspecialchars($notice['title']) ?></h4>
+                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate">
+                                    <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-yellow-600 transition-colors duration-200">
+                                        <?= htmlspecialchars($notice['title']) ?>
+                                    </a>
+                                </h4>
                                 <p class="text-[12px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
                             <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>"

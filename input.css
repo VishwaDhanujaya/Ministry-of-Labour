@@ -29,6 +29,10 @@
     @apply text-justify;
   }
 
+  footer p {
+    @apply text-left;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     @apply tracking-tight;
@@ -233,7 +237,10 @@
     @apply w-10 h-10 sm:w-12 sm:h-12 bg-secondary text-white flex items-center justify-center mb-3 sm:mb-6 rounded-lg;
   }
   .focus-card-title {
-    @apply text-[15px] sm:text-lg font-semibold font-montserrat mb-2 sm:mb-4 text-primary leading-tight;
+    @apply text-[15px] sm:text-lg font-semibold font-montserrat mb-2 sm:mb-4 text-primary leading-tight transition-colors duration-300;
+  }
+  .focus-card:hover .focus-card-title {
+    @apply text-yellow-600;
   }
   .focus-card-desc {
     @apply text-gray-500 text-[11.5px] sm:text-[14px] font-inter leading-relaxed text-justify;
@@ -274,7 +281,7 @@
     @apply flex items-center justify-between w-full text-left px-5 py-4 text-gray-500 font-semibold text-[14px] md:text-[14.5px] rounded-2xl font-montserrat transition-all duration-300 cursor-pointer focus:outline-none relative whitespace-nowrap md:whitespace-normal;
   }
   .inst-split-tab:hover:not(.active), .div-split-tab:hover:not(.active) {
-    @apply text-primary bg-white/50 shadow-sm border-gray-200/30;
+    @apply text-yellow-600 bg-white/50 shadow-sm border-gray-200/30;
   }
   .inst-split-tab.active, .div-split-tab.active {
     @apply bg-white text-secondary font-bold;
@@ -283,7 +290,7 @@
     @apply w-9 h-9 rounded-xl bg-gray-200/30 text-gray-400 flex items-center justify-center mr-3.5 transition-all duration-300 shrink-0;
   }
   .inst-split-tab:hover:not(.active) .icon-bubble, .div-split-tab:hover:not(.active) .icon-bubble {
-    @apply bg-secondary/5 text-primary scale-105;
+    @apply bg-yellow-500/10 text-yellow-600 scale-105;
   }
   .inst-split-tab.active .icon-bubble, .div-split-tab.active .icon-bubble {
     @apply bg-secondary/10 text-secondary scale-105;
