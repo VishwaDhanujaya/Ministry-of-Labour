@@ -150,43 +150,67 @@ $about_img_path = __DIR__ . '/assets/img/home-about.webp';
 $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) : time();
 ?>
 <!-- Hero Section -->
-<section class="relative min-h-[calc(100vh-76px)] md:min-h-[calc(100vh-120px)] flex items-center bg-primary overflow-hidden py-12 md:py-16 xl:py-20">
-    <!-- Desktop Hero Image -->
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none hidden md:block"
-        style="background-image: url('assets/img/hero.webp?v=<?= $hero_desktop_version ?>');"></div>
-    <!-- Mobile Hero Image -->
-    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none block md:hidden"
-        style="background-image: url('assets/img/mobile-hero.webp?v=<?= $hero_mobile_version ?>');"></div>
-    <div class="absolute inset-0 opacity-25 bg-home-hero-gradient"></div>
-    <!-- Bottom gradient overlay to blend hero image and improve legibility at the bottom -->
-    <div class="absolute inset-x-0 bottom-0 h-96 opacity-70 bg-home-hero-bottom-gradient pointer-events-none"></div>
-
-    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full" data-aos="fade-up" data-aos-duration="1000">
-        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-12 relative w-full">
-            
-            <!-- Left Side: Welcome Text (Old design restored) -->
-            <div class="max-w-2xl w-full">
-                <h2 class="text-2xl md:text-3xl font-inter font-normal mb-2 text-shadow-premium">Welcome to</h2>
-                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7.5xl font-semibold font-montserrat mb-4 md:mb-6 leading-none tracking-tighter uppercase text-shadow-premium">
-                    Ministry of Labour</h1>
-                <p class="text-[13px] md:text-base font-inter mb-6 md:mb-10 leading-relaxed text-white text-shadow-premium max-w-xl">
-                    The Ministry of Labour is dedicated to fostering fair employment, protecting workers' rights, and
-                    building a dynamic workforce that drives Sri Lanka's economic development.
-                </p>
-                <div class="flex flex-wrap gap-3 sm:gap-4" data-aos="fade-up" data-aos-delay="300">
-                    <a href="#quick-links"
-                        class="bg-secondary/70 backdrop-blur-md text-white font-semibold py-2 px-4 sm:py-3.5 sm:px-8 rounded-lg border border-white/10 hover:border-white/30 transition-all duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter hover:shadow-xl hover:-translate-y-1 transform text-center flex items-center justify-center">Quick Links</a>
-                    <a href="#news-section"
-                        class="bg-white/10 backdrop-blur-md text-white font-semibold py-2 px-4 sm:py-3.5 sm:px-8 rounded-lg border border-white/20 hover:border-white transition-all duration-300 text-[11.5px] sm:text-[13px] tracking-wider font-inter flex items-center justify-center hover:bg-white hover:text-primary hover:shadow-xl hover:-translate-y-1 transform text-center">View Notices</a>
-                </div>
+<section class="relative bg-[#08121e] overflow-hidden flex flex-col lg:flex-row lg:min-h-[420px] lg:h-[calc(100vh-225px)] w-full">
+    <!-- Left Section: Welcome content with solid background -->
+    <div class="w-full lg:w-[40%] flex items-center bg-gradient-to-b lg:bg-gradient-to-r from-primary via-[#0c1b2d] to-[#08121e] py-12 px-6 sm:px-12 lg:px-16 text-white relative z-10">
+        <!-- Subtle background texture overlay to enrich solid layout -->
+        <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
+        <div class="max-w-xl w-full" data-aos="fade-right" data-aos-duration="800">
+            <h2 class="text-slate-300 text-sm sm:text-base font-medium font-inter tracking-wider uppercase mb-2">Welcome to</h2>
+            <h1 class="text-3xl sm:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-5">
+                Ministry of Labour
+            </h1>
+            <p class="text-[13px] sm:text-[13.5px] md:text-[14px] font-inter leading-relaxed text-slate-300 mb-8 max-w-md text-justify">
+                Dedicated to fostering fair employment, protecting workers' rights, and building a dynamic workforce that drives Sri Lanka's economic development.
+            </p>
+            <div class="flex flex-wrap gap-3 sm:gap-4">
+                <a href="#quick-links"
+                    class="bg-secondary text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-transparent hover:bg-[#a92222] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter text-center flex items-center justify-center">
+                    Quick Links
+                </a>
+                <a href="#news-section"
+                    class="bg-white/5 backdrop-blur-sm text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:border-white hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter flex items-center justify-center text-center">
+                    View Notices
+                </a>
             </div>
-
-
-
         </div>
     </div>
+
+    <!-- Right Section: Swiper Image Slider -->
+    <div class="w-full lg:w-[60%] h-[300px] sm:h-[400px] lg:h-full relative overflow-hidden bg-slate-950" data-aos="fade" data-aos-duration="800">
+        <!-- Swiper Carousel Container -->
+        <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide overflow-hidden">
+                    <img src="assets/img/home/cabinet.jpg" alt="Ministry Cabinet" class="w-full h-full object-cover">
+                </div>
+                <!-- <div class="swiper-slide overflow-hidden">
+                    <img src="assets/img/home/appointment-letters.jpg" alt="Workforce Services" class="w-full h-full object-cover">
+                </div> -->
+                <div class="swiper-slide overflow-hidden">
+                    <img src="assets/img/home/nlac.jpg" alt="NLAC Meeting" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <!-- Custom Slider Navigation controls at bottom right -->
+            <div class="absolute bottom-16 right-6 hidden sm:flex items-center gap-2.5 z-30">
+                <button type="button" aria-label="Previous slide" class="swiper-button-prev-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#0c1b2d]/70 hover:bg-secondary border border-white/10 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button type="button" aria-label="Next slide" class="swiper-button-next-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#0c1b2d]/70 hover:bg-secondary border border-white/10 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <!-- Slider Pagination dot bullets -->
+            <div class="swiper-pagination !bottom-18"></div>
+        </div>
+        <!-- Left subtle inner shadow with deeper transition gradient to blend sections smoothly (desktop) -->
+        <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-80 pointer-events-none z-20" style="background: linear-gradient(to right, #08121e, rgba(8, 18, 30, 0.6) 30%, rgba(8, 18, 30, 0.15) 70%, transparent);"></div>
+        <!-- Vertical top gradient overlay to blend stacked sections (mobile) -->
+        <div class="block lg:hidden absolute top-0 left-0 right-0 h-16 pointer-events-none z-20" style="background: linear-gradient(to bottom, #08121e, transparent);"></div>
+    </div>
+
     <!-- Scrolling News Bar -->
-    <div class="absolute bottom-0 left-0 w-full z-40 bg-black/40 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-14 shadow-lg">
+    <div class="relative lg:absolute lg:bottom-0 left-0 w-full z-20 bg-slate-950/70 backdrop-blur-md border-t border-b lg:border-b-0 border-white/5 overflow-hidden flex items-stretch h-12 shadow-lg">
         <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex">
             Latest News
         </div>
@@ -225,9 +249,9 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 </style>
 
 <!-- Stats Bar -->
-<div class="bg-secondary text-white py-10 relative z-20">
+<div class="bg-secondary text-white py-5 relative z-20">
     <div class="container mx-auto px-4 md:px-16 relative z-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center md:divide-x divide-white/20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center md:divide-x divide-white/20">
             <?php 
             $orderedKeys = ['affiliated_institutions', 'labour_acts', 'ilo_conventions', 'total_visitors'];
             foreach ($orderedKeys as $key): 
@@ -251,9 +275,9 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 block' : '';
             ?>
             <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
-                <div class="text-4xl md:text-5xl font-semibold font-montserrat mb-2 text-white"><span
+                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white"><span
                         class="stat-number">0</span><?= htmlspecialchars($stat['stat_suffix']) ?></div>
-                <div class="text-[11px] md:text-xs font-inter text-gray-200 uppercase tracking-widest font-normal">
+                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium">
                     <?= htmlspecialchars($label) ?></div>
             </<?= $elTag ?>>
             <?php endforeach; ?>
@@ -269,7 +293,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 Us</p>
             <h2 class="section-title">
                 About the Ministry of Labour</h2>
-            <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed">
+            <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed text-justify">
                 <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
                     and private sectors, and the formulation and implementation of pertinent policies to establish
                     industrial peace and employer-employee relationships required for enhancing production and labour
@@ -388,7 +412,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
                         <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
                     </div>
@@ -398,7 +422,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div id="inst-panel-inst-dme" class="inst-panel hidden">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Manpower and Employment</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
                         <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
                     </div>
@@ -408,7 +432,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div id="inst-panel-inst-nils" class="inst-panel hidden">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Labour Studies</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
                         <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
                     </div>
@@ -418,7 +442,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div id="inst-panel-inst-niosh" class="inst-panel hidden">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and health</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
                         <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
                     </div>
@@ -428,7 +452,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div id="inst-panel-inst-wc" class="inst-panel hidden">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed">
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
                         <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
                     </div>
@@ -449,7 +473,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
             <div>
                 <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Quick Access</p>
                 <h2 class="section-title text-white mb-0">Quick Links</h2>
-                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3">Direct access to our most crucial portals and services.</p>
+                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-justify">Direct access to our most crucial portals and services.</p>
             </div>
         </div>
 
@@ -574,7 +598,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug hover:text-secondary transition-colors line-clamp-2 notranslate">
                                 <?= htmlspecialchars($news['title']) ?>
                             </h3>
-                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate">
+                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-justify">
                                 <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
                             </p>
                         </div>
@@ -669,5 +693,31 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
 
 
+
+<!-- Swiper JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const heroSwiper = new Swiper('.hero-swiper', {
+            loop: true,
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next-custom',
+                prevEl: '.swiper-button-prev-custom'
+            }
+        });
+    });
+</script>
 
 <?php include 'includes/footer.php'; ?>

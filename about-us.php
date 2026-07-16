@@ -271,10 +271,13 @@ include 'includes/sub-hero.php';
         <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14" data-aos="fade-up">Our Officials</h2>
 
         <!-- Top Officials -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20" data-aos="zoom-in" data-aos-delay="100">
-            <?php foreach ($top_officials as $official): ?>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <?php foreach ($top_officials as $index => $official): ?>
                 <div
-                    class="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-200/60 hover:shadow-[0_15px_45px_rgba(19,39,63,0.05)] hover:-translate-y-1.5 transition-all duration-500 group">
+                    class="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-gray-200/60 hover:shadow-[0_15px_45px_rgba(19,39,63,0.05)] hover:-translate-y-1.5 transition-all duration-500 group"
+                    data-aos="fade-up"
+                    data-aos-delay="<?php echo ($index + 1) * 150; ?>"
+                    data-aos-duration="1000">
                     <div class="overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100/60 flex items-center justify-center h-[380px] border-b border-gray-100">
                         <?php if ($official['image']): ?>
                             <img loading="lazy" src="<?php echo $official['image']; ?>" alt="<?php echo $official['name']; ?>"
@@ -354,11 +357,12 @@ include 'includes/sub-hero.php';
         <div id="officials-tab-contents">
             <?php foreach ($departments as $index => $dept): ?>
                 <div id="tab-content-<?php echo $dept['id']; ?>"
-                    class="dept-tab-content <?php echo $index === 0 ? '' : 'hidden'; ?>">
+                    class="dept-tab-content <?php echo $index === 0 ? 'block' : 'hidden'; ?> transition-all duration-300">
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
-                        <?php foreach ($dept['people'] as $person): ?>
+                        <?php foreach ($dept['people'] as $person_index => $person): ?>
                             <div
-                                class="bg-white rounded-2xl overflow-hidden border border-gray-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_10px_30px_rgba(19,39,63,0.04)] hover:-translate-y-1 transition-all duration-500 group">
+                                class="dept-person-card bg-white rounded-2xl overflow-hidden border border-gray-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_10px_30px_rgba(19,39,63,0.04)] hover:-translate-y-1 transition-all duration-500 group opacity-0 animate-[fadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]"
+                                style="animation-delay: <?php echo ($person_index * 50); ?>ms;">
                                 <div class="overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center aspect-square border-b border-gray-100">
                                     <?php if ($person['image']): ?>
                                         <img loading="lazy" src="<?php echo $person['image']; ?>" alt="<?php echo $person['name']; ?>"
@@ -813,7 +817,16 @@ include 'includes/sub-hero.php';
         document.querySelectorAll('.dept-tab-content').forEach(content => {
             content.classList.add('hidden');
         });
-        document.getElementById('tab-content-' + tabId).classList.remove('hidden');
+        const targetTab = document.getElementById('tab-content-' + tabId);
+        targetTab.classList.remove('hidden');
+
+        // Trigger staggered fade-up-in cascade animation for tab content cards
+        const cards = targetTab.querySelectorAll('.dept-person-card');
+        cards.forEach(card => {
+            card.classList.remove('animate-[fadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]');
+            void card.offsetWidth; // Force element reflow to restart CSS keyframe animation
+            card.classList.add('animate-[fadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]');
+        });
 
         const activeClasses = ['border-primary', 'text-primary', 'font-bold'];
         const inactiveClasses = ['border-transparent', 'text-gray-400', 'hover:text-gray-700', 'font-semibold'];
