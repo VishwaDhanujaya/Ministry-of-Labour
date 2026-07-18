@@ -39,15 +39,24 @@ include 'includes/header.php';
         </div>
 
         <!-- Tab Navigation (iOS Pill Control) -->
-        <div class="bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/40 mb-8 flex gap-1 overflow-x-auto whitespace-nowrap custom-scrollbar">
-            <button type="button" onclick="switchTab('top')" class="tab-btn active px-6 py-2.5 text-[12.5px] font-bold rounded-xl transition-all duration-200 bg-white text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-slate-200/30">
-                Top Officials
-            </button>
-            <?php foreach ($divisions as $div): ?>
-            <button type="button" onclick="switchTab('div-<?= $div['id_db'] ?? $div['id'] ?>')" class="tab-btn px-6 py-2.5 text-[12.5px] font-bold rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-800" data-div-id="<?= $div['id_db'] ?? $div['id'] ?>">
-                <?= htmlspecialchars($div['title']) ?>
-            </button>
-            <?php endforeach; ?>
+        <div class="relative bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/40 mb-8 overflow-hidden">
+            <!-- Left Gradient Fade Indicator -->
+            <div class="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-slate-100 to-transparent pointer-events-none z-20"></div>
+            
+            <!-- Right Gradient Fade Indicator -->
+            <div class="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-slate-100 to-transparent pointer-events-none z-20"></div>
+            
+            <!-- Scrollable Tab Container -->
+            <div class="flex gap-1 overflow-x-auto whitespace-nowrap scrollbar-none snap-x snap-mandatory scroll-smooth">
+                <button type="button" onclick="switchTab('top')" class="tab-btn active px-6 py-2.5 text-[12.5px] font-bold rounded-xl transition-all duration-200 bg-white text-slate-800 shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-slate-200/30 snap-center">
+                    Top Officials
+                </button>
+                <?php foreach ($divisions as $div): ?>
+                <button type="button" onclick="switchTab('div-<?= $div['id_db'] ?? $div['id'] ?>')" class="tab-btn px-6 py-2.5 text-[12.5px] font-bold rounded-xl transition-all duration-200 text-slate-500 hover:text-slate-800 snap-center" data-div-id="<?= $div['id_db'] ?? $div['id'] ?>">
+                    <?= htmlspecialchars($div['title']) ?>
+                </button>
+                <?php endforeach; ?>
+            </div>
         </div>
 
         <!-- Tab Contents -->
@@ -355,7 +364,7 @@ include 'includes/header.php';
                 <div>
                     <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Profile Image</label>
                     <!-- Current image preview (shown when editing) -->
-                    <div id="current-image-preview" class="hidden mb-3 flex items-center gap-3 p-3 bg-slate-50 border border-slate-200/60 rounded-xl">
+                    <div id="current-image-preview" class="hidden mb-3 items-center gap-3 p-3 bg-slate-50 border border-slate-200/60 rounded-xl">
                         <img id="current-image-thumb" src="" alt="Current photo" class="w-14 h-14 rounded-xl object-cover border border-slate-200 shadow-sm">
                         <div>
                             <p class="text-xs font-bold text-slate-700 leading-tight">Current photo</p>
@@ -418,10 +427,11 @@ function switchTab(tabId) {
         content.classList.add('hidden');
     });
 
-    const activeBtn = event.currentTarget || document.querySelector(`.tab-btn[onclick*="switchTab('${tabId}')"]`);
+    const activeBtn = (window.event && window.event.currentTarget) || document.querySelector(`.tab-btn[onclick*="switchTab('${tabId}')"]`);
     if (activeBtn) {
         activeBtn.classList.add('active', 'bg-white', 'text-slate-800', 'shadow-[0_2px_8px_rgba(0,0,0,0.06)]', 'border', 'border-slate-200/30');
         activeBtn.classList.remove('text-slate-500');
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
     const activeContent = document.getElementById('tab-' + tabId);
@@ -439,6 +449,9 @@ function openModal(category, data = null) {
     document.getElementById('field-category').value = category;
     document.getElementById('file-label-text').textContent = 'Click to upload photo';
     
+    const previewBox = document.getElementById('current-image-preview');
+    const previewThumb = document.getElementById('current-image-thumb');
+
     if (data) {
         document.getElementById('modal-title').textContent = 'Edit Official';
         document.getElementById('field-id').value = data.id;
@@ -451,13 +464,13 @@ function openModal(category, data = null) {
         document.getElementById('field-email').value = data.email || '';
 
         // Show current image preview if the official has an image
-        const previewBox = document.getElementById('current-image-preview');
-        const previewThumb = document.getElementById('current-image-thumb');
         if (data.image_path) {
             previewThumb.src = '../' + data.image_path;
             previewBox.classList.remove('hidden');
+            previewBox.classList.add('flex');
         } else {
             previewBox.classList.add('hidden');
+            previewBox.classList.remove('flex');
             previewThumb.src = '';
         }
 
@@ -470,8 +483,9 @@ function openModal(category, data = null) {
         document.getElementById('field-top-role').value = '';
 
         // Hide image preview for new officials
-        document.getElementById('current-image-preview').classList.add('hidden');
-        document.getElementById('current-image-thumb').src = '';
+        previewBox.classList.add('hidden');
+        previewBox.classList.remove('flex');
+        previewThumb.src = '';
 
         // Auto-select division based on active tab
         if (currentActiveTab.startsWith('div-')) {

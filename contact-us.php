@@ -102,12 +102,13 @@ include 'includes/sub-hero.php';
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider">Complaints Hotline</p>
-                            <p class="text-base font-bold text-teal-900 font-inter notranslate mt-0.5">070 722 7877 <span class="text-xs font-normal text-teal-700/80">(WhatsApp Only)</span></p>
+                            <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider">Complaints</p>
+                            <p class="text-base font-bold text-teal-900 font-inter mt-0.5">Lodge a Formal Complaint</p>
+                            <p class="text-[11px] text-teal-800/85 font-inter mt-1 leading-tight">Submit your complaints via the Department of Labour CMS portal or escalate via WhatsApp if needed.</p>
                         </div>
                     </div>
-                    <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95">
-                        Send Message
+                    <a href="complaints" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95">
+                        Submit Complaint
                     </a>
                 </div>
                 

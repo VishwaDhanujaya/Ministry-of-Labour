@@ -286,7 +286,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 </div>
 
 <!-- About Section -->
-<section class="py-20 md:py-28 px-4 md:px-16" id="about-us">
+<section class="py-12 md:py-16 px-4 md:px-16" id="about-us">
     <div class="container mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div class="w-full lg:w-[55%]" data-aos="fade-right">
             <p class="section-subtitle">About
@@ -326,7 +326,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 </section>
 
 <!-- Institutions -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
     <div class="container mx-auto">
         <div class="mb-14">
             <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
@@ -342,10 +342,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 1 -->
                 <button class="group inst-split-tab active snap-center" data-target="inst-dol">
                     <span class="flex items-center">
-                        <!-- Briefcase Icon -->
-                        <span class="icon-bubble">
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        </span>
                         <span class="truncate">Department of Labour</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -354,10 +350,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 2 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-dme">
                     <span class="flex items-center">
-                        <!-- Users Icon -->
-                        <span class="icon-bubble">
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path></svg>
-                        </span>
                         <span class="truncate">Department of Manpower and Employment</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -366,10 +358,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 3 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-nils">
                     <span class="flex items-center">
-                        <!-- Book Icon -->
-                        <span class="icon-bubble">
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                        </span>
                         <span class="truncate">National Institute of Labour Studies</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -378,10 +366,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 4 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-niosh">
                     <span class="flex items-center">
-                        <!-- Shield Icon -->
-                        <span class="icon-bubble">
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                        </span>
                         <span class="truncate">National Institute of Occupational Safety & Health</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -390,10 +374,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 5 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-wc">
                     <span class="flex items-center">
-                        <!-- Scale Icon -->
-                        <span class="icon-bubble">
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
-                        </span>
                         <span class="truncate">Workmen's Compensation Office</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -414,7 +394,16 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
                     <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
-                        <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designated as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
+                        <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designed as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
+                    </div>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                        <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                            Visit Website 
+                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
@@ -426,6 +415,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
                         <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
                     </div>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                        <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                            Visit Website 
+                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Panel: NILS -->
@@ -435,6 +433,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
                         <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
                         <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
+                    </div>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                        <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                            Visit Website 
+                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
 
@@ -446,6 +453,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
                         <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
                     </div>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                        <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                            Visit Website 
+                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Panel: Workmen's Compensation Office -->
@@ -456,14 +472,22 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
                         <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
                     </div>
-                </div>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                        <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                            Visit Website 
+                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </a>
+                    </div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Quick Links -->
-<section class="relative py-20 md:py-28 px-4 md:px-16 text-white overflow-hidden bg-primary" id="quick-links">
+<section class="relative py-12 md:py-16 px-4 md:px-16 text-white overflow-hidden bg-primary" id="quick-links">
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/keyfocus.webp');"></div>
@@ -545,15 +569,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 </a>
  
                 <!-- Card 6: Complaints -->
-                <a href="https://wa.me/94707227877" target="_blank" rel="noopener noreferrer" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
+                <a href="complaints" class="focus-card min-w-0 group hover:-translate-y-1 hover:shadow-lg transition-all duration-300 hover:no-underline">
                     <div>
                         <div class="focus-card-icon group-hover:scale-105 transition-transform duration-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Complaints (WhatsApp)</h3>
-                        <p class="focus-card-desc">Submit complaints directly via WhatsApp to our official number: 070 722 7877.</p>
+                        <h3 class="focus-card-title">Complaints</h3>
+                        <p class="focus-card-desc">Lodge formal complaints via the CMS portal and escalate via WhatsApp if needed.</p>
                     </div>
                 </a>
             </div>
@@ -563,7 +587,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
 
 <!-- Latest Articles -->
-<section class="py-20 md:py-32 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
+<section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12" data-aos="fade-up">
             <div>
@@ -600,7 +624,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
-                                <a href="news/<?= $news['id'] ?>" class="hover:text-yellow-600 transition-colors duration-300">
+                                <a href="news/<?= $news['id'] ?>" class="hover:text-secondary transition-colors duration-300">
                                     <?= htmlspecialchars($news['title']) ?>
                                 </a>
                             </h3>
@@ -610,7 +634,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-yellow-600 transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
                             Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -630,7 +654,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
 
 <!-- Downloads & Special Notices Section -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-white" id="downloads-notices">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-white" id="downloads-notices">
     <div class="container mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             
@@ -652,8 +676,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     foreach($downloads as $download):
                     ?>
                     <a href="<?= $download['url'] ?>" class="group flex items-center justify-between bg-white border border-gray-200 rounded-[16px] px-6 py-4 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-yellow-600 transition-colors"><?= $download['title'] ?></span>
-                        <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-yellow-500 group-hover:text-primary transition-colors">
+                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= $download['title'] ?></span>
+                        <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
                             <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </div>
                     </a>

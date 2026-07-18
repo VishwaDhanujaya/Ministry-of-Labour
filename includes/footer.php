@@ -148,9 +148,9 @@
         <!-- Subtle Background mesh for premium grid texture -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="container mx-auto px-4 md:px-16 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-10 mb-16">
                 <!-- Col 1 -->
-                <div class="lg:col-span-4 lg:pr-8">
+                <div class="md:col-span-2 lg:col-span-4 lg:pr-8">
                     <div class="flex items-center mb-6">
                         <?php
                         $logo_path = dirname(__DIR__) . '/assets/img/logo.png';
@@ -173,7 +173,7 @@
                 </div>
                 
                 <!-- Col 2: Quick Links -->
-                <div class="hidden md:block lg:flex lg:col-span-3 lg:justify-center">
+                <div class="md:col-span-1 lg:col-span-3 lg:pl-12">
                     <div>
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Quick Links</h3>
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
@@ -189,12 +189,13 @@
                             <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
                             <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
                             <li><a href="nlac" class="hover:text-yellow-400 hover:underline transition-all notranslate">NLAC</a></li>
+                            <li><a href="complaints" class="hover:text-yellow-400 hover:underline transition-all">Complaints</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Col 3: Circuit Bungalows -->
-                <div class="hidden md:block lg:flex lg:col-span-2 lg:justify-center">
+                <div class="md:col-span-1 lg:col-span-2 lg:pl-8">
                     <div>
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Circuit Bungalows</h3>
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
@@ -214,11 +215,17 @@
                 </div>
                 
                 <!-- Col 4: Contact -->
-                <div class="hidden md:block lg:flex lg:col-span-3 lg:justify-end">
+                <div class="md:col-span-2 lg:col-span-3 lg:pl-8">
                     <div>
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Contact</h3>
                         <div class="space-y-4 text-[14px] text-gray-300 font-inter leading-relaxed">
-                            <p>6th floor,Mehewara Piyasa, Narahenpita,<br>Colombo 05, Sri Lanka.</p>
+                            <div>
+                                <p>6th floor, Mehewara Piyasa, Narahenpita,<br>Colombo 05, Sri Lanka.</p>
+                                <a href="https://www.google.com/maps/dir/?api=1&destination=Ministry+of+Labour,+Mehewara+Piyasa,+Narahenpita,+Colombo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 mt-3 px-3.5 py-1.5 bg-white/10 hover:bg-white text-white hover:text-primary rounded-lg text-xs font-semibold font-inter transition-all duration-300 border border-white/15 hover:border-white shadow-sm">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z"/></svg>
+                                    Get Directions
+                                </a>
+                            </div>
                             <p class="notranslate">(+94) 11 2581991</p>
                             <p class="notranslate">(+94) 11 2368165</p>
                             <p><a href="mailto:info@labourmin.gov.lk" class="hover:underline hover:text-white transition-colors">info@labourmin.gov.lk</a></p>

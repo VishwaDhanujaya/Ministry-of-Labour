@@ -340,14 +340,14 @@ include 'includes/sub-hero.php';
         </div>
 
         <!-- Department Tabs -->
-        <div class="flex overflow-x-auto gap-4 md:gap-8 mb-10 border-b border-gray-200 pb-1 scrollbar-none"
+        <div class="flex overflow-x-auto gap-4 md:gap-8 mb-10 border-b border-gray-200 pb-1 scrollbar-none snap-x snap-mandatory scroll-smooth"
             id="officials-tabs">
             <?php foreach ($departments as $index => $dept): ?>
                 <?php 
                     $tabStateClass = $index === 0 ? 'border-primary text-primary font-bold' : 'border-transparent text-gray-400 hover:text-gray-700 font-semibold';
                 ?>
                 <button onclick="switchDepartmentTab('<?php echo $dept['id']; ?>')" id="tab-btn-<?php echo $dept['id']; ?>"
-                    class="px-2 py-3 border-b-2 <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-sm md:text-base cursor-pointer transition-colors">
+                    class="px-2 py-3 border-b-2 <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-sm md:text-base cursor-pointer transition-colors snap-center">
                     <?php echo $dept['title']; ?>
                 </button>
             <?php endforeach; ?>
@@ -451,10 +451,6 @@ include 'includes/sub-hero.php';
                 <!-- Card 1 -->
                 <button class="group div-split-tab active snap-center" data-target="div-admin">
                     <span class="flex items-center">
-                        <span class="icon-bubble">
-                            <!-- Cog/Users Icon -->
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </span>
                         <span class="truncate">Administration Division</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -463,11 +459,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 2 -->
                 <button class="group div-split-tab snap-center" data-target="div-dev">
                     <span class="flex items-center">
-                        <span class="icon-bubble">
-                            <!-- Lightning/Innovation Icon -->
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </span>
-                        <span class="truncate">Development Division</span>
+                        <span class="truncate">Policy Formulation & Foreign Relations Division</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -475,10 +467,6 @@ include 'includes/sub-hero.php';
                 <!-- Card 3 -->
                 <button class="group div-split-tab snap-center" data-target="div-finance">
                     <span class="flex items-center">
-                        <span class="icon-bubble">
-                            <!-- Coin/Dollar Icon -->
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        </span>
                         <span class="truncate">Finance Division</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -487,10 +475,6 @@ include 'includes/sub-hero.php';
                 <!-- Card 4 -->
                 <button class="group div-split-tab snap-center" data-target="div-audit">
                     <span class="flex items-center">
-                        <span class="icon-bubble">
-                            <!-- Checklist Icon -->
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                        </span>
                         <span class="truncate">Internal Audit Division</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -499,10 +483,6 @@ include 'includes/sub-hero.php';
                 <!-- Card 5 -->
                 <button class="group div-split-tab snap-center" data-target="div-planning">
                     <span class="flex items-center">
-                        <span class="icon-bubble">
-                            <!-- Map/Path Icon -->
-                            <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                        </span>
                         <span class="truncate">Planning & Monitoring Division</span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
@@ -562,16 +542,16 @@ include 'includes/sub-hero.php';
                     </div>
                 </div>
 
-                <!-- Development Division -->
+                <!-- Policy Formulation & Foreign Relations Division -->
                 <div id="div-panel-div-dev" class="div-panel hidden">
                     <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Development Division</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Policy Formulation & Foreign Relations Division</h3>
                     <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Development Division</strong> and <strong>Foreign Relations Division</strong>.</p>
+                        <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Policy Formulation Division</strong> and <strong>Foreign Relations Division</strong>.</p>
                         
                         <h4 class="font-bold text-gray-900 text-[17px] mt-6 flex items-center gap-2">
                             <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Development Division Functions
+                            Policy Formulation Division Functions
                         </h4>
                         <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
                             <li class="pl-1"><strong class="text-gray-800">Public Grievance Management:</strong> Direct the Ministry's response to high-priority public grievances and ensuring resolution efficiency.</li>

@@ -71,6 +71,24 @@ try {
         $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
         $all_documents[] = $row;
     }
+
+    // Fetch Action Plans
+    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path FROM action_plans WHERE status = 'Published' AND pdf_path != '' AND pdf_path IS NOT NULL");
+    while ($row = $stmt->fetch()) {
+        $row['category'] = 'Action Plans';
+        $row['ref'] = date('Y-m-d', strtotime($row['ref']));
+        $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
+        $all_documents[] = $row;
+    }
+
+    // Fetch RTI Reports
+    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path FROM rti_reports WHERE status = 'Published' AND pdf_path != '' AND pdf_path IS NOT NULL");
+    while ($row = $stmt->fetch()) {
+        $row['category'] = 'RTI Reports';
+        $row['ref'] = date('Y-m-d', strtotime($row['ref']));
+        $row['pdf_path'] = resolvePdfUrl($row['pdf_path']);
+        $all_documents[] = $row;
+    }
 } catch (PDOException $e) {
     // Silently continue
 }
@@ -86,7 +104,9 @@ $categoryColors = [
     'Vacancies' => 'bg-indigo-50 text-indigo-700 border-indigo-100',
     'Local Publications' => 'bg-purple-50 text-purple-700 border-purple-100',
     'Foreign Publications' => 'bg-rose-50 text-rose-700 border-rose-100',
-    'Special Notices' => 'bg-orange-50 text-orange-700 border-orange-100'
+    'Special Notices' => 'bg-orange-50 text-orange-700 border-orange-100',
+    'Action Plans' => 'bg-pink-50 text-pink-700 border-pink-100',
+    'RTI Reports' => 'bg-teal-50 text-teal-700 border-teal-100'
 ];
 ?>
 

@@ -1,4 +1,4 @@
-﻿-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
 --
 -- Host: localhost    Database: mol_db
 -- ------------------------------------------------------
@@ -136,7 +136,7 @@ CREATE TABLE `divisions` (
 
 LOCK TABLES `divisions` WRITE;
 /*!40000 ALTER TABLE `divisions` DISABLE KEYS */;
-INSERT INTO `divisions` VALUES (1,'administration','Administration',1),(2,'development','Development',2),(3,'planning','Planning',3),(4,'finance','Finance',4),(5,'internal-audit','Internal Audit',5),(6,'foreign-relations','Foreign Relations',6),(7,'rti-officers','RTI Officers',7);
+INSERT INTO `divisions` VALUES (1,'administration','Administration',1),(2,'development','Policy Formulation & Foreign Relations',2),(3,'planning','Planning',3),(4,'finance','Finance',4),(5,'internal-audit','Internal Audit',5),(6,'foreign-relations','Foreign Relations',6),(7,'rti-officers','RTI Officers',7);
 /*!40000 ALTER TABLE `divisions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -490,3 +490,36 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-07-10 16:01:16
+
+--
+-- Table structure for table ction_plans
+--
+
+DROP TABLE IF EXISTS ction_plans;
+CREATE TABLE ction_plans (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  	itle text NOT NULL,
+  description text DEFAULT NULL,
+  pdf_path varchar(255) DEFAULT NULL,
+  status enum('Published','Draft') NOT NULL DEFAULT 'Published',
+  created_at timestamp NULL DEFAULT current_timestamp(),
+  updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table ti_reports
+--
+
+DROP TABLE IF EXISTS ti_reports;
+CREATE TABLE ti_reports (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  	itle text NOT NULL,
+  description text DEFAULT NULL,
+  pdf_path varchar(255) DEFAULT NULL,
+  status enum('Published','Draft') NOT NULL DEFAULT 'Published',
+  created_at timestamp NULL DEFAULT current_timestamp(),
+  updated_at timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

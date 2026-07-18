@@ -153,6 +153,15 @@ try {
                 'ta' => 'வெளிநாட்டு பயிற்சி மற்றும் கற்றல் தளங்கள்'
             ],
             'keywords' => ['foreign training', 'scholarships', 'study', 'training', 'විදේශීය පුහුණු', 'විදේශීය']
+        ],
+        [
+            'url' => 'complaints',
+            'titles' => [
+                'en' => 'Complaints - Official Portal',
+                'si' => 'පැමිණිලි - නිල ද්වාරය',
+                'ta' => 'முறைப்பாடுகள் - உத்தியோகபூர்வ போர்டல்'
+            ],
+            'keywords' => ['complaints', 'whatsapp', 'labour dept', 'cms', 'පැමිණිලි', 'முறைப்பாடுகள்', 'தொடர்புகொள்ள']
         ]
     ];
 
