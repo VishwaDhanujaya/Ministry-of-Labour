@@ -2,6 +2,7 @@
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 requireLogin();
+requirePermission('manage_news');
 
 // Handle Delete
 if (isset($_GET['delete'])) {
@@ -295,3 +296,4 @@ function hidePreviewModal() {
 </script>
 
 <?php include 'includes/footer.php'; ?>
+

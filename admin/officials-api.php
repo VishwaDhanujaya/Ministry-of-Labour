@@ -13,7 +13,7 @@ if (!isLoggedIn()) {
 }
 
 // Only super_admin and admin allowed (if editor has role = 'editor', reject)
-if (isset($_SESSION['admin_role']) && $_SESSION['admin_role'] === 'editor') {
+if (!hasPermission("manage_officials")) {
     echo json_encode(['success' => false, 'message' => 'Forbidden']);
     exit;
 }
@@ -121,3 +121,4 @@ try {
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+

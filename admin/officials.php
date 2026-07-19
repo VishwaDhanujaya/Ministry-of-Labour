@@ -4,9 +4,7 @@ require_once 'includes/auth.php';
 requireLogin();
 
 // Block editor access
-if (isset($_SESSION['admin_role']) && $_SESSION['admin_role'] === 'editor') {
-    die('Unauthorized access');
-}
+requirePermission("manage_officials");
 
 require_once '../includes/officials-service.php';
 
@@ -752,3 +750,4 @@ document.getElementById('preview-delete-btn').addEventListener('click', function
 </script>
 
 <?php include 'includes/footer.php'; ?>
+

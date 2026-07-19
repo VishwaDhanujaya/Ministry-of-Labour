@@ -84,8 +84,18 @@ include 'includes/header.php';
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <?php
+        $showNewsStat = hasPermission('manage_news');
+        $showPubsStat = hasPermission('manage_local_pubs') || hasPermission('manage_foreign_pubs');
+        $showBookingsStat = hasPermission('manage_bookings');
+        $showTeCarStat = hasPermission('manage_procurements') || hasPermission('manage_vacancies');
+
+        $statCardsCount = ($showNewsStat ? 1 : 0) + ($showPubsStat ? 1 : 0) + ($showBookingsStat ? 1 : 0) + ($showTeCarStat ? 1 : 0);
+        ?>
+        <?php if ($statCardsCount > 0): ?>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-<?= $statCardsCount ?> gap-5 mb-8">
             <!-- News Count -->
+            <?php if ($showNewsStat): ?>
             <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div class="flex justify-between items-start">
@@ -105,8 +115,10 @@ include 'includes/header.php';
                     </a>
                 </div>
             </div>
+            <?php endif; ?>
 
             <!-- Publications -->
+            <?php if ($showPubsStat): ?>
             <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div class="flex justify-between items-start">
@@ -126,8 +138,10 @@ include 'includes/header.php';
                     </a>
                 </div>
             </div>
+            <?php endif; ?>
 
             <!-- Bookings -->
+            <?php if ($showBookingsStat): ?>
             <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div class="flex justify-between items-start">
@@ -147,8 +161,10 @@ include 'includes/header.php';
                     </a>
                 </div>
             </div>
+            <?php endif; ?>
 
             <!-- Tenders & Careers -->
+            <?php if ($showTeCarStat): ?>
             <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
                 <div class="absolute left-0 top-0 bottom-0 w-1 bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div class="flex justify-between items-start">
@@ -168,15 +184,27 @@ include 'includes/header.php';
                     </a>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
+        <?php endif; ?>
 
         <!-- Quick Shortcuts -->
+        <?php
+        $shortcutNews = hasPermission('manage_news');
+        $shortcutNotices = hasPermission('manage_notices');
+        $shortcutOfficials = hasPermission('manage_officials');
+        $shortcutBookings = hasPermission('manage_bookings');
+
+        $shortcutCount = ($shortcutNews ? 1 : 0) + ($shortcutNotices ? 1 : 0) + ($shortcutOfficials ? 1 : 0) + ($shortcutBookings ? 1 : 0);
+        ?>
+        <?php if ($shortcutCount > 0): ?>
         <div class="bg-white rounded-2xl border border-slate-100 shadow-[0_4px_16px_rgba(0,0,0,0.015)] p-6 mb-8">
             <h3 class="text-sm font-bold text-slate-800 font-montserrat mb-4 flex items-center gap-2 select-none">
                 <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 <span>Quick Action Shortcuts</span>
             </h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-<?= $shortcutCount ?> gap-4">
+                <?php if ($shortcutNews): ?>
                 <a href="news-add" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
                         <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
@@ -186,6 +214,9 @@ include 'includes/header.php';
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Publish alerts & press releases</span>
                     </div>
                 </a>
+                <?php endif; ?>
+
+                <?php if ($shortcutNotices): ?>
                 <a href="manage-special-notices" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
                         <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
@@ -195,6 +226,9 @@ include 'includes/header.php';
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Announce urgent updates</span>
                     </div>
                 </a>
+                <?php endif; ?>
+
+                <?php if ($shortcutOfficials): ?>
                 <a href="officials" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
                         <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
@@ -204,6 +238,9 @@ include 'includes/header.php';
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Update contacts & staff lists</span>
                     </div>
                 </a>
+                <?php endif; ?>
+
+                <?php if ($shortcutBookings): ?>
                 <a href="bungalow-bookings" class="flex items-start p-3.5 bg-slate-50/50 hover:bg-red-50/20 hover:text-secondary border border-slate-100/80 hover:border-red-200/60 rounded-xl transition-all duration-150 group">
                     <div class="w-8.5 h-8.5 rounded-lg bg-white flex items-center justify-center border border-slate-100 shadow-sm mr-3.5 group-hover:scale-105 transition-transform duration-200 shrink-0">
                         <svg class="w-4.5 h-4.5 text-slate-500 group-hover:text-secondary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -213,12 +250,20 @@ include 'includes/header.php';
                         <span class="text-[11px] text-slate-400 font-medium block mt-0.5">Review pending room requests</span>
                     </div>
                 </a>
+                <?php endif; ?>
             </div>
         </div>
+        <?php endif; ?>
 
+        <?php
+        $showNewsTable = hasPermission('manage_news');
+        $showBookingsTable = hasPermission('manage_bookings');
+        ?>
+        <?php if ($showNewsTable || $showBookingsTable): ?>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Recent News (Left 2/3) -->
-            <div class="lg:col-span-2">
+            <?php if ($showNewsTable): ?>
+            <div class="<?= $showBookingsTable ? 'lg:col-span-2' : 'lg:col-span-3' ?>">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-base font-bold font-montserrat text-slate-800">Recent News Updates</h3>
                     <a href="news" class="text-xs font-bold text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
@@ -265,9 +310,11 @@ include 'includes/header.php';
                 ]);
                 ?>
             </div>
+            <?php endif; ?>
 
             <!-- Booking Requests (Right 1/3) -->
-            <div class="lg:col-span-1">
+            <?php if ($showBookingsTable): ?>
+            <div class="<?= $showNewsTable ? 'lg:col-span-1' : 'lg:col-span-3' ?>">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-base font-bold font-montserrat text-slate-800">Active Bookings</h3>
                     <a href="bungalow-bookings" class="text-xs font-bold text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1 select-none">
@@ -291,7 +338,7 @@ include 'includes/header.php';
                         </div>
                     <?php
                     endif;
-
+ 
                     if (empty($pendingList)):
                     ?>
                         <div class="py-12 text-center">
@@ -332,8 +379,25 @@ include 'includes/header.php';
                     <?php endif; ?>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </main>
 </div>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'unauthorized'): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof window.showToast === 'function') {
+            window.showToast("You are not authorized to access that module.", "error");
+            
+            // Clean up url
+            const url = new URL(window.location);
+            url.searchParams.delete('error');
+            window.history.replaceState({}, '', url);
+        }
+    });
+</script>
+<?php endif; ?>
 
 <?php include 'includes/footer.php'; ?>

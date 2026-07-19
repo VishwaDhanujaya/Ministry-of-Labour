@@ -2,6 +2,7 @@
 require_once 'includes/db.php';
 require_once 'includes/auth.php';
 requireLogin();
+requirePermission('manage_bookings');
 
 // Handle status updates
 if (isset($_GET['action']) && isset($_GET['id'])) {
@@ -1062,4 +1063,5 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <?php include 'includes/footer.php'; ?>
+
 

@@ -3,6 +3,7 @@ require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 requireLogin();
+requirePermission('manage_news');
 
 $error = '';
 $success = '';
@@ -697,3 +698,4 @@ async function autoTranslateBody() {
 </script>
 
 <?php include 'includes/footer.php'; ?>
+

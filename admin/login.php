@@ -38,14 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'] ?? '';
 
         if (!empty($email) && !empty($password)) {
-            $stmt = $pdo->prepare("SELECT id, name, password_hash, role FROM admins WHERE email = :email");
+            $stmt = $pdo->prepare("SELECT id, name, password_hash, role, permissions FROM admins WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $admin = $stmt->fetch();
 
             if ($admin && password_verify($password, $admin['password_hash'])) {
                 Cache::forget($rateLimitKey); // Reset lockout on success
                 session_regenerate_id(true); // Prevent Session Fixation
-                loginAdmin($admin['id'], $admin['name'], $admin['role']);
+                loginAdmin($admin['id'], $admin['name'], $admin['role'], $admin['permissions']);
                 session_write_close(); // Force session to write to disk before redirect
                 header("Location: dashboard");
                 exit;
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form id="loginForm" action="" method="POST" class="js-validate-form space-y-6">
                 <!-- Email Input -->
                 <div class="relative">
-                    <input type="email" id="email" name="email" required autocomplete="off" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                    <input type="email" id="email" name="email" required autocomplete="username" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
                         class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="email"
@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- Password Input -->
                 <div class="relative group">
-                    <input type="password" id="password" name="password" required autocomplete="new-password"
+                    <input type="password" id="password" name="password" required autocomplete="current-password"
                         class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
                         placeholder=" ">
                     <label for="password"
@@ -205,6 +205,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>';
             }
         }
+
+        document.getElementById('loginForm').addEventListener('submit', () => {
+            const pwd = document.getElementById('password');
+            if (pwd.type === 'text') {
+                pwd.type = 'password';
+            }
+        });
 
         <?php if (!empty($error)): ?>
         document.addEventListener('DOMContentLoaded', () => {

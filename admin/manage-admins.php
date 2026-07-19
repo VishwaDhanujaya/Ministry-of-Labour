@@ -40,8 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $error = "Email already registered.";
         } else {
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("INSERT INTO admins (name, email, password_hash, role) VALUES (?, ?, ?, ?)");
-            if ($stmt->execute([$name, $email, $hash, $role])) {
+            $perms = isset($_POST['permissions']) && is_array($_POST['permissions']) ? json_encode($_POST['permissions']) : json_encode([]);
+            $stmt = $pdo->prepare("INSERT INTO admins (name, email, password_hash, role, permissions) VALUES (?, ?, ?, ?, ?)");
+            if ($stmt->execute([$name, $email, $hash, $role, $perms])) {
                 $success = "Admin created successfully.";
             } else {
                 $error = "Failed to create admin.";
@@ -69,17 +70,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         if ($stmt->fetch()) {
             $error = "Email already registered to another admin.";
         } else {
+            $perms = isset($_POST['permissions']) && is_array($_POST['permissions']) ? json_encode($_POST['permissions']) : json_encode([]);
             if (!empty($password)) {
                 $hash = password_hash($password, PASSWORD_DEFAULT);
-                $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ?, password_hash = ?, role = ? WHERE id = ?");
-                if ($stmt->execute([$name, $email, $hash, $role, $edit_id])) {
+                $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ?, password_hash = ?, role = ?, permissions = ? WHERE id = ?");
+                if ($stmt->execute([$name, $email, $hash, $role, $perms, $edit_id])) {
                     $success = "Admin updated successfully.";
                 } else {
                     $error = "Failed to update admin.";
                 }
             } else {
-                $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ?, role = ? WHERE id = ?");
-                if ($stmt->execute([$name, $email, $role, $edit_id])) {
+                $stmt = $pdo->prepare("UPDATE admins SET name = ?, email = ?, role = ?, permissions = ? WHERE id = ?");
+                if ($stmt->execute([$name, $email, $role, $perms, $edit_id])) {
                     $success = "Admin updated successfully.";
                 } else {
                     $error = "Failed to update admin.";
@@ -139,20 +141,15 @@ include 'includes/header.php';
         
         renderAdminTable($headers, $admins, function($adm) {
             $roleColor = 'from-slate-600 to-slate-800';
-            if ($adm['role'] === 'executive_officer') {
+            if ($adm['role'] === 'super_admin') {
                 $roleColor = 'from-secondary to-[#721c1c]';
-            } elseif ($adm['role'] === 'content_editor') {
-                $roleColor = 'from-primary to-[#254974]';
             }
             
             $badgeClass = "bg-slate-50 text-slate-600 border-slate-100";
-            $badgeLabel = str_replace('_', ' ', $adm['role']);
-            if ($adm['role'] === 'executive_officer') {
+            $badgeLabel = "Custom User";
+            if ($adm['role'] === 'super_admin') {
                 $badgeClass = "bg-secondary/5 text-secondary border-secondary/10";
-                $badgeLabel = "Executive Officer";
-            } elseif ($adm['role'] === 'content_editor') {
-                $badgeClass = "bg-primary/5 text-primary border-primary/10";
-                $badgeLabel = "Content Editor";
+                $badgeLabel = "Super Admin";
             }
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group">
@@ -195,7 +192,7 @@ include 'includes/header.php';
                     [
                         'icon' => 'role',
                         'placeholder' => 'All Roles',
-                        'options' => ['Executive Officer' => 'Executive Officer', 'Content Editor' => 'Content Editor'],
+                        'options' => ['Super Admin' => 'super_admin', 'User' => 'user'],
                         'width' => 'flex-1 md:w-52'
                     ]
                 ],
@@ -246,14 +243,55 @@ include 'includes/header.php';
                                     <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </span>
-                                    <select name="role" id="adminRole" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-600 appearance-none cursor-pointer transition-all font-semibold">
-                                        <option value="executive_officer">Executive Officer</option>
-                                        <option value="content_editor">Content Editor</option>
+                                    <select name="role" id="adminRole" onchange="togglePermissions()" class="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-600 appearance-none cursor-pointer transition-all font-semibold">
+                                        <option value="super_admin">Super Admin</option>
+                                        <option value="user">Custom User</option>
                                     </select>
                                     <span class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
                                     </span>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2.5: Permissions Checklist -->
+                        <div id="permissionsContainer" class="hidden">
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Custom Permissions</label>
+                                <div class="flex items-center gap-2">
+                                    <button type="button" onclick="document.querySelectorAll('.perm-checkbox').forEach(cb => cb.checked = true)" class="text-[10px] font-bold text-secondary bg-secondary/10 hover:bg-secondary/20 px-2 py-1 rounded transition-colors">Select All</button>
+                                    <button type="button" onclick="document.querySelectorAll('.perm-checkbox').forEach(cb => cb.checked = false)" class="text-[10px] font-bold text-slate-500 bg-slate-200 hover:bg-slate-300 px-2 py-1 rounded transition-colors">Clear All</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 bg-slate-50/50 border border-slate-200/80 rounded-xl max-h-[220px] overflow-y-auto custom-scrollbar">
+                                <?php
+                                $available_permissions = [
+                                    'manage_news' => 'Manage News',
+                                    'approve_news' => 'Approve News',
+                                    'manage_local_pubs' => 'Manage Local Publications',
+                                    'manage_foreign_pubs' => 'Manage Foreign Publications',
+                                    'manage_action_plans' => 'Manage Action Plans',
+                                    'manage_rti' => 'Manage RTI Reports',
+                                    'manage_bookings' => 'Manage Auditorium Bookings',
+                                    'manage_iau' => 'Manage IAU Module',
+                                    'manage_learning' => 'Manage Learning Platforms',
+                                    'manage_procurements' => 'Manage Procurements',
+                                    'manage_notices' => 'Manage Special Notices',
+                                    'manage_statistics' => 'Manage Statistics',
+                                    'manage_vacancies' => 'Manage Vacancies',
+                                    'manage_officials' => 'Manage Officials'
+                                ];
+                                foreach ($available_permissions as $key => $label):
+                                ?>
+                                <label class="flex items-start gap-3 p-2.5 rounded-lg border border-slate-200/60 bg-white hover:border-secondary/30 hover:bg-secondary/5 cursor-pointer group transition-all">
+                                    <div class="flex items-center h-5">
+                                        <input type="checkbox" name="permissions[]" value="<?= $key ?>" class="perm-checkbox w-4 h-4 text-secondary bg-slate-50 border-slate-300 rounded focus:ring-secondary focus:ring-2 cursor-pointer transition-all">
+                                    </div>
+                                    <div class="flex flex-col justify-center">
+                                        <span class="text-[12px] font-semibold text-slate-700 group-hover:text-secondary transition-colors leading-tight"><?= $label ?></span>
+                                    </div>
+                                </label>
+                                <?php endforeach; ?>
                             </div>
                         </div>
 
@@ -318,6 +356,16 @@ include 'includes/header.php';
         </div>
 
         <script>
+        function togglePermissions() {
+            const role = document.getElementById('adminRole').value;
+            const container = document.getElementById('permissionsContainer');
+            if (role === 'super_admin') {
+                container.classList.add('hidden');
+            } else {
+                container.classList.remove('hidden');
+            }
+        }
+
         function openAddModal() {
             document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg> Add New Admin';
             document.getElementById('formAction').value = 'add';
@@ -325,7 +373,7 @@ include 'includes/header.php';
             
             document.getElementById('adminName').value = '';
             document.getElementById('adminEmail').value = '';
-            document.getElementById('adminRole').value = 'executive_officer';
+            document.getElementById('adminRole').value = 'super_admin';
             document.getElementById('adminPassword').value = '';
             document.getElementById('adminConfirmPassword').value = '';
             
@@ -337,6 +385,10 @@ include 'includes/header.php';
             document.getElementById('editPwdHint').classList.add('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Create Admin';
+            
+            // Clear checkboxed perms
+            document.querySelectorAll('.perm-checkbox').forEach(cb => cb.checked = false);
+            togglePermissions();
             
             // Clean modal password matching indicator
             const matchBadge = document.getElementById('modal-pwd-match-badge');
@@ -375,6 +427,18 @@ include 'includes/header.php';
             document.getElementById('editPwdHint').classList.remove('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
+            
+            // Set checkboxes perms
+            let perms = [];
+            if (admin.permissions) {
+                try {
+                    perms = JSON.parse(admin.permissions);
+                } catch(e) {}
+            }
+            document.querySelectorAll('.perm-checkbox').forEach(cb => {
+                cb.checked = perms.includes(cb.value);
+            });
+            togglePermissions();
             
             // Clean modal password matching indicator
             const matchBadge = document.getElementById('modal-pwd-match-badge');

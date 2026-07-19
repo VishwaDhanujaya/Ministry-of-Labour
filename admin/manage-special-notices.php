@@ -3,6 +3,7 @@ require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 requireLogin();
+requirePermission('manage_notices');
 
 $current_page = "manage-special-notices";
 $error = '';
@@ -473,3 +474,4 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
+

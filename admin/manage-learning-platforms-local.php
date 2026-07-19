@@ -3,6 +3,7 @@ require_once 'includes/db.php';
 require_once 'includes/auth.php';
 require_once 'includes/functions.php';
 requireLogin();
+requirePermission('manage_local_pubs');
 
 $current_page = "manage-learning-platforms-local";
 $error = '';
@@ -439,5 +440,6 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
 
 

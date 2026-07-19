@@ -29,11 +29,6 @@ function requireLogin() {
     }
 }
 
-// Auto-migrate legacy or corrupted sessions to executive_officer
-if (isset($_SESSION['admin_role']) && in_array($_SESSION['admin_role'], ['super_admin', 'admin', ''])) {
-    $_SESSION['admin_role'] = 'executive_officer';
-}
-
 // Inactivity check (30 minutes = 1800 seconds)
 if (isset($_SESSION['admin_id'])) {
     if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
@@ -48,34 +43,17 @@ if (isset($_SESSION['admin_id'])) {
     $_SESSION['last_activity'] = time();
 }
 
-// Centralized Role Capabilities Mapping
-$role_capabilities = [
-    'executive_officer' => [
-        'manage_users', 'approve_news', 'manage_news', 'manage_bookings',
-        'manage_iau', 'manage_learning', 'manage_procurements',
-        'manage_notices', 'manage_statistics', 'manage_vacancies',
-        'manage_officials', 'manage_settings'
-    ],
-    'content_editor' => [
-        'manage_news'
-    ]
-];
-
 function hasPermission(string $capability): bool {
     if (!isLoggedIn()) return false;
-    global $role_capabilities;
-    $role = $_SESSION['admin_role'] ?? '';
-    if (!isset($role_capabilities[$role])) {
-        return false;
+    
+    // Super Admins have access to everything
+    if (isset($_SESSION['admin_role']) && $_SESSION['admin_role'] === 'super_admin') {
+        return true;
     }
-    return in_array($capability, $role_capabilities[$role]);
-}
-
-function requirePermission(string $capability): void {
-    if (!hasPermission($capability)) {
-        header("Location: index.php?error=forbidden");
-        exit;
-    }
+    
+    // Check specific user permissions
+    $perms = $_SESSION['admin_permissions'] ?? [];
+    return is_array($perms) && in_array($capability, $perms);
 }
 
 // Backward-compatible alias
@@ -88,14 +66,16 @@ function getLoggedInAdmin() {
     return [
         'id' => $_SESSION['admin_id'] ?? null,
         'name' => $_SESSION['admin_name'] ?? null,
-        'role' => $_SESSION['admin_role'] ?? null
+        'role' => $_SESSION['admin_role'] ?? null,
+        'permissions' => $_SESSION['admin_permissions'] ?? []
     ];
 }
 
-function loginAdmin(int $id, string $name, string $role): void {
+function loginAdmin(int $id, string $name, string $role, ?string $permissions = null): void {
     $_SESSION['admin_id'] = $id;
     $_SESSION['admin_name'] = $name;
     $_SESSION['admin_role'] = $role;
+    $_SESSION['admin_permissions'] = $permissions ? json_decode($permissions, true) : [];
     $_SESSION['last_activity'] = time();
 }
 
@@ -124,6 +104,13 @@ function requireCsrfToken($method = 'POST', $source = 'post') {
         if (!verifyCsrfToken($token)) {
             die("CSRF Token Validation Failed. Please try again.");
         }
+    }
+}
+
+function requirePermission(string $capability): void {
+    if (!hasPermission($capability)) {
+        header("Location: dashboard?error=unauthorized");
+        exit;
     }
 }
 ?>

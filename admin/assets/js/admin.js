@@ -579,12 +579,13 @@ function initFormValidation() {
                     ${processingText}
                 `;
                 
-                // Disable the button to prevent double submission
-                // We add a tiny delay so the form data from this button (if it has name/value) is still submitted
-                setTimeout(() => {
-                    submitBtn.disabled = true;
-                    submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
-                }, 10);
+                // Disable the button to prevent double submission (except for login form to allow browser credential saving)
+                if (form.id !== 'loginForm') {
+                    setTimeout(() => {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                    }, 10);
+                }
             }
         });
     });

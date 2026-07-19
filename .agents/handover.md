@@ -304,3 +304,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Author:** Antigravity AI
 * **Change Description:** Created new database tables \ction_plans\ and \ti_reports\ to support dedicated document management for these two categories. Replicated the standard CMS module styling (similar to local learning platforms) to create new admin dashboard panels: \dmin/manage-action-plans.php\ and \dmin/manage-rti-reports.php\. Injected new navigation links for these modules under the "Publications" section in the admin sidebar. Updated the public \downloads.php\ page to execute PDO queries fetching published Action Plans and RTI Reports, seamlessly blending them into the global list view and grid layout without creating separate public pages. Assigned them distinct Tailwind badge colors (Pink for Action Plans, Teal for RTI Reports) and verified that the existing JavaScript filter system correctly identifies and isolates them using the dynamic dropdown categorizations.
 
+
+---
+
+### 2026-07-18 (Refactored RBAC to Dynamic Checklist)
+* **Files:** [database.sql](file:///c:/xampp/htdocs/Ministry-of-Labour/database.sql), [admin/includes/auth.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/auth.php), [admin/login.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/login.php), [admin/manage-admins.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-admins.php), [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the legacy hardcoded role system with a fully dynamic Permissions Checklist. Modified the \dmins\ table to convert the role column to a simple 'Super Admin / User' toggle and introduced a JSON \permissions\ column. Overhauled \dmin/manage-admins.php\ UI to display an intuitive checkbox grid allowing administrators to mix-and-match specific module permissions (e.g., News, Local Publications, RTI Reports) for "Custom Users". Updated \uth.php\ and \login.php\ to decode and inject these permissions into the session. Finally, wrapped all navigation elements in \dmin/includes/sidebar.php\ with strict \hasPermission()\ checks to ensure a restricted user's sidebar automatically hides modules they cannot access.
+
