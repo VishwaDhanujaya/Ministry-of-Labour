@@ -75,7 +75,7 @@ foreach ($raw_updates as $update) {
         </div>
 
         <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 hidden">
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style="display: none;">
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
@@ -162,14 +162,14 @@ foreach ($raw_updates as $update) {
         </div>
 
         <!-- No Results State -->
-        <div id="noResultsMsg" class="hidden py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12">
+        <div id="noResultsMsg" class="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12" style="display: none;">
             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <p class="text-[17px] font-bold text-gray-800 mb-1">No updates matched your search</p>
             <p class="text-sm text-gray-400">Try adjusting your filters or search keywords</p>
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 hidden">
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
             <div class="text-sm text-gray-500 font-inter">
                 Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
             </div>
@@ -211,16 +211,16 @@ function changeView(view) {
         btnList.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
         btnList.classList.add('text-gray-500');
         
-        gridContainer.classList.remove('hidden');
-        listContainer.classList.add('hidden');
+        gridContainer.style.display = 'grid';
+        listContainer.style.display = 'none';
     } else {
         btnList.classList.add('bg-white', 'text-secondary', 'shadow-sm');
         btnList.classList.remove('text-gray-500');
         btnGrid.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
         btnGrid.classList.add('text-gray-500');
         
-        listContainer.classList.remove('hidden');
-        gridContainer.classList.add('hidden');
+        listContainer.style.display = 'block';
+        gridContainer.style.display = 'none';
     }
     
     filterTable();
@@ -263,18 +263,18 @@ function updatePaginationUI(itemsPerPage) {
     const totalItems = filteredIndexes.length;
     
     if (totalItems === 0) {
-        noResultsMsg.classList.remove('hidden');
-        gridContainer.classList.add('hidden');
-        listViewContainer.classList.add('hidden');
-        paginationControls.classList.add('hidden');
+        noResultsMsg.style.display = 'flex';
+        gridContainer.style.display = 'none';
+        listViewContainer.style.display = 'none';
+        paginationControls.style.display = 'none';
         return;
     }
     
-    noResultsMsg.classList.add('hidden');
+    noResultsMsg.style.display = 'none';
     if (currentView === 'grid') {
-        gridContainer.classList.remove('hidden');
+        gridContainer.style.display = 'grid';
     } else {
-        listViewContainer.classList.remove('hidden');
+        listViewContainer.style.display = 'block';
     }
     
     let startIdx = 0;
@@ -290,9 +290,9 @@ function updatePaginationUI(itemsPerPage) {
         endIdx = Math.min(startIdx + itemsPerPage, totalItems);
         
         renderPaginationButtons(totalPages);
-        paginationControls.classList.remove('hidden');
+        paginationControls.style.display = 'flex';
     } else {
-        paginationControls.classList.add('hidden');
+        paginationControls.style.display = 'none';
     }
     
     // Show only active items for this page depending on the current view

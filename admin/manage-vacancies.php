@@ -14,13 +14,19 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT pdf_path FROM vacancies WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT pdf_path, pdf_path_si, pdf_path_ta FROM vacancies WHERE id = ?");
     $stmt->execute([$del_id]);
     $proc = $stmt->fetch();
     
     if ($proc) {
         if (!empty($proc['pdf_path']) && file_exists($proc['pdf_path'])) {
-            unlink($proc['pdf_path']);
+            @unlink($proc['pdf_path']);
+        }
+        if (!empty($proc['pdf_path_si']) && file_exists($proc['pdf_path_si'])) {
+            @unlink($proc['pdf_path_si']);
+        }
+        if (!empty($proc['pdf_path_ta']) && file_exists($proc['pdf_path_ta'])) {
+            @unlink($proc['pdf_path_ta']);
         }
         $stmt = $pdo->prepare("DELETE FROM vacancies WHERE id = ?");
         $stmt->execute([$del_id]);
@@ -41,26 +47,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (empty($title)) {
         $error = "Title is required.";
     } else {
+        $pdf_path = null; $pdf_path_si = null; $pdf_path_ta = null;
         if ($action === 'add') {
-            $stmt = $pdo->prepare("INSERT INTO vacancies (title, description, pdf_path, status) VALUES (?, ?, '', ?)");
-            if ($stmt->execute([$title, $description, $status])) {
-                $success = "vacancy added successfully.";
-            } else {
-                $error = "Failed to add vacancy.";
+            if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_si = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_ta = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (empty($error)) {
+                $stmt = $pdo->prepare("INSERT INTO vacancies (title, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                    $success = "vacancy added successfully.";
+                } else {
+                    $error = "Failed to add vacancy.";
+                }
             }
         } elseif ($action === 'edit') {
             $edit_id = (int)$_POST['proc_id'];
             
-            $stmt = $pdo->prepare("SELECT id FROM vacancies WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, pdf_path, pdf_path_si, pdf_path_ta FROM vacancies WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             
             if (!$existing) {
                 $error = "vacancy not found.";
             } else {
+                $pdf_path = $existing['pdf_path'];
+                $pdf_path_si = $existing['pdf_path_si'];
+                $pdf_path_ta = $existing['pdf_path_ta'];
+                
+                if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path) && file_exists($pdf_path)) @unlink($pdf_path);
+                        $pdf_path = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_si) && file_exists($pdf_path_si)) @unlink($pdf_path_si);
+                        $pdf_path_si = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/vacancies', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_ta) && file_exists($pdf_path_ta)) @unlink($pdf_path_ta);
+                        $pdf_path_ta = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
+                }
+                
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE vacancies SET title = ?, description = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $description, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE vacancies SET title = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
                         $success = "vacancy updated successfully.";
                     } else {
                         $error = "Failed to update vacancy.";
@@ -135,7 +185,8 @@ include 'includes/header.php';
                     <div id="preview-content-<?= $proc['id'] ?>" class="hidden">
                         <div class="flex flex-col gap-4">
                             <div class="flex flex-wrap gap-2">
-                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $proc['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200' ?>"><?= htmlspecialchars($proc['status']) ?></span>
+                                <?php $statusClass = $proc['status'] === 'Published' ? 'bg-green-50 text-green-700 border-green-200' : 'bg-orange-50 text-orange-700 border-orange-200'; ?>
+                                <span class="px-2.5 py-1 rounded-md text-[11px] font-bold border shadow-sm <?= $statusClass ?>"><?= htmlspecialchars($proc['status']) ?></span>
                                 <span class="px-2.5 py-1 bg-gray-50 text-gray-600 border border-slate-100 text-[11px] font-bold rounded-md shadow-sm uppercase tracking-wider"><?= date('M d, Y', strtotime($proc['created_at'])) ?></span>
                             </div>
                             <?php if (!empty($proc['description'])): ?>
@@ -143,12 +194,26 @@ include 'includes/header.php';
                                     <?= $proc['description'] ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($proc['pdf_path'])): ?>
-                                <div class="border-t border-gray-100 pt-4 mt-2">
-                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
-                                        <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                                        View Attached PDF
+                            <?php if (!empty($proc['pdf_path']) || !empty($proc['pdf_path_si']) || !empty($proc['pdf_path_ta'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2 flex flex-wrap gap-2">
+                                    <?php if (!empty($proc['pdf_path'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        EN PDF
                                     </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($proc['pdf_path_si'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path_si'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        SI PDF
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($proc['pdf_path_ta'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path_ta'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        TA PDF
+                                    </a>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -236,6 +301,23 @@ include 'includes/header.php';
                             </div>
                         </div>
 
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
+                                <input type="file" name="pdf_file" id="procPdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
+                                <input type="file" name="pdf_file_si" id="procPdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
+                                <input type="file" name="pdf_file_ta" id="procPdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                        </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Description (Optional)</label>
                             <input type="hidden" name="description" id="procDescriptionInput">
@@ -267,6 +349,13 @@ include 'includes/header.php';
             quillProc.setText('');
             document.getElementById('procStatus').value = 'Published';
             
+            document.getElementById('procPdfEn').value = '';
+            document.getElementById('procPdfSi').value = '';
+            document.getElementById('procPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.add('hidden');
+            document.getElementById('editPdfHintSi').classList.add('hidden');
+            document.getElementById('editPdfHintTa').classList.add('hidden');
+            
             document.getElementById('submitBtnText').textContent = 'Create Vacancy';
             
             const modal = document.getElementById('procModal');
@@ -288,6 +377,13 @@ include 'includes/header.php';
             document.getElementById('procTitle').value = proc.title;
             quillProc.root.innerHTML = proc.description || '';
             document.getElementById('procStatus').value = proc.status;
+            
+            document.getElementById('procPdfEn').value = '';
+            document.getElementById('procPdfSi').value = '';
+            document.getElementById('procPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.remove('hidden');
+            document.getElementById('editPdfHintSi').classList.remove('hidden');
+            document.getElementById('editPdfHintTa').classList.remove('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             

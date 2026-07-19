@@ -275,6 +275,7 @@ include 'includes/header.php';
                                     'manage_bookings' => 'Manage Auditorium Bookings',
                                     'manage_iau' => 'Manage IAU Module',
                                     'manage_learning' => 'Manage Learning Platforms',
+                                    'manage_acts' => 'Manage Acts & Amendments',
                                     'manage_procurements' => 'Manage Procurements',
                                     'manage_notices' => 'Manage Special Notices',
                                     'manage_statistics' => 'Manage Statistics',

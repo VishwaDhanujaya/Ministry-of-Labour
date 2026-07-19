@@ -14,13 +14,19 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT pdf_path FROM procurements WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT pdf_path, pdf_path_si, pdf_path_ta FROM procurements WHERE id = ?");
     $stmt->execute([$del_id]);
     $proc = $stmt->fetch();
     
     if ($proc) {
         if (!empty($proc['pdf_path']) && file_exists($proc['pdf_path'])) {
-            unlink($proc['pdf_path']);
+            @unlink($proc['pdf_path']);
+        }
+        if (!empty($proc['pdf_path_si']) && file_exists($proc['pdf_path_si'])) {
+            @unlink($proc['pdf_path_si']);
+        }
+        if (!empty($proc['pdf_path_ta']) && file_exists($proc['pdf_path_ta'])) {
+            @unlink($proc['pdf_path_ta']);
         }
         $stmt = $pdo->prepare("DELETE FROM procurements WHERE id = ?");
         $stmt->execute([$del_id]);
@@ -42,27 +48,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (empty($title)) {
         $error = "Title is required.";
     } else {
+        $pdf_path = null; $pdf_path_si = null; $pdf_path_ta = null;
         if ($action === 'add') {
-            if (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
-                $error = "PDF file is required.";
-            } else {
+            if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                 $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/procurements', ['application/pdf'], 5242880);
-                if ($uploadResult['success']) {
-                    $pdf_path = $uploadResult['path'];
-                    $stmt = $pdo->prepare("INSERT INTO procurements (title, category, description, pdf_path, status) VALUES (?, ?, ?, ?, ?)");
-                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status])) {
-                        $success = "Procurement added successfully.";
-                    } else {
-                        $error = "Failed to add procurement.";
-                    }
+                if ($uploadResult['success']) $pdf_path = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/procurements', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_si = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/procurements', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_ta = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (empty($error)) {
+                $stmt = $pdo->prepare("INSERT INTO procurements (title, category, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $category, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                    $success = "Procurement added successfully.";
                 } else {
-                    $error = $uploadResult['error'];
+                    $error = "Failed to add procurement.";
                 }
             }
         } elseif ($action === 'edit') {
             $edit_id = (int)$_POST['proc_id'];
             
-            $stmt = $pdo->prepare("SELECT pdf_path FROM procurements WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT pdf_path, pdf_path_si, pdf_path_ta FROM procurements WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             
@@ -70,23 +84,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $error = "Procurement not found.";
             } else {
                 $pdf_path = $existing['pdf_path'];
+                $pdf_path_si = $existing['pdf_path_si'];
+                $pdf_path_ta = $existing['pdf_path_ta'];
                 
-                // If new file uploaded
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                     $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/procurements', ['application/pdf'], 5242880);
                     if ($uploadResult['success']) {
-                        if (!empty($pdf_path) && file_exists($pdf_path)) {
-                            unlink($pdf_path);
-                        }
+                        if (!empty($pdf_path) && file_exists($pdf_path)) @unlink($pdf_path);
                         $pdf_path = $uploadResult['path'];
-                    } else {
-                        $error = $uploadResult['error'];
-                    }
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/procurements', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_si) && file_exists($pdf_path_si)) @unlink($pdf_path_si);
+                        $pdf_path_si = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/procurements', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_ta) && file_exists($pdf_path_ta)) @unlink($pdf_path_ta);
+                        $pdf_path_ta = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE procurements SET title = ?, category = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $category, $description, $pdf_path, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE procurements SET title = ?, category = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $category, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
                         $success = "Procurement updated successfully.";
                     } else {
                         $error = "Failed to update procurement.";
@@ -173,12 +198,26 @@ include 'includes/header.php';
                                     <?= $proc['description'] ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($proc['pdf_path'])): ?>
-                                <div class="border-t border-gray-100 pt-4 mt-2">
-                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
-                                        <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                                        View Attached PDF
+                            <?php if (!empty($proc['pdf_path']) || !empty($proc['pdf_path_si']) || !empty($proc['pdf_path_ta'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2 flex flex-wrap gap-2">
+                                    <?php if (!empty($proc['pdf_path'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        EN PDF
                                     </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($proc['pdf_path_si'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path_si'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        SI PDF
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($proc['pdf_path_ta'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($proc['pdf_path_ta'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        TA PDF
+                                    </a>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -301,17 +340,22 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
-                            
-                            <!-- Premium Custom File Input -->
-                            <div class="relative border-2 border-dashed border-slate-200 rounded-xl p-6 hover:border-primary transition-all bg-slate-50/50 flex flex-col items-center justify-center cursor-pointer group text-center" onclick="document.getElementById('procPdf').click()">
-                                <svg class="w-8 h-8 text-slate-400 group-hover:text-primary transition-colors mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
-                                <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block" id="pdfFileName">Select or drag PDF File</span>
-                                <span class="text-[10px] text-slate-400 mt-1 block">Only PDF documents are accepted</span>
-                                <input type="file" name="pdf_file" id="procPdf" accept="application/pdf" required class="hidden" onchange="showSelectedFileName(this)">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
+                                <input type="file" name="pdf_file" id="procPdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
                             </div>
-                            <p id="editPdfHint" class="text-[11px] text-slate-400 italic hidden mt-1.5">Leave blank if you wish to keep the currently uploaded PDF.</p>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
+                                <input type="file" name="pdf_file_si" id="procPdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
+                                <input type="file" name="pdf_file_ta" id="procPdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
                         </div>
 
                         <div class="pt-5 flex justify-end gap-3 border-t border-slate-100 mt-6 font-inter shrink-0">
@@ -348,14 +392,12 @@ include 'includes/header.php';
             document.getElementById('procCategory').value = 'Notice';
             quillProc.setText('');
             document.getElementById('procStatus').value = 'Published';
-            document.getElementById('procPdf').value = '';
-            
-            document.getElementById('pdfFileName').textContent = "Select or drag PDF File";
-            document.getElementById('pdfFileName').className = "text-xs text-slate-500 font-bold uppercase tracking-wider block";
-            
-            document.getElementById('procPdf').required = true;
-            document.getElementById('pdfLabel').innerHTML = 'PDF File <span class="text-red-500">*</span>';
-            document.getElementById('editPdfHint').classList.add('hidden');
+            document.getElementById('procPdfEn').value = '';
+            document.getElementById('procPdfSi').value = '';
+            document.getElementById('procPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.add('hidden');
+            document.getElementById('editPdfHintSi').classList.add('hidden');
+            document.getElementById('editPdfHintTa').classList.add('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Create Procurement';
             
@@ -379,20 +421,12 @@ include 'includes/header.php';
             document.getElementById('procCategory').value = proc.category || 'Notice';
             quillProc.root.innerHTML = proc.description || '';
             document.getElementById('procStatus').value = proc.status;
-            document.getElementById('procPdf').value = '';
-            
-            if (proc.pdf_path) {
-                const parts = proc.pdf_path.split('/');
-                document.getElementById('pdfFileName').textContent = parts[parts.length - 1];
-                document.getElementById('pdfFileName').className = "text-xs text-slate-700 font-bold uppercase tracking-wider block";
-            } else {
-                document.getElementById('pdfFileName').textContent = "Select or drag PDF File";
-                document.getElementById('pdfFileName').className = "text-xs text-slate-500 font-bold uppercase tracking-wider block";
-            }
-            
-            document.getElementById('procPdf').required = false;
-            document.getElementById('pdfLabel').textContent = 'PDF File (New)';
-            document.getElementById('editPdfHint').classList.remove('hidden');
+            document.getElementById('procPdfEn').value = '';
+            document.getElementById('procPdfSi').value = '';
+            document.getElementById('procPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.remove('hidden');
+            document.getElementById('editPdfHintSi').classList.remove('hidden');
+            document.getElementById('editPdfHintTa').classList.remove('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             

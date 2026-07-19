@@ -223,7 +223,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
                     foreach($tickerNews as $news): 
                     ?>
-                        <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link">
+                        <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-gray-100 hover:text-white transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link">
                             <?= htmlspecialchars($news['title']) ?>
                             <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
@@ -275,9 +275,9 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 hover block group' : '';
             ?>
             <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
-                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white <?= $isLink ? 'group-hover:text-yellow-400 transition-colors duration-300' : '' ?>"><span
+                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white <?= $isLink ? 'group-hover:text-amber-300 transition-colors duration-300' : '' ?>"><span
                         class="stat-number">0</span><?= htmlspecialchars($stat['stat_suffix']) ?></div>
-                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium <?= $isLink ? 'group-hover:text-yellow-400/90 transition-colors duration-300' : '' ?>">
+                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium <?= $isLink ? 'group-hover:text-amber-200/90 transition-colors duration-300' : '' ?>">
                     <?= htmlspecialchars($label) ?></div>
             </<?= $elTag ?>>
             <?php endforeach; ?>
@@ -398,7 +398,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
-                        <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                        <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -417,7 +417,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
-                        <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                        <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -436,7 +436,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
-                        <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                        <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -455,7 +455,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
-                        <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                        <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -474,7 +474,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
                         <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
-                        <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-yellow-600 font-bold text-xs uppercase tracking-wider transition-colors duration-300">
+                        <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -707,7 +707,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                     <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold uppercase tracking-wider rounded"><?= $notice['type'] ?></span>
                                 </div>
                                 <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate">
-                                    <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-yellow-600 transition-colors duration-200">
+                                    <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-secondary transition-colors duration-200">
                                         <?= htmlspecialchars($notice['title']) ?>
                                     </a>
                                 </h4>

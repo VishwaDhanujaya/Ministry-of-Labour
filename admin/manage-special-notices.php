@@ -14,13 +14,19 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT id, pdf_path FROM special_notices WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, pdf_path, pdf_path_si, pdf_path_ta FROM special_notices WHERE id = ?");
     $stmt->execute([$del_id]);
     $notice = $stmt->fetch();
     
     if ($notice) {
         if (!empty($notice['pdf_path']) && file_exists($notice['pdf_path'])) {
             @unlink($notice['pdf_path']);
+        }
+        if (!empty($notice['pdf_path_si']) && file_exists($notice['pdf_path_si'])) {
+            @unlink($notice['pdf_path_si']);
+        }
+        if (!empty($notice['pdf_path_ta']) && file_exists($notice['pdf_path_ta'])) {
+            @unlink($notice['pdf_path_ta']);
         }
         $stmt = $pdo->prepare("DELETE FROM special_notices WHERE id = ?");
         $stmt->execute([$del_id]);
@@ -44,61 +50,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $pdf_path = null;
         if ($action === 'edit') {
             $edit_id = (int)$_POST['notice_id'];
-            $stmt = $pdo->prepare("SELECT id, pdf_path FROM special_notices WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT id, pdf_path, pdf_path_si, pdf_path_ta FROM special_notices WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             if ($existing) {
                 $pdf_path = $existing['pdf_path'];
+                $pdf_path_si = $existing['pdf_path_si'] ?? null;
+                $pdf_path_ta = $existing['pdf_path_ta'] ?? null;
             }
         }
 
-        // Process PDF deletion if requested
-        if ($action === 'edit' && isset($_POST['delete_pdf']) && $_POST['delete_pdf'] == '1') {
-            if (!empty($pdf_path) && file_exists($pdf_path)) {
-                @unlink($pdf_path);
-            }
-            $pdf_path = null;
-        }
-
-        // Process file upload if provided
+        // Process file uploads if provided
         if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
-            // Delete old PDF file if it exists and we're editing
-            if ($action === 'edit' && !empty($pdf_path) && file_exists($pdf_path)) {
-                @unlink($pdf_path);
-            }
-
             $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/special_notices', ['application/pdf'], 5242880);
             if ($uploadResult['success']) {
+                if ($action === 'edit' && !empty($pdf_path) && file_exists($pdf_path)) @unlink($pdf_path);
                 $pdf_path = $uploadResult['path'];
-            } else {
-                $error = "Failed to upload PDF: " . $uploadResult['error'];
-            }
+            } else $error = "Failed to upload English PDF: " . $uploadResult['error'];
+        }
+        if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+            $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/special_notices', ['application/pdf'], 5242880);
+            if ($uploadResult['success']) {
+                if ($action === 'edit' && !empty($pdf_path_si) && file_exists($pdf_path_si)) @unlink($pdf_path_si);
+                $pdf_path_si = $uploadResult['path'];
+            } else $error = "Failed to upload Sinhala PDF: " . $uploadResult['error'];
+        }
+        if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+            $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/special_notices', ['application/pdf'], 5242880);
+            if ($uploadResult['success']) {
+                if ($action === 'edit' && !empty($pdf_path_ta) && file_exists($pdf_path_ta)) @unlink($pdf_path_ta);
+                $pdf_path_ta = $uploadResult['path'];
+            } else $error = "Failed to upload Tamil PDF: " . $uploadResult['error'];
         }
 
         if (empty($error)) {
             if ($action === 'add') {
-                $stmt = $pdo->prepare("INSERT INTO special_notices (title, content, status, pdf_path) VALUES (?, ?, ?, ?)");
-                if ($stmt->execute([$title, $content, $status, $pdf_path])) {
+                $stmt = $pdo->prepare("INSERT INTO special_notices (title, content, status, pdf_path, pdf_path_si, pdf_path_ta) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $content, $status, $pdf_path, $pdf_path_si, $pdf_path_ta])) {
                     $success = "Special notice added successfully.";
                 } else {
                     $error = "Failed to add special notice.";
                 }
             } elseif ($action === 'edit') {
                 $edit_id = (int)$_POST['notice_id'];
-                
-                $stmt = $pdo->prepare("SELECT id FROM special_notices WHERE id = ?");
-                $stmt->execute([$edit_id]);
-                $existing = $stmt->fetch();
-                
-                if (!$existing) {
-                    $error = "Special notice not found.";
+                $stmt = $pdo->prepare("UPDATE special_notices SET title = ?, content = ?, status = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ? WHERE id = ?");
+                if ($stmt->execute([$title, $content, $status, $pdf_path, $pdf_path_si, $pdf_path_ta, $edit_id])) {
+                    $success = "Special notice updated successfully.";
                 } else {
-                    $stmt = $pdo->prepare("UPDATE special_notices SET title = ?, content = ?, status = ?, pdf_path = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $content, $status, $pdf_path, $edit_id])) {
-                        $success = "Special notice updated successfully.";
-                    } else {
-                        $error = "Failed to update special notice.";
-                    }
+                    $error = "Failed to update special notice.";
                 }
             }
         }
@@ -165,16 +164,26 @@ include 'includes/header.php';
                                     <?= $notice['content'] ?>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!empty($notice['pdf_path'])): ?>
-                                <div class="flex items-center gap-3 mt-2 p-3 bg-red-50/40 border border-red-100 rounded-xl max-w-md">
-                                    <svg class="w-7 h-7 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    <div class="min-w-0 flex-1">
-                                        <p class="text-[12px] font-bold text-gray-800 truncate"><?= htmlspecialchars(basename($notice['pdf_path'])) ?></p>
-                                        <a href="<?= htmlspecialchars(resolvePdfUrl($notice['pdf_path'])) ?>" target="_blank" class="text-[11px] text-secondary hover:underline font-semibold flex items-center gap-1">
-                                            View PDF Document
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                        </a>
-                                    </div>
+                            <?php if (!empty($notice['pdf_path']) || !empty($notice['pdf_path_si']) || !empty($notice['pdf_path_ta'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2 flex flex-wrap gap-2">
+                                    <?php if (!empty($notice['pdf_path'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($notice['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        EN PDF
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($notice['pdf_path_si'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($notice['pdf_path_si'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        SI PDF
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($notice['pdf_path_ta'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($notice['pdf_path_ta'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        TA PDF
+                                    </a>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -260,25 +269,21 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Attachment PDF (Optional)</label>
-                            
-                            <!-- Premium Custom File Input -->
-                            <div class="relative border-2 border-dashed border-slate-200 rounded-xl p-6 hover:border-secondary transition-all bg-slate-50/50 flex flex-col items-center justify-center cursor-pointer group text-center" onclick="document.getElementById('noticePdf').click()">
-                                <svg class="w-8 h-8 text-slate-400 group-hover:text-secondary transition-colors mb-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg>
-                                <span class="text-xs text-slate-500 font-bold uppercase tracking-wider block" id="pdfFileName">Select or drag PDF File</span>
-                                <span class="text-[10px] text-slate-400 mt-1 block">Only PDF documents are accepted</span>
-                                <input type="file" name="pdf_file" id="noticePdf" accept="application/pdf" class="hidden" onchange="showSelectedFileName(this)">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
+                                <input type="file" name="pdf_file" id="noticePdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
                             </div>
-                            
-                            <div id="noticePdfPreviewContainer" class="hidden items-center justify-between mt-3 p-3 bg-slate-50 border border-slate-100 rounded-xl text-xs">
-                                <span class="text-slate-600 truncate max-w-[280px] flex items-center">
-                                    <svg class="w-4.5 h-4.5 text-red-500 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                                    <span id="currentPdfName" class="truncate font-medium"></span>
-                                </span>
-                                <label class="flex items-center text-red-650 hover:text-red-750 font-bold cursor-pointer select-none">
-                                    <input type="checkbox" name="delete_pdf" id="deletePdfCheckbox" value="1" class="mr-1.5 rounded border-slate-200 text-secondary focus:ring-secondary cursor-pointer"> Remove PDF
-                                </label>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
+                                <input type="file" name="pdf_file_si" id="noticePdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
+                                <input type="file" name="pdf_file_ta" id="noticePdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
                             </div>
                         </div>
 
@@ -324,13 +329,12 @@ include 'includes/header.php';
             quillNotice.setText('');
             document.getElementById('noticeStatus').value = 'Published';
             
-            document.getElementById('noticePdf').value = '';
-            document.getElementById('noticePdfPreviewContainer').classList.remove('flex');
-            document.getElementById('noticePdfPreviewContainer').classList.add('hidden');
-            document.getElementById('deletePdfCheckbox').checked = false;
-            
-            document.getElementById('pdfFileName').textContent = 'Select or drag PDF File';
-            document.getElementById('pdfFileName').className = "text-xs text-slate-500 font-bold uppercase tracking-wider block";
+            document.getElementById('noticePdfEn').value = '';
+            document.getElementById('noticePdfSi').value = '';
+            document.getElementById('noticePdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.add('hidden');
+            document.getElementById('editPdfHintSi').classList.add('hidden');
+            document.getElementById('editPdfHintTa').classList.add('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Create Notice';
             
@@ -348,22 +352,12 @@ include 'includes/header.php';
             quillNotice.root.innerHTML = notice.content || '';
             document.getElementById('noticeStatus').value = notice.status;
             
-            document.getElementById('noticePdf').value = '';
-            document.getElementById('deletePdfCheckbox').checked = false;
-            
-            document.getElementById('pdfFileName').textContent = 'Select or drag PDF File';
-            document.getElementById('pdfFileName').className = "text-xs text-slate-500 font-bold uppercase tracking-wider block";
-            
-            if (notice.pdf_path) {
-                const parts = notice.pdf_path.split('/');
-                const filename = parts[parts.length - 1];
-                document.getElementById('currentPdfName').textContent = filename;
-                document.getElementById('noticePdfPreviewContainer').classList.remove('hidden');
-                document.getElementById('noticePdfPreviewContainer').classList.add('flex');
-            } else {
-                document.getElementById('noticePdfPreviewContainer').classList.remove('flex');
-                document.getElementById('noticePdfPreviewContainer').classList.add('hidden');
-            }
+            document.getElementById('noticePdfEn').value = '';
+            document.getElementById('noticePdfSi').value = '';
+            document.getElementById('noticePdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.remove('hidden');
+            document.getElementById('editPdfHintSi').classList.remove('hidden');
+            document.getElementById('editPdfHintTa').classList.remove('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             
@@ -373,10 +367,9 @@ include 'includes/header.php';
         }
 
         function closeNoticeModal() {
-            document.getElementById('noticePdf').value = '';
-            document.getElementById('deletePdfCheckbox').checked = false;
-            document.getElementById('pdfFileName').textContent = 'Select or drag PDF File';
-            document.getElementById('pdfFileName').className = "text-xs text-slate-500 font-bold uppercase tracking-wider block";
+            document.getElementById('noticePdfEn').value = '';
+            document.getElementById('noticePdfSi').value = '';
+            document.getElementById('noticePdfTa').value = '';
             const modal = document.getElementById('noticeModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');

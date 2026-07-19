@@ -14,13 +14,19 @@ if (isset($_GET['delete'])) {
     requireCsrfToken('GET', 'get');
     $del_id = (int)$_GET['delete'];
     
-    $stmt = $pdo->prepare("SELECT pdf_path FROM learning_platforms_foreign WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_foreign WHERE id = ?");
     $stmt->execute([$del_id]);
     $pub = $stmt->fetch();
     
     if ($pub) {
         if (!empty($pub['pdf_path']) && file_exists($pub['pdf_path'])) {
-            unlink($pub['pdf_path']);
+            @unlink($pub['pdf_path']);
+        }
+        if (!empty($pub['pdf_path_si']) && file_exists($pub['pdf_path_si'])) {
+            @unlink($pub['pdf_path_si']);
+        }
+        if (!empty($pub['pdf_path_ta']) && file_exists($pub['pdf_path_ta'])) {
+            @unlink($pub['pdf_path_ta']);
         }
         $stmt = $pdo->prepare("DELETE FROM learning_platforms_foreign WHERE id = ?");
         $stmt->execute([$del_id]);
@@ -41,27 +47,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if (empty($title)) {
         $error = "Title is required.";
     } else {
+        $pdf_path = null; $pdf_path_si = null; $pdf_path_ta = null;
         if ($action === 'add') {
-            if (!isset($_FILES['pdf_file']) || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK) {
-                $error = "PDF file is required.";
-            } else {
+            if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                 $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
-                if ($uploadResult['success']) {
-                    $pdf_path = $uploadResult['path'];
-                    $stmt = $pdo->prepare("INSERT INTO learning_platforms_foreign (title, description, pdf_path, status) VALUES (?, ?, ?, ?)");
-                    if ($stmt->execute([$title, $description, $pdf_path, $status])) {
-                        $success = "Foreign Learning Platform added successfully.";
-                    } else {
-                        $error = "Failed to add learning_platform_foreign.";
-                    }
+                if ($uploadResult['success']) $pdf_path = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_si = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
+                if ($uploadResult['success']) $pdf_path_ta = $uploadResult['path'];
+                else $error = $uploadResult['error'];
+            }
+            if (empty($error)) {
+                $stmt = $pdo->prepare("INSERT INTO learning_platforms_foreign (title, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                    $success = "Foreign Learning Platform added successfully.";
                 } else {
-                    $error = $uploadResult['error'];
+                    $error = "Failed to add learning_platform_foreign.";
                 }
             }
         } elseif ($action === 'edit') {
             $edit_id = (int)$_POST['pub_id'];
             
-            $stmt = $pdo->prepare("SELECT pdf_path FROM learning_platforms_foreign WHERE id = ?");
+            $stmt = $pdo->prepare("SELECT pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_foreign WHERE id = ?");
             $stmt->execute([$edit_id]);
             $existing = $stmt->fetch();
             
@@ -69,23 +83,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $error = "Foreign Learning Platform not found.";
             } else {
                 $pdf_path = $existing['pdf_path'];
+                $pdf_path_si = $existing['pdf_path_si'];
+                $pdf_path_ta = $existing['pdf_path_ta'];
                 
-                // If new file uploaded
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                     $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
                     if ($uploadResult['success']) {
-                        if (!empty($pdf_path) && file_exists($pdf_path)) {
-                            unlink($pdf_path);
-                        }
+                        if (!empty($pdf_path) && file_exists($pdf_path)) @unlink($pdf_path);
                         $pdf_path = $uploadResult['path'];
-                    } else {
-                        $error = $uploadResult['error'];
-                    }
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_si']) && $_FILES['pdf_file_si']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_si'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_si) && file_exists($pdf_path_si)) @unlink($pdf_path_si);
+                        $pdf_path_si = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
+                }
+                if (isset($_FILES['pdf_file_ta']) && $_FILES['pdf_file_ta']['error'] === UPLOAD_ERR_OK) {
+                    $uploadResult = handleFileUpload($_FILES['pdf_file_ta'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
+                    if ($uploadResult['success']) {
+                        if (!empty($pdf_path_ta) && file_exists($pdf_path_ta)) @unlink($pdf_path_ta);
+                        $pdf_path_ta = $uploadResult['path'];
+                    } else $error = $uploadResult['error'];
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE learning_platforms_foreign SET title = ?, description = ?, pdf_path = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $description, $pdf_path, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE learning_platforms_foreign SET title = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
                         $success = "Foreign Learning Platform updated successfully.";
                     } else {
                         $error = "Failed to update learning_platform_foreign.";
@@ -158,20 +183,34 @@ include 'includes/header.php';
                             <?php if (!empty($pub['description'])): ?>
                                 <div class="text-[13px] text-gray-700 leading-relaxed border-t border-gray-100 pt-4 prose max-w-none"><?= $pub['description'] ?></div>
                             <?php endif; ?>
-                            <?php if (!empty($pub['pdf_path'])): ?>
-                                <div class="border-t border-gray-100 pt-4 mt-2">
-                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
-                                        <svg class="w-4 h-4 mr-2 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                                        View Attached PDF
+                            <?php if (!empty($pub['pdf_path']) || !empty($pub['pdf_path_si']) || !empty($pub['pdf_path_ta'])): ?>
+                                <div class="border-t border-gray-100 pt-4 mt-2 flex flex-wrap gap-2">
+                                    <?php if (!empty($pub['pdf_path'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        EN PDF
                                     </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($pub['pdf_path_si'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path_si'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        SI PDF
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($pub['pdf_path_ta'])): ?>
+                                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path_ta'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-opacity-90 transition-colors shadow-sm">
+                                        <svg class="w-3.5 h-3.5 mr-1.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                        TA PDF
+                                    </a>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
                     </div>
                 </td>
                 <td class="py-4 px-6">
-                    <?php if(!empty($pub['pdf_path'])): ?>
-                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-secondary hover:text-[#721c1c] text-[13px] font-bold transition-colors">
+                    <?php if(!empty($pub['pdf_path']) || !empty($pub['pdf_path_si']) || !empty($pub['pdf_path_ta'])): ?>
+                    <a href="<?= htmlspecialchars(resolvePdfUrl($pub['pdf_path'] ?? $pub['pdf_path_si'] ?? $pub['pdf_path_ta'])) ?>" target="_blank" onclick="event.stopPropagation();" class="inline-flex items-center text-secondary hover:text-[#721c1c] text-[13px] font-bold transition-colors">
                         <svg class="w-4 h-4 mr-1.5 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
                         View PDF
                     </a>
@@ -267,23 +306,22 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[13px] font-medium text-gray-800 mb-2" id="pdfLabel">PDF File <span class="text-red-500">*</span></label>
-                            <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-slate-200 border-dashed rounded-xl hover:border-primary transition-colors cursor-pointer bg-slate-50/50" onclick="document.getElementById('pubPdf').click()">
-                                <div class="space-y-1 text-center">
-                                    <svg class="mx-auto h-10 w-10 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                    <div class="flex text-[13px] text-slate-600 justify-center mt-2">
-                                        <span class="relative cursor-pointer rounded-md font-bold text-primary hover:text-[#254974]">
-                                            <span>Upload a PDF file</span>
-                                            <input id="pubPdf" name="pdf_file" type="file" class="sr-only" accept="application/pdf" required onchange="document.getElementById('pdf-file-name-foreign').textContent = this.files[0] ? this.files[0].name : ''">
-                                        </span>
-                                        <p class="pl-1 text-slate-400">or drag and drop</p>
-                                    </div>
-                                    <p class="text-xs text-slate-400 mt-1">PDF document</p>
-                                    <p id="pdf-file-name-foreign" class="text-xs font-bold text-emerald-600 mt-2"></p>
-                                </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
+                                <input type="file" name="pdf_file" id="pubPdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
                             </div>
-                            <p id="editPdfHint" class="text-[12px] text-gray-500 hidden mt-2">Leave blank to keep current PDF.</p>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
+                                <input type="file" name="pdf_file_si" id="pubPdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
+                                <input type="file" name="pdf_file_ta" id="pubPdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
+                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
+                            </div>
                         </div>
 
                         <div class="pt-4 mt-2 flex justify-end gap-3 border-t border-gray-100">
@@ -308,12 +346,12 @@ include 'includes/header.php';
             document.getElementById('pubTitle').value = '';
             quillPub.setText('');
             document.getElementById('pubStatus').value = 'Published';
-            document.getElementById('pubPdf').value = '';
-            document.getElementById('pdf-file-name-foreign').textContent = '';
-            
-            document.getElementById('pubPdf').required = true;
-            document.getElementById('pdfLabel').innerHTML = 'PDF File <span class="text-red-500">*</span>';
-            document.getElementById('editPdfHint').classList.add('hidden');
+            document.getElementById('pubPdfEn').value = '';
+            document.getElementById('pubPdfSi').value = '';
+            document.getElementById('pubPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.add('hidden');
+            document.getElementById('editPdfHintSi').classList.add('hidden');
+            document.getElementById('editPdfHintTa').classList.add('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Create Foreign Learning Platform';
             
@@ -330,12 +368,12 @@ include 'includes/header.php';
             document.getElementById('pubTitle').value = pub.title;
             quillPub.root.innerHTML = pub.description || '';
             document.getElementById('pubStatus').value = pub.status;
-            document.getElementById('pubPdf').value = '';
-            document.getElementById('pdf-file-name-foreign').textContent = '';
-            
-            document.getElementById('pubPdf').required = false;
-            document.getElementById('pdfLabel').textContent = 'PDF File (New)';
-            document.getElementById('editPdfHint').classList.remove('hidden');
+            document.getElementById('pubPdfEn').value = '';
+            document.getElementById('pubPdfSi').value = '';
+            document.getElementById('pubPdfTa').value = '';
+            document.getElementById('editPdfHintEn').classList.remove('hidden');
+            document.getElementById('editPdfHintSi').classList.remove('hidden');
+            document.getElementById('editPdfHintTa').classList.remove('hidden');
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             

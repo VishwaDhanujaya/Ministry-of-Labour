@@ -21,6 +21,48 @@
     }
   }
 
+  @media (min-width: 1536px) {
+    html {
+      font-size: 16.5px;
+    }
+  }
+
+  @media (min-width: 1920px) {
+    html {
+      font-size: 17.5px;
+    }
+    .container {
+      max-width: 1750px !important;
+    }
+    .max-w-6xl {
+      max-width: 1620px !important;
+    }
+    .max-w-5xl {
+      max-width: 1420px !important;
+    }
+    #gridViewContainer {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+  }
+
+  @media (min-width: 2560px) {
+    html {
+      font-size: 19px;
+    }
+    .container {
+      max-width: 2200px !important;
+    }
+    .max-w-6xl {
+      max-width: 2000px !important;
+    }
+    .max-w-5xl {
+      max-width: 1750px !important;
+    }
+    #gridViewContainer {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    }
+  }
+
   body {
     @apply bg-white text-gray-800 antialiased;
   }
@@ -288,7 +330,7 @@
   }
 
   .focus-card:hover .focus-card-title {
-    @apply text-yellow-600;
+    @apply text-secondary;
   }
 
   .focus-card-desc {
@@ -343,7 +385,7 @@
 
   .inst-split-tab:hover:not(.active),
   .div-split-tab:hover:not(.active) {
-    @apply text-yellow-600 bg-white/50 shadow-sm border-gray-200/30;
+    @apply text-secondary bg-secondary/5 shadow-sm border-gray-200/30;
   }
 
   .inst-split-tab.active,
@@ -358,7 +400,7 @@
 
   .inst-split-tab:hover:not(.active) .icon-bubble,
   .div-split-tab:hover:not(.active) .icon-bubble {
-    @apply bg-yellow-500/10 text-yellow-600 scale-105;
+    @apply bg-secondary/10 text-secondary scale-105;
   }
 
   .inst-split-tab.active .icon-bubble,

@@ -13,28 +13,7 @@
     </div>
 
     <!-- Navigation -->
-    <div id="sidebar-nav" class="flex-1 py-6 overflow-y-auto custom-scrollbar flex flex-col" style="opacity: 0;">
-        <script>
-            (function() {
-                const nav = document.currentScript.parentElement;
-                const pos = localStorage.getItem('sidebar-scroll');
-                if (pos) {
-                    nav.scrollTop = parseInt(pos, 10);
-                }
-                nav.style.opacity = '1';
-                
-                // Save scroll position on scroll
-                nav.addEventListener('scroll', () => {
-                    localStorage.setItem('sidebar-scroll', nav.scrollTop);
-                });
-
-                // Fallback to save on unload
-                window.addEventListener('beforeunload', () => {
-                    localStorage.setItem('sidebar-scroll', nav.scrollTop);
-                });
-            })();
-        </script>
-
+    <div id="sidebar-nav" class="flex-1 py-6 overflow-y-auto custom-scrollbar flex flex-col opacity-0 transition-opacity duration-150">
         <!-- Group: MAIN -->
         <div class="mb-6">
             <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">MAIN</h3>
@@ -99,18 +78,10 @@
                     </a>
                 </li>
                 <?php endif; ?>
-                <?php if (hasPermission("manage_acts")): ?>
-                <li>
-                    <a href="manage-acts" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-acts' || $current_page == 'new-act') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <span>Acts & Amendments</span>
-                    </a>
-                </li>
-                <?php endif; ?>
                 <?php if (hasPermission("manage_action_plans")): ?>
                 <li>
                     <a href="manage-action-plans" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-action-plans' || $current_page == 'new-action-plan') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                         <span>Action Plans</span>
                     </a>
                 </li>
@@ -126,23 +97,31 @@
             </ul>
         </div>
 
-        <!-- Group: OPPORTUNITIES -->
+        <!-- Group: MANAGEMENT -->
         <div class="mb-6">
-            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">OPPORTUNITIES</h3>
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">MANAGEMENT</h3>
             <ul class="space-y-1 px-3">
-                <?php if (hasPermission("manage_procurements")): ?>
-                <li>
-                    <a href="manage-procurements" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-procurements' || $current_page == 'new-procurement') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                        <span>Procurements</span>
-                    </a>
-                </li>
-                <?php endif; ?>
                 <?php if (hasPermission("manage_vacancies")): ?>
                 <li>
                     <a href="manage-vacancies" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-vacancies' || $current_page == 'new-vacancy') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         <span>Vacancies</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if (hasPermission("manage_procurements")): ?>
+                <li>
+                    <a href="manage-procurements" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-procurements' || $current_page == 'new-procurement') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"></path></svg>
+                        <span>Procurements</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if (hasPermission("manage_acts")): ?>
+                <li>
+                    <a href="manage-acts" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-acts' || $current_page == 'new-act') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span>Acts & Amendments</span>
                     </a>
                 </li>
                 <?php endif; ?>
@@ -222,4 +201,33 @@
     </div>
 </aside>
 
+<script>
+    (function() {
+        const nav = document.getElementById('sidebar-nav');
+        if (!nav) return;
+        
+        const restoreScroll = () => {
+            const pos = localStorage.getItem('sidebar-scroll');
+            if (pos !== null) {
+                nav.scrollTop = parseInt(pos, 10);
+            }
+            nav.classList.remove('opacity-0');
+        };
 
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', restoreScroll);
+        } else {
+            requestAnimationFrame(restoreScroll);
+        }
+
+        nav.addEventListener('scroll', () => {
+            localStorage.setItem('sidebar-scroll', nav.scrollTop);
+        }, { passive: true });
+
+        nav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                localStorage.setItem('sidebar-scroll', nav.scrollTop);
+            });
+        });
+    })();
+</script>
