@@ -412,6 +412,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Author:** Antigravity AI
 * **Change Description:** Added event capturing on `mouseover`, `mouseenter`, and `mousemove` for Google Translate's dynamically injected `<font>` elements, `.goog-text-highlight`, and `goog-tab-index` attributes inside [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L155-L170). Calling `stopPropagation()` prevents Google Translate's JS hover timers from firing, permanently stopping hover highlights and popups. Recompiled CSS production styles (`npm run build:prod`).
 
+### 2026-07-23 (Added Type Declarations to get_initials Helper in RTI)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added explicit `string $name` parameter type hint and `: string` return type hint to the `get_initials()` function in `rti.php` to resolve IDE type information warnings and enforce type safety.
+
 
 
 
