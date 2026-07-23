@@ -91,6 +91,37 @@ $lang_dict = [
     ],
 
     // Global Search & Header Components
+    'topbar_tel' => [
+        'en' => 'Tel: (+94) 11 2581991',
+        'si' => 'දුරකථන: (+94) 11 2581991',
+        'ta' => 'தொலைபேசி: (+94) 11 2581991'
+    ],
+    'topbar_fax' => [
+        'en' => 'Fax: (+94) 11 2368165',
+        'si' => 'ෆැක්ස්: (+94) 11 2368165',
+        'ta' => 'தொலைநகல்: (+94) 11 2368165'
+    ],
+    // Hero Section UI
+    'welcome_to' => [
+        'en' => 'Welcome to',
+        'si' => 'සාදරයෙන් පිළිගනිමු',
+        'ta' => 'நல்வரவு'
+    ],
+    'ministry_of_labour' => [
+        'en' => 'Ministry of Labour',
+        'si' => 'කම්කරු අමාත්‍යාංශය',
+        'ta' => 'தொழில் அமைச்சு'
+    ],
+    'hero_desc' => [
+        'en' => 'Dedicated to fostering fair employment, protecting workers\' rights, and building a dynamic workforce that drives Sri Lanka\'s economic development.',
+        'si' => 'සාධාරණ රැකියා ප්‍රවර්ධනය කිරීම, කම්කරු අයිතිවාසිකම් සුරැකීම සහ ශ්‍රී ලංකාවේ ආර්ථික සංවර්ධනය මෙහෙයවන සක්‍රීය ශ්‍රම බලකායක් ගොඩනැගීමට කැපවී සිටී.',
+        'ta' => 'நியாயமான வேலைவாய்ப்பை ஊக்குவிப்பதற்கும், தொழிலாளர்களின் உரிமைகளைப் பாதுகாப்பதற்கும், இலங்கையின் பொருளாதார வளர்ச்சியை உந்தித்தள்ளும் துடிப்பான பணியாளர்களை உருவாக்குவதற்கும் அர்ப்பணிக்கப்பட்டுள்ளது.'
+    ],
+    'view_notices' => [
+        'en' => 'View Notices',
+        'si' => 'නිවේදන බලන්න',
+        'ta' => 'அறிவிப்புகளைப் பார்க்க'
+    ],
     'search_placeholder' => [
         'en' => 'Search Ministry Services...',
         'si' => 'අමාත්‍යාංශ සේවාවන් සොයන්න...',
@@ -135,8 +166,23 @@ $lang_dict = [
     ],
     'ql_news_updates' => [
         'en' => 'News Updates',
-        'si' => 'පුවත් යාවත්කාලීන',
-        'ta' => 'செய்தி புதுப்பிப்புகள்'
+        'si' => 'නවතම පුවත්',
+        'ta' => 'அண்மைக்கාල செய்திகள்'
+    ],
+    'latest_news' => [
+        'en' => 'Latest News',
+        'si' => 'නවතම පුවත්',
+        'ta' => 'அண்மைக்கාල செய்திகள்'
+    ],
+    'nlac_full' => [
+        'en' => 'National Labour Advisory Council (NLAC)',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාව (NLAC)',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC)'
+    ],
+    'nlac_desc' => [
+        'en' => 'National Labour Advisory Council — consultative labour governance and social dialogue.',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාව (NLAC) — උපදේශනාත්මක කම්කරු පාලනය සහ සාමාජීය සංවාදය.',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC) — ஆலோசனைக் தொழிலாளர் ஆளுகை மற்றும் சமூக உரையாடல்.'
     ],
     'ql_complaints' => [
         'en' => 'Complaints',
@@ -167,6 +213,43 @@ $lang_dict = [
         'en' => 'Last Updated',
         'si' => 'අවසන් වරට යාවත්කාලීන කළේ',
         'ta' => 'கடைசியாக புதுப்பிக்கப்பட்டது'
+    ],
+
+    // Additional Sub-Hero & Section Titles
+    'iau_sub_title' => [
+        'en' => '(Internal Affairs Unit)',
+        'si' => '(අභ්‍යන්තර විගණන අංශය)',
+        'ta' => '(உள்துறை தணிக்கைப் பிரிவு)'
+    ],
+    'rti_sub_title' => [
+        'en' => '(Right to Information)',
+        'si' => '(තොරතුරු දැනගැනීමේ අයිතිය)',
+        'ta' => '(தகவல் அறியும் உரிமை)'
+    ],
+    'iau_updates' => [
+        'en' => 'IAU Updates',
+        'si' => 'අභ්‍යන්තර විගණන අංශයේ යාවත්කාලීන',
+        'ta' => 'உள்துறை தணிக்கைப் பிரிவு புதுப்பிப்புகள்'
+    ],
+    'nlac_full' => [
+        'en' => 'National Labour Advisory Council',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාව',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு'
+    ],
+    'ampara_bungalow' => [
+        'en' => 'Ampara Circuit Bungalow',
+        'si' => 'අම්පාර විශ්‍රාම ශාලාව',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா'
+    ],
+    'ampara_booking' => [
+        'en' => 'Ampara Circuit Bungalow Booking',
+        'si' => 'අම්පාර විශ්‍රාම ශාලාව වෙන්කිරීම',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா முன்பதிவு'
+    ],
+    'complaints' => [
+        'en' => 'Complaints',
+        'si' => 'පැමිණිලි',
+        'ta' => 'புகார்கள்'
     ]
 ];
 

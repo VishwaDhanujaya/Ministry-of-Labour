@@ -482,6 +482,101 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Author:** Antigravity AI
 * **Change Description:** Added explicit `global $lang_dict;` declaration in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L22) to resolve IDE undefined variable warnings. Refactored inline conditional ternary CSS class strings into clean PHP variables (`$nav_spacing_class`, `$contact_btn_class`) in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L346) to eliminate all duplicate Tailwind class linter warnings. Recompiled production CSS styles (`npm run build:prod`).
 
+### 2026-07-23 (Updated Sub-Hero Titles & Breadcrumbs to Match Navbar Translations)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added Sub-Hero page keys (`iau_updates`, `nlac_full`, `ampara_bungalow`, `ampara_booking`, `complaints`) to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L170-L194). Updated shared Sub-Hero template in [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php#L8-L58) with `resolve_subhero_translation()` helper and `notranslate` container class so all subpages (About Us, IAU, RTI, Learning Platforms, Procurements, Vacancies, Special Notices, News, Downloads, Contact Us, etc.) render native page titles and breadcrumbs in English, Sinhala, and Tamil matching the navbar exactly. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Translated IAU Sub-Hero Title Extension (Internal Affairs Unit))
+* **Files:** [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php), [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `iau_sub_title` translation key to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L170). Kept `IAU` acronym unchanged across all languages per user directive, while translating the secondary title span `(Internal Affairs Unit)` to `(අභ්‍යන්තර විගණන අංශය)` in Sinhala and `(உள்துறை தணிக்கைப் பிரிவு)` in Tamil in [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php#L115) and [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php#L50). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Formatted RTI Sub-Hero Title Identical to IAU Structure)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `rti_sub_title` translation key to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L175). Standardized [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php#L143) sub-hero title to keep the `RTI` acronym primary across all languages, while dynamically translating the secondary name span `(Right to Information)` to `(තොරතුරු දැනගැනීමේ අයිතිය)` in Sinhala and `(தகவல் அறியும் உரிமை)` in Tamil. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Added Type Hints to Sub-Hero Translation Helper)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added explicit PHP parameter type declaration and return type hint (`function resolve_subhero_translation(string $text): string`) in [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php#L9), resolving the IDE info warning. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Fixed HTTP 500 Error on rti.php)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Moved `include 'includes/header.php'` up to [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php#L142) before `$page_title` calls `t()`. This ensures `includes/translations.php` and the `t()` helper function are loaded prior to `$page_title` execution, eliminating the HTTP 500 fatal undefined function error. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Updated Sinhala Translation for "Latest News" to "නවතම පුවත්")
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated Sinhala translation for `ql_news_updates` and added `latest_news` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L138-L144) to `නවතම පුවත්`. Integrated `t('latest_news')` and `notranslate` container classes in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L215-L597) for the ticker bar and main news section title. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Removed "Official Portal" Label from Homepage Institutions Section)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Removed the `<span class="...">Official Portal</span>` text labels from all 5 institution panels (Department of Labour, DME, NILS, NIOSH, Workmen's Compensation Office) in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L400-L476) and adjusted footer link alignment to `justify-end`. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Reduced Sub-Hero Section Height & Adjusted Proportions)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Reduced Sub-Hero header container height in [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php#L64) from `h-[260px] sm:h-[300px] md:h-[380px]` to `h-[180px] sm:h-[220px] md:h-[260px]`. Adjusted title heading font scale (`text-xl sm:text-3xl md:text-4xl lg:text-5xl`) for a compact header layout across subpages. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Added Manual Translations for Topbar Tel & Fax Numbers)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `topbar_tel` and `topbar_fax` translation keys in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L94-L103). Updated topbar in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L290-L312) to render `දුරකථන:` / `ෆැක්ස්:` in Sinhala and `தொலைபேசி:` / `தொலைநகல்:` in Tamil wrapped with `notranslate`. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Integrated Trilingual Responsiveness in Homepage Hero Section)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `welcome_to`, `ministry_of_labour`, `hero_desc`, and `view_notices` dictionary entries in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L104-L125). Updated homepage Hero section in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L153-L177) with `notranslate` wrapper, `t()` helpers, and responsive width/padding (`lg:w-[42%] xl:w-[40%]`, `max-w-lg`) so headings, paragraphs, and CTA buttons fit with zero text overlap or awkward line wraps across English, Sinhala, and Tamil modes. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Locked Topbar and Navbar Heights Across All Languages)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Enforced explicit height constraint `h-10` on topbar container and standardized Contact Us button height to `h-9` (`36px`) across all 3 languages in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L290-L407). Guarantees topbar (40px) and navbar (72px) maintain identical pixel dimensions regardless of selected language. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Restored 100% Full Root Font Scaling for Sinhala & Tamil)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Removed `html { font-size: 90% !important; }` CSS rule override in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L107-L125) that previously shrank Sinhala and Tamil page typography. Sinhala and Tamil text now display at 100% full scale matching English. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Preserved "NLAC" Acronym In Sinhala & Tamil Modes)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `nlac_full` (` National Labour Advisory Council (NLAC) ` / `ජාතික කම්කරු උපදේශක සභාව (NLAC)` / `தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC)`) and `nlac_desc` keys in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L177-L186). Added `notranslate` wrappers to NLAC card heading in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L509) and main page heading in [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php#L16). Ensures `NLAC` acronym is preserved intact in English, Sinhala, and Tamil modes. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Standardized "Downloads" Trilingual Translations Across Entire Site)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Verified and applied `downloads` translation key (`Downloads` / `බාගත කිරීම්` / `பதிவிறக்கங்கள்`) with `notranslate` wrappers across the desktop navbar, mobile drawer in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L398), subhero title in [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php#L31), and homepage Downloads section heading in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L661). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Implemented Trilingual Download Language Selection Modal Popup)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Implemented a modern backdrop-blurred Trilingual Download Modal Popup in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L288-L410). Attached click handlers (`openDownloadModal(index)`) to all document cards and list rows. The popup dynamically presents available PDF download buttons for English, Sinhala (`සිංහල`), and Tamil (`தமிழ்`) versions with fallback disable states when a specific language PDF is absent. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Elevated Downloads Modal Layer Above Sticky Navbar)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Increased `z-index` layer of `#downloadModal` in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L292) from `z-50` to `z-[9999]`. Guarantees modal backdrop and download dialog appear above the sticky header, topbar, and mobile navigation drawer. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Appended Downloads Modal Directly to Document Body)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Configured JavaScript in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L381-L701) to automatically move `#downloadModal` directly to `document.body` upon page initialization and modal trigger. Breaks out of nested `<section>` CSS stacking context so the modal backdrop and dialog overlay above the sticky header and topbar. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Fixed Downloads Modal Overlay Stacking & Body Scroll Lock)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Applied `style="z-index: 999999 !important;"` and `backdrop-blur-md` on `#downloadModal` in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L292). Added `document.body.style.overflow = 'hidden'` when modal is active, ensuring the dark backdrop overlay covers the sticky navbar completely without requiring page scrolling or causing bottom clipping (`max-h-[90vh] overflow-y-auto`). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Guaranteed Perfect Viewport Centering & Top-Level DOM Mounting for Downloads Modal)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Cleaned up flex layout on `#downloadModal` in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L292-L697) to enforce strict horizontal and vertical viewport centering (`flex items-center justify-center`). Added automatic `document.body.appendChild(modal)` on `DOMContentLoaded` to guarantee the modal is rendered at document body root level outside all section wrapper divs. Recompiled production CSS styles (`npm run build:prod`).
+
 
 
 

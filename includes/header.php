@@ -106,24 +106,14 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     <!-- Language specific font overrides -->
     <?php if ($current_lang === 'si'): ?>
     <style>
-        html {
-            font-size: 90% !important;
-        }
         body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
             font-family: 'Noto Serif Sinhala', serif !important;
         }
     </style>
     <?php elseif ($current_lang === 'ta'): ?>
     <style>
-        html {
-            font-size: 90% !important;
-        }
         body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
             font-family: 'Noto Serif Tamil', serif !important;
-        }
-        #main-header nav.notranslate a, #main-header nav.notranslate button {
-            font-size: 11.5px !important;
-            letter-spacing: -0.01em !important;
         }
     </style>
     <?php endif; ?>
@@ -287,8 +277,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     <div id="google_translate_element"></div>
 
     <!-- Top Bar -->
-    <div class="hidden md:flex bg-gradient-to-r from-primary via-[#2D2D43] to-primary text-white/90 text-[11px] md:text-xs py-1.5 px-4 md:px-8 flex-col md:flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
-        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start">
+    <div class="hidden md:flex bg-gradient-to-r from-primary via-[#2D2D43] to-primary text-white/90 text-[11px] md:text-xs h-10 px-4 md:px-8 flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
+        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start notranslate">
             <a href="mailto:info@labourmin.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -300,14 +290,14 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">Tel: (+94) 11 2581991</span>
+                <span class="font-medium tracking-wide"><?= htmlspecialchars(t('topbar_tel')) ?></span>
             </a>
             <span class="text-white/20">|</span>
             <span class="flex items-center space-x-2 px-2.5 py-1.5 text-white/70">
                 <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">Fax: (+94) 11 2368165</span>
+                <span class="font-medium tracking-wide"><?= htmlspecialchars(t('topbar_fax')) ?></span>
             </span>
         </div>
         
@@ -346,8 +336,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             </div>
 
             <?php
-            $nav_spacing_class = ($current_lang === 'ta') ? 'space-x-2 xl:space-x-3 2xl:space-x-4 text-[11.5px]' : 'space-x-3 xl:space-x-4 2xl:space-x-6 text-[13px]';
-            $contact_btn_class = ($current_lang === 'ta') ? 'px-3 py-2 text-[11px]' : 'px-4 py-2.5 text-xs';
+            $nav_spacing_class = ($current_lang === 'ta') ? 'space-x-2 xl:space-x-3 2xl:space-x-4 text-[12.5px]' : 'space-x-3 xl:space-x-4 2xl:space-x-6 text-[13px]';
+            $contact_btn_class = 'px-4 h-9 text-xs';
             ?>
             <!-- Desktop Navigation with Interactive Dropdowns -->
             <nav class="hidden xl:flex items-center <?= $nav_spacing_class ?> font-bold text-gray-700 notranslate whitespace-nowrap">
@@ -409,7 +399,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
 
                 <a href="contact-us"
-                    class="bg-secondary text-white <?= $contact_btn_class ?> rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium tracking-wider uppercase active:scale-95 whitespace-nowrap shrink-0"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
+                    class="bg-secondary text-white <?= $contact_btn_class ?> flex items-center justify-center rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium tracking-wider uppercase active:scale-95 whitespace-nowrap shrink-0"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
 
                 <div class="h-5 w-px bg-gray-200 mx-2 shrink-0"></div>
 

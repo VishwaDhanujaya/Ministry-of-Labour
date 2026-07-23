@@ -139,26 +139,13 @@ if (!function_exists('get_initials')) {
         return mb_strtoupper($initials);
     }
 }
+include 'includes/header.php';
 
-if ($current_lang === 'si') {
-    $page_title = 'තොරතුරු දැනගැනීමේ අයිතිය <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(RTI)</span>';
-    $pageTitle = 'තොරතුරු දැනගැනීමේ අයිතිය (RTI) - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව';
-    $breadcrumbs = [
-        ['label' => 'තොරතුරු දැනගැනීමේ අයිතිය']
-    ];
-} elseif ($current_lang === 'ta') {
-    $page_title = 'தகவல் அறியும் உரிமை <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(RTI)</span>';
-    $pageTitle = 'தகவல் அறியும் உரிமை (RTI) - தோழில் அமைச்சு - இலங்கை';
-    $breadcrumbs = [
-        ['label' => 'தகவல் அறியும் உரிமை']
-    ];
-} else {
-    $page_title = 'RTI <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Right to Information)</span>';
-    $pageTitle = 'Right to Information (RTI) - Ministry of Labour - Sri Lanka';
-    $breadcrumbs = [
-        ['label' => 'RTI']
-    ];
-}
+$page_title = 'RTI <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">' . t('rti_sub_title', '(Right to Information)') . '</span>';
+$pageTitle = 'RTI ' . t('rti_sub_title', '(Right to Information)') . ' - Ministry of Labour - Sri Lanka';
+$breadcrumbs = [
+    ['label' => 'RTI']
+];
 
 $metaDescription = 'Learn about the Right to Information (RTI) Act in Sri Lanka, how to request information from the Ministry of Labour, and download necessary RTI forms and documents.';
 $metaKeywords = 'Right to Information, RTI, Ministry of Labour, Sri Lanka, Information Request';
@@ -285,7 +272,6 @@ $rti_details = [
     ]
 ];
 
-include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
 

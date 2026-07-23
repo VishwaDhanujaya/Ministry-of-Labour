@@ -111,7 +111,8 @@ $iau_staff = [
     ]
 ];
 
-$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">(Internal Affairs Unit)</span>';
+include 'includes/header.php';
+$page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">' . t('iau_sub_title', '(Internal Affairs Unit)') . '</span>';
 $pageTitle = 'Internal Affairs Unit (IAU) - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Learn about the Internal Affairs Unit (IAU) of the Ministry of Labour, its objectives, responsibilities, and find contact information for the unit\'s staff.';
 $metaKeywords = 'Internal Affairs Unit, IAU, Integrity, Accountability, Ministry of Labour, Sri Lanka';
@@ -119,7 +120,6 @@ $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
     ['label' => 'IAU']
 ];
-include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
 

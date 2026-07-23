@@ -150,27 +150,27 @@ $about_img_path = __DIR__ . '/assets/img/home-about.webp';
 $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) : time();
 ?>
 <!-- Hero Section -->
-<section class="relative bg-[#08121e] overflow-hidden flex flex-col lg:flex-row lg:min-h-[420px] lg:h-[calc(100vh-225px)] w-full">
+<section class="relative bg-[#08121e] overflow-hidden flex flex-col lg:flex-row lg:min-h-[420px] lg:h-[calc(100vh-220px)] w-full">
     <!-- Left Section: Welcome content with solid background -->
-    <div class="w-full lg:w-[40%] flex items-center bg-gradient-to-b lg:bg-gradient-to-r from-primary via-[#0c1b2d] to-[#08121e] py-12 px-6 sm:px-12 lg:px-16 text-white relative z-10">
+    <div class="w-full lg:w-[42%] xl:w-[40%] flex items-center bg-gradient-to-b lg:bg-gradient-to-r from-primary via-[#0c1b2d] to-[#08121e] py-10 sm:py-12 px-6 sm:px-10 lg:px-12 xl:px-16 text-white relative z-10 notranslate">
         <!-- Subtle background texture overlay to enrich solid layout -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="max-w-xl w-full" data-aos="fade-right" data-aos-duration="800">
-            <h2 class="text-slate-300 text-sm sm:text-base font-medium font-inter tracking-wider uppercase mb-2">Welcome to</h2>
-            <h1 class="text-3xl sm:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-5">
-                Ministry of Labour
+            <h2 class="text-slate-300 text-xs sm:text-sm font-medium font-inter tracking-wider uppercase mb-2"><?= htmlspecialchars(t('welcome_to')) ?></h2>
+            <h1 class="text-2xl sm:text-3xl xl:text-[38px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-4">
+                <?= htmlspecialchars(t('ministry_of_labour')) ?>
             </h1>
-            <p class="text-[13px] sm:text-[13.5px] md:text-[14px] font-inter leading-relaxed text-slate-300 mb-8 max-w-md text-left">
-                Dedicated to fostering fair employment, protecting workers' rights, and building a dynamic workforce that drives Sri Lanka's economic development.
+            <p class="text-[13px] sm:text-[13.5px] font-inter leading-relaxed text-slate-300 mb-6 max-w-lg text-left">
+                <?= htmlspecialchars(t('hero_desc')) ?>
             </p>
-            <div class="flex flex-wrap gap-3 sm:gap-4">
+            <div class="flex flex-wrap gap-2.5 sm:gap-4">
                 <a href="#quick-links"
-                    class="bg-secondary text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-transparent hover:bg-[#a92222] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter text-center flex items-center justify-center">
-                    Quick Links
+                    class="bg-secondary text-white font-bold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border border-transparent hover:bg-[#a92222] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter text-center flex items-center justify-center">
+                    <?= htmlspecialchars(t('quick_links')) ?>
                 </a>
                 <a href="#news-section"
-                    class="bg-white/5 backdrop-blur-sm text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:border-white hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter flex items-center justify-center text-center">
-                    View Notices
+                    class="bg-white/5 backdrop-blur-sm text-white font-bold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:border-white hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter flex items-center justify-center text-center">
+                    <?= htmlspecialchars(t('view_notices')) ?>
                 </a>
             </div>
         </div>
@@ -211,8 +211,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
     <!-- Scrolling News Bar -->
     <div class="relative lg:absolute lg:bottom-0 left-0 w-full z-20 bg-slate-950/70 backdrop-blur-md border-t border-b lg:border-b-0 border-white/5 overflow-hidden flex items-stretch h-12 shadow-lg">
-        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex">
-            Latest News
+        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex notranslate">
+            <?= t('latest_news') ?>
         </div>
         
         <div class="flex-1 overflow-hidden relative flex items-center h-full group">
@@ -396,8 +396,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
                         <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designed as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -415,8 +414,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
                         <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -434,8 +432,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
                         <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -453,8 +450,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
                         <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -472,8 +468,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
                         <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
                     </div>
-                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-xs text-gray-400 font-inter font-medium uppercase tracking-wider">Official Portal</span>
+                    <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
                             <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -511,8 +506,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">NLAC</h3>
-                        <p class="focus-card-desc">National Labour Advisory Council — consultative labour governance and social dialogue.</p>
+                        <h3 class="focus-card-title notranslate">NLAC</h3>
+                        <p class="focus-card-desc"><?= t('nlac_desc') ?></p>
                     </div>
                 </a>
                 
@@ -593,8 +588,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
             <div>
                 <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
                     Updates & Announcements</p>
-                <h2 class="section-title">
-                    Latest News</h2>
+                <h2 class="section-title notranslate">
+                    <?= t('latest_news') ?></h2>
             </div>
             <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
                 <span>View All</span>
@@ -663,7 +658,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <p class="text-secondary font-medium text-xs md:text-[13px] tracking-[0.15em] mb-3 font-inter uppercase">
                     Important Documents and Resources
                 </p>
-                <h3 class="font-semibold text-3xl md:text-4xl font-montserrat mb-8 text-primary">Downloads</h3>
+                <h3 class="font-semibold text-3xl md:text-4xl font-montserrat mb-8 text-primary notranslate"><?= t('downloads') ?></h3>
                 
                 <div class="flex flex-col space-y-3.5">
                     <?php

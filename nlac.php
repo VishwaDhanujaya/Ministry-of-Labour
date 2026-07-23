@@ -13,7 +13,7 @@ include 'includes/sub-hero.php';
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white">
     <div class="container mx-auto max-w-5xl" data-aos="fade-up">
         
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8">National Labour Advisory Council (NLAC)</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 notranslate"><?= t('nlac_full') ?></h2>
         
         <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12">
             <p class="mb-4">
