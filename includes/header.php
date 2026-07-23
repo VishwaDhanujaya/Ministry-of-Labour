@@ -17,6 +17,11 @@ if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang
     $current_lang = $_COOKIE['lang'];
 }
 
+// Load Central Hybrid Translation Architecture Dictionary & Helper
+require_once __DIR__ . '/translations.php';
+global $lang_dict;
+$nav_trans = $lang_dict ?? [];
+
 
 // Security Headers
 header("X-Content-Type-Options: nosniff");
@@ -76,7 +81,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     <meta name="twitter:description" content="<?= htmlspecialchars($seoDesc, ENT_QUOTES, 'UTF-8') ?>">
     <meta name="twitter:image" content="<?= htmlspecialchars($seoOgImage, ENT_QUOTES, 'UTF-8') ?>">
 
-    <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->
+    <!-- Google Fonts: Inter, Montserrat, Noto Serif Sinhala, Noto Serif Tamil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Serif+Sinhala:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -115,6 +120,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
         }
         body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
             font-family: 'Noto Serif Tamil', serif !important;
+        }
+        #main-header nav.notranslate a, #main-header nav.notranslate button {
+            font-size: 11.5px !important;
+            letter-spacing: -0.01em !important;
         }
     </style>
     <?php endif; ?>
@@ -312,8 +321,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             
             <!-- Language Selector -->
             <div id="lang-selector-desktop" class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
-                <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
+                <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
                 <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
             </div>
         </div>
@@ -336,70 +345,71 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 </a>
             </div>
 
+            <?php
+            $nav_spacing_class = ($current_lang === 'ta') ? 'space-x-2 xl:space-x-3 2xl:space-x-4 text-[11.5px]' : 'space-x-3 xl:space-x-4 2xl:space-x-6 text-[13px]';
+            $contact_btn_class = ($current_lang === 'ta') ? 'px-3 py-2 text-[11px]' : 'px-4 py-2.5 text-xs';
+            ?>
             <!-- Desktop Navigation with Interactive Dropdowns -->
-            <nav class="hidden xl:flex items-center space-x-3 xl:space-x-4 2xl:space-x-6 font-inter text-[13px] font-bold text-gray-700">
-                <a href="home" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?>">Home</a>
+            <nav class="hidden xl:flex items-center <?= $nav_spacing_class ?> font-bold text-gray-700 notranslate whitespace-nowrap">
+                <a href="home" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['home'][$current_lang] ?? 'Home') ?></a>
 
                 <a href="about-us"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?>">About Us</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
 
                 <div class="relative group">
-                    <a href="iau" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer notranslate">
-                        IAU
-                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <a href="iau" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                        <?= htmlspecialchars($nav_trans['iau'][$current_lang] ?? 'IAU') ?>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="iau" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Overview</a>
-                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Current Updates</a>
+                            <a href="iau" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
+                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
                         </div>
                     </div>
                 </div>
 
                 <a href="rti"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> notranslate">RTI</a>
-
-
-
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
 
                 <div class="relative group">
-                    <a href="learning-platforms" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'learning-platforms' || $current_page == 'learning-platforms-local' || $current_page == 'learning-platforms-foreign') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
-                        Learning Platforms
-                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <a href="learning-platforms" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'learning-platforms' || $current_page == 'learning-platforms-local' || $current_page == 'learning-platforms-foreign') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                        <?= htmlspecialchars($nav_trans['learning_platforms'][$current_lang] ?? 'Learning Platforms') ?>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Local Publications</a>
-                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Foreign Publications</a>
+                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
+                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
                         </div>
                     </div>
                 </div>
 
                 <div class="relative group">
-                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'procurements' || $current_page == 'vacancies' || $current_page == 'special-notices') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer">
-                        Announcements
-                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'procurements' || $current_page == 'vacancies' || $current_page == 'special-notices') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                        <?= htmlspecialchars($nav_trans['announcements'][$current_lang] ?? 'Announcements') ?>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="procurements" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Procurements</a>
-                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Vacancies</a>
-                            <a href="special-notices" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>">Special Notices</a>
+                            <a href="procurements" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
+                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
+                            <a href="special-notices" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                         </div>
                     </div>
                 </div>
 
                 <a href="news"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?>">News</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
 
                 <a href="downloads"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?>">Downloads</a>
+                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
 
                 <a href="contact-us"
-                    class="bg-secondary text-white px-4 py-2.5 rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium text-xs tracking-wider uppercase active:scale-95">Contact Us</a>
+                    class="bg-secondary text-white <?= $contact_btn_class ?> rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium tracking-wider uppercase active:scale-95 whitespace-nowrap shrink-0"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
 
                 <div class="h-5 w-px bg-gray-200 mx-2 shrink-0"></div>
 
@@ -445,7 +455,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <svg class="w-3.5 h-3.5 text-gray-450 mr-2 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    <input type="text" id="header-search-input" placeholder="Search news, vacancies, procurements..."
+                    <input type="text" id="header-search-input" placeholder="<?= htmlspecialchars(t('search_placeholder')) ?>"
                         class="w-full bg-transparent text-xs font-inter focus:outline-none pr-6 pl-0.5 placeholder-gray-400 text-gray-900">
                     <button id="search-close-btn"
                         class="absolute right-2.5 text-gray-400 hover:text-gray-655 focus:outline-none cursor-pointer p-0.5 rounded-full hover:bg-gray-200/50 transition-colors">
@@ -482,54 +492,52 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 </button>
             </div>
 
-            <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700">
+            <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700 notranslate">
                 <a href="home"
-                    class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>">Home</a>
-                <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>">About Us</a>
+                    class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['home'][$current_lang] ?? 'Home') ?></a>
+                <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
                 <div class="flex flex-col space-y-2 py-1">
-                    <a href="iau" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors notranslate">
-                        IAU
+                    <a href="iau" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
+                        <?= htmlspecialchars($nav_trans['iau'][$current_lang] ?? 'IAU') ?>
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
-                    <a href="iau" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Overview</a>
-                    <a href="iau-updates" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Current Updates</a>
+                    <a href="iau" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
+                    <a href="iau-updates" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
                 </div>
-                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?> notranslate">RTI</a>
-
-
+                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
 
                 <div class="flex flex-col space-y-2 py-1">
                     <a href="learning-platforms" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
-                        Learning Platforms
+                        <?= htmlspecialchars($nav_trans['learning_platforms'][$current_lang] ?? 'Learning Platforms') ?>
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
-                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Local Publications</a>
-                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Foreign Publications</a>
+                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
+                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
                 </div>
 
                 <div class="flex flex-col space-y-2 py-1">
-                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]">Announcements</div>
-                    <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Procurements</a>
-                    <a href="vacancies" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Vacancies</a>
-                    <a href="special-notices" class="pl-6 py-1 <?= ($current_page == 'special-notices') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>">Special Notices</a>
+                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]"><?= htmlspecialchars($nav_trans['announcements'][$current_lang] ?? 'Announcements') ?></div>
+                    <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
+                    <a href="vacancies" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
+                    <a href="special-notices" class="pl-6 py-1 <?= ($current_page == 'special-notices') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                 </div>
-                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>">News</a>
-                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>">Downloads</a>
+                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
             </nav>
 
-            <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4">
+            <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4 notranslate">
                 <!-- Mobile Language Selector -->
                 <div class="pb-2">
                     <div class="text-[11px] uppercase tracking-wider text-gray-400 font-bold mb-2.5 pl-1">Select Language</div>
                     <div id="lang-selector-mobile" class="grid grid-cols-3 gap-2 bg-gray-50 rounded-xl p-1 border border-gray-200/50 notranslate">
-                        <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                        <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                        <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
+                        <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
                         <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 font-inter text-xs tracking-wide">English</button>
                     </div>
                 </div>
 
                 <a href="contact-us"
-                    class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase">Contact Us</a>
+                    class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
                 <div class="flex justify-center space-x-5 text-gray-400 py-2">
                     <a href="https://www.facebook.com/labourmin" aria-label="Facebook Link" target="_blank" class="hover:text-[#1877F2] transition-colors duration-200"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
@@ -556,11 +564,11 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 <p class="text-[11px] text-gray-500 font-inter mb-6 text-center">Choose your preferred language to continue</p>
                 
                 <div class="w-full flex flex-col gap-3 notranslate">
-                    <button onclick="changeLanguage('si')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-primary text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Sans Sinhala', sans-serif;">
+                    <button onclick="changeLanguage('si')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-primary text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Serif Sinhala', serif;">
                         <span>සිංහල</span>
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </button>
-                    <button onclick="changeLanguage('ta')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-primary text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Sans Tamil', sans-serif;">
+                    <button onclick="changeLanguage('ta')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-primary text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Serif Tamil', serif;">
                         <span>தமிழ்</span>
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </button>

@@ -148,9 +148,9 @@
         <!-- Subtle Background mesh for premium grid texture -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="container mx-auto px-4 md:px-16 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-10 mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-10 mb-16">
                 <!-- Col 1 -->
-                <div class="md:col-span-2 lg:col-span-4 lg:pr-8">
+                <div class="md:col-span-12 lg:col-span-5 lg:pr-8 notranslate">
                     <div class="flex items-center mb-6">
                         <?php
                         $logo_path = dirname(__DIR__) . '/assets/img/logo.png';
@@ -159,71 +159,44 @@
                         <img loading="lazy" src="assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
                     </div>
                     <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
-                        Committed to fostering productive labour relations, safeguarding workers' rights, and promoting decent work for all citizens of Sri Lanka.
+                        <?= t('footer_motto') ?>
                     </p>
                     <p class="text-gray-300 text-sm font-inter leading-relaxed mb-4">
-                        Subscribe to receive the latest Ministry news, gazette notifications and policy updates.
+                        <?= t('subscribe_title') ?>
                     </p>
                     <div class="mb-4">
                         <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
-                            <input type="email" required placeholder="Your Email Address" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
-                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]">Subscribe</button>
+                            <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
+                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
                         </form>
                     </div>
                 </div>
                 
                 <!-- Col 2: Quick Links -->
-                <div class="md:col-span-1 lg:col-span-3 lg:pl-12">
+                <div class="md:col-span-6 lg:col-span-3 lg:pl-8 notranslate">
                     <div>
-                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Quick Links</h3>
+                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide"><?= t('quick_links') ?></h3>
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
-                            <li><a href="home" class="hover:text-yellow-400 hover:underline transition-all">Home</a></li>
-                            <li><a href="about-us" class="hover:text-yellow-400 hover:underline transition-all">About Us</a></li>
-                            <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all">News</a></li>
-                            <li><a href="special-notices" class="hover:text-yellow-400 hover:underline transition-all">Special Notices</a></li>
-                            <li><a href="vacancies" class="hover:text-yellow-400 hover:underline transition-all">Vacancies</a></li>
-                            <li><a href="procurements" class="hover:text-yellow-400 hover:underline transition-all">Procurements</a></li>
-                            <li><a href="learning-platforms" class="hover:text-yellow-400 hover:underline transition-all">Learning Platforms</a></li>
-                            <li><a href="iau" class="hover:text-yellow-400 hover:underline transition-all notranslate">IAU</a></li>
-                            <li><a href="iau-updates" class="hover:text-yellow-400 hover:underline transition-all">IAU Updates</a></li>
-                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all notranslate">RTI</a></li>
-                            <li><a href="downloads" class="hover:text-yellow-400 hover:underline transition-all">Downloads</a></li>
-                            <li><a href="nlac" class="hover:text-yellow-400 hover:underline transition-all notranslate">NLAC</a></li>
-                            <li><a href="complaints" class="hover:text-yellow-400 hover:underline transition-all">Complaints</a></li>
+                            <li><a href="nlac" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
+                            <li><a href="ampara-circuit-bungalow" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_ampara') ?></a></li>
+                            <li><a href="learning-platforms" class="hover:text-yellow-400 hover:underline transition-all"><?= t('learning_platforms') ?></a></li>
+                            <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_news_updates') ?></a></li>
+                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">RTI Portal</a></li>
+                            <li><a href="complaints" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_complaints') ?></a></li>
                         </ul>
-                    </div>
-                </div>
-
-                <!-- Col 3: Circuit Bungalows -->
-                <div class="md:col-span-1 lg:col-span-2 lg:pl-8">
-                    <div>
-                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Circuit Bungalows</h3>
-                        <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
-                            <li>
-                                <a href="ampara-circuit-bungalow" class="hover:text-yellow-400 hover:underline transition-all flex items-center gap-2">
-                                    <svg class="w-3.5 h-3.5 text-yellow-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                                    </svg>
-                                    Ampara Bungalow
-                                </a>
-                            </li>
-                        </ul>
-                        <div class="mt-5 p-3 bg-white/5 rounded-lg border border-white/10">
-                            <p class="text-[12px] text-gray-400 font-inter leading-relaxed">Book Ministry circuit bungalows for official stays. Subject to admin approval.</p>
-                        </div>
                     </div>
                 </div>
                 
-                <!-- Col 4: Contact -->
-                <div class="md:col-span-2 lg:col-span-3 lg:pl-8">
+                <!-- Col 3: Contact -->
+                <div class="md:col-span-6 lg:col-span-4 lg:pl-8 notranslate">
                     <div>
-                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide">Contact</h3>
+                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide"><?= t('contact_heading') ?></h3>
                         <div class="space-y-4 text-[14px] text-gray-300 font-inter leading-relaxed">
                             <div>
-                                <p>6th floor, Mehewara Piyasa, Narahenpita,<br>Colombo 05, Sri Lanka.</p>
+                                <p><?= t('ministry_address') ?></p>
                                 <a href="https://www.google.com/maps/dir/?api=1&destination=Ministry+of+Labour,+Mehewara+Piyasa,+Narahenpita,+Colombo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 mt-3 px-3.5 py-1.5 bg-white/10 hover:bg-white text-white hover:text-primary rounded-lg text-xs font-semibold font-inter transition-all duration-300 border border-white/15 hover:border-white shadow-sm">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z"/></svg>
-                                    Get Directions
+                                    <?= t('get_directions') ?>
                                 </a>
                             </div>
                             <p class="notranslate">(+94) 11 2581991</p>
@@ -244,10 +217,10 @@
         </div>
 
         <!-- Bottom Bar -->
-        <div class="bg-[#090F16] text-gray-400 py-6 border-t border-white/5 font-inter text-[13px] relative z-10">
+        <div class="bg-[#090F16] text-gray-400 py-6 border-t border-white/5 font-inter text-[13px] relative z-10 notranslate">
             <div class="container mx-auto px-4 md:px-16 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p>&copy; 2026 SLT Digital. All rights reserved.</p>
-                <p>Last Updated: <?php
+                <p>&copy; 2026 SLT Digital. <?= t('rights_reserved') ?></p>
+                <p><?= t('last_updated') ?>: <?php
                     $last_updated_date = '18 Mar, 2026';
                     if (!isset($pdo)) {
                         $db_path = __DIR__ . '/../admin/includes/db.php';

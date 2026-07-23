@@ -417,6 +417,71 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Author:** Antigravity AI
 * **Change Description:** Added explicit `string $name` parameter type hint and `: string` return type hint to the `get_initials()` function in `rti.php` to resolve IDE type information warnings and enforce type safety.
 
+### 2026-07-23 (Updated Footer Quick Links & Removed Circuit Bungalows Column)
+* **Files:** [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the 13 general links in the footer's "Quick Links" section with the exact same 6 quick links featured on the homepage (NLAC, Ampara Circuit Bungalow, Learning Platforms, News Updates, RTI Portal, Complaints). Completely removed the separate "Circuit Bungalows" column and its info card. Rebalanced the footer grid layout from 4 columns to 3 well-proportioned columns (`md:col-span-12 lg:col-span-5` for Ministry Info & Newsletter, `md:col-span-6 lg:col-span-3` for Quick Links, and `md:col-span-6 lg:col-span-4` for Contact details) ensuring clean responsiveness on all screen sizes. Recompiled production CSS assets (`npm run build:prod`).
+
+### 2026-07-23 (Implemented Native PHP Navbar Translation Dictionary)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced Google Translate machine translation for header navigation links with explicit, native trilingual translations (English, Sinhala, Tamil) defined in `$nav_trans` dictionary array inside [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L20-L65). Applied native translations across both desktop navigation bar and mobile drawer menu for Home, About Us, IAU, RTI, Learning Platforms, Announcements, News, Downloads, and Contact Us. Added `notranslate` attribute to navigation containers to prevent Google Translate from interfering with hardcoded human translations. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Optimized Sinhala & Tamil Navbar Font Family, Sizing & Spacing)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced wide, heavy serif fonts (`Noto Serif Sinhala` / `Noto Serif Tamil`) with modern, compact sans-serif web fonts (`Noto Sans Sinhala` / `Noto Sans Tamil`) loaded from Google Fonts in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L128-L168). Applied dynamic font scaling (`11.5px`) and tighter item gap spacing (`space-x-1.5 xl:space-x-2.5 2xl:space-x-4`) specifically when in Sinhala or Tamil modes so long phrases (e.g. "අභ්යන්තර විගණන අංශය", "තොරතුරු දැනගැනීමේ අයිතිය") take the exact same proportional header layout space as English items without overflowing or wrapping. Recompiled production CSS assets (`npm run build:prod`).
+
+### 2026-07-23 (Added Complete Dropdown Sub-Items Translation Mappings)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Expanded `$nav_trans` dictionary array in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L20-L75) to include all 16 navigation items and dropdown sub-items (Overview, Current Updates, Local Publications, Foreign Publications, Procurements, Vacancies, Special Notices). Updated all sub-item links across desktop dropdown popups and mobile menu drawers to render native Sinhala and Tamil translations dynamically. Recompiled CSS production assets (`npm run build:prod`).
+
+### 2026-07-23 (Enforced Noto Serif Sinhala & Noto Serif Tamil Fonts)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Re-enforced `Noto Serif Sinhala` and `Noto Serif Tamil` font families as explicitly requested by the user across all global language style overrides and language selector buttons in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L160-L215). Recompiled CSS production assets (`npm run build:prod`).
+
+### 2026-07-23 (Resolved Sinhala & Tamil Navbar Layout Clutter)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Expanded the main header container to full widescreen capacity (`max-w-[1536px]`) in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L416). Increased Sinhala and Tamil navigation text size to a legible `12.5px` and broadened link item gap spacing (`space-x-2 xl:space-x-3.5 2xl:space-x-5`), eliminating cluttered layout and visual squeezing while preserving `Noto Serif Sinhala` / `Noto Serif Tamil`. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Fixed Tamil Multi-Line Text Wrapping & Button Padding)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Applied strict `whitespace-nowrap` to all desktop menu links and tuned Tamil font size to `11.5px` with `-0.01em` letter spacing in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L199-L212). Tightened Tamil Contact Us button padding (`px-2.5 py-1.5 text-[11px]`) to prevent long multi-word titles like "உள்துறை தணிக்கைப் பிரிவு" and "எங்களைத் தொடர்புகொள்ள" from wrapping onto two lines. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Kept IAU & RTI Acronyms Consistent Across All Languages)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated `$nav_trans` dictionary array in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L32-L51) so that `IAU` and `RTI` remain as `IAU` and `RTI` across English, Sinhala, and Tamil languages. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Restored Original Logo Container Position & Unified Navbar Styling)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Reverted header grid container in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L416) to standard `container mx-auto px-4 md:px-8`, restoring the logo to its original left margin alignment. Unified desktop navigation styling across English, Sinhala, and Tamil with consistent `13px` font size (`text-[13px]`), uniform item spacing (`space-x-3 xl:space-x-4 2xl:space-x-6`), and standard Contact Us button padding (`px-4 py-2.5 text-xs`). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Optimized Tamil Navbar Phrasing & Tamil-Only Font Sizing)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Shortened multi-word Tamil Contact Us button text in `$nav_trans` dictionary in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L100) to standard `தொடர்புகொள்ள` ("Contact Us", 12 characters). Applied dedicated 11.5px font size override and compact gap spacing for Tamil mode so all 9 navbar items align cleanly without crowding or text wrapping. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Implemented Central Hybrid Translation Architecture & Helper)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Created dedicated global translation dictionary and helper utility in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php). Defined central `$lang_dict` array and global `t($key, $fallback)` helper function. Included `translations.php` in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L20-L23) with backward compatibility alias (`$nav_trans = $lang_dict`). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Applied Hybrid Translation Architecture Across Footer & Header Search UI)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added structural UI translation strings for global search placeholder, footer motto, newsletter subscription, quick links, contact info, directions, and copyright bar into [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L90-L150). Integrated `t('key')` helper calls and `notranslate` container classes in [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php#L150-L230) and [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L453). Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Resolved IDE Linter Errors & Tailwind Class Warnings)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added explicit `global $lang_dict;` declaration in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L22) to resolve IDE undefined variable warnings. Refactored inline conditional ternary CSS class strings into clean PHP variables (`$nav_spacing_class`, `$contact_btn_class`) in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L346) to eliminate all duplicate Tailwind class linter warnings. Recompiled production CSS styles (`npm run build:prod`).
+
 
 
 
