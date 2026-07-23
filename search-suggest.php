@@ -146,28 +146,28 @@ try {
             'url' => 'learning-platforms',
             'titles' => [
                 'en' => 'Learning Platforms & Publications',
-                'si' => 'ඉගෙනුම් වේදිකා සහ ප්‍රකාශන',
+                'si' => 'ඔබේ දැනුමට සහ ප්‍රකාශන',
                 'ta' => 'கற்றல் தளங்கள் மற்றும் வெளியீடுகள்'
             ],
-            'keywords' => ['learning', 'platforms', 'publications', 'training', 'courses', 'education', 'ඉගෙනුම්', 'ප්‍රකාශන', 'කற்றல்']
+            'keywords' => ['learning', 'platforms', 'publications', 'training', 'courses', 'education', 'ඔබේ දැනුමට', 'දැනුමට', 'ප්‍රකාශන', 'කற்றல்']
         ],
         [
             'url' => 'learning-platforms-local',
             'titles' => [
                 'en' => 'Local Training & Learning Platforms',
-                'si' => 'දේශීය පුහුණු හා ඉගෙනුම් වේදිකා',
+                'si' => 'දේශීය පුහුණු හා ඔබේ දැනුමට',
                 'ta' => 'உள்ளூர் பயிற்சி மற்றும் கற்றல் தளங்கள்'
             ],
-            'keywords' => ['local training', 'learning', 'courses', 'skills', 'දේශීය පුහුණු', 'පුහුණු', 'දේශීය']
+            'keywords' => ['local training', 'learning', 'courses', 'skills', 'දේශීය පුහුණු', 'පුහුණු', 'දේශීය', 'ඔබේ දැනුමට']
         ],
         [
             'url' => 'learning-platforms-foreign',
             'titles' => [
                 'en' => 'Foreign Training & Learning Platforms',
-                'si' => 'විදේශීය පුහුණු හා ඉගෙනුම් වේදිකා',
+                'si' => 'විදේශීය පුහුණු හා ඔබේ දැනුමට',
                 'ta' => 'வெளிநாட்டு பயிற்சி மற்றும் கற்றல் தளங்கள்'
             ],
-            'keywords' => ['foreign training', 'scholarships', 'study', 'training', 'විදේශීය පුහුණු', 'විදේශීය']
+            'keywords' => ['foreign training', 'scholarships', 'study', 'training', 'විදේශීය පුහුණු', 'විදේශීය', 'ඔබේ දැනුමට']
         ],
         [
             'url' => 'complaints',

@@ -148,6 +148,26 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-23 (Renamed RTI Portal to RTI in Quick Links)
+* **Files:** [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Quick Links link text from "RTI Portal" to "RTI" in both the global footer template ([includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)) and the homepage Quick Links section ([index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)) using `<?= t('rti') ?>`.
+
+### 2026-07-23 (Renamed Our Partners to Related Organizations)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Renamed the "Our Partners" section header on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) to "Related Organizations" (`Related Organizations` in English, `සම්බන්දිත ආයතන` in Sinhala, and `තொடர்புடைய அமைப்புகள்` in Tamil) via the `related_organizations` translation key in `includes/translations.php`.
+
+### 2026-07-23 (About Us Stats Card Update & Translation Duplication Fix)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the "Years of Experience" statistic counter from 97 to 95 and removed the "100% Satisfaction" stat card on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php). Added `notranslate` / `translate="no"` attributes on the stat number spans to prevent Google Translate DOM duplication (`95 (95)`), and registered `years_of_experience` and `happy_customers` in `includes/translations.php` using the `t()` PHP helper for explicit trilingual output.
+
+### 2026-07-23 (IAU Current Updates Sinhala Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala translation for `current_updates` to `නවතම තත්වය` and `iau_updates` to `IAU නවතම තත්වය` in `includes/translations.php`. Configured `$breadcrumbs` array on `iau-updates.php` to map breadcrumbs and sub-hero title dynamically.
+
 ### 2026-07-19 (Trilingual PDF Uploads for Frontend Public Pages)
 * **Files:** [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php), [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php), [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php), [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php), [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php), [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI
@@ -581,6 +601,26 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L96-L115), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI
 * **Change Description:** Added Tailwind Play CDN script (`https://cdn.tailwindcss.com`) with custom color palette (`primary`, `secondary`) and fonts (`montserrat`, `inter`, `noto`) to `<head>` in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L96-L115). Allows immediate live utility compilation in the browser during development without requiring CLI recompilation.
+
+### 2026-07-23 (Fixed Google Translate Instant Auto-Trigger Without Manual Page Refresh)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L281-L300), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `applyAutoTranslation()` function and multi-stage fallback timers (150ms, 600ms, 1200ms) in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L281-L300). Enforced HTTPS protocol on Google Translate element script (`https://translate.google.com/...`) and refreshed `googtrans` cookie on DOM load. Guarantees translation triggers instantly on first load without requiring manual page refreshes.
+
+### 2026-07-23 (Updated Sinhala Translation for "Learning Platforms" to "ඔබේ දැනුමට")
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L44), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php#L149-L167), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala translation for `learning_platforms` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L44) to `ඔබේ දැනුමට`. Also updated search suggestion titles and keywords in [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php#L149-L167).
+
+### 2026-07-23 (Corrected Sinhala Unicode Spelling for Publications to "ප්‍රකාශන")
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L49-L54), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Corrected the Sinhala conjunct Rakaransaya spelling for `local_publications` (`දේශීය ප්‍රකාශන`) and `foreign_publications` (`විදේශීය ප්‍රකාශන`) in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L49-L54) to use `්‍ර` (`ප්‍රකාශන`).
+
+### 2026-07-23 (Removed Duplicate 'nlac_full' Array Key Warning)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L234), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Removed the duplicate array key `'nlac_full'` entry from [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L234), eliminating the duplicate array key notice while preserving the trilingual NLAC title definition with acronym protection.
 
 
 

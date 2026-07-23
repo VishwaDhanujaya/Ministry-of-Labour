@@ -49,28 +49,23 @@ include 'includes/sub-hero.php';
             <div class="about-stats-container">
                 <div class="about-stat-card">
                     <div class="about-stat-card-accent"></div>
-                    <span class="about-stat-number">97</span>
-                    <span class="about-stat-label">Years of Experience</span>
+                    <span class="about-stat-number notranslate" translate="no">95</span>
+                    <span class="about-stat-label"><?= t('years_of_experience', 'Years of Experience') ?></span>
                 </div>
                 <div class="about-stat-card">
                     <div class="about-stat-card-accent"></div>
-                    <span class="about-stat-number">95K</span>
-                    <span class="about-stat-label">Happy Customers</span>
-                </div>
-                <div class="about-stat-card">
-                    <div class="about-stat-card-accent"></div>
-                    <span class="about-stat-number">100%</span>
-                    <span class="about-stat-label">Satisfaction</span>
+                    <span class="about-stat-number notranslate" translate="no">95K</span>
+                    <span class="about-stat-label"><?= t('happy_customers', 'Happy Customers') ?></span>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Our Partners -->
+<!-- Related Organizations -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto" data-aos="fade-up">
-        <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center">Our Partners</h2>
+        <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center"><?= t('related_organizations', 'Related Organizations') ?></h2>
         <div id="partners-track"
             class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 py-8 justify-items-center items-center">
             <div

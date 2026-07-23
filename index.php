@@ -558,7 +558,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">RTI Portal</h3>
+                        <h3 class="focus-card-title"><?= t('rti') ?></h3>
                         <p class="focus-card-desc">Submit information requests under the Right to Information Act in Sri Lanka.</p>
                     </div>
                 </a>

@@ -281,16 +281,36 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             window.location.href = url.toString();
         }
         
+        function applyAutoTranslation() {
+            var activeLang = getActiveLanguage();
+            if (activeLang && activeLang !== 'en') {
+                var combo = document.querySelector('.goog-te-combo');
+                if (combo && combo.value !== activeLang) {
+                    combo.value = activeLang;
+                    combo.dispatchEvent(new Event('change'));
+                }
+            }
+        }
+
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false}, 'google_translate_element');
             syncTopbarLanguageUI();
+            
+            // Fallback retry checks to guarantee translation fires without requiring page refresh
+            setTimeout(applyAutoTranslation, 150);
+            setTimeout(applyAutoTranslation, 600);
+            setTimeout(applyAutoTranslation, 1200);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             syncTopbarLanguageUI();
+            var activeLang = getActiveLanguage();
+            if (activeLang && activeLang !== 'en') {
+                document.cookie = "googtrans=/en/" + activeLang + "; path=/";
+            }
         });
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body class="bg-white text-gray-800 antialiased scroll-smooth flex flex-col min-h-screen">

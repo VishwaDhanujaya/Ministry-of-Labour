@@ -181,7 +181,7 @@
                             <li><a href="ampara-circuit-bungalow" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_ampara') ?></a></li>
                             <li><a href="learning-platforms" class="hover:text-yellow-400 hover:underline transition-all"><?= t('learning_platforms') ?></a></li>
                             <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_news_updates') ?></a></li>
-                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all">RTI Portal</a></li>
+                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all"><?= t('rti') ?></a></li>
                             <li><a href="complaints" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_complaints') ?></a></li>
                         </ul>
                     </div>

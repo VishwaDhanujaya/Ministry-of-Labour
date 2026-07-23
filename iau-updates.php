@@ -4,6 +4,10 @@ $pageTitle = 'IAU Updates - Ministry of Labour - Sri Lanka';
 $metaDescription = 'View all current updates and notices from the Internal Audit Unit (IAU) of the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'IAU, Internal Audit Unit, Updates, Notices, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
+$breadcrumbs = [
+    ['label' => 'IAU', 'url' => 'iau'],
+    ['label' => 'Current Updates']
+];
 include 'includes/sub-hero.php';
 
 require_once 'admin/includes/db.php';

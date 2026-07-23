@@ -31,7 +31,7 @@ $lang_dict = [
     ],
     'current_updates' => [
         'en' => 'Current Updates',
-        'si' => 'වත්මන් යාවත්කාලීන',
+        'si' => 'නවතම තත්වය',
         'ta' => 'තற்பෝதைய புதுப்பிப்புகள்'
     ],
     'rti' => [
@@ -41,17 +41,17 @@ $lang_dict = [
     ],
     'learning_platforms' => [
         'en' => 'Learning Platforms',
-        'si' => 'ඉගෙනුම් වේදිකා',
-        'ta' => 'கற்றල් தளங்கள்'
+        'si' => 'ඔබේ දැනුමට',
+        'ta' => 'கற்றல் தளங்கள்'
     ],
     'local_publications' => [
         'en' => 'Local Publications',
-        'si' => 'දේශීය ප්රකාශන',
+        'si' => 'දේශීය ප්‍රකාශන',
         'ta' => 'உள்நாட்டு வெளியீடுகள்'
     ],
     'foreign_publications' => [
         'en' => 'Foreign Publications',
-        'si' => 'විදේශීය ප්රකාශන',
+        'si' => 'විදේශීය ප්‍රකාශන',
         'ta' => 'வெளிநாட்டு வெளியீடுகள்'
     ],
     'announcements' => [
@@ -228,13 +228,8 @@ $lang_dict = [
     ],
     'iau_updates' => [
         'en' => 'IAU Updates',
-        'si' => 'අභ්‍යන්තර විගණන අංශයේ යාවත්කාලීන',
+        'si' => 'IAU නවතම තත්වය',
         'ta' => 'உள்துறை தணிக்கைப் பிரிவு புதுப்பிப்புகள்'
-    ],
-    'nlac_full' => [
-        'en' => 'National Labour Advisory Council',
-        'si' => 'ජාතික කම්කරු උපදේශක සභාව',
-        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு'
     ],
     'ampara_bungalow' => [
         'en' => 'Ampara Circuit Bungalow',
@@ -250,6 +245,21 @@ $lang_dict = [
         'en' => 'Complaints',
         'si' => 'පැමිණිලි',
         'ta' => 'புகார்கள்'
+    ],
+    'years_of_experience' => [
+        'en' => 'Years of Experience',
+        'si' => 'වසර ගණනාවක අත්දැකීම්',
+        'ta' => 'ஆண்டுகள் அனுபவம்'
+    ],
+    'happy_customers' => [
+        'en' => 'Happy Customers',
+        'si' => 'සෑහීමට පත් පාරිභෝගිකයින්',
+        'ta' => 'மகிழ்ச்சியான வாடிக்கையாளர்கள்'
+    ],
+    'related_organizations' => [
+        'en' => 'Related Organizations',
+        'si' => 'සම්බන්දිත ආයතන',
+        'ta' => 'தொடர்புடைய அமைப்புகள்'
     ]
 ];
 
