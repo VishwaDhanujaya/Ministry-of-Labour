@@ -93,6 +93,26 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     ?>
     <link rel="icon" href="assets/img/emblem.png?v=<?= $emblem_version ?>" type="image/png">
 
+    <!-- Tailwind Play CDN for instant dynamic styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#13273F',
+              secondary: '#4E0911',
+            },
+            fontFamily: {
+              montserrat: ['Montserrat', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+              noto: ['Noto Serif Sinhala', 'Noto Serif Tamil', 'serif']
+            }
+          }
+        }
+      }
+    </script>
+
     <!-- Compiled Tailwind and Custom CSS -->
     <?php
     $css_path = dirname(__DIR__) . '/assets/css/style.css';

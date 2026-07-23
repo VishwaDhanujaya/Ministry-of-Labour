@@ -577,6 +577,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Author:** Antigravity AI
 * **Change Description:** Cleaned up flex layout on `#downloadModal` in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php#L292-L697) to enforce strict horizontal and vertical viewport centering (`flex items-center justify-center`). Added automatic `document.body.appendChild(modal)` on `DOMContentLoaded` to guarantee the modal is rendered at document body root level outside all section wrapper divs. Recompiled production CSS styles (`npm run build:prod`).
 
+### 2026-07-23 (Enabled Tailwind Play CDN For Development)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L96-L115), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added Tailwind Play CDN script (`https://cdn.tailwindcss.com`) with custom color palette (`primary`, `secondary`) and fonts (`montserrat`, `inter`, `noto`) to `<head>` in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L96-L115). Allows immediate live utility compilation in the browser during development without requiring CLI recompilation.
+
 
 
 
