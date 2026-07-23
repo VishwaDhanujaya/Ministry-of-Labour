@@ -68,7 +68,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Our Partners -->
-<section class="py-12 md:py-16 px-4 md:px-16 bg-[#FAFAFA] border-t border-b border-gray-100">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto" data-aos="fade-up">
         <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center">Our Partners</h2>
         <div id="partners-track"
@@ -265,10 +265,10 @@ include 'includes/sub-hero.php';
     </script>
 </section>
 
-<!-- Our Officials -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA]">
+<!-- Ministry Leadership & Officials -->
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14" data-aos="fade-up">Our Officials</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14" data-aos="fade-up">Ministry Leadership</h2>
 
         <!-- Top Officials -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
@@ -337,6 +337,11 @@ include 'includes/sub-hero.php';
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+
+        <!-- Our Officials Division Heads -->
+        <div class="mt-20 pt-14 border-t border-slate-200/60" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-10">Our Officials</h2>
         </div>
 
         <!-- Department Tabs -->
@@ -521,24 +526,6 @@ include 'includes/sub-hero.php';
                             <li class="pl-1">Managing matters related to lands and buildings owned by the Ministry.</li>
                         </ul>
                         
-                        <div class="mt-10 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] relative overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-secondary"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
-                                    <p class="text-primary font-semibold mt-2 text-[15px]">Ms. T.P Muditha Pathmajay</p>
-                                    <p class="text-[13px] text-gray-500 mb-3">Additional Secretary (Development)</p>
-                                    <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> 0718123025</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg> +94 (0)112 368165</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:mpathmajay@gmail.com" class="text-secondary hover:underline font-medium">mpathmajay@gmail.com</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -573,24 +560,6 @@ include 'includes/sub-hero.php';
                             <li class="pl-1">Promote policy dialogue on emerging developments in global and national labour markets.</li>
                         </ul>
 
-                        <div class="mt-10 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] relative overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-secondary"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
-                                    <p class="text-primary font-semibold mt-2 text-[15px]">Mr. Lal Samarasekara</p>
-                                    <p class="text-[13px] text-gray-500 mb-3">Additional Secretary (Development)</p>
-                                    <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +94 (0)112 586337</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg> +94 (0)112 589267</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:adsec.dev@labourmin.gov.lk" class="text-secondary hover:underline font-medium">adsec.dev@labourmin.gov.lk</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -613,23 +582,6 @@ include 'includes/sub-hero.php';
                             <li class="pl-1">Ensure compliance with financial regulations, treasury instructions, and audit requirements.</li>
                         </ul>
 
-                        <div class="mt-10 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] relative overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-secondary"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
-                                    <p class="text-primary font-semibold mt-2 text-[15px]">Ms. S. S. Shiroma Nandani</p>
-                                    <p class="text-[13px] text-gray-500 mb-3">Chief Accountant</p>
-                                    <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +94 11 2505161</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:ca@labourmin.gov.lk" class="text-secondary hover:underline font-medium">ca@labourmin.gov.lk</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -652,23 +604,6 @@ include 'includes/sub-hero.php';
                             <li class="pl-1">Reporting of Financial & Physical progress of capital/development projects.</li>
                         </ul>
 
-                        <div class="mt-10 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] relative overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-secondary"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
-                                    <p class="text-primary font-semibold mt-2 text-[15px]">A M M K Abeysinghe</p>
-                                    <p class="text-[13px] text-gray-500 mb-3">Chief Internal Auditor</p>
-                                    <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> 011 236 9422</div>
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg> <a href="mailto:cia.mol@labourmin.gov.lk" class="text-secondary hover:underline font-medium">cia.mol@labourmin.gov.lk</a></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -693,22 +628,6 @@ include 'includes/sub-hero.php';
                             <li class="pl-1">Contributing as relevant to action plans implemented by various Ministries.</li>
                         </ul>
 
-                        <div class="mt-10 p-6 bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] relative overflow-hidden group hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all duration-300">
-                            <div class="absolute top-0 left-0 w-1.5 h-full bg-secondary"></div>
-                            <div class="flex items-start gap-4">
-                                <div class="bg-primary/5 p-3 rounded-xl text-primary shrink-0">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 mb-1 text-[16px]">Contact Information</h4>
-                                    <p class="text-primary font-semibold mt-2 text-[15px]">Ms. I V N Preethika Kumuduni</p>
-                                    <p class="text-[13px] text-gray-500 mb-3">Director General (Planning)</p>
-                                    <div class="flex flex-col gap-2 text-[13.5px] text-gray-600 mt-3">
-                                        <div class="flex items-center gap-2.5"><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg> +94 11-236 9422</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -717,7 +636,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Citizen Charter Section -->
-<section class="py-20 md:py-28 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="citizen-charter">
+<section class="py-20 md:py-28 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="citizen-charter">
     <div class="container mx-auto flex flex-col lg:flex-row gap-16" data-aos="fade-up">
         
         <!-- Left Side: Main Text -->

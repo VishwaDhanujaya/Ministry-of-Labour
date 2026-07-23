@@ -67,7 +67,7 @@ $iau_staff = [
     [
         'id' => 'staff-8',
         'title' => 'Member',
-        'department' => 'Foreign Relations Division',
+        'department' => 'Policy Formulation & Foreign Relations Division',
         'name' => 'Mr. B. Vasanthan',
         'designation' => 'Senior Assistant Secretary (Foreign Relations)',
         'phone' => '0718249902',
@@ -124,7 +124,7 @@ include 'includes/sub-hero.php';
 ?>
 
 <!-- About the Unit Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-white border-b border-slate-200/80">
     <div class="container mx-auto">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-6">About the Unit</h2>
         <p class="text-gray-600 font-inter text-[15px] leading-relaxed mb-12 max-w-5xl">
@@ -152,7 +152,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Responsibilities and Functions Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA]">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto flex flex-col lg:flex-row gap-16">
         <!-- Left Side: List -->
         <div class="w-full lg:w-[65%]">
@@ -241,7 +241,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Contact Grid Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/90 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-12 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
         
@@ -259,7 +259,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- PDF Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-gray-100">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-slate-200/80">
     <div class="container mx-auto">
         <div class="flex flex-col md:flex-row gap-8 justify-start items-center">
             <div class="w-full max-w-[400px]">

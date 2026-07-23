@@ -160,7 +160,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
             <h1 class="text-3xl sm:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-5">
                 Ministry of Labour
             </h1>
-            <p class="text-[13px] sm:text-[13.5px] md:text-[14px] font-inter leading-relaxed text-slate-300 mb-8 max-w-md text-justify">
+            <p class="text-[13px] sm:text-[13.5px] md:text-[14px] font-inter leading-relaxed text-slate-300 mb-8 max-w-md text-left">
                 Dedicated to fostering fair employment, protecting workers' rights, and building a dynamic workforce that drives Sri Lanka's economic development.
             </p>
             <div class="flex flex-wrap gap-3 sm:gap-4">
@@ -223,7 +223,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
                     foreach($tickerNews as $news): 
                     ?>
-                        <a href="news/<?= $news['id'] ?>" class="inline-flex items-center text-gray-100 hover:text-white transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link">
+                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link notranslate">
                             <?= htmlspecialchars($news['title']) ?>
                             <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
@@ -326,7 +326,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 </section>
 
 <!-- Institutions -->
-<section class="py-12 md:py-16 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-100" id="affiliated-institutions">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="affiliated-institutions">
     <div class="container mx-auto">
         <div class="mb-14">
             <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
@@ -587,7 +587,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
 
 <!-- Latest Articles -->
-<section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F9FAFB]" id="news-section">
+<section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12" data-aos="fade-up">
             <div>
@@ -596,7 +596,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <h2 class="section-title">
                     Latest News</h2>
             </div>
-            <a href="news" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
+            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
                 <span>View All</span>
             </a>
         </div>
@@ -610,11 +610,11 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div>
                         <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                             <?php if(!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
-                                <a href="news/<?= $news['id'] ?>" class="w-full h-full block">
+                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="w-full h-full block">
                                     <img loading="lazy" src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                                 </a>
                             <?php else: ?>
-                                <a href="news/<?= $news['id'] ?>" class="w-full h-full flex items-center justify-center bg-gray-100 hover:bg-gray-200/50 transition-colors duration-300">
+                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="w-full h-full flex items-center justify-center bg-gray-100 hover:bg-gray-200/50 transition-colors duration-300">
                                     <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </a>
                             <?php endif; ?>
@@ -624,7 +624,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
-                                <a href="news/<?= $news['id'] ?>" class="hover:text-secondary transition-colors duration-300">
+                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hover:text-secondary transition-colors duration-300">
                                     <?= htmlspecialchars($news['title']) ?>
                                 </a>
                             </h3>
@@ -634,7 +634,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news/<?= $news['id'] ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
+                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
                             Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -644,7 +644,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
         </div>
 
         <div class="mt-10 text-center md:hidden">
-            <a href="news"
+            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
                 class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase">
                 <span>View All News</span>
             </a>
@@ -706,7 +706,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <div class="mb-1">
                                     <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold uppercase tracking-wider rounded"><?= $notice['type'] ?></span>
                                 </div>
-                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate">
+                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug">
                                     <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-secondary transition-colors duration-200">
                                         <?= htmlspecialchars($notice['title']) ?>
                                     </a>

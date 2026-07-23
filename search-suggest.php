@@ -23,8 +23,23 @@ try {
     $results = [];
     $searchTerm = "%$query%";
 
-    // Get current language from cookie
-    $current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+    // Get current language from cookie or URL parameter
+    $current_lang = 'en';
+    if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+        $current_lang = $_GET['lang'];
+        if (!headers_sent()) {
+            setcookie('lang', $current_lang, time() + 86400 * 30, '/');
+            setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
+        }
+    } elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
+        $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
+        if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
+            $current_lang = strtolower($m[1]);
+        }
+    }
+    if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+        $current_lang = $_COOKIE['lang'];
+    }
 
     // Static Pages definitions with translation mappings
     $static_pages = [
@@ -187,14 +202,17 @@ try {
         }
         
         if ($matched) {
+            $lang_param = ($current_lang !== 'en') ? '?lang=' . $current_lang : '';
             $results[] = [
                 'title' => $title,
                 'type' => 'Page',
-                'url' => $page['url']
+                'url' => $page['url'] . $lang_param
             ];
             $page_count++;
         }
     }
+
+    $lang_param = ($current_lang !== 'en') ? '?lang=' . $current_lang : '';
 
     // 1. Search News
     $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM news WHERE status = 'Published' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
@@ -212,7 +230,7 @@ try {
         $results[] = [
             'title' => $title,
             'type' => 'News',
-            'url' => 'news/' . $n['id']
+            'url' => 'news/' . $n['id'] . $lang_param
         ];
     }
 
@@ -224,7 +242,7 @@ try {
         $results[] = [
             'title' => $v['title'],
             'type' => 'Vacancy',
-            'url' => 'vacancies'
+            'url' => 'vacancies' . $lang_param
         ];
     }
 
@@ -236,7 +254,7 @@ try {
         $results[] = [
             'title' => $p['title'],
             'type' => 'Procurement',
-            'url' => 'procurements'
+            'url' => 'procurements' . $lang_param
         ];
     }
 

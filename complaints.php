@@ -2,8 +2,24 @@
 // complaints.php
 require_once 'admin/includes/db.php';
 
-// Detect active language
-$current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+// Detect active language from cookie or URL parameter
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+    if (!headers_sent()) {
+        setcookie('lang', $current_lang, time() + 86400 * 30, '/');
+        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
+    }
+} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
+    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
+    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
+        $current_lang = strtolower($m[1]);
+    }
+}
+if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_COOKIE['lang'];
+}
+
 
 // Localized Content
 $localized_content = [
@@ -121,7 +137,7 @@ include 'includes/sub-hero.php';
 ?>
 
 <!-- Main Content Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA]">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto max-w-5xl">
         <!-- Section Title and Intro -->
         <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">

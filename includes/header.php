@@ -1,6 +1,22 @@
 <?php
-// Initialize current_lang from cookie for frontend display and UI states
-$current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+// Initialize current_lang from cookie or URL parameter for frontend display and UI states
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+    if (!headers_sent()) {
+        setcookie('lang', $current_lang, time() + 86400 * 30, '/');
+        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
+    }
+} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
+    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
+    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
+        $current_lang = strtolower($m[1]);
+    }
+}
+if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_COOKIE['lang'];
+}
+
 
 // Security Headers
 header("X-Content-Type-Options: nosniff");
@@ -63,7 +79,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Noto+Serif+Sinhala:wght@400;500;600;700&family=Noto+Serif+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Favicon / Tab Emblem -->
     <?php
@@ -85,14 +101,20 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
     <!-- Language specific font overrides -->
     <?php if ($current_lang === 'si'): ?>
     <style>
+        html {
+            font-size: 90% !important;
+        }
         body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
-            font-family: 'Noto Sans Sinhala', sans-serif !important;
+            font-family: 'Noto Serif Sinhala', serif !important;
         }
     </style>
     <?php elseif ($current_lang === 'ta'): ?>
     <style>
+        html {
+            font-size: 90% !important;
+        }
         body, h1, h2, h3, h4, h5, h6, p, a, span, div, button, input, select, textarea, .font-inter, .font-montserrat {
-            font-family: 'Noto Sans Tamil', sans-serif !important;
+            font-family: 'Noto Serif Tamil', serif !important;
         }
     </style>
     <?php endif; ?>
@@ -105,34 +127,149 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
         iframe.goog-te-banner-frame,
         .goog-te-banner-frame.skiptranslate,
         #goog-gt-tt,
+        #goog-gt-tt *,
         .goog-te-balloon-frame,
+        .goog-te-balloon-frame *,
+        .goog-tooltip,
+        .goog-tooltip *,
         .VIpgJd-ZVi9od-ORHb-OEVmcd,
-        .VIpgJd-ZVi9od-aZ2wEe-wOHMyf { 
+        .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+        .VIpgJd-yA02fl-b9fd4c-dgl2Hf,
+        .VIpgJd-yA02fl-b9fd4c-SmR85d,
+        div[id*="goog"],
+        iframe[id*="goog"],
+        div.skiptranslate { 
             display: none !important; 
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
-        .goog-text-highlight { 
+        
+        font, 
+        font:hover, 
+        font:focus, 
+        font:active, 
+        font *, 
+        .goog-text-highlight,
+        .goog-text-highlight:hover,
+        .goog-text-highlight:focus,
+        .goog-text-highlight:active,
+        [class*="goog-text-highlight"],
+        [aria-describedby],
+        [aria-describedby]:hover,
+        font[style*="background-color"],
+        span[style*="background-color"],
+        font[style*="background"],
+        span[style*="background"] { 
             background-color: transparent !important; 
-            box-shadow: none !important; 
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            outline: none !important;
+            text-shadow: none !important;
         }
         body { top: 0px !important; position: relative !important; }
         #google_translate_element { display: none !important; }
     </style>
     <script>
+        // Intercept mouse events on Google Translate elements to block hover timers & popups
+        ['mouseover', 'mouseenter', 'mousemove'].forEach(function(eventType) {
+            document.addEventListener(eventType, function(e) {
+                if (e.target && (
+                    e.target.tagName === 'FONT' || 
+                    (e.target.closest && e.target.closest('font')) ||
+                    (e.target.classList && e.target.classList.contains('goog-text-highlight')) ||
+                    (e.target.hasAttribute && (e.target.hasAttribute('goog-tab-index') || e.target.hasAttribute('aria-describedby')))
+                )) {
+                    e.stopPropagation();
+                }
+            }, true);
+        });
+
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+            return "";
+        }
+
+        function getActiveLanguage() {
+            var gt = getCookie('googtrans');
+            if (gt) {
+                var decoded = decodeURIComponent(gt);
+                if (decoded.endsWith('/si') || decoded.indexOf('/si') !== -1) return 'si';
+                if (decoded.endsWith('/ta') || decoded.indexOf('/ta') !== -1) return 'ta';
+                if (decoded.endsWith('/en') || decoded.indexOf('/en/en') !== -1) return 'en';
+            }
+            var lang = getCookie('lang');
+            if (lang && ['en', 'si', 'ta'].includes(lang)) {
+                return lang;
+            }
+            return 'en';
+        }
+
+        function syncTopbarLanguageUI(targetLang) {
+            var currentLang = targetLang || getActiveLanguage();
+            
+            // Desktop topbar buttons
+            var desktopBtns = document.querySelectorAll('#lang-selector-desktop button[data-lang]');
+            desktopBtns.forEach(function(btn) {
+                var lang = btn.getAttribute('data-lang');
+                if (lang === currentLang) {
+                    btn.className = "lang-btn bg-yellow-400 text-primary shadow-md font-bold px-3 py-1 rounded-full transition-all duration-300 text-[11px]";
+                } else {
+                    btn.className = "lang-btn text-white/70 hover:text-white hover:bg-white/10 font-medium px-3 py-1 rounded-full transition-all duration-300 text-[11px]";
+                }
+            });
+
+            // Mobile drawer buttons
+            var mobileBtns = document.querySelectorAll('#lang-selector-mobile button[data-lang]');
+            mobileBtns.forEach(function(btn) {
+                var lang = btn.getAttribute('data-lang');
+                if (lang === currentLang) {
+                    btn.className = "lang-btn-mobile bg-primary text-white shadow-sm font-bold py-2 text-center rounded-lg transition-all duration-200 text-xs";
+                } else {
+                    btn.className = "lang-btn-mobile text-gray-600 hover:text-gray-900 font-medium py-2 text-center rounded-lg transition-all duration-200 text-xs";
+                }
+            });
+        }
+
         function changeLanguage(langCode) {
             document.cookie = "lang=" + langCode + "; path=/; max-age=" + (86400 * 30);
             if (langCode === 'en') {
                 document.cookie = "googtrans=/en/en; path=/";
                 document.cookie = "googtrans=/en/en; domain=." + document.domain + "; path=/";
+                var host = window.location.hostname;
+                var parts = host.split('.');
+                while (parts.length >= 2) {
+                    var domain = parts.join('.');
+                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + domain;
+                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + domain;
+                    parts.shift();
+                }
+                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             } else {
                 document.cookie = "googtrans=/en/" + langCode + "; path=/";
                 document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/";
             }
-            window.location.reload();
+            syncTopbarLanguageUI(langCode);
+            var url = new URL(window.location.href);
+            if (langCode === 'en') {
+                url.searchParams.delete('lang');
+            } else {
+                url.searchParams.set('lang', langCode);
+            }
+            window.location.href = url.toString();
         }
         
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false}, 'google_translate_element');
+            syncTopbarLanguageUI();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            syncTopbarLanguageUI();
+        });
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
@@ -154,7 +291,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">011 2581991</span>
+                <span class="font-medium tracking-wide">Tel: (+94) 11 2581991</span>
             </a>
             <span class="text-white/20">|</span>
             <span class="flex items-center space-x-2 px-2.5 py-1.5 text-white/70">
@@ -174,10 +311,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             </div>
             
             <!-- Language Selector -->
-            <div class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
-                <button onclick="changeLanguage('si')" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                <button onclick="changeLanguage('ta')" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
-                <button onclick="changeLanguage('en')" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
+            <div id="lang-selector-desktop" class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
+                <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
             </div>
         </div>
     </div>
@@ -384,10 +521,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 <!-- Mobile Language Selector -->
                 <div class="pb-2">
                     <div class="text-[11px] uppercase tracking-wider text-gray-400 font-bold mb-2.5 pl-1">Select Language</div>
-                    <div class="grid grid-cols-3 gap-2 bg-gray-50 rounded-xl p-1 border border-gray-200/50 notranslate">
-                        <button onclick="changeLanguage('si')" class="<?= $current_lang === 'si' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
-                        <button onclick="changeLanguage('ta')" class="<?= $current_lang === 'ta' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
-                        <button onclick="changeLanguage('en')" class="<?= $current_lang === 'en' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 font-inter text-xs tracking-wide">English</button>
+                    <div id="lang-selector-mobile" class="grid grid-cols-3 gap-2 bg-gray-50 rounded-xl p-1 border border-gray-200/50 notranslate">
+                        <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Sinhala', sans-serif;">සිංහල</button>
+                        <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Sans Tamil', sans-serif;">தமிழ்</button>
+                        <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 font-inter text-xs tracking-wide">English</button>
                     </div>
                 </div>
 

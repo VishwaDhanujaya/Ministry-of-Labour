@@ -1,7 +1,22 @@
 <?php
 // rti.php
-// Initialize current_lang from cookie for frontend display and UI states
-$current_lang = isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta']) ? $_COOKIE['lang'] : 'en';
+// Initialize current_lang from cookie or URL parameter for frontend display and UI states
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+    if (!headers_sent()) {
+        setcookie('lang', $current_lang, time() + 86400 * 30, '/');
+        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
+    }
+} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
+    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
+    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
+        $current_lang = strtolower($m[1]);
+    }
+}
+if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_COOKIE['lang'];
+}
 
 $rti_texts = [
     'en' => [
@@ -111,7 +126,7 @@ foreach ($rti_officers_raw as $officer) {
 }
 
 if (!function_exists('get_initials')) {
-    function get_initials($name) {
+    function get_initials(string $name): string {
         $clean_name = preg_replace('/^(Mr\.|Mrs\.|Ms\.|Dr\.|Prof\.|Rev\.)\s+/i', '', $name);
         $words = explode(' ', trim($clean_name));
         $initials = '';
@@ -340,7 +355,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- RTI Officers Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-[#FAFAFA] border-t border-gray-200">
+<section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto max-w-5xl">
         <span class="section-subtitle block text-center md:text-left"><?= $current_lang === 'si' ? 'අමාත්‍යාංශ කාර්ය මණ්ඩලය' : ($current_lang === 'ta' ? 'அமைச்சு ஊழியர்கள்' : 'Ministry Officials') ?></span>
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">

@@ -2,9 +2,16 @@
 // article.php
 require_once 'admin/includes/db.php';
 
+// Determine absolute base URL dynamically for redirects & SEO meta tags
+$base_dir_news = dirname($_SERVER['SCRIPT_NAME']);
+if ($base_dir_news === '\\' || $base_dir_news === '/') {
+    $base_dir_news = '';
+}
+$site_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir_news . '/';
+
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 if (!$id) {
-    header("Location: news");
+    header("Location: " . $site_url . "news");
     exit;
 }
 
@@ -13,7 +20,7 @@ $stmt->execute([$id]);
 $article = $stmt->fetch();
 
 if (!$article) {
-    header("Location: news");
+    header("Location: " . $site_url . "news");
     exit;
 }
 
@@ -62,13 +69,6 @@ $page_title = 'News';
 $pageTitle = strip_tags($article['title']);
 $metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
 $metaKeywords = 'Ministry of Labour, News, Sri Lanka, Updates';
-
-// Determine absolute base URL dynamically
-$base_dir_news = dirname($_SERVER['SCRIPT_NAME']);
-if ($base_dir_news === '\\' || $base_dir_news === '/') {
-    $base_dir_news = '';
-}
-$site_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir_news . '/';
 
 if (!empty($article['cover_image'])) {
     $ogImage = $site_url . 'admin/' . ltrim($article['cover_image'], '/');
@@ -127,7 +127,7 @@ include 'includes/sub-hero.php';
                 <!-- Pagination Links -->
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
                     <?php if ($prevArticle): ?>
-                    <a href="news/<?= $prevArticle['id'] ?>" class="group max-w-xs block">
+                    <a href="news/<?= $prevArticle['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="group max-w-xs block">
                         <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">&lt; Previous</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($prevArticle['title']) ?></p>
                     </a>
@@ -139,7 +139,7 @@ include 'includes/sub-hero.php';
                     <?php endif; ?>
 
                     <?php if ($nextArticle): ?>
-                    <a href="news/<?= $nextArticle['id'] ?>" class="group max-w-xs text-left md:text-right block">
+                    <a href="news/<?= $nextArticle['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="group max-w-xs text-left md:text-right block">
                         <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">Next &gt;</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($nextArticle['title']) ?></p>
                     </a>
@@ -171,7 +171,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news/<?= $post['id'] ?>" class="flex items-start gap-4 group">
+                                <a href="news/<?= $post['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="flex items-start gap-4 group">
                                     <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
                                         <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
                                             <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">

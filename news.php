@@ -61,11 +61,11 @@ include 'includes/sub-hero.php';
                                     <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
-                                    <a href="news/<?= $article['id'] ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
+                                    <a href="news/<?= $article['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
                                     <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
-                                    <a href="news/<?= $article['id'] ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
+                                    <a href="news/<?= $article['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news/<?= $post['id'] ?>" class="flex items-start gap-4 group">
+                                <a href="news/<?= $post['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="flex items-start gap-4 group">
                                     <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
                                         <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
                                             <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">

@@ -336,3 +336,93 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Files:** [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css), [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
 * **Author:** Antigravity AI
 * **Change Description:** Added responsive fluid typography scaling and container width extensions for 2K (1920px+), 1440p / QHD (2560px+), and 4K displays. Scaled `html` font-size dynamically up to `17.5px` (at 1920px) and `19px` (at 2560px) so all rem-based typography, paddings, cards, and UI elements scale smoothly. Expanded `.container`, `.max-w-6xl`, and `.max-w-5xl` constraints to prevent excessive empty side margins on wide monitors, and upgraded `#gridViewContainer` layouts to auto-expand to 4 columns on 2K displays and 5 columns on 4K displays. Compiled production CSS bundle (`npm run build:prod`).
+
+### 2026-07-22 (News Single Article Header Redirects & Production CSS Build Verification)
+* **Files:** [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Moved dynamic `$site_url` base URL calculation to the very top of `news-single.php` before ID and article existence checks. Updated `header("Location: news")` to use absolute `$site_url` (`header("Location: " . $site_url . "news")`), preventing path duplication issues where relative redirects from rewritten sub-paths (`/news/123`) would resolve to `/news/news`. Cleaned up redundant `$site_url` calculations later in the file, verified zero PHP syntax errors across all 60 workspace PHP files, and recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-22 (Topbar Selected Language Synchronization Across Client & Server)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Unified the language resolution logic across PHP scripts so that `$current_lang` checks both Google Translate's `googtrans` cookie (e.g., `/en/si`, `/en/ta`, `/en/en`) and the native `lang` cookie. Added client-side JavaScript helper functions (`getActiveLanguage()` and `syncTopbarLanguageUI()`) in `includes/header.php` to dynamically update topbar and mobile drawer button active highlights on DOM load and Google Translate initialization. Guaranteed that the highlighted topbar language button always accurately matches the active language of the website.
+
+### 2026-07-22 (Enhanced Visual Section Separation via Background Color Contrast)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php), [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Upgraded low-contrast background section classes (`bg-[#FAFAFA]` / `bg-[#F9FAFB]`, which were virtually indistinguishable from `bg-white`) to a crisp slate background (`bg-[#F1F5F9]`) paired with subtle top/bottom borders (`border-t border-b border-slate-200/80`) and inset micro-shadows. This creates distinct, high-contrast visual rhythm between alternating white and light-slate sections across the homepage and inner content pages without modifying layout dimensions or content structures. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-22 (Resolved Admin Topbar CSS Display Conflict Warnings)
+* **Files:** [admin/includes/topbar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/topbar.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Removed the redundant `block` class on the user dropdown `Settings` and `Logout` links in [admin/includes/topbar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/topbar.php#L35-L44). Since these links already use `flex items-center w-full` for alignment, having both `block` and `flex` caused conflicting CSS `display` property warnings. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-22 (Merged Policy Formulation & Foreign Relations Divisions)
+* **Files:** [database.sql](file:///c:/xampp/htdocs/Ministry-of-Labour/database.sql), [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Combined the "Policy Formulation & Foreign Relations" division and "Foreign Relations" division into a single consolidated division: "Policy Formulation & Foreign Relations". Performed database migrations to move all officials from division ID 6 (Foreign Relations) into division ID 2 (Policy Formulation & Foreign Relations) and deleted division ID 6. Adjusted RTI Officers division sort order to fill the index gap. Synced the division definitions and officials' assignments inside [database.sql](file:///c:/xampp/htdocs/Ministry-of-Labour/database.sql) (preserving its UTF-16LE encoding), and updated the IAU staff list in [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php) to use the unified department category name.
+
+### 2026-07-22 (Removed Contact Cards from about-us.php Divisions Profile)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Removed the redundant hardcoded Contact Information cards from all five division detail panels in [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php#L521-L700) to prevent duplication, as this information is already present in the "Our Officials" section right below. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Restructured About Us Officials & Ministry Leadership Layouts)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Restructured the About Us layout to separate political and executive heads from standard administrative officials. Renamed the top section heading from "Our Officials" to "Ministry Leadership" (which contains the Minister, Deputy Minister, and Secretary). Added a clean section divider and a new "Our Officials" heading directly above the division department tabs/grids to hold the division heads and staff. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Implemented News Link Language Parameters & Self-Healing Multi-lingual Cookies)
+* **Files:** [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added URL query parameter tracking (`?lang=si` / `?lang=ta`) to news, announcement, search, and navigation links. Implemented a self-healing server-side language parser that updates the cookies if the query parameter is present. Removed standard `notranslate` exclusions from plain English content (like the Announcements box titles) so Google Translate can translate them, while adding `notranslate` to the scrolling news ticker to protect pre-translated database texts from double-translation. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Added Gold Hover Color Effect to Scrolling News Bar)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the hover state class on the scrolling news ticker's links from `hover:text-white` to `hover:text-yellow-400` (the project's standard brand gold color) for enhanced visual appeal and consistency with header hover highlights. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Switched Sinhala Font to Noto Serif Sinhala)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Switched the imported and active Sinhala language font from 'Noto Sans Sinhala' to 'Noto Serif Sinhala' in the Google Fonts import list and active CSS selector override block within [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L82-L107) for enhanced readability and serif-style typography matching. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Reduced Sinhala Font Size Globally)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added a global `html { font-size: 94% !important; }` rule to the Sinhala CSS style override block in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L102-L107). Since Tailwind font sizes are based on `rem` values, scaling down the root HTML element's size reduces text sizing globally by exactly 6%, improving layout fit for Sinhala characters without text collisions. Recompiled production CSS styles (`npm run build:prod`).
+
+### 2026-07-23 (Switched Tamil Font to Noto Serif Tamil)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Switched the imported and active Tamil language font from 'Noto Sans Tamil' to 'Noto Serif Tamil' in the Google Fonts import list and active CSS selector override block within [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L82-L117) for enhanced readability and serif-style typography matching. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Aligned Hero Description Left & Reduced Tamil Font Size Globally)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Changed the hero description paragraph class in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php#L163) from `text-justify` to `text-left` for a cleaner text flow. Added a global `html { font-size: 94% !important; }` rule to the Tamil style override block in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L111-L116) to scale down all Tamil text sizes globally by 6%, improving layout rendering. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Disabled Google Translate Text Hover Highlights and Tooltip Popups)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Expanded the global CSS overrides inside [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L126-L150) targeting Google Translate's `.goog-text-highlight`, `.VIpgJd-yA02fl-b9fd4c-dgl2Hf`, and `font`/`span` background attributes. Stripped all background highlights, text shadows, and popups on hover so translated text looks and behaves identically to English text without blue/yellow hover boxes. Recompiled CSS production styles (`npm run build:prod`).
+
+### 2026-07-23 (Implemented Event Interception for Google Translate FONT Hover Timers)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added event capturing on `mouseover`, `mouseenter`, and `mousemove` for Google Translate's dynamically injected `<font>` elements, `.goog-text-highlight`, and `goog-tab-index` attributes inside [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php#L155-L170). Calling `stopPropagation()` prevents Google Translate's JS hover timers from firing, permanently stopping hover highlights and popups. Recompiled CSS production styles (`npm run build:prod`).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
