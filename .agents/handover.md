@@ -148,6 +148,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-24 (Homepage Hero Button Update: View News)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the secondary action button in the homepage hero section ([index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)) from "View Notices" to "View News" (`View News` in English, `පුවත් බලන්න` in Sinhala, and `செய்திகளைப் பார்க்க` in Tamil) via the `view_news` translation key in `includes/translations.php`.
+
 ### 2026-07-24 (Procurements Sinhala Rakaaransaya Glyph Update)
 * **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

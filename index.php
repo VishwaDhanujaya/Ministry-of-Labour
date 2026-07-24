@@ -170,7 +170,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 </a>
                 <a href="#news-section"
                     class="bg-white/5 backdrop-blur-sm text-white font-bold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:border-white hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter flex items-center justify-center text-center">
-                    <?= htmlspecialchars(t('view_notices')) ?>
+                    <?= htmlspecialchars(t('view_news')) ?>
                 </a>
             </div>
         </div>

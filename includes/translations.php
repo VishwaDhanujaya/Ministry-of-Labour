@@ -122,6 +122,11 @@ $lang_dict = [
         'si' => 'නිවේදන බලන්න',
         'ta' => 'அறிவிப்புகளைப் பார்க்க'
     ],
+    'view_news' => [
+        'en' => 'View News',
+        'si' => 'පුවත් බලන්න',
+        'ta' => 'செய்திகளைப் பார்க்க'
+    ],
     'search_placeholder' => [
         'en' => 'Search Ministry Services...',
         'si' => 'අමාත්‍යාංශ සේවාවන් සොයන්න...',
