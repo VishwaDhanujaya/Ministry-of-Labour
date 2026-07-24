@@ -26,8 +26,8 @@ $lang_dict = [
     ],
     'overview' => [
         'en' => 'Overview',
-        'si' => 'දළ විශ්ලේෂණය',
-        'ta' => 'மேலோட்டம்'
+        'si' => 'හැදින්වීම',
+        'ta' => 'கண்ணோட்டம்'
     ],
     'current_updates' => [
         'en' => 'Current Updates',
@@ -61,7 +61,7 @@ $lang_dict = [
     ],
     'procurements' => [
         'en' => 'Procurements',
-        'si' => 'ප්රසම්පාදන',
+        'si' => 'ප්‍රසම්පාදන',
         'ta' => 'கொள்முதல்கள்'
     ],
     'vacancies' => [
@@ -156,7 +156,7 @@ $lang_dict = [
     ],
     'quick_links' => [
         'en' => 'Quick Links',
-        'si' => 'ක්ෂණික සබැඳි',
+        'si' => 'ක්ෂණික පිවිසුම්',
         'ta' => 'விரைவு இணைப்புகள்'
     ],
     'ql_ampara' => [

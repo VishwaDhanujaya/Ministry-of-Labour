@@ -148,6 +148,21 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-24 (Procurements Sinhala Rakaaransaya Glyph Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Corrected the Sinhala Rakaaransaya Unicode glyph for `procurements` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) from unjoined `ප්රසම්පාදන` to properly joined `ප්‍රසම්පාදන`.
+
+### 2026-07-24 (Overview Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala (`හැදින්වීම`) and Tamil (`கண்ணோட்டம்`) translations for `overview` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php). Bound the section heading on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) to use `<?= t('overview') ?>` and added the `notranslate` class to prevent the client-side Google Translate JS widget from overwriting the manual human translation with `හැඩින්වීම`.
+
+### 2026-07-23 (Quick Links Sinhala Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala translation for `quick_links` from `ක්ෂණික සබැඳි` to `ක්ෂණික පිවිසුම්` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) and bound the homepage Quick Links section header ([index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)) to `<?= t('quick_links') ?>`.
+
 ### 2026-07-23 (Renamed RTI Portal to RTI in Quick Links)
 * **Files:** [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

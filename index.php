@@ -491,7 +491,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
         <div class="mb-12">
             <div>
                 <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Quick Access</p>
-                <h2 class="section-title text-white mb-0">Quick Links</h2>
+                <h2 class="section-title text-white mb-0"><?= t('quick_links', 'Quick Links') ?></h2>
                 <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-justify">Direct access to our most crucial portals and services.</p>
             </div>
         </div>

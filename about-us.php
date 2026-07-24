@@ -32,7 +32,7 @@ include 'includes/sub-hero.php';
         </div>
         <!-- Content -->
         <div class="w-full lg:w-1/2" data-aos="fade-left">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6">Overview</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6 notranslate"><?= t('overview', 'Overview') ?></h2>
             <div class="space-y-4 text-gray-600 font-inter text-[15px] leading-relaxed mb-10">
                 <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
                     and private sectors, and the formulation and implementation of pertinent policies to establish
