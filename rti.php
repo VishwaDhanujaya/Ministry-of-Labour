@@ -276,8 +276,8 @@ include 'includes/sub-hero.php';
 ?>
 
 <!-- Content Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white overflow-hidden">
-    <div class="container mx-auto max-w-5xl">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-white overflow-hidden">
+    <div class="container mx-auto">
         
         <!-- Commitment & Overview: 2-Column Grid -->
         <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-16">
@@ -341,10 +341,10 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- RTI Officers Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
-    <div class="container mx-auto max-w-5xl">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+    <div class="container mx-auto">
         <span class="section-subtitle block text-center md:text-left"><?= $current_lang === 'si' ? 'අමාත්‍යාංශ කාර්ය මණ්ඩලය' : ($current_lang === 'ta' ? 'அமைச்சு ஊழியர்கள்' : 'Ministry Officials') ?></span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 md:mb-10 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_texts[$current_lang]['officers_title']) ?>
         </h2>
         
@@ -354,20 +354,20 @@ include 'includes/sub-hero.php';
                     <div class="bg-white rounded-[32px] border border-gray-200/80 p-6 md:p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transform transition-all duration-300 flex flex-col justify-between h-full group">
                         <div>
                             <div class="flex items-center gap-4 mb-6">
-                                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300">
+                                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary/10 to-primary/5 text-primary border border-primary/10 flex items-center justify-center font-montserrat font-bold text-lg shrink-0 group-hover:scale-105 transition-transform duration-300 notranslate" translate="no">
                                     <?= htmlspecialchars(get_initials($officer['name'])) ?>
                                 </div>
                                 <div>
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
                                         <?= htmlspecialchars($rti_texts[$current_lang][$type . '_officer']) ?>
                                     </span>
-                                    <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate">
+                                    <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug">
                                         <?= htmlspecialchars($officer['name']) ?>
                                     </h3>
                                 </div>
                             </div>
                             
-                            <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate">
+                            <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px]">
                                 <?= htmlspecialchars($officer['designation']) ?>
                             </p>
                             
@@ -438,10 +438,10 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- RTI Forms and Details Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-gray-200">
-    <div class="container mx-auto max-w-5xl">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-white border-t border-gray-200">
+    <div class="container mx-auto">
         <span class="section-subtitle block text-center md:text-left"><?= htmlspecialchars($rti_details[$current_lang]['section_subtitle']) ?></span>
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-12 text-center md:text-left notranslate" data-aos="fade-up">
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 md:mb-10 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_details[$current_lang]['section_title']) ?>
         </h2>
         
@@ -591,8 +591,8 @@ include 'includes/sub-hero.php';
 </section>
 
 <!-- Standalone More Info Callout Section -->
-<section class="py-16 px-4 md:px-16 bg-white border-t border-gray-200 overflow-hidden">
-    <div class="container mx-auto max-w-5xl" data-aos="zoom-in">
+<section class="py-12 md:py-16 px-4 md:px-16 bg-white border-t border-gray-200 overflow-hidden">
+    <div class="container mx-auto" data-aos="zoom-in">
         <div class="relative bg-gradient-to-r from-primary to-primary/95 text-white rounded-[32px] p-8 md:p-12 shadow-lg overflow-hidden border border-white/10">
             <!-- Background Decorative Mesh -->
             <div class="absolute inset-0 bg-mesh-pattern opacity-10 pointer-events-none"></div>

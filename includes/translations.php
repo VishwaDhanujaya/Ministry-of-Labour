@@ -44,6 +44,11 @@ $lang_dict = [
         'si' => 'ඔබේ දැනුමට',
         'ta' => 'கற்றல் தளங்கள்'
     ],
+    'learning_platforms_desc' => [
+        'en' => 'Access local and foreign publications related to your knowledge.',
+        'si' => 'ඔබේ දැනුමට අදාළ දේශීය හා විදේශීය ප්‍රකාශන වෙත ප්‍රවේශ වන්න.',
+        'ta' => 'உங்கள் அறிவுக்கு தொடர்பான உள்நாட்டு மற்றும் வெளிநாட்டு வெளியீடுகளை அணுகவும்.'
+    ],
     'local_publications' => [
         'en' => 'Local Publications',
         'si' => 'දේශීය ප්‍රකාශන',
@@ -166,13 +171,18 @@ $lang_dict = [
     ],
     'ql_ampara' => [
         'en' => 'Ampara Circuit Bungalow',
-        'si' => 'අම්පාර විශ්‍රාම ශාලාව',
+        'si' => 'අම්පාර සංචාරක බංගලාව',
         'ta' => 'அம்பாறை சுற்றுலா பங்களா'
     ],
     'ql_news_updates' => [
         'en' => 'News Updates',
         'si' => 'නවතම පුවත්',
         'ta' => 'அண்மைக்கාල செய்திகள்'
+    ],
+    'news_updates_desc' => [
+        'en' => 'Read the latest news and updated notices related to the Ministry.',
+        'si' => 'අමාත්‍යාංශයට අදාළ නවතම පුවත්, යාවත්කාලීන නිවේදන කියවන්න.',
+        'ta' => 'அமைச்சு தொடர்பான அண்மைக்கාල செய்திகள் மற்றும் புதுப்பிக்கப்பட்ட அறிவிப்புகளைப் படிக்கவும்.'
     ],
     'latest_news' => [
         'en' => 'Latest News',
@@ -193,6 +203,16 @@ $lang_dict = [
         'en' => 'Complaints',
         'si' => 'පැමිණිලි',
         'ta' => 'புகார்கள்'
+    ],
+    'complaints_desc' => [
+        'en' => 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.',
+        'si' => 'WhatsApp හරහා අමාත්‍යාංශය වෙත පැමිණිලි ඉදිරිපත් කිරීමට සහ CMS හරහා කම්කරු දෙපාර්තමේන්තුවට පැමිණිලි ඉදිරිපත් කරන්න.',
+        'ta' => 'வாட்ஸ்அப் மூலம் அமைச்சிற்கு புகார்களை சமர்ப்பிக்கவும் மற்றும் CMS மூலம் தொழிலாளர் திணைக்களத்திற்கு புகார்களை சமர்ப்பிக்கவும்.'
+    ],
+    'rti_desc' => [
+        'en' => 'Submit information requests under the Right to Information Act in Sri Lanka.',
+        'si' => 'ශ්‍රී ලංකාවේ තොරතුරු දැනගැනීමේ අයිතිවාසිකම් පනත යටතේ තොරතුරු ඉල්ලීම් ඉදිරිපත් කරන්න.',
+        'ta' => 'இலங்கையில் தகவல் அறியும் உரிமைச் சட்டத்தின் கீழ் தகவல் கோரிக்கைகளை சமர்ப்பிக்கவும்.'
     ],
     'contact_heading' => [
         'en' => 'Contact',
@@ -238,12 +258,12 @@ $lang_dict = [
     ],
     'ampara_bungalow' => [
         'en' => 'Ampara Circuit Bungalow',
-        'si' => 'අම්පාර විශ්‍රාම ශාලාව',
+        'si' => 'අම්පාර සංචාරක බංගලාව',
         'ta' => 'அம்பாறை சுற்றுலா பங்களா'
     ],
     'ampara_booking' => [
         'en' => 'Ampara Circuit Bungalow Booking',
-        'si' => 'අම්පාර විශ්‍රාම ශාලාව වෙන්කිරීම',
+        'si' => 'අම්පාර සංචාරක බංගලාව වෙන්කිරීම',
         'ta' => 'அம்பாறை சுற்றுலா பங்களா முன்பதிவு'
     ],
     'complaints' => [
@@ -259,12 +279,44 @@ $lang_dict = [
     'happy_customers' => [
         'en' => 'Happy Customers',
         'si' => 'සෑහීමට පත් පාරිභෝගිකයින්',
-        'ta' => 'மகிழ்ச்சியான வாடிக்கையாளர்கள்'
+        'ta' => 'මகிழ்ச்சியான வாடிக்கையாளர்கள்'
     ],
     'related_organizations' => [
         'en' => 'Related Organizations',
         'si' => 'සම්බන්දිත ආයතන',
         'ta' => 'தொடர்புடைய அமைப்புகள்'
+    ],
+
+    // About Us Page: Vision, Mission & Overview
+    'about_vision_title' => [
+        'en' => 'Our Vision',
+        'si' => 'අපගේ දැක්ම',
+        'ta' => 'எமது நோக்கு'
+    ],
+    'about_vision_text' => [
+        'en' => 'A satisfied, productive labour force',
+        'si' => 'තෘප්තිමත් ඵලදායී ශ්‍රී ලාංකික ශ්‍රම බලකායක්',
+        'ta' => 'திருப்திகரமான, உற்பத்தித்திறன்மிக்க இலங்கைத் தொழிலாளர் படை'
+    ],
+    'about_mission_title' => [
+        'en' => 'Our Mission',
+        'si' => 'අපගේ මෙහෙවර',
+        'ta' => 'எமது பணிப்பொறுப்பு'
+    ],
+    'about_mission_text' => [
+        'en' => 'Contribute to socio-economic development through industrial peace and cooperation, social protection, safeguarding labour rights and promotion of productivity.',
+        'si' => 'කාර්මික සාමය හා සහයෝගීතාව, සමාජ සුරක්ෂිතතාවය, කම්කරු අයිතිවාසිකම් ආරක්ෂා කිරීම හා ඵලදායීතාව ප්‍රවර්ධනය තුළින් සමාජ-ආර්ථික සංවර්ධනයට දායක වීම',
+        'ta' => 'தொழிற்துறை அமைதி மற்றும் ஒத்துழைப்பு, சமூகப் பாதுகாப்பு, தொழிலாளர் உரிமைகளைப் பாதுகாத்தல் மற்றும் உற்பத்தித்திறனை மேம்படுத்துதல் ஊடாக சமூக-பொருளாதார அபிவிருத்திக்குப் பங்களிப்பு செய்தல்.'
+    ],
+    'overview_p1' => [
+        'en' => 'The prime mission of the Ministry of Labour is to formulate and implement policies to enhance the contribution of the local labour force to economic development by protecting the occupational rights of private and semi-government employees, ensuring social security, ensuring industrial peace, directing skilled labour to the job market, providing employment, ensuring job security and promoting productivity in the country.',
+        'si' => 'පෞද්ගලික හා අර්ධ රාජ්‍ය අංශයේ සේවයේ නියුක්තිකයින්ගේ වෘත්තීය අයිතිවාසිකම් ආරක්ෂා කිරීම, සමාජ ආරක්ෂණය, කාර්මික සාමය තහවුරු කිරීම, රැකියා වෙළඳ පොළ සඳහා පුහුණු ශ්‍රමිකයින් යොමු කිරීම, රැකියාගත කිරීම සහ රැකියා සුරක්ෂිතභාවය තහවුරු කිරීම, වෘත්තීය සුරක්ෂිතතාව හා සෞඛ්‍ය ආරක්ෂණය තහවුරු කිරීම තුළින් දේශීය ශ්‍රම බලකායේ ආර්ථික සංවර්ධනයට වන දායකත්වය ඉහළ නැංවීමට අවශ්‍ය ප්‍රතිපත්ති සම්පාදනය හා ක්‍රියාත්මක කිරීම කම්කරු අමාත්‍යාංශයේ ප්‍රධාන මෙහෙවරයි.',
+        'ta' => 'தனியார் மற்றும் பகுதி அரச துறைகளின் ஊழியர்களின் தொழிலாளர் உரிமைகளைப் பாதுகாத்தல், சமூகப் பாதுகாப்பு, தொழிற்துறை அமைதியை உறுதிசெய்தல், பயிற்சி பெற்ற தொழிலாளர்களை தொழில் சந்தைக்கு வழிகாட்டுதல், தொழில் வாய்ப்பை உறுதிசெய்தல், தொழில் பாதுகாப்பு மற்றும் சுகாதாரப் பாதுகாப்பை உறுதிசெய்தல் என்பவற்றின் ஊடாக உள்நாட்டுச் சிரமபலத்தின் பொருளாதார அபிவிருத்திக்கான பங்களிப்பை மேம்படுத்துவதற்குத் தேவையான கொள்கைகளை வகுத்தல் மற்றும் நடைமுறைப்படுத்தல் தொழில் அமைச்சின் பிரதான பணிமுயற்சியாகும்.'
+    ],
+    'overview_p2' => [
+        'en' => 'In pursuit of this mission, the key function of this Ministry is to formulate policies, plan, implement, monitor and follow up on programmes and projects related to the scope of labour and the scopes of departments and institutions affiliated to the Ministry, based on the tasks assigned and national policies in terms of the Gazette Extraordinary Notification No. 2412/08 dated 25.11.2024, in accordance with the sustainable development goals and international conventions ratified by Sri Lanka the Government.',
+        'si' => 'මෙම මෙහෙවර ඉටු කිරීමේදී තිරසාර සංවර්ධන අභිමතාර්ථ සහ ශ්‍රී ලංකාව විසින් අපරානුමත කර ඇති ජාත්‍යන්තර සම්මුතීන් මෙන්ම 2024.11.25 දිනැති අංක 2412/08 දරන අති විශේෂ ගැසට් නිවේදනයෙහි සඳහන් කාර්යයන් හා කර්තව්‍යයන් මත පදනම්ව අමාත්‍යාංශයේ වැඩසටහන් පිළියෙල කර ඇත. එම ගැසට් නිවේදනය ප්‍රකාරව රජය විසින් ක්‍රියාත්මක කරනු ලබන ජාතික ප්‍රතිපත්තීන් මත පිහිටා කම්කරු විෂය පථයට සහ අමාත්‍යාංශයට අනුබද්ධිත ආයතනයන්හි විෂය පථයන්ට අදාළව ප්‍රතිපත්ති සම්පාදනය, වැඩසටහන් සහ ව්‍යාපෘති සැලසුම් කිරීම, ක්‍රියාත්මක කිරීම, අධීක්ෂණය හා පසුපරීක්ෂාව මෙම අමාත්‍යාංශයේ ප්‍රධාන කාර්යභාරයයි.',
+        'ta' => 'இந்தப் பணிமுயற்சியை நிறைவேற்றுவதில், நிலையான அபிவிருத்தி இலக்குகள் மற்றும் இலங்கையினால் அங்கீகரிக்கப்பட்ட சர்வதேச உடன்படிக்கைகள் அத்துடன் 2024.11.25 ஆம் திகதிய 2412/08 ஆம் இலக்க அதிவிசேட வர்த்தமானி அறிவித்தலில் குறிப்பிடப்பட்டுள்ள கடமைகள் மற்றும் பொறுப்புகளின் அடிப்படையில் அமைச்சின் வேலைத்திட்டங்கள் தயாரிக்கப்பட்டுள்ளன. அவ்வர்த்தமானி அறிவித்தலின் பிரகாரம் அரசாங்கத்தினால் நடைமுறைப்படுத்தப்படும் தேசியக் கொள்கைகளின் அடிப்படையில் தொழில் விடயப்பரப்பிற்கும் அமைச்சிற்கு இணைக்கப்பட்டுள்ள நிறுவனங்களின் விடயப்பரப்புகளுக்கும் அமைவாகக் கொள்கைகளை உருவாக்குதல், வேலைத்திட்டங்கள் மற்றும் திட்டங்களை திட்டமிடுதல், நடைமுறைப்படுத்தல், மேற்பார்வை செய்தல் மற்றும் தொடர் நடவடிக்கை எடுத்தல் என்பன இவ்வமைச்சின் பிரதான செயற்பாடாகும்.'
     ]
 ];
 

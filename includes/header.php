@@ -318,12 +318,12 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
 
     <!-- Top Bar -->
     <div class="hidden md:flex bg-gradient-to-r from-primary via-[#2D2D43] to-primary text-white/90 text-[11px] md:text-xs h-10 px-4 md:px-8 flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
-        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start notranslate">
-            <a href="mailto:info@labourmin.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">
+        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start notranslate" translate="no">
+            <a href="mailto:info@labourmin.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group notranslate" translate="no">
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span class="font-medium tracking-wide">info@labourmin.gov.lk</span>
+                <span class="font-medium tracking-wide notranslate" translate="no">info@labourmin.gov.lk</span>
             </a>
             <span class="text-white/20">|</span>
             <a href="tel:0112581991" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group">

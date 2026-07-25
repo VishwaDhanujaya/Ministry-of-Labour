@@ -101,7 +101,7 @@ try {
             'url' => 'ampara-circuit-bungalow',
             'titles' => [
                 'en' => 'Ampara Circuit Bungalow - Online Booking',
-                'si' => 'අම්පාර පරිපථ බංගලාව - මාර්ගගත වෙන්කිරීම්',
+                'si' => 'අම්පාර සංචාරක බංගලාව - මාර්ගගත වෙන්කිරීම්',
                 'ta' => 'அம்பாறை சுற்றுவட்ட பங்களா - ஆன்லைன் முன்பதிவு'
             ],
             'keywords' => ['ampara', 'circuit bungalow', 'booking', 'bungalow', 'accommodation', 'holiday', 'අම්පාර', 'බංගලාව', 'அம்பாறை']

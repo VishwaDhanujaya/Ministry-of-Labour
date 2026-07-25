@@ -201,7 +201,7 @@
                             </div>
                             <p class="notranslate">(+94) 11 2581991</p>
                             <p class="notranslate">(+94) 11 2368165</p>
-                            <p><a href="mailto:info@labourmin.gov.lk" class="hover:underline hover:text-white transition-colors">info@labourmin.gov.lk</a></p>
+                            <p class="notranslate" translate="no"><a href="mailto:info@labourmin.gov.lk" class="hover:underline hover:text-white transition-colors notranslate" translate="no">info@labourmin.gov.lk</a></p>
                         </div>
                         <div class="flex space-x-2 mt-6">
                             <a href="https://www.facebook.com/labourmin" aria-label="Facebook Social" target="_blank" class="w-8 h-8 rounded border border-white/10 flex items-center justify-center bg-white/5 hover:bg-[#1877F2] transition-all group"><svg class="w-4 h-4 fill-white transition-colors" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>

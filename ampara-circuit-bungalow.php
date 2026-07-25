@@ -623,7 +623,7 @@ include 'includes/sub-hero.php';
                         <div>
                             <span class="block font-bold text-slate-800 text-[13px] mb-0.5">Email Contact</span>
                             <a href="mailto:info@labour.gov.lk"
-                                class="text-[12px] hover:text-secondary leading-normal block transition-colors">info@labour.gov.lk</a>
+                                class="text-[12px] hover:text-secondary leading-normal block transition-colors notranslate" translate="no">info@labour.gov.lk</a>
                         </div>
                     </li>
                 </ul>

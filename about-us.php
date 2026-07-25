@@ -33,17 +33,9 @@ include 'includes/sub-hero.php';
         <!-- Content -->
         <div class="w-full lg:w-1/2" data-aos="fade-left">
             <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6 notranslate"><?= t('overview', 'Overview') ?></h2>
-            <div class="space-y-4 text-gray-600 font-inter text-[15px] leading-relaxed mb-10">
-                <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
-                    and private sectors, and the formulation and implementation of pertinent policies to establish
-                    industrial peace and employer-employee relationships required for enhancing production and labour
-                    productivity, are the prime objectives of the Ministry of Labour.</p>
-                <p>The Ministry of Labour plays a vital role in safeguarding the rights and welfare of employees while
-                    fostering harmonious industrial relations across the country. The ministry oversees labour laws,
-                    social security programs, employment policies, and occupational safety standards to ensure a fair
-                    and productive labour environment.</p>
-                <p>Through its institutions and departments, the ministry serves millions of employees in the private
-                    and semi-government sectors while contributing to national economic development.</p>
+            <div class="space-y-4 text-gray-600 font-inter text-[15px] leading-relaxed mb-10 notranslate">
+                <p><?= t('overview_p1') ?></p>
+                <p><?= t('overview_p2') ?></p>
             </div>
 
             <div class="about-stats-container">
@@ -116,18 +108,17 @@ include 'includes/sub-hero.php';
                 <div class="relative z-10 mb-10">
                     <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-4 text-white tracking-tight flex items-center gap-3">
                         <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        Our Vision
+                        <span class="notranslate"><?= t('about_vision_title', 'Our Vision') ?></span>
                     </h3>
-                    <p class="text-base md:text-lg text-[#F3F4F6] font-inter italic leading-relaxed">"A satisfied productive labour force"</p>
+                    <p class="text-base md:text-lg text-[#F3F4F6] font-inter italic leading-relaxed notranslate">"<?= t('about_vision_text', 'A satisfied, productive labour force') ?>"</p>
                 </div>
                 <div class="relative z-10">
                     <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-4 text-white tracking-tight flex items-center gap-3">
                         <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        Our Mission
+                        <span class="notranslate"><?= t('about_mission_title', 'Our Mission') ?></span>
                     </h3>
-                    <p class="text-[#F3F4F6] font-inter text-[14px] md:text-[15.5px] leading-relaxed">
-                        "Contribute towards the socio-economic development through the promotion of industrial peace and
-                        harmony, social protection, rights at work, and productivity"
+                    <p class="text-[#F3F4F6] font-inter text-[14px] md:text-[15.5px] leading-relaxed notranslate">
+                        "<?= t('about_mission_text') ?>"
                     </p>
                 </div>
             </div>

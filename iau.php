@@ -195,14 +195,14 @@ include 'includes/sub-hero.php';
                     </div>
                     
                     <div class="flex items-center gap-4">
-                        <a href="mailto:iaunit.mol@gmail.com" class="shrink-0" title="Email">
+                        <a href="mailto:iaunit.mol@gmail.com" class="shrink-0 notranslate" translate="no" title="Email">
                             <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
                         </a>
-                        <a href="mailto:iaunit.mol@gmail.com" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors">iaunit.mol@gmail.com</a>
+                        <a href="mailto:iaunit.mol@gmail.com" class="text-[#FAFAFA] font-inter text-sm hover:text-white transition-colors notranslate" translate="no">iaunit.mol@gmail.com</a>
                     </div>
                     
                     <div class="flex items-center gap-4">
@@ -302,7 +302,7 @@ include 'includes/sub-hero.php';
             <p class="text-base md:text-lg pb-1 md:pb-2"><?php echo $staff['designation']; ?></p>
             <?php endif; ?>
             <p class="text-xs md:text-[15px]">Tel: <?php echo $staff['phone']; ?></p>
-            <p class="text-xs md:text-[15px]">Email: <?php echo $staff['email']; ?></p>
+            <p class="text-xs md:text-[15px]">Email: <span class="notranslate" translate="no"><?php echo $staff['email']; ?></span></p>
         </div>
     </div>
 </div>

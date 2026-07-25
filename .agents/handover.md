@@ -148,6 +148,41 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-25 (Vision, Mission, and Overview Trilingual Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Ministry Overview, Vision, and Mission texts across English, Sinhala, and Tamil. Registered dedicated translation keys (`about_vision_title`, `about_vision_text`, `about_mission_title`, `about_mission_text`, `overview_p1`, `overview_p2`) in `includes/translations.php` with official trilingual wording. Fixed missing array closing delimiter for `happy_customers` in `includes/translations.php` to resolve HTTP 500 parse error. Updated [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) to bind these section elements dynamically via `t()`, applying `notranslate` wrappers to preserve human translation fidelity against automated browser translation overrides. Recompiled CSS assets via `npm run build:prod`.
+
+### 2026-07-24 (RTI Officers Avatar & Name Translation Fix)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added `class="notranslate"` and `translate="no"` attributes to the officer profile picture initials avatar circle in [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php) to prevent Google Translate from translating letter combinations ("LS", "PC", "WS") into Sinhala words ("එල්එස්", "පීසී", "දකුණු සුඩානය"). Removed `notranslate` from the officer name (`<h3>`) and designation (`<p>`) elements to allow Google Translate to dynamically translate officer names and designations into Sinhala and Tamil.
+
+### 2026-07-24 (Ampara Circuit Bungalow Sinhala Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala translation for Ampara Circuit Bungalow (`ql_ampara`, `ampara_bungalow`, `ampara_booking`, search autocomplete) across the codebase from `අම්පාර විශ්‍රාම ශාලාව` to `අම්පාර සංචාරක බංගලාව`.
+
+### 2026-07-24 (RTI Page Layout & Section Padding Alignment)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Standardized the section paddings (`py-12 md:py-16 px-4 md:px-16`) and container widths (`container mx-auto`) on [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php) to match the layout dimensions of [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) and other core pages across the site.
+
+### 2026-07-24 (Email Translation Protection - notranslate / translate="no")
+* **Files:** [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php), [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Applied `class="notranslate"` and `translate="no"` attributes to `iaunit.mol@gmail.com` and all official email addresses across the portal to prevent automatic machine translation widgets (such as Google Translate) from translating email addresses.
+
+### 2026-07-24 (Quick Links Cards Text & Translation Update)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the descriptions and titles in the homepage Quick Links section for Learning Platforms ("ඔබේ දැනුමට"), News Updates ("නවතම පුවත්"), and Complaints ("පැමිණිලි"). Integrated new translation keys (`learning_platforms_desc`, `news_updates_desc`, `complaints_desc`, and `rti_desc`) in `includes/translations.php` for seamless trilingual support (English, Sinhala, Tamil) and bound cards in `index.php` using the `t()` helper.
+
+### 2026-07-24 (ILO Ratified Conventions Sinhala Translation Update)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Sinhala label for `ILO Ratified Conventions` on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) from `අනුමත කරන ලද ILO සම්මුතීන්` to `අපරානුමත කරන ලද ILO සම්මුතීන්`.
+
 ### 2026-07-24 (Homepage Hero Button Update: View News)
 * **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

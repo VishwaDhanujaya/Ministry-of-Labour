@@ -71,7 +71,7 @@ if ($statisticsList === null) {
 $stats = [
     'ilo_conventions' => [
         'stat_label' => 'ILO Ratified Conventions',
-        'stat_label_si' => 'අනුමත කරන ලද ILO සම්මුතීන්',
+        'stat_label_si' => 'අපරානුමත කරන ලද ILO සම්මුතීන්',
         'stat_label_ta' => 'ஒப்புதல் அளிக்கப்பட்ட ஐ.எல்.ஓ உடன்படிக்கைகள்',
         'stat_value' => '44',
         'stat_suffix' => ''
@@ -532,8 +532,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Learning Platforms</h3>
-                        <p class="focus-card-desc">Access official learning platforms and resources.</p>
+                        <h3 class="focus-card-title"><?= t('learning_platforms', 'Learning Platforms') ?></h3>
+                        <p class="focus-card-desc"><?= t('learning_platforms_desc', 'Access local and foreign publications related to your knowledge.') ?></p>
                     </div>
                 </a>
  
@@ -545,8 +545,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">News Updates</h3>
-                        <p class="focus-card-desc">Read the latest news, updates, announcements, and notices from the Ministry.</p>
+                        <h3 class="focus-card-title"><?= t('ql_news_updates', 'News Updates') ?></h3>
+                        <p class="focus-card-desc"><?= t('news_updates_desc', 'Read the latest news and updated notices related to the Ministry.') ?></p>
                     </div>
                 </a>
  
@@ -559,7 +559,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                             </svg>
                         </div>
                         <h3 class="focus-card-title"><?= t('rti') ?></h3>
-                        <p class="focus-card-desc">Submit information requests under the Right to Information Act in Sri Lanka.</p>
+                        <p class="focus-card-desc"><?= t('rti_desc', 'Submit information requests under the Right to Information Act in Sri Lanka.') ?></p>
                     </div>
                 </a>
  
@@ -571,8 +571,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Complaints</h3>
-                        <p class="focus-card-desc">Lodge formal complaints via the CMS portal and escalate via WhatsApp if needed.</p>
+                        <h3 class="focus-card-title"><?= t('ql_complaints', 'Complaints') ?></h3>
+                        <p class="focus-card-desc"><?= t('complaints_desc', 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.') ?></p>
                     </div>
                 </a>
             </div>

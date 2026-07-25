@@ -33,7 +33,7 @@ include 'includes/sub-hero.php';
                                 <strong class="text-gray-900">Bank:</strong> People's Bank – Narahenpita Branch<br>
                                 <strong class="text-gray-900">Account Number:</strong> 119-1-001-59025666
                             </li>
-                            <li>Send the payment receipt via Email to <a href="mailto:admin@labourmin.gov.lk" class="font-medium underline">admin@labourmin.gov.lk</a> or via WhatsApp.</li>
+                            <li>Send the payment receipt via Email to <a href="mailto:admin@labourmin.gov.lk" class="font-medium underline notranslate" translate="no">admin@labourmin.gov.lk</a> or via WhatsApp.</li>
                         </ol>
                     </div>
                     <a href="ampara-circuit-bungalow.php" class="inline-flex px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition shadow-md">Return to Details</a>

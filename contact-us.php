@@ -81,7 +81,7 @@ include 'includes/sub-hero.php';
                     </div>
                     <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900">Email Address</h3>
                 </div>
-                <p class="text-xs md:text-[13px] font-inter text-gray-600 break-all">
+                <p class="text-xs md:text-[13px] font-inter text-gray-600 break-all notranslate" translate="no">
                     info@labourmin.gov.lk
                 </p>
             </a>
@@ -218,7 +218,7 @@ include 'includes/sub-hero.php';
                         <?php endif; ?>
                         
                         <?php if($person['email']): ?>
-                        <p class="text-xs md:text-[14px] text-gray-200">Email: <a href="mailto:<?php echo $person['email']; ?>" class="hover:text-white transition-colors"><?php echo $person['email']; ?></a></p>
+                        <p class="text-xs md:text-[14px] text-gray-200">Email: <a href="mailto:<?php echo $person['email']; ?>" class="hover:text-white transition-colors notranslate" translate="no"><?php echo $person['email']; ?></a></p>
                         <?php endif; ?>
                     </div>
                 </div>
