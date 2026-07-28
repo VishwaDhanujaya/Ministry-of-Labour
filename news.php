@@ -32,8 +32,8 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-[1400px]">
         <!-- Section Title -->
         <div class="text-center mb-12">
-            <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter uppercase">Our Blog</p>
-            <h2 class="text-2xl sm:text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Latest Insights</h2>
+            <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter uppercase notranslate"><?= t('our_blog') ?></p>
+            <h2 class="text-2xl sm:text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900 notranslate"><?= t('latest_insights') ?></h2>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -95,7 +95,7 @@ include 'includes/sub-hero.php';
 
                     <!-- Recent Posts -->
                     <div class="mb-10">
-                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6">Recent Posts</h3>
+                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6 notranslate"><?= t('recent_posts') ?></h3>
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>

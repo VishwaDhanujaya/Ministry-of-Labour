@@ -519,7 +519,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title">Ampara Circuit Bungalow</h3>
+                        <h3 class="focus-card-title notranslate"><?= t('ql_ampara') ?></h3>
                         <p class="focus-card-desc">Book and reserve the Ministry's comfortable circuit bungalow in Ampara online.</p>
                     </div>
                 </a>
@@ -532,7 +532,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title"><?= t('learning_platforms', 'Learning Platforms') ?></h3>
+                        <h3 class="focus-card-title notranslate"><?= t('learning_platforms', 'Learning Platforms') ?></h3>
                         <p class="focus-card-desc"><?= t('learning_platforms_desc', 'Access local and foreign publications related to your knowledge.') ?></p>
                     </div>
                 </a>
@@ -545,7 +545,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title"><?= t('ql_news_updates', 'News Updates') ?></h3>
+                        <h3 class="focus-card-title notranslate"><?= t('ql_news_updates', 'News Updates') ?></h3>
                         <p class="focus-card-desc"><?= t('news_updates_desc', 'Read the latest news and updated notices related to the Ministry.') ?></p>
                     </div>
                 </a>
@@ -558,7 +558,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title"><?= t('rti') ?></h3>
+                        <h3 class="focus-card-title notranslate"><?= t('rti') ?></h3>
                         <p class="focus-card-desc"><?= t('rti_desc', 'Submit information requests under the Right to Information Act in Sri Lanka.') ?></p>
                     </div>
                 </a>
@@ -571,7 +571,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                             </svg>
                         </div>
-                        <h3 class="focus-card-title"><?= t('ql_complaints', 'Complaints') ?></h3>
+                        <h3 class="focus-card-title notranslate"><?= t('ql_complaints', 'Complaints') ?></h3>
                         <p class="focus-card-desc"><?= t('complaints_desc', 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.') ?></p>
                     </div>
                 </a>

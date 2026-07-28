@@ -167,7 +167,7 @@ include 'includes/sub-hero.php';
                     
                     <!-- Recent Posts -->
                     <div class="mb-10">
-                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6">Recent Posts</h3>
+                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6 notranslate"><?= t('recent_posts') ?></h3>
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>

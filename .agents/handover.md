@@ -148,6 +148,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-25 (Our Blog, Latest Insights & Recent Posts Sinhala Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Registered new trilingual translation keys (`our_blog`, `latest_insights`, `recent_posts`) in `includes/translations.php`, configuring Sinhala translations for "Latest Insights" -> `නවතම පුවත්`, "Recent Posts" -> `මෑතකාලීන පලකිරීම්`, and "Our Blog" -> `අපගේ බ්ලොග් අඩවිය`. Bound section headings in [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) and [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php) using the `t()` helper function and added `notranslate` wrappers to protect human translation fidelity from browser auto-translation overrides. Ensured Quick Links titles on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) and [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php) display `නවතම පුවත්` accurately for News Updates (`ql_news_updates`). Recompiled CSS assets via `npm run build:prod`.
+
 ### 2026-07-25 (Vision, Mission, and Overview Trilingual Translation Update)
 * **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI
