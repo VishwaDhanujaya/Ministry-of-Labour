@@ -1,35 +1,23 @@
 <?php
-// Initialize current_lang from cookie or URL parameter for frontend display and UI states
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Initialize current_lang from GET parameter, Session, Cookie, or Google Translate cookie
 $current_lang = 'en';
+
 if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_GET['lang'];
-    if (!headers_sent()) {
-        setcookie('lang', $current_lang, time() + 86400 * 30, '/');
-        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
-    }
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_SESSION['lang'];
+} elseif (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_COOKIE['lang'];
 } elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
     $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
     if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
         $current_lang = strtolower($m[1]);
     }
 }
-if ($current_lang === 'en' && isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
-    $current_lang = $_COOKIE['lang'];
-}
-
-// Load Central Hybrid Translation Architecture Dictionary & Helper
-require_once __DIR__ . '/translations.php';
-global $lang_dict;
-$nav_trans = $lang_dict ?? [];
-
-
-// Security Headers
-header("X-Content-Type-Options: nosniff");
-header("X-Frame-Options: SAMEORIGIN");
-header("X-XSS-Protection: 1; mode=block");
-header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
-
-$current_page = basename($_SERVER['PHP_SELF'], ".php");
 
 // Compute dynamic base URL first for absolute SEO URLs
 $base_dir = dirname($_SERVER['SCRIPT_NAME']);
@@ -37,6 +25,43 @@ if ($base_dir === '\\' || $base_dir === '/') {
     $base_dir = '';
 }
 $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $base_dir . '/';
+$cookie_path = empty($base_dir) ? '/' : $base_dir . '/';
+
+// Persist language across session and cookies — scoped to correct subfolder path
+$_SESSION['lang'] = $current_lang;
+if (!headers_sent()) {
+    // Always write `lang` to both root and subfolder so every environment works
+    setcookie('lang', $current_lang, time() + 86400 * 30, $cookie_path);
+    setcookie('lang', $current_lang, time() + 86400 * 30, '/');
+    if ($current_lang !== 'en') {
+        // Write googtrans to subfolder path (critical for subfolder installations like /MOL/)
+        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, $cookie_path);
+        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
+    } else {
+        // Actively erase any stale googtrans cookie from ALL paths when switching to English
+        setcookie('googtrans', '', time() - 3600, $cookie_path);
+        setcookie('googtrans', '', time() - 3600, '/');
+    }
+}
+
+// Load Central Hybrid Translation Architecture Dictionary & Helper
+require_once __DIR__ . '/translations.php';
+global $lang_dict;
+$nav_trans = $lang_dict ?? [];
+
+// Determine the current page for navigation highlighting
+if (!isset($current_page)) {
+    $current_page = basename($_SERVER['PHP_SELF'], '.php');
+}
+
+// Helper function to maintain language query parameter across internal page links
+if (!function_exists('navUrl')) {
+    function navUrl(string $page): string {
+        global $current_lang;
+        $lang = (isset($current_lang) && in_array($current_lang, ['en', 'si', 'ta'])) ? $current_lang : 'en';
+        return $lang . '/' . ltrim($page, '/');
+    }
+}
 
 $seoTitle = isset($pageTitle) ? $pageTitle : (isset($page_title) ? strip_tags($page_title) : 'Ministry of Labour - Government of Sri Lanka');
 $seoDesc = isset($metaDescription) ? $metaDescription : 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
@@ -55,6 +80,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Server-resolved active language: authoritative JS signal for Google Translate -->
+    <meta name="mol-lang" content="<?= htmlspecialchars($current_lang, ENT_QUOTES, 'UTF-8') ?>">
 
 
     <base href="<?= htmlspecialchars($base_url, ENT_QUOTES, 'UTF-8') ?>">
@@ -212,17 +239,23 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             return "";
         }
 
+        // ── Read the authoritative server-resolved language from the PHP meta tag ──────────
+        function getServerLang() {
+            var meta = document.querySelector('meta[name="mol-lang"]');
+            return (meta && ['en','si','ta'].indexOf(meta.content) !== -1) ? meta.content : 'en';
+        }
+
         function getActiveLanguage() {
+            // Priority: server meta tag > lang cookie > googtrans cookie
+            var serverLang = getServerLang();
+            if (serverLang && serverLang !== 'en') return serverLang;
+            var lang = getCookie('lang');
+            if (lang && ['en', 'si', 'ta'].indexOf(lang) !== -1) return lang;
             var gt = getCookie('googtrans');
             if (gt) {
-                var decoded = decodeURIComponent(gt);
-                if (decoded.endsWith('/si') || decoded.indexOf('/si') !== -1) return 'si';
-                if (decoded.endsWith('/ta') || decoded.indexOf('/ta') !== -1) return 'ta';
-                if (decoded.endsWith('/en') || decoded.indexOf('/en/en') !== -1) return 'en';
-            }
-            var lang = getCookie('lang');
-            if (lang && ['en', 'si', 'ta'].includes(lang)) {
-                return lang;
+                var decoded = decodeURIComponent(gt).replace(/"/g, '');
+                var m = decoded.match(/\/(si|ta|en)$/);
+                if (m) return m[1];
             }
             return 'en';
         }
@@ -254,60 +287,99 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
         }
 
         function changeLanguage(langCode) {
-            document.cookie = "lang=" + langCode + "; path=/; max-age=" + (86400 * 30);
-            if (langCode === 'en') {
-                document.cookie = "googtrans=/en/en; path=/";
-                document.cookie = "googtrans=/en/en; domain=." + document.domain + "; path=/";
-                var host = window.location.hostname;
-                var parts = host.split('.');
-                while (parts.length >= 2) {
-                    var domain = parts.join('.');
-                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + domain;
-                    document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=." + domain;
-                    parts.shift();
+            var host = window.location.hostname;
+            var isIpOrLocal = /^(localhost|127\.0\.0\.1|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i.test(host);
+
+            // ── Use the exact PHP-calculated cookie path for bulletproof syncing ──
+            var subfolderPath = '<?= $cookie_path ?>';
+            var currentPath = window.location.pathname;
+            var expire = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
+            var maxAge = 'max-age=' + (86400 * 30);
+
+            // ── STEP 1: Nuke ALL googtrans cookies from every known path & domain ──────────
+            var pathsToClear = ['/', subfolderPath, currentPath];
+            pathsToClear.forEach(function(p) {
+                document.cookie = 'googtrans=; ' + expire + '; path=' + p;
+                if (!isIpOrLocal) {
+                    document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=' + host;
+                    document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=.' + host;
+                    // Also clear any parent domain cookies
+                    var parts = host.split('.');
+                    while (parts.length >= 2) {
+                        var d = parts.join('.');
+                        document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=' + d;
+                        document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=.' + d;
+                        parts.shift();
+                    }
                 }
-                document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            } else {
-                document.cookie = "googtrans=/en/" + langCode + "; path=/";
-                document.cookie = "googtrans=/en/" + langCode + "; domain=." + document.domain + "; path=/";
+            });
+
+            // ── STEP 2: Write lang cookie to both subfolder and root ─────────────────────
+            document.cookie = 'lang=' + langCode + '; path=' + subfolderPath + '; ' + maxAge;
+            document.cookie = 'lang=' + langCode + '; path=/; ' + maxAge;
+
+            // ── STEP 3: Write googtrans only for non-English ────────────────────────────
+            if (langCode !== 'en') {
+                var gtVal = '/en/' + langCode;
+                document.cookie = 'googtrans=' + gtVal + '; path=' + subfolderPath + '; ' + maxAge;
+                document.cookie = 'googtrans=' + gtVal + '; path=/; ' + maxAge;
+                if (!isIpOrLocal) {
+                    document.cookie = 'googtrans=' + gtVal + '; path=' + subfolderPath + '; domain=.' + host + '; ' + maxAge;
+                    document.cookie = 'googtrans=' + gtVal + '; path=/; domain=.' + host + '; ' + maxAge;
+                }
             }
+
+            // ── STEP 4: Navigate using Pretty URLs ──
             syncTopbarLanguageUI(langCode);
             var url = new URL(window.location.href);
-            if (langCode === 'en') {
-                url.searchParams.delete('lang');
-            } else {
-                url.searchParams.set('lang', langCode);
+            
+            // Strip basePath to get relative path
+            var currentPath = url.pathname;
+            var relPath = currentPath.startsWith(subfolderPath) ? currentPath.substring(subfolderPath.length) : currentPath;
+            
+            // Remove starting si/ or ta/ or en/ if present
+            var parts = relPath.split('/');
+            if (parts.length > 0 && (parts[0] === 'si' || parts[0] === 'ta' || parts[0] === 'en')) {
+                parts.shift();
             }
-            window.location.href = url.toString();
+            var cleanRelPath = parts.join('/');
+            
+            url.pathname = subfolderPath + langCode + (cleanRelPath ? '/' + cleanRelPath : '');
+            url.searchParams.delete('lang'); // clean URL
+            if (langCode === 'en') {
+                window.location.replace(url.toString());
+            } else {
+                window.location.href = url.toString();
+            }
         }
         
         function applyAutoTranslation() {
-            var activeLang = getActiveLanguage();
+            // Use the server meta tag as the authoritative language signal
+            var activeLang = getServerLang();
             if (activeLang && activeLang !== 'en') {
                 var combo = document.querySelector('.goog-te-combo');
-                if (combo && combo.value !== activeLang) {
-                    combo.value = activeLang;
-                    combo.dispatchEvent(new Event('change'));
+                if (combo) {
+                    if (combo.value !== activeLang) {
+                        combo.value = activeLang;
+                        combo.dispatchEvent(new Event('change'));
+                    }
                 }
             }
         }
 
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false}, 'google_translate_element');
-            syncTopbarLanguageUI();
+            syncTopbarLanguageUI(getServerLang());
             
-            // Fallback retry checks to guarantee translation fires without requiring page refresh
-            setTimeout(applyAutoTranslation, 150);
-            setTimeout(applyAutoTranslation, 600);
-            setTimeout(applyAutoTranslation, 1200);
+            // Staggered retries — GT may take variable time to inject its DOM
+            setTimeout(applyAutoTranslation, 200);
+            setTimeout(applyAutoTranslation, 700);
+            setTimeout(applyAutoTranslation, 1500);
+            setTimeout(applyAutoTranslation, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            syncTopbarLanguageUI();
-            var activeLang = getActiveLanguage();
-            if (activeLang && activeLang !== 'en') {
-                document.cookie = "googtrans=/en/" + activeLang + "; path=/";
-            }
+            syncTopbarLanguageUI(getServerLang());
         });
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -381,38 +453,38 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             ?>
             <!-- Desktop Navigation with Interactive Dropdowns -->
             <nav class="hidden xl:flex items-center <?= $nav_spacing_class ?> font-bold text-gray-700 notranslate whitespace-nowrap">
-                <a href="home" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['home'][$current_lang] ?? 'Home') ?></a>
+                <a href="<?= navUrl('home') ?>" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'index' || $current_page == '') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['home'][$current_lang] ?? 'Home') ?></a>
 
-                <a href="about-us"
+                <a href="<?= navUrl('about-us') ?>"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
 
                 <div class="relative group">
-                    <a href="iau" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                    <a href="<?= navUrl('iau') ?>" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
                         <?= htmlspecialchars($nav_trans['iau'][$current_lang] ?? 'IAU') ?>
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="iau" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
-                            <a href="iau-updates" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
+                            <a href="<?= navUrl('iau') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
+                            <a href="<?= navUrl('iau-updates') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
                         </div>
                     </div>
                 </div>
 
-                <a href="rti"
+                <a href="<?= navUrl('rti') ?>"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'rti') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
 
                 <div class="relative group">
-                    <a href="learning-platforms" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'learning-platforms' || $current_page == 'learning-platforms-local' || $current_page == 'learning-platforms-foreign') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                    <a href="<?= navUrl('learning-platforms') ?>" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'learning-platforms' || $current_page == 'learning-platforms-local' || $current_page == 'learning-platforms-foreign') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
                         <?= htmlspecialchars($nav_trans['learning_platforms'][$current_lang] ?? 'Learning Platforms') ?>
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="learning-platforms-local" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
-                            <a href="learning-platforms-foreign" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
+                            <a href="<?= navUrl('learning-platforms-local') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
+                            <a href="<?= navUrl('learning-platforms-foreign') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
                         </div>
                     </div>
                 </div>
@@ -425,20 +497,20 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <!-- Dropdown -->
                     <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="procurements" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
-                            <a href="vacancies" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
-                            <a href="special-notices" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
+                            <a href="<?= navUrl('procurements') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
+                            <a href="<?= navUrl('vacancies') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
+                            <a href="<?= navUrl('special-notices') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                         </div>
                     </div>
                 </div>
 
-                <a href="news"
+                <a href="<?= navUrl('news') ?>"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
 
-                <a href="downloads"
+                <a href="<?= navUrl('downloads') ?>"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
 
-                <a href="contact-us"
+                <a href="<?= navUrl('contact-us') ?>"
                     class="bg-secondary text-white <?= $contact_btn_class ?> flex items-center justify-center rounded-lg hover:bg-[#320000] transition-all duration-300 hover:shadow-md font-medium tracking-wider uppercase active:scale-95 whitespace-nowrap shrink-0"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
 
                 <div class="h-5 w-px bg-gray-200 mx-2 shrink-0"></div>
@@ -509,7 +581,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             class="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-out overflow-y-auto">
             <div class="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
                 <div class="flex items-center">
-                    <a href="home" class="block">
+                    <a href="<?= navUrl('home') ?>" class="block">
                         <img src="assets/img/logo-black.png?v=<?= $logo_black_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-10 w-auto object-contain">
                     </a>
                 </div>
@@ -523,36 +595,36 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             </div>
 
             <nav class="flex-grow flex flex-col space-y-4 font-inter text-[13px] font-bold text-gray-700 notranslate">
-                <a href="home"
+                <a href="<?= navUrl('home') ?>"
                     class="pl-3 py-1 <?= ($current_page == 'index' || $current_page == '') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['home'][$current_lang] ?? 'Home') ?></a>
-                <a href="about-us" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
+                <a href="<?= navUrl('about-us') ?>" class="pl-3 py-1 <?= ($current_page == 'about-us') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
                 <div class="flex flex-col space-y-2 py-1">
-                    <a href="iau" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
+                    <a href="<?= navUrl('iau') ?>" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
                         <?= htmlspecialchars($nav_trans['iau'][$current_lang] ?? 'IAU') ?>
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
-                    <a href="iau" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
-                    <a href="iau-updates" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
+                    <a href="<?= navUrl('iau') ?>" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
+                    <a href="<?= navUrl('iau-updates') ?>" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
                 </div>
-                <a href="rti" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
+                <a href="<?= navUrl('rti') ?>" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
 
                 <div class="flex flex-col space-y-2 py-1">
-                    <a href="learning-platforms" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
+                    <a href="<?= navUrl('learning-platforms') ?>" class="pl-3 text-gray-700 hover:text-secondary font-bold uppercase tracking-wider text-[11px] flex items-center gap-1 transition-colors">
                         <?= htmlspecialchars($nav_trans['learning_platforms'][$current_lang] ?? 'Learning Platforms') ?>
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
-                    <a href="learning-platforms-local" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
-                    <a href="learning-platforms-foreign" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
+                    <a href="<?= navUrl('learning-platforms-local') ?>" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-local') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
+                    <a href="<?= navUrl('learning-platforms-foreign') ?>" class="pl-6 py-1 <?= ($current_page == 'learning-platforms-foreign') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
                 </div>
 
                 <div class="flex flex-col space-y-2 py-1">
                     <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]"><?= htmlspecialchars($nav_trans['announcements'][$current_lang] ?? 'Announcements') ?></div>
-                    <a href="procurements" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
-                    <a href="vacancies" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
-                    <a href="special-notices" class="pl-6 py-1 <?= ($current_page == 'special-notices') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
+                    <a href="<?= navUrl('procurements') ?>" class="pl-6 py-1 <?= ($current_page == 'procurements') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
+                    <a href="<?= navUrl('vacancies') ?>" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
+                    <a href="<?= navUrl('special-notices') ?>" class="pl-6 py-1 <?= ($current_page == 'special-notices') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                 </div>
-                <a href="news" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
-                <a href="downloads" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
+                <a href="<?= navUrl('news') ?>" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                <a href="<?= navUrl('downloads') ?>" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4 notranslate">
@@ -566,7 +638,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     </div>
                 </div>
 
-                <a href="contact-us"
+                <a href="<?= navUrl('contact-us') ?>"
                     class="bg-secondary text-white text-center py-2.5 rounded-lg hover:bg-[#320000] transition-colors shadow-sm font-semibold text-xs tracking-wider uppercase"><?= htmlspecialchars($nav_trans['contact_us'][$current_lang] ?? 'Contact Us') ?></a>
                 <div class="flex justify-center space-x-5 text-gray-400 py-2">
                     <a href="https://www.facebook.com/labourmin" aria-label="Facebook Link" target="_blank" class="hover:text-[#1877F2] transition-colors duration-200"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

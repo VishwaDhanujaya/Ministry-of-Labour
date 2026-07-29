@@ -1,6 +1,10 @@
 RewriteEngine On
 Options -MultiViews
 
+# Language Prefix Routing (Pretty URLs)
+RewriteRule ^(en|si|ta)/?$ index.php?lang=$1 [QSA,L]
+RewriteRule ^(en|si|ta)/(.*)$ $2?lang=$1 [QSA,L]
+
 # Redirect /index to /home only for the root
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} ^(.*?)/index(?:\.php)?/?$

@@ -148,6 +148,56 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-29 (Uniform /en/ Pretty URLs for English)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Enabled uniform pretty URL prefixes for all 3 languages, including English (`/en/home`, `/si/home`, `/ta/home`). Updated `navUrl()` to output `en/` prefix for English links, updated `changeLanguage()` JS to navigate to `/en/` directly without query parameter hacks, eliminating the need for `history.replaceState` URL stripping.
+
+### 2026-07-29 (English URL Auto-Cleaning via history.replaceState)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Enhanced English language routing to ensure that the `?lang=en` query parameter (or any legacy `/en/` path prefix) is automatically and silently stripped from the browser address bar via `window.history.replaceState()` immediately upon DOM load. This allows the PHP server to reliably intercept `?lang=en` to set session/cookies to English on the initial switch, while keeping the user's visible URL bar 100% clean (e.g., `https://localhost/Ministry-of-Labour/home`).
+
+### 2026-07-29 (Institutions Visit Website Icon Update)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the generic SVG right-arrow icons in all 5 "Visit Website" buttons under the Affiliated Institutions section with the custom pointing hand icon ([assets/img/pointing-right.png](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/img/pointing-right.png)) to align with design specs while retaining hover animation effects (`group-hover/btn:translate-x-1`).
+
+### 2026-07-29 (Pretty URLs for Multilingual Routing)
+* **Files:** [.htaccess](file:///c:/xampp/htdocs/Ministry-of-Labour/.htaccess), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Converted the site routing to use SEO-friendly Pretty URLs for language switching (`/MOL/si/home` instead of `/MOL/home?lang=si`). Modified `.htaccess` to transparently rewrite `^(en|si|ta)/(.*)$` into `$2?lang=$1` using the `[QSA]` flag so that subsequent rewrite rules (like `news/123`) still function correctly. Updated `navUrl()` in `header.php` to prepend the `$current_lang` as a folder path instead of a query string. Modified `changeLanguage()` JS logic to actively parse `window.location.pathname`, strip existing language prefixes, and prepend the new target language prefix. English remains at the root (no prefix) to preserve primary domain SEO equity.
+
+### 2026-07-29 (Navbar Active State & English Switch Edge Case Fix)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Addressed two frontend UI bugs: **(1) Navbar Active State Fix** — The `$current_page` variable was undefined on all frontend pages, breaking the active tab highlighting in the navbar. Initialized `$current_page = basename($_SERVER['PHP_SELF'], '.php');` at the top of `includes/header.php` so all frontend pages properly highlight their active state. **(2) English Switch Session Fix** — Switching to English was failing because the JS `changeLanguage('en')` removed the `?lang=` parameter from the URL. Since `$_GET['lang']` was missing, PHP fell back to `$_SESSION['lang']` which still held the previous language (e.g. `ta`), causing PHP to aggressively revert the cookies back to Tamil. Updated the JS to force `?lang=en` in the URL during the English switch to successfully overwrite the PHP session state.
+
+### 2026-07-29 (Bulletproof Language Persistence & English Reset Fix)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Implemented a comprehensive 6-part fix for language persistence failures on the subfolder-hosted production site (`digitalweb.lk/MOL/`): **(1) Cookie path scoping** — `setcookie()` now writes `lang` and `googtrans` to `$cookie_path` (`/MOL/`) instead of root `/`; when `$current_lang === 'en'`, actively erases stale `googtrans` cookies from both paths to prevent English-switch failures. **(2) PHP `<meta name="mol-lang">` signal tag** — emits the server-resolved active language as an authoritative DOM signal for JS, eliminating dependency on cookie-parsing in JavaScript. **(3 & 4) `navUrl()` wired into all nav links** — all 20+ desktop nav hrefs and 20+ mobile drawer hrefs replaced with `<?= navUrl('page') ?>`, which appends `?lang=si/ta` automatically on non-English pages, making every navigation preserve language as a URL parameter (Layer 1 of 3-layer persistence). **(5) Rewritten `changeLanguage()` JS function** — detects actual subfolder path from `window.location.pathname` and writes cookies to both `/MOL/` and `/`; purges stale `googtrans` cookies from all paths and all parent domains before writing new ones; uses `window.location.replace()` for English switch (bypasses browser BFCache, fully evicts GT session cache). **(6) `applyAutoTranslation()` / `getServerLang()`** — reads `<meta name="mol-lang">` as primary signal instead of fallible cookie parsing; staggered GT retry attempts extended to 200ms/700ms/1500ms/3000ms for slow CDN environments. Rebuilt production CSS assets.
+
+### 2026-07-29 (Session Language Persistence & Navbar Trilingual Sync Fix)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Resolved the issue where navigating to secondary pages while viewing in Sinhala or Tamil caused the navbar to revert to English while the body remained in Sinhala. Added `session_start()` and session persistence (`$_SESSION['lang']`) to [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php) to retain active `$current_lang` state across all PHP page requests without relying solely on client-side cookies. Ensured HTTP headers and `googtrans` cookies stay synchronized so `notranslate` navbar dictionary elements render in the exact active language matching Google Translate's body output.
+
+### 2026-07-29 (Anti-Caching Headers & IP/Localhost Cookie Domain Compatibility Fix)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added HTTP anti-caching response headers (`Cache-Control: no-store, no-cache, must-revalidate, max-age=0`) to [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php) to ensure test devices receive fresh HTML and layout updates without relying on cached responses. Refactored JavaScript `changeLanguage()` to detect whether the host is an IP address or `localhost` before attempting to assign `domain=.host` parameters on `googtrans` cookies, preventing silent cookie rejection on local network testing servers.
+
+### 2026-07-28 (Ministry Overview / About Text Trilingual Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the "About the Ministry of Labour" / Overview text across English, Sinhala, and Tamil with the official text provided by the user. Consolidated Sinhala overview text into 2 unified paragraphs (`overview_p1` and `overview_p2`) matching English and Tamil structures, and removed `overview_p3` completely from [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), and [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php). Registered `about_ministry_title` and `read_more` keys.
+
+### 2026-07-28 (Top Bar Language Selector & Website Translation Synchronization Audit)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php), [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Audited and resolved language selection divergence between the top bar language UI and site content. Harmonized PHP `$current_lang` resolution order and JavaScript `getActiveLanguage()` logic to strictly check the explicit `lang` cookie first before falling back to `googtrans` cookie, preventing situations where the top bar button would display one active language while PHP/Google Translate rendered another. Added explicit cookie purging across root and subdomains in `changeLanguage()` to destroy conflicting legacy `googtrans` cookies on production web servers. Bound homepage Downloads section cards and Announcements column header in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) to native `t()` translation keys, and registered `acts_amendments` (`Acts & Amendments` / `පනත් සහ සංශෝධන` / `சட்டங்கள் மற்றும் திருத்தங்கள்`) in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+
 ### 2026-07-25 (Our Blog, Latest Insights & Recent Posts Sinhala Translation Update)
 * **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

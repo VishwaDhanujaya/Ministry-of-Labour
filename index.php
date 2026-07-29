@@ -289,27 +289,17 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 <section class="py-12 md:py-16 px-4 md:px-16" id="about-us">
     <div class="container mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div class="w-full lg:w-[55%]" data-aos="fade-right">
-            <p class="section-subtitle">About
-                Us</p>
-            <h2 class="section-title">
-                About the Ministry of Labour</h2>
-            <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed text-justify">
-                <p>Improving the standards of living and service conditions of workers in Sri Lanka's semi-government
-                    and private sectors, and the formulation and implementation of pertinent policies to establish
-                    industrial peace and employer-employee relationships required for enhancing production and labour
-                    productivity, are the prime objectives of the Ministry of Labour.</p>
-                <p>The Ministry of Labour plays a vital role in safeguarding the rights and welfare of employees while
-                    fostering harmonious industrial relations across the country. The ministry oversees labour laws,
-                    social security programs, employment policies, and occupational safety standards to ensure a fair
-                    and productive labour environment.</p>
-                <p>Through its institutions and departments, the ministry serves millions of employees in the private
-                    and semi-government sectors while contributing to national economic development.</p>
+            <p class="section-subtitle notranslate"><?= t('about_us', 'About Us') ?></p>
+            <h2 class="section-title notranslate"><?= t('about_ministry_title', 'About the Ministry of Labour') ?></h2>
+            <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed text-justify notranslate">
+                <p><?= t('overview_p1') ?></p>
+                <p><?= t('overview_p2') ?></p>
             </div>
             
             <!-- Read More Button -->
-            <div class="mt-8">
+            <div class="mt-8 notranslate">
                 <a href="about-us" class="bg-secondary text-white font-semibold py-3.5 px-8 rounded-lg transition-all duration-300 text-[13px] tracking-wider font-inter inline-block hover:shadow-lg hover:-translate-y-1 transform">
-                    Read More
+                    <?= t('read_more', 'Read More') ?>
                 </a>
             </div>
         </div>
@@ -399,9 +389,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
-                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
+                            <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
                 </div>
@@ -417,9 +405,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
-                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
+                            <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
                 </div>
@@ -435,9 +421,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
-                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
+                            <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
                 </div>
@@ -453,9 +437,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
-                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
+                            <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
                 </div>
@@ -471,9 +453,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
                             Visit Website 
-                            <svg class="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                            </svg>
+                            <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
             </div>
@@ -663,15 +643,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <div class="flex flex-col space-y-3.5">
                     <?php
                     $downloads = [
-                        ['title' => 'Acts & Amendments', 'url' => 'downloads?category=acts-amendments'],
-                        ['title' => 'Learning Platforms (Local)', 'url' => 'learning-platforms-local'],
-                        ['title' => 'Learning Platforms (Foreign)', 'url' => 'learning-platforms-foreign'],
-                        ['title' => 'Procurements', 'url' => 'procurements']
+                        ['title' => t('acts_amendments', 'Acts & Amendments'), 'url' => 'downloads?category=acts-amendments'],
+                        ['title' => t('local_publications', 'Local Publications'), 'url' => 'learning-platforms-local'],
+                        ['title' => t('foreign_publications', 'Foreign Publications'), 'url' => 'learning-platforms-foreign'],
+                        ['title' => t('procurements', 'Procurements'), 'url' => 'procurements']
                     ];
                     foreach($downloads as $download):
                     ?>
                     <a href="<?= $download['url'] ?>" class="group flex items-center justify-between bg-white border border-gray-200 rounded-[16px] px-6 py-4 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= $download['title'] ?></span>
+                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($download['title']) ?></span>
                         <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
                             <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </div>
@@ -683,7 +663,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
             <!-- Announcements Column -->
             <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col h-full">
                 <div class="bg-primary text-white py-4 px-6 relative overflow-hidden shrink-0">
-                    <h3 class="font-medium text-[18px] md:text-[20px] font-montserrat flex items-center relative z-10 tracking-wide">Announcements</h3>
+                    <h3 class="font-medium text-[18px] md:text-[20px] font-montserrat flex items-center relative z-10 tracking-wide notranslate"><?= htmlspecialchars(t('announcements')) ?></h3>
                 </div>
                 <div class="divide-y divide-gray-100 bg-white flex-grow flex flex-col">
                     <?php if(empty($announcements)): ?>
