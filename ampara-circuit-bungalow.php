@@ -192,7 +192,7 @@ include 'includes/sub-hero.php';
                 <?php endif; ?>
 
                 <div class="space-y-3">
-                    <a href="ampara-circuit-bungalow-booking<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
+                    <a href="<?= navUrl('ampara-circuit-bungalow-booking') ?>"
                         class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md notranslate">
                         <?= t('check_avail_book', 'Check Availability & Book') ?>
                     </a>
@@ -552,7 +552,7 @@ include 'includes/sub-hero.php';
                 <?php endif; ?>
 
                 <div class="space-y-3">
-                    <a href="ampara-circuit-bungalow-booking<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
+                    <a href="<?= navUrl('ampara-circuit-bungalow-booking') ?>"
                         class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md notranslate">
                         <?= t('check_avail_book', 'Check Availability & Book') ?>
                     </a>

@@ -148,6 +148,28 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-29 (Clean Prefix URL Routing Migration)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Clean Pretty URL Standardized**: Converted all raw `?lang=si` query parameters across article links, bungalow booking forms, complaints CTA buttons, and AJAX search suggestions to clean language prefix routes (`navUrl(...)`).
+  - URLs now display cleanly as `si/news/12`, `si/ampara-circuit-bungalow-booking`, `si/complaints`, etc., in full alignment with `.htaccess` rewriting rules.
+
+### 2026-07-29 (Single News Article Trilingual Fix)
+* **Files:**
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Early Language Initialization Fix**: Fixed bug in `news-single.php` where `$current_lang` was evaluated before `includes/header.php` loaded, causing articles accessed directly via `news/{id}?lang=si` to display in English. Added top-level language detection (`$_GET['lang']`, `$_SESSION['lang']`, `$_COOKIE['lang']`, `googtrans`) and `require_once 'includes/translations.php'` before DB title/content overrides execute.
+  - **Trilingual Formatting & UI**: Wrapped single article publication date and sidebar article dates with `format_date_trilingual()`. Wrapped UI strings (`Gallery`, `< Previous`, `Next >`, `No older updates`, `No newer updates`, `Search` placeholder) with `t()`. Added translation keys to `translations.php`.
+
 ### 2026-07-29 (Medium Priority Trilingual: DB Null Fallbacks, Per-Language Meta Tags & Link Persistence)
 * **Files:**
   - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)

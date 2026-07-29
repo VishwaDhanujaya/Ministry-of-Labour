@@ -235,7 +235,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
                     foreach($tickerNews as $news): 
                     ?>
-                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link notranslate">
+                        <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link notranslate">
                             <?= htmlspecialchars($news['title']) ?>
                             <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
@@ -574,7 +574,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <h2 class="section-title notranslate">
                     <?= t('latest_news') ?></h2>
             </div>
-            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider notranslate">
+            <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>
         </div>
@@ -588,11 +588,11 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     <div>
                         <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
                             <?php if(!empty($news['cover_image']) && file_exists('admin/' . $news['cover_image'])): ?>
-                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="w-full h-full block">
+                                <a href="<?= navUrl('news/' . $news['id']) ?>" class="w-full h-full block">
                                     <img loading="lazy" src="admin/<?= htmlspecialchars($news['cover_image']) ?>" alt="<?= htmlspecialchars($news['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                                 </a>
                             <?php else: ?>
-                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="w-full h-full flex items-center justify-center bg-gray-100 hover:bg-gray-200/50 transition-colors duration-300">
+                                <a href="<?= navUrl('news/' . $news['id']) ?>" class="w-full h-full flex items-center justify-center bg-gray-100 hover:bg-gray-200/50 transition-colors duration-300">
                                     <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 </a>
                             <?php endif; ?>
@@ -602,7 +602,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                 <span class="text-xs text-gray-500 font-inter font-bold"><?= format_date_trilingual($news['created_at']) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
-                                <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hover:text-secondary transition-colors duration-300">
+                                <a href="<?= navUrl('news/' . $news['id']) ?>" class="hover:text-secondary transition-colors duration-300">
                                     <?= htmlspecialchars($news['title']) ?>
                                 </a>
                             </h3>
@@ -612,7 +612,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5 notranslate">
+                        <a href="<?= navUrl('news/' . $news['id']) ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5 notranslate">
                             <?= t('read_more', 'Read More') ?> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
@@ -622,7 +622,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
         </div>
 
         <div class="mt-10 text-center md:hidden">
-            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
+            <a href="<?= navUrl('news') ?>"
                 class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>

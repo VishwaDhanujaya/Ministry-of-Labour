@@ -201,17 +201,17 @@ try {
         }
         
         if ($matched) {
-            $lang_param = ($current_lang !== 'en') ? '?lang=' . $current_lang : '';
+            $lang_prefix = $current_lang . '/';
             $results[] = [
                 'title' => $title,
                 'type' => 'Page',
-                'url' => $page['url'] . $lang_param
+                'url' => $lang_prefix . ltrim($page['url'], '/')
             ];
             $page_count++;
         }
     }
 
-    $lang_param = ($current_lang !== 'en') ? '?lang=' . $current_lang : '';
+    $lang_prefix = $current_lang . '/';
 
     // 1. Search News
     $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM news WHERE status = 'Published' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
@@ -229,7 +229,7 @@ try {
         $results[] = [
             'title' => $title,
             'type' => 'News',
-            'url' => 'news/' . $n['id'] . $lang_param
+            'url' => $lang_prefix . 'news/' . $n['id']
         ];
     }
 
@@ -241,7 +241,7 @@ try {
         $results[] = [
             'title' => $v['title'],
             'type' => 'Vacancy',
-            'url' => 'vacancies' . $lang_param
+            'url' => $lang_prefix . 'vacancies'
         ];
     }
 
@@ -253,7 +253,7 @@ try {
         $results[] = [
             'title' => $p['title'],
             'type' => 'Procurement',
-            'url' => 'procurements' . $lang_param
+            'url' => $lang_prefix . 'procurements'
         ];
     }
 

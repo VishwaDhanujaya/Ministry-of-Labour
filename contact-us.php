@@ -119,7 +119,7 @@ include 'includes/sub-hero.php';
                             <p class="text-[11px] text-teal-800/85 font-inter mt-1 leading-tight">Submit your complaints via the Department of Labour CMS portal or escalate via WhatsApp if needed.</p>
                         </div>
                     </div>
-                    <a href="complaints<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95 notranslate">
+                    <a href="<?= navUrl('complaints') ?>" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95 notranslate">
                         <?= t('submit_complaint', 'Submit Complaint') ?>
                     </a>
                 </div>

@@ -874,6 +874,38 @@ $lang_dict = [
         'en' => 'The bungalow features air-conditioned double and single rooms, chalets, common dining halls, and full culinary facilities. Meal preparation can be requested on-site, or guests may arrange to utilize the kitchen resources directly.',
         'si' => 'බංගලාවේ වායු සමනය කළ ද්විත්ව සහ තනි කාමර, චලේ, පොදු ආහාර හෝල් සහ සම්පූර්ණ ඉවුම් පිහුම් පහසුකම් ඇත. ආහාර සකස් කිරීම ස්ථානයේදීම ඉල්ලා සිටිය හැකිය, නැතහොත් අමුත්තන්ට කෝලය සම්පත් සෘජුවම භාවිතා කළ හැකිය.',
         'ta' => 'பங்களாவில் குளிரூட்டப்பட்ட இரட்டை மற்றும் ஒற்றை அறைகள், சேலட்கள், பொதுவான சாப்பாட்டு அரங்குகள் மற்றும் முழுமையான சமையல் வசதிகள் உள்ளன. உணவு தயாரிப்பை ஆன்-சைட்டில் கோரலாம், அல்லது விருந்தினர்கள் சமையலறை வளங்களை நேரடியாக பயன்படுத்திக்கொள்ளலாம்.'
+    ),
+
+    // ── Single Article Page ───────────────────────────────────────────────────
+    'gallery' => array(
+        'en' => 'Gallery',
+        'si' => 'ඡායාරූප ගැලරිය',
+        'ta' => 'புகைப்பட கேலரி'
+    ),
+    'previous_article' => array(
+        'en' => 'Previous',
+        'si' => 'පූර්ව ලිපිය',
+        'ta' => 'முந்தைய செய்தி'
+    ),
+    'next_article' => array(
+        'en' => 'Next',
+        'si' => 'ඊළඟ ලිපිය',
+        'ta' => 'அடுத்த செய்தி'
+    ),
+    'no_older_updates' => array(
+        'en' => 'No older updates',
+        'si' => 'පැරණි යාවත්කාලීන නොමැත',
+        'ta' => 'பழைய புதுப்பிப்புகள் இல்லை'
+    ),
+    'no_newer_updates' => array(
+        'en' => 'No newer updates',
+        'si' => 'නව යාවත්කාලීන නොමැත',
+        'ta' => 'புதிய புதுப்பிப்புகள் இல்லை'
+    ),
+    'search_placeholder' => array(
+        'en' => 'Search',
+        'si' => 'සොයන්න',
+        'ta' => 'தேடுக'
     )
 ];
 

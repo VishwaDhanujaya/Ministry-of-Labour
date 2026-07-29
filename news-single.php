@@ -1,6 +1,24 @@
 <?php
 // article.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_SESSION['lang'];
+} elseif (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_COOKIE['lang'];
+} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
+    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
+    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
+        $current_lang = strtolower($m[1]);
+    }
+}
+
 require_once 'admin/includes/db.php';
+require_once 'includes/translations.php';
 
 // Determine absolute base URL dynamically for redirects & SEO meta tags
 $base_dir_news = dirname($_SERVER['SCRIPT_NAME']);
@@ -94,8 +112,7 @@ include 'includes/sub-hero.php';
                 </h2>
                 
                 <div class="flex items-center gap-6 text-[13px] font-inter text-gray-500 font-medium mb-8 pb-4 border-b border-gray-200">
-
-                    <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
+                    <span class="notranslate"><?= format_date_trilingual($article['created_at']) ?></span>
                 </div>
 
                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
@@ -112,7 +129,7 @@ include 'includes/sub-hero.php';
 
                 <?php if (!empty($additionalImages)): ?>
                 <div class="mb-12">
-                    <h3 class="text-xl font-semibold font-montserrat text-[#2D2D43] mb-6">Gallery</h3>
+                    <h3 class="text-xl font-semibold font-montserrat text-[#2D2D43] mb-6 notranslate"><?= t('gallery', 'Gallery') ?></h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                         <?php foreach($additionalImages as $img): ?>
                             <a data-fslightbox="gallery" href="<?= $base_url ?>admin/<?= htmlspecialchars($img['image_path']) ?>" class="block rounded-xl overflow-hidden shadow-sm aspect-square bg-gray-100 cursor-pointer group relative active:scale-95 transition-transform duration-200">
@@ -127,26 +144,26 @@ include 'includes/sub-hero.php';
                 <!-- Pagination Links -->
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
                     <?php if ($prevArticle): ?>
-                    <a href="news/<?= $prevArticle['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="group max-w-xs block">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">&lt; Previous</div>
+                    <a href="<?= navUrl('news/' . $prevArticle['id']) ?>" class="group max-w-xs block">
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors notranslate">&lt; <?= t('previous_article', 'Previous') ?></div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($prevArticle['title']) ?></p>
                     </a>
                     <?php else: ?>
                     <div class="max-w-xs opacity-40">
-                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2">&lt; Previous</div>
-                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed">No older updates</p>
+                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2 notranslate">&lt; <?= t('previous_article', 'Previous') ?></div>
+                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed notranslate"><?= t('no_older_updates', 'No older updates') ?></p>
                     </div>
                     <?php endif; ?>
 
                     <?php if ($nextArticle): ?>
-                    <a href="news/<?= $nextArticle['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="group max-w-xs text-left md:text-right block">
-                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors">Next &gt;</div>
+                    <a href="<?= navUrl('news/' . $nextArticle['id']) ?>" class="group max-w-xs text-left md:text-right block">
+                        <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors notranslate"><?= t('next_article', 'Next') ?> &gt;</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($nextArticle['title']) ?></p>
                     </a>
                     <?php else: ?>
                     <div class="max-w-xs text-left md:text-right opacity-40">
-                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2">Next &gt;</div>
-                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed">No newer updates</p>
+                        <div class="text-[15px] font-montserrat text-gray-400 font-semibold mb-2 notranslate"><?= t('next_article', 'Next') ?> &gt;</div>
+                        <p class="text-[13px] text-gray-400 font-inter leading-relaxed notranslate"><?= t('no_newer_updates', 'No newer updates') ?></p>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -161,7 +178,7 @@ include 'includes/sub-hero.php';
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                 <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                             </div>
-                            <input type="text" class="block w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13px] placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-inter" placeholder="Search">
+                            <input type="text" class="block w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13px] placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-inter" placeholder="<?= htmlspecialchars(t('search_placeholder', 'Search')) ?>">
                         </div>
                     </div>
                     
@@ -171,7 +188,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="news/<?= $post['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="flex items-start gap-4 group">
+                                <a href="<?= navUrl('news/' . $post['id']) ?>" class="flex items-start gap-4 group">
                                     <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
                                         <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
                                             <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -185,7 +202,7 @@ include 'includes/sub-hero.php';
                                         <h4 class="text-[13.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors line-clamp-2 leading-snug notranslate" title="<?= htmlspecialchars($post['title']) ?>">
                                             <?= htmlspecialchars($post['title']) ?>
                                         </h4>
-                                        <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide mt-1 block"><?= date('M d, Y', strtotime($post['created_at'])) ?></span>
+                                        <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide mt-1 block notranslate"><?= format_date_trilingual($post['created_at']) ?></span>
                                     </div>
                                 </a>
                             </li>
