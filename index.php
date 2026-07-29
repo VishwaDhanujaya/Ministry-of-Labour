@@ -289,7 +289,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 <section class="py-12 md:py-16 px-4 md:px-16" id="about-us">
     <div class="container mx-auto flex flex-col lg:flex-row items-center gap-16">
         <div class="w-full lg:w-[55%]" data-aos="fade-right">
-            <p class="section-subtitle notranslate"><?= t('about_us', 'About Us') ?></p>
             <h2 class="section-title notranslate"><?= t('about_ministry_title', 'About the Ministry of Labour') ?></h2>
             <div class="space-y-5 text-gray-600 font-inter text-[14px] md:text-[15px] leading-relaxed text-justify notranslate">
                 <p><?= t('overview_p1') ?></p>
@@ -318,11 +317,9 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 <!-- Institutions -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="affiliated-institutions">
     <div class="container mx-auto">
-        <div class="mb-14">
-            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                Affiliated Bodies</p>
-            <h2 class="section-title">
-                Institutions</h2>
+        <div class="mb-10">
+            <h2 class="section-title notranslate" translate="no">
+                <?= t('affiliated_institutions', 'Affiliated Institutions') ?></h2>
         </div>
 
         <!-- Unified Card Container Split Layout -->
@@ -332,7 +329,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 1 -->
                 <button class="group inst-split-tab active snap-center" data-target="inst-dol">
                     <span class="flex items-center">
-                        <span class="truncate">Department of Labour</span>
+                        <span class="truncate notranslate" translate="no"><?= t('inst_dol_title', 'Department of Labour') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -340,7 +337,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 2 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-dme">
                     <span class="flex items-center">
-                        <span class="truncate">Department of Manpower and Employment</span>
+                        <span class="truncate notranslate" translate="no"><?= t('inst_dme_title', 'Department of Manpower and Employment') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -348,7 +345,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 3 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-nils">
                     <span class="flex items-center">
-                        <span class="truncate">National Institute of Labour Studies</span>
+                        <span class="truncate notranslate" translate="no"><?= t('inst_nils_title', 'National Institute of Labour Studies') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -356,7 +353,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 4 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-niosh">
                     <span class="flex items-center">
-                        <span class="truncate">National Institute of Occupational Safety & Health</span>
+                        <span class="truncate notranslate" translate="no"><?= t('inst_niosh_title', 'National Institute of Occupational Safety and Health') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -364,7 +361,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <!-- Card 5 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-wc">
                     <span class="flex items-center">
-                        <span class="truncate">Workmen's Compensation Office</span>
+                        <span class="truncate notranslate" translate="no"><?= t('inst_wc_title', "Office of the Commissioner for Workmen's Compensation") ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -380,15 +377,15 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
                 <!-- Panel: Department of Labour (Active by default) -->
                 <div id="inst-panel-inst-dol" class="inst-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Labour</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
-                        <p>The Department of Labour was initially established to look into the welfare of Indian Immigrant Labour and was called the Department of Indian Immigrant Labour. Enactment of Indian Immigrant Labour Ordinance No. 1 of 1923 provided for the establishment of the Department of Indian Immigrant Labour.</p>
-                        <p>However, with the gradual expansion of the indigenous segment of the labour force, labour perse became a force to be reckoned with. In these circumstances the colonial rulers were compelled to look beyond their limited scope of looking into the welfare of Indian Immigrant Labour and had to take measures for the welfare and well-being of all the workers alike. Accordingly, in 1931 the Department of Indian Immigrant Labour was transformed into the General Department of Labour - the state agency responsible for ensuring the welfare of both Indian Migrant Labour as well as indigenous labour. Initially the Head of the Department was designated as Controller of Labour, but in 1944 the Head was re-designed as Commissioner of Labour and year 2000 as Commissioner General of Labour.</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight notranslate" translate="no"><?= t('inst_dol_title', 'Department of Labour') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify notranslate" translate="no">
+                        <p><?= t('inst_dol_p1') ?></p>
+                        <p><?= t('inst_dol_p2') ?></p>
+                        <p><?= t('inst_dol_p3') ?></p>
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            Visit Website 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -396,15 +393,14 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
                 <!-- Panel: DME -->
                 <div id="inst-panel-inst-dme" class="inst-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Department of Manpower and Employment</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
-                        <p>The Department of Manpower and Employment is responsible for formulating and implementing national policies related to manpower planning, employment creation, and career guidance in Sri Lanka. It aims to develop a skilled workforce and facilitate employment opportunities for the youth.</p>
-                        <p>Through its network of island-wide offices, the department offers career development initiatives, job matching platforms, and vocational guidance to empower job seekers and sustain local industry demand.</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight notranslate" translate="no"><?= t('inst_dme_title', 'Department of Manpower and Employment') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify notranslate" translate="no">
+                        <p><?= t('inst_dme_p1') ?></p>
+                        <p><?= t('inst_dme_p2') ?></p>
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            Visit Website 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -412,15 +408,14 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
                 <!-- Panel: NILS -->
                 <div id="inst-panel-inst-nils" class="inst-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Labour Studies</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
-                        <p>The National Institute of Labour Studies (NILS) is the premier state institution in Sri Lanka dedicated to providing education, training, and research in labour relations, human resource management, and employment law. It supports trade unions, public officers, and private sector employees in enhancing their skills and workplace harmony.</p>
-                        <p>NILS conducts certificate and diploma courses tailored to labor dynamics, resolving industrial disputes, and establishing modern, productive employer-employee relationships across industries.</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight notranslate" translate="no"><?= t('inst_nils_title', 'National Institute of Labour Studies') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify notranslate" translate="no">
+                        <p><?= t('inst_nils_p1') ?></p>
+                        <p><?= t('inst_nils_p2') ?></p>
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            Visit Website 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -428,15 +423,14 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
                 <!-- Panel: NIOSH -->
                 <div id="inst-panel-inst-niosh" class="inst-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">National Institute of Occupational Safety and health</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
-                        <p>NIOSH Sri Lanka is tasked with executing research, generating safety reports, and formulating policies concerning occupational health and physical safety in commercial and manufacturing workspace environments.</p>
-                        <p>By organizing vocational safety drills and safety compliance auditing programs, the institute helps domestic industries minimize hazard risks and comply with national factories ordinance mandates.</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight notranslate" translate="no"><?= t('inst_niosh_title', 'National Institute of Occupational Safety and Health') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify notranslate" translate="no">
+                        <p><?= t('inst_niosh_p1') ?></p>
+                        <p><?= t('inst_niosh_p2') ?></p>
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            Visit Website 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -444,18 +438,18 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
                 <!-- Panel: Workmen's Compensation Office -->
                 <div id="inst-panel-inst-wc" class="inst-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Affiliated Body</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight">Office of the Commissioner for Workmen's Compensation</h3>
-                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify">
-                        <p>This regulatory judicial body is tasked with arbitrating, registering, and distributing formal compensation claims arising from workplace physical injuries or accidental death in Sri Lanka.</p>
-                        <p>The commissioner enforces compliance under the Workmen's Compensation Ordinance, ensuring employers distribute prompt and legal payouts to affected families.</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight notranslate" translate="no"><?= t('inst_wc_title', "Office of the Commissioner for Workmen's Compensation") ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify notranslate" translate="no">
+                        <p><?= t('inst_wc_p1') ?></p>
+                        <p><?= t('inst_wc_p2') ?></p>
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            Visit Website 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -470,9 +464,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
     <div class="container mx-auto relative z-10" data-aos="fade-up">
         <div class="mb-12">
             <div>
-                <p class="text-gray-300 text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Quick Access</p>
                 <h2 class="section-title text-white mb-0"><?= t('quick_links', 'Quick Links') ?></h2>
-                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-justify">Direct access to our most crucial portals and services.</p>
+                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left">Direct access to our most crucial portals and services.</p>
             </div>
         </div>
 
@@ -566,8 +559,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12" data-aos="fade-up">
             <div>
-                <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                    Updates & Announcements</p>
                 <h2 class="section-title notranslate">
                     <?= t('latest_news') ?></h2>
             </div>
@@ -603,7 +594,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                                     <?= htmlspecialchars($news['title']) ?>
                                 </a>
                             </h3>
-                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-justify">
+                            <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-left">
                                 <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
                             </p>
                         </div>
@@ -635,9 +626,6 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
             
             <!-- Downloads Column -->
             <div class="bg-[#FAFAFA] rounded-[32px] p-8 md:p-12 flex flex-col self-start">
-                <p class="text-secondary font-medium text-xs md:text-[13px] tracking-[0.15em] mb-3 font-inter uppercase">
-                    Important Documents and Resources
-                </p>
                 <h3 class="font-semibold text-3xl md:text-4xl font-montserrat mb-8 text-primary notranslate"><?= t('downloads') ?></h3>
                 
                 <div class="flex flex-col space-y-3.5">

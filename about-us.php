@@ -60,33 +60,33 @@ include 'includes/sub-hero.php';
         <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center"><?= t('related_organizations', 'Related Organizations') ?></h2>
         <div id="partners-track"
             class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 py-8 justify-items-center items-center">
-            <div
-                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+            <a href="https://www.presidentsoffice.gov.lk/" target="_blank" rel="noopener noreferrer" aria-label="Presidential Secretariat Official Website"
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full group cursor-pointer">
                 <img loading="lazy" src="assets/img/about-us/presidential-secretariat.png" alt="Presidential Secretariat"
-                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300">
-            </div>
-            <div
-                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain group-hover:scale-105 transition-transform duration-300">
+            </a>
+            <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" aria-label="Department of Labour Official Website"
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full group cursor-pointer">
                 <img loading="lazy" src="assets/img/about-us/department-of-labour.png" alt="Department of Labour"
-                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain hover:scale-105 transition-transform duration-300">
-            </div>
-            <div
-                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                    class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[170px] md:max-w-[220px] lg:max-w-[260px] object-contain group-hover:scale-105 transition-transform duration-300">
+            </a>
+            <a href="https://www.ilo.org/" target="_blank" rel="noopener noreferrer" aria-label="International Labour Organization Official Website"
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full group cursor-pointer">
                 <img loading="lazy" src="assets/img/about-us/ilo.png" alt="International Labour Organization (ILO)"
-                    class="max-h-14 md:max-h-20 lg:max-h-22 max-w-[140px] md:max-w-[180px] lg:max-w-[220px] object-contain hover:scale-105 transition-transform duration-300">
-            </div>
-            <div
-                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full">
+                    class="max-h-14 md:max-h-20 lg:max-h-22 max-w-[140px] md:max-w-[180px] lg:max-w-[220px] object-contain group-hover:scale-105 transition-transform duration-300">
+            </a>
+            <a href="https://etfb.lk/" target="_blank" rel="noopener noreferrer" aria-label="Employees' Trust Fund Board Official Website"
+                class="flex justify-center items-center h-20 md:h-28 lg:h-32 w-full group cursor-pointer">
                 <?php if (file_exists('assets/img/about-us/etf.png')): ?>
                     <img loading="lazy" src="assets/img/about-us/etf.png" alt="Employees' Trust Fund (ETF)"
-                        class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[200px] md:max-w-[260px] lg:max-w-[315px] object-contain hover:scale-105 transition-transform duration-300">
+                        class="max-h-16 md:max-h-24 lg:max-h-28 max-w-[200px] md:max-w-[260px] lg:max-w-[315px] object-contain group-hover:scale-105 transition-transform duration-300">
                 <?php else: ?>
-                    <div class="h-full w-full max-w-[220px] bg-gray-100 border border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-400 font-semibold hover:scale-105 transition-transform duration-300 hover:border-primary/30 group">
+                    <div class="h-full w-full max-w-[220px] bg-gray-100 border border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-400 font-semibold group-hover:scale-105 transition-transform duration-300 group-hover:border-primary/30">
                         <span class="text-xs text-[#888888] group-hover:text-primary transition-colors text-center px-2 font-inter">Employees' Trust Fund (ETF)</span>
                         <span class="text-[9px] text-[#AAAAAA] uppercase tracking-widest mt-1">Logo Placeholder</span>
                     </div>
                 <?php endif; ?>
-            </div>
+            </a>
         </div>
 
         <!-- Sticky Slide Dots -->
@@ -428,11 +428,9 @@ include 'includes/sub-hero.php';
 <!-- Divisions & Functions -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white" id="divisions-functions">
     <div class="container mx-auto" data-aos="fade-up">
-        <div class="mb-14">
-            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">
-                Organizational Structure</p>
-            <h2 class="section-title">
-                Divisions & Functions</h2>
+        <div class="mb-10">
+            <h2 class="section-title notranslate">
+                <?= t('div_section_title', 'Divisions under the Ministry') ?></h2>
         </div>
 
         <!-- Unified Card Container Split Layout -->
@@ -442,7 +440,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 1 -->
                 <button class="group div-split-tab active snap-center" data-target="div-admin">
                     <span class="flex items-center">
-                        <span class="truncate">Administration Division</span>
+                        <span class="truncate notranslate"><?= t('div_admin_title', 'Administration and Establishments Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -450,31 +448,31 @@ include 'includes/sub-hero.php';
                 <!-- Card 2 -->
                 <button class="group div-split-tab snap-center" data-target="div-dev">
                     <span class="flex items-center">
-                        <span class="truncate">Policy Formulation & Foreign Relations Division</span>
+                        <span class="truncate notranslate"><?= t('div_dev_title', 'Policy Formulation & Foreign Relations Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
-                
+
                 <!-- Card 3 -->
-                <button class="group div-split-tab snap-center" data-target="div-finance">
+                <button class="group div-split-tab snap-center" data-target="div-planning">
                     <span class="flex items-center">
-                        <span class="truncate">Finance Division</span>
+                        <span class="truncate notranslate"><?= t('div_planning_title', 'Planning and Monitoring Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
                 
                 <!-- Card 4 -->
-                <button class="group div-split-tab snap-center" data-target="div-audit">
+                <button class="group div-split-tab snap-center" data-target="div-finance">
                     <span class="flex items-center">
-                        <span class="truncate">Internal Audit Division</span>
+                        <span class="truncate notranslate"><?= t('div_finance_title', 'Finance Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
                 
                 <!-- Card 5 -->
-                <button class="group div-split-tab snap-center" data-target="div-planning">
+                <button class="group div-split-tab snap-center" data-target="div-audit">
                     <span class="flex items-center">
-                        <span class="truncate">Planning & Monitoring Division</span>
+                        <span class="truncate notranslate"><?= t('div_audit_title', 'Internal Audit Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -488,132 +486,48 @@ include 'includes/sub-hero.php';
                 <!-- Decorative glowing orb -->
                 <div class="absolute -right-24 -bottom-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 
-                <!-- Administration Division -->
+                <!-- 1. Administration and Establishments Division -->
                 <div id="div-panel-div-admin" class="div-panel transition-all duration-500 block animate-[fadeIn_0.4s_ease-out]">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Administration Division</h3>
-                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Administration</strong> and <strong>Establishments Division</strong>.</p>
-                        
-                        <h4 class="font-bold text-gray-900 text-lg mt-6 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Key Functions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1">Overseeing the overall administration, management, maintenance, training and coordination of the Ministry and its affiliated institutions.</li>
-                            <li class="pl-1">Responsible for human resources management and related functions.</li>
-                            <li class="pl-1">Maintaining personal files of all public officers attached to the Ministry and updating information on the staff.</li>
-                            <li class="pl-1">Preparation of cabinet memoranda and taking action in respect of cabinet decisions.</li>
-                            <li class="pl-1">Providing answers to referrals made by the Consultative Committee and Public Petitions Committee as well as parliamentary questions.</li>
-                            <li class="pl-1">Administration of vehicles, provision of infrastructure facilities, training activities, and management of capital goods.</li>
-                            <li class="pl-1">Submission of annual reports and performance reports of the Ministry to Parliament.</li>
-                            <li class="pl-1">Collection and submission of declarations of assets and liabilities of relevant officers.</li>
-                            <li class="pl-1">Handling reservations, maintenance, and administrative activities of the Ministry's circuit bungalow in Ampara.</li>
-                            <li class="pl-1">Managing matters related to lands and buildings owned by the Ministry.</li>
-                        </ul>
-                        
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight notranslate">
+                        <?= t('div_admin_title', 'Administration and Establishments Division') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed notranslate">
+                        <?= t('div_admin_content') ?>
                     </div>
                 </div>
 
-                <!-- Policy Formulation & Foreign Relations Division -->
+                <!-- 2. Policy Formulation & Foreign Relations Division -->
                 <div id="div-panel-div-dev" class="div-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Policy Formulation & Foreign Relations Division</h3>
-                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">There are two sections under this Division: <strong>Policy Formulation Division</strong> and <strong>Foreign Relations Division</strong>.</p>
-                        
-                        <h4 class="font-bold text-gray-900 text-[17px] mt-6 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Policy Formulation Division Functions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1"><strong class="text-gray-800">Public Grievance Management:</strong> Direct the Ministry's response to high-priority public grievances and ensuring resolution efficiency.</li>
-                            <li class="pl-1"><strong class="text-gray-800">ILO Engagement & Labor Reforms:</strong> Engage within the ILO framework, representing the state in strategic forums.</li>
-                            <li class="pl-1"><strong class="text-gray-800">National Social Protection Strategy:</strong> Lead the coordination of the Social Care, Social Insurance, and Labor Market inclusion.</li>
-                            <li class="pl-1"><strong class="text-gray-800">Statutory Compliance:</strong> Perform institutional duties mandated under the Right to Information Act, No. 12 of 2016.</li>
-                            <li class="pl-1"><strong class="text-gray-800">Events & Community Outreach:</strong> Spearhead official events and community-based mobile service programs.</li>
-                        </ul>
-                        
-                        <h4 class="font-bold text-gray-900 text-[17px] mt-8 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Foreign Relations Division Functions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1">Act as the focal centre for the discharge of Sri Lanka's international obligations in the field of labour relations.</li>
-                            <li class="pl-1">Facilitate the selection of members to the National Labour Advisory Council (NLAC).</li>
-                            <li class="pl-1">Convene meetings of the National Steering Committee on the Elimination of Child Labour.</li>
-                            <li class="pl-1">Coordinate reports to the ILO and participation of Sri Lanka's delegation at the International Labour Conference.</li>
-                            <li class="pl-1">Promote policy dialogue on emerging developments in global and national labour markets.</li>
-                        </ul>
-
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight notranslate">
+                        <?= t('div_dev_title', 'Policy Formulation & Foreign Relations Division') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed notranslate">
+                        <?= t('div_dev_content') ?>
                     </div>
                 </div>
 
-                <!-- Finance Division -->
-                <div id="div-panel-div-finance" class="div-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Finance Division</h3>
-                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <p class="text-lg text-gray-700 leading-relaxed"><strong class="text-primary font-semibold">Mission:</strong> To ensure effective financial management, prudent utilization of public funds, compliance with financial regulations and the provision of sound financial planning and budgeting and reporting services to support the ministry's objectives efficiently and transparently.</p>
-                        
-                        <h4 class="font-bold text-gray-900 text-lg mt-8 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Key Functions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1">Preparation of budget estimates.</li>
-                            <li class="pl-1">Maintaining accounts and submitting all statements of account to the General Treasury.</li>
-                            <li class="pl-1">Implementation of financial policies in accordance with the laws, rules, and financial regulations.</li>
-                            <li class="pl-1">Maintain records of ministry assets and liabilities.</li>
-                            <li class="pl-1">Ensure compliance with financial regulations, treasury instructions, and audit requirements.</li>
-                        </ul>
-
-                    </div>
-                </div>
-
-                <!-- Internal Audit Division -->
-                <div id="div-panel-div-audit" class="div-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Internal Audit Division</h3>
-                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <h4 class="font-bold text-gray-900 text-lg mt-4 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Functions For the Ministry and affiliated institutions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1">Conducting AMC of the Ministry and participating in the AMC of other Institutions.</li>
-                            <li class="pl-1">Ensure timely presenting of the Preliminary Report, Quarter reports, Annual Internal Audit plan, and annual action plan.</li>
-                            <li class="pl-1">Conducting continuous surveys and evaluations for internal control system operations and suggestions for improvements.</li>
-                            <li class="pl-1">Investigation of financial transactions to ensure they accord with rules and provide views on financial statements.</li>
-                            <li class="pl-1">Look into protections established to safeguard government assets and properties and assess effective usage.</li>
-                            <li class="pl-1">Conducting Special investigations and internal audit functions and submit reports to the Secretary.</li>
-                            <li class="pl-1">Reporting of Financial & Physical progress of capital/development projects.</li>
-                        </ul>
-
-                    </div>
-                </div>
-
-                <!-- Planning & Monitoring Division -->
+                <!-- 3. Planning and Monitoring Division -->
                 <div id="div-panel-div-planning" class="div-panel hidden">
-                    <div class="inline-block px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-lg mb-4">Division Profile</div>
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight">Planning & Monitoring Division</h3>
-                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed">
-                        <p class="text-gray-700 bg-gray-50/80 p-4 rounded-xl border border-gray-100">Devising plans of the Ministry and all institutions under its purview required for navigating the development plans towards the set targets, and the implementation of them, progress review and follow up thereof are the key functions of this division.</p>
-                        
-                        <h4 class="font-bold text-gray-900 text-lg mt-6 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
-                            Key Functions
-                        </h4>
-                        <ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5">
-                            <li class="pl-1">Preparing, implementing, and reporting on strategic plans and annual action plans in alignment with the national policy framework.</li>
-                            <li class="pl-1">Preparing the annual action plan, outlining the development goals, monitoring and encouraging the achievement of targets.</li>
-                            <li class="pl-1">Coordinating with the Presidential Secretariat, Ministry of Finance, Department of Project Management and Monitoring, and Department of National Planning.</li>
-                            <li class="pl-1">Identifying and submitting project proposals for preparation of annual budget estimates.</li>
-                            <li class="pl-1">Preparing the annual performance report detailing the progress achieved by the Ministry.</li>
-                            <li class="pl-1">Appraising development project proposals related to the curriculum and referring to the Department of National Planning.</li>
-                            <li class="pl-1">Contributing as relevant to action plans implemented by various Ministries.</li>
-                        </ul>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight notranslate">
+                        <?= t('div_planning_title', 'Planning and Monitoring Division') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed notranslate">
+                        <?= t('div_planning_content') ?>
+                    </div>
+                </div>
 
+                <!-- 4. Finance Division -->
+                <div id="div-panel-div-finance" class="div-panel hidden">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight notranslate">
+                        <?= t('div_finance_title', 'Finance Division') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed notranslate">
+                        <?= t('div_finance_content') ?>
+                    </div>
+                </div>
+
+                <!-- 5. Internal Audit Division -->
+                <div id="div-panel-div-audit" class="div-panel hidden">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat tracking-tight leading-tight notranslate">
+                        <?= t('div_audit_title', 'Internal Audit Division') ?></h3>
+                    <div class="space-y-6 text-gray-600 text-[15px] font-inter leading-relaxed notranslate">
+                        <?= t('div_audit_content') ?>
                     </div>
                 </div>
             </div>
@@ -627,7 +541,6 @@ include 'includes/sub-hero.php';
         
         <!-- Left Side: Main Text -->
         <div class="w-full lg:w-[45%]">
-            <p class="text-secondary font-normal text-xs md:text-sm uppercase tracking-[0.2em] mb-3 font-inter">Citizen Charter</p>
             <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 leading-tight">
                 Our Commitment to Public<br>Service Excellence
             </h2>

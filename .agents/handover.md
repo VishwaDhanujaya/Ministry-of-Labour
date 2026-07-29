@@ -148,6 +148,45 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-29 (Related Organizations External Links Update)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Wrapped all partner organization logos in the **Related Organizations** section on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) with external anchor links opening in a new tab (`target="_blank" rel="noopener noreferrer"`):
+  - **Presidential Secretariat**: `https://www.presidentsoffice.gov.lk/`
+  - **Department of Labour**: `https://labourdept.gov.lk/`
+  - **ILO**: `https://www.ilo.org/`
+  - **ETF**: `https://etfb.lk/`
+
+### 2026-07-29 (Happy Customers Overview Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the `happy_customers` translation entry in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) to `සතුටුදායක ගනුදෙනුකරුවන්` for Sinhala and `மகிழ்ச்சியான வாடிக்கையாளர்கள்` for Tamil.
+
+### 2026-07-29 (Tamil Translation Character Cleanup)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Audited and replaced all instances of mixed Sinhala Unicode code points inside Tamil (`'ta'`) strings across the translation dictionary and search index (e.g. `பதிவிறக்கங்கள்` -> `பதிவிறக்கங்கள்`, `தொடர்புகொள்ள` -> `தொடர்புகொள்ள`, `சமீபத்திய இடுகைகள்` -> `சமீபத்திய இடுகைகள்`, `அண்மைக்கාල செய்திகள்` -> `அண்மைக்கාල செய்திகள்`, `மகிழ்ச்சியான வாடிக்கையாளர்கள்` -> `மகிழ்ச்சியான வாடிக்கையாளர்கள்`, `நிர்வாகம் மற்றும் தாபனப் பிரிவு` -> `நிர்வாகம் மற்றும் தாபனப் பிரிவு`). All Tamil terms are now rendered in pure Tamil script (`U+0B80` - `U+0BFF`).
+
+### 2026-07-29 (Latest News Cards Left Alignment Update)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated card description text alignment in the **Latest News** section on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) from `text-justify` to `text-left` for clean, natural left alignment.
+
+### 2026-07-29 (Divisions & Functions Content and Order Update)
+* **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), Database table `divisions`, [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the Divisions & Functions section in [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) with new detailed trilingual content in English, Sinhala, and Tamil. Re-ordered the 5 divisions across [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), and the MySQL database table `divisions` to match the exact specified order: 1) Administration and Establishments Division, 2) Policy Formulation & Foreign Relations Division, 3) Planning and Monitoring Division, 4) Finance Division, 5) Internal Audit Division.
+
+### 2026-07-29 (Quick Links Left Alignment Update)
+* **Files:** [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated text alignment for the Quick Links section intro description and all 6 Quick Links focus card descriptions (`.focus-card-desc`) from `text-justify` to clean `text-left` alignment for natural left-to-right reading.
+
+### 2026-07-29 (Site-Wide Section Header Cleanup & Sub-tag Removal)
+* **Files:** [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [learning-platforms.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms.php), [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Systematic removal of small sub-tags, eyebrow labels, and redundant subtitle tags (such as `About Us` above About Ministry, `Organizational Structure` above Divisions & Functions, `Division Profile` badges inside division panels, `Citizen Charter` above Commitment title, `Quick Access` above Quick Links, `Updates & Announcements` above Latest News, `Important Documents` above Downloads, `Our Blog` on news page, `Educational Resources` on learning platforms, and `Transparency & Accountability` / `Ministry Officials` on RTI page) across all sections of the site. Ensures every section header features a clean, prominent, direct main heading.
+
 ### 2026-07-29 (Uniform /en/ Pretty URLs for English)
 * **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

@@ -74,9 +74,9 @@ try {
             'titles' => [
                 'en' => 'Downloads - Applications & Forms',
                 'si' => 'බාගත කිරීම් - අයදුම්පත් හා ආකෘති පත්‍ර',
-                'ta' => 'பதிවிறக்கங்கள் - விண்ணப்பங்கள் மற்றும் படிவங்கள்'
+                'ta' => 'பதிவிறக்கங்கள் - விண்ணப்பங்கள் மற்றும் படிவங்கள்'
             ],
-            'keywords' => ['downloads', 'applications', 'forms', 'documents', 'pdf', 'acts', 'බාගත කිරීම්', 'අයදුම්පත්', 'பதிවிறக்கங்கள்']
+            'keywords' => ['downloads', 'applications', 'forms', 'documents', 'pdf', 'acts', 'බාගත කිරීම්', 'අයදුම්පත්', 'பதிவிறக்கங்கள்']
         ],
         [
             'url' => 'iau',

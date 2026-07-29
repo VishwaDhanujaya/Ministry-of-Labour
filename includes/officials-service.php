@@ -94,9 +94,9 @@ function buildContactDepartments(PDO $pdo): array {
         if ($div['slug'] === 'administration') $modalId = 'admin-modal';
         if ($div['slug'] === 'internal-audit') {
             $modalId = 'audit-modal';
-            $title = 'Internal Audit'; // Remove 'Division' suffix
+            $title = 'Internal Audit Division';
         } else {
-            $title = $div['title'] . ' Division';
+            $title = str_ends_with($div['title'], 'Division') ? $div['title'] : $div['title'] . ' Division';
         }
 
         $contactDepts[] = [

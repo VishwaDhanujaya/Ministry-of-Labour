@@ -283,7 +283,6 @@ include 'includes/sub-hero.php';
         <div class="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center mb-16">
             <!-- Left Column: Commitment text -->
             <div class="w-full lg:w-1/2" data-aos="fade-right">
-                <span class="section-subtitle"><?= $current_lang === 'si' ? 'විනිවිදභාවය සහ වගවීම' : ($current_lang === 'ta' ? 'வெளிப்படைத்தன்மை & பொறுப்புக்கூறல்' : 'Transparency & Accountability') ?></span>
                 <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6"><?= $current_lang === 'si' ? 'තොරතුරු දැනගැනීමේ අයිතිය' : ($current_lang === 'ta' ? 'தகவல் அறியும் உரிமை' : 'Right to Information') ?></h2>
                 <div class="bg-[#FAFAFA] border-l-4 border-secondary p-6 rounded-r-2xl shadow-sm">
                     <p class="text-gray-800 font-inter text-[15px] md:text-[16px] leading-relaxed font-semibold notranslate">
@@ -343,7 +342,6 @@ include 'includes/sub-hero.php';
 <!-- RTI Officers Section -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <span class="section-subtitle block text-center md:text-left"><?= $current_lang === 'si' ? 'අමාත්‍යාංශ කාර්ය මණ්ඩලය' : ($current_lang === 'ta' ? 'அமைச்சு ஊழியர்கள்' : 'Ministry Officials') ?></span>
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 md:mb-10 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_texts[$current_lang]['officers_title']) ?>
         </h2>
@@ -440,7 +438,6 @@ include 'includes/sub-hero.php';
 <!-- RTI Forms and Details Section -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-white border-t border-gray-200">
     <div class="container mx-auto">
-        <span class="section-subtitle block text-center md:text-left"><?= htmlspecialchars($rti_details[$current_lang]['section_subtitle']) ?></span>
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 md:mb-10 text-center md:text-left notranslate" data-aos="fade-up">
             <?= htmlspecialchars($rti_details[$current_lang]['section_title']) ?>
         </h2>
