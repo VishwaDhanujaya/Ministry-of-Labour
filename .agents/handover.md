@@ -148,6 +148,13 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-29 (GitHub README Documentation)
+* **Files:**
+  - [README.md](file:///c:/xampp/htdocs/Ministry-of-Labour/README.md)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Created a clean, formal [`README.md`](file:///c:/xampp/htdocs/Ministry-of-Labour/README.md) without emojis for the GitHub repository. Includes project badges (PHP, Tailwind CSS, MySQL, Security), key features (trilingual engine, bungalow booking, complaints channel, admin CMS, security), technology stack, directory structure, step-by-step local installation/setup guide, security highlights, and licensing.
+
 ### 2026-07-29 (Clean Prefix URL Routing Migration)
 * **Files:**
   - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
