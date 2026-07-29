@@ -63,9 +63,18 @@ if (!function_exists('navUrl')) {
     }
 }
 
-$seoTitle = isset($pageTitle) ? $pageTitle : (isset($page_title) ? strip_tags($page_title) : 'Ministry of Labour - Government of Sri Lanka');
-$seoDesc = isset($metaDescription) ? $metaDescription : 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
-$seoKw = isset($metaKeywords) ? $metaKeywords : 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri Lanka, Employees Provident Fund, Mehewara Piyasa, Industrial Relations, Occupational Safety';
+// ── Per-language meta resolution ─────────────────────────────────────────────
+// Pages may define $pageMeta['si'] and/or $pageMeta['ta'] with keys:
+//   'title' (for <title> and og:title), 'desc' (meta description), 'kw' (keywords)
+// Falls back to English $pageTitle / $metaDescription / $metaKeywords if not set.
+$_meta_lang = ($current_lang !== 'en' && isset($pageMeta[$current_lang])) ? $pageMeta[$current_lang] : [];
+
+$seoTitle = $_meta_lang['title']
+    ?? (isset($pageTitle) ? $pageTitle : (isset($page_title) ? strip_tags($page_title) : 'Ministry of Labour - Government of Sri Lanka'));
+$seoDesc = $_meta_lang['desc']
+    ?? (isset($metaDescription) ? $metaDescription : 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.');
+$seoKw = $_meta_lang['kw']
+    ?? (isset($metaKeywords) ? $metaKeywords : 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri Lanka, Employees Provident Fund, Mehewara Piyasa, Industrial Relations, Occupational Safety');
 
 // Enforce absolute URLs for social scrapers
 $rawOgImage = isset($ogImage) ? $ogImage : 'assets/img/og-preview.jpg';
@@ -75,7 +84,7 @@ $rawOgUrl = isset($ogUrl) ? $ogUrl : 'home';
 $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($rawOgUrl, '/');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars($current_lang, ENT_QUOTES, 'UTF-8') ?>">
 
 <head>
     <meta charset="UTF-8">

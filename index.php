@@ -133,6 +133,18 @@ if (!empty($statisticsList)) {
 $pageTitle = 'Home - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Official portal of the Ministry of Labour, Sri Lanka. Committed to protecting workforce rights, maintaining industrial peace, social security (EPF), and workplace occupational safety.';
 $metaKeywords = 'Ministry of Labour, Sri Lanka Labour, EPF, ETF, Labour Laws Sri Lanka, Employees Provident Fund, Mehewara Piyasa, Industrial Relations, Occupational Safety';
+$pageMeta = [
+    'si' => [
+        'title' => 'මුල් පිටුව - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'ශ්‍රී ලංකාවේ කම්කරු අමාත්‍යාංශයේ නිල ද්වාරය. සේවා බලකා අයිතිවාසිකම් ආරක්ෂා කිරීමට, කාර්මික සාමය පවත්වා ගැනීමට සහ EPF/ETF සේවා ලබා දීමට කැපවී ඇත.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, ශ්‍රී ලංකා කම්කරු, EPF, ETF, කම්කරු නීති, සේවක අර'
+    ],
+    'ta' => [
+        'title' => 'முகப்பு - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'இலங்கையின் தொழில் அமைச்சின் அதிகாரப்பூர்வ தளம். தொழிலாளர் உரிமைகளை பாதுகாத்தல், தொழில்துறை அமைதியை பராமரித்தல் மற்றும் EPF/ETF சேவைகளை வழங்குதல்.',
+        'kw'    => 'தொழில் அமைச்சு, இலங்கை தொழிலாளர், EPF, ETF, தொழிலாளர் சட்டங்கள்'
+    ]
+];
 include 'includes/header.php';
 ?>
 
@@ -562,14 +574,14 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                 <h2 class="section-title notranslate">
                     <?= t('latest_news') ?></h2>
             </div>
-            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider">
-                <span>View All</span>
+            <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider notranslate">
+                <span><?= t('view_all', 'View All') ?></span>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <?php if(empty($recentNews)): ?>
-                <div class="col-span-3 text-center text-gray-500 py-10">No recent news available.</div>
+                <div class="col-span-3 text-center text-gray-500 py-10 notranslate"><?= t('no_news_found', 'No recent news available.') ?></div>
             <?php else: ?>
                 <?php foreach($recentNews as $news): ?>
                 <div class="news-card">
@@ -587,7 +599,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                         <div class="p-8 pb-4">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-xs text-gray-500 font-inter font-bold"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
+                                <span class="text-xs text-gray-500 font-inter font-bold"><?= format_date_trilingual($news['created_at']) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
                                 <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hover:text-secondary transition-colors duration-300">
@@ -600,8 +612,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                         </div>
                     </div>
                     <div class="p-8 pt-2">
-                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5">
-                            Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        <a href="news/<?= $news['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold text-xs flex items-center hover:text-primary transition-colors uppercase tracking-wider gap-1.5 notranslate">
+                            <?= t('read_more', 'Read More') ?> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
                     </div>
                 </div>
@@ -611,8 +623,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
 
         <div class="mt-10 text-center md:hidden">
             <a href="news<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
-                class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase">
-                <span>View All News</span>
+                class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase notranslate">
+                <span><?= t('view_all', 'View All') ?></span>
             </a>
         </div>
     </div>

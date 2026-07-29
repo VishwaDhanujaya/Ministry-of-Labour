@@ -13,8 +13,8 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold font-montserrat text-gray-900">Reservation Details</h3>
-                        <p class="text-[11px] text-gray-500 font-inter">Request booking for Ampara Bungalow</p>
+                        <h3 class="text-lg font-bold font-montserrat text-gray-900 notranslate"><?= t('reservation_details', 'Reservation Details') ?></h3>
+                        <p class="text-[11px] text-gray-500 font-inter notranslate"><?= t('booking_request_subtitle', 'Request booking for Ampara Bungalow') ?></p>
                     </div>
                 </div>
                 <button type="button"
@@ -43,7 +43,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <!-- Check-in -->
                             <div class="relative">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Check-In *</label>
+                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('check_in', 'Check-In') ?> *</label>
                                 <div class="relative">
                                     <input type="text" id="modal-check-in" name="start_date" required
                                         class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
@@ -55,7 +55,7 @@
                             </div>
                             <!-- Check-out -->
                             <div class="relative">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Check-Out *</label>
+                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('check_out', 'Check-Out') ?> *</label>
                                 <div class="relative">
                                     <input type="text" id="modal-check-out" name="end_date" required
                                         class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
@@ -70,7 +70,7 @@
 
                     <!-- Room Required -->
                     <div>
-                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Room Required *</label>
+                        <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('room_required', 'Room Required') ?> *</label>
                         <div id="room_type_container"
                             class="space-y-2.5 p-4 border border-gray-200 rounded-[16px] bg-gray-50/50 min-h-[42px] transition-all">
                             <p class="text-[13px] text-gray-400 font-inter m-0 flex items-center justify-center py-2 gap-2">
@@ -92,7 +92,7 @@
                     <div class="space-y-4">
                         <!-- Applicant Name -->
                         <div class="relative">
-                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Applicant Name *</label>
+                            <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('applicant_name', 'Applicant Name') ?> *</label>
                             <div class="relative">
                                 <input type="text" name="applicant_name" required
                                     class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
@@ -106,7 +106,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <!-- Telephone -->
                             <div class="relative">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Telephone *</label>
+                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('phone', 'Telephone') ?> *</label>
                                 <div class="relative">
                                     <input type="text" name="telephone" required
                                         class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
@@ -118,7 +118,7 @@
                             </div>
                             <!-- Email -->
                             <div class="relative">
-                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter">Email *</label>
+                                <label class="block text-[11px] font-bold text-gray-500 uppercase tracking-wide mb-1.5 font-inter notranslate"><?= t('email', 'Email') ?> *</label>
                                 <div class="relative">
                                     <input type="email" name="email" required
                                         class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
@@ -136,9 +136,9 @@
                 <div class="px-6 py-5 bg-[#FAFAFA] border-t border-gray-100 flex justify-end gap-3">
                     <button type="button"
                         onclick="closeBookingModal()"
-                        class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 active:scale-95 transition-all font-inter focus:outline-none">Cancel</button>
+                        class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 active:scale-95 transition-all font-inter focus:outline-none notranslate"><?= t('cancel', 'Cancel') ?></button>
                     <button type="submit" id="submit-booking-btn"
-                        class="px-6 py-2.5 text-[13px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl active:scale-95 transition-all font-inter shadow-md shadow-red-950/10 focus:outline-none">Submit Booking Request</button>
+                        class="px-6 py-2.5 text-[13px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl active:scale-95 transition-all font-inter shadow-md shadow-red-950/10 focus:outline-none notranslate"><?= t('submit_booking_request', 'Submit Booking Request') ?></button>
                 </div>
             </form>
         </div>
@@ -177,12 +177,12 @@
                     <div>
                         <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide"><?= t('quick_links') ?></h3>
                         <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
-                            <li><a href="nlac" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
-                            <li><a href="ampara-circuit-bungalow" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_ampara') ?></a></li>
-                            <li><a href="learning-platforms" class="hover:text-yellow-400 hover:underline transition-all"><?= t('learning_platforms') ?></a></li>
-                            <li><a href="news" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_news_updates') ?></a></li>
-                            <li><a href="rti" class="hover:text-yellow-400 hover:underline transition-all"><?= t('rti') ?></a></li>
-                            <li><a href="complaints" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_complaints') ?></a></li>
+                            <li><a href="<?= navUrl('nlac') ?>" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
+                            <li><a href="<?= navUrl('ampara-circuit-bungalow') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_ampara') ?></a></li>
+                            <li><a href="<?= navUrl('learning-platforms') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('learning_platforms') ?></a></li>
+                            <li><a href="<?= navUrl('news') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_news_updates') ?></a></li>
+                            <li><a href="<?= navUrl('rti') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('rti') ?></a></li>
+                            <li><a href="<?= navUrl('complaints') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_complaints') ?></a></li>
                         </ul>
                     </div>
                 </div>
@@ -253,7 +253,7 @@
                                 }
                             }
                             if (!empty($dates)) {
-                                $last_updated_date = date('j M, Y', max($dates));
+                                $last_updated_date = format_date_trilingual(max($dates));
                             }
                         } catch (PDOException $e) {
                             // ignore

@@ -23,6 +23,18 @@ $page_title = 'News';
 $pageTitle = 'News - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Read the latest news, updates, notices, and insights from the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'Ministry of Labour, Sri Lanka, News, Updates, Media, Notices';
+$pageMeta = [
+    'si' => [
+        'title' => 'පුවත් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශයේ නවතම පුවත්, යාවත්කාලීන කිරීම් සහ නිවේදන කියවන්න.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, පුවත්, යාවත්කාලීන කිරීම්, මාධ්‍ය'
+    ],
+    'ta' => [
+        'title' => 'செய்திகள் - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சின் அண்மைய செய்திகள், புதுப்பிப்புகள் மற்றும் அறிவித்தப்புகளை வாசியுங்கள்.',
+        'kw'    => 'தொழில் அமைச்சு, செய்திகள், புதுப்பிப்புகள், ஊடகம்'
+    ]
+];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -44,7 +56,7 @@ include 'includes/sub-hero.php';
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12" id="articles-grid">
                     <?php if (empty($allArticles)): ?>
-                        <div class="col-span-2 text-gray-500 py-4">No news found.</div>
+                        <div class="col-span-2 text-gray-500 py-4 notranslate"><?= t('no_news_found', 'No news found.') ?></div>
                     <?php else: ?>
                         <?php foreach ($allArticles as $article): ?>
                         <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col">
@@ -57,14 +69,14 @@ include 'includes/sub-hero.php';
                             </div>
                             <div class="p-8 pt-6 pb-8 flex flex-col flex-grow">
                                 <div class="flex justify-between items-center mb-4 text-xs text-gray-500 font-inter font-medium">
-                                    <span><?= date('F j, Y', strtotime($article['created_at'])) ?></span>
+                                    <span><?= format_date_trilingual($article['created_at']) ?></span>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
                                     <a href="news/<?= $article['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
                                     <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
-                                    <a href="news/<?= $article['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1">Read More</a>
+                                    <a href="news/<?= $article['id'] ?><?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 notranslate"><?= t('read_more', 'Read More') ?></a>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +100,7 @@ include 'includes/sub-hero.php';
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400" placeholder="Search news...">
+                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_news', 'Search news...')) ?>">
                         </div>
                     </div>
 

@@ -4,8 +4,20 @@ require_once 'admin/includes/db.php';
 
 $page_title = 'Downloads';
 $pageTitle = 'Downloads - Documents, Acts & Amendments - Ministry of Labour - Sri Lanka';
-$metaDescription = 'Download Documents, Acts and Amendments of the Ministry of Labour in Sinhala, Tamil, and English.';
-$metaKeywords = 'Downloads, Acts, Amendments, Procurements, Vacancies, Publications, Ministry of Labour, Sri Lanka';
+$metaDescription = 'Download Documents, Acts and Amendments of the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, Downloads, Documents, Acts, Amendments';
+$pageMeta = [
+    'si' => [
+        'title' => 'බාගැනීම් - ලේඛන සහ පනත් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශයේ නිල ලේඛන, පනත් සහ සංශෝධන බාගන්න.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, බාගැනීම්, ලේඛන, පනත්'
+    ],
+    'ta' => [
+        'title' => 'பதிவிறக்கங்கள் - ஆவணங்கள் மற்றும் சட்டங்கள் - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சின் அதிகாரப்பூர்வ ஆவணங்கள், சட்டங்கள் மற்றும் திருத்தங்களை பதிவிறக்கவும்.',
+        'kw'    => 'தொழில் அமைச்சு, பதிவிறக்கங்கள், ஆவணங்கள், சட்டங்கள்'
+    ]
+];
 
 include 'includes/header.php';
 include 'includes/sub-hero.php';
@@ -138,7 +150,7 @@ $categoryColors = [
                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="Search documents by title or reference..." onkeyup="resetPaginationAndFilter()">
+                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="<?= htmlspecialchars(t('search_docs_placeholder', 'Search documents...')) ?>" onkeyup="resetPaginationAndFilter()">
                 </div>
                 
                 <!-- Filters & Views -->
@@ -148,9 +160,9 @@ $categoryColors = [
                     <?php $preselected_category = isset($_GET['category']) ? $_GET['category'] : ''; ?>
                     <div class="relative w-full sm:w-48">
                         <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>>All Categories</option>
-                            <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>>Acts & Amendments</option>
-                            <option value="procurements" <?= ($preselected_category === 'procurements') ? 'selected' : '' ?>>All Procurements</option>
+                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>><?= t('all_categories', 'All Categories') ?></option>
+                            <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>><?= t('acts_amendments_filter', 'Acts & Amendments') ?></option>
+                            <option value="procurements" <?= ($preselected_category === 'procurements') ? 'selected' : '' ?>><?= t('all_procurements', 'All Procurements') ?></option>
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
                             <?php endforeach; ?>
@@ -163,10 +175,10 @@ $categoryColors = [
                     <!-- Items per page -->
                     <div class="relative w-full sm:w-36">
                         <select id="itemsPerPage" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="12">12 per page</option>
-                            <option value="24">24 per page</option>
-                            <option value="48">48 per page</option>
-                            <option value="all">Show All</option>
+                            <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="48">48 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="all"><?= t('show_all', 'Show All') ?></option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -176,9 +188,9 @@ $categoryColors = [
                     <!-- Language Filter -->
                     <div class="relative w-full sm:w-40">
                         <select id="langFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="en">English PDF</option>
-                            <option value="si">Sinhala PDF</option>
-                            <option value="ta">Tamil PDF</option>
+                            <option value="en" <?= $current_lang === 'en' ? 'selected' : '' ?>><?= t('english_pdf', 'English PDF') ?></option>
+                            <option value="si" <?= $current_lang === 'si' ? 'selected' : '' ?>><?= t('sinhala_pdf', 'Sinhala PDF') ?></option>
+                            <option value="ta" <?= $current_lang === 'ta' ? 'selected' : '' ?>><?= t('tamil_pdf', 'Tamil PDF') ?></option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -217,12 +229,12 @@ $categoryColors = [
                     <p class="text-xs text-gray-500 font-medium font-inter mb-6">Ref: <?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
                 <!-- Action Button -->
-                <a href="#" target="_blank" class="download-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm hidden" onclick="event.stopPropagation();">
+                <a href="#" target="_blank" class="download-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm hidden notranslate" onclick="event.stopPropagation();">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download Document
+                    <?= t('download_document', 'Download Document') ?>
                 </a>
-                <span class="no-doc-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-400 border border-gray-200 rounded-xl text-[13px] font-bold cursor-not-allowed hidden">
-                    No Document
+                <span class="no-doc-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-400 border border-gray-200 rounded-xl text-[13px] font-bold cursor-not-allowed hidden notranslate">
+                    <?= t('no_document', 'No Document') ?>
                 </span>
             </div>
             <?php endforeach; ?>
@@ -234,10 +246,10 @@ $categoryColors = [
                 <table class="w-full text-left text-sm text-gray-600 font-inter">
                     <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-4 font-semibold text-[13.5px]">Document Title</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40">Category</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48">Reference</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56">Action</th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] notranslate"><?= t('doc_title_col', 'Document Title') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40 notranslate"><?= t('category_col', 'Category') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48 notranslate"><?= t('reference_col', 'Reference') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56 notranslate"><?= t('action_col', 'Action') ?></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -255,11 +267,11 @@ $categoryColors = [
                                 <?= htmlspecialchars($doc['ref']) ?>
                             </td>
                             <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
-                                <a href="#" target="_blank" class="list-download-btn items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm hidden">
+                                <a href="#" target="_blank" class="list-download-btn items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm hidden notranslate">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                    Download
+                                    <?= t('download', 'Download') ?>
                                 </a>
-                                <span class="list-no-doc text-xs text-gray-400 italic hidden">No Document</span>
+                                <span class="list-no-doc text-xs text-gray-400 italic hidden notranslate"><?= t('no_document', 'No Document') ?></span>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -271,14 +283,18 @@ $categoryColors = [
         <!-- No Results State -->
         <div id="noResultsMsg" class="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12" style="display: none;">
             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <p class="text-[17px] font-bold text-gray-800 mb-1">No documents matched your search</p>
-            <p class="text-sm text-gray-400">Try adjusting your filters or search keywords</p>
+            <p class="text-[17px] font-bold text-gray-800 mb-1 notranslate"><?= t('no_docs_found', 'No documents matched your search') ?></p>
+            <p class="text-sm text-gray-400 notranslate"><?= t('no_docs_found_sub', 'Try adjusting your filters or search keywords') ?></p>
         </div>
 
         <!-- Pagination Controls -->
         <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
-            <div class="text-sm text-gray-500 font-inter">
-                Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
+            <div class="text-sm text-gray-500 font-inter notranslate"
+                 data-label-showing="<?= htmlspecialchars(t('showing_label', 'Showing')) ?>"
+                 data-label-to="to"
+                 data-label-of="<?= htmlspecialchars(t('of_label', 'of')) ?>"
+                 data-label-documents="<?= htmlspecialchars(t('documents_label', 'documents')) ?>">
+                <span id="paginationSummary"><?= t('showing_label', 'Showing') ?> <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> <?= t('of_label', 'of') ?> <span id="totalItems" class="font-semibold text-gray-800">0</span> <?= t('documents_label', 'documents') ?></span>
             </div>
             <div class="flex items-center gap-1.5" id="paginationButtons">
                 <!-- Pagination buttons will be injected here -->

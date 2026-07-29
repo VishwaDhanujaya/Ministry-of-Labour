@@ -18,8 +18,13 @@ $categoryColors = [
 ];
 
 foreach ($raw_notices as $notice) {
+    // Language-aware title fallback
+    $notice_title = $notice['title'];
+    if ($current_lang === 'si' && !empty($notice['title_si'])) $notice_title = $notice['title_si'];
+    elseif ($current_lang === 'ta' && !empty($notice['title_ta'])) $notice_title = $notice['title_ta'];
+
     $all_documents[] = [
-        'title' => $notice['title'],
+        'title' => $notice_title,
         'description' => $notice['content'] ?? '',
         'ref' => date('Y-m-d', strtotime($notice['created_at'])),
         'category' => 'Special Notice',

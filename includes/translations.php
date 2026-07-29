@@ -357,8 +357,8 @@ $lang_dict = [
     ],
     'visit_website' => [
         'en' => 'Visit Website',
-        'si' => 'වෙබ් අඩවියට පිවිසෙන්න',
-        'ta' => 'இணையதளத்தைப் பார்வையிடவும்'
+        'si' => 'වෙබ් අඩවිය',
+        'ta' => 'இணையதளம்'
     ],
     'inst_dol_title' => [
         'en' => 'Department of Labour',
@@ -495,7 +495,386 @@ $lang_dict = [
   'en' => '<p class="text-gray-700 bg-gray-50/80 p-4 rounded-xl border border-gray-100">The internal audit activities of the Ministry are carried out in terms of as per the appointments made in terms of Section 40 of the National Audit Act to ensure that the responsibility of the Chief Accounting Officer is carried out as set out in Section 38(b) and (f) of the said Act and requirements of Circular No. 01/2019 dated 12/01/2019 of the Department of Management Audit and the powers vested in the Internal Audit Division in terms of FR 133 and FR 134.</p><p class="mt-4">The responsibility conducting the relevant internal audit activities of the Ministry of Labour and Departments and Institutions under it and carrying out special investigations as per the requirement also fall under the scope of internal audit.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">Assessing the effectiveness of the internal audit and control system within the organization.</li><li class="pl-1">Examining whether the institutions comply with the Establishment Code of the Government, the Finance Regulations of the Government, and the Finance Regulations and circulars, as well as other supplementary instructions periodically issued by the Ministry of Public Administration and the General Treasury.</li><li class="pl-1">Efficient management of internal audit activities in alignment with the mission and objectives of the Ministry of Labour, its departments, and other affiliated institutions, adhering to audit principles and systems.</li><li class="pl-1">Assessing the control systems established to ensure adherence to policies, plans, procedures, laws, and regulations that may significantly impact the activities of the Ministry.</li><li class="pl-1">Evaluating and verifying the measures taken to protect assets and verify the existence of assets.</li><li class="pl-1">Evaluation of activities or programs and verification of information to ascertain whether physical and financial progress has been achieved in accordance with the established objectives of the Ministry.</li><li class="pl-1">Provide guidance to establish appropriate internal control processes and risk management processes for each division of the organization.</li><li class="pl-1">Communicating findings post-audit and submitting necessary corrections thereafter.</li><li class="pl-1">Preparation and implementation of annual audit plan.</li><li class="pl-1">Making necessary arrangements for the submission of reports to the Department of Management Audit by the due date.</li><li class="pl-1">Convening the Audit and Management Committee meeting and conducting the necessary activities.</li><li class="pl-1">Performing and reporting on specific duties as assigned by management from time to time.</li></ul>',
   'si' => '<p class="text-gray-700 bg-gray-50/80 p-4 rounded-xl border border-gray-100">රාජ්‍ය මුදල් නියෝග අංක 38 (අ) හා (ඊ) හි දක්වා ඇති පරිදි ප්‍රධාන ගණන්දීමේ නිලධාරීගේ වගකීම ඉටු වන බවට සහතික කිරීම සඳහා එම නියෝග 40 වන වගන්තිය ප්‍රකාරව බලගන්වා ඇති සහ මු.රෙ. 133 හා 134 ප්‍රකාරව අභ්‍යන්තර විගණන අංශයට ලබා දී ඇති බලතල හා කළමනාකරණ විගණන දෙපාර්තමේන්තුවේ අංක 01/2019 හා 2019/01/12 දිනැති චක්‍රලේඛයේ නියමයන් පරිදි අමාත්‍යාංශයේ අභ්‍යන්තර විගණන කටයුතු සිදු වේ.</p><p class="mt-4">කම්කරු අමාත්‍යාංශය හා ඒ යටතේ පවතින දෙපාර්තමේන්තු හා ආයතනවල අභ්‍යන්තර විගණන කටයුතු සිදු කිරීමේ වගකීම හා අධිකාරිය අනුව විශේෂ පරීක්ෂණ ද අභ්‍යන්තර විගණන අංශයේ විෂය පථයට ඇතුළත් වේ.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">ආයතනයන් තුළ ක්‍රියාත්මක වන අභ්‍යන්තර යොදවුම් හා පාලන පද්ධතියේ ක්‍රියාකාරීත්වයේ සාර්ථකත්වය සොයා බැලීම.</li><li class="pl-1">ආයතනයන් විසින් රජයේ ආයතන සංග්‍රහය, රජයේ මුදල් රෙගුලාසි සහ රජයේ පරිපාලන විෂයභාර අමාත්‍යාංශය සහ මහා භාණ්ඩාගාරය විසින් වරින්වර නිකුත් කරන ලද සහ නිකුත් කරනු ලබන චක්‍රලේඛ හා වෙනත් පරිපූර්ණ උපදෙස් පිළිපදිනු ලබන්නේ ද යන්න සොයා බැලීම.</li><li class="pl-1">කම්කරු අමාත්‍යාංශය සහ අමාත්‍යාංශය යටතට අයත් වන දෙපාර්තමේන්තු හා අනෙකුත් ආයතනවල ගිණුම්කරණ හා මූල්‍යමය, විගණන ප්‍රමිතීන් පද්ධතියට අනුකූලව අභ්‍යන්තර විගණන කටයුතු ඵලදායී ලෙස කළමනාකරණය කිරීම.</li><li class="pl-1">අමාත්‍යාංශයේ ක්‍රියාකාරීත්වය සැලකිය යුතු ලෙස බලපෑම් ඇති කළ හැකි ප්‍රධානතම, සැලසුම්, ක්‍රියාපටිපාටි, නීති හා රෙගුලාසිවලට අනුකූල වීම සම්බන්ධව සහතික කිරීම සඳහා ස්ථාපිත කර ඇති පාලන පද්ධති ඇගයීමට ලක් කිරීම.</li><li class="pl-1">වත්කම් ආරක්ෂා කිරීම හා වත්කම්වල පැවැත්ම තහවුරු කිරීම සඳහා ගෙන ඇති ක්‍රියාමාර්ග ඇගයීම හා පරීක්ෂණය කිරීම.</li><li class="pl-1">භෞතික හා මූල්‍ය ප්‍රගතිය අමාත්‍යාංශයේ වාර්ෂික අරමුණුවලට අනුකූලව ලබාගෙන ඇත්දැයි සොයා බැලීම සඳහා වන ක්‍රියාකාරීකම් හෝ වැඩසටහන් ඇගයීමට ලක් කිරීම සහ තොරතුරු පරිශීලනය.</li><li class="pl-1">ආයතනයේ එක් එක් අංශ සඳහා සුදුසු අභ්‍යන්තර පාලන ක්‍රමවේදයන් සහ අනුමත කළමනාකරණ ක්‍රමවේදයන් ඇති කිරීමට අවශ්‍ය වන යෝජනා ලබා දීම.</li><li class="pl-1">විගණන ක්‍රියාවලියෙන් අනතුරුව සන්නිවේදනය කිරීම හා අවශ්‍ය නිවැරදි කිරීමේ ක්‍රියාවලියෙන් අනතුරුව ඉදිරිපත් කිරීම.</li><li class="pl-1">වාර්ෂික විගණන සැලැස්ම සකස් කිරීම හා ක්‍රියාත්මක කිරීම.</li><li class="pl-1">කළමනාකරණ විගණන දෙපාර්තමේන්තුවට යැවිය යුතු වාර්තා නියමිත දිනට ඉදිරිපත් කිරීම සඳහා අවශ්‍ය කටයුතු කිරීම.</li><li class="pl-1">විගණන හා කළමනාකරණ කමිටු රැස්වීම කැඳවීම සහ පැවැත්වීමට අවශ්‍ය කටයුතු සිදු කිරීම.</li><li class="pl-1">පාලනාධිකාරිය විසින් අවස්ථානුකූලව පවරනු ලබන විශේෂිත රාජකාරි ඉටුකිරීම සහ වාර්තා කිරීම.</li></ul>',
   'ta' => '<p class="text-gray-700 bg-gray-50/80 p-4 rounded-xl border border-gray-100">தேசிய கணக்காய்வுச் சட்டத்தின் 38(அ) மற்றும் (எ) பிரிவில் தரப்பட்டுள்ளாறு பிரதம கணக்கீட்டு அலுவலரின் பொறுப்பு ஆற்றப்படுகின்றது என்பதை உறுதிப்படுத்துவதற்கு அச்சட்டத்தின் 40 ஆம் பிரிவின்படி மேற்கொள்ளப்பட்டுள்ள நியமனங்கள் மற்றும் நிதி ஒழுங்குவிதி 133 மற்றும் 144 இன் படி உள்ளக கணக்காய்வுப் பிரிவுக்கு உரித்தளிக்கப்பட்டுள்ள தத்துவங்கள் மற்றும் கணக்காய்வு முகாமைத்துவ திணைக்களத்தின் 2019.01.12 ஆம் திகதியிடப்பட்ட 01/2019 ஆம் இலக்க சுற்றறிக்கையின் தேவைப்பாடுகளின் படி அமைச்சின் உள்ளக கணக்காய்வுச் செயற்பாடுகள் ஆற்றப்படுகின்றன.</p><p class="mt-4">தொழில் அமைச்சு மற்றும் அதன் கீழுள்ள திணைக்களங்கள் மற்றும் நிறுவனங்களின் உள்ளக கணக்காய்வு நடவடிக்கைகளை மேற்கொள்வதற்கான பொறுப்பு மற்றும் அவசியத்தின் படி, விசேட விசாரணைகள் உள்ளக கணக்காய்வு பிரிவின் எல்லைக்குள் உள்ளன.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">நிறுவனங்களுக்குள் செயல்படுத்தப்படும் உள்ளக கணக்காய்வு மற்றும் கட்டுப்பாட்டு அமைப்பின் செயல்திறனை ஆய்வு செய்தல்.</li><li class="pl-1">நிறுவனங்கள் அரச நிறுவன தாபன கோவை, அரச நிதி பிரமாண விதிமுறைகள் மற்றும் பொது நிர்வாகம் மற்றும் திறைசேரிக்கு பொறுப்பான அமைச்சினால் அவ்வப்போது தயாரிக்கப்பட்டு வெளியிடப்படும் சுற்றறிக்கைகள் மற்றும் பிற துணை அறிவுறுத்தல்களுக்கு இணங்க வேண்டும் என்பதோடு தொழில் அமைச்சு மற்றும் அமைச்சின் கீழுள்ள திணைக்களங்கள் மற்றும் பிற நிறுவனங்கள் பின்பற்றப்படுகின்றனவா என்பதை தேடிப்பார்த்தல்.</li><li class="pl-1">தொழில் அமைச்சு மற்றும் அமைச்சின் கீழுள்ள திணைக்களங்கள் மற்றும் பிற நிறுவனங்களின் கணக்கியல் மற்றும் நிதி, கணக்காய்வு தரநிலைகள் அமைப்புக்கு இணங்க உள்ளக கணக்காய்வு நடவடிக்கைகளை திறம்பட நிர்வகித்தல்.</li><li class="pl-1">அமைச்சின் செயல்பாடுகளில் குறிப்பிடத்தக்க தாக்கத்தை ஏற்படுத்தக்கூடிய முக்கிய திட்டங்கள், நடைமுறைகள், சட்டங்கள் மற்றும் விதிமுறைகளுக்கு இணங்குவதை உறுதிசெய்ய நிறுவப்பட்ட கட்டுப்பாட்டு அமைப்புகளை மதிப்பீடு செய்தல்.</li><li class="pl-1">சொத்துக்களைப் பாதுகாப்பதற்கும் சொத்துக்கள் இருப்பதை உறுதி செய்வதற்கும் எடுக்கப்பட்ட நடவடிக்கைகளை மதிப்பீடு செய்து சரிபார்த்தல்.</li><li class="pl-1">அமைச்சின் நிர்ணயிக்கப்பட்ட குறிக்கோள்களுக்கு ஏற்ப பௌதிக மற்றும் நிதி முன்னேற்றம் அடைந்துள்ளதா என்பதை கண்டறிய செயல்பாடுகள் அல்லது திட்டங்களை மதிப்பீடு செய்தல் மற்றும் தகவல்களைச் சரிபார்த்தல்.</li><li class="pl-1">நிறுவனத்தின் ஒவ்வொரு பிரிவிற்கும் பொருத்தமான உள்ளக கட்டுப்பாட்டு செயல்முறைகள் மற்றும் இடர் முகாமைத்துவ செயல்முறைகளை நிறுவ வழிகாட்டுதலை வழங்குதல்.</li><li class="pl-1">கணக்காய்வுக்குப் பிந்தைய கண்டுபிடிப்புகளைத் தெரிவித்தல் மற்றும் தேவையான திருத்தங்களைச் சமர்ப்பித்தல்.</li><li class="pl-1">வருடாந்த கணக்காய்வுத் திட்டத்தைத் தயாரித்தல் மற்றும் செயல்படுத்துதல்.</li><li class="pl-1">நிர்ணயிக்கப்பட்ட தேதிக்குள் கணக்காய்வு முகாமைத்துவ திணைக்களத்திற்கு அறிக்கைகளை சமர்ப்பிப்பதற்கு தேவையான ஏற்பாடுகளை செய்தல்.</li><li class="pl-1">கணக்காய்வு மற்றும் முகாமைத்துவக் குழுக் கூட்டத்தைக் கூட்டி தேவையான நடவடிக்கைகளை மேற்கொள்வது.</li><li class="pl-1">நிர்வாகத்தால் அவ்வப்போது ஒதுக்கப்படும் குறிப்பிட்ட கடமைகளை ஆற்றுதல் மற்றும் அறிக்கையிடுதல்.</li></ul>',
-  )
+    ),
+    'msg_sent_success' => array(
+        'en' => 'Message sent successfully!',
+        'si' => 'පණිවුඩය සාර්ථකව යවන ලදී!',
+        'ta' => 'செய்தி வெற்றிகரமாக அனுப்பப்பட்டது!'
+    ),
+    'msg_send_failed' => array(
+        'en' => 'Failed to send message.',
+        'si' => 'පණිවුඩය යැවීමට නොහැකි විය.',
+        'ta' => 'செய்தியை அனுப்ப முடியவில்லை.'
+    ),
+    'msg_error_occurred' => array(
+        'en' => 'An error occurred. Please try again later.',
+        'si' => 'දෝෂයක් සිදු විය. පසුව නැවත උත්සාහ කරන්න.',
+        'ta' => 'ஒரு பிழை ஏற்பட்டது. பின்னர் மீண்டும் முயற்சிக்கவும்.'
+    ),
+    'read_more' => array(
+        'en' => 'Read More',
+        'si' => 'තවත් කියවන්න',
+        'ta' => 'மேலும் வாசிக்க'
+    ),
+    'view_all' => array(
+        'en' => 'View All',
+        'si' => 'සියල්ල නරඹන්න',
+        'ta' => 'அனைத்தையும் பார்க்க'
+    ),
+    'no_news_found' => array(
+        'en' => 'No news found.',
+        'si' => 'කිසිදු පුවතක් හමු නොවීය.',
+        'ta' => 'செய்திகள் எதுவும் கிடைக்கவில்லை.'
+    ),
+    'search_news' => array(
+        'en' => 'Search news...',
+        'si' => 'පුවත් සොයන්න...',
+        'ta' => 'செய்திகளைத் தேடுங்கள்...'
+    ),
+    'reservation_details' => array(
+        'en' => 'Reservation Details',
+        'si' => 'වෙන්කිරීමේ තොරතුරු',
+        'ta' => 'முன்பதிவு விபரங்கள்'
+    ),
+    'booking_request_subtitle' => array(
+        'en' => 'Request booking for Ampara Bungalow',
+        'si' => 'අම්පාර සංචාරක බංගලාව සඳහා වෙන්කිරීමක් ඉල්ලුම් කරන්න',
+        'ta' => 'அம்பாறை பங்களாவிற்கான முன்பதிவு கோரிக்கை'
+    ),
+    'check_in' => array(
+        'en' => 'Check-In',
+        'si' => 'පැමිණෙන දිනය',
+        'ta' => 'வருகை திகதி'
+    ),
+    'check_out' => array(
+        'en' => 'Check-Out',
+        'si' => 'පිටවන දිනය',
+        'ta' => 'வெளியேறும் திகதி'
+    ),
+    'room_required' => array(
+        'en' => 'Room Required',
+        'si' => 'අවශ්‍ය කාමරය',
+        'ta' => 'தேவையான அறை'
+    ),
+    'applicant_name' => array(
+        'en' => 'Applicant Name',
+        'si' => 'ඉල්ලුම්කරුගේ නම',
+        'ta' => 'விண்ணப்பதாரரின் பெயர்'
+    ),
+    'cancel' => array(
+        'en' => 'Cancel',
+        'si' => 'අවලංගු කරන්න',
+        'ta' => 'ரத்துசெய்'
+    ),
+    'submit_booking_request' => array(
+        'en' => 'Submit Booking Request',
+        'si' => 'වෙන්කිරීමේ ඉල්ලීම යොමු කරන්න',
+        'ta' => 'முன்பதிவு கோரிக்கையை சமர்ப்பிக்கவும்'
+    ),
+    'phone' => array(
+        'en' => 'Telephone',
+        'si' => 'දුරකථන අංකය',
+        'ta' => 'தொலைபேசி'
+    ),
+    'email' => array(
+        'en' => 'Email',
+        'si' => 'විද්‍යුත් තැපෑල',
+        'ta' => 'மின்னஞ்சல்'
+    ),
+    'get_in_touch' => array(
+        'en' => 'Get In Touch',
+        'si' => 'අපව සම්බන්ධ කරගන්න',
+        'ta' => 'எங்களை தொடர்பு கொள்ளுங்கள்'
+    ),
+    'contact_subtitle' => array(
+        'en' => 'Stay updated with Ministry of Labour',
+        'si' => 'කම්කරු අමාත්‍යාංශය සමඟ සම්බන්ද වන්න',
+        'ta' => 'தொழிலாளர் அமைச்சுடன் புதுப்பிக்கப்பட்டிருங்கள்'
+    ),
+    'address' => array(
+        'en' => 'Address',
+        'si' => 'ලිපිනය',
+        'ta' => 'முகவரி'
+    ),
+    'phone_number' => array(
+        'en' => 'Phone number',
+        'si' => 'දුරකථන අංකය',
+        'ta' => 'தொலைபேசி எண்'
+    ),
+    'fax' => array(
+        'en' => 'Fax',
+        'si' => 'ෆැක්ස්',
+        'ta' => 'தொலைநகல்'
+    ),
+    'email_address' => array(
+        'en' => 'Email Address',
+        'si' => 'විද්‍යුත් තැපැල් ලිපිනය',
+        'ta' => 'மின்னஞ்சல் முகவரி'
+    ),
+    'full_name' => array(
+        'en' => 'Full Name',
+        'si' => 'සම්පූර්ණ නම',
+        'ta' => 'முழு பெயர்'
+    ),
+    'message' => array(
+        'en' => 'Message',
+        'si' => 'පණිවිඩය',
+        'ta' => 'செய்தி'
+    ),
+    'send_message' => array(
+        'en' => 'Send Message',
+        'si' => 'පණිවිඩය යවන්න',
+        'ta' => 'செய்தி அனுப்புக'
+    ),
+    'leave_a_message' => array(
+        'en' => 'Leave Us A Message',
+        'si' => 'අපට පණිවිඩයක් තොරන්න',
+        'ta' => 'எங்களுக்கு ஒரு செய்தி விடுங்கள்'
+    ),
+    'contact_numbers' => array(
+        'en' => 'Contact Numbers',
+        'si' => 'සම්බන්ධ කිරීමේ අංක',
+        'ta' => 'தொடர்பு இலக்கங்கள்'
+    ),
+    'submit_complaint' => array(
+        'en' => 'Submit Complaint',
+        'si' => 'පැමිණිල්ල ඉදිරිපත් කරන්න',
+        'ta' => 'புகார் சமர்ப்பிக்கவும்'
+    ),
+    'lodge_complaint' => array(
+        'en' => 'Lodge a Formal Complaint',
+        'si' => 'නිල පැමිණිල්ලක් ඉදිරිපත් කරන්න',
+        'ta' => 'முறையான புகாரை பதிவு செய்யுங்கள்'
+    ),
+    'how_can_we_help' => array(
+        'en' => 'How can we help you?',
+        'si' => 'අපට ඔබව කෙසේ උදව් කළ හැකිද?',
+        'ta' => 'நாங்கள் உங்களுக்கு எவ்வாறு உதவலாம்?'
+    ),
+    'ph_full_name' => array(
+        'en' => 'John Doe',
+        'si' => 'කමල් පෙරේරා',
+        'ta' => 'கமல் பெரேரா'
+    ),
+    'ph_email' => array(
+        'en' => 'your@email.com',
+        'si' => 'ඔබේ@ඊමේල්.com',
+        'ta' => 'உங்கள்@மின்னஞ்சல்.com'
+    ),
+    'ph_phone' => array(
+        'en' => '+94 77 123 4567',
+        'si' => '+94 77 123 4567',
+        'ta' => '+94 77 123 4567'
+    ),
+
+    // ── Downloads Page ────────────────────────────────────────────────────────
+    'search_docs_placeholder' => array(
+        'en' => 'Search documents by title or reference...',
+        'si' => 'මාතෘකාව හෝ යොමු අංකය අනුව ලේඛන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது குறிப்பு எண் மூலம் ஆவணங்களைத் தேடுங்கள்...'
+    ),
+    'all_categories' => array(
+        'en' => 'All Categories',
+        'si' => 'සියලු ප්‍රවර්ග',
+        'ta' => 'அனைத்து வகைகள்'
+    ),
+    'acts_amendments_filter' => array(
+        'en' => 'Acts & Amendments',
+        'si' => 'පනත් සහ සංශෝධන',
+        'ta' => 'சட்டங்கள் மற்றும் திருத்தங்கள்'
+    ),
+    'all_procurements' => array(
+        'en' => 'All Procurements',
+        'si' => 'සියලු ප්‍රසම්පාදන',
+        'ta' => 'அனைத்து கொள்முதல்கள்'
+    ),
+    'show_all' => array(
+        'en' => 'Show All',
+        'si' => 'සියල්ල පෙන්වන්න',
+        'ta' => 'அனைத்தையும் காட்டு'
+    ),
+    'per_page_label' => array(
+        'en' => 'per page',
+        'si' => 'පිටුවකට',
+        'ta' => 'பக்கத்திற்கு'
+    ),
+    'english_pdf' => array(
+        'en' => 'English PDF',
+        'si' => 'ඉංග්‍රීසි PDF',
+        'ta' => 'ஆங்கில PDF'
+    ),
+    'sinhala_pdf' => array(
+        'en' => 'Sinhala PDF',
+        'si' => 'සිංහල PDF',
+        'ta' => 'சிங்கள PDF'
+    ),
+    'tamil_pdf' => array(
+        'en' => 'Tamil PDF',
+        'si' => 'දමිළ PDF',
+        'ta' => 'தமிழ் PDF'
+    ),
+    'doc_title_col' => array(
+        'en' => 'Document Title',
+        'si' => 'ලේඛනයේ මාතෘකාව',
+        'ta' => 'ஆவண தலைப்பு'
+    ),
+    'category_col' => array(
+        'en' => 'Category',
+        'si' => 'ප්‍රවර්ගය',
+        'ta' => 'வகை'
+    ),
+    'reference_col' => array(
+        'en' => 'Reference',
+        'si' => 'යොමු',
+        'ta' => 'குறிப்பு'
+    ),
+    'action_col' => array(
+        'en' => 'Action',
+        'si' => 'ක්‍රියාව',
+        'ta' => 'செயல்'
+    ),
+    'download_document' => array(
+        'en' => 'Download Document',
+        'si' => 'ලේඛනය බාගන්න',
+        'ta' => 'ஆவணத்தை பதிவிறக்குக'
+    ),
+    'no_document' => array(
+        'en' => 'No Document',
+        'si' => 'ලේඛනයක් නැත',
+        'ta' => 'ஆவணம் இல்லை'
+    ),
+    'download' => array(
+        'en' => 'Download',
+        'si' => 'බාගන්න',
+        'ta' => 'பதிவிறக்குக'
+    ),
+    'no_docs_found' => array(
+        'en' => 'No documents matched your search',
+        'si' => 'ඔබගේ සෙවීමට ගැලපෙන ලේඛන හමු නොවිණ',
+        'ta' => 'உங்கள் தேடலுக்கு பொருந்தும் ஆவணங்கள் இல்லை'
+    ),
+    'no_docs_found_sub' => array(
+        'en' => 'Try adjusting your filters or search keywords',
+        'si' => 'ඔබගේ පෙරහන් හෝ සෙවීමේ යතුරු වචන සකස් කිරීමට උත්සාහ කරන්න',
+        'ta' => 'உங்கள் வடிப்பான்கள் அல்லது தேடல் சொற்களை சரிசெய்யுங்கள்'
+    ),
+    'showing_label' => array(
+        'en' => 'Showing',
+        'si' => 'පෙන්වනු ලබන්නේ',
+        'ta' => 'காட்டப்படுகிறது'
+    ),
+    'of_label' => array(
+        'en' => 'of',
+        'si' => 'සිට',
+        'ta' => 'இல்'
+    ),
+    'documents_label' => array(
+        'en' => 'documents',
+        'si' => 'ලේඛන',
+        'ta' => 'ஆவணங்கள்'
+    ),
+
+    // ── Ampara Circuit Bungalow Page ─────────────────────────────────────────
+    'click_fullscreen' => array(
+        'en' => 'Click to view fullscreen',
+        'si' => 'සම්පූර්ණ තිරයෙන් බලන්න',
+        'ta' => 'முழுத்திரையில் பார்க்க கிளிக் செய்யுங்கள்'
+    ),
+    'more_photos' => array(
+        'en' => 'More',
+        'si' => 'තවත්',
+        'ta' => 'மேலும்'
+    ),
+    'starting_from' => array(
+        'en' => 'Starting From',
+        'si' => 'ආරම්භ මිල',
+        'ta' => 'தொடங்கும் விலை'
+    ),
+    'per_night' => array(
+        'en' => '/ night',
+        'si' => '/ රාත්‍රිය',
+        'ta' => '/ இரவு'
+    ),
+    'check_avail_book' => array(
+        'en' => 'Check Availability & Book',
+        'si' => 'ඉඩ ලබා ගත හැකිද බලා වෙන් කරන්න',
+        'ta' => 'கிடைக்கும் தன்மையை சரிபார்த்து முன்பதிவு செய்யுங்கள்'
+    ),
+    'booking_dates_note' => array(
+        'en' => 'Select your dates and check room availability to submit a reservation request. Offline payments apply post-approval.',
+        'si' => 'ඔබගේ දිනයන් තෝරා කාමර ලබා ගත හැකිද බලා, වෙන් කිරීමේ ඉල්ලීමක් ඉදිරිපත් කරන්න. ගෙවීම් අනුමත කිරීමෙන් පසු ලබා ගනු ලැබේ.',
+        'ta' => 'உங்கள் தேதிகளைத் தேர்ந்தெடுத்து அறை கிடைக்கும் தன்மையை சரிபார்த்து முன்பதிவு கோரிக்கையை சமர்ப்பிக்கவும். அனுமதிக்கப்பட்ட பிறகு கட்டணம் வழங்கப்படும்.'
+    ),
+    'booking_success_msg' => array(
+        'en' => 'Your booking request has been submitted successfully and is pending approval.',
+        'si' => 'ඔබගේ වෙන් කිරීමේ ඉල්ලීම සාර්ථකව ඉදිරිපත් කර ඇති අතර අනුමැතිය ලැබීම බලාපොරොත්තු වෙනු ලැබේ.',
+        'ta' => 'உங்கள் முன்பதிவு கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது மற்றும் அனுமதிக்காக காத்திருக்கிறது.'
+    ),
+    'view_on_google_maps' => array(
+        'en' => 'View Location on Google Maps',
+        'si' => 'Google Maps හි ස්ථානය බලන්න',
+        'ta' => 'Google Maps இல் இடத்தை பார்க்கவும்'
+    ),
+    'amenities_facilities' => array(
+        'en' => 'Amenities & Facilities',
+        'si' => 'පහසුකම් සහ ආරාධනා',
+        'ta' => 'வசதிகள் மற்றும் உபகரணங்கள்'
+    ),
+    'air_conditioning' => array(
+        'en' => 'Air Conditioning',
+        'si' => 'වායු සමනය',
+        'ta' => 'குளிரூட்டல்'
+    ),
+    'vehicle_parking' => array(
+        'en' => 'Vehicle Parking',
+        'si' => 'වාහන නිර්ත්‍රාශනය',
+        'ta' => 'வாகன நிறுத்துமிடம்'
+    ),
+    'hot_water' => array(
+        'en' => 'Hot Water',
+        'si' => 'උණු වතුර',
+        'ta' => 'சூடான நீர்'
+    ),
+    'kitchen_dining' => array(
+        'en' => 'Kitchen & Dining',
+        'si' => 'මෙවලම් සහ ආහාර ගැනීම',
+        'ta' => 'சமையலறை மற்றும் உணவு'
+    ),
+    'accommodation_rates' => array(
+        'en' => 'Accommodation & Room Rates',
+        'si' => 'නවාතැන් සහ කාමර ගාස්තු',
+        'ta' => 'தங்குமிட மற்றும் அறை கட்டணங்கள்'
+    ),
+    'ministry_staff' => array(
+        'en' => 'Ministry Staff',
+        'si' => 'අමාත්‍යාංශ නිලධාරීන්',
+        'ta' => 'அமைச்சு ஊழியர்கள்'
+    ),
+    'other_govt_private' => array(
+        'en' => 'Other Govt / Private',
+        'si' => 'අනෙකුත් රාජ්‍ය / පෞද්ගලික',
+        'ta' => 'பிற அரசு / தனியார்'
+    ),
+    'foreign_visitors' => array(
+        'en' => 'Foreign Visitors',
+        'si' => 'විදේශ අමුත්තන්',
+        'ta' => 'வெளிநாட்டு பார்வையாளர்கள்'
+    ),
+    'ampara_desc_p1' => array(
+        'en' => 'Ampara, a town located in the Eastern Province of Sri Lanka, is known for its beautiful landscapes, wildlife sanctuaries, and historical heritage. If you are planning a visit to this scenic region, finding the right accommodation is crucial for a comfortable and memorable stay.',
+        'si' => 'ශ්‍රී ලංකාවේ නැගෙනහිර පළාතේ පිහිටි අම්පාර නගරය, එහි ලස්සන භූ දර්ශනය, වනජීවී අභය භූමිය සහ ඓතිහාසික උරුමය සඳහා ප්‍රසිද්ධය. ඔබ මෙම ලස්සන ප්‍රදේශයට සංචාරය සැලසුම් කරන්නේ නම්, සුවපහසු සහ අමතක නොවන නවාතැනක් සොයා ගැනීම ඉතා වැදගත් වේ.',
+        'ta' => 'இலங்கையின் கிழக்கு மாகாணத்தில் அமைந்துள்ள அம்பாறை நகரம், அதன் அழகிய இயற்கை காட்சிகள், வனவிலங்கு சரணாலயங்கள் மற்றும் வரலாற்று மரபுகளுக்கு பிரபலமானது. இந்த இயற்கை அழகு நிறைந்த பகுதிக்கு செல்ல திட்டமிடுகிறீர்களென்றால், சரியான தங்குமிடம் கண்டுபிடிப்பது வசதியான தங்குவதற்கு முக்கியமாகும்.'
+    ),
+    'ampara_desc_p2' => array(
+        'en' => 'The Ministry of Labour has established this Circuit Bungalow in Ampara to provide premium accommodation facilities for its officers. While primarily reserved for the Department of Labour staff, other public sector officers and general citizens are welcome to apply if availability permits.',
+        'si' => 'කම්කරු අමාත්‍යාංශය විසින් මෙම සංචාරක බංගලාව අම්පාරයේ ස්ථාපනය කර ඇත්තේ, ඔවුන්ගේ නිලධාරීන් සඳහා ප්‍රිමියම් නවාතැන් පහසුකම් ලබා දීමේ අරමුණෙනි. ප්‍රධාන වශයෙන් කම්කරු දෙපාර්තමේන්තු කාර්යමණ්ඩලය සඳහා වෙන් කර ඇති නමුත්, ඉඩ ලබා ගත හැකි ශේෂය ඇති විට අනෙකුත් රාජ්‍ය නිලධාරීන් සහ සාමාන්‍ය ජනතාව ද ඉල්ලුම් කිරීමට ඉදිරිපත් විය හැකිය.',
+        'ta' => 'தொழில் அமைச்சு, தனது அதிகாரிகளுக்கு உயர்தர தங்குமிட வசதிகளை வழங்கும் நோக்கத்துடன் அம்பாறையில் இந்த சுற்றுலா பங்களாவை நிறுவியுள்ளது. முதன்மையாக தொழிலாளர் திணைக்கள ஊழியர்களுக்கு ஒதுக்கப்பட்டிருந்தாலும், இடம் கிடைக்கும் பட்சத்தில் பிற அரச அதிகாரிகள் மற்றும் பொதுமக்களும் விண்ணப்பிக்க வரவேற்கிறோம்.'
+    ),
+    'ampara_desc_p3' => array(
+        'en' => 'The bungalow features air-conditioned double and single rooms, chalets, common dining halls, and full culinary facilities. Meal preparation can be requested on-site, or guests may arrange to utilize the kitchen resources directly.',
+        'si' => 'බංගලාවේ වායු සමනය කළ ද්විත්ව සහ තනි කාමර, චලේ, පොදු ආහාර හෝල් සහ සම්පූර්ණ ඉවුම් පිහුම් පහසුකම් ඇත. ආහාර සකස් කිරීම ස්ථානයේදීම ඉල්ලා සිටිය හැකිය, නැතහොත් අමුත්තන්ට කෝලය සම්පත් සෘජුවම භාවිතා කළ හැකිය.',
+        'ta' => 'பங்களாவில் குளிரூட்டப்பட்ட இரட்டை மற்றும் ஒற்றை அறைகள், சேலட்கள், பொதுவான சாப்பாட்டு அரங்குகள் மற்றும் முழுமையான சமையல் வசதிகள் உள்ளன. உணவு தயாரிப்பை ஆன்-சைட்டில் கோரலாம், அல்லது விருந்தினர்கள் சமையலறை வளங்களை நேரடியாக பயன்படுத்திக்கொள்ளலாம்.'
+    )
 ];
 
 /**
@@ -517,5 +896,48 @@ if (!function_exists('t')) {
         }
         
         return $fallback !== '' ? $fallback : $key;
+    }
+}
+
+/**
+ * Localized Trilingual Date Formatting Helper
+ * Formats dates appropriately for English, Sinhala, and Tamil.
+ */
+if (!function_exists('format_date_trilingual')) {
+    function format_date_trilingual($dateStr, string $format = 'M d, Y'): string {
+        global $current_lang;
+        if (empty($dateStr)) return '';
+        $timestamp = is_numeric($dateStr) ? (int)$dateStr : strtotime($dateStr);
+        if (!$timestamp) return (string)$dateStr;
+
+        $lang = $current_lang ?? 'en';
+        if ($lang === 'en') {
+            return date($format, $timestamp);
+        }
+
+        $monthNum = (int)date('n', $timestamp);
+        $day = date('j', $timestamp);
+        $year = date('Y', $timestamp);
+
+        $siMonths = [
+            1 => 'ජනවාරි', 2 => 'පෙබරවාරි', 3 => 'මාර්තු', 4 => 'අප්‍රේල්',
+            5 => 'මැයි', 6 => 'ජූනි', 7 => 'ජූලි', 8 => 'අගෝස්තු',
+            9 => 'සැප්තැම්බර්', 10 => 'ඔක්තෝබර්', 11 => 'නොවැම්බර්', 12 => 'දෙසැම්බර්'
+        ];
+
+        $taMonths = [
+            1 => 'ஜனவரி', 2 => 'பிப்ரவரி', 3 => 'மார்ச்', 4 => 'ஏப்ரல்',
+            5 => 'மே', 6 => 'ஜூன்', 7 => 'ஜூலை', 8 => 'ஆகஸ்ட்',
+            9 => 'செப்டம்பர்', 10 => 'அக்டோபர்', 11 => 'நவம்பர்', 12 => 'டிசம்பர்'
+        ];
+
+        if ($lang === 'si') {
+            return $year . ' ' . $siMonths[$monthNum] . ' ' . $day;
+        }
+        if ($lang === 'ta') {
+            return $year . ' ' . $taMonths[$monthNum] . ' ' . $day;
+        }
+
+        return date($format, $timestamp);
     }
 }

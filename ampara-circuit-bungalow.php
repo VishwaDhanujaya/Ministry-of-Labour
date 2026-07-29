@@ -98,7 +98,7 @@ include 'includes/sub-hero.php';
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                             <span class="text-white text-xs font-bold tracking-wider uppercase bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
-                                Click to view fullscreen
+                                <?= t('click_fullscreen', 'Click to view fullscreen') ?>
                             </span>
                         </div>
                     </a>
@@ -133,7 +133,7 @@ include 'includes/sub-hero.php';
                             class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                             <span class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
-                                More
+                                <?= t('more_photos', 'More') ?>
                             </span>
                         </div>
                     </a>
@@ -149,26 +149,15 @@ include 'includes/sub-hero.php';
 
                 <!-- Description -->
                 <div class="text-slate-600 font-inter text-[14.5px] leading-relaxed space-y-4 mb-6">
-                    <p>
-                        Ampara, a town located in the Eastern Province of Sri Lanka, is known for its beautiful landscapes,
-                        wildlife sanctuaries, and historical heritage. If you are planning a visit to this scenic region, finding the right
-                        accommodation is crucial for a comfortable and memorable stay.
-                    </p>
-                    <p>
-                        The Ministry of Labour has established this Circuit Bungalow in Ampara to provide premium accommodation
-                        facilities for its officers. While primarily reserved for the Department of Labour staff, other public sector
-                        officers and general citizens are welcome to apply if availability permits.
-                    </p>
-                    <p>
-                        The bungalow features air-conditioned double and single rooms, chalets, common dining halls, and full culinary facilities.
-                        Meal preparation can be requested on-site, or guests may arrange to utilize the kitchen resources directly.
-                    </p>
+                    <p><?= t('ampara_desc_p1', 'Ampara, a town located in the Eastern Province of Sri Lanka...') ?></p>
+                    <p><?= t('ampara_desc_p2', 'The Ministry of Labour has established this Circuit Bungalow in Ampara...') ?></p>
+                    <p><?= t('ampara_desc_p3', 'The bungalow features air-conditioned double and single rooms...') ?></p>
                 </div>
 
                 <div class="pt-3 border-t border-slate-50">
                     <a href="https://maps.app.goo.gl/LNeQQ3s4E5vq4AD98" target="_blank"
-                        class="inline-flex items-center gap-2 text-secondary hover:text-[#320000] font-bold text-xs uppercase tracking-wide transition-colors">
-                        View Location on Google Maps
+                        class="inline-flex items-center gap-2 text-secondary hover:text-[#320000] font-bold text-xs uppercase tracking-wide transition-colors notranslate">
+                        <?= t('view_on_google_maps', 'View Location on Google Maps') ?>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2 2V8a2 2 0 0 1 2-2h6"></path>
@@ -182,17 +171,17 @@ include 'includes/sub-hero.php';
             <!-- Booking Widget (Mobile Only) -->
             <div class="block lg:hidden bg-white rounded-[24px] p-6 border border-slate-100 shadow-md mb-8">
                 <div class="flex items-baseline gap-1.5 mb-5">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Starting From</span>
-                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight">Rs. 2,000</span>
-                    <span class="text-slate-400 text-xs font-medium">/ night</span>
+                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider notranslate"><?= t('starting_from', 'Starting From') ?></span>
+                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight notranslate">Rs. 2,000</span>
+                    <span class="text-slate-400 text-xs font-medium notranslate"><?= t('per_night', '/ night') ?></span>
                 </div>
 
                 <hr class="border-slate-100 mb-5">
 
                 <?php if ($success): ?>
-                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2">
+                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Your booking request has been submitted successfully and is pending approval.
+                        <?= t('booking_success_msg', 'Your booking request has been submitted successfully and is pending approval.') ?>
                     </div>
                 <?php endif; ?>
                 <?php if ($error): ?>
@@ -203,13 +192,13 @@ include 'includes/sub-hero.php';
                 <?php endif; ?>
 
                 <div class="space-y-3">
-                    <a href="ampara-circuit-bungalow-booking"
-                        class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md">
-                        Check Availability & Book
+                    <a href="ampara-circuit-bungalow-booking<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
+                        class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md notranslate">
+                        <?= t('check_avail_book', 'Check Availability & Book') ?>
                     </a>
                 </div>
-                <div class="mt-4 text-center text-[11px] text-slate-400 font-medium leading-relaxed">
-                    Select your dates and check room availability to submit a reservation request. Offline payments apply post-approval.
+                <div class="mt-4 text-center text-[11px] text-slate-400 font-medium leading-relaxed notranslate">
+                    <?= t('booking_dates_note', 'Select your dates and check room availability to submit a reservation request. Offline payments apply post-approval.') ?>
                 </div>
             </div>
 
@@ -217,7 +206,7 @@ include 'includes/sub-hero.php';
             <div class="mb-8 bg-white rounded-[24px] p-6 md:p-8 border border-slate-100/80 shadow-[0_4px_25px_rgba(0,0,0,0.015)]">
                 <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-6 pb-3 border-b border-slate-100 flex items-center gap-2">
                     <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                    Amenities & Facilities
+                    <span class="notranslate"><?= t('amenities_facilities', 'Amenities & Facilities') ?></span>
                 </h3>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <!-- Air Conditioning -->
@@ -225,28 +214,28 @@ include 'includes/sub-hero.php';
                         <div class="w-10 h-10 bg-white group-hover:bg-secondary/5 text-slate-400 group-hover:text-secondary rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-colors duration-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3m14.5-5.5l-11 11m0-11l11 11"></path></svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200">Air Conditioning</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200 notranslate"><?= t('air_conditioning', 'Air Conditioning') ?></span>
                     </div>
                     <!-- Parking -->
                     <div class="bg-[#F8FAFC] border border-slate-100 hover:border-slate-200 hover:bg-white hover:shadow-md hover:-translate-y-0.5 rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 transition-all duration-300 group">
                         <div class="w-10 h-10 bg-white group-hover:bg-secondary/5 text-slate-400 group-hover:text-secondary rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-colors duration-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200">Vehicle Parking</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200 notranslate"><?= t('vehicle_parking', 'Vehicle Parking') ?></span>
                     </div>
                     <!-- Hot Water -->
                     <div class="bg-[#F8FAFC] border border-slate-100 hover:border-slate-200 hover:bg-white hover:shadow-md hover:-translate-y-0.5 rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 transition-all duration-300 group">
                         <div class="w-10 h-10 bg-white group-hover:bg-secondary/5 text-slate-400 group-hover:text-secondary rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-colors duration-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z"></path></svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200">Hot Water</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200 notranslate"><?= t('hot_water', 'Hot Water') ?></span>
                     </div>
                     <!-- Kitchen -->
                     <div class="bg-[#F8FAFC] border border-slate-100 hover:border-slate-200 hover:bg-white hover:shadow-md hover:-translate-y-0.5 rounded-xl p-4 flex flex-col items-center justify-center text-center gap-2.5 transition-all duration-300 group">
                         <div class="w-10 h-10 bg-white group-hover:bg-secondary/5 text-slate-400 group-hover:text-secondary rounded-xl flex items-center justify-center border border-slate-100 shadow-sm transition-colors duration-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                         </div>
-                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200">Kitchen & Dining</span>
+                        <span class="text-xs font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-200 notranslate"><?= t('kitchen_dining', 'Kitchen & Dining') ?></span>
                     </div>
                 </div>
             </div>
@@ -255,7 +244,7 @@ include 'includes/sub-hero.php';
             <div class="mb-10 bg-white rounded-[24px] p-6 md:p-8 border border-slate-100/80 shadow-[0_4px_25px_rgba(0,0,0,0.015)]">
                 <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-6 pb-3 border-b border-slate-100 flex items-center gap-2">
                     <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    Accommodation & Room Rates
+                    <span class="notranslate"><?= t('accommodation_rates', 'Accommodation & Room Rates') ?></span>
                 </h3>
                 
                 <!-- Mobile Card View -->
@@ -268,15 +257,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 1,500.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 3,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 6,000.00</span>
                             </div>
                         </div>
@@ -290,15 +279,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 1,200.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 2,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 4,000.00</span>
                             </div>
                         </div>
@@ -312,15 +301,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 1,200.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 2,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 4,000.00</span>
                             </div>
                         </div>
@@ -334,15 +323,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 2,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 4,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 8,000.00</span>
                             </div>
                         </div>
@@ -356,15 +345,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 500.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 1,500.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 1,500.00</span>
                             </div>
                         </div>
@@ -378,15 +367,15 @@ include 'includes/sub-hero.php';
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
-                                <span>Ministry Staff</span>
+                                <span class="notranslate"><?= t('ministry_staff', 'Ministry Staff') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 10,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Other Govt / Private</span>
+                                <span class="notranslate"><?= t('other_govt_private', 'Other Govt / Private') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 20,000.00</span>
                             </div>
                             <div class="flex justify-between">
-                                <span>Foreign Visitors</span>
+                                <span class="notranslate"><?= t('foreign_visitors', 'Foreign Visitors') ?></span>
                                 <span class="font-bold text-slate-800">Rs. 35,000.00</span>
                             </div>
                         </div>
@@ -397,10 +386,10 @@ include 'includes/sub-hero.php';
                 <div class="hidden md:block overflow-x-auto pb-2">
                     <table class="w-full text-left text-sm text-slate-600 min-w-[600px] border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider">
+                            <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider notranslate">
                                 <th class="pb-3 font-bold">Room Type</th>
                                 <th class="pb-3 font-bold">Beds / Max Occupancy</th>
-                                <th class="pb-3 font-bold text-right">Ministry Staff</th>
+                                <th class="pb-3 font-bold text-right"><?= t('ministry_staff', 'Ministry Staff') ?></th>
                                 <th class="pb-3 font-bold text-right">Govt / Private</th>
                                 <th class="pb-3 font-bold text-right">Foreign</th>
                             </tr>
@@ -542,9 +531,9 @@ include 'includes/sub-hero.php';
             <!-- Booking Widget -->
             <div class="hidden lg:block bg-white rounded-[24px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
                 <div class="flex items-baseline gap-1.5 mb-5">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Starting From</span>
-                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight">Rs. 2,000</span>
-                    <span class="text-slate-400 text-xs font-medium">/ night</span>
+                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider notranslate"><?= t('starting_from', 'Starting From') ?></span>
+                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight notranslate">Rs. 2,000</span>
+                    <span class="text-slate-400 text-xs font-medium notranslate"><?= t('per_night', '/ night') ?></span>
                 </div>
 
                 <hr class="border-slate-100 mb-5">
@@ -563,13 +552,13 @@ include 'includes/sub-hero.php';
                 <?php endif; ?>
 
                 <div class="space-y-3">
-                    <a href="ampara-circuit-bungalow-booking"
-                        class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md">
-                        Check Availability & Book
+                    <a href="ampara-circuit-bungalow-booking<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>"
+                        class="block text-center w-full py-3.5 px-4 bg-gradient-to-r from-secondary to-[#721c1c] text-white font-bold rounded-xl hover:shadow-lg transition-all text-xs uppercase tracking-wider shadow-md notranslate">
+                        <?= t('check_avail_book', 'Check Availability & Book') ?>
                     </a>
                 </div>
-                <div class="mt-4 text-center text-[11px] text-slate-400 font-medium leading-relaxed">
-                    Select your dates and check room availability to submit a reservation request. Offline payments apply post-approval.
+                <div class="mt-4 text-center text-[11px] text-slate-400 font-medium leading-relaxed notranslate">
+                    <?= t('booking_dates_note', 'Select your dates and check room availability to submit a reservation request. Offline payments apply post-approval.') ?>
                 </div>
             </div>
 

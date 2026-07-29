@@ -22,8 +22,13 @@ $categoryColors = [
 ];
 
 foreach ($raw_updates as $update) {
+    // Language-aware title fallback
+    $update_title = $update['title'];
+    if ($current_lang === 'si' && !empty($update['title_si'])) $update_title = $update['title_si'];
+    elseif ($current_lang === 'ta' && !empty($update['title_ta'])) $update_title = $update['title_ta'];
+
     $all_documents[] = [
-        'title' => $update['title'],
+        'title' => $update_title,
         'description' => $update['content'] ?? '',
         'ref' => date('Y-m-d', strtotime($update['created_at'])),
         'category' => 'IAU Update',

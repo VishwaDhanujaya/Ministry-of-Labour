@@ -148,6 +148,87 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ---
 
+### 2026-07-29 (Medium Priority Trilingual: DB Null Fallbacks, Per-Language Meta Tags & Link Persistence)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **DB Content Null Fallback Guard**: Added `if ($current_lang === 'si' && !empty($item['title_si']))` fallback loops to `vacancies.php`, `iau-updates.php`, `procurements.php`, and `special-notices.php` so entity titles use Sinhala/Tamil when available and fall back gracefully to English.
+  - **Per-Language Meta & Title Tags**: Enhanced `header.php` to resolve `$pageMeta[$current_lang]` (supporting `title`, `desc`, `kw` keys). Added localized `$pageMeta` arrays in Sinhala and Tamil to `index.php`, `about-us.php`, `news.php`, `downloads.php`, and `contact-us.php` for SEO optimization.
+  - **Internal Link Language Persistence**: Converted raw `href="page"` links in `footer.php` quick links to `navUrl('page')` to preserve active language during footer navigation.
+
+### 2026-07-29 (High Priority Trilingual: Downloads & Ampara Bungalow Pages)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added ~40 new translation keys to `translations.php` covering: downloads page UI (search placeholder, dropdowns, table headers, download buttons, empty state, pagination labels) and Ampara bungalow page (gallery overlays, description paragraphs, amenity tiles, booking widget, guest tier labels).
+  - `downloads.php`: Wrapped search input placeholder, category filter options, items-per-page dropdown, language filter dropdown (now auto-selects active lang), table headers, Download/No Document buttons, empty state message, and pagination summary with `t()`. Category badge labels from DB rows are intentionally left as English to preserve JS filter logic.
+  - `ampara-circuit-bungalow.php`: Wrapped gallery overlay text, 3-paragraph bungalow description, Google Maps link, amenity tile labels, room rates section heading, "Starting From / night" booking widget (both mobile and desktop sidebar), "Check Availability & Book" button (both), booking note text, success message, and all guest tier labels (`Ministry Staff`, `Other Govt / Private`, `Foreign Visitors`) across all room cards and the rates table header. Both booking buttons now carry `?lang=` to preserve language on navigation.
+  - **complaints.php** and **includes/sub-hero.php** confirmed already fully trilingual — no changes needed.
+
+### 2026-07-29 (Contact Us Page Full Trilingual Coverage)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added 13 new translation keys: `get_in_touch`, `contact_subtitle`, `address`, `phone_number`, `fax`, `email_address`, `full_name`, `message`, `send_message`, `leave_a_message`, `contact_numbers`, `submit_complaint`, `lodge_complaint`, `how_can_we_help`.
+  - Wrapped all UI labels, section headings, form field labels, textarea placeholder, and button text in [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php) with `t(...)`.
+  - Also fixed the Submit Complaint link to pass `?lang=` parameter so language persists when navigating to the complaints page.
+
+### 2026-07-29 (Bungalow Reservation Modal Trilingual Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added reservation modal translation keys (`reservation_details`, `booking_request_subtitle`, `check_in`, `check_out`, `room_required`, `applicant_name`) to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - Updated booking modal headers and form field labels in [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php) to use `t(...)` for Sinhala, Tamil, and English users.
+
+### 2026-07-29 (Footer Trilingual Last Updated Date Integration)
+* **Files:** [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the site footer in [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php) to use `format_date_trilingual()` for the dynamic **Last Updated** date, rendering month names and date format in the active language (English: `18 Mar, 2026`, Sinhala: `2026 මාර්තු 18`, Tamil: `2026 மார்ச் 18`).
+
+### 2026-07-29 (UI Action Buttons Trilingual Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added key UI action translations (`read_more`, `view_all`, `no_news_found`, `search_news`) to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) in English, Sinhala, and Tamil.
+  - Updated card buttons, search input placeholders, empty states, and section links across [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) and [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) to use `t(...)`.
+
+### 2026-07-29 (Trilingual Date Formatting Helper Integration)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added global `format_date_trilingual($timestamp)` helper function to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), providing full localized Sinhala and Tamil month names (e.g. `2026 ජූනි 10` for Sinhala, `2026 ஜூன் 10` for Tamil).
+  - Updated article date badges on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) and [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) to use `format_date_trilingual()`.
+
+### 2026-07-29 (Dynamic HTML Lang Tag & Trilingual Form Toasts Update)
+* **Files:** [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Made `<html lang="...">` in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php) dynamic (`lang="en"`, `lang="si"`, `lang="ta"`) based on active language for screen readers, web browsers, and accessibility compliance.
+  - Added trilingual translation keys (`msg_sent_success`, `msg_send_failed`, `msg_error_occurred`) in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - Updated contact form response toast messages in [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php) to render in active language (Sinhala, Tamil, English).
+
+### 2026-07-29 (Visit Website Translation Update)
+* **Files:** [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the `visit_website` translation key in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php):
+  - **English**: `Visit Website`
+  - **Sinhala**: `වෙබ් අඩවිය`
+  - **Tamil**: `இணையதளம்`
+
 ### 2026-07-29 (Related Organizations External Links Update)
 * **Files:** [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI

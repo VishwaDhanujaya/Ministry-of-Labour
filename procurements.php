@@ -28,8 +28,13 @@ $categoryColors = [
 foreach ($raw_procurements as $proc) {
     $rawCat = $proc['category'] ?? 'Notice';
     $userCat = $categoryMapping[$rawCat] ?? 'Procurement Notice';
+    // Language-aware title fallback
+    $proc_title = $proc['title'];
+    if ($current_lang === 'si' && !empty($proc['title_si'])) $proc_title = $proc['title_si'];
+    elseif ($current_lang === 'ta' && !empty($proc['title_ta'])) $proc_title = $proc['title_ta'];
+
     $all_documents[] = [
-        'title' => $proc['title'],
+        'title' => $proc_title,
         'description' => $proc['description'] ?? '',
         'ref' => date('Y-m-d', strtotime($proc['created_at'])),
         'category' => $userCat,

@@ -12,6 +12,18 @@ $page_title = 'About Us';
 $pageTitle = 'About Us - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Learn about the Ministry of Labour, Sri Lanka, our vision, mission, key officials, and the Citizen Charter outlining our commitment to public service excellence.';
 $metaKeywords = 'Ministry of Labour, Sri Lanka, About Us, Vision, Mission, Officials, Departments, Citizen Charter, Public Service';
+$pageMeta = [
+    'si' => [
+        'title' => 'අප ගැන - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශය, අපගේ දර්ශනය, මෙහෙවර, ප්‍රධාන නිලධාරීන් සහ පුරවැසි ප්‍රඥප්තිය පිළිබඳ තොරතුරු ලබා ගන්න.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, ශ්‍රී ලංකාව, අප ගැන, දර්ශනය, මෙහෙවර, නිලධාරීන්'
+    ],
+    'ta' => [
+        'title' => 'எங்களைப் பற்றி - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சு, எமது தொலைநோக்கு, பணி லட்சியம், முக்கிய அதிகாரிகள் பற்றிய தகவல்களை அறிந்துகொள்ளுங்கள்.',
+        'kw'    => 'தொழில் அமைச்சு, இலங்கை, எங்களைப் பற்றி, தொலைநோக்கு, அதிகாரிகள்'
+    ]
+];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>

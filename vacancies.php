@@ -18,8 +18,13 @@ $categoryColors = [
 ];
 
 foreach ($raw_vacancies as $vac) {
+    // Language-aware title fallback: use native language title if available, else fall back to English
+    $vac_title = $vac['title'];
+    if ($current_lang === 'si' && !empty($vac['title_si'])) $vac_title = $vac['title_si'];
+    elseif ($current_lang === 'ta' && !empty($vac['title_ta'])) $vac_title = $vac['title_ta'];
+
     $all_documents[] = [
-        'title' => $vac['title'],
+        'title' => $vac_title,
         'description' => $vac['description'] ?? '',
         'ref' => date('Y-m-d', strtotime($vac['created_at'])),
         'category' => 'Vacancy',

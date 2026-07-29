@@ -18,6 +18,18 @@ $page_title = 'Contact Us';
 $pageTitle = 'Contact Us - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Get in touch with the Ministry of Labour, Sri Lanka. Find contact details for our officials, departments, and leave us a message.';
 $metaKeywords = 'Contact Us, Ministry of Labour, Sri Lanka, Phone, Email, Address, Inquiry';
+$pageMeta = [
+    'si' => [
+        'title' => 'අප අමතන්න - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශය හා සම්බන්ධ වන්න. නිලධාරීන්ගේ දුරකථන අංක, ලිපිනය සහ විද්‍යුත් තැපෑල ලබා ගන්න.',
+        'kw'    => 'අප අමතන්න, කම්කරු අමාත්‍යාංශය, ශ්‍රී ලංකාව, දුරකථන, ලිපිනය'
+    ],
+    'ta' => [
+        'title' => 'எங்களை தொடர்பு கொள்ள - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சுடன் தொடர்பு கொள்ளுங்கள். அதிகாரிகள், திணைக்களங்கள் மற்றும் தொடர்பு விவரங்களை பெறவும்.',
+        'kw'    => 'தொடர்பு கொள்ள, தொழில் அமைச்சு, இலங்கை, தொலைபேசி, முகவரி'
+    ]
+];
 include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
@@ -28,8 +40,8 @@ include 'includes/sub-hero.php';
         
         <!-- Get In Touch Title -->
         <div class="text-center mb-12" data-aos="fade-up">
-            <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter">Get In Touch</p>
-            <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900">Stay updated with Ministry of Labour</h2>
+            <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter notranslate"><?= t('get_in_touch', 'Get In Touch') ?></p>
+            <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900 notranslate"><?= t('contact_subtitle', 'Stay updated with Ministry of Labour') ?></h2>
         </div>
 
         <!-- Info Boxes -->
@@ -40,7 +52,7 @@ include 'includes/sub-hero.php';
                     <div class="w-10 h-10 md:w-11 md:h-11 bg-white rounded-full flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                     </div>
-                    <h3 class="text-base md:text-lg font-medium font-montserrat">Address</h3>
+                    <h3 class="text-base md:text-lg font-medium font-montserrat notranslate"><?= t('address', 'Address') ?></h3>
                 </div>
                 <p class="text-xs md:text-[13px] font-inter text-gray-200 leading-relaxed">
                     6th floor, Mehewara Piyasa,<br>Narahenpita, Colombo 05, Sri Lanka.
@@ -53,7 +65,7 @@ include 'includes/sub-hero.php';
                     <div class="w-10 h-10 md:w-11 md:h-11 bg-secondary rounded-full flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     </div>
-                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900">Phone number</h3>
+                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900 notranslate"><?= t('phone_number', 'Phone number') ?></h3>
                 </div>
                 <p class="text-xs md:text-[13px] font-inter text-gray-600">
                     (+94) 11 2581991
@@ -66,7 +78,7 @@ include 'includes/sub-hero.php';
                     <div class="w-10 h-10 md:w-11 md:h-11 bg-secondary rounded-full flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     </div>
-                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900">Fax</h3>
+                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900 notranslate"><?= t('fax', 'Fax') ?></h3>
                 </div>
                 <p class="text-xs md:text-[13px] font-inter text-gray-600">
                     (+94) 11 2368165
@@ -79,7 +91,7 @@ include 'includes/sub-hero.php';
                     <div class="w-10 h-10 md:w-11 md:h-11 bg-secondary rounded-full flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                     </div>
-                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900">Email Address</h3>
+                    <h3 class="text-base md:text-lg font-medium font-montserrat text-gray-900 notranslate"><?= t('email_address', 'Email Address') ?></h3>
                 </div>
                 <p class="text-xs md:text-[13px] font-inter text-gray-600 break-all notranslate" translate="no">
                     info@labourmin.gov.lk
@@ -92,7 +104,7 @@ include 'includes/sub-hero.php';
             
             <!-- Form -->
             <div class="flex-1">
-                <h3 class="text-[22px] md:text-[26px] font-semibold font-montserrat text-gray-900 mb-6 md:mb-8">Leave Us A Message</h3>
+                <h3 class="text-[22px] md:text-[26px] font-semibold font-montserrat text-gray-900 mb-6 md:mb-8 notranslate"><?= t('leave_a_message', 'Leave Us A Message') ?></h3>
                 
                 <!-- WhatsApp Complaints Callout -->
                 <div class="mb-8 p-5 bg-[#EFF8F6] border border-teal-100 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4" data-aos="fade-up">
@@ -102,13 +114,13 @@ include 'includes/sub-hero.php';
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                         </div>
                         <div>
-                            <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider">Complaints</p>
-                            <p class="text-base font-bold text-teal-900 font-inter mt-0.5">Lodge a Formal Complaint</p>
+                            <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider notranslate"><?= t('complaints', 'Complaints') ?></p>
+                            <p class="text-base font-bold text-teal-900 font-inter mt-0.5 notranslate"><?= t('lodge_complaint', 'Lodge a Formal Complaint') ?></p>
                             <p class="text-[11px] text-teal-800/85 font-inter mt-1 leading-tight">Submit your complaints via the Department of Labour CMS portal or escalate via WhatsApp if needed.</p>
                         </div>
                     </div>
-                    <a href="complaints" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95">
-                        Submit Complaint
+                    <a href="complaints<?= $current_lang !== 'en' ? '?lang=' . $current_lang : '' ?>" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95 notranslate">
+                        <?= t('submit_complaint', 'Submit Complaint') ?>
                     </a>
                 </div>
                 
@@ -116,31 +128,31 @@ include 'includes/sub-hero.php';
                     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                     <div>
-                        <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Full Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="John Doe">
+                        <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('full_name', 'Full Name') ?> <span class="text-red-500">*</span></label>
+                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_full_name', 'Kamal Perera')) ?>">
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                         <div>
-                            <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Email Address <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="john@example.com">
+                            <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('email_address', 'Email Address') ?> <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_email', 'your@email.com')) ?>">
                         </div>
                         <div>
-                            <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="+94 77 123 4567">
+                            <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('phone_number', 'Phone Number') ?></label>
+                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_phone', '+94 77 123 4567')) ?>">
                         </div>
                     </div>
 
                     <div>
-                        <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2">Message <span class="text-red-500">*</span></label>
-                        <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="How can we help you?"></textarea>
+                        <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('message', 'Message') ?> <span class="text-red-500">*</span></label>
+                        <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="<?= htmlspecialchars(t('how_can_we_help', 'How can we help you?')) ?>"></textarea>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 md:pt-4">
                         <!-- Submit Button -->
                         <!-- Submit Button -->
-                        <button type="submit" id="submitBtn" class="btn-primary w-full sm:w-auto font-inter gap-2 opacity-50 cursor-not-allowed" disabled>
-                            <span>Send Message</span>
+                        <button type="submit" id="submitBtn" class="btn-primary w-full sm:w-auto font-inter gap-2 opacity-50 cursor-not-allowed notranslate" disabled>
+                            <span><?= t('send_message', 'Send Message') ?></span>
                             <svg id="submitSpinner" class="hidden w-4 h-4 text-white animate-spin" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -173,7 +185,7 @@ include 'includes/sub-hero.php';
         </div>
 
         <!-- Contact Numbers -->
-        <h3 class="text-xl md:text-[22px] font-semibold font-montserrat text-gray-900 mb-5 md:mb-6" data-aos="fade-up">Contact Numbers</h3>
+        <h3 class="text-xl md:text-[22px] font-semibold font-montserrat text-gray-900 mb-5 md:mb-6 notranslate" data-aos="fade-up"><?= t('contact_numbers', 'Contact Numbers') ?></h3>
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200 rounded-2xl overflow-hidden font-inter" data-aos="fade-up" data-aos-delay="100">
             <?php foreach($contact_departments as $dept): ?>
             <div onclick="openModal('<?php echo $dept['id']; ?>')" class="bg-[#FAFAFA] cursor-pointer py-6 md:py-8 px-2 sm:px-4 flex items-center justify-center font-medium text-gray-900 text-sm md:text-[15px] hover:bg-gray-100 transition-colors text-center h-full">
@@ -319,16 +331,16 @@ include 'includes/sub-hero.php';
 
             if (data.success) {
                 if (window.showToast) {
-                    window.showToast('Message sent successfully!', 'success');
+                    window.showToast(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>, 'success');
                 } else {
-                    alert('Message sent successfully!');
+                    alert(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>);
                 }
                 form.reset();
             } else {
                 if (window.showToast) {
-                    window.showToast(data.message || 'Failed to send message.', 'error');
+                    window.showToast(data.message || <?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>, 'error');
                 } else {
-                    alert('Failed to send message: ' + (data.message || 'Unknown error'));
+                    alert((<?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>) + ': ' + (data.message || ''));
                 }
             }
         })
@@ -336,7 +348,7 @@ include 'includes/sub-hero.php';
             console.error('Error:', error);
             // Restore button text and hide spinner
             spinner.classList.add('hidden');
-            btnText.textContent = 'Send Message';
+            btnText.textContent = <?= json_encode(t('send_message', 'Send Message')) ?>;
             
             // Reset recaptcha widget and disable submit button
             if (typeof grecaptcha !== 'undefined') {
@@ -345,9 +357,9 @@ include 'includes/sub-hero.php';
             onRecaptchaExpired();
 
             if (window.showToast) {
-                window.showToast('An error occurred. Please try again later.', 'error');
+                window.showToast(<?= json_encode(t('msg_error_occurred', 'An error occurred. Please try again later.')) ?>, 'error');
             } else {
-                alert('An error occurred. Please try again later.');
+                alert(<?= json_encode(t('msg_error_occurred', 'An error occurred. Please try again later.')) ?>);
             }
         });
     });
