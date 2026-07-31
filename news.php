@@ -51,28 +51,6 @@ include 'includes/sub-hero.php';
             <!-- Articles Content -->
             <div class="w-full lg:w-2/3">
                 
-                <!-- Control Bar above Grid -->
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 bg-gray-50/70 p-4 rounded-2xl border border-gray-100">
-                    <div class="text-xs font-bold text-gray-500 uppercase tracking-wider font-inter">
-                        <?= t('latest_news', 'Latest News') ?>
-                    </div>
-                    <div class="flex items-center gap-3 w-full sm:w-auto">
-                        <label for="itemsPerPageTop" class="text-xs font-bold text-gray-400 whitespace-nowrap font-inter uppercase tracking-wider hidden sm:inline-block"><?= t('items_per_page', 'Items per page') ?></label>
-                        <div class="relative w-full sm:w-40">
-                            <select id="itemsPerPageTop" class="bg-white border border-gray-200 text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full px-3.5 py-2 font-inter transition-all outline-none appearance-none cursor-pointer shadow-sm notranslate" onchange="syncItemsPerPage(this.value)">
-                                <option value="4">4 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="6" selected>6 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="all"><?= t('show_all', 'Show All') ?></option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12" id="articles-grid">
                     <?php if (empty($allArticles)): ?>
@@ -112,6 +90,21 @@ include 'includes/sub-hero.php';
 
                 <!-- Pagination Controls -->
                 <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <label for="itemsPerPage" class="text-xs font-bold text-gray-400 whitespace-nowrap font-inter uppercase tracking-wider hidden sm:inline-block"><?= t('items_per_page', 'Items per page') ?></label>
+                        <div class="relative w-full sm:w-40">
+                            <select id="itemsPerPage" class="bg-white border border-gray-200 text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full px-3.5 py-2 font-inter transition-all outline-none appearance-none cursor-pointer shadow-sm notranslate" onchange="resetPaginationAndFilter()">
+                                <option value="4">4 <?= t('per_page_label', 'per page') ?></option>
+                                <option value="6" selected>6 <?= t('per_page_label', 'per page') ?></option>
+                                <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
+                                <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
+                                <option value="all"><?= t('show_all', 'Show All') ?></option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                    </div>
                     <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
                         <!-- Dynamic user-friendly pagination summary -->
                     </div>
@@ -137,23 +130,6 @@ include 'includes/sub-hero.php';
                                 </svg>
                             </div>
                             <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_news', 'Search news...')) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Items per page -->
-                    <div class="mb-10">
-                        <label for="itemsPerPage" class="block text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate"><?= t('items_per_page', 'Items per page') ?></label>
-                        <div class="relative w-full">
-                            <select id="itemsPerPage" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full px-3.5 py-2.5 font-inter transition-all outline-none appearance-none cursor-pointer notranslate" onchange="syncItemsPerPage(this.value)">
-                                <option value="4">4 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="6" selected>6 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
-                                <option value="all"><?= t('show_all', 'Show All') ?></option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </div>
                         </div>
                     </div>
 
@@ -203,14 +179,6 @@ const articles = <?php echo json_encode(array_map(function($article, $i) {
         'content' => strtolower(strip_tags($article['content']))
     ];
 }, $allArticles, array_keys($allArticles))); ?>;
-
-function syncItemsPerPage(val) {
-    const selSidebar = document.getElementById("itemsPerPage");
-    const selTop = document.getElementById("itemsPerPageTop");
-    if (selSidebar) selSidebar.value = val;
-    if (selTop) selTop.value = val;
-    resetPaginationAndFilter();
-}
 
 function resetPaginationAndFilter() {
     currentPage = 1;

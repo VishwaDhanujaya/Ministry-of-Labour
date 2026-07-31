@@ -146,6 +146,14 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 * **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
 
+### 2026-07-31 (News Page Per-Page Controls Relocation to Bottom Bar)
+* **Files:**
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Relocated Per-Page Selection Controls to Bottom Only**: Removed the top control bar above the news grid and the sidebar dropdown on [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php). Integrated the `Items per page` (`පිටුවකට`) selection dropdown exclusively into the bottom `#paginationControls` bar alongside the pagination summary and page buttons.
+  - **Maintained Other Pages Standard Controls**: Preserved control placements on all other listing pages (`procurements.php`, `downloads.php`, etc.) as requested.
+
 ### 2026-07-31 (News Page Switch Controls & Always-Active Page Buttons)
 * **Files:**
   - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
