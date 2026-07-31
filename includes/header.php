@@ -473,10 +473,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
-                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                    <div class="absolute left-0 mt-0 min-w-[240px] w-max max-w-[360px] bg-white border border-gray-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="<?= navUrl('iau') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
-                            <a href="<?= navUrl('iau-updates') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
+                            <a href="<?= navUrl('iau') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
+                            <a href="<?= navUrl('iau-updates') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
                         </div>
                     </div>
                 </div>
@@ -490,10 +490,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
                     <!-- Dropdown -->
-                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                    <div class="absolute left-0 mt-0 min-w-[260px] w-max max-w-[380px] bg-white border border-gray-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="<?= navUrl('learning-platforms-local') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
-                            <a href="<?= navUrl('learning-platforms-foreign') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
+                            <a href="<?= navUrl('learning-platforms-local') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-local') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['local_publications'][$current_lang] ?? 'Local Publications') ?></a>
+                            <a href="<?= navUrl('learning-platforms-foreign') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'learning-platforms-foreign') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['foreign_publications'][$current_lang] ?? 'Foreign Publications') ?></a>
                         </div>
                     </div>
                 </div>
@@ -504,11 +504,11 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                     <!-- Dropdown -->
-                    <div class="absolute left-0 mt-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                    <div class="absolute left-0 mt-0 min-w-[240px] w-max max-w-[360px] bg-white border border-gray-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
-                            <a href="<?= navUrl('procurements') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
-                            <a href="<?= navUrl('vacancies') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
-                            <a href="<?= navUrl('special-notices') ?>" class="block px-4 py-2.5 text-[13px] hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
+                            <a href="<?= navUrl('procurements') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'procurements') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['procurements'][$current_lang] ?? 'Procurements') ?></a>
+                            <a href="<?= navUrl('vacancies') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'vacancies') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
+                            <a href="<?= navUrl('special-notices') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'special-notices') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                         </div>
                     </div>
                 </div>

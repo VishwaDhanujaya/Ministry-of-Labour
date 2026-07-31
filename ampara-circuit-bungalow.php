@@ -170,13 +170,7 @@ include 'includes/sub-hero.php';
 
             <!-- Booking Widget (Mobile Only) -->
             <div class="block lg:hidden bg-white rounded-[24px] p-6 border border-slate-100 shadow-md mb-8">
-                <div class="flex items-baseline gap-1.5 mb-5">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider notranslate"><?= t('starting_from', 'Starting From') ?></span>
-                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight notranslate">Rs. 2,000</span>
-                    <span class="text-slate-400 text-xs font-medium notranslate"><?= t('per_night', '/ night') ?></span>
-                </div>
 
-                <hr class="border-slate-100 mb-5">
 
                 <?php if ($success): ?>
                     <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2 notranslate">
@@ -530,13 +524,7 @@ include 'includes/sub-hero.php';
 
             <!-- Booking Widget -->
             <div class="hidden lg:block bg-white rounded-[24px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
-                <div class="flex items-baseline gap-1.5 mb-5">
-                    <span class="text-slate-400 text-xs font-bold uppercase tracking-wider notranslate"><?= t('starting_from', 'Starting From') ?></span>
-                    <span class="text-3xl font-extrabold text-gray-900 font-montserrat tracking-tight notranslate">Rs. 2,000</span>
-                    <span class="text-slate-400 text-xs font-medium notranslate"><?= t('per_night', '/ night') ?></span>
-                </div>
 
-                <hr class="border-slate-100 mb-5">
 
                 <?php if ($success): ?>
                     <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2">

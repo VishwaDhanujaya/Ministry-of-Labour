@@ -47,7 +47,7 @@ include 'includes/sub-hero.php';
         <!-- Info Boxes -->
         <div class="flex flex-col lg:flex-row rounded-2xl overflow-hidden border border-gray-200 mb-16 md:mb-20 shadow-sm" data-aos="fade-up" data-aos-delay="100">
             <!-- Address -->
-            <a href="https://maps.app.goo.gl/uXfX4g7XWw9AFTLd8" target="_blank" rel="noopener noreferrer" class="flex-1 bg-secondary text-white p-6 sm:p-8 lg:p-10 flex flex-col items-start justify-center hover:bg-secondary/90 transition-colors group cursor-pointer">
+            <a href="https://maps.app.goo.gl/L83M2xHeD4gGV4G39" target="_blank" rel="noopener noreferrer" class="flex-1 bg-secondary text-white p-6 sm:p-8 lg:p-10 flex flex-col items-start justify-center hover:bg-secondary/90 transition-colors group cursor-pointer">
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-10 h-10 md:w-11 md:h-11 bg-white rounded-full flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                         <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
@@ -130,22 +130,26 @@ include 'includes/sub-hero.php';
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('full_name', 'Full Name') ?> <span class="text-red-500">*</span></label>
                         <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_full_name', 'Kamal Perera')) ?>">
+                        <p id="fullname-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                         <div>
                             <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('email_address', 'Email Address') ?> <span class="text-red-500">*</span></label>
                             <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_email', 'your@email.com')) ?>">
+                            <p id="email-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
                         </div>
                         <div>
                             <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('phone_number', 'Phone Number') ?></label>
                             <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_phone', '+94 77 123 4567')) ?>">
+                            <p id="phone-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
                         </div>
                     </div>
 
                     <div>
                         <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('message', 'Message') ?> <span class="text-red-500">*</span></label>
                         <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="<?= htmlspecialchars(t('how_can_we_help', 'How can we help you?')) ?>"></textarea>
+                        <p id="message-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 md:pt-4">
@@ -174,7 +178,7 @@ include 'includes/sub-hero.php';
             <!-- Map -->
             <div class="flex-1 rounded-[20px] overflow-hidden min-h-[300px] md:min-h-[400px] lg:min-h-full relative border border-gray-200 mt-6 lg:mt-0">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.9702243834064!2d79.87326847590506!3d6.894165993105747!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25a2e3795b501%3A0xc3ec5bc1eb657736!2sMehewara%20Piyasa!5e0!3m2!1sen!2slk!4v1707297383610!5m2!1sen!2slk" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.987458358446!2d79.87319647499628!3d6.892102893107026!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25a2cc0681abd%3A0xf9c275e6854ae9e3!2sMehewara%20Piyesa!5e0!3m2!1sen!2slk!4v1785472649618!5m2!1sen!2slk" 
                     class="absolute inset-0 w-full h-full border-0" 
                     allowfullscreen="" 
                     loading="lazy" 
@@ -215,9 +219,10 @@ include 'includes/sub-hero.php';
                     <hr class="border-white/20 w-[60%] mx-auto my-6">
                 <?php endif; ?>
                 <div>
-                    <p class="text-[18px] sm:text-xl md:text-[22px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight"><?php echo $person['name']; ?></p>
-                    <?php if($person['designation']): ?>
-                    <p class="text-sm md:text-base text-gray-300 pb-1 md:pb-2"><?php echo $person['designation']; ?></p>
+                    <p class="text-[18px] sm:text-xl md:text-[22px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight"><?php echo !empty($person['name_'.$current_lang]) ? $person['name_'.$current_lang] : $person['name']; ?></p>
+                    <?php $posTitle = !empty($person['title_'.$current_lang]) ? $person['title_'.$current_lang] : (!empty($person['designation_'.$current_lang]) ? $person['designation_'.$current_lang] : (!empty($person['title']) ? $person['title'] : $person['designation'])); ?>
+                    <?php if($posTitle): ?>
+                    <p class="text-sm md:text-base text-gray-300 pb-1 md:pb-2"><?php echo $posTitle; ?></p>
                     <?php endif; ?>
                     
                     <div class="space-y-1 mt-3">
@@ -295,8 +300,97 @@ include 'includes/sub-hero.php';
         onRecaptchaExpired();
     }
 
+    // Trilingual Validation Error Messages
+    const valMsg = {
+        fullname: <?= json_encode(t('val_fullname_required', 'Please enter a valid full name (at least 2 characters).')) ?>,
+        email: <?= json_encode(t('val_email_invalid', 'Please enter a valid email address.')) ?>,
+        phone: <?= json_encode(t('val_phone_invalid', 'Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 11 258 1991).')) ?>,
+        message: <?= json_encode(t('val_message_short', 'Message must be at least 10 characters long.')) ?>
+    };
+
+    function setFieldError(fieldId, errorMsg) {
+        const input = document.getElementById(fieldId);
+        const errEl = document.getElementById(fieldId + '-error');
+        if (!input || !errEl) return;
+
+        if (errorMsg) {
+            errEl.textContent = errorMsg;
+            errEl.classList.remove('hidden');
+            input.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+            input.classList.remove('border-gray-200', 'focus:ring-secondary', 'focus:border-secondary');
+        } else {
+            errEl.textContent = '';
+            errEl.classList.add('hidden');
+            input.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+            input.classList.add('border-gray-200', 'focus:ring-secondary', 'focus:border-secondary');
+        }
+    }
+
+    function validateField(fieldId) {
+        const input = document.getElementById(fieldId);
+        if (!input) return true;
+        const val = input.value.trim();
+
+        if (fieldId === 'fullname') {
+            if (val.length < 2) {
+                setFieldError('fullname', valMsg.fullname);
+                return false;
+            }
+        } else if (fieldId === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                setFieldError('email', valMsg.email);
+                return false;
+            }
+        } else if (fieldId === 'phone') {
+            if (val.length > 0) {
+                const cleaned = val.replace(/[\s\-\(\)]+/g, '');
+                const slPhoneRegex = /^(?:\+94|0094|0)?(?:7[01245678]\d{7}|[1-9]\d{8})$/;
+                if (!slPhoneRegex.test(cleaned)) {
+                    setFieldError('phone', valMsg.phone);
+                    return false;
+                }
+            }
+        } else if (fieldId === 'message') {
+            if (val.length < 10) {
+                setFieldError('message', valMsg.message);
+                return false;
+            }
+        }
+
+        setFieldError(fieldId, null);
+        return true;
+    }
+
+    ['fullname', 'email', 'phone', 'message'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('blur', () => validateField(id));
+            el.addEventListener('input', () => {
+                const errEl = document.getElementById(id + '-error');
+                if (errEl && !errEl.classList.contains('hidden')) {
+                    validateField(id);
+                }
+            });
+        }
+    });
+
     document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
+
+        let isValid = true;
+        ['fullname', 'email', 'phone', 'message'].forEach(id => {
+            if (!validateField(id)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            if (window.showToast) {
+                window.showToast(<?= json_encode(t('msg_send_failed', 'Please fix the errors in the form.')) ?>, 'error');
+            }
+            return;
+        }
         
         const form = this;
         const submitBtn = document.getElementById('submitBtn');
@@ -336,6 +430,7 @@ include 'includes/sub-hero.php';
                     alert(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>);
                 }
                 form.reset();
+                ['fullname', 'email', 'phone', 'message'].forEach(id => setFieldError(id, null));
             } else {
                 if (window.showToast) {
                     window.showToast(data.message || <?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>, 'error');

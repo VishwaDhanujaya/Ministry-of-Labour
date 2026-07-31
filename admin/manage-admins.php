@@ -280,7 +280,8 @@ include 'includes/header.php';
                                     'manage_notices' => 'Manage Special Notices',
                                     'manage_statistics' => 'Manage Statistics',
                                     'manage_vacancies' => 'Manage Vacancies',
-                                    'manage_officials' => 'Manage Officials'
+                                    'manage_officials' => 'Manage Officials',
+                                    'manage_sliders' => 'Manage Home Sliders'
                                 ];
                                 foreach ($available_permissions as $key => $label):
                                 ?>

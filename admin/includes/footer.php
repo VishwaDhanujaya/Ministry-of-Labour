@@ -9,30 +9,19 @@ $admin_js_version = file_exists($admin_js_path) ? filemtime($admin_js_path) : ti
 <!-- Global Toast Notification Bridge -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    <?php
+    $displayedError = false;
+    $displayedSuccess = false;
+    ?>
+
     <?php if (!empty($error)): ?>
         if (typeof window.showToast === 'function') {
             window.showToast(<?= json_encode($error) ?>, 'error');
         }
+        <?php $displayedError = true; ?>
     <?php endif; ?>
-    
-    <?php if (!empty($success)): ?>
-        if (typeof window.showToast === 'function') {
-            window.showToast(<?= json_encode($success) ?>, 'success');
-        }
-    <?php endif; ?>
-    
-    <?php if (isset($_GET['success'])): ?>
-        if (typeof window.showToast === 'function') {
-            window.showToast("Operation completed successfully.", 'success');
-            
-            // Clean up URL parameters without refreshing
-            const url = new URL(window.location);
-            url.searchParams.delete('success');
-            window.history.replaceState({}, '', url);
-        }
-    <?php endif; ?>
-    
-    <?php if (isset($_GET['error'])): ?>
+
+    <?php if (!$displayedError && isset($_GET['error'])): ?>
         if (typeof window.showToast === 'function') {
             <?php
             $error_messages = [
@@ -40,16 +29,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 'unauthorized' => 'Please log in to continue.',
             ];
             $error_key = $_GET['error'];
-            $error_msg = $error_messages[$error_key] ?? $error_key;
+            $error_msg = $error_messages[$error_key] ?? (trim($error_key) !== '' ? $error_key : 'An error occurred.');
             $error_type = ($error_key === 'forbidden') ? 'warning' : 'error';
             ?>
             window.showToast(<?= json_encode($error_msg) ?>, <?= json_encode($error_type) ?>);
-            
-            // Clean up URL parameters without refreshing
-            const url = new URL(window.location);
-            url.searchParams.delete('error');
-            window.history.replaceState({}, '', url);
         }
+    <?php endif; ?>
+
+    <?php if (!empty($success)): ?>
+        if (typeof window.showToast === 'function') {
+            window.showToast(<?= json_encode($success) ?>, 'success');
+        }
+        <?php $displayedSuccess = true; ?>
+    <?php endif; ?>
+
+    <?php if (!$displayedSuccess && isset($_GET['success'])): ?>
+        if (typeof window.showToast === 'function') {
+            <?php
+            $getSuccess = trim($_GET['success']);
+            $successMsg = ($getSuccess !== '' && $getSuccess !== '1' && $getSuccess !== 'true') ? $getSuccess : "Operation completed successfully.";
+            ?>
+            window.showToast(<?= json_encode($successMsg) ?>, 'success');
+        }
+    <?php endif; ?>
+
+    <?php if (isset($_GET['success']) || isset($_GET['error'])): ?>
+        // Clean up URL parameters without refreshing page
+        const url = new URL(window.location);
+        url.searchParams.delete('success');
+        url.searchParams.delete('error');
+        window.history.replaceState({}, '', url);
     <?php endif; ?>
 });
 </script>

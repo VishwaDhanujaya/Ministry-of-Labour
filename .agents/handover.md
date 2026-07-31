@@ -146,6 +146,227 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 * **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
 
+### 2026-07-31 (Updated Tamil Vision & Mission Titles on RTI Page)
+* **Files:**
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Updated Tamil translations for "Vision" and "Mission" titles in `rti.php` to match the official About Us page:
+    - Vision Title: `"தொலைநோக்கு"` -> `"எமது நோக்கு"`
+    - Mission Title: `"பணிப்பணிப்பு"` -> `"எமது பணிப்பொறுப்பு"`
+
+### 2026-07-31 (Fixed Navbar Dropdowns Cropping Long Tamil Text)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Dropdown Width Expansion**: Replaced fixed `w-48` (192px) dropdown container widths in `includes/header.php` with dynamic responsive widths (`min-w-[240px] w-max max-w-[380px]`) and added `whitespace-nowrap` to dropdown items.
+  - **Tamil & Sinhala Text Fit**: Long translated menu items in Tamil (e.g. "வெளிநாட்டு வெளியீடுகள்", "தற்போதைய புதுப்பிப்புகள்", "சிறப்பு அறிவிப்புகள்") now expand naturally without being cut off or cropped in half.
+
+### 2026-07-31 (Removed Checkboxes & Bulk Action Dock from Slider Cards)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Clean Card UI**: Removed the card selection checkboxes and the bottom floating bulk actions dock per user request. Photo cards are now clean and uncluttered.
+
+### 2026-07-31 (Resolved IDE Type Information Info Messages)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - Added explicit PHPDoc `@param` and `@return` annotations along with strict scalar PHP type hints (`string`, `array`, `int`, `bool`) to `sanitizeInput()`, `handleFileUpload()`, `compressOrResizeImage()`, and `getInitials()`.
+  - Resolved all 5 IDE static analysis info messages for untyped parameters.
+
+### 2026-07-31 (Consistent Primary Active Tab & Green Live Homepage Indicator)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Consistent Selected Tab Color**: Changed the active tab styling to the brand primary navy blue (`bg-primary text-white shadow-md font-bold`) so active tab selection remains consistent with the rest of the admin panel.
+  - **Green Live Homepage Badge**: Calculated the exact collection currently rendering on the public homepage (`index.php`) and added a vibrant **green `🟢 Live` badge** to its tab.
+  - **Rotation Note**: Added an explicit header badge on the live collection: `NOW SHOWING ON HOMEPAGE (Rotates automatically every month)` so admins know which collection is live and how monthly rotation functions.
+
+### 2026-07-31 (Multi-File Upload Crash & Network Error Fix)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Root Cause Identified**: Uploading multiple photos simultaneously sent a single large HTTP request payload (`images[]`) that exceeded PHP's default `post_max_size` (8MB), causing PHP to drop `$_POST` and `$_FILES` and output an empty response. In JavaScript, `fetch().json()` crashed with a generic "Network error".
+  - **Sequential Upload Queue**: Updated `handleFilesUpload(files)` in JS to process uploads **one file at a time sequentially**. This guarantees that every request carries only 1 photo (~1-2MB), remaining well under `post_max_size`.
+  - **Memory Guard**: Added `@ini_set('memory_limit', '256M')` in `compressOrResizeImage()` in `functions.php` to prevent PHP memory limit exhaustion when processing uncompressed camera images.
+  - **Granular Error Reporting**: Backend returns specific error strings (`UPLOAD_ERR_INI_SIZE`) when individual uploads fail instead of crashing.
+
+### 2026-07-31 (Manage Home Sliders Active Green Tab & Clean Header Layout)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Metrics Bar Removal**: Removed the top summary stat cards (`Homepage Status`, `Total Collections`, `Total Photos`) per user preference to streamline vertical layout space.
+  - **Active Green Collection Tab**: Styled the currently selected active collection tab with a vibrant emerald green background (`bg-emerald-600 text-white shadow-emerald-600/20`), making it immediately obvious which collection tab is active.
+
+### 2026-07-31 (Manage Home Sliders Major UI/UX Overhaul & Modernization)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Summary Metrics Bar**: Added 3 top summary stat cards displaying real-time Homepage Pin status, total active collection count, and total photo uploads.
+  - **Segmented Pill Tab Navigation**: Refactored the collection tab bar into a high-end, glassmorphism segmented pill control (`bg-slate-200/50 backdrop-blur-md`) with smooth active tab shadows and live collection photo count badges.
+  - **Floating Glassmorphism Bulk Dock**: Added a floating action toolbar docked at the bottom center of the screen when items are selected (`bg-[#13273F]/95 backdrop-blur-md`), featuring one-click Enable, Disable, and Delete actions.
+  - **Enhanced Photo Card Grid**: Redesigned cards with Apple/Linear-inspired styling (`hover:-translate-y-1.5`, hover image zoom overlay, status badges, order badges, and smooth action toggles).
+  - **Interactive Drag & Drop Upload Zone**: Upgraded the upload dropzone with gradient hover states, custom icons, and clear microcopy.
+
+### 2026-07-31 (Manage Home Sliders UX & Terminology Simplification)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Button Consolidation**: Removed duplicate "Add Tab" button from the end of the tab bar, leaving a single, unified `+ Create Collection` button in the main header.
+  - **User-Friendly Flow Guide**: Added a visual "How Slider Rotation Works" guide banner at the top of the page explaining monthly rotation, homepage pinning, and photo ordering.
+  - **Friendly Terminology Overhaul**: Replaced technical jargon throughout the UI:
+    - `"Slider Batches"` -> `"Photo Collections"`
+    - `"FORCE ACTIVE (HOMEPAGE OVERRIDE)"` -> `"PINNED TO HOMEPAGE"`
+    - `"Force Active"` / `"Disable Override"` -> `"Pin to Homepage"` / `"Unpin Collection"`
+    - `"Active in Auto Cycle"` / `"Disabled"` -> `"Included in Rotation"` / `"Excluded"`
+    - `"Drag grip handles to reorder"` -> `"Drag cards to change photo order"`
+
+### 2026-07-31 (Global Admin Panel Toast Deduplication Fix)
+* **Files:**
+  - [admin/includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/footer.php)
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Global Toast Deduplication**: Fixed double toast firing bug across the admin panel in `admin/includes/footer.php`. Previously, both `$success` (e.g. `"Batch active status updated."`) and `$_GET['success']` (e.g. `"Operation completed successfully."`) were triggering separate `showToast()` calls simultaneously. Refactored `footer.php` to prioritize specific `$success` or URL query string messages, ensuring strictly **one single toast** renders per action.
+  - **Dynamic Query String Handling**: If `$_GET['success']` contains a custom message string, `footer.php` displays that exact message instead of falling back to generic text.
+  - **Automatic URL Cleanup**: Cleans up `success` and `error` query parameters from the browser history (`history.replaceState`) after rendering to prevent repeat toast triggers on manual page reloads.
+
+### 2026-07-31 (Frontend Hero Slider Rendering Fix & Fallback Enhancement)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Hero Slider Batch Query Fix**: Updated `index.php` hero slider batch selection. When a batch is set to `is_forced = 1`, it now correctly selects and displays that forced batch regardless of whether `is_active` was set to 0. Added fallback selection to any available batch containing active slider images if no batches are active.
+  - **Fallback Image Path Update**: Replaced missing hardcoded image fallbacks (`assets/img/home/cabinet.jpg`, etc.) with `assets/img/hero.webp` to guarantee the homepage hero section never renders empty even if zero sliders exist in the database.
+  - **Admin Force Active Synchronization**: Updated `force_batch` GET handler in `admin/manage-sliders.php` to automatically set `is_active = 1` whenever an admin toggles a batch to "Force Active".
+
+### 2026-07-31 (Admin Toast Notification Cleanup & Duplicate Removal)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Toast Noise Reduction**: Removed unnecessary intermediate "Uploading..." and "Processing..." info toasts that appeared immediately before page reloads during AJAX file uploads and bulk actions.
+  - **Duplicate Prevention**: Ensured AJAX actions that perform instant page reloads trigger clean, single-point feedback, keeping toast notifications reserved for inline errors or non-reloading interactions (like drag-and-drop reordering).
+
+### 2026-07-31 (Manage Home Sliders Performance & Optimization Fixes 1, 2, & 3)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Fix 1 (Non-Blocking External Scripts)**: Added `defer` attribute to the external `SortableJS` script tag (`<script src="..." defer></script>`) in `admin/manage-sliders.php` to prevent script execution from blocking HTML rendering.
+  - **Fix 2 (Explicit Column Selection & Zero-Disk Load)**: Replaced `SELECT *` in `manage-sliders.php` with explicit column selections (`SELECT id, batch_id, image, display_order, is_active FROM hero_sliders` and `SELECT b.id, b.batch_name, b.is_active, b.is_forced, COUNT(s.id)...`), drastically reducing memory overhead per request.
+  - **Fix 3 (Automatic Image Compression & Resizing Helper)**: Implemented `compressOrResizeImage()` in `admin/includes/functions.php`. Automatically resizes large uploaded images (to max 1920px width at 85% quality) upon upload, with GD extension detection and fallback checks.
+
+### 2026-07-31 (Manage Home Sliders Clickable Full Image Preview Modal)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Interactive Image Preview Modal**: Made slider card images clickable with a smooth hover zoom overlay (`openImagePreview()`) matching the Officials page experience. Clicking any slider photo opens a full-screen, high-resolution modal displaying the image, filename, and display order.
+
+### 2026-07-31 (Manage Home Sliders Advanced UI/UX Refinements & Bulk Actions)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Refined Empty States**: Added an illustrative, visually engaging empty state for slider batches with zero photos, guiding the user to the dropzone.
+  - **Modernized Toast Notifications**: Removed static PHP `success` and `error` alert banners at the top of the page. Initialized PHP responses to directly trigger the global `window.showToast()` utility on page load, preserving vertical layout space and aligning with Admin UI standards.
+  - **Bulk Action Capabilities**: Added a "Select All" checkbox alongside individual image selection checkboxes. Integrated an interactive contextual Bulk Action bar (Set Active, Set Inactive, Delete Selected) to process multiple image modifications simultaneously. Added robust AJAX backend handlers with `IN (?)` PDO parameterized queries to securely execute these bulk modifications.
+
+### 2026-07-31 (Manage Home Sliders Speed Performance Optimization & UI/UX Refinement)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Database Query Optimization (N+1 Query Reduction)**: Replaced loop query that fetched all image records for all slider batches on every page load with a single grouped query (`LEFT JOIN slider_batches`) for batch metadata and counts. Slider image records are now fetched strictly for the active tab, dramatically reducing page load time and memory footprint.
+  - **CDN Resolution Bottleneck Elimination**: Pinned `SortableJS` library version to `sortablejs@1.15.2` (replacing `@latest`), eliminating external NPM lookup/redirect latency on every page request.
+  - **Asynchronous Image Preview Loading**: Added `loading="lazy"` and `decoding="async"` attributes to all card image thumbnails.
+  - **Rule-Compliant Custom Confirmation Modals**: Replaced native browser `confirm()` popups for batch and photo deletions with a styled, centered modal (`#confirmModal`) and `data-delete-url` attributes in strict alignment with workspace rules.
+
+### 2026-07-31 (Hero Sliders UI/UX Overhaul & Tabbed Streamlined Management)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Tabbed Batch Navigation**: Replaced long vertical stacked cards with a horizontal tab bar (`[ Batch 1 ] [ Batch 2 ] ... [ + New Batch ]`) on [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php) to reduce vertical scrolling and simplify batch switching.
+  - **Interactive Drag & Drop Dropzone**: Added a prominent drag & drop upload area directly inside the active tab (`Drop images here or click to browse`). Automatically handles single or multi-file uploads via AJAX (`action=upload_dropzone_images`) without opening modals.
+  - **Post/Redirect/Get Flow & Multi-Upload in Batch Modal**: Updated batch creation logic on [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php) to use standard `header("Location: manage-sliders?tab=" . $batch_id . "&success=...")` redirects upon saving, automatically opening the newly created tab. Added `enctype="multipart/form-data"` and an optional photo uploader to the batch modal so users can upload photos while creating a batch.
+
+### 2026-07-31 (Hero Sliders Upload Path Fix & Multiple Batch Photo Uploads)
+* **Files:**
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Upload Path Normalization (Black Screen Fix)**: Fixed image upload pathing in `handleFileUpload()`. Previously, images uploaded inside the admin panel were saving relative to `admin/`, creating duplicate `admin/assets/img/home/...` paths that broke frontend image links. Updated destination parameter to `'../assets/img/home'` and normalized path strings (`preg_replace('/^\.\.\//', '', $uploadResult['path'])`) so image paths match root assets (`assets/img/home/YYYY/MM/...`). Moved existing uploaded assets into root.
+  - **Batch Multi-Photo Uploads**: Added multiple file upload support (`<input type="file" name="batch_images[]" multiple>`) directly inside the Add/Edit Batch modal in [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php). Admins can now select and upload multiple images at once into any batch, with automatic order numbering.
+
+### 2026-07-31 (Dynamic Hero Sliders, SortableJS Drag & Drop Fix, Centered Modals)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [admin/manage-admins.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-admins.php)
+  - [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Display Order Automation**: Removed the manual "Display Order" numeric input field from the Add/Edit Slider modal on [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php). New uploads are automatically appended to the end of the batch (`MAX(display_order) + 1`), and reordering is managed exclusively via drag-and-drop.
+  - **Centered Popups (UI/UX)**: Updated modal overlays (`#batchModal` and `#sliderModal`) with explicit flex alignment (`modal.classList.add('flex')`), guaranteeing popups are perfectly centered horizontally and vertically on screen across all device viewports.
+  - **Database & Permissions**: Integrated `slider_batches` and `hero_sliders` tables with forced batch overrides, auto-rotating monthly cycles, and custom user role permissions.
+
+### 2026-07-31 (Mobile Hero News Ticker Positioning Fix & Layout Clean Up)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Mobile News Bar Floating Bug Fix**: Resolved the bug where the Scrolling News Bar floated across the middle-right of the hero image on mobile viewports.
+  - **Absolute Bottom Anchor**: Updated the news ticker bar positioning on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) to strictly `absolute bottom-0 left-0 w-full z-30` across all breakpoints, removing it from flexbox child flow.
+  - **Mobile Hero Container Balance**: Updated the hero section container layout to `flex flex-col justify-center` with `min-h-[480px] sm:min-h-[520px]`, adding `pb-20` spacing to the welcome text container so content remains centered and clear of the bottom news ticker and pagination controls. Recompiled minified production styles (`npm run build:prod`).
+
+### 2026-07-31 (Ministry of Labour Google Maps Location Update)
+* **Files:**
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Location & Map Embed Update**: Updated the direct Google Maps link (`https://maps.app.goo.gl/L83M2xHeD4gGV4G39`) on the Address card and updated the Google Maps `<iframe>` embed source (`Mehewara Piyesa`) on [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php).
+
+### 2026-07-31 (Ampara Bungalow Starting From Price Header Removal)
+* **Files:**
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Price Header Removal**: Removed the `"Starting From Rs. 2,000 / night"` header and separator line from both the mobile booking card and desktop sidebar widget on [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php).
+
+### 2026-07-31 (Contact Us Page Sri Lanka Validation Engine)
+* **Files:**
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [process-contact.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-contact.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Sri Lanka Phone & Input Validation**: Added comprehensive Sri Lankan phone number validation (`^(?:\+94|0094|0)?(?:7[01245678]\d{7}|[1-9]\d{8})$`), full name character/length check, email format verification, and 10+ character minimum message check across both client-side JS (`contact-us.php`) and server-side PHP (`process-contact.php`).
+  - **Interactive Trilingual UX**: Added real-time inline red error messages underneath form fields (`#fullname-error`, `#email-error`, `#phone-error`, `#message-error`) and dynamic border highlights in English, Sinhala, and Tamil.
+
+### 2026-07-31 (Affiliated Institutions Website Button Label Update)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Button Label Updated**: Updated the English label for `visit_website` from `"Visit Website"` to `"Website"` across [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) and [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) for all 5 affiliated institution cards.
+
 ### 2026-07-31 (News Page Per-Page Controls Relocation to Bottom Bar)
 * **Files:**
   - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
@@ -966,7 +1187,15 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 
 
+### 2026-07-31 (Added Trilingual Support for Officials and Renamed Internal Affairs)
+* **Files:** [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php), [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php), [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Added 6 new columns to the `officials` database table (`name_si`, `name_ta`, `title_si`, `title_ta`, `designation_si`, `designation_ta`) and updated the `divisions` table to rename "Internal Audit" to "Internal Affairs". Updated `admin/officials.php` modal to include manual Sinhala and Tamil fields for officials alongside an "Auto Translate" integration hook using Google Translate. Refactored frontend rendering in `about-us.php` and `contact-us.php` to serve `$official['name_'.$current_lang]` fallback architecture. Updated the global `includes/translations.php` for `div_audit_title` to "Internal Affairs Division". Updated `iau-updates.php` metadata to "Internal Affairs Unit".
 
+### 2026-07-31 (Consolidated Official Position Fields, News-Style Tabbed Modal UI & 2-Row Vertical Inputs)
+* **Files:** [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php), [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php), [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
+* **Author:** Antigravity AI
+* **Change Description:** Unified `title` and `designation` into a single position field labeled **"Title / Designation"** across `admin/officials.php`. Redesigned the modal tabs to match the news module styling (`English`, `Sinhala`, `Tamil` pills) and updated the tab content layout to present Full Name (Row 1) and Title / Designation (Row 2) as two distinct full-width vertical rows. Maintained the single **"Auto Translate All"** button on the tab header for batch generating trilingual inputs. Dropped legacy `designation` columns from the live `officials` database table.
 
 
 

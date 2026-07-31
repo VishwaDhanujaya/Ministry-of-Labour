@@ -61,9 +61,9 @@ $rti_texts = [
     ],
     'ta' => [
         'intro' => 'தோழில் அமைச்சில், வெளிப்படைத்தன்மை மற்றும் பொறுப்புக்கூறலுக்கு நாம் கடமைப்பட்டுள்ளோம். இந்த உறுதிப்பாட்டிற்கு இணங்க, 2016 ஆம் ஆண்டின் 12 ஆம் இலக்க தகவல் அறியும் உரிமை (RTI) சட்டத்திற்கு நாங்கள் முழு ஆதரவை வழங்குவதுடன், உங்களுக்குத் தேவையான தகவல்களை எளிதாக அணுகுவதை உறுதிசெய்கிறோம்.',
-        'vision_title' => 'தொலைநோக்கு',
+        'vision_title' => 'எமது நோக்கு',
         'vision' => 'இலங்கை குடிமக்களுக்கு தொழிலாளர் துறை சார்ந்த தகவல்களை அணுகும் உரிமையை உறுதி செய்தல்.',
-        'mission_title' => 'பணிப்பணிப்பு',
+        'mission_title' => 'எமது பணிப்பொறுப்பு',
         'mission' => 'தோழில் அமைச்சு மற்றும் அதன் இணைந்த நிறுவனங்கள் வைத்துள்ள தகவல்களை அணுகும் உரிமையை மேம்படுத்துவதும் பாதுகாப்பதும், அதே வேளையில் இலங்கை குடிமக்களுக்கு வெளிப்படைத்தன்மையின் மூலம் மிகவும் பயனுள்ள மற்றும் திறமையான சேவையை வழங்குதல்.',
         'officers_title' => 'தகவல் அறியும் உரிமை அதிகாரிகள்',
         'designated_officer' => 'நியமிக்கப்பட்ட அதிகாரி',
@@ -293,7 +293,7 @@ include 'includes/sub-hero.php';
             <!-- Right Column: Generated concept image -->
             <div class="w-full lg:w-1/2" data-aos="fade-left">
                 <div class="relative group rounded-3xl overflow-hidden shadow-md border-[0.5px] border-[#D4D4D4] bg-white p-2">
-                    <img loading="lazy" src="assets/img/rti-concept.webp" alt="Right to Information" class="w-full h-auto object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                    <img loading="lazy" src="assets/img/rti-concept.jpg" alt="Right to Information" class="w-full h-auto object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
                 </div>
             </div>
         </div>

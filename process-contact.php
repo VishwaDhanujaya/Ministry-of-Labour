@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/admin/includes/db.php';
+require_once __DIR__ . '/includes/translations.php';
 require_once __DIR__ . '/includes/Mailer.php';
 
 header('Content-Type: application/json');
@@ -56,19 +57,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $fullname = $_POST['fullname'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $phone = $_POST['phone'] ?? '';
-    $messageBody = $_POST['message'] ?? '';
+    $fullname = trim($_POST['fullname'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $messageBody = trim($_POST['message'] ?? '');
 
     // Validate inputs
-    if (empty($fullname) || empty($email) || empty($messageBody)) {
-        echo json_encode(['success' => false, 'message' => 'Please fill in all required fields.']);
+    if (empty($fullname) || mb_strlen($fullname) < 2) {
+        echo json_encode(['success' => false, 'message' => t('val_fullname_required', 'Please enter a valid full name (at least 2 characters).')]);
         exit;
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['success' => false, 'message' => 'Invalid email format.']);
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo json_encode(['success' => false, 'message' => t('val_email_invalid', 'Please enter a valid email address.')]);
+        exit;
+    }
+
+    // Sri Lanka Phone Number Validation (if provided)
+    if (!empty($phone)) {
+        $cleanedPhone = preg_replace('/[\s\-\(\)]+/', '', $phone);
+        if (!preg_match('/^(?:\+94|0094|0)?(?:7[01245678]\d{7}|[1-9]\d{8})$/', $cleanedPhone)) {
+            echo json_encode(['success' => false, 'message' => t('val_phone_invalid', 'Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 11 258 1991).')]);
+            exit;
+        }
+    }
+
+    if (empty($messageBody) || mb_strlen($messageBody) < 10) {
+        echo json_encode(['success' => false, 'message' => t('val_message_short', 'Message must be at least 10 characters long.')]);
         exit;
     }
 

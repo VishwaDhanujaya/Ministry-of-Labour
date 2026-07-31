@@ -43,6 +43,9 @@ function getDivisions(PDO $pdo): array {
         $div_people = $officialsByDivision[$dbId] ?? [];
         foreach ($div_people as &$person) {
             $person['image'] = $person['image_path'];
+            $person['designation'] = $person['title'] ?? '';
+            $person['designation_si'] = $person['title_si'] ?? '';
+            $person['designation_ta'] = $person['title_ta'] ?? '';
         }
         $div['people'] = $div_people;
     }
@@ -63,8 +66,7 @@ function buildContactDepartments(PDO $pdo): array {
         if ($top['top_role'] === 'deputy_minister') $modalId = 'deputy-minister-modal';
         if ($top['top_role'] === 'secretary') $modalId = 'secretary-modal';
 
-        // Custom designation mappings
-        $designation = $top['designation'];
+        $designation = !empty($top['title']) ? $top['title'] : '';
         if (empty($designation)) {
             if ($top['top_role'] === 'minister') $designation = 'Minister of Labour';
             if ($top['top_role'] === 'secretary') $designation = 'Secretary';
@@ -76,7 +78,14 @@ function buildContactDepartments(PDO $pdo): array {
             'people' => [
                 [
                     'name' => $top['name'],
+                    'name_si' => $top['name_si'] ?? '',
+                    'name_ta' => $top['name_ta'] ?? '',
+                    'title' => $top['title'],
+                    'title_si' => $top['title_si'] ?? '',
+                    'title_ta' => $top['title_ta'] ?? '',
                     'designation' => $designation,
+                    'designation_si' => $top['title_si'] ?? '',
+                    'designation_ta' => $top['title_ta'] ?? '',
                     'phone' => $top['phone'],
                     'fax' => $top['fax'],
                     'email' => $top['email']
@@ -94,7 +103,7 @@ function buildContactDepartments(PDO $pdo): array {
         if ($div['slug'] === 'administration') $modalId = 'admin-modal';
         if ($div['slug'] === 'internal-audit') {
             $modalId = 'audit-modal';
-            $title = 'Internal Audit Division';
+            $title = 'Internal Affairs Division';
         } else {
             $title = str_ends_with($div['title'], 'Division') ? $div['title'] : $div['title'] . ' Division';
         }
@@ -114,8 +123,11 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
     $top_role = !empty($data['top_role']) ? $data['top_role'] : null;
     $division_id = !empty($data['division_id']) ? $data['division_id'] : null;
     $title = $data['title'] ?? '';
+    $title_si = $data['title_si'] ?? null;
+    $title_ta = $data['title_ta'] ?? null;
     $name = $data['name'] ?? '';
-    $designation = $data['designation'] ?? null;
+    $name_si = $data['name_si'] ?? null;
+    $name_ta = $data['name_ta'] ?? null;
     $email = $data['email'] ?? null;
     $phone = $data['phone'] ?? null;
     $fax = $data['fax'] ?? null;
@@ -123,7 +135,8 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
     
     if ($id) {
         $sql = "UPDATE officials SET 
-                title = :title, name = :name, designation = :designation, 
+                title = :title, title_si = :title_si, title_ta = :title_ta,
+                name = :name, name_si = :name_si, name_ta = :name_ta,
                 email = :email, phone = :phone, fax = :fax";
         
         if ($image_path !== null) {
@@ -135,8 +148,11 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
         $stmt = $pdo->prepare($sql);
         $params = [
             ':title' => $title,
+            ':title_si' => $title_si,
+            ':title_ta' => $title_ta,
             ':name' => $name,
-            ':designation' => $designation,
+            ':name_si' => $name_si,
+            ':name_ta' => $name_ta,
             ':email' => $email,
             ':phone' => $phone,
             ':fax' => $fax,
@@ -159,16 +175,19 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
         $maxSort = (int)$stmt->fetchColumn();
         $sort_order = $maxSort + 1;
         
-        $sql = "INSERT INTO officials (category, top_role, division_id, title, name, designation, email, phone, fax, image_path, sort_order)
-                VALUES (:category, :top_role, :division_id, :title, :name, :designation, :email, :phone, :fax, :image_path, :sort_order)";
+        $sql = "INSERT INTO officials (category, top_role, division_id, title, title_si, title_ta, name, name_si, name_ta, email, phone, fax, image_path, sort_order)
+                VALUES (:category, :top_role, :division_id, :title, :title_si, :title_ta, :name, :name_si, :name_ta, :email, :phone, :fax, :image_path, :sort_order)";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':category' => $category,
             ':top_role' => $top_role,
             ':division_id' => $division_id,
             ':title' => $title,
+            ':title_si' => $title_si,
+            ':title_ta' => $title_ta,
             ':name' => $name,
-            ':designation' => $designation,
+            ':name_si' => $name_si,
+            ':name_ta' => $name_ta,
             ':email' => $email,
             ':phone' => $phone,
             ':fax' => $fax,

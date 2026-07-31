@@ -327,21 +327,62 @@ include 'includes/header.php';
                     ?>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Language Tabs Header (News Style) -->
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+                    <div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl shadow-inner border border-slate-200/40">
+                        <button type="button" onclick="switchLangTab('en')" id="lang-tab-btn-en" class="px-5 py-2 text-[12.5px] font-bold rounded-xl text-secondary bg-white shadow-sm transition-all focus:outline-none">
+                            English
+                        </button>
+                        <button type="button" onclick="switchLangTab('si')" id="lang-tab-btn-si" class="px-5 py-2 text-[12.5px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all focus:outline-none">
+                            Sinhala
+                        </button>
+                        <button type="button" onclick="switchLangTab('ta')" id="lang-tab-btn-ta" class="px-5 py-2 text-[12.5px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all focus:outline-none">
+                            Tamil
+                        </button>
+                    </div>
+                    <button type="button" onclick="autoTranslateAll()" id="translate-all-btn" class="text-[11.5px] bg-blue-50 text-blue-600 px-3.5 py-2 rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1.5 font-bold shadow-sm">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.25h12M9 3v15"></path></svg>
+                        Auto Translate
+                    </button>
+                </div>
+
+                <!-- Tab 1: English -->
+                <div id="lang-tab-pane-en" class="space-y-4">
                     <div>
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name <span class="text-red-500">*</span></label>
                         <input type="text" id="field-name" name="name" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title <span class="text-red-500">*</span></label>
-                        <input type="text" id="field-title" name="title" required placeholder="e.g. Director General" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation <span class="text-red-500">*</span></label>
+                        <input type="text" id="field-title" name="title" required placeholder="e.g. Director General / Minister of Labour" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
                     </div>
                 </div>
 
-                <div id="designation-container">
-                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Designation (Optional)</label>
-                    <input type="text" id="field-designation" name="designation" placeholder="e.g. Additional Secretary (Admin)" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium">
+                <!-- Tab 2: Sinhala -->
+                <div id="lang-tab-pane-si" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Sinhala)</label>
+                        <input type="text" id="field-name-si" name="name_si" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Sinhala)</label>
+                        <input type="text" id="field-title-si" name="title_si" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
+                    </div>
                 </div>
+
+                <!-- Tab 3: Tamil -->
+                <div id="lang-tab-pane-ta" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Tamil)</label>
+                        <input type="text" id="field-name-ta" name="name_ta" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Tamil)</label>
+                        <input type="text" id="field-title-ta" name="title_ta" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
+                    </div>
+                </div>
+                
+                <div class="border-t border-slate-100 mt-4 pt-4"></div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -446,6 +487,7 @@ function openModal(category, data = null) {
     document.getElementById('official-form').reset();
     document.getElementById('field-category').value = category;
     document.getElementById('file-label-text').textContent = 'Click to upload photo';
+    switchLangTab('en');
     
     const previewBox = document.getElementById('current-image-preview');
     const previewThumb = document.getElementById('current-image-thumb');
@@ -455,8 +497,13 @@ function openModal(category, data = null) {
         document.getElementById('field-id').value = data.id;
         document.getElementById('field-top-role').value = data.top_role || '';
         document.getElementById('field-name').value = data.name || '';
+        document.getElementById('field-name-si').value = data.name_si || '';
+        document.getElementById('field-name-ta').value = data.name_ta || '';
+        
         document.getElementById('field-title').value = data.title || '';
-        document.getElementById('field-designation').value = data.designation || '';
+        document.getElementById('field-title-si').value = data.title_si || '';
+        document.getElementById('field-title-ta').value = data.title_ta || '';
+        
         document.getElementById('field-phone').value = data.phone || '';
         document.getElementById('field-fax').value = data.fax || '';
         document.getElementById('field-email').value = data.email || '';
@@ -493,10 +540,8 @@ function openModal(category, data = null) {
 
     if (category === 'top') {
         document.getElementById('division-select-container').style.display = 'none';
-        document.getElementById('designation-container').style.display = 'none';
     } else {
         document.getElementById('division-select-container').style.display = 'block';
-        document.getElementById('designation-container').style.display = 'block';
     }
 
     const modal = document.getElementById('official-modal');
@@ -638,6 +683,95 @@ async function deleteOfficial(id) {
             }
         }
     );
+}
+
+// Modal Language Tabs Switcher
+function switchLangTab(lang) {
+    ['en', 'si', 'ta'].forEach(l => {
+        const btn = document.getElementById(`lang-tab-btn-${l}`);
+        const pane = document.getElementById(`lang-tab-pane-${l}`);
+        if (btn && pane) {
+            if (l === lang) {
+                btn.classList.add('active', 'bg-white', 'text-secondary', 'shadow-sm', 'font-bold');
+                btn.classList.remove('text-slate-500', 'font-semibold');
+                pane.classList.remove('hidden');
+            } else {
+                btn.classList.remove('active', 'bg-white', 'text-secondary', 'shadow-sm', 'font-bold');
+                btn.classList.add('text-slate-500', 'font-semibold');
+                pane.classList.add('hidden');
+            }
+        }
+    });
+}
+
+// Translation Functions
+async function translateText(text, fromLang, toLang) {
+    if (!text) return '';
+    try {
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
+        const json = await res.json();
+        let translatedText = '';
+        if (json && json[0]) {
+            json[0].forEach(part => {
+                if (part[0]) translatedText += part[0];
+            });
+        }
+        return translatedText;
+    } catch (e) {
+        console.error('Translation error:', e);
+        return '';
+    }
+}
+
+async function autoTranslateAll() {
+    const nameEn = document.getElementById('field-name').value.trim();
+    const titleEn = document.getElementById('field-title').value.trim();
+    
+    if (!nameEn && !titleEn) {
+        if (typeof window.showToast === 'function') {
+            window.showToast('Please enter English content first to translate.', 'warning');
+        } else {
+            alert('Please enter English content first to translate.');
+        }
+        return;
+    }
+
+    const translateBtn = document.getElementById('translate-all-btn');
+    const originalText = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-1.5 h-3.5 w-3.5 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+    translateBtn.disabled = true;
+
+    try {
+        if (nameEn) {
+            const [nameSi, nameTa] = await Promise.all([
+                translateText(nameEn, 'en', 'si'),
+                translateText(nameEn, 'en', 'ta')
+            ]);
+            document.getElementById('field-name-si').value = nameSi;
+            document.getElementById('field-name-ta').value = nameTa;
+        }
+        if (titleEn) {
+            const [titleSi, titleTa] = await Promise.all([
+                translateText(titleEn, 'en', 'si'),
+                translateText(titleEn, 'en', 'ta')
+            ]);
+            document.getElementById('field-title-si').value = titleSi;
+            document.getElementById('field-title-ta').value = titleTa;
+        }
+        
+        if (typeof window.showToast === 'function') {
+            window.showToast('Sinhala & Tamil translations generated! Switch tabs to review.', 'success');
+        }
+    } catch (e) {
+        if (typeof window.showToast === 'function') {
+            window.showToast('Translation failed. Please try again.', 'error');
+        } else {
+            alert('Translation failed. Please try again.');
+        }
+    } finally {
+        translateBtn.innerHTML = originalText;
+        translateBtn.disabled = false;
+    }
 }
 
 // Initialize SortableJS for each division table

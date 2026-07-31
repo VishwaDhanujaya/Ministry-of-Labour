@@ -289,8 +289,8 @@ include 'includes/sub-hero.php';
                     </div>
                     <div class="p-8">
                         <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">
-                            <?php echo $official['title']; ?></h3>
-                        <p class="text-gray-500 font-inter text-sm mb-5"><?php echo $official['name']; ?></p>
+                            <?php echo !empty($official['title_'.$current_lang]) ? $official['title_'.$current_lang] : $official['title']; ?></h3>
+                        <p class="text-gray-500 font-inter text-sm mb-5"><?php echo !empty($official['name_'.$current_lang]) ? $official['name_'.$current_lang] : $official['name']; ?></p>
                         <div class="flex gap-2.5 relative z-10">
                             <?php if ($official['email']): ?>
                                 <button
@@ -380,9 +380,9 @@ include 'includes/sub-hero.php';
                                 <div class="p-4 sm:p-5">
                                     <h4
                                         class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">
-                                        <?php echo $person['designation']; ?></h4>
+                                        <?php echo !empty($person['title_'.$current_lang]) ? $person['title_'.$current_lang] : (!empty($person['designation_'.$current_lang]) ? $person['designation_'.$current_lang] : (!empty($person['title']) ? $person['title'] : $person['designation'])); ?></h4>
                                     <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">
-                                        <?php echo $person['name']; ?></p>
+                                        <?php echo !empty($person['name_'.$current_lang]) ? $person['name_'.$current_lang] : $person['name']; ?></p>
                                     <div class="flex gap-1.5 sm:gap-2 relative z-10">
                                         <?php if ($person['email']): ?>
                                             <button

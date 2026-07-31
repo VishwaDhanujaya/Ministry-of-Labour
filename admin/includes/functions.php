@@ -1,11 +1,26 @@
 <?php
 // functions.php
 
-function sanitizeInput($data) {
+/**
+ * Sanitize input data to prevent XSS attacks
+ *
+ * @param string $data
+ * @return string
+ */
+function sanitizeInput(string $data): string {
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
-function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'], $maxSize = 5242880) {
+/**
+ * Upload and process single file securely
+ *
+ * @param array $file
+ * @param string $destinationDir
+ * @param array $allowedTypes
+ * @param int $maxSize
+ * @return array
+ */
+function handleFileUpload(array $file, string $destinationDir, array $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'], int $maxSize = 5242880): array {
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return ['success' => false, 'error' => 'No file uploaded or upload error.'];
     }
@@ -79,6 +94,10 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
     $targetPath = $finalDir . '/' . $filename;
     
     if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+        // Compress / resize images if GD extension is available
+        if (in_array($mimeType, ['image/jpeg', 'image/png', 'image/webp'])) {
+            compressOrResizeImage($targetPath, 1920, 85);
+        }
         // Return full path so callers can use $uploadResult['path'] directly
         return ['success' => true, 'filename' => $filename, 'path' => $targetPath];
     }
@@ -86,7 +105,79 @@ function handleFileUpload($file, $destinationDir, $allowedTypes = ['image/jpeg',
     return ['success' => false, 'error' => 'Failed to move uploaded file.'];
 }
 
-function getInitials($name) {
+/**
+ * Helper function to compress and resize uploaded images for web performance
+ *
+ * @param string $filePath
+ * @param int $maxWidth
+ * @param int $quality
+ * @return bool
+ */
+function compressOrResizeImage(string $filePath, int $maxWidth = 1920, int $quality = 85): bool {
+    @ini_set('memory_limit', '256M');
+    if (!extension_loaded('gd') || !file_exists($filePath)) return false;
+
+    $info = @getimagesize($filePath);
+    if (!$info) return false;
+
+    $mime = $info['mime'];
+    $width = $info[0];
+    $height = $info[1];
+
+    switch ($mime) {
+        case 'image/jpeg':
+            $image = @imagecreatefromjpeg($filePath);
+            break;
+        case 'image/png':
+            $image = @imagecreatefrompng($filePath);
+            break;
+        case 'image/webp':
+            $image = @imagecreatefromwebp($filePath);
+            break;
+        default:
+            return false;
+    }
+
+    if (!$image) return false;
+
+    if ($width > $maxWidth) {
+        $newWidth = $maxWidth;
+        $newHeight = (int)round(($height / $width) * $maxWidth);
+    } else {
+        $newWidth = $width;
+        $newHeight = $height;
+    }
+
+    $newImage = imagecreatetruecolor($newWidth, $newHeight);
+
+    if ($mime === 'image/png' || $mime === 'image/webp') {
+        imagealphablending($newImage, false);
+        imagesavealpha($newImage, true);
+    }
+
+    imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+    if (function_exists('imagewebp')) {
+        imagewebp($newImage, $filePath, $quality);
+    } elseif ($mime === 'image/jpeg' && function_exists('imagejpeg')) {
+        imagejpeg($newImage, $filePath, $quality);
+    } elseif ($mime === 'image/png' && function_exists('imagepng')) {
+        imagepng($newImage, $filePath, (int)round((100 - $quality) / 10));
+    }
+
+    imagedestroy($image);
+    imagedestroy($newImage);
+
+    return true;
+}
+
+/**
+ * Get name initials for user avatars
+ *
+ * @param string $name
+ * @return string
+ */
+function getInitials(string $name): string {
     $words = explode(' ', trim($name));
     $initials = '';
     foreach ($words as $w) {

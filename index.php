@@ -160,14 +160,97 @@ $hero_mobile_version = file_exists($hero_mobile_path) ? filemtime($hero_mobile_p
 
 $about_img_path = __DIR__ . '/assets/img/home-about.webp';
 $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) : time();
+
+// Dynamic Hero Slider Selection
+$hero_sliders = [];
+try {
+    // 1. Check for manual override batch (forced batch)
+    $forcedStmt = $pdo->prepare("SELECT id FROM slider_batches WHERE is_forced = 1 LIMIT 1");
+    $forcedStmt->execute();
+    $forcedBatch = $forcedStmt->fetch();
+
+    $selectedBatchId = null;
+    if ($forcedBatch) {
+        $selectedBatchId = $forcedBatch['id'];
+    } else {
+        // 2. Fallback to monthly auto-rotation among active batches
+        $activeBatchesStmt = $pdo->query("SELECT id FROM slider_batches WHERE is_active = 1 ORDER BY id ASC");
+        $activeBatches = $activeBatchesStmt->fetchAll();
+        $totalBatches = count($activeBatches);
+        if ($totalBatches > 0) {
+            $currentMonth = (int)date('n'); // 1-12
+            $batchIndex = ($currentMonth - 1) % $totalBatches;
+            $selectedBatchId = $activeBatches[$batchIndex]['id'];
+        } else {
+            // 3. Fallback to any batch that has active slider images
+            $anyBatchStmt = $pdo->query("SELECT DISTINCT batch_id FROM hero_sliders WHERE is_active = 1 LIMIT 1");
+            $anyBatch = $anyBatchStmt->fetch();
+            if ($anyBatch) {
+                $selectedBatchId = $anyBatch['batch_id'];
+            }
+        }
+    }
+
+    if ($selectedBatchId) {
+        $slidersStmt = $pdo->prepare("SELECT image FROM hero_sliders WHERE batch_id = ? AND is_active = 1 ORDER BY display_order ASC, id ASC");
+        $slidersStmt->execute([$selectedBatchId]);
+        $hero_sliders = $slidersStmt->fetchAll();
+    }
+} catch (Exception $e) {
+    $hero_sliders = [];
+}
+
+// Fallback to default hero image if no active sliders found
+if (empty($hero_sliders)) {
+    $hero_sliders = [
+        ['image' => 'assets/img/hero.webp']
+    ];
+}
 ?>
 <!-- Hero Section -->
-<section class="relative bg-[#08121e] overflow-hidden flex flex-col lg:flex-row lg:min-h-[420px] lg:h-[calc(100vh-220px)] w-full">
-    <!-- Left Section: Welcome content with solid background -->
-    <div class="w-full lg:w-[42%] xl:w-[40%] flex items-center bg-gradient-to-b lg:bg-gradient-to-r from-primary via-[#0c1b2d] to-[#08121e] py-10 sm:py-12 px-6 sm:px-10 lg:px-12 xl:px-16 text-white relative z-10 notranslate">
-        <!-- Subtle background texture overlay to enrich solid layout -->
-        <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
-        <div class="max-w-xl w-full" data-aos="fade-right" data-aos-duration="800">
+<section class="relative bg-[#08121e] overflow-hidden min-h-[480px] sm:min-h-[520px] lg:h-[calc(100vh-220px)] lg:min-h-[460px] w-full flex flex-col justify-center">
+    <!-- Full-Bleed Background Swiper Image Carousel -->
+    <div class="absolute inset-0 w-full h-full z-0 overflow-hidden" data-aos="fade" data-aos-duration="800">
+        <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);">
+            <div class="swiper-wrapper">
+                <?php foreach ($hero_sliders as $slide): ?>
+                    <div class="swiper-slide overflow-hidden relative">
+                        <img src="<?= htmlspecialchars($slide['image']) ?>" alt="Ministry Hero Slider" class="w-full h-full object-cover object-center">
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <!-- Custom Slider Navigation controls -->
+            <div class="absolute bottom-16 right-6 hidden sm:flex items-center gap-2.5 z-30">
+                <button type="button" aria-label="Previous slide" class="swiper-button-prev-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#08121e]/80 hover:bg-secondary border border-white/20 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button type="button" aria-label="Next slide" class="swiper-button-next-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#08121e]/80 hover:bg-secondary border border-white/20 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <!-- Slider Pagination dot bullets -->
+            <div class="swiper-pagination !bottom-16 sm:!bottom-18 z-30"></div>
+        </div>
+    </div>
+
+    <!-- Continuous Desktop Horizontal Color Gradient Overlay -->
+    <div class="hidden lg:block absolute inset-0 z-10 pointer-events-none"
+         style="background: linear-gradient(to right, #13273F 0%, rgba(19, 39, 63, 0.98) 28%, rgba(15, 33, 54, 0.88) 42%, rgba(12, 27, 45, 0.58) 58%, rgba(8, 18, 30, 0.22) 75%, rgba(8, 18, 30, 0.04) 90%, transparent 100%);">
+    </div>
+
+    <!-- Continuous Mobile Vertical Color Gradient Overlay -->
+    <div class="block lg:hidden absolute inset-0 z-10 pointer-events-none"
+         style="background: linear-gradient(to bottom, #13273F 0%, rgba(19, 39, 63, 0.95) 45%, rgba(12, 27, 45, 0.8) 70%, rgba(8, 18, 30, 0.5) 88%, transparent 100%);">
+    </div>
+
+    <!-- Bottom Ticker Transition Shade -->
+    <div class="absolute bottom-0 left-0 right-0 h-24 z-10 pointer-events-none"
+         style="background: linear-gradient(to top, #08121e 0%, rgba(8, 18, 30, 0.8) 50%, transparent 100%);">
+    </div>
+
+    <!-- Foreground Content Layer: Welcome Text Container -->
+    <div class="container mx-auto px-6 sm:px-10 lg:px-16 text-white relative z-20 py-12 lg:py-0 pb-20 lg:pb-0 notranslate">
+        <div class="max-w-xl" data-aos="fade-right" data-aos-duration="800">
             <h2 class="text-slate-300 text-xs sm:text-sm font-medium font-inter tracking-wider uppercase mb-2"><?= htmlspecialchars(t('welcome_to')) ?></h2>
             <h1 class="text-2xl sm:text-3xl xl:text-[38px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-4">
                 <?= htmlspecialchars(t('ministry_of_labour')) ?>
@@ -188,41 +271,8 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
         </div>
     </div>
 
-    <!-- Right Section: Swiper Image Slider -->
-    <div class="w-full lg:w-[60%] h-[300px] sm:h-[400px] lg:h-full relative overflow-hidden bg-slate-950" data-aos="fade" data-aos-duration="800">
-        <!-- Swiper Carousel Container -->
-        <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide overflow-hidden">
-                    <img src="assets/img/home/cabinet.jpg" alt="Ministry Cabinet" class="w-full h-full object-cover">
-                </div>
-                <!-- <div class="swiper-slide overflow-hidden">
-                    <img src="assets/img/home/appointment-letters.jpg" alt="Workforce Services" class="w-full h-full object-cover">
-                </div> -->
-                <div class="swiper-slide overflow-hidden">
-                    <img src="assets/img/home/nlac.jpg" alt="NLAC Meeting" class="w-full h-full object-cover">
-                </div>
-            </div>
-            <!-- Custom Slider Navigation controls at bottom right -->
-            <div class="absolute bottom-16 right-6 hidden sm:flex items-center gap-2.5 z-30">
-                <button type="button" aria-label="Previous slide" class="swiper-button-prev-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#0c1b2d]/70 hover:bg-secondary border border-white/10 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
-                </button>
-                <button type="button" aria-label="Next slide" class="swiper-button-next-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#0c1b2d]/70 hover:bg-secondary border border-white/10 backdrop-blur-sm rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-                </button>
-            </div>
-            <!-- Slider Pagination dot bullets -->
-            <div class="swiper-pagination !bottom-18"></div>
-        </div>
-        <!-- Left subtle inner shadow with deeper transition gradient to blend sections smoothly (desktop) -->
-        <div class="hidden lg:block absolute left-0 top-0 bottom-0 w-80 pointer-events-none z-20" style="background: linear-gradient(to right, #08121e, rgba(8, 18, 30, 0.6) 30%, rgba(8, 18, 30, 0.15) 70%, transparent);"></div>
-        <!-- Vertical top gradient overlay to blend stacked sections (mobile) -->
-        <div class="block lg:hidden absolute top-0 left-0 right-0 h-16 pointer-events-none z-20" style="background: linear-gradient(to bottom, #08121e, transparent);"></div>
-    </div>
-
-    <!-- Scrolling News Bar -->
-    <div class="relative lg:absolute lg:bottom-0 left-0 w-full z-20 bg-slate-950/70 backdrop-blur-md border-t border-b lg:border-b-0 border-white/5 overflow-hidden flex items-stretch h-12 shadow-lg">
+    <!-- Scrolling News Bar strictly anchored to absolute bottom of hero section -->
+    <div class="absolute bottom-0 left-0 w-full z-30 bg-slate-950/80 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-12 shadow-lg">
         <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex notranslate">
             <?= t('latest_news') ?>
         </div>
@@ -397,7 +447,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://labourdept.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -412,7 +462,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://dme.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -427,7 +477,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://nils.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -442,7 +492,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.niosh.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
@@ -457,7 +507,7 @@ $about_img_version = file_exists($about_img_path) ? filemtime($about_img_path) :
                     </div>
                     <div class="mt-8 pt-5 border-t border-gray-100 flex items-center justify-end">
                         <a href="https://www.compensation.gov.lk/" target="_blank" rel="noopener noreferrer" class="group/btn inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-xs uppercase tracking-wider transition-colors duration-300">
-                            <span class="notranslate" translate="no"><?= t('visit_website', 'Visit Website') ?></span> 
+                            <span class="notranslate" translate="no"><?= t('visit_website', 'Website') ?></span> 
                             <img src="assets/img/pointing-right.png" alt="" class="w-5 h-5 object-contain transform group-hover/btn:translate-x-1 transition-transform duration-300">
                         </a>
                     </div>
