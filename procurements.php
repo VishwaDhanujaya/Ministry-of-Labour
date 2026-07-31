@@ -33,14 +33,31 @@ foreach ($raw_procurements as $proc) {
     if ($current_lang === 'si' && !empty($proc['title_si'])) $proc_title = $proc['title_si'];
     elseif ($current_lang === 'ta' && !empty($proc['title_ta'])) $proc_title = $proc['title_ta'];
 
+    $pdf_en = !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : '';
+    $pdf_si = !empty($proc['pdf_path_si']) ? resolvePdfUrl($proc['pdf_path_si']) : '';
+    $pdf_ta = !empty($proc['pdf_path_ta']) ? resolvePdfUrl($proc['pdf_path_ta']) : '';
+
+    // Pick best available PDF URL based on active language or available fallbacks
+    $best_pdf = '';
+    if ($current_lang === 'si' && !empty($pdf_si)) {
+        $best_pdf = $pdf_si;
+    } elseif ($current_lang === 'ta' && !empty($pdf_ta)) {
+        $best_pdf = $pdf_ta;
+    } elseif (!empty($pdf_en)) {
+        $best_pdf = $pdf_en;
+    } else {
+        $best_pdf = $pdf_si ?: ($pdf_ta ?: '');
+    }
+
     $all_documents[] = [
         'title' => $proc_title,
         'description' => $proc['description'] ?? '',
         'ref' => date('Y-m-d', strtotime($proc['created_at'])),
         'category' => $userCat,
-        'pdf_path' => !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : '',
-        'pdf_path_si' => !empty($proc['pdf_path_si']) ? resolvePdfUrl($proc['pdf_path_si']) : '',
-        'pdf_path_ta' => !empty($proc['pdf_path_ta']) ? resolvePdfUrl($proc['pdf_path_ta']) : '',
+        'pdf_path' => $pdf_en,
+        'pdf_path_si' => $pdf_si,
+        'pdf_path_ta' => $pdf_ta,
+        'best_pdf' => $best_pdf,
         'created_at' => $proc['created_at']
     ];
 }
@@ -65,7 +82,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                     <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="Search procurements by title or date..." onkeyup="resetPaginationAndFilter()">
+                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="<?= t('search_procurements_placeholder', 'Search procurements by title or date...') ?>" onkeyup="resetPaginationAndFilter()">
                 </div>
                 
                 <!-- Filters & Views -->
@@ -74,7 +91,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                     <!-- Category Filter -->
                     <div class="relative w-full sm:w-48">
                         <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>>All Categories</option>
+                            <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>><?= t('all_categories', 'All Categories') ?></option>
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
                             <?php endforeach; ?>
@@ -87,22 +104,10 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                     <!-- Items per page -->
                     <div class="relative w-full sm:w-36">
                         <select id="itemsPerPage" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="12">12 per page</option>
-                            <option value="24">24 per page</option>
-                            <option value="48">48 per page</option>
-                            <option value="all">Show All</option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
-
-                    <!-- Language Filter -->
-                    <div class="relative w-full sm:w-40">
-                        <select id="langFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="en">English PDF</option>
-                            <option value="si">Sinhala PDF</option>
-                            <option value="ta">Tamil PDF</option>
+                            <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="48">48 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="all"><?= t('show_all', 'Show All') ?></option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -128,7 +133,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                 'title' => $doc['title'],
                 'content' => $doc['description'],
                 'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -146,16 +151,19 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                     <!-- Title -->
                     <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-secondary transition-colors group-hover:text-secondary"><?= htmlspecialchars($doc['title']) ?></h3>
                     <!-- Reference Date -->
-                    <p class="text-xs text-gray-500 font-medium font-inter mb-6">Published: <?= htmlspecialchars($doc['ref']) ?></p>
+                    <p class="text-xs text-gray-500 font-medium font-inter mb-6"><?= t('published', 'Published') ?>: <?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
                 <!-- Action Button -->
-                <a href="#" target="_blank" class="download-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm hidden" onclick="event.stopPropagation();">
+                <?php if (!empty($doc['best_pdf'])): ?>
+                <a href="<?= htmlspecialchars($doc['best_pdf']) ?>" target="_blank" class="download-btn w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm" onclick="event.stopPropagation();">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download Document
+                    <?= t('download_document', 'Download Document') ?>
                 </a>
-                <button class="view-details-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-450 border border-gray-200 text-gray-500 rounded-xl text-[13px] font-bold cursor-default hidden" onclick="event.stopPropagation();" disabled>
-                    No Document Available
+                <?php else: ?>
+                <button class="view-details-btn w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-400 border border-gray-200 rounded-xl text-[13px] font-bold cursor-default" onclick="event.stopPropagation();" disabled>
+                    <?= t('no_document_available', 'No Document Available') ?>
                 </button>
+                <?php endif; ?>
             </div>
             <?php endforeach; ?>
         </div>
@@ -166,17 +174,17 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                 <table class="w-full text-left text-sm text-gray-600 font-inter">
                     <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100">
                         <tr>
-                            <th class="px-6 py-4 font-semibold text-[13.5px]">Document Title</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48">Category</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40">Published Date</th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56">Action</th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px]"><?= t('document_title', 'Document Title') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48"><?= t('category', 'Category') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40"><?= t('published_date', 'Published Date') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56"><?= t('action', 'Action') ?></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                             'title' => $doc['title'],
                             'content' => $doc['description'],
                             'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -195,11 +203,14 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                                 <?= htmlspecialchars($doc['ref']) ?>
                             </td>
                             <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
-                                <a href="#" target="_blank" class="list-download-btn items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm hidden">
+                                <?php if (!empty($doc['best_pdf'])): ?>
+                                <a href="<?= htmlspecialchars($doc['best_pdf']) ?>" target="_blank" class="list-download-btn inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                    Download
+                                    <?= t('download', 'Download') ?>
                                 </a>
-                                <span class="list-no-doc text-xs text-gray-400 italic hidden">No Document</span>
+                                <?php else: ?>
+                                <span class="list-no-doc text-xs text-gray-400 italic"><?= t('no_document', 'No Document') ?></span>
+                                <?php endif; ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -211,14 +222,14 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
         <!-- No Results State -->
         <div id="noResultsMsg" class="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12" style="display: none;">
             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <p class="text-[17px] font-bold text-gray-800 mb-1">No documents matched your search</p>
-            <p class="text-sm text-gray-400">Try adjusting your filters or search keywords</p>
+            <p class="text-[17px] font-bold text-gray-800 mb-1"><?= t('no_documents_found', 'No documents matched your search') ?></p>
+            <p class="text-sm text-gray-400"><?= t('try_adjusting_filters', 'Try adjusting your filters or search keywords') ?></p>
         </div>
 
         <!-- Pagination Controls -->
         <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
-            <div class="text-sm text-gray-500 font-inter">
-                Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
+            <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
+                <!-- Dynamic user-friendly pagination summary -->
             </div>
             <div class="flex items-center gap-1.5" id="paginationButtons">
                 <!-- Pagination buttons will be injected here -->
@@ -239,10 +250,7 @@ const documents = <?php echo json_encode(array_map(function($doc, $i) {
         'index' => $i,
         'title' => strtolower($doc['title']),
         'ref' => strtolower($doc['ref']),
-        'category' => strtolower($doc['category']),
-        'has_en' => !empty($doc['pdf_path']),
-        'has_si' => !empty($doc['pdf_path_si']),
-        'has_ta' => !empty($doc['pdf_path_ta'])
+        'category' => strtolower($doc['category'])
     ];
 }, $all_documents, array_keys($all_documents))); ?>;
 
@@ -285,7 +293,6 @@ function filterTable() {
     const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
     const categoryFilter = document.getElementById("categoryFilter").value.toLowerCase();
     const itemsPerPage = document.getElementById("itemsPerPage").value;
-    const lang = document.getElementById("langFilter").value;
     
     // Filter matching item indexes
     filteredIndexes = [];
@@ -306,48 +313,7 @@ function filterTable() {
     document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
     document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
     
-    // Update links based on selected language
-    updateDownloadLinks(lang);
-    
     updatePaginationUI(itemsPerPage);
-}
-
-function updateDownloadLinks(lang) {
-    document.querySelectorAll('.document-card').forEach(card => {
-        const btn = card.querySelector('.download-btn');
-        const fallback = card.querySelector('.view-details-btn');
-        const pdfUrl = card.getAttribute(`data-pdf-${lang}`);
-        
-        if (pdfUrl) {
-            btn.href = pdfUrl;
-            btn.classList.remove('hidden');
-            btn.classList.add('inline-flex');
-            fallback.classList.add('hidden');
-            fallback.classList.remove('inline-flex');
-        } else {
-            btn.classList.add('hidden');
-            btn.classList.remove('inline-flex');
-            fallback.classList.remove('hidden');
-            fallback.classList.add('inline-flex');
-        }
-    });
-
-    document.querySelectorAll('.document-list-row').forEach(row => {
-        const btn = row.querySelector('.list-download-btn');
-        const fallback = row.querySelector('.list-no-doc');
-        const pdfUrl = row.getAttribute(`data-pdf-${lang}`);
-        
-        if (pdfUrl) {
-            btn.href = pdfUrl;
-            btn.classList.remove('hidden');
-            btn.classList.add('inline-flex');
-            fallback.classList.add('hidden');
-        } else {
-            btn.classList.add('hidden');
-            btn.classList.remove('inline-flex');
-            fallback.classList.remove('hidden');
-        }
-    });
 }
 
 function updatePaginationUI(itemsPerPage) {
@@ -386,10 +352,10 @@ function updatePaginationUI(itemsPerPage) {
         endIdx = Math.min(startIdx + itemsPerPage, totalItems);
         
         renderPaginationButtons(totalPages);
-        paginationControls.classList.remove('hidden');
     } else {
-        paginationControls.classList.add('hidden');
+        renderPaginationButtons(1);
     }
+    paginationControls.style.display = 'flex';
     
     // Show only active items for this page depending on the current view
     const selector = currentView === 'grid' ? '.document-card' : '.document-list-row';
@@ -404,12 +370,58 @@ function updatePaginationUI(itemsPerPage) {
         }
     }
     
-    // Update labels
-    if (itemsPerPage !== 'all') {
-        document.getElementById('pageStart').innerText = startIdx + 1;
-        document.getElementById('pageEnd').innerText = endIdx;
-        document.getElementById('totalItems').innerText = totalItems;
+    // Update summary text
+    updatePaginationSummary(startIdx, endIdx, totalItems, 'documents');
+}
+
+function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'documents') {
+    const summaryEl = document.getElementById('paginationSummary') || document.querySelector('#paginationControls .text-sm');
+    if (!summaryEl) return;
+
+    const start = startIdx + 1;
+    const end = endIdx;
+    const lang = document.documentElement.lang || 'en';
+
+    const entityNames = {
+        documents: { en: 'documents', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
+        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'காலிப்பணியிடங்கள்' },
+        notices: { en: 'notices', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
+        updates: { en: 'updates', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
+        publications: { en: 'publications', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }
+    };
+
+    const entity = entityNames[entityType] || entityNames.documents;
+    const name = entity[lang] || entity.en;
+
+    let text = '';
+    if (lang === 'si') {
+        if (totalItems === 1) {
+            text = `${name} 1 ක් පෙන්වයි`;
+        } else if (start === 1 && end === totalItems) {
+            text = `සියලුම ${name} <span class="font-semibold text-gray-800">${totalItems}</span> ම පෙන්වයි`;
+        } else {
+            text = `${name} <span class="font-semibold text-gray-800">${totalItems}</span> න් <span class="font-semibold text-gray-800">${start}–${end}</span> දක්වා පෙන්වයි`;
+        }
+    } else if (lang === 'ta') {
+        if (totalItems === 1) {
+            text = `1 ${name} காட்டப்படுகிறது`;
+        } else if (start === 1 && end === totalItems) {
+            text = `அனைத்து <span class="font-semibold text-gray-800">${totalItems}</span> ${name} காட்டப்படுகின்றன`;
+        } else {
+            text = `<span class="font-semibold text-gray-800">${totalItems}</span> ${name} <span class="font-semibold text-gray-800">${start}–${end}</span> காட்டப்படுகின்றன`;
+        }
+    } else {
+        const singularName = entityType === 'vacancies' ? 'vacancy' : (entityType === 'notices' ? 'notice' : (entityType === 'updates' ? 'update' : (entityType === 'publications' ? 'publication' : 'document')));
+        if (totalItems === 1) {
+            text = `Showing 1 ${singularName}`;
+        } else if (start === 1 && end === totalItems) {
+            text = `Showing all <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
+        } else {
+            text = `Showing <span class="font-semibold text-gray-800">${start}–${end}</span> of <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
+        }
     }
+
+    summaryEl.innerHTML = text;
 }
 
 function renderPaginationButtons(totalPages) {

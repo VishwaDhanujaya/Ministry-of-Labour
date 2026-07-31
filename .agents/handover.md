@@ -146,14 +146,86 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 * **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
 
----
+### 2026-07-31 (News Page Switch Controls & Always-Active Page Buttons)
+* **Files:**
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Prominent Top Page Selection Bar**: Added an explicit `Items per page` dropdown control bar directly above the news articles grid on [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) and synchronized it with the sidebar dropdown (`syncItemsPerPage()`).
+  - **Always-Active Page Switcher Buttons**: Removed early returns in `renderPaginationButtons()` that suppressed page buttons when total pages was 1. Active page indicator `[1]` and navigation controls (`Prev` / `Next`) now render consistently at all times.
+  - **Optimized Default Page Size**: Set the default page size to `6 per page` for news cards to naturally paginated grid layouts into multi-page views (`Prev 1 2 Next`).
+
+### 2026-07-31 (Duplicate Translation Keys Cleanup)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Duplicate Translation Key Removal**: Removed duplicate `'show_all'` and `'per_page_label'` entries in `$lang_dict` within [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+
+### 2026-07-31 (Page Selection Control & Always-Visible Pagination Consistency)
+* **Files:**
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Standardized News Page Selection**: Integrated the `Items per page` selection dropdown (`6`, `12`, `24`, `Show All`), `#paginationControls` summary bar, and pagination JS engine into [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) to align with [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php).
+  - **Always-Visible Pagination Bar**: Removed conditional logic that hid `#paginationControls` when `itemsPerPage` was set to `'all'`. Page selection and pagination summary indicators now remain **always visible** across all listing pages for 100% design consistency.
+
+### 2026-07-31 (User-Friendly Pagination Summary Text Upgrade)
+* **Files:**
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **User-Friendly Pagination Summary**: Upgraded the clunky `"Showing 1 to 2 of 2 documents"` summary text to clean, natural, human-readable language (`updatePaginationSummary()`).
+  - **Context-Aware Range Formatting**: When viewing all items on a single page, it displays **`Showing all 2 documents`** (`සියලුම ලේඛන 2 ම පෙන්වයි` / `அனைத்து 2 ஆவணங்களும் காட்டப்படுகின்றன`). When viewing single items or paginated sub-ranges, it renders **`Showing 1–10 of 25 documents`** using clean en-dashes (`–`).
+  - **Localized Entity Naming**: Automatically adapts the noun per section (documents, vacancies, notices, updates, publications) across English, Sinhala, and Tamil.
+
+### 2026-07-31 (IDE Code Problems Resolution & Cleanups)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Duplicate Key Removal**: Removed duplicate array keys `'read_more'` and `'search_placeholder'` in `$lang_dict` within [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - **Parameter Type Information**: Added `string|int|null` type hinting to `$dateStr` in `format_date_trilingual()` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) for PHP 8 static analysis compliance.
+  - **CSS Class Cleanup**: Removed duplicate `text-gray-400` Tailwind class on the disabled button in [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php).
+  - **Sidebar Translation Alignment**: Updated search input placeholder in [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php) to use `search_news` key.
+
+### 2026-07-31 (Procurements PDF Language Selection Dropdown Removal)
+* **Files:**
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed PDF Language Selection Dropdown**: Removed the `#langFilter` select dropdown from the Procurements control bar.
+  - **Automated PDF URL Resolution**: Server-side PHP now automatically selects the most appropriate PDF link (`best_pdf`) based on active site language (`$current_lang`), falling back gracefully to available translations. Direct action buttons render cleanly in both Grid and List views.
+
+### 2026-07-30 (Sinhala Typography & Unicode Conjunct Fix)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Sinhala Unicode Conjunct Corrections**: Corrected broken Sinhala Yansaya (`්ය` -> `්‍ය`) and Rakaransaya (`්ර` -> `්‍ර`) character representations in the "About the Ministry of Labour" / "Overview" sections (`overview_p1` and `overview_p2`).
+  - Fixed words: `රාජ්ය` -> `රාජ්‍ය`, `ශ්රමිකයන්` -> `ශ්‍රමිකයන්`, `ශ්රම` -> `ශ්‍රම`, `සෞඛ්ය` -> `සෞඛ්‍ය`, `ප්රතිපත්ති` -> `ප්‍රතිපත්ති`, `ක්රියාත්මක` -> `ක්‍රියාත්මක`, `අමාත්යාංශයේ` -> `අමාත්‍යාංශයේ`, `ප්රධාන` -> `ප්‍රධාන`, `ශ්රී` -> `ශ්‍රී`, `ජාත්යන්තර` -> `ජාත්‍යන්තර`, `කර්තව්යයන්` -> `කර්තව්‍යයන්`, `ප්රකාරව` -> `ප්‍රකාරව`, `ව්යාපෘති` -> `ව්‍යාපෘති`.
 
 ### 2026-07-29 (GitHub README Documentation)
 * **Files:**
   - [README.md](file:///c:/xampp/htdocs/Ministry-of-Labour/README.md)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - Created a clean, formal [`README.md`](file:///c:/xampp/htdocs/Ministry-of-Labour/README.md) without emojis for the GitHub repository. Includes project badges (PHP, Tailwind CSS, MySQL, Security), key features (trilingual engine, bungalow booking, complaints channel, admin CMS, security), technology stack, directory structure, step-by-step local installation/setup guide, security highlights, and licensing.
+  - Created a matching, high-quality [`README.md`](file:///c:/xampp/htdocs/Ministry-of-Labour/README.md) for the GitHub repository outlining project badges, key features (trilingual engine, bungalow booking, complaints channel, admin CMS, security), technology stack, directory structure, step-by-step local installation/setup guide, security highlights, and licensing.
 
 ### 2026-07-29 (Clean Prefix URL Routing Migration)
 * **Files:**

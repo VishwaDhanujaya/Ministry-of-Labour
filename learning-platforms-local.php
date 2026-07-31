@@ -56,10 +56,12 @@ foreach ($raw_pubs as $pub) {
                     <!-- Items per page -->
                     <div class="relative w-full sm:w-36">
                         <select id="itemsPerPage" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="12">12 per page</option>
-                            <option value="24">24 per page</option>
-                            <option value="48">48 per page</option>
-                            <option value="all">Show All</option>
+                            <option value="2">2 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="4">4 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="12" selected>12 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="48">48 <?= t('per_page_label', 'per page') ?></option>
+                            <option value="all"><?= t('show_all', 'Show All') ?></option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -186,8 +188,8 @@ foreach ($raw_pubs as $pub) {
 
         <!-- Pagination Controls -->
         <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
-            <div class="text-sm text-gray-500 font-inter">
-                Showing <span id="pageStart" class="font-semibold text-gray-800">0</span> to <span id="pageEnd" class="font-semibold text-gray-800">0</span> of <span id="totalItems" class="font-semibold text-gray-800">0</span> documents
+            <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
+                <!-- Dynamic user-friendly pagination summary -->
             </div>
             <div class="flex items-center gap-1.5" id="paginationButtons">
                 <!-- Pagination buttons will be injected here -->
@@ -351,10 +353,10 @@ function updatePaginationUI(itemsPerPage) {
         endIdx = Math.min(startIdx + itemsPerPage, totalItems);
         
         renderPaginationButtons(totalPages);
-        paginationControls.style.display = 'flex';
     } else {
-        paginationControls.style.display = 'none';
+        renderPaginationButtons(1);
     }
+    paginationControls.style.display = 'flex';
     
     // Show only active items for this page depending on the current view
     const selector = currentView === 'grid' ? '.document-card' : '.document-list-row';
@@ -369,16 +371,73 @@ function updatePaginationUI(itemsPerPage) {
         }
     }
     
-    // Update labels
-    if (itemsPerPage !== 'all') {
-        document.getElementById('pageStart').innerText = startIdx + 1;
-        document.getElementById('pageEnd').innerText = endIdx;
-        document.getElementById('totalItems').innerText = totalItems;
+    // Update summary text
+    updatePaginationSummary(startIdx, endIdx, totalItems, 'publications');
+}
+
+function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'publications') {
+    const summaryEl = document.getElementById('paginationSummary') || document.querySelector('#paginationControls .text-sm');
+    if (!summaryEl) return;
+
+    const start = startIdx + 1;
+    const end = endIdx;
+    const lang = document.documentElement.lang || 'en';
+
+    const entityNames = {
+        documents: { en: 'documents', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
+        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'காலிப்பணியிடங்கள்' },
+        notices: { en: 'notices', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
+        updates: { en: 'updates', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
+        publications: { en: 'publications', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }
+    };
+
+    const entity = entityNames[entityType] || entityNames.publications;
+    const name = entity[lang] || entity.en;
+
+    let text = '';
+    if (lang === 'si') {
+        if (totalItems === 1) {
+            text = `${name} 1 ක් පෙන්වයි`;
+        } else if (start === 1 && end === totalItems) {
+            text = `සියලුම ${name} <span class="font-semibold text-gray-800">${totalItems}</span> ම පෙන්වයි`;
+        } else {
+            text = `${name} <span class="font-semibold text-gray-800">${totalItems}</span> න් <span class="font-semibold text-gray-800">${start}–${end}</span> දක්වා පෙන්වයි`;
+        }
+    } else if (lang === 'ta') {
+        if (totalItems === 1) {
+            text = `1 ${name} காட்டப்படுகிறது`;
+        } else if (start === 1 && end === totalItems) {
+            text = `அனைத்து <span class="font-semibold text-gray-800">${totalItems}</span> ${name} காட்டப்படுகின்றன`;
+        } else {
+            text = `<span class="font-semibold text-gray-800">${totalItems}</span> ${name} <span class="font-semibold text-gray-800">${start}–${end}</span> காட்டப்படுகின்றன`;
+        }
+    } else {
+        const singularName = entityType === 'vacancies' ? 'vacancy' : (entityType === 'notices' ? 'notice' : (entityType === 'updates' ? 'update' : (entityType === 'publications' ? 'publication' : 'document')));
+        if (totalItems === 1) {
+            text = `Showing 1 ${singularName}`;
+        } else if (start === 1 && end === totalItems) {
+            text = `Showing all <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
+        } else {
+            text = `Showing <span class="font-semibold text-gray-800">${start}–${end}</span> of <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
+        }
     }
+
+    summaryEl.innerHTML = text;
 }
 
 function renderPaginationButtons(totalPages) {
     const container = document.getElementById('paginationButtons');
+    if (!container) return;
+
+    if (totalPages <= 1) {
+        container.innerHTML = `
+            <button disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50">Prev</button>
+            <button class="px-3.5 py-2 bg-primary text-white font-bold rounded-xl text-xs shadow-sm">1</button>
+            <button disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50">Next</button>
+        `;
+        return;
+    }
+
     let html = '';
     
     // Prev Button
