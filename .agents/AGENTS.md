@@ -24,4 +24,11 @@ These rules apply automatically to any AI coding assistant (like Gemini/Antigrav
 
 ## 4. UI/UX Consistency & Best Practices
 * **Admin Notifications**: Never use native JavaScript `alert()` or `confirm()` boxes in the Admin Panel. Always use the built-in `window.showToast(message, 'success'|'error')` defined in `admin/assets/js/admin.js`.
+* **Toast Notification System Standards**:
+  - **Z-Index Layering**: The toast container must maintain a high `z-index` (at least `z-[99999]`) to ensure it renders on top of all modals (`official-modal`, `globalCropModal`, etc.).
+  - **Unified Types**: Support four standard types: `'success'`, `'error'`, `'info'`, and `'warning'` with matching brand colors and SVG icons.
+  - **Positioning**: Locate the toast notifications consistently in the top-right corner (`top-6 right-6`) on desktop to avoid blocking primary CTA buttons or booking forms.
+  - **Dismiss UX**: Implement a countdown progress bar that pauses automatically when hovered (`mouseenter`) and resumes on `mouseleave`.
+  - **Consistent Code**: Keep the frontend `showToast` in `assets/js/main.js` structurally identical to `admin/assets/js/admin.js`.
 * **Animations & Polish**: Preserve `data-aos` attributes on HTML sections and rely on the established Tailwind micro-interactions (e.g. `hover:-translate-y-1 hover:shadow-lg`) for a premium feel.
+

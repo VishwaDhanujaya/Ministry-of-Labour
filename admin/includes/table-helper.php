@@ -53,7 +53,9 @@ function renderAdminTable(array $headers, array $rows, callable $renderRowCallba
                 $tbodyAttrs = $options['tbodyAttrs'] ?? '';
                 ?>
                 <tbody class="<?= htmlspecialchars($tbodyClass) ?>" <?= $tbodyAttrs ?>>
-                    <?php if (empty($rows)): ?>
+                    <?php if (empty($rows)): 
+                        $emptyCta = $options['emptyCta'] ?? null;
+                    ?>
                     <tr class="js-empty-state">
                         <td colspan="<?= count($headers) ?>" class="py-16 px-6 text-center text-slate-400">
                             <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100 shadow-inner">
@@ -66,9 +68,17 @@ function renderAdminTable(array $headers, array $rows, callable $renderRowCallba
                                 <?php endif; ?>
                             </div>
                             <span class="font-bold text-slate-700 block mb-1"><?= htmlspecialchars($emptyTitle) ?></span>
-                            <span class="text-xs text-slate-400"><?= htmlspecialchars($emptySubtitle) ?></span>
+                            <span class="text-xs text-slate-400 block"><?= htmlspecialchars($emptySubtitle) ?></span>
+                            <?php if (!empty($emptyCta['url']) && !empty($emptyCta['label'])): ?>
+                            <div class="mt-4">
+                                <a href="<?= htmlspecialchars($emptyCta['url']) ?>" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary hover:bg-[#1E3E62] text-white text-xs font-bold transition-all shadow-sm">
+                                    <span><?= htmlspecialchars($emptyCta['label']) ?></span>
+                                </a>
+                            </div>
+                            <?php endif; ?>
                         </td>
                     </tr>
+
                     <?php else: ?>
                         <?php foreach ($rows as $index => $row) {
                             $renderRowCallback($row, $index);

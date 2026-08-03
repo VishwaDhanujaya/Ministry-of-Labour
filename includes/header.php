@@ -63,6 +63,26 @@ if (!function_exists('navUrl')) {
     }
 }
 
+if (!function_exists('renderBreadcrumbs')) {
+    function renderBreadcrumbs(array $items): void {
+        if (empty($items)) return;
+        echo '<nav class="bg-slate-50 border-b border-slate-100 py-3 px-4 sm:px-8 font-inter text-xs text-slate-500 overflow-x-auto" aria-label="Breadcrumb">';
+        echo '<div class="max-w-7xl mx-auto flex items-center gap-2 whitespace-nowrap">';
+        foreach ($items as $idx => $item) {
+            if ($idx > 0) {
+                echo '<svg class="w-3 h-3 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path></svg>';
+            }
+            if (!empty($item['url']) && $idx < count($items) - 1) {
+                echo '<a href="' . htmlspecialchars($item['url']) . '" class="hover:text-primary transition-colors font-medium">' . htmlspecialchars($item['label']) . '</a>';
+            } else {
+                echo '<span class="font-bold text-slate-800" aria-current="page">' . htmlspecialchars($item['label']) . '</span>';
+            }
+        }
+        echo '</div></nav>';
+    }
+}
+
+
 // ── Per-language meta resolution ─────────────────────────────────────────────
 // Pages may define $pageMeta['si'] and/or $pageMeta['ta'] with keys:
 //   'title' (for <title> and og:title), 'desc' (meta description), 'kw' (keywords)
@@ -432,12 +452,14 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             
             <!-- Language Selector -->
             <div id="lang-selector-desktop" class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
+
                 <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
                 <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
                 <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
             </div>
         </div>
     </div>
+
 
     <!-- Header -->
     <header

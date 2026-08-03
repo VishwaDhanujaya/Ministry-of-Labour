@@ -515,11 +515,7 @@ window.previewSingleImage = function(input, previewId) {
         const file = input.files[0];
         const maxSize = 5 * 1024 * 1024; // 5MB
         if (file.size > maxSize) {
-            if (typeof window.showToast === 'function') {
-                window.showToast('Cover image size exceeds the maximum limit of 5MB.', 'error');
-            } else {
-                alert('Cover image size exceeds the maximum limit of 5MB.');
-            }
+            showToast('Cover image size exceeds the maximum limit of 5MB.', 'error');
             input.value = ''; // clear selection
             return;
         }
@@ -551,11 +547,7 @@ window.previewMultipleImages = function(input, previewId) {
     });
 
     if (hasLargeFile) {
-        if (typeof window.showToast === 'function') {
-            window.showToast('One or more selected images exceed the maximum limit of 5MB and were skipped.', 'error');
-        } else {
-            alert('One or more selected images exceed the maximum limit of 5MB and were skipped.');
-        }
+        showToast('One or more selected images exceed the maximum limit of 5MB and were skipped.', 'error');
     }
 
     selectedAdditionalFiles = selectedAdditionalFiles.concat(acceptedFiles);

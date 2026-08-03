@@ -29,6 +29,8 @@ include 'includes/sub-hero.php';
 ?>
 
 <!-- Overview Section -->
+
+
 <section class="py-20 md:py-28 px-4 md:px-16 bg-white">
     <div class="container mx-auto flex flex-col lg:flex-row gap-16 items-center">
         <!-- Collage -->
@@ -664,18 +666,10 @@ include 'includes/sub-hero.php';
 
     function copyToClipboard(text, message) {
         navigator.clipboard.writeText(text).then(() => {
-            if (window.showToast) {
-                window.showToast(message, 'success');
-            } else {
-                alert(message + ' : ' + text);
-            }
+            showToast(message, 'success');
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            if (window.showToast) {
-                window.showToast('Failed to copy email. Your browser may not support this feature.', 'error');
-            } else {
-                alert('Failed to copy email. Your browser may not support this feature.');
-            }
+            showToast('Failed to copy email. Your browser may not support this feature.', 'error');
         });
     }
 </script>

@@ -31,6 +31,7 @@ RewriteRule ^admin/login/?$ admin/login.php [L]
 
 # Redirect to non-php extension (except index)
 RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} !=POST
 RewriteCond %{REQUEST_URI} ^(.*)/([^/.]+)\.php$ [NC]
 RewriteCond %2 !=index
 RewriteRule ^ %{REQUEST_SCHEME}://%{HTTP_HOST}%1/%2 [R=301,L]

@@ -34,6 +34,7 @@ include 'includes/header.php';
 include 'includes/sub-hero.php';
 ?>
 
+
 <!-- Content Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white">
     <div class="container mx-auto max-w-6xl">
@@ -424,19 +425,11 @@ include 'includes/sub-hero.php';
             onRecaptchaExpired();
 
             if (data.success) {
-                if (window.showToast) {
-                    window.showToast(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>, 'success');
-                } else {
-                    alert(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>);
-                }
+                showToast(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>, 'success');
                 form.reset();
                 ['fullname', 'email', 'phone', 'message'].forEach(id => setFieldError(id, null));
             } else {
-                if (window.showToast) {
-                    window.showToast(data.message || <?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>, 'error');
-                } else {
-                    alert((<?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>) + ': ' + (data.message || ''));
-                }
+                showToast(data.message || <?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>, 'error');
             }
         })
         .catch(error => {
@@ -451,11 +444,7 @@ include 'includes/sub-hero.php';
             }
             onRecaptchaExpired();
 
-            if (window.showToast) {
-                window.showToast(<?= json_encode(t('msg_error_occurred', 'An error occurred. Please try again later.')) ?>, 'error');
-            } else {
-                alert(<?= json_encode(t('msg_error_occurred', 'An error occurred. Please try again later.')) ?>);
-            }
+            showToast(<?= json_encode(t('msg_error_occurred', 'An error occurred. Please try again later.')) ?>, 'error');
         });
     });
 </script>

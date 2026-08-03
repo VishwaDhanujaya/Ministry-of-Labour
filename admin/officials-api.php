@@ -18,20 +18,28 @@ if (!hasPermission("manage_officials")) {
     exit;
 }
 
+// Detect empty POST payload caused by PHP post_max_size limit
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
+    echo json_encode(['success' => false, 'message' => 'Uploaded request exceeds PHP server post_max_size limit. Please choose a smaller image.']);
+    exit;
+}
+
 // CSRF validation
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token'])) {
-        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token']);
+        echo json_encode(['success' => false, 'message' => 'Invalid CSRF token or session expired.']);
         exit;
     }
 }
 
-$action = $_POST['action'] ?? '';
+$action = !empty($_POST['action']) ? $_POST['action'] : ($_REQUEST['action'] ?? '');
 
 try {
     switch ($action) {
         case 'save_official':
             $id = !empty($_POST['id']) ? (int)$_POST['id'] : null;
+            $remove_image = isset($_POST['remove_image']) && $_POST['remove_image'] === '1';
+
             $data = [
                 'category' => $_POST['category'] ?? 'division',
                 'top_role' => !empty($_POST['top_role']) ? $_POST['top_role'] : null,
@@ -45,15 +53,24 @@ try {
                 'email' => $_POST['email'] ?? '',
                 'phone' => $_POST['phone'] ?? '',
                 'fax' => $_POST['fax'] ?? '',
+                'remove_image' => $remove_image
             ];
 
+            $existingImage = null;
             if ($id) {
                 $stmt = $pdo->prepare("SELECT image_path FROM officials WHERE id = ?");
                 $stmt->execute([$id]);
-                $data['image_path'] = $stmt->fetchColumn();
+                $existingImage = $stmt->fetchColumn();
+                $data['image_path'] = $existingImage;
             }
 
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+                if ($_FILES['image']['error'] === UPLOAD_ERR_INI_SIZE || $_FILES['image']['error'] === UPLOAD_ERR_FORM_SIZE) {
+                    throw new Exception('Uploaded image exceeds the server upload_max_filesize limit.');
+                }
+                if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+                    throw new Exception('Image upload failed with error code ' . $_FILES['image']['error']);
+                }
                 if ($_FILES['image']['size'] > 5242880) { // 5MB
                     throw new Exception('Profile image size exceeds the maximum limit of 5MB.');
                 }
@@ -80,13 +97,23 @@ try {
                 $targetPath = $uploadDir . $fileName;
 
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    if (!empty($data['image_path']) && strpos($data['image_path'], 'admin/uploads/officials/') === 0) {
-                        @unlink(__DIR__ . '/../' . $data['image_path']);
+                    if (!empty($existingImage) && file_exists(__DIR__ . '/../' . $existingImage)) {
+                        if (strpos($existingImage, 'admin/uploads/officials/') === 0) {
+                            @unlink(__DIR__ . '/../' . $existingImage);
+                        }
                     }
                     $data['image_path'] = 'admin/' . $targetPath;
+                    $data['remove_image'] = false; // New image upload overrides remove flag
                 } else {
                     throw new Exception('Failed to move uploaded file.');
                 }
+            } elseif ($remove_image && $id && !empty($existingImage)) {
+                if (file_exists(__DIR__ . '/../' . $existingImage)) {
+                    if (strpos($existingImage, 'admin/uploads/officials/') === 0) {
+                        @unlink(__DIR__ . '/../' . $existingImage);
+                    }
+                }
+                $data['image_path'] = null;
             }
 
             $newId = saveOfficial($pdo, $data, $id);

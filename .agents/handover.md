@@ -146,6 +146,130 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 * **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
 
+### 2026-08-03 (Public Frontend UI/UX Enhancements)
+* **Files:**
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [check-room-availability.php](file:///c:/xampp/htdocs/Ministry-of-Labour/check-room-availability.php)
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Live Availability Calendar Grid**: Integrated an interactive monthly availability calendar widget in Step 1 of `ampara-circuit-bungalow-booking.php` querying `check-room-availability.php` to render open (green), pending (amber), and booked (faded red) slots.
+  - **Search Autocomplete Polish**: Enhanced autocomplete dropdown in `main.js` with category tags (`[News]`, `[Careers]`, `[Notice]`), query substring match highlighting (`<mark>`), and keyboard navigation (`ArrowUp`, `ArrowDown`, `Enter`).
+  - **Admin New Booking Link & Type Safety**: Linked the "New Booking" button in `admin/bungalow-bookings.php` to open `../ampara-circuit-bungalow-booking.php` in a new tab and added explicit PHP 8 parameter type annotations (`?string $category, ?string $roomTypeStr, int|string $nights`) to `getEstimatedCost()`.
+  - **Breadcrumbs Navigation**: Relied on `includes/sub-hero.php` native breadcrumbs and removed duplicate bottom breadcrumb trails from `about-us.php`, `contact-us.php`, and `news.php`.
+  - **Recompiled Tailwind Styles**: Compiled `input.css` into minified `assets/css/style.css` (`npm run build:prod`).
+
+
+
+### 2026-08-03 (Admin CMS Dashboard UI/UX & Aesthetic Polish Enhancements)
+* **Files:**
+  - [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php)
+  - [admin/includes/activity-logger.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/activity-logger.php)
+  - [admin/includes/topbar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/topbar.php)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/assets/js/dropzone.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/dropzone.js)
+  - [admin/includes/table-helper.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/table-helper.php)
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Interactive Analytics & Charts**: Integrated defer-loaded Chart.js in `admin/index.php` to render live interactive charts for Monthly Circuit Bungalow Booking Volume (Bar Chart) and Portal Content Breakdown (Doughnut Chart).
+  - **Audit Logging & Recent Activity Feed**: Built `activity-logger.php` helper to track administrative actions and render a real-time Audit Feed widget on the admin dashboard.
+  - **Global Command Palette (`Ctrl + K`)**: Added topbar search trigger button and dynamic Command Palette modal (`#command-palette-modal`) supporting fuzzy filtering, arrow key navigation, and instant links/actions selection.
+  - **Button Loading States & Async Toggles**: Added automatic submit button disabling with loading spinners during form submissions in `admin.js`, alongside iOS-style async status toggle switches.
+  - **Drag-and-Drop Dropzone Utility**: Created `dropzone.js` helper for file uploader containers with file size validation (max 5MB) and instant previewing.
+  - **Rich Empty State CTAs**: Enhanced `table-helper.php` to support primary action buttons within empty table states across admin list views.
+  - **Recompiled Tailwind Production Assets**: Recompiled `input.css` into minified `assets/css/style.css`.
+
+### 2026-08-03 (Native alert() to showToast() Migration)
+* **Files:**
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Legacy Alerts**: Replaced all remaining legacy browser `alert()` popups and fallback conditional blocks across the admin panel and public pages with clean, direct calls to the standardized `showToast()` system.
+  - **Trilingual Toast Alignment**: Retained inline PHP localization wrappers (`t()`) for contact-us responses to ensure standard trilingual translations function seamlessly under Google Translate.
+
+### 2026-08-03 (Fixed Redundant CSS Class Warning in Autocomplete)
+* **Files:**
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Redundant Display Class**: Removed the duplicate `block` display class from the autocomplete suggestion item link elements which already utilize `flex` layouts, resolving the IDE warning.
+
+### 2026-08-03 (Toast Notification Standardization & Overlay Fix)
+* **Files:**
+  - [.agents/AGENTS.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/AGENTS.md)
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Z-Index Modal Overlay Fix**: Increased `toast-container` z-index to `z-[99999]` to ensure notifications float on top of all active modal popups (such as the `official-modal` at `z-[150]` or `globalCropModal` at `z-[200]`).
+  - **Moved to Top-Right Positioning**: Relocated the toast notification container from the bottom-right corner to `top-6 right-6` for better visibility and modern design alignment.
+  - **Pausing Countdown on Hover**: Implemented `mouseenter` and `mouseleave` event listeners that pause the JS auto-dismiss timer and freeze the progress bar animation (`animation-play-state: paused`) when a user hovers over a toast.
+  - **Slide-Out Transition & Standard Warning Styling**: Added CSS transition keyframes for slide-in/slide-out animations. Added color presets and SVG icons for a new `'warning'` type and redesigned the `'info'` type with blue branding accent colors.
+  - **Workspace Rules Synchronization**: Updated `AGENTS.md` project rules to lock in this standard for all future features.
+
+### 2026-08-03 (Fixed HTTP 301 POST Redirect Bug & Category Mismatch in Officials CMS)
+* **Files:**
+  - [.htaccess](file:///c:/xampp/htdocs/Ministry-of-Labour/.htaccess)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Exempted POST Requests from .php Extension Stripping**: Added a condition (`RewriteCond %{REQUEST_METHOD} !=POST`) to the `.htaccess` RewriteRule that redirects `.php` files to their extensionless counterparts. This prevents Apache from returning a `301 Moved Permanently` redirect on async POST calls, which browsers follow as GET requests (silently discarding the POST payloads and files).
+  - **Clean Extensionless API Endpoint Fetching**: Updated JavaScript `fetch` calls in `admin/officials.php` to target `'officials-api'` instead of `'officials-api.php'`.
+  - **Add Official Category Mapping Fix**: Resolved a mismatch where the global "+ Add Official" header button always opened the modal as `category="division"`. Added `openModalForCurrentTab()` to dynamically assign either the `top` or `division` category depending on which tab view is currently active.
+
+### 2026-08-03 (Fixed Official Save Updates & Image File Attachment)
+* **Files:**
+  - [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Fixed Missing UPDATE Query Fields**: Added `category`, `top_role`, and `division_id` to the PDO `UPDATE officials SET ...` statement in `includes/officials-service.php`, fixing a bug where editing an existing official failed to update their role/division assignment.
+  - **Explicit Cropped Blob Attachment**: Stored `pendingCroppedFile` globally and explicitly set `formData.set('image', pendingCroppedFile)` during form submission, guaranteeing cropped files are sent in `$_FILES`.
+  - **Forced Page Refresh**: Updated `saveOfficial()` to explicitly trigger `window.location.reload()`, ensuring new official data and profile images immediately update on screen.
+
+### 2026-08-03 (Fixed Save Action & Active Tab State Persistence in Officials CMS)
+* **Files:**
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Fixed "Invalid action" Image Upload Root Cause**: Uncompressed cropped image blobs previously exceeded PHP's `post_max_size`, causing PHP to silently erase `$_POST` (making `$action` empty and throwing "Invalid action"). Fixed by compressing cropped headshots to 600x600 px @ 0.8 JPEG quality (~80KB) in `image-cropper.js`, passing `?action=save_official` in the fetch URL query string as a failsafe, and adding explicit `post_max_size` error handling in `officials-api.php`.
+  - **Active Tab Persistence & DOMContentLoaded Fix**: Fixed a bug where `(window.event && window.event.currentTarget)` evaluated to `document` on page refresh, causing all tab buttons and content panels to un-select. Replaced with explicit `document.querySelector` lookup and robust fallback to `'top'`.
+
+### 2026-08-03 (Simplified Cropping UI & Locked 1:1 Ratio for Official Profile Pictures)
+* **Files:**
+  - [admin/assets/js/image-cropper.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/image-cropper.js)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Locked 1:1 Aspect Ratio**: Simplified cropper modal UI by locking it strictly to a 1:1 square ratio for official headshots and removing unnecessary ratio toggle options.
+  - **Streamlined Image Controls**: Removed the extra "Crop" button on saved/existing image previews so only the "Remove" button is present, keeping the interface uncluttered.
+
+### 2026-08-03 (Added Option & Controls to Remove Official & Contact Profile Pictures)
+* **Files:**
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+  - [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Remove Profile Picture Control**: Added a dedicated "Remove Photo" control button and toggle state inside the Edit Official modal in `admin/officials.php`.
+  - **Visual Feedback & Undo**: Clicking "Remove Photo" marks the photo for removal, dims the thumbnail, and changes the button to "Undo Remove" before submission.
+  - **Backend Disk & DB Cleanup**: Updated `save_official` in `admin/officials-api.php` and `saveOfficial` in `includes/officials-service.php`. When an image is marked for removal and saved, the existing image file on disk is deleted (`unlink`) and `image_path` is explicitly set to `NULL` in the database.
+  - **Seamless Fallback**: Removed images automatically display initial avatars in the admin CMS grid/tables and clean SVG default avatars on public pages (`about-us.php`).
+
 ### 2026-07-31 (Updated Tamil Vision & Mission Titles on RTI Page)
 * **Files:**
   - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)

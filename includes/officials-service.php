@@ -132,21 +132,19 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
     $phone = $data['phone'] ?? null;
     $fax = $data['fax'] ?? null;
     $image_path = $data['image_path'] ?? null;
+    $remove_image = !empty($data['remove_image']);
     
     if ($id) {
         $sql = "UPDATE officials SET 
+                category = :category, top_role = :top_role, division_id = :division_id,
                 title = :title, title_si = :title_si, title_ta = :title_ta,
                 name = :name, name_si = :name_si, name_ta = :name_ta,
                 email = :email, phone = :phone, fax = :fax";
         
-        if ($image_path !== null) {
-            $sql .= ", image_path = :image_path";
-        }
-        
-        $sql .= " WHERE id = :id";
-        
-        $stmt = $pdo->prepare($sql);
         $params = [
+            ':category' => $category,
+            ':top_role' => $top_role,
+            ':division_id' => $division_id,
             ':title' => $title,
             ':title_si' => $title_si,
             ':title_ta' => $title_ta,
@@ -158,11 +156,17 @@ function saveOfficial(PDO $pdo, array $data, ?int $id = null): int {
             ':fax' => $fax,
             ':id' => $id
         ];
-        
-        if ($image_path !== null) {
+
+        if ($remove_image) {
+            $sql .= ", image_path = NULL";
+        } elseif ($image_path !== null) {
+            $sql .= ", image_path = :image_path";
             $params[':image_path'] = $image_path;
         }
         
+        $sql .= " WHERE id = :id";
+        
+        $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         return $id;
     } else {

@@ -11,6 +11,34 @@ require_once 'admin/includes/db.php';
 
 header('Content-Type: application/json');
 
+if (isset($_GET['action']) && $_GET['action'] === 'month_calendar') {
+    $month = $_GET['month'] ?? date('Y-m');
+    try {
+        $stmt = $pdo->prepare("SELECT DATE(start_date) as start_d, DATE(end_date) as end_d, status FROM bookings WHERE bungalow_name = 'Ampara' AND status IN ('Confirmed', 'Pending') AND (DATE_FORMAT(start_date, '%Y-%m') = ? OR DATE_FORMAT(end_date, '%Y-%m') = ?)");
+        $stmt->execute([$month, $month]);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $dateStatus = [];
+        foreach ($rows as $r) {
+            $curr = strtotime($r['start_d']);
+            $last = strtotime($r['end_d']);
+            while ($curr <= $last) {
+                $dStr = date('Y-m-d', $curr);
+                if (!isset($dateStatus[$dStr]) || $r['status'] === 'Confirmed') {
+                    $dateStatus[$dStr] = ($r['status'] === 'Confirmed') ? 'booked' : 'pending';
+                }
+                $curr = strtotime('+1 day', $curr);
+            }
+        }
+
+        echo json_encode(['success' => true, 'month' => $month, 'date_status' => $dateStatus]);
+        exit;
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => 'Failed to fetch calendar status.']);
+        exit;
+    }
+}
+
 $start_date = $_GET['start'] ?? '';
 $end_date = $_GET['end'] ?? '';
 
@@ -23,6 +51,7 @@ if (strtotime($start_date) >= strtotime($end_date)) {
     echo json_encode(['success' => false, 'message' => 'Check-out date must be after Check-in date.']);
     exit;
 }
+
 
 // Room capacities
 $capacities = [

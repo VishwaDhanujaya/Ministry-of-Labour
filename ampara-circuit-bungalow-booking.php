@@ -73,6 +73,35 @@ include 'includes/sub-hero.php';
                 <!-- Step 1: Reservation Details -->
                 <div class="form-step active" id="step-1">
                     <h3 class="text-xl font-montserrat font-semibold text-gray-800 mb-6 pb-2 border-b">1. Reservation Details</h3>
+                    
+                    <!-- Interactive Visual Calendar Widget -->
+                    <div class="mb-6 p-5 rounded-2xl bg-slate-50/80 border border-slate-200/80 shadow-xs">
+                        <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                            <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider font-montserrat flex items-center gap-1.5 select-none">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"></path></svg>
+                                <span>Live Availability Calendar Grid</span>
+                            </h4>
+                            <div class="flex items-center gap-3 text-[11px] font-semibold select-none">
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Available</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Pending</span>
+                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Booked</span>
+                            </div>
+                        </div>
+                        <div id="visual-calendar-grid" class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-3">
+                                <button type="button" onclick="changeCalendarMonth(-1)" class="px-2.5 py-1 hover:bg-slate-100 rounded-lg text-slate-600 font-bold text-xs transition-colors">&larr; Prev</button>
+                                <span id="calendar-month-label" class="text-xs font-bold text-slate-800 font-montserrat">Loading month...</span>
+                                <button type="button" onclick="changeCalendarMonth(1)" class="px-2.5 py-1 hover:bg-slate-100 rounded-lg text-slate-600 font-bold text-xs transition-colors">Next &rarr;</button>
+                            </div>
+                            <div class="grid grid-cols-7 gap-1 text-center text-[10.5px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                            </div>
+                            <div id="calendar-days-container" class="grid grid-cols-7 gap-1">
+                                <!-- Rendered dynamically by JS -->
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Check-in Date <span class="text-red-500">*</span></label>
@@ -82,6 +111,7 @@ include 'includes/sub-hero.php';
                             <label class="block text-sm font-medium text-gray-700 mb-1">Check-out Date <span class="text-red-500">*</span></label>
                             <input type="text" name="end_date" id="end_date" placeholder="Select check-out date" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white cursor-pointer" required readonly>
                         </div>
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Expected Arrival Time</label>
                             <input type="text" name="arrival_time" id="arrival_time" placeholder="Select arrival time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white cursor-pointer" readonly>
@@ -508,14 +538,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (checkedRooms.length === 0 && !isEntireBooked) {
                     isValid = false;
-                    window.showToast ? window.showToast('Please select at least one room or the entire bungalow to proceed.', 'error') : alert('Please select at least one room.');
+                    showToast('Please select at least one room or the entire bungalow to proceed.', 'error');
                     return false; // Exit immediately to prevent showing duplicate fill-in-fields toast
                 }
             }
         }
         
         if (!isValid) {
-            window.showToast ? window.showToast('Please fill in all required fields.', 'error') : alert('Please fill in all required fields.');
+            showToast('Please fill in all required fields.', 'error');
         }
         return isValid;
     }
@@ -541,7 +571,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     btnAddGuest.addEventListener('click', () => {
         if(guestCount >= 16) {
-            window.showToast ? window.showToast('Maximum 16 guests allowed.', 'error') : alert('Maximum 16 guests allowed.');
+            showToast('Maximum 16 guests allowed.', 'error');
             return;
         }
         guestCount++;
@@ -752,17 +782,75 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 800);
     });
 
-    // Handle Form Submit
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        if(!validateStep(currentStep)) {
-            e.preventDefault();
-        }
-    });
-    
+    // Visual Availability Calendar Grid logic
+    let currentCalDate = new Date();
+
+    window.renderVisualCalendar = function(monthStr) {
+        const daysContainer = document.getElementById('calendar-days-container');
+        const monthLabel = document.getElementById('calendar-month-label');
+        if (!daysContainer) return;
+
+        monthLabel.textContent = new Date(monthStr + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        daysContainer.innerHTML = '<div class="col-span-7 py-4 text-center text-xs text-slate-400">Loading availability...</div>';
+
+        fetch('check-room-availability?action=month_calendar&month=' + monthStr)
+            .then(res => res.json())
+            .then(data => {
+                const dateStatus = data.date_status || {};
+                const year = parseInt(monthStr.split('-')[0]);
+                const month = parseInt(monthStr.split('-')[1]) - 1;
+
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                let html = '';
+                for (let i = 0; i < firstDay; i++) {
+                    html += '<div class="h-8"></div>';
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const status = dateStatus[dayStr];
+                    
+                    let bgClass = 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100';
+                    let badgeDot = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>';
+
+                    if (status === 'booked') {
+                        bgClass = 'bg-red-50 text-red-700 border-red-200 cursor-not-allowed opacity-80';
+                        badgeDot = '<span class="w-1.5 h-1.5 rounded-full bg-red-500 inline-block"></span>';
+                    } else if (status === 'pending') {
+                        bgClass = 'bg-amber-50 text-amber-800 border-amber-200';
+                        badgeDot = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block"></span>';
+                    }
+
+                    html += `
+                        <div class="h-9 border rounded-lg flex flex-col items-center justify-center text-[11px] font-bold transition-all ${bgClass}" title="${dayStr}: ${status || 'Available'}">
+                            <span>${day}</span>
+                            ${badgeDot}
+                        </div>
+                    `;
+                }
+                daysContainer.innerHTML = html;
+            })
+            .catch(() => {
+                daysContainer.innerHTML = '<div class="col-span-7 py-4 text-center text-xs text-red-500">Failed to load calendar.</div>';
+            });
+    };
+
+    window.changeCalendarMonth = function(delta) {
+        currentCalDate.setMonth(currentCalDate.getMonth() + delta);
+        const mStr = currentCalDate.toISOString().slice(0, 7);
+        renderVisualCalendar(mStr);
+    };
+
+    // Initialize initial month
+    renderVisualCalendar(currentCalDate.toISOString().slice(0, 7));
+
     // Add one default guest row
     btnAddGuest.click();
 });
 </script>
+
 
 <!-- Load Flatpickr CSS & JS dependencies -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">

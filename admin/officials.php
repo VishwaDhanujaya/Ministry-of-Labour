@@ -30,7 +30,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Officials & Contacts</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Manage ministry leadership, division heads, and contact list sort order.</p>
             </div>
-            <button onclick="openModal('division', null)" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
+            <button onclick="openModalForCurrentTab()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                 Add Official
             </button>
@@ -402,20 +402,29 @@ include 'includes/header.php';
 
                 <div>
                     <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Profile Image</label>
-                    <!-- Current image preview (shown when editing) -->
-                    <div id="current-image-preview" class="hidden mb-3 items-center gap-3 p-3 bg-slate-50 border border-slate-200/60 rounded-xl">
-                        <img id="current-image-thumb" src="" alt="Current photo" class="w-14 h-14 rounded-xl object-cover border border-slate-200 shadow-sm">
-                        <div>
-                            <p class="text-xs font-bold text-slate-700 leading-tight">Current photo</p>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Uploading a new photo will replace this.</p>
+                    <!-- Current image preview (shown when editing or cropped) -->
+                    <div id="current-image-preview" class="hidden mb-3 items-center justify-between gap-3 p-3 bg-slate-50 border border-slate-200/60 rounded-xl transition-all">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <img id="current-image-thumb" src="" alt="Current photo" class="w-14 h-14 rounded-xl object-cover border border-slate-200 shadow-sm transition-all shrink-0">
+                            <div class="min-w-0">
+                                <p id="current-image-title" class="text-xs font-bold text-slate-700 leading-tight truncate">Current photo</p>
+                                <p id="current-image-status" class="text-[10px] text-slate-400 mt-0.5 truncate">Uploading a new photo will replace this.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1.5 shrink-0">
+                            <button type="button" id="remove-image-btn" onclick="toggleRemoveImage()" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200/60 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shrink-0 cursor-pointer" title="Remove profile photo">
+                                <svg id="remove-image-btn-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path></svg>
+                                <span id="remove-image-btn-text">Remove</span>
+                            </button>
                         </div>
                     </div>
+                    <input type="hidden" id="field-remove-image" name="remove_image" value="0">
                     <div class="flex items-center justify-center w-full">
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer bg-slate-50 hover:bg-slate-100/50 transition-all relative overflow-hidden group">
+                        <label id="official-dropzone-label" class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-200 rounded-2xl cursor-pointer bg-slate-50 hover:bg-slate-100/60 hover:border-primary/40 transition-all relative overflow-hidden group">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-                                <svg class="w-8 h-8 mb-2 text-slate-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path></svg>
-                                <p id="file-label-text" class="text-[12px] text-slate-500 font-bold">Click to upload photo</p>
-                                <p class="text-[10px] text-slate-400 mt-1">WEBP, PNG or JPG (Max. 5MB)</p>
+                                <svg class="w-8 h-8 mb-2 text-slate-400 group-hover:scale-110 group-hover:text-primary transition-all" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"></path></svg>
+                                <p id="file-label-text" class="text-[12px] text-slate-500 font-bold">Click or drag & drop photo to crop</p>
+                                <p class="text-[10px] text-slate-400 mt-1">WEBP, PNG or JPG (Max. 5MB) • Auto Crop 1:1</p>
                             </div>
                             <input type="file" id="field-image" name="image" accept=".jpg,.jpeg,.png,.webp" class="hidden">
                         </label>
@@ -456,6 +465,10 @@ include 'includes/header.php';
 let currentActiveTab = 'top';
 
 function switchTab(tabId) {
+    if (!tabId || !document.getElementById('tab-' + tabId)) {
+        tabId = 'top';
+    }
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active', 'bg-white', 'text-slate-800', 'shadow-[0_2px_8px_rgba(0,0,0,0.06)]', 'border', 'border-slate-200/30');
         btn.classList.add('text-slate-500');
@@ -466,11 +479,13 @@ function switchTab(tabId) {
         content.classList.add('hidden');
     });
 
-    const activeBtn = (window.event && window.event.currentTarget) || document.querySelector(`.tab-btn[onclick*="switchTab('${tabId}')"]`);
+    const activeBtn = document.querySelector(`.tab-btn[onclick*="'${tabId}'"]`);
     if (activeBtn) {
         activeBtn.classList.add('active', 'bg-white', 'text-slate-800', 'shadow-[0_2px_8px_rgba(0,0,0,0.06)]', 'border', 'border-slate-200/30');
         activeBtn.classList.remove('text-slate-500');
-        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        try {
+            activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } catch (e) {}
     }
 
     const activeContent = document.getElementById('tab-' + tabId);
@@ -480,17 +495,143 @@ function switchTab(tabId) {
     }
     
     currentActiveTab = tabId;
+    try {
+        localStorage.setItem('officials_active_tab', tabId);
+        const url = new URL(window.location);
+        url.searchParams.set('tab', tabId);
+        window.history.replaceState({}, '', url);
+    } catch(e) {}
+}
+
+let currentOfficialPhotoSrc = null;
+let pendingCroppedFile = null;
+
+// Remove Photo & Cropper Helpers
+function resetRemoveImageState() {
+    const input = document.getElementById('field-remove-image');
+    const btn = document.getElementById('remove-image-btn');
+    const btnText = document.getElementById('remove-image-btn-text');
+    const thumb = document.getElementById('current-image-thumb');
+    const status = document.getElementById('current-image-status');
+    const title = document.getElementById('current-image-title');
+
+    if (input) input.value = '0';
+    if (btn) {
+        btn.className = 'px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200/60 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shrink-0 cursor-pointer';
+    }
+    if (btnText) btnText.textContent = 'Remove';
+    if (thumb) {
+        thumb.classList.remove('opacity-30', 'grayscale');
+    }
+    if (title && title.textContent === 'Marked for Removal') {
+        title.textContent = 'Current photo';
+    }
+    if (status && status.textContent.includes('marked for removal')) {
+        status.textContent = 'Uploading a new photo will replace this.';
+        status.className = 'text-[10px] text-slate-400 mt-0.5 truncate';
+    }
+}
+
+function toggleRemoveImage() {
+    const input = document.getElementById('field-remove-image');
+    const btn = document.getElementById('remove-image-btn');
+    const btnText = document.getElementById('remove-image-btn-text');
+    const thumb = document.getElementById('current-image-thumb');
+    const status = document.getElementById('current-image-status');
+    const title = document.getElementById('current-image-title');
+
+    if (!input) return;
+
+    if (input.value === '0') {
+        input.value = '1';
+        pendingCroppedFile = null;
+        if (btn) {
+            btn.className = 'px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg text-xs font-bold transition-all flex items-center gap-1 shrink-0 cursor-pointer';
+        }
+        if (btnText) btnText.textContent = 'Undo';
+        if (thumb) {
+            thumb.classList.add('opacity-30', 'grayscale');
+        }
+        if (title) title.textContent = 'Marked for Removal';
+        if (status) {
+            status.textContent = 'Photo will be removed on save.';
+            status.className = 'text-[10px] text-rose-600 font-bold mt-0.5 truncate';
+        }
+    } else {
+        resetRemoveImageState();
+    }
+}
+
+function cropExistingOrSelectedPhoto() {
+    const fileInput = document.getElementById('field-image');
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+        window.openImageCropper(fileInput.files[0], {
+            aspectRatio: 1,
+            onCrop: applyCroppedPhoto
+        });
+    } else if (currentOfficialPhotoSrc) {
+        window.openImageCropper(currentOfficialPhotoSrc, {
+            aspectRatio: 1,
+            onCrop: applyCroppedPhoto
+        });
+    } else {
+        if (typeof window.showToast === 'function') window.showToast('Please select or upload a photo first.', 'warning');
+    }
+}
+
+function applyCroppedPhoto(croppedFile, croppedDataUrl) {
+    pendingCroppedFile = croppedFile;
+    const fileInput = document.getElementById('field-image');
+    const label = document.getElementById('file-label-text');
+    const previewBox = document.getElementById('current-image-preview');
+    const previewThumb = document.getElementById('current-image-thumb');
+    const previewTitle = document.getElementById('current-image-title');
+    const previewStatus = document.getElementById('current-image-status');
+
+    try {
+        const container = new DataTransfer();
+        container.items.add(croppedFile);
+        fileInput.files = container.files;
+    } catch (e) {
+        console.error('DataTransfer error:', e);
+    }
+
+    if (label) label.textContent = 'Selected & Cropped: ' + croppedFile.name;
+    if (previewThumb) previewThumb.src = croppedDataUrl;
+    if (previewTitle) previewTitle.textContent = 'Cropped Photo';
+    if (previewStatus) {
+        previewStatus.textContent = 'Photo cropped & ready to save.';
+        previewStatus.className = 'text-[10px] text-emerald-600 font-bold mt-0.5 truncate';
+    }
+    if (previewBox) {
+        previewBox.classList.remove('hidden');
+        previewBox.classList.add('flex');
+    }
+    resetRemoveImageState();
 }
 
 // Modal Logic
+function openModalForCurrentTab() {
+    if (currentActiveTab === 'top') {
+        openModal('top', null);
+    } else {
+        openModal('division', null);
+    }
+}
+
 function openModal(category, data = null) {
     document.getElementById('official-form').reset();
     document.getElementById('field-category').value = category;
-    document.getElementById('file-label-text').textContent = 'Click to upload photo';
+    document.getElementById('file-label-text').textContent = 'Click or drag & drop photo to crop';
     switchLangTab('en');
+    resetRemoveImageState();
+    currentOfficialPhotoSrc = null;
+    pendingCroppedFile = null;
     
     const previewBox = document.getElementById('current-image-preview');
     const previewThumb = document.getElementById('current-image-thumb');
+    const previewTitle = document.getElementById('current-image-title');
+    const previewStatus = document.getElementById('current-image-status');
 
     if (data) {
         document.getElementById('modal-title').textContent = 'Edit Official';
@@ -510,7 +651,13 @@ function openModal(category, data = null) {
 
         // Show current image preview if the official has an image
         if (data.image_path) {
-            previewThumb.src = '../' + data.image_path;
+            currentOfficialPhotoSrc = '../' + data.image_path;
+            previewThumb.src = currentOfficialPhotoSrc;
+            if (previewTitle) previewTitle.textContent = 'Current photo';
+            if (previewStatus) {
+                previewStatus.textContent = 'Uploading a new photo will replace this.';
+                previewStatus.className = 'text-[10px] text-slate-400 mt-0.5 truncate';
+            }
             previewBox.classList.remove('hidden');
             previewBox.classList.add('flex');
         } else {
@@ -569,13 +716,67 @@ function closeModal() {
     }, 300);
 }
 
-// Display uploaded filename in dropzone
+// Display uploaded filename in dropzone & trigger cropper
 document.getElementById('field-image').addEventListener('change', function() {
-    const label = document.getElementById('file-label-text');
     if (this.files && this.files[0]) {
-        label.textContent = 'Selected: ' + this.files[0].name;
-    } else {
-        label.textContent = 'Click to upload photo';
+        const file = this.files[0];
+        window.openImageCropper(file, {
+            aspectRatio: 1,
+            onCrop: applyCroppedPhoto
+        });
+    }
+});
+
+// Restore active tab on page load
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        const savedTab = localStorage.getItem('officials_active_tab');
+        
+        let tabToActivate = 'top';
+        if (tabParam && (tabParam === 'top' || document.getElementById('tab-' + tabParam))) {
+            tabToActivate = tabParam;
+        } else if (savedTab && (savedTab === 'top' || document.getElementById('tab-' + savedTab))) {
+            tabToActivate = savedTab;
+        }
+        
+        switchTab(tabToActivate);
+    } catch (e) {}
+
+    const dropzone = document.getElementById('official-dropzone-label');
+    if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('border-primary', 'bg-primary/5');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('border-primary', 'bg-primary/5');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files[0]) {
+                const file = files[0];
+                if (!file.type.startsWith('image/')) {
+                    if (typeof window.showToast === 'function') window.showToast('Please drop a valid image file (JPG, PNG, WEBP).', 'error');
+                    return;
+                }
+                window.openImageCropper(file, {
+                    aspectRatio: 1,
+                    onCrop: applyCroppedPhoto
+                });
+            }
+        });
     }
 });
 
@@ -596,11 +797,7 @@ async function saveOfficial(e) {
         const file = fileInput.files[0];
         const maxSize = 5 * 1024 * 1024; // 5MB
         if (file.size > maxSize) {
-            if (typeof window.showToast === 'function') {
-                window.showToast('Profile image size exceeds the maximum limit of 5MB.', 'error');
-            } else {
-                alert('Profile image size exceeds the maximum limit of 5MB.');
-            }
+            showToast('Profile image size exceeds the maximum limit of 5MB.', 'error');
             btn.disabled = false;
             btn.textContent = 'Save Official';
             return;
@@ -608,29 +805,30 @@ async function saveOfficial(e) {
     }
 
     const formData = new FormData(e.target);
-    formData.append('action', 'save_official');
+    formData.set('action', 'save_official');
+    if (pendingCroppedFile) {
+        formData.set('image', pendingCroppedFile, pendingCroppedFile.name);
+    }
 
     try {
-        const res = await fetch('officials-api', { method: 'POST', body: formData });
+        const res = await fetch('officials-api?action=save_official', { method: 'POST', body: formData });
         const json = await res.json();
         
         if (json.success) {
+            try {
+                localStorage.setItem('officials_active_tab', currentActiveTab);
+                const url = new URL(window.location);
+                url.searchParams.set('tab', currentActiveTab);
+                window.history.replaceState({}, '', url);
+            } catch(e) {}
             window.location.reload();
         } else {
-            if (typeof window.showToast === 'function') {
-                window.showToast(json.message || 'An error occurred.', 'error');
-            } else {
-                alert(json.message || 'An error occurred.');
-            }
+            showToast(json.message || 'An error occurred.', 'error');
             btn.disabled = false;
             btn.textContent = 'Save Official';
         }
     } catch (err) {
-        if (typeof window.showToast === 'function') {
-            window.showToast('Network error.', 'error');
-        } else {
-            alert('Network error.');
-        }
+        showToast('Network error.', 'error');
         btn.disabled = false;
         btn.textContent = 'Save Official';
     }
@@ -664,22 +862,12 @@ async function deleteOfficial(id) {
                         }
                     });
 
-                    if (typeof window.showToast === 'function') {
-                        window.showToast('Official deleted successfully', 'success');
-                    }
+                    showToast('Official deleted successfully', 'success');
                 } else {
-                    if (typeof window.showToast === 'function') {
-                        window.showToast(json.message || 'An error occurred.', 'error');
-                    } else {
-                        alert(json.message || 'An error occurred.');
-                    }
+                    showToast(json.message || 'An error occurred.', 'error');
                 }
             } catch (err) {
-                if (typeof window.showToast === 'function') {
-                    window.showToast('Network error.', 'error');
-                } else {
-                    alert('Network error.');
-                }
+                showToast('Network error.', 'error');
             }
         }
     );
@@ -728,11 +916,7 @@ async function autoTranslateAll() {
     const titleEn = document.getElementById('field-title').value.trim();
     
     if (!nameEn && !titleEn) {
-        if (typeof window.showToast === 'function') {
-            window.showToast('Please enter English content first to translate.', 'warning');
-        } else {
-            alert('Please enter English content first to translate.');
-        }
+        showToast('Please enter English content first to translate.', 'warning');
         return;
     }
 
@@ -759,15 +943,9 @@ async function autoTranslateAll() {
             document.getElementById('field-title-ta').value = titleTa;
         }
         
-        if (typeof window.showToast === 'function') {
-            window.showToast('Sinhala & Tamil translations generated! Switch tabs to review.', 'success');
-        }
+        showToast('Sinhala & Tamil translations generated! Switch tabs to review.', 'success');
     } catch (e) {
-        if (typeof window.showToast === 'function') {
-            window.showToast('Translation failed. Please try again.', 'error');
-        } else {
-            alert('Translation failed. Please try again.');
-        }
+        showToast('Translation failed. Please try again.', 'error');
     } finally {
         translateBtn.innerHTML = originalText;
         translateBtn.disabled = false;
@@ -797,11 +975,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const res = await fetch('officials-api', { method: 'POST', body: formData });
                         const json = await res.json();
                         if (!json.success) {
-                             if (typeof window.showToast === 'function') {
-                                 window.showToast(json.message || 'Failed to update order', 'error');
-                             } else {
-                                 alert(json.message || 'Failed to update order');
-                             }
+                             showToast(json.message || 'Failed to update order', 'error');
                          }
                     } catch (err) {
                         console.error('Network error during sort update');

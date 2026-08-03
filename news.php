@@ -40,7 +40,9 @@ include 'includes/sub-hero.php';
 ?>
 
 <!-- Content Section -->
+
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white">
+
     <div class="container mx-auto max-w-[1400px]">
         <!-- Section Title -->
         <div class="text-center mb-12">

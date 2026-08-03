@@ -144,7 +144,21 @@
         </div>
     </div>
     <?php endif; ?>
+
+    <!-- Back to Top Floating Circular Progress Button -->
+
+    <button id="back-to-top" aria-label="Back to top" onclick="scrollToTop()" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-primary/90 text-white shadow-xl hover:bg-secondary transition-all duration-300 opacity-0 pointer-events-none flex items-center justify-center group focus:outline-none">
+        <svg class="w-12 h-12 absolute inset-0 transform -rotate-90 pointer-events-none" viewBox="0 0 36 36">
+            <path class="text-white/10" stroke-width="3" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="scroll-progress-circle" class="text-yellow-400 transition-all duration-150" stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-width="3" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <svg class="w-5 h-5 text-white group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
+        </svg>
+    </button>
+
     <footer class="bg-primary text-white pt-16 relative overflow-hidden">
+
         <!-- Subtle Background mesh for premium grid texture -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="container mx-auto px-4 md:px-16 relative z-10">

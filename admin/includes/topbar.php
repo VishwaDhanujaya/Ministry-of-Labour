@@ -9,9 +9,17 @@
         </div>
     </div>
     
-    <div class="flex items-center space-x-3 md:space-x-5">
-        <a href="../home" target="_blank" class="hidden sm:inline-flex bg-secondary text-white px-5 md:px-6 py-2 rounded-md font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm">
-            Visit Site
+    <div class="flex items-center space-x-3 md:space-x-4">
+        <!-- Quick Search / Command Palette Button -->
+        <button type="button" onclick="openCommandPalette()" class="hidden sm:flex items-center gap-2 bg-white border border-slate-200/90 text-slate-500 hover:text-slate-800 hover:border-slate-300 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-sm transition-all group">
+            <svg class="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+            <span>Search links & actions...</span>
+            <kbd class="ml-2 px-1.5 py-0.5 text-[10px] font-mono font-bold bg-slate-100 text-slate-500 rounded-md border border-slate-200 shadow-xs">Ctrl K</kbd>
+        </button>
+
+        <a href="../home" target="_blank" class="hidden sm:inline-flex bg-secondary text-white px-4 md:px-5 py-1.5 rounded-xl font-semibold text-[12px] md:text-[13px] hover:bg-[#320000] transition-colors shadow-sm items-center gap-1.5">
+            <span>Visit Site</span>
+            <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path></svg>
         </a>
         
         

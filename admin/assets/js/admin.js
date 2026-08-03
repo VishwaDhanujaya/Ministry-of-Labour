@@ -13,13 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // --- UI Utilities (Toasts & Modals) ---
 
-let toastTimeout;
 function initToastContainer() {
     let container = document.getElementById('toast-container');
     if (!container) {
         container = document.createElement('div');
         container.id = 'toast-container';
-        container.className = 'fixed bottom-6 right-6 z-50 flex flex-col gap-3';
+        container.className = 'fixed top-6 right-6 z-[99999] flex flex-col gap-3 max-w-sm w-full pointer-events-none';
         document.body.appendChild(container);
     }
 }
@@ -27,6 +26,15 @@ function initToastContainer() {
 window.showToast = function(message, type = 'success') {
     initToastContainer();
     const container = document.getElementById('toast-container');
+    
+    // Prevent duplicate spam of identical active messages
+    const existingToasts = Array.from(container.children);
+    const isDuplicate = existingToasts.some(t => {
+        const textEl = t.querySelector('.toast-msg');
+        return textEl && textEl.textContent === message;
+    });
+    if (isDuplicate) return;
+
     const toast = document.createElement('div');
     
     // Status colors mapping
@@ -34,50 +42,85 @@ window.showToast = function(message, type = 'success') {
         success: {
             bg: 'bg-green-500/10 border-green-500/20 text-green-400',
             bar: 'bg-green-500',
-            icon: `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`
+            icon: `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>`
         },
         error: {
             bg: 'bg-red-500/10 border-red-500/20 text-red-400',
             bar: 'bg-red-500',
-            icon: `<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`
+            icon: `<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>`
+        },
+        warning: {
+            bg: 'bg-amber-500/10 border-amber-500/20 text-amber-400',
+            bar: 'bg-amber-500',
+            icon: `<svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`
         },
         info: {
-            bg: 'bg-[#4E0000]/10 border-[#4E0000]/20 text-red-300',
-            bar: 'bg-[#4E0000]',
-            icon: `<svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+            bg: 'bg-blue-500/10 border-blue-500/20 text-blue-400',
+            bar: 'bg-blue-500',
+            icon: `<svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
         }
     };
     
     const config = statusColors[type] || statusColors.info;
     
-    // Modern glassmorphism layout matching header/sidebar (#13273F)
-    toast.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] text-white text-[13px] font-semibold transform transition-all duration-300 translate-y-10 opacity-0 bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full`;
+    toast.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] text-white text-[13px] font-semibold bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full animate-toast-in`;
     
     toast.innerHTML = `
-        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config.bg} border">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config.bg} border border-current/10">
             ${config.icon}
         </div>
-        <div class="flex-1 text-gray-100 font-inter leading-snug">${message}</div>
-        <button type="button" onclick="this.parentElement.remove()" class="absolute top-1/2 -translate-y-1/2 right-3 text-white/40 hover:text-white transition-colors focus:outline-none p-1 rounded-md hover:bg-white/5">
+        <div class="flex-1 text-gray-100 font-inter leading-snug toast-msg">${message}</div>
+        <button type="button" class="toast-close absolute top-1/2 -translate-y-1/2 right-3 text-white/40 hover:text-white transition-colors focus:outline-none p-1 rounded-md hover:bg-white/5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <div class="absolute bottom-0 left-0 h-1 transition-all duration-[3000ms] ease-linear w-full ${config.bar}" style="width: 100%" id="toast-progress"></div>
+        <div class="absolute bottom-0 left-0 h-1 w-full ${config.bar}" id="toast-progress"></div>
     `;
     
     container.appendChild(toast);
     
-    // Animate in
-    setTimeout(() => {
-        toast.classList.remove('translate-y-10', 'opacity-0');
-        const progress = toast.querySelector('#toast-progress');
-        if (progress) progress.style.width = '0%';
-    }, 10);
+    const progress = toast.querySelector('#toast-progress');
+    const autoDismissTime = 4000;
+    let timeRemaining = autoDismissTime;
+    let startTime = Date.now();
+    let dismissTimeout;
     
-    // Animate out
-    setTimeout(() => {
-        toast.classList.add('translate-y-10', 'opacity-0');
+    // Bind progress bar animation
+    if (progress) {
+        progress.style.animation = `toast-progress ${autoDismissTime}ms linear forwards`;
+    }
+
+    function dismissToast() {
+        toast.classList.remove('animate-toast-in');
+        toast.classList.add('animate-toast-out');
         setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    }
+    
+    dismissTimeout = setTimeout(dismissToast, autoDismissTime);
+    
+    // Hover interactions (Pause and Resume)
+    toast.addEventListener('mouseenter', () => {
+        clearTimeout(dismissTimeout);
+        timeRemaining -= (Date.now() - startTime);
+        if (progress) {
+            progress.style.animationPlayState = 'paused';
+        }
+    });
+    
+    toast.addEventListener('mouseleave', () => {
+        startTime = Date.now();
+        dismissTimeout = setTimeout(dismissToast, timeRemaining);
+        if (progress) {
+            progress.style.animationPlayState = 'running';
+        }
+    });
+    
+    const closeBtn = toast.querySelector('.toast-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(dismissTimeout);
+            dismissToast();
+        });
+    }
 }
 
 function initModalContainer() {
@@ -777,8 +820,216 @@ window.validateForm = function(form, skipValidation = false) {
             firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
             setTimeout(() => firstInvalidField.focus(), 300);
         }
+    } else {
+        // Aesthetic Polish: Button loading state on valid submit
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn && !submitBtn.dataset.submitting) {
+            submitBtn.dataset.submitting = "true";
+            const originalHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-80', 'cursor-wait');
+            submitBtn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin shrink-0 text-current" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Processing...</span>
+            `;
+        }
     }
 
     return isValid;
 };
+
+// ==========================================
+// COMMAND PALETTE (CTRL + K) UX SYSTEM
+// ==========================================
+const commandPaletteItems = [
+    { name: 'Dashboard Overview', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', url: 'dashboard', category: 'Navigation' },
+    { name: 'Add News Update', icon: 'M12 4v16m8-8H4', url: 'news-add', category: 'Quick Action' },
+    { name: 'News & Press Releases', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15', url: 'news', category: 'Content' },
+    { name: 'Special Notices', icon: 'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9', url: 'manage-special-notices', category: 'Content' },
+    { name: 'Directory Officials', icon: 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z', url: 'officials', category: 'Directory' },
+    { name: 'Circuit Bungalow Bookings', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', url: 'bungalow-bookings', category: 'Services' },
+    { name: 'Homepage Slider Collections', icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z', url: 'manage-sliders', category: 'Media' },
+    { name: 'Local Learning & Publications', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253', url: 'manage-learning-platforms-local', category: 'Publications' },
+    { name: 'Foreign Learning & Publications', icon: 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5a2.5 2.5 0 002.5-2.5V7a2 2 0 00-2-2h-1.5a.5.5 0 01-.5-.5V3.935M21 12a9 9 0 11-18 0 9 9 0 0118 0z', url: 'manage-learning-platforms-foreign', category: 'Publications' },
+    { name: 'Tenders & Procurements', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', url: 'manage-procurements', category: 'Careers' },
+    { name: 'Vacancies & Careers', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', url: 'manage-vacancies', category: 'Careers' },
+    { name: 'Administrator Accounts', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', url: 'manage-admins', category: 'Settings' },
+    { name: 'Account Settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', url: 'settings', category: 'Settings' }
+];
+
+window.openCommandPalette = function() {
+    let modal = document.getElementById('command-palette-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'command-palette-modal';
+        modal.className = 'fixed inset-0 z-[99999] flex items-start justify-center pt-16 md:pt-24 px-4 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-200 opacity-0 pointer-events-none';
+        
+        modal.innerHTML = `
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-100 flex flex-col max-h-[80vh] transform scale-95 transition-all duration-200" id="command-palette-card">
+                <div class="p-4 border-b border-slate-100 flex items-center gap-3 relative bg-slate-50/50">
+                    <svg class="w-5 h-5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path></svg>
+                    <input type="text" id="cmd-input" placeholder="Type a command or search page links..." class="w-full bg-transparent text-sm text-slate-800 focus:outline-none font-medium placeholder-slate-400">
+                    <kbd class="px-2 py-1 text-[10px] font-mono font-bold bg-slate-200/70 text-slate-500 rounded border border-slate-300/60 shrink-0">ESC</kbd>
+                </div>
+                <div class="overflow-y-auto p-2 space-y-1 flex-1" id="cmd-results"></div>
+                <div class="px-4 py-2.5 bg-slate-50 border-t border-slate-100 text-[11px] text-slate-400 font-medium flex items-center justify-between font-mono">
+                    <span>Use ↑ ↓ to navigate, Enter to select</span>
+                    <span>Ministry CMS</span>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeCommandPalette();
+        });
+    }
+
+    const card = modal.querySelector('#command-palette-card');
+    const input = modal.querySelector('#cmd-input');
+    const results = modal.querySelector('#cmd-results');
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    card.classList.remove('scale-95');
+    card.classList.add('scale-100');
+
+    input.value = '';
+    renderCommandResults('', results);
+    setTimeout(() => input.focus(), 50);
+
+    let activeIndex = 0;
+
+    const handleKey = (e) => {
+        if (e.key === 'Escape') {
+            closeCommandPalette();
+            document.removeEventListener('keydown', handleKey);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const items = results.querySelectorAll('.cmd-item');
+            if (items.length > 0) {
+                activeIndex = (activeIndex + 1) % items.length;
+                updateActiveCmdItem(items, activeIndex);
+            }
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            const items = results.querySelectorAll('.cmd-item');
+            if (items.length > 0) {
+                activeIndex = (activeIndex - 1 + items.length) % items.length;
+                updateActiveCmdItem(items, activeIndex);
+            }
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            const items = results.querySelectorAll('.cmd-item');
+            if (items[activeIndex]) {
+                items[activeIndex].click();
+            }
+        }
+    };
+
+    document.addEventListener('keydown', handleKey);
+
+    input.oninput = (e) => {
+        activeIndex = 0;
+        renderCommandResults(e.target.value, results);
+    };
+};
+
+function closeCommandPalette() {
+    const modal = document.getElementById('command-palette-modal');
+    if (!modal) return;
+    const card = modal.querySelector('#command-palette-card');
+    card.classList.remove('scale-100');
+    card.classList.add('scale-95');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+}
+
+function renderCommandResults(query, container) {
+    const q = query.toLowerCase().trim();
+    const filtered = commandPaletteItems.filter(item => 
+        item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
+    );
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="py-8 text-center text-xs text-slate-400">
+                No matching admin pages or actions found.
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = filtered.map((item, idx) => `
+        <a href="${item.url}" class="cmd-item flex items-center justify-between p-3 rounded-xl transition-all duration-150 group ${idx === 0 ? 'bg-slate-100/80 text-primary font-bold' : 'hover:bg-slate-50 text-slate-700 font-medium'}">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-white border border-slate-200/80 flex items-center justify-center text-slate-500 group-hover:text-primary transition-colors shrink-0 shadow-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${item.icon}"></path></svg>
+                </div>
+                <span class="text-[13px]">${item.name}</span>
+            </div>
+            <span class="text-[10px] font-mono uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-slate-200/50 text-slate-500">${item.category}</span>
+        </a>
+    `).join('');
+}
+
+function updateActiveCmdItem(items, activeIndex) {
+    items.forEach((el, idx) => {
+        if (idx === activeIndex) {
+            el.classList.add('bg-slate-100/80', 'text-primary', 'font-bold');
+            el.classList.remove('hover:bg-slate-50');
+            el.scrollIntoView({ block: 'nearest' });
+        } else {
+            el.classList.remove('bg-slate-100/80', 'text-primary', 'font-bold');
+        }
+    });
+}
+
+// Bind Ctrl+K global shortcut
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        window.openCommandPalette();
+    }
+});
+
+// ==========================================
+// ASYNC INLINE SWITCH TOGGLES (AJAX)
+// ==========================================
+document.addEventListener('change', (e) => {
+    if (e.target.classList.contains('js-status-toggle')) {
+        const toggle = e.target;
+        const targetUrl = toggle.dataset.url;
+        const action = toggle.dataset.action;
+        const id = toggle.dataset.id;
+        const isChecked = toggle.checked ? 1 : 0;
+
+        if (!targetUrl || !action || !id) return;
+
+        const formData = new FormData();
+        formData.append('action', action);
+        formData.append('id', id);
+        formData.append('status', isChecked);
+
+        fetch(targetUrl, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast(data.message || "Status updated successfully", "success");
+            } else {
+                toggle.checked = !toggle.checked; // Revert on failure
+                showToast(data.error || "Failed to update status", "error");
+            }
+        })
+        .catch(err => {
+            toggle.checked = !toggle.checked; // Revert on failure
+            showToast("Network connection error", "error");
+        });
+    }
+});
+
 

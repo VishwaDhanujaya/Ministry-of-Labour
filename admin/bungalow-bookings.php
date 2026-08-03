@@ -197,10 +197,12 @@ function getDayOccupancy(array $dayBookings) {
     ];
 }
 
-function getEstimatedCost($category, $roomTypeStr, $nights, $entireBungalow = 0) {
-    $category = trim($category);
+function getEstimatedCost(?string $category, ?string $roomTypeStr, int|string $nights, int $entireBungalow = 0): float|int {
+    $category = trim((string)$category);
+    $roomTypeStr = (string)$roomTypeStr;
     $nights = (int)$nights;
     if ($nights <= 0) $nights = 1;
+
     
     $tier = 2; // Default: Local Citizens / Private
     if (stripos($category, 'Ministry of Labour') !== false || stripos($category, 'MOL') !== false) {
@@ -326,10 +328,11 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Bungalow Bookings</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Monitor reservations, approve room occupancy, and view guest timelines.</p>
             </div>
-            <button class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
+            <a href="../ampara-circuit-bungalow-booking.php" target="_blank" rel="noopener" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                 New Booking
-            </button>
+            </a>
+
         </div>
 
         <!-- Statistics Cards Grid -->
