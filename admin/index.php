@@ -69,6 +69,7 @@ if ($adminUser) {
     $recentLogs = [];
 }
 
+$pageTitle = 'Dashboard';
 include 'includes/header.php'; 
 ?>
 <!-- Chart.js Defer Loaded -->
@@ -89,10 +90,6 @@ include 'includes/header.php';
             <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-white/5 border border-white/10 blur-[1px] pointer-events-none"></div>
             
             <div class="relative z-10 max-w-xl">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 border border-white/10 rounded-full text-[11px] font-bold uppercase tracking-wider mb-4 font-mono select-none text-slate-100">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>System Active &bull; <?= date('M j, Y') ?></span>
-                </div>
                 <?php 
                 $adminUser = getLoggedInAdmin(); 
                 $hour = date('H');
@@ -127,18 +124,18 @@ include 'includes/header.php';
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-<?= $statCardsCount ?> gap-5 mb-8">
             <!-- News Count -->
             <?php if ($showNewsStat): ?>
-            <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-secondary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-gradient-to-br from-white to-slate-50/50 p-6 rounded-2xl border border-slate-100/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
+                <div class="absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-secondary to-secondary/80"></div>
                 <div class="flex justify-between items-start">
                     <div>
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">News & Updates</span>
                         <p class="text-3xl font-extrabold text-slate-800 font-montserrat mt-2"><?= $newsCount ?></p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl bg-red-50 text-secondary flex items-center justify-center shrink-0 shadow-sm border border-red-100/50 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-[#4E0911]/5 text-secondary flex items-center justify-center shrink-0 border border-[#4E0911]/10 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
                     </div>
                 </div>
-                <div class="mt-5 pt-3.5 border-t border-slate-50 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
+                <div class="mt-5 pt-3.5 border-t border-slate-100/70 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
                     <span class="text-slate-400"><?= $newsThisMonth ?> new this month</span>
                     <a href="news" class="text-secondary hover:text-[#721c1c] transition-colors flex items-center gap-1">
                         Manage
@@ -150,20 +147,20 @@ include 'includes/header.php';
 
             <!-- Publications -->
             <?php if ($showPubsStat): ?>
-            <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-gradient-to-br from-white to-slate-50/50 p-6 rounded-2xl border border-slate-100/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
+                <div class="absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-[#1E3E62] to-[#2D5C8F]"></div>
                 <div class="flex justify-between items-start">
                     <div>
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Publications</span>
                         <p class="text-3xl font-extrabold text-slate-800 font-montserrat mt-2"><?= $totalPublications ?></p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 shadow-sm border border-blue-100/50 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-[#13273F]/5 text-[#13273F] flex items-center justify-center shrink-0 border border-[#13273F]/10 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     </div>
                 </div>
-                <div class="mt-5 pt-3.5 border-t border-slate-50 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
+                <div class="mt-5 pt-3.5 border-t border-slate-100/70 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
                     <span class="text-slate-400">Local & Foreign docs</span>
-                    <a href="manage-learning-platforms-local" class="text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1">
+                    <a href="manage-learning-platforms-local" class="text-[#13273F] hover:text-[#1E3E62] transition-colors flex items-center gap-1">
                         Manage
                         <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -173,20 +170,20 @@ include 'includes/header.php';
 
             <!-- Bookings -->
             <?php if ($showBookingsStat): ?>
-            <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-gradient-to-br from-white to-slate-50/50 p-6 rounded-2xl border border-slate-100/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
+                <div class="absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-amber-500 to-amber-600"></div>
                 <div class="flex justify-between items-start">
                     <div>
                         <span class="text-[11px] font-bold text-amber-600 uppercase tracking-wider block">Pending Bookings</span>
                         <p class="text-3xl font-extrabold text-slate-800 font-montserrat mt-2"><?= sprintf('%02d', $pendingBookings) ?></p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-sm border border-amber-100/50 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/5 text-amber-700 flex items-center justify-center shrink-0 border border-amber-500/10 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
-                <div class="mt-5 pt-3.5 border-t border-slate-50 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
+                <div class="mt-5 pt-3.5 border-t border-slate-100/70 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
                     <span class="text-slate-400"><?= $totalBookings ?> total bookings</span>
-                    <a href="bungalow-bookings" class="text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-1">
+                    <a href="bungalow-bookings" class="text-amber-650 hover:text-amber-700 transition-colors flex items-center gap-1">
                         Review
                         <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -196,18 +193,18 @@ include 'includes/header.php';
 
             <!-- Tenders & Careers -->
             <?php if ($showTeCarStat): ?>
-            <div class="bg-white p-6 rounded-2xl border border-slate-100/80 shadow-[0_4px_16px_rgba(0,0,0,0.015)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.035)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between relative group overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-gradient-to-br from-white to-slate-50/50 p-6 rounded-2xl border border-slate-100/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden">
+                <div class="absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-teal-500 to-teal-600"></div>
                 <div class="flex justify-between items-start">
                     <div>
                         <span class="text-[11px] font-bold text-teal-600 uppercase tracking-wider block">Tenders & Careers</span>
                         <p class="text-3xl font-extrabold text-slate-800 font-montserrat mt-2"><?= $procurementCount + $vacancyCount ?></p>
                     </div>
-                    <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 shadow-sm border border-teal-100/50 group-hover:scale-105 transition-transform duration-200">
+                    <div class="w-10 h-10 rounded-xl bg-teal-500/5 text-teal-700 flex items-center justify-center shrink-0 border border-teal-500/10 group-hover:scale-105 transition-transform duration-200">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     </div>
                 </div>
-                <div class="mt-5 pt-3.5 border-t border-slate-50 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
+                <div class="mt-5 pt-3.5 border-t border-slate-100/70 flex items-center justify-between text-[11.5px] text-slate-500 font-semibold font-inter">
                     <span class="text-slate-400"><?= $procurementCount ?> tenders / <?= $vacancyCount ?> jobs</span>
                     <a href="manage-procurements" class="text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
                         Manage

@@ -126,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 $stmt = $pdo->query("SELECT * FROM procurements ORDER BY created_at DESC");
 $procurements = $stmt->fetchAll();
 
+$pageTitle = 'Manage Procurements';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -139,12 +140,12 @@ include 'includes/header.php';
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Procurements</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Configure, edit, and publish procurement tenders and contract plans.</p>
             </div>
-            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm gap-1.5">
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 New Procurement
             </button>

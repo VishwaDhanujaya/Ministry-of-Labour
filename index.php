@@ -208,72 +208,81 @@ if (empty($hero_sliders)) {
 }
 ?>
 <!-- Hero Section -->
-<section class="relative bg-[#08121e] overflow-hidden min-h-[480px] sm:min-h-[520px] lg:h-[calc(100vh-220px)] lg:min-h-[460px] w-full flex flex-col justify-center">
+<section class="relative bg-[#091522] overflow-hidden min-h-[420px] sm:min-h-[460px] lg:h-[calc(100vh-215px)] lg:min-h-[400px] max-h-[640px] w-full flex flex-col justify-center">
     <!-- Full-Bleed Background Swiper Image Carousel -->
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden" data-aos="fade" data-aos-duration="800">
-        <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.4);">
+        <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.35);">
             <div class="swiper-wrapper">
                 <?php foreach ($hero_sliders as $slide): ?>
+                    <?php 
+                    $slide_src = $slide['image'];
+                    if (strpos($slide_src, 'uploads/') === 0) {
+                        $slide_src = 'admin/' . $slide_src;
+                    }
+                    ?>
                     <div class="swiper-slide overflow-hidden relative">
-                        <img src="<?= htmlspecialchars($slide['image']) ?>" alt="Ministry Hero Slider" class="w-full h-full object-cover object-center">
+                        <img src="<?= htmlspecialchars($slide_src) ?>" alt="Ministry Hero Slider" class="w-full h-full object-cover object-center">
                     </div>
                 <?php endforeach; ?>
             </div>
-            <!-- Custom Slider Navigation controls -->
-            <div class="absolute bottom-16 right-6 hidden sm:flex items-center gap-2.5 z-30">
-                <button type="button" aria-label="Previous slide" class="swiper-button-prev-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#08121e]/80 hover:bg-secondary border border-white/20 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+            <!-- Custom Slider Navigation Controls -->
+            <div class="absolute bottom-14 right-6 lg:right-16 hidden sm:flex items-center gap-2 z-30">
+                <button type="button" aria-label="Previous slide" class="swiper-button-prev-custom cursor-pointer flex items-center justify-center text-white/90 hover:text-white w-9 h-9 bg-black/40 hover:bg-secondary border border-white/15 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none shadow-md">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <button type="button" aria-label="Next slide" class="swiper-button-next-custom cursor-pointer flex items-center justify-center text-white w-9 h-9 bg-[#08121e]/80 hover:bg-secondary border border-white/20 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none shadow-lg">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+                <button type="button" aria-label="Next slide" class="swiper-button-next-custom cursor-pointer flex items-center justify-center text-white/90 hover:text-white w-9 h-9 bg-black/40 hover:bg-secondary border border-white/15 hover:border-secondary backdrop-blur-md rounded-full transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none shadow-md">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
             <!-- Slider Pagination dot bullets -->
-            <div class="swiper-pagination !bottom-16 sm:!bottom-18 z-30"></div>
+            <div class="swiper-pagination !bottom-14 z-30"></div>
         </div>
     </div>
 
-    <!-- Continuous Desktop Horizontal Color Gradient Overlay -->
+    <!-- Desktop Horizontal Gradient Overlay: High-contrast mask on left, smooth transition to reveal right side image -->
     <div class="hidden lg:block absolute inset-0 z-10 pointer-events-none"
-         style="background: linear-gradient(to right, #13273F 0%, rgba(19, 39, 63, 0.98) 28%, rgba(15, 33, 54, 0.88) 42%, rgba(12, 27, 45, 0.58) 58%, rgba(8, 18, 30, 0.22) 75%, rgba(8, 18, 30, 0.04) 90%, transparent 100%);">
+         style="background: linear-gradient(90deg, #13273F 0%, rgba(19, 39, 63, 0.95) 38%, rgba(19, 39, 63, 0.5) 65%, transparent 100%);">
     </div>
 
-    <!-- Continuous Mobile Vertical Color Gradient Overlay -->
+    <!-- Mobile Vertical Gradient Overlay: Ensures readability over dynamic background images -->
     <div class="block lg:hidden absolute inset-0 z-10 pointer-events-none"
-         style="background: linear-gradient(to bottom, #13273F 0%, rgba(19, 39, 63, 0.95) 45%, rgba(12, 27, 45, 0.8) 70%, rgba(8, 18, 30, 0.5) 88%, transparent 100%);">
+         style="background: linear-gradient(180deg, rgba(19, 39, 63, 0.96) 0%, rgba(19, 39, 63, 0.82) 55%, rgba(9, 21, 34, 0.95) 100%);">
     </div>
 
-    <!-- Bottom Ticker Transition Shade -->
-    <div class="absolute bottom-0 left-0 right-0 h-24 z-10 pointer-events-none"
-         style="background: linear-gradient(to top, #08121e 0%, rgba(8, 18, 30, 0.8) 50%, transparent 100%);">
+    <!-- Bottom Vignette for seamless News Bar transition -->
+    <div class="absolute bottom-0 left-0 right-0 h-20 z-10 pointer-events-none bg-gradient-to-t from-[#091522] to-transparent">
     </div>
 
     <!-- Foreground Content Layer: Welcome Text Container -->
-    <div class="container mx-auto px-6 sm:px-10 lg:px-16 text-white relative z-20 py-12 lg:py-0 pb-20 lg:pb-0 notranslate">
+    <div class="container mx-auto px-6 sm:px-10 lg:px-16 text-white relative z-20 py-10 lg:py-0 pb-20 lg:pb-0 notranslate">
         <div class="max-w-xl" data-aos="fade-right" data-aos-duration="800">
-            <h2 class="text-slate-300 text-xs sm:text-sm font-medium font-inter tracking-wider uppercase mb-2"><?= htmlspecialchars(t('welcome_to')) ?></h2>
-            <h1 class="text-2xl sm:text-3xl xl:text-[38px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-4">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white/90 text-[11px] sm:text-xs font-semibold font-inter tracking-wider uppercase backdrop-blur-md border border-white/15 mb-3">
+                <?= htmlspecialchars(t('welcome_to')) ?>
+            </div>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-3 sm:mb-4">
                 <?= htmlspecialchars(t('ministry_of_labour')) ?>
             </h1>
-            <p class="text-[13px] sm:text-[13.5px] font-inter leading-relaxed text-slate-300 mb-6 max-w-lg text-left">
+            <p class="text-slate-300 font-inter text-xs sm:text-sm lg:text-[14px] leading-relaxed mb-5 sm:mb-7 max-w-xl">
                 <?= htmlspecialchars(t('hero_desc')) ?>
             </p>
-            <div class="flex flex-wrap gap-2.5 sm:gap-4">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
                 <a href="#quick-links"
-                    class="bg-secondary text-white font-bold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border border-transparent hover:bg-[#a92222] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter text-center flex items-center justify-center">
-                    <?= htmlspecialchars(t('quick_links')) ?>
+                    class="inline-flex items-center justify-center gap-2 bg-secondary text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg hover:bg-[#8e1b1b] hover:shadow-lg hover:shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-xs uppercase tracking-wider font-inter">
+                    <span><?= htmlspecialchars(t('quick_links')) ?></span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </a>
                 <a href="#news-section"
-                    class="bg-white/5 backdrop-blur-sm text-white font-bold py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:border-white hover:bg-white hover:text-primary hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transform transition-all duration-200 text-[11px] sm:text-[12px] uppercase tracking-wider font-inter flex items-center justify-center text-center">
-                    <?= htmlspecialchars(t('view_news')) ?>
+                    class="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:bg-white hover:text-primary hover:border-white hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-xs uppercase tracking-wider font-inter">
+                    <span><?= htmlspecialchars(t('view_news')) ?></span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
             </div>
         </div>
     </div>
 
     <!-- Scrolling News Bar strictly anchored to absolute bottom of hero section -->
-    <div class="absolute bottom-0 left-0 w-full z-30 bg-slate-950/80 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-12 shadow-lg">
-        <div class="bg-primary text-white font-bold text-[10px] md:text-xs px-4 md:px-6 uppercase tracking-widest shrink-0 z-10 shadow-[10px_0_20px_rgba(0,0,0,0.5)] items-center justify-center hidden md:flex notranslate">
+    <div class="absolute bottom-0 left-0 w-full z-30 bg-[#060d15]/90 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-11 shadow-md">
+        <div class="bg-primary text-white font-bold text-[11px] px-5 uppercase tracking-wider shrink-0 z-10 border-r border-white/10 hidden md:flex items-center justify-center notranslate">
             <?= t('latest_news') ?>
         </div>
         
@@ -281,18 +290,17 @@ if (empty($hero_sliders)) {
             <div class="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] items-center">
                 <?php if(!empty($recentNews)): ?>
                     <?php 
-                    // Duplicate for seamless infinite scrolling
                     $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
                     foreach($tickerNews as $news): 
                     ?>
-                        <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-gray-100 hover:text-yellow-400 transition-colors mx-6 md:mx-10 font-inter text-[13px] md:text-sm group/link notranslate">
+                        <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-slate-200 hover:text-amber-300 transition-colors mx-6 font-inter text-xs md:text-[13px] font-medium group/link notranslate">
                             <?= htmlspecialchars($news['title']) ?>
-                            <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            <svg class="w-3.5 h-3.5 ml-1.5 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                         </a>
-                        <span class="w-1 h-1 rounded-full bg-white/30 mx-2"></span>
+                        <span class="w-1 h-1 rounded-full bg-white/20 shrink-0"></span>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <span class="text-gray-300 mx-8 font-inter text-sm">No recent news available.</span>
+                    <span class="text-slate-400 mx-8 font-inter text-xs">No recent news available.</span>
                 <?php endif; ?>
             </div>
         </div>
@@ -308,10 +316,18 @@ if (empty($hero_sliders)) {
         animation: marquee 40s linear infinite;
         will-change: transform;
     }
+    .swiper-pagination-bullet {
+        transition: all 0.3s ease !important;
+    }
+    .swiper-pagination-bullet-active {
+        width: 24px !important;
+        border-radius: 6px !important;
+        background: #ffffff !important;
+    }
 </style>
 
 <!-- Stats Bar -->
-<div class="bg-secondary text-white py-5 relative z-20">
+<div class="bg-secondary text-white py-3.5 md:py-4 relative z-20">
     <div class="container mx-auto px-4 md:px-16 relative z-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center md:divide-x divide-white/20">
             <?php 
@@ -391,7 +407,7 @@ if (empty($hero_sliders)) {
                 <!-- Card 1 -->
                 <button class="group inst-split-tab active snap-center" data-target="inst-dol">
                     <span class="flex items-center">
-                        <span class="truncate notranslate" translate="no"><?= t('inst_dol_title', 'Department of Labour') ?></span>
+                        <span class="notranslate" translate="no"><?= t('inst_dol_title', 'Department of Labour') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -399,7 +415,7 @@ if (empty($hero_sliders)) {
                 <!-- Card 2 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-dme">
                     <span class="flex items-center">
-                        <span class="truncate notranslate" translate="no"><?= t('inst_dme_title', 'Department of Manpower and Employment') ?></span>
+                        <span class="notranslate" translate="no"><?= t('inst_dme_title', 'Department of Manpower and Employment') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -407,7 +423,7 @@ if (empty($hero_sliders)) {
                 <!-- Card 3 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-nils">
                     <span class="flex items-center">
-                        <span class="truncate notranslate" translate="no"><?= t('inst_nils_title', 'National Institute of Labour Studies') ?></span>
+                        <span class="notranslate" translate="no"><?= t('inst_nils_title', 'National Institute of Labour Studies') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -415,7 +431,7 @@ if (empty($hero_sliders)) {
                 <!-- Card 4 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-niosh">
                     <span class="flex items-center">
-                        <span class="truncate notranslate" translate="no"><?= t('inst_niosh_title', 'National Institute of Occupational Safety and Health') ?></span>
+                        <span class="notranslate" translate="no"><?= t('inst_niosh_title', 'National Institute of Occupational Safety and Health') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -423,7 +439,7 @@ if (empty($hero_sliders)) {
                 <!-- Card 5 -->
                 <button class="group inst-split-tab snap-center" data-target="inst-wc">
                     <span class="flex items-center">
-                        <span class="truncate notranslate" translate="no"><?= t('inst_wc_title', "Office of the Commissioner for Workmen's Compensation") ?></span>
+                        <span class="notranslate" translate="no"><?= t('inst_wc_title', "Office of the Commissioner for Workmen's Compensation") ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -688,7 +704,7 @@ if (empty($hero_sliders)) {
             
             <!-- Downloads Column -->
             <div class="bg-[#FAFAFA] rounded-[32px] p-8 md:p-12 flex flex-col self-start">
-                <h3 class="font-semibold text-3xl md:text-4xl font-montserrat mb-8 text-primary notranslate"><?= t('downloads') ?></h3>
+                <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight mb-8 notranslate"><?= t('downloads') ?></h3>
                 
                 <div class="flex flex-col space-y-3.5">
                     <?php
@@ -711,9 +727,10 @@ if (empty($hero_sliders)) {
             </div>
 
             <!-- Announcements Column -->
-            <div class="bg-white rounded-[32px] border-[0.5px] border-[#D4D4D4] shadow-sm overflow-hidden flex flex-col h-full">
-                <div class="bg-primary text-white py-4 px-6 relative overflow-hidden shrink-0">
-                    <h3 class="font-medium text-[18px] md:text-[20px] font-montserrat flex items-center relative z-10 tracking-wide notranslate"><?= htmlspecialchars(t('announcements')) ?></h3>
+            <div class="bg-white rounded-[32px] border border-gray-200 shadow-sm overflow-hidden flex flex-col h-full">
+                <div class="bg-primary text-white py-5 px-6 sm:px-8 relative overflow-hidden shrink-0 border-b border-white/10 flex items-center justify-between">
+                    <h3 class="font-bold text-lg sm:text-xl font-montserrat uppercase tracking-tight text-white relative z-10 notranslate"><?= htmlspecialchars(t('announcements')) ?></h3>
+                    <span class="w-2 h-2 rounded-full bg-secondary"></span>
                 </div>
                 <div class="divide-y divide-gray-100 bg-white flex-grow flex flex-col">
                     <?php if(empty($announcements)): ?>
@@ -729,7 +746,7 @@ if (empty($hero_sliders)) {
                         <div class="p-4 md:p-5 flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors duration-200">
                             <div class="flex-grow">
                                 <div class="mb-1">
-                                    <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-[9px] font-bold uppercase tracking-wider rounded"><?= $notice['type'] ?></span>
+                                    <span class="inline-block px-2.5 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-md font-inter"><?= $notice['type'] ?></span>
                                 </div>
                                 <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug">
                                     <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-secondary transition-colors duration-200">

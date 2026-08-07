@@ -158,13 +158,15 @@
     </button>
 
     <footer class="bg-primary text-white pt-16 relative overflow-hidden">
+        <!-- Top accent line -->
+        <div class="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-secondary via-white/10 to-secondary z-20"></div>
 
         <!-- Subtle Background mesh for premium grid texture -->
         <div class="absolute inset-0 bg-mesh-pattern opacity-5 pointer-events-none"></div>
         <div class="container mx-auto px-4 md:px-16 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-10 mb-16">
                 <!-- Col 1 -->
-                <div class="md:col-span-12 lg:col-span-5 lg:pr-8 notranslate">
+                <div class="md:col-span-12 lg:col-span-4 lg:pr-8 notranslate">
                     <div class="flex items-center mb-6">
                         <?php
                         $logo_path = dirname(__DIR__) . '/assets/img/logo.png';
@@ -172,25 +174,16 @@
                         ?>
                         <img loading="lazy" src="assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
                     </div>
-                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
+                    <p class="text-gray-300 text-sm font-inter leading-relaxed">
                         <?= t('footer_motto') ?>
                     </p>
-                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-4">
-                        <?= t('subscribe_title') ?>
-                    </p>
-                    <div class="mb-4">
-                        <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
-                            <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
-                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
-                        </form>
-                    </div>
                 </div>
                 
                 <!-- Col 2: Quick Links -->
-                <div class="md:col-span-6 lg:col-span-3 lg:pl-8 notranslate">
+                <div class="md:col-span-6 lg:col-span-4 lg:pl-12 notranslate">
                     <div>
-                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide"><?= t('quick_links') ?></h3>
-                        <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter">
+                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide border-b border-white/10 pb-2 flex items-center justify-between"><?= t('quick_links') ?></h3>
+                        <ul class="space-y-3.5 text-[14px] text-gray-300 font-inter leading-relaxed">
                             <li><a href="<?= navUrl('nlac') ?>" class="hover:text-yellow-400 hover:underline transition-all">NLAC</a></li>
                             <li><a href="<?= navUrl('ampara-circuit-bungalow') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('ql_ampara') ?></a></li>
                             <li><a href="<?= navUrl('learning-platforms') ?>" class="hover:text-yellow-400 hover:underline transition-all"><?= t('learning_platforms') ?></a></li>
@@ -202,9 +195,9 @@
                 </div>
                 
                 <!-- Col 3: Contact -->
-                <div class="md:col-span-6 lg:col-span-4 lg:pl-8 notranslate">
+                <div class="md:col-span-6 lg:col-span-4 lg:pl-12 notranslate">
                     <div>
-                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide"><?= t('contact_heading') ?></h3>
+                        <h3 class="font-semibold text-[17px] mb-6 font-montserrat text-white tracking-wide border-b border-white/10 pb-2 flex items-center justify-between"><?= t('contact_heading') ?></h3>
                         <div class="space-y-4 text-[14px] text-gray-300 font-inter leading-relaxed">
                             <div>
                                 <p><?= t('ministry_address') ?></p>

@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
             foreach ($filesToProcess as $singleFile) {
                 if ($singleFile['error'] === UPLOAD_ERR_OK) {
-                    $res = handleFileUpload($singleFile, '../assets/img/home', ['image/jpeg', 'image/png', 'image/webp'], 10485760);
+                    $res = handleFileUpload($singleFile, 'uploads/sliders', ['image/jpeg', 'image/png', 'image/webp'], 10485760);
                     if ($res['success']) {
                         $path = preg_replace('/^\.\.\//', '', $res['path']);
                         $orderStmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 FROM hero_sliders WHERE batch_id = ?");
@@ -165,8 +165,9 @@ if (isset($_GET['delete_batch'])) {
     $stmt->execute([$del_batch_id]);
     $sliders = $stmt->fetchAll();
     foreach ($sliders as $s) {
-        if (!empty($s['image']) && file_exists('../' . $s['image'])) {
-            @unlink('../' . $s['image']);
+        $file_to_delete = (strpos($s['image'], 'uploads/') === 0) ? $s['image'] : '../' . $s['image'];
+        if (!empty($s['image']) && file_exists($file_to_delete)) {
+            @unlink($file_to_delete);
         }
     }
     
@@ -186,8 +187,9 @@ if (isset($_GET['delete_slider'])) {
     $stmt->execute([$del_slider_id]);
     $slider = $stmt->fetch();
     if ($slider) {
-        if (!empty($slider['image']) && file_exists('../' . $slider['image'])) {
-            @unlink('../' . $slider['image']);
+        $file_to_delete = (strpos($slider['image'], 'uploads/') === 0) ? $slider['image'] : '../' . $slider['image'];
+        if (!empty($slider['image']) && file_exists($file_to_delete)) {
+            @unlink($file_to_delete);
         }
         $stmt = $pdo->prepare("DELETE FROM hero_sliders WHERE id = ?");
         $stmt->execute([$del_slider_id]);
@@ -235,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type']) && $_POS
                         'error' => $_FILES['batch_images']['error'][$i],
                         'size' => $_FILES['batch_images']['size'][$i]
                     ];
-                    $uploadResult = handleFileUpload($singleFile, '../assets/img/home', ['image/jpeg', 'image/png', 'image/webp'], 10485760);
+                    $uploadResult = handleFileUpload($singleFile, 'uploads/sliders', ['image/jpeg', 'image/png', 'image/webp'], 10485760);
                     if ($uploadResult['success']) {
                         $image_path = preg_replace('/^\.\.\//', '', $uploadResult['path']);
                         $orderStmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 FROM hero_sliders WHERE batch_id = ?");
@@ -310,6 +312,7 @@ if ($activeBatch) {
     $activeBatch['sliders'] = $stmt->fetchAll();
 }
 
+$pageTitle = 'Manage Home Sliders';
 include 'includes/header.php'; 
 ?>
 <!-- Include SortableJS for smooth drag-and-drop reordering (deferred non-blocking load) -->
@@ -322,13 +325,13 @@ include 'includes/header.php';
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Home Sliders</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Organize homepage hero carousel photos into seasonal or campaign collections.</p>
             </div>
             <div class="flex flex-wrap gap-2.5">
-                <button onclick="openBatchModal('add')" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-xl text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm gap-1.5">
+                <button onclick="openBatchModal('add')" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                     Create Collection
                 </button>
@@ -430,10 +433,14 @@ include 'includes/header.php';
                 <!-- Slider Photos Card Grid -->
                 <div class="slider-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="sliderGrid" data-batch-id="<?= (int)$activeBatch['id'] ?>">
                     <?php foreach (($activeBatch['sliders'] ?? []) as $s): ?>
+                        <?php 
+                        $slide_path = $s['image'];
+                        $display_img = (strpos($slide_path, 'uploads/') === 0) ? $slide_path : '../' . $slide_path;
+                        ?>
                         <div class="slider-card bg-white border border-slate-200/80 rounded-2xl overflow-hidden group hover:shadow-[0_12px_24px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col select-none relative" 
                              data-slider-id="<?= (int)$s['id'] ?>">
-                            <div class="relative h-52 w-full bg-slate-950 overflow-hidden cursor-pointer group/img" onclick="openImagePreview('../<?= htmlspecialchars($s['image']) ?>', '<?= htmlspecialchars(basename($s['image'])) ?>', <?= (int)$s['display_order'] ?>)">
-                                <img src="../<?= htmlspecialchars($s['image']) ?>" alt="Slider" loading="lazy" decoding="async" class="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 pointer-events-none">
+                            <div class="relative h-52 w-full bg-slate-950 overflow-hidden cursor-pointer group/img" onclick="openImagePreview('<?= htmlspecialchars($display_img) ?>', '<?= htmlspecialchars(basename($s['image'])) ?>', <?= (int)$s['display_order'] ?>)">
+                                <img src="<?= htmlspecialchars($display_img) ?>" alt="Slider" loading="lazy" decoding="async" class="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500 pointer-events-none">
                                 
                                 <!-- Hover Zoom Preview Overlay -->
                                 <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none z-10">

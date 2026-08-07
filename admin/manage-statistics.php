@@ -89,6 +89,7 @@ function formatVisitorCount(mixed $val): string {
     return $val;
 }
 
+$pageTitle = 'Manage Home Page Statistics';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>

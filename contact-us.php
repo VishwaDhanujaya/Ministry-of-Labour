@@ -40,9 +40,9 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-6xl">
         
         <!-- Get In Touch Title -->
-        <div class="text-center mb-12" data-aos="fade-up">
-            <p class="text-secondary text-sm font-medium tracking-[0.15em] mb-3 font-inter notranslate"><?= t('get_in_touch', 'Get In Touch') ?></p>
-            <h2 class="text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900 notranslate"><?= t('contact_subtitle', 'Stay updated with Ministry of Labour') ?></h2>
+        <div class="text-center mb-10 md:mb-12" data-aos="fade-up">
+            <p class="section-subtitle notranslate"><?= t('get_in_touch', 'Get In Touch') ?></p>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('contact_subtitle', 'Stay updated with Ministry of Labour') ?></h2>
         </div>
 
         <!-- Info Boxes -->
@@ -208,7 +208,7 @@ include 'includes/sub-hero.php';
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('<?php echo $dept['id']; ?>')"></div>
     
     <div class="relative w-full max-w-[600px] max-h-[90vh] overflow-y-auto bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white custom-scrollbar transform scale-95 transition-all duration-300">
-        <button onclick="closeModal('<?php echo $dept['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white transition-all z-10 bg-black/20 hover:bg-black/40 rounded-full p-1.5 active:scale-95 flex items-center justify-center focus:outline-none">
+        <button onclick="closeModal('<?php echo $dept['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white transition-all z-10 bg-black/20 hover:bg-black/40 rounded-full w-10 h-10 active:scale-95 flex items-center justify-center focus:outline-none" title="Close">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         

@@ -56,6 +56,7 @@ $stmt = $pdo->prepare("SELECT * FROM admins WHERE id = ?");
 $stmt->execute([$admin_id]);
 $current_user = $stmt->fetch();
 
+$pageTitle = 'Admin Settings';
 include 'includes/header.php';
 ?>
 <?php include 'includes/sidebar.php'; ?>

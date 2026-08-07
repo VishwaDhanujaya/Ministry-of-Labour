@@ -42,7 +42,7 @@ include 'includes/sub-hero.php';
             <!-- Form Header & Stepper -->
 
             <div class="bg-primary px-8 py-6 text-white">
-                <h2 class="text-2xl font-montserrat font-semibold mb-6">Ampara Circuit Bungalow Reservation Form</h2>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-white uppercase tracking-tight mb-6">Ampara Circuit Bungalow Reservation Form</h2>
                 <div class="flex items-center justify-between relative">
                     <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-0.5 bg-white/20 z-0"></div>
                     <div class="absolute left-0 top-1/2 -translate-y-1/2 h-0.5 bg-white z-0 transition-all duration-500" id="progress-bar" style="width: 0%;"></div>
@@ -791,7 +791,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!daysContainer) return;
 
         monthLabel.textContent = new Date(monthStr + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        daysContainer.innerHTML = '<div class="col-span-7 py-4 text-center text-xs text-slate-400">Loading availability...</div>';
+        
+        let skeletons = '';
+        for (let i = 0; i < 28; i++) {
+            skeletons += '<div class="h-9 border border-slate-100 rounded-lg skeleton-box"></div>';
+        }
+        daysContainer.innerHTML = skeletons;
 
         fetch('check-room-availability?action=month_calendar&month=' + monthStr)
             .then(res => res.json())

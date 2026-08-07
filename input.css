@@ -136,6 +136,12 @@
     scrollbar-width: none;
     /* Firefox */
   }
+
+  /* Focus rings for keyboard accessibility */
+  :focus-visible {
+    outline: 2.5px solid #4E0911 !important;
+    outline-offset: 3px !important;
+  }
 }
 
 @layer utilities {
@@ -357,7 +363,7 @@
   }
 
   .focus-card {
-    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border-[0.5px] border-[#D4D4D4] flex flex-col justify-between;
+    @apply min-w-full sm:min-w-[calc(50%-12px)] lg:min-w-[calc(25%-18px)] snap-start bg-white text-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 border border-gray-200/80 flex flex-col justify-between hover:border-secondary/40 hover:shadow-xl transition-all duration-300;
   }
 
   .focus-card-icon {
@@ -389,11 +395,11 @@
   }
 
   .section-subtitle {
-    @apply text-secondary font-normal uppercase text-xs md:text-sm tracking-[0.2em] mb-3 font-inter;
+    @apply text-secondary font-semibold uppercase text-xs sm:text-sm tracking-widest mb-2 font-inter;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-semibold font-montserrat tracking-tight text-primary mb-8;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat tracking-tight text-primary uppercase mb-6 md:mb-8;
   }
 
   .about-stats-container {
@@ -401,19 +407,19 @@
   }
 
   .about-stat-card {
-    @apply relative bg-[#FBFBFB] border border-gray-200/80 rounded-2xl py-3 px-5 md:px-6 flex flex-col items-center justify-center w-full max-w-[190px] shadow-sm overflow-hidden text-center;
+    @apply relative bg-gradient-to-br from-white to-gray-50/80 border border-gray-200/50 rounded-2xl py-5 px-6 flex flex-col items-center justify-center w-full max-w-[190px] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 overflow-hidden text-center;
   }
 
   .about-stat-card-accent {
-    @apply absolute left-0 top-0 bottom-0 w-2.5 bg-secondary;
+    @apply absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-secondary to-secondary/80;
   }
 
   .about-stat-number {
-    @apply text-2xl md:text-3xl font-semibold font-montserrat text-secondary mb-0.5 text-center;
+    @apply text-3xl md:text-4xl font-bold font-montserrat text-secondary mb-1 text-center;
   }
 
   .about-stat-label {
-    @apply text-xs md:text-sm font-inter font-normal text-gray-600 text-center;
+    @apply text-[11px] md:text-[11.5px] font-inter font-bold uppercase tracking-wider text-gray-500 text-center leading-snug mt-1.5;
   }
 
   /* Premium Affiliated Institutions & Divisions unified split-pane tab selector */
@@ -553,15 +559,30 @@
   }
 
 
-  /* Skeleton Shimmer Loading Placeholder */
-  @keyframes skeleton-shimmer {
-    0% { background-position: -200px 0; }
-    100% { background-position: calc(200px + 100%) 0; }
+  /* Compatibility standard property declarations */
+  button,
+  input[type='button'],
+  input[type='reset'],
+  input[type='submit'] {
+    appearance: button;
   }
-  .skeleton-box {
-    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
-    background-size: 200px 100%;
-    animation: skeleton-shimmer 1.5s infinite;
+
+  [type='search'] {
+    appearance: textfield;
+  }
+
+  .line-clamp-2 {
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    line-clamp: 3;
+  }
+
+  .line-clamp-6 {
+    line-clamp: 6;
   }
 }
+
+
 

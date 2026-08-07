@@ -18,7 +18,7 @@ $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Ministry of Labour</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - Admin Panel - Ministry of Labour' : 'Admin Dashboard - Ministry of Labour' ?></title>
     
     <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

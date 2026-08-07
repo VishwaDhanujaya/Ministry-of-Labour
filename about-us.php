@@ -46,7 +46,7 @@ include 'includes/sub-hero.php';
         </div>
         <!-- Content -->
         <div class="w-full lg:w-1/2" data-aos="fade-left">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-6 notranslate"><?= t('overview', 'Overview') ?></h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 notranslate"><?= t('overview', 'Overview') ?></h2>
             <div class="space-y-4 text-gray-600 font-inter text-[15px] leading-relaxed mb-10 notranslate">
                 <p><?= t('overview_p1') ?></p>
                 <p><?= t('overview_p2') ?></p>
@@ -71,7 +71,7 @@ include 'includes/sub-hero.php';
 <!-- Related Organizations -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto" data-aos="fade-up">
-        <h2 class="text-2xl md:text-3xl font-bold text-primary font-montserrat mb-8 text-center"><?= t('related_organizations', 'Related Organizations') ?></h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 text-center"><?= t('related_organizations', 'Related Organizations') ?></h2>
         <div id="partners-track"
             class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 py-8 justify-items-center items-center">
             <a href="https://www.presidentsoffice.gov.lk/" target="_blank" rel="noopener noreferrer" aria-label="Presidential Secretariat Official Website"
@@ -114,26 +114,47 @@ include 'includes/sub-hero.php';
         <div class="flex flex-col lg:flex-row rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(19,39,63,0.04)] hover:shadow-[0_20px_50px_rgba(19,39,63,0.08)] border border-gray-200/60 transition-all duration-500" data-aos="fade-up">
             <!-- Vision & Mission -->
             <div
-                class="w-full lg:w-[63%] bg-gradient-to-br from-primary to-[#162e49] text-white p-8 md:p-12 lg:p-14 flex flex-col justify-center relative overflow-hidden">
+                class="w-full lg:w-[63%] bg-gradient-to-br from-primary via-primary to-[#0f1f33] text-white p-8 md:p-12 lg:p-14 flex flex-col justify-center relative overflow-hidden">
                 <!-- Ambient Glow Orbs -->
                 <div class="absolute -left-12 -top-12 w-64 h-64 bg-secondary/15 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
                 
-                <div class="relative z-10 mb-10">
-                    <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-4 text-white tracking-tight flex items-center gap-3">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        <span class="notranslate"><?= t('about_vision_title', 'Our Vision') ?></span>
-                    </h3>
-                    <p class="text-base md:text-lg text-[#F3F4F6] font-inter italic leading-relaxed notranslate">"<?= t('about_vision_text', 'A satisfied, productive labour force') ?>"</p>
+                <!-- Vision Card -->
+                <div class="relative z-10 mb-8 flex flex-col sm:flex-row gap-5 items-start group">
+                    <div class="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
+                        <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold tracking-widest text-[#B0C4DE] uppercase mb-2 font-inter notranslate">
+                            <?= t('about_vision_title', 'Our Vision') ?>
+                        </h3>
+                        <p class="text-lg md:text-xl font-medium font-montserrat tracking-tight leading-relaxed text-white notranslate">
+                            "<?= t('about_vision_text', 'A satisfied, productive labour force') ?>"
+                        </p>
+                    </div>
                 </div>
-                <div class="relative z-10">
-                    <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-4 text-white tracking-tight flex items-center gap-3">
-                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        <span class="notranslate"><?= t('about_mission_title', 'Our Mission') ?></span>
-                    </h3>
-                    <p class="text-[#F3F4F6] font-inter text-[14px] md:text-[15.5px] leading-relaxed notranslate">
-                        "<?= t('about_mission_text') ?>"
-                    </p>
+
+                <!-- Divider line -->
+                <div class="w-full h-px bg-white/10 relative z-10 mb-8"></div>
+
+                <!-- Mission Card -->
+                <div class="relative z-10 flex flex-col sm:flex-row gap-5 items-start group">
+                    <div class="w-10 h-10 rounded-full border border-white/20 bg-white/5 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
+                        <svg class="w-5 h-5 text-white/90" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold tracking-widest text-[#B0C4DE] uppercase mb-2 font-inter notranslate">
+                            <?= t('about_mission_title', 'Our Mission') ?>
+                        </h3>
+                        <p class="text-[#E2E8F0] font-inter text-[14px] md:text-[15px] leading-relaxed notranslate">
+                            "<?= t('about_mission_text') ?>"
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -268,7 +289,7 @@ include 'includes/sub-hero.php';
 <!-- Ministry Leadership & Officials -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-14" data-aos="fade-up">Ministry Leadership</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-10 text-center" data-aos="fade-up">Ministry Leadership</h2>
 
         <!-- Top Officials -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
@@ -297,9 +318,9 @@ include 'includes/sub-hero.php';
                             <?php if ($official['email']): ?>
                                 <button
                                     onclick="copyToClipboard('<?php echo trim($official['email']); ?>', 'Email address copied!')"
-                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
                                     title="Copy Email: <?php echo trim($official['email']); ?>">
-                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor"
                                         stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                                         <path
                                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
@@ -309,9 +330,9 @@ include 'includes/sub-hero.php';
                             <?php endif; ?>
                             <?php if ($official['phone']): ?>
                                 <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $official['phone']); ?>"
-                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
                                     title="<?php echo trim($official['phone']); ?>">
-                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor"
                                         stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                                         <path
                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
@@ -321,9 +342,9 @@ include 'includes/sub-hero.php';
                             <?php endif; ?>
                             <?php if ($official['fax']): ?>
                                 <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $official['fax']); ?>"
-                                    class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
+                                    class="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all text-xs cursor-pointer"
                                     title="Fax: <?php echo trim($official['fax']); ?>">
-                                    <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
+                                    <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
                                         <path d="M6 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3" />
@@ -341,18 +362,18 @@ include 'includes/sub-hero.php';
 
         <!-- Our Officials Division Heads -->
         <div class="mt-20 pt-14 border-t border-slate-200/60" data-aos="fade-up">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-10">Our Officials</h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8">Our Officials</h2>
         </div>
 
         <!-- Department Tabs -->
-        <div class="flex overflow-x-auto gap-4 md:gap-8 mb-10 border-b border-gray-200 pb-1 scrollbar-none snap-x snap-mandatory scroll-smooth"
+        <div class="bg-gray-100/60 p-2 rounded-2xl border border-gray-200/50 mb-12 flex flex-row overflow-x-auto scrollbar-none snap-x snap-mandatory scroll-smooth relative"
             id="officials-tabs">
             <?php foreach ($departments as $index => $dept): ?>
                 <?php 
-                    $tabStateClass = $index === 0 ? 'border-primary text-primary font-bold' : 'border-transparent text-gray-400 hover:text-gray-700 font-semibold';
+                    $tabStateClass = $index === 0 ? 'bg-white text-primary shadow-sm font-bold border-gray-200/20' : 'text-gray-500 hover:text-gray-800 hover:bg-white/40 font-semibold border-transparent';
                 ?>
                 <button onclick="switchDepartmentTab('<?php echo $dept['id']; ?>')" id="tab-btn-<?php echo $dept['id']; ?>"
-                    class="px-2 py-3 border-b-2 <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-sm md:text-base cursor-pointer transition-colors snap-center">
+                    class="px-5 py-2.5 rounded-xl border <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-[13.5px] md:text-sm cursor-pointer transition-all duration-300 snap-center flex-shrink-0 active:scale-98">
                     <?php echo $dept['title']; ?>
                 </button>
             <?php endforeach; ?>
@@ -389,9 +410,9 @@ include 'includes/sub-hero.php';
                                         <?php if ($person['email']): ?>
                                             <button
                                                 onclick="copyToClipboard('<?php echo trim($person['email']); ?>', 'Email address copied!')"
-                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                class="w-9 h-9 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
                                                 title="Copy Email: <?php echo trim($person['email']); ?>">
-                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
                                                     stroke-width="2" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
@@ -401,9 +422,9 @@ include 'includes/sub-hero.php';
                                         <?php endif; ?>
                                         <?php if ($person['phone']): ?>
                                             <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $person['phone']); ?>"
-                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                class="w-9 h-9 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
                                                 title="<?php echo trim($person['phone']); ?>">
-                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
                                                     stroke-width="2" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
@@ -413,9 +434,9 @@ include 'includes/sub-hero.php';
                                         <?php endif; ?>
                                         <?php if ($person['fax']): ?>
                                             <a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $person['fax']); ?>"
-                                                class="w-6 h-6 sm:w-7 sm:h-7 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
+                                                class="w-9 h-9 rounded border border-gray-200 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors cursor-pointer"
                                                 title="Fax: <?php echo trim($person['fax']); ?>">
-                                                <svg class="w-3 h-3 pointer-events-none" fill="none" stroke="currentColor"
+                                                <svg class="w-3.5 h-3.5 pointer-events-none" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                     viewBox="0 0 24 24">
                                                     <path d="M18 8h3a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-3" />
@@ -454,7 +475,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 1 -->
                 <button class="group div-split-tab active snap-center" data-target="div-admin">
                     <span class="flex items-center">
-                        <span class="truncate notranslate"><?= t('div_admin_title', 'Administration and Establishments Division') ?></span>
+                        <span class="notranslate"><?= t('div_admin_title', 'Administration and Establishments Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -462,7 +483,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 2 -->
                 <button class="group div-split-tab snap-center" data-target="div-dev">
                     <span class="flex items-center">
-                        <span class="truncate notranslate"><?= t('div_dev_title', 'Policy Formulation & Foreign Relations Division') ?></span>
+                        <span class="notranslate"><?= t('div_dev_title', 'Policy Formulation & Foreign Relations Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -470,7 +491,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 3 -->
                 <button class="group div-split-tab snap-center" data-target="div-planning">
                     <span class="flex items-center">
-                        <span class="truncate notranslate"><?= t('div_planning_title', 'Planning and Monitoring Division') ?></span>
+                        <span class="notranslate"><?= t('div_planning_title', 'Planning and Monitoring Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -478,7 +499,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 4 -->
                 <button class="group div-split-tab snap-center" data-target="div-finance">
                     <span class="flex items-center">
-                        <span class="truncate notranslate"><?= t('div_finance_title', 'Finance Division') ?></span>
+                        <span class="notranslate"><?= t('div_finance_title', 'Finance Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -486,7 +507,7 @@ include 'includes/sub-hero.php';
                 <!-- Card 5 -->
                 <button class="group div-split-tab snap-center" data-target="div-audit">
                     <span class="flex items-center">
-                        <span class="truncate notranslate"><?= t('div_audit_title', 'Internal Audit Division') ?></span>
+                        <span class="notranslate"><?= t('div_audit_title', 'Internal Audit Division') ?></span>
                     </span>
                     <svg class="chevron-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
                 </button>
@@ -555,7 +576,7 @@ include 'includes/sub-hero.php';
         
         <!-- Left Side: Main Text -->
         <div class="w-full lg:w-[45%]">
-            <h2 class="text-3xl md:text-4xl font-bold text-primary font-montserrat mb-8 leading-tight">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 leading-tight">
                 Our Commitment to Public<br>Service Excellence
             </h2>
             <div class="space-y-6 text-gray-600 font-inter text-[15px] leading-relaxed pr-0 md:pr-4">
@@ -640,8 +661,8 @@ include 'includes/sub-hero.php';
             card.classList.add('animate-[fadeIn_0.5s_cubic-bezier(0.16,1,0.3,1)_forwards]');
         });
 
-        const activeClasses = ['border-primary', 'text-primary', 'font-bold'];
-        const inactiveClasses = ['border-transparent', 'text-gray-400', 'hover:text-gray-700', 'font-semibold'];
+        const activeClasses = ['bg-white', 'text-primary', 'shadow-sm', 'font-bold', 'border-gray-200/20'];
+        const inactiveClasses = ['text-gray-500', 'hover:text-gray-800', 'hover:bg-white/40', 'font-semibold', 'border-transparent'];
 
         <?php foreach ($departments as $dept): ?>
             {

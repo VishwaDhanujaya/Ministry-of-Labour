@@ -45,8 +45,8 @@ include 'includes/sub-hero.php';
 
     <div class="container mx-auto max-w-[1400px]">
         <!-- Section Title -->
-        <div class="text-center mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-[36px] font-semibold font-montserrat text-gray-900 notranslate"><?= t('latest_insights') ?></h2>
+        <div class="text-center mb-10 md:mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('latest_insights') ?></h2>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">

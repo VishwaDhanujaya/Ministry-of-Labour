@@ -11,6 +11,7 @@ require_once '../includes/officials-service.php';
 $topOfficials = getTopOfficials($pdo);
 $divisions = getDivisions($pdo);
 
+$pageTitle = 'Officials & Contacts';
 $current_page = 'officials';
 include 'includes/header.php'; 
 ?>
@@ -30,8 +31,8 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Officials & Contacts</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Manage ministry leadership, division heads, and contact list sort order.</p>
             </div>
-            <button onclick="openModalForCurrentTab()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
-                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+            <button onclick="openModalForCurrentTab()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 Add Official
             </button>
         </div>

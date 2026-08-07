@@ -207,9 +207,15 @@ function deleteOfficial(PDO $pdo, int $id): bool {
     $stmt->execute([$id]);
     $imagePath = $stmt->fetchColumn();
     
-    if ($imagePath && file_exists(__DIR__ . '/../' . $imagePath)) {
-        if (strpos($imagePath, 'admin/uploads/officials/') === 0) {
-            @unlink(__DIR__ . '/../' . $imagePath);
+    if ($imagePath) {
+        $physicalPath = __DIR__ . '/../' . $imagePath;
+        if (strpos($imagePath, 'admin/') !== 0) {
+            $physicalPath = __DIR__ . '/../admin/' . $imagePath;
+        }
+        if (file_exists($physicalPath)) {
+            if (strpos($imagePath, 'admin/uploads/officials/') === 0 || strpos($imagePath, 'uploads/officials/') === 0) {
+                @unlink($physicalPath);
+            }
         }
     }
 

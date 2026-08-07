@@ -2,6 +2,7 @@
 // admin/officials-api.php
 require_once 'includes/auth.php'; // Updated to use auth.php
 require_once 'includes/db.php';
+require_once 'includes/functions.php';
 require_once '../includes/officials-service.php';
 
 header('Content-Type: application/json');
@@ -65,51 +66,21 @@ try {
             }
 
             if (isset($_FILES['image']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
-                if ($_FILES['image']['error'] === UPLOAD_ERR_INI_SIZE || $_FILES['image']['error'] === UPLOAD_ERR_FORM_SIZE) {
-                    throw new Exception('Uploaded image exceeds the server upload_max_filesize limit.');
-                }
-                if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
-                    throw new Exception('Image upload failed with error code ' . $_FILES['image']['error']);
-                }
-                if ($_FILES['image']['size'] > 5242880) { // 5MB
-                    throw new Exception('Profile image size exceeds the maximum limit of 5MB.');
-                }
-                $uploadDir = 'uploads/officials/';
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
+                $uploadResult = handleFileUpload($_FILES['image'], 'uploads/officials', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                if (!$uploadResult['success']) {
+                    throw new Exception($uploadResult['error'] ?? 'Image upload failed.');
                 }
 
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $mime = finfo_file($finfo, $_FILES['image']['tmp_name']);
-                $allowedMimes = ['image/jpeg', 'image/png', 'image/webp'];
-                
-                if (!in_array($mime, $allowedMimes)) {
-                    throw new Exception('Invalid file type.');
-                }
-                finfo_close($finfo);
-
-                $fileExt = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-                $nameSlug = preg_replace('/[^a-z0-9]+/', '-', strtolower($data['name']));
-                $nameSlug = trim($nameSlug, '-');
-                $divPrefix = $data['category'] === 'top' ? 'top' : 'div' . $data['division_id'];
-                
-                $fileName = $divPrefix . '-' . $nameSlug . '-' . substr(md5(uniqid()), 0, 8) . '.' . $fileExt;
-                $targetPath = $uploadDir . $fileName;
-
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                    if (!empty($existingImage) && file_exists(__DIR__ . '/../' . $existingImage)) {
-                        if (strpos($existingImage, 'admin/uploads/officials/') === 0) {
-                            @unlink(__DIR__ . '/../' . $existingImage);
-                        }
+                if (!empty($existingImage) && file_exists(__DIR__ . '/../' . $existingImage)) {
+                    if (strpos($existingImage, 'admin/uploads/officials/') === 0 || strpos($existingImage, 'uploads/officials/') === 0) {
+                        @unlink(__DIR__ . '/../' . $existingImage);
                     }
-                    $data['image_path'] = 'admin/' . $targetPath;
-                    $data['remove_image'] = false; // New image upload overrides remove flag
-                } else {
-                    throw new Exception('Failed to move uploaded file.');
                 }
+                $data['image_path'] = $uploadResult['path'];
+                $data['remove_image'] = false; // New image upload overrides remove flag
             } elseif ($remove_image && $id && !empty($existingImage)) {
                 if (file_exists(__DIR__ . '/../' . $existingImage)) {
-                    if (strpos($existingImage, 'admin/uploads/officials/') === 0) {
+                    if (strpos($existingImage, 'admin/uploads/officials/') === 0 || strpos($existingImage, 'uploads/officials/') === 0) {
                         @unlink(__DIR__ . '/../' . $existingImage);
                     }
                 }

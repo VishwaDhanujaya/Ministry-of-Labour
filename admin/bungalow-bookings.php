@@ -239,6 +239,7 @@ function getEstimatedCost(?string $category, ?string $roomTypeStr, int|string $n
     return $baseRate * $totalRoomsCount * $nights;
 }
 
+$pageTitle = 'Bungalow Bookings';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -323,13 +324,13 @@ include 'includes/header.php';
         </style>
 
         <!-- Page Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Bungalow Bookings</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Monitor reservations, approve room occupancy, and view guest timelines.</p>
             </div>
-            <a href="../ampara-circuit-bungalow-booking.php" target="_blank" rel="noopener" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm">
-                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
+            <a href="../ampara-circuit-bungalow-booking.php" target="_blank" rel="noopener" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 New Booking
             </a>
 

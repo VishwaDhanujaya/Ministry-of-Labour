@@ -144,7 +144,7 @@ include 'includes/sub-hero.php';
             <div class="bg-white rounded-[24px] border border-slate-100/80 p-6 md:p-8 shadow-[0_4px_25px_rgba(0,0,0,0.015)] mb-8">
                 <!-- Title & Rating -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4 border-b border-slate-50 pb-4">
-                    <h2 class="text-2xl md:text-3xl font-bold font-montserrat text-gray-900 tracking-tight">Ampara Circuit Bungalow</h2>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight">Ampara Circuit Bungalow</h2>
                 </div>
 
                 <!-- Description -->

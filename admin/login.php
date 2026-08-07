@@ -107,10 +107,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             opacity: 0;
             visibility: hidden;
         }
+
+        /* Autofill fixes to prevent text overlap */
+        .custom-placeholder-input:-webkit-autofill+.custom-placeholder-label {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .custom-placeholder-input:autofill+.custom-placeholder-label {
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 </head>
 
-<body class="bg-white text-gray-800 antialiased font-inter min-h-screen flex flex-col lg:flex-row">
+<body class="bg-slate-50/50 text-slate-800 antialiased font-inter min-h-screen flex flex-col lg:flex-row">
 
     <!-- Left Side: Image with Gradient Overlay -->
     <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center bg-secondary min-h-screen shrink-0">
@@ -120,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Gradient Overlay -->
         <div class="absolute inset-0 z-0"
-            style="background: linear-gradient(180deg, rgba(78, 0, 0, 0.81) 0%, rgba(78, 0, 0, 0.9) 100%);"></div>
+            style="background: linear-gradient(135deg, rgba(19, 39, 63, 0.9) 0%, rgba(78, 0, 0, 0.95) 100%);"></div>
 
         <!-- Logo -->
         <div class="relative z-10 flex flex-col items-center">
@@ -134,35 +145,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <!-- Right Side: Login Form -->
-    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center relative p-8 min-h-screen shrink-0 overflow-y-auto">
+    <div class="w-full lg:w-1/2 flex flex-col items-center justify-center relative p-6 md:p-8 min-h-screen shrink-0 overflow-y-auto">
 
-        <div class="w-full max-w-[420px]">
-            <h2 class="text-[36px] font-bold text-black text-center mb-12 font-montserrat">Admin Login</h2>
+        <div class="w-full max-w-[440px] bg-white rounded-2xl border border-slate-100 shadow-[0_10px_40px_rgba(0,0,0,0.03)] p-8 md:p-10 transition-all duration-300 hover:shadow-[0_15px_50px_rgba(0,0,0,0.05)]">
+            
+            <!-- Mobile Logo / Header -->
+            <div class="flex flex-col items-center mb-8 lg:hidden">
+                <img loading="lazy" src="<?= $base_url ?>assets/img/emblem.png" class="w-12 h-auto mb-3" alt="State Emblem">
+                <h1 class="text-lg font-bold font-montserrat text-slate-850 uppercase tracking-wide text-center">Ministry of Labour</h1>
+                <p class="text-[11px] text-slate-400 font-medium font-inter">Government of Sri Lanka</p>
+            </div>
 
+            <h2 class="text-2xl font-extrabold text-slate-800 text-center mb-2 font-montserrat tracking-tight">Admin Portal</h2>
+            <p class="text-xs text-slate-400 text-center mb-8 font-inter">Secure administrator workspace login</p>
 
-
-            <form id="loginForm" action="" method="POST" class="js-validate-form space-y-6">
+            <form id="loginForm" action="" method="POST" class="js-validate-form space-y-5">
                 <!-- Email Input -->
-                <div class="relative">
+                <div class="relative group">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none transition-colors group-focus-within:text-secondary">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                    </span>
                     <input type="email" id="email" name="email" required autocomplete="username" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
-                        class="custom-placeholder-input w-full px-4 py-3.5 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
+                        class="custom-placeholder-input w-full pl-11 pr-4 py-3.5 border border-slate-200 rounded-xl text-sm text-slate-850 focus:outline-none focus:ring-2 focus:ring-secondary/15 focus:border-secondary transition-all bg-white shadow-sm"
                         placeholder=" ">
                     <label for="email"
-                        class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
+                        class="custom-placeholder-label absolute text-sm text-slate-400 left-11 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
                         Email Address <span class="text-red-500">*</span>
                     </label>
                 </div>
 
                 <!-- Password Input -->
                 <div class="relative group">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none transition-colors group-focus-within:text-secondary">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                    </span>
                     <input type="password" id="password" name="password" required autocomplete="current-password"
-                        class="custom-placeholder-input w-full px-4 py-3.5 pr-12 border border-gray-200 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-colors bg-white shadow-sm"
+                        class="custom-placeholder-input w-full pl-11 pr-12 py-3.5 border border-slate-200 rounded-xl text-sm text-slate-850 focus:outline-none focus:ring-2 focus:ring-secondary/15 focus:border-secondary transition-all bg-white shadow-sm"
                         placeholder=" ">
                     <label for="password"
-                        class="custom-placeholder-label absolute text-sm text-gray-500 left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
+                        class="custom-placeholder-label absolute text-sm text-slate-400 left-11 top-1/2 -translate-y-1/2 pointer-events-none transition-all flex items-center gap-1">
                         Password <span class="text-red-500">*</span>
                     </label>
-                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary focus:outline-none transition-colors" title="Toggle password visibility">
+                    <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-secondary focus:outline-none transition-colors" title="Toggle password visibility">
                         <svg id="eye-icon" class="w-5 h-5 transition-transform duration-200 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -173,16 +201,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Submit Button -->
                 <div class="pt-4">
                     <button type="submit" id="loginBtn"
-                        class="w-full bg-secondary hover:bg-[#320000] text-white font-semibold rounded-lg py-3.5 transition-all duration-200 text-[15px] shadow-md hover:shadow-lg font-montserrat tracking-wide flex justify-center items-center gap-2">
-                        Login
+                        class="w-full bg-gradient-to-r from-secondary to-[#721c1c] hover:brightness-110 active:scale-[0.98] text-white font-bold rounded-xl py-3.5 transition-all duration-200 text-sm shadow-md hover:shadow-lg font-montserrat tracking-wide flex justify-center items-center gap-2">
+                        Login to Dashboard
                     </button>
                 </div>
             </form>
         </div>
 
         <!-- Footer -->
-        <div class="absolute bottom-8 left-0 right-0 text-center text-[11px] text-gray-400 font-medium tracking-wide">
-            © 2026 Copyright SLTDIGITAL
+        <div class="absolute bottom-8 left-0 right-0 text-center text-[11px] text-slate-400 font-medium tracking-wide">
+            © 2026 Ministry of Labour • Sri Lanka
         </div>
     </div>
 
@@ -194,6 +222,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="<?= $base_url ?>admin/assets/js/admin.js?v=<?= $admin_js_version ?>"></script>
 
     <script>
+        // Check input field values to hide placeholder labels if they are not empty
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = document.querySelectorAll('.custom-placeholder-input');
+            const checkInputs = () => {
+                inputs.forEach(input => {
+                    const label = input.nextElementSibling;
+                    if (label && label.classList.contains('custom-placeholder-label')) {
+                        let isAutofilled = false;
+                        try {
+                            isAutofilled = input.matches(':-webkit-autofill') || input.matches(':autofill');
+                        } catch (e) {}
+
+                        if (input.value.trim() !== '' || isAutofilled) {
+                            label.style.opacity = '0';
+                            label.style.visibility = 'hidden';
+                        } else {
+                            if (document.activeElement !== input) {
+                                label.style.opacity = '';
+                                label.style.visibility = '';
+                            }
+                        }
+                    }
+                });
+            };
+
+            // Initial check
+            checkInputs();
+
+            // Run check at intervals to handle browser autofill that triggers slightly after DOMContentLoaded
+            setTimeout(checkInputs, 100);
+            setTimeout(checkInputs, 300);
+            setTimeout(checkInputs, 500);
+            setTimeout(checkInputs, 1000);
+
+            inputs.forEach(input => {
+                input.addEventListener('input', checkInputs);
+                input.addEventListener('change', checkInputs);
+                input.addEventListener('focus', () => {
+                    const label = input.nextElementSibling;
+                    if (label && label.classList.contains('custom-placeholder-label')) {
+                        label.style.opacity = '0';
+                        label.style.visibility = 'hidden';
+                    }
+                });
+                input.addEventListener('blur', () => {
+                    if (input.value.trim() === '') {
+                        const label = input.nextElementSibling;
+                        if (label && label.classList.contains('custom-placeholder-label')) {
+                            label.style.opacity = '';
+                            label.style.visibility = '';
+                        }
+                    }
+                });
+            });
+        });
+
         function togglePassword() {
             const pwd = document.getElementById('password');
             const icon = document.getElementById('eye-icon');

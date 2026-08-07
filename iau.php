@@ -126,7 +126,7 @@ include 'includes/sub-hero.php';
 <!-- About the Unit Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white border-b border-slate-200/80">
     <div class="container mx-auto">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-6">About the Unit</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6">About the Unit</h2>
         <p class="text-gray-600 font-inter text-[15px] leading-relaxed mb-12 max-w-5xl">
             The Internal Affairs Unit (IAU) of the Ministry of Labour is committed to promoting integrity, transparency, and accountability while actively working to prevent bribery and corruption. The unit is responsible for implementing institutional integrity action plans and collaborating with national anti-corruption bodies like CIABOC.
         </p>
@@ -243,7 +243,7 @@ include 'includes/sub-hero.php';
 <!-- Contact Grid Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/90 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 font-montserrat mb-12 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 md:mb-10 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
             <?php foreach($iau_staff as $staff): ?>

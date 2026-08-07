@@ -20,6 +20,41 @@ function sanitizeInput(string $data): string {
  * @param int $maxSize
  * @return array
  */
+/**
+ * Resolves the correct physical file path relative to the current script execution.
+ * Checks first relative to the current directory (legacy uploads/ in admin),
+ * and falls back to project root.
+ *
+ * @param string $path
+ * @return string
+ */
+function resolvePhysicalPath(string $path): string {
+    if (empty($path)) return '';
+    // If it's already an absolute path
+    if (strpos($path, ':/') !== false || strpos($path, ':\\') !== false || strpos($path, '/') === 0) {
+        return $path;
+    }
+    // Check if file exists relative to current folder (e.g. inside admin/)
+    if (file_exists($path)) {
+        return $path;
+    }
+    // Check if file exists relative to project root (e.g. check ../path)
+    if (file_exists('../' . $path)) {
+        return '../' . $path;
+    }
+    // Default fallback
+    return $path;
+}
+
+/**
+ * Upload and process single file securely
+ *
+ * @param array $file
+ * @param string $destinationDir
+ * @param array $allowedTypes
+ * @param int $maxSize
+ * @return array
+ */
 function handleFileUpload(array $file, string $destinationDir, array $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'], int $maxSize = 5242880): array {
     if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
         return ['success' => false, 'error' => 'No file uploaded or upload error.'];
@@ -83,9 +118,15 @@ function handleFileUpload(array $file, string $destinationDir, array $allowedTyp
     $uniquePart = substr(uniqid(), -5);
     $filename = $slug . '-' . $uniquePart . '.' . $ext;
     
-    // Organize by Year/Month
-    $yearMonth = date('Y/m');
-    $finalDir = rtrim($destinationDir, '/') . '/' . $yearMonth;
+    // Normalize destination directory (e.g. redirect legacy assets/img/home to uploads/sliders)
+    $cleanDest = trim($destinationDir, '/\\');
+    if ($cleanDest === '..assets/img/home' || $cleanDest === '../assets/img/home' || $cleanDest === 'assets/img/home') {
+        $cleanDest = 'uploads/sliders';
+    }
+    
+    // Determine the absolute path on disk relative to admin/ folder
+    $adminRoot = str_replace('\\', '/', realpath(__DIR__ . '/..'));
+    $finalDir = $adminRoot . '/' . $cleanDest;
     
     if (!is_dir($finalDir)) {
         mkdir($finalDir, 0755, true);
@@ -98,8 +139,9 @@ function handleFileUpload(array $file, string $destinationDir, array $allowedTyp
         if (in_array($mimeType, ['image/jpeg', 'image/png', 'image/webp'])) {
             compressOrResizeImage($targetPath, 1920, 85);
         }
-        // Return full path so callers can use $uploadResult['path'] directly
-        return ['success' => true, 'filename' => $filename, 'path' => $targetPath];
+        // Return path relative to the admin folder (e.g. 'uploads/news/filename.jpg')
+        $dbPath = $cleanDest . '/' . $filename;
+        return ['success' => true, 'filename' => $filename, 'path' => $dbPath];
     }
     
     return ['success' => false, 'error' => 'Failed to move uploaded file.'];

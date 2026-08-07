@@ -141,7 +141,7 @@ include 'includes/sub-hero.php';
         <!-- Section Title and Intro -->
         <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
             <span class="text-secondary font-semibold text-xs md:text-sm tracking-[0.2em] uppercase mb-3 block font-inter"><?= htmlspecialchars($content['section_subtitle']) ?></span>
-            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-primary mb-5"><?= htmlspecialchars($content['section_title']) ?></h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight mb-6"><?= htmlspecialchars($content['section_title']) ?></h2>
             <div class="w-16 h-1 bg-gradient-to-r from-secondary to-yellow-500 mx-auto mb-6 rounded-full"></div>
             <p class="text-gray-500 text-[14.5px] md:text-[15.5px] font-inter leading-relaxed text-justify md:text-center">
                 <?= htmlspecialchars($content['intro_text']) ?>

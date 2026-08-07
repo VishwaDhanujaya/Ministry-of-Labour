@@ -64,39 +64,48 @@ if (!function_exists('resolve_subhero_translation')) {
 $display_title = isset($page_title) ? resolve_subhero_translation($page_title) : t('home');
 ?>
 <!-- Sub-Hero Section -->
-<section class="relative h-[180px] sm:h-[220px] md:h-[260px] flex items-center bg-primary overflow-hidden notranslate">
+<section class="relative h-[160px] sm:h-[190px] md:h-[220px] flex items-center bg-[#4E0000] overflow-hidden notranslate">
+    <!-- Background Image -->
     <div class="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
         style="background-image: url('assets/img/sub-hero.webp');"></div>
-    <div class="absolute inset-0 opacity-70 bg-sub-hero-gradient">
+    
+    <!-- Clean Minimalist Maroon Overlay Gradients -->
+    <div class="hidden sm:block absolute inset-0 pointer-events-none"
+         style="background: linear-gradient(90deg, rgba(78, 0, 0, 0.95) 0%, rgba(78, 0, 0, 0.78) 35%, rgba(78, 0, 0, 0.4) 65%, rgba(78, 0, 0, 0.15) 100%);">
+    </div>
+    <div class="block sm:hidden absolute inset-0 pointer-events-none"
+         style="background: linear-gradient(180deg, rgba(78, 0, 0, 0.88) 0%, rgba(78, 0, 0, 0.55) 100%);">
     </div>
 
-    <div class="relative z-10 container mx-auto px-4 md:px-16 text-white w-full">
-        <h1 class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold font-montserrat mb-2.5 leading-tight tracking-tight <?= isset($title_classes) ? $title_classes : ''; ?>">
+    <!-- Content & Breadcrumbs Container -->
+    <div class="relative z-10 container mx-auto px-6 sm:px-10 lg:px-16 text-white w-full">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold font-montserrat mb-2 sm:mb-2.5 leading-tight tracking-tight uppercase text-white <?= isset($title_classes) ? $title_classes : ''; ?>">
             <?= $display_title ?>
         </h1>
-        <div class="flex items-center text-[12px] md:text-[13px] font-inter text-gray-300 flex-wrap gap-y-1">
-            <a href="home" class="hover:text-white transition-colors"><?= t('home') ?></a>
+        <nav aria-label="Breadcrumb" class="flex items-center text-xs sm:text-[13px] font-inter text-slate-200/90 flex-wrap gap-1.5 sm:gap-2">
+            <a href="home" class="inline-flex items-center gap-1.5 hover:text-white transition-colors duration-200">
+                <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span><?= t('home') ?></span>
+            </a>
             <?php
             if (isset($breadcrumbs) && is_array($breadcrumbs)) {
                 foreach ($breadcrumbs as $index => $crumb) {
                     $crumb_label = resolve_subhero_translation($crumb['label']);
-                    echo '<span class="mx-2 text-gray-400">/</span>';
+                    echo '<span class="text-white/40 font-light">/</span>';
                     if ($index === count($breadcrumbs) - 1) {
-                        // Last item is plain white text
-                        echo '<span class="text-white font-medium">' . htmlspecialchars($crumb_label) . '</span>';
+                        echo '<span class="text-white font-semibold">' . htmlspecialchars($crumb_label) . '</span>';
                     } else {
-                        // Intermediate items
                         $crumb_url = isset($crumb['url']) ? htmlspecialchars($crumb['url']) : '#';
-                        echo '<a href="' . $crumb_url . '" class="hover:text-white transition-colors">' . htmlspecialchars($crumb_label) . '</a>';
+                        echo '<a href="' . $crumb_url . '" class="hover:text-white transition-colors duration-200">' . htmlspecialchars($crumb_label) . '</a>';
                     }
                 }
             } else if (isset($page_title)) {
                  $clean_crumb = resolve_subhero_translation(strip_tags($page_title));
-                 echo '<span class="mx-2 text-gray-400">/</span>';
-                 echo '<span class="text-white font-medium">' . htmlspecialchars($clean_crumb) . '</span>';
+                 echo '<span class="text-white/40 font-light">/</span>';
+                 echo '<span class="text-white font-semibold">' . htmlspecialchars($clean_crumb) . '</span>';
             }
             ?>
-        </div>
+        </nav>
     </div>
 </section>
 

@@ -108,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 $stmt = $pdo->query("SELECT * FROM special_notices ORDER BY created_at DESC");
 $notices = $stmt->fetchAll();
 
+$pageTitle = 'Manage Special Notices';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -128,8 +129,9 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage Special Notices</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Publish and manage high-priority alerts and notices for the public portal.</p>
             </div>
-            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto">
-                <span class="mr-1.5 text-lg leading-none">+</span> New Notice
+            <button onclick="openAddModal()" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                New Notice
             </button>
         </div>
 

@@ -145,6 +145,238 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 * **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
+### 2026-08-07 (Upload Centralization & Flattening)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+  - [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php)
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Upload Centralization**: Moved all seed files from root `/uploads/` to `/admin/uploads/` and deleted the root directory, centralizing all portal uploads under a single location.
+  - **Directory Flattening**: Refactored `handleFileUpload()` in `admin/includes/functions.php` to save files directly into category folders within `/admin/uploads/`, disabling nested Year/Month directories (`YYYY/MM/`) to avoid creating unnecessary folders.
+  - **Slider Upload Relocation**: Updated homepage sliders to upload to `/admin/uploads/sliders/` instead of `/assets/img/home/`, cleanly separating static assets from user-uploaded media. Added dynamic path fallback handling in `index.php` and `admin/manage-sliders.php` to support both legacy and new uploads.
+  - **Officials Profile Images Refactoring**: Refactored the profile image upload inside `admin/officials-api.php` to use the secure `handleFileUpload()` utility instead of raw `move_uploaded_file()`, enforcing security controls and consolidating path configurations in `includes/officials-service.php`.
+
+### 2026-08-03 (Admin Login Page UI/UX Redesign)
+* **Files:**
+  - [admin/login.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/login.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Diagonal Dual-Brand Gradient**: Replaced the solid red gradient on the left visual panel overlay with a high-end diagonal navy-to-burgundy linear gradient overlay (`linear-gradient(135deg, rgba(19, 39, 63, 0.9) 0%, rgba(78, 0, 0, 0.95) 100%)`).
+  - **Form Shadow Card**: Shifted the form background from plain white to a soft neutral grey backdrop and encased the form itself inside an elevated shadow card container (`bg-white rounded-2xl border border-slate-100 shadow-[0_10px_40px_rgba(0,0,0,0.03)]`) for a clean, minimalist workspace presentation.
+  - **Mobile Emblem Branding**: Added a mini header containing the state emblem and official ministry subtitles on mobile layouts to keep branding visible.
+  - **Inline Input Icons**: Integrated vector SVG icons (User and Lock) inside the text inputs and aligned placeholder labels to matching text indent padding (`pl-11`).
+  - **Polished Button States**: Styled login buttons to match page header buttons, featuring micro-interactions and gradient backgrounds.
+
+### 2026-08-03 (Admin Panel Title & Header Standardization)
+* **Files:**
+  - [admin/includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/header.php)
+  - [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php)
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/bungalow-bookings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/bungalow-bookings.php)
+  - [admin/manage-sliders.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-sliders.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-statistics.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-statistics.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [admin/manage-admins.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-admins.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+  - [admin/settings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/settings.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Browser Titles**: Configured the admin `<header.php>` template to dynamically resolve and append `$pageTitle` if defined on individual pages, solving the hardcoded "Admin Dashboard" tab title inconsistency.
+  - **Unified Page Header Markup**: Aligned all 18 admin page headers to utilize the standardized responsive layout classes (`flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8`).
+  - **Standardized Add Buttons**: Unified the styles and layout of "+ Add" action buttons in the page headers (e.g. using `gap-1.5`, `rounded-lg` border-radius instead of `rounded-xl`, and rendering consistent SVG icons instead of raw `+` text indicators).
+
+### 2026-08-03 (Admin Dashboard Stats Grid UI Redesign)
+* **Files:**
+  - [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Overview Stats Cards Redesign**: Redesigned the primary overview stats cards inside [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php) to use modern top-aligned gradient border accent lines corresponding to the branding system.
+  - **Refined Typography & Hover States**: Swapped white cards for background gradients (`bg-gradient-to-br from-white to-slate-50/50`) and updated description headings to uppercase tracking-wide styling. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Admin Welcome Banner System Active Badge Removal)
+* **Files:**
+  - [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Badge Removal**: Removed the dynamic "System Active • [Date]" badge markup element from the dashboard welcome banner inside [admin/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/index.php) to clean up layout hierarchy. Recompiled assets with `npm run build:prod`.
+
+### 2026-08-03 (Admin UI Tweaks & Design Consistency)
+* **Files:**
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [admin/includes/topbar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/topbar.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Admin Layout Consistency**: Fixed `admin/news.php` background styling to use the standard admin dashboard grey background (`bg-[#F8F9FA]`) and padding (`p-4 md:p-8`) instead of raw white backgrounds.
+  - **News Header Redesign**: Redesigned the header section on `admin/news.php` to use the unified premium tracking-tight titles, descriptions, and gradient add buttons.
+  - **Initials Badge Polish**: Changed the topbar initials badge class to `rounded-xl` inside `admin/includes/topbar.php` to match the avatar styling inside the sidebar and admin listings. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (About Us Statistics Card Redesign)
+* **Files:**
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Premium Stats Card UI**: Redesigned the "95 Years of Experience" and "95K Happy Customers" statistics cards in [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css) to use a modern top-aligned gradient border accent line (`bg-gradient-to-r from-secondary to-secondary/80`) and a glassmorphic gradient background (`bg-gradient-to-br from-white to-gray-50/80`).
+  - **Refined Typography & Hover Effects**: Styled numbers to be larger/bolder and converted description labels to uppercase tracking-wide text for high-end polish. Integrated dynamic hover translations (`hover:-translate-y-0.5 hover:shadow-md`). Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Our Pillars Subtitle Removal)
+* **Files:**
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Subtitle Removal**: Removed the "Our Pillars" subtitle text block from the Vision & Mission section on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) as requested. Recompiled assets with `npm run build:prod`.
+
+### 2026-08-03 (Footer Redesign & Newsletter Removal)
+* **Files:**
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Newsletter Removal**: Completely removed the newsletter subscription email input box and "Subscribe" submission button from the footer.
+  - **Balanced Symmetrical Grid**: Rebalanced the remaining footer elements into a beautiful, symmetrical 3-column layout (each column set to `lg:col-span-4`). Added fine borders underneath footer section headers.
+  - **Glowing Top Accent Line**: Added a premium glowing top gradient accent border (`bg-gradient-to-r from-secondary via-white/10 to-secondary`) to elevate the footer's visual aesthetics. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Our Officials Tab Navigation UI Redesign)
+* **Files:**
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Pills-based Tab Widget Redesign**: Redesigned the "Our Officials" department tab selection widget in [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) to use modern pills-based layout options nested inside a light bordered background bar wrapper.
+  - **Javascript State Synchronicity**: Updated `activeClasses` and `inactiveClasses` toggles inside `switchDepartmentTab()` javascript listener function to match the redesigned pill card visual states. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Split Tabs Trilingual Text Wrapping Fixes)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Tab Text Wrapping Resolution**: Removed the CSS conflict caused by `truncate` classes on the inner `<span>` titles inside the `.inst-split-tab` buttons in [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) and `.div-split-tab` buttons in [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php). This allows long Sinhala/Tamil titles to inherit the parents' wrapping controls: rendering on one line with horizontal overflow scroll on mobile viewports, and wrapping nicely to multiple lines on desktop/tablet columns instead of being clipped or overlapping. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Trilingual Text Wrapping & Dropdown Layout Enhancements)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dropdown Screen Overflow Protection**: Updated `Learning Platforms` and `Announcements` menu dropdown panels in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php) to align to the right (`right-0 left-auto`) of their parent menu elements. This protects layout width alignment and prevents long Sinhala/Tamil titles from overflowing the right bounds of the viewport.
+  - **Footer Text Wrap Alignment**: Appended `leading-relaxed` to the Quick Links column list container in [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php) to ensure comfortable line heights and formatting when Sinhala or Tamil strings wrap onto multiple lines. Recompiled assets with `npm run build:prod`.
+
+### 2026-08-03 (UI/UX, Accessibility, and Loading Skeleton Enhancements)
+* **Files:**
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Global Accessibility Outlines**: Added global `:focus-visible` custom outlines utilizing the brand maroon color (`#4E0911`) inside [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css) to ensure distinct keyboard focus indication.
+  - **Dynamic Calendar Skeletons**: Updated `renderVisualCalendar()` in [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php) to render 28 shimmering `.skeleton-box` grid cells while loading date availability.
+  - **Expanded Mobile Touch Targets**: Scaled contact detail icons (email copy, phone, fax) to `w-10 h-10` in [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) and modal close buttons to `w-10 h-10` in [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php) to comply with mobile touch usability standards. Recompiled with `npm run build:prod`.
+
+### 2026-08-03 (Vision & Mission Minimalist UI Redesign)
+* **Files:**
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Minimalist UI & Icons Redesign**: Refactored the Vision & Mission section on [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php) to use modern, clean, and thin SVG outlines (stroke-width: 1.5) wrapped in circular border wrappers. Spaced elements using a neat split card grid with refined typographic scale and ambient glow accents, aligning it with the portal's premium layout styling.
+
+### 2026-08-03 (Automated PostCSS AST CSS Warning Elimination Plugin)
+* **Files:**
+  - [postcss.config.js](file:///c:/xampp/htdocs/Ministry-of-Labour/postcss.config.js)
+  - [package.json](file:///c:/xampp/htdocs/Ministry-of-Labour/package.json)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Automated AST Linter Fix Plugin**: Implemented a custom PostCSS plugin inside [postcss.config.js](file:///c:/xampp/htdocs/Ministry-of-Labour/postcss.config.js) that intercepts compiled CSS AST during Tailwind build execution to:
+    1. Append standard `appearance: button` and `appearance: textfield` directly inside vendor-prefixed preflight rules.
+    2. Strip redundant `vertical-align: middle` from preflight media elements (`img`, `svg`, etc.) styled with `display: block`.
+    3. Append standard `line-clamp: N` directly inside `.line-clamp-N` utility rule blocks.
+  - **npm Build Pipeline Integration**: Enabled `--postcss` flag across all npm scripts (`dev`, `build`, `build:prod`) in [package.json](file:///c:/xampp/htdocs/Ministry-of-Labour/package.json), guaranteeing ZERO IDE static analysis warnings under watch mode and production builds alike.
+
+### 2026-08-03 (Added Standard CSS Property Declarations)
+* **Files:**
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Standard CSS Properties Addition**: Appended standard `appearance` and `line-clamp` CSS declarations in `input.css` to complement vendor prefix rules (`-webkit-appearance`, `-webkit-line-clamp`), resolving static compatibility warnings.
+
+### 2026-08-03 (Resolved Display Class Warning in Hero Ticker)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Resolved Conflicting Display Classes**: Removed redundant base `flex` display class from the Latest News ticker badge element (`flex hidden md:flex` -> `hidden md:flex items-center justify-center`), eliminating the IDE static analysis warning.
+
+### 2026-08-03 (Public UI Polish & Component Visual Enhancements)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Announcements & Downloads Column Balance**: Refined Announcements section container header (`py-5 px-6 sm:px-8`) and category tags (`bg-primary/10 text-primary font-bold`) in `index.php` for clean visual balance alongside the Downloads list.
+  - **Card Hover & Border Micro-Interactions**: Enhanced `.focus-card` in `input.css` with smooth border highlight transitions (`hover:border-secondary/40`) and soft shadow elevation.
+
+### 2026-08-03 (Global Section Titles & Sizing Consistency Audit)
+* **Files:**
+  - [input.css](file:///c:/xampp/htdocs/Ministry-of-Labour/input.css)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [learning-platforms.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms.php)
+  - [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Comprehensive Title Sizing Audit**: Conducted an exhaustive audit across all frontend pages to align every section heading (`h2`/`h3`/`.section-title`) to an exact, uniform typography standard (`text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat tracking-tight uppercase`).
+  - **Color & Weight Harmonization**: Converted inconsistent font sizes (e.g. `text-[36px]`, `text-3xl md:text-4xl font-semibold`, `text-3xl sm:text-4xl`) and mismatched text colors (`gray-900`, `#2D2D43`) to the official brand primary blue (`text-primary` / `#13273F`), ensuring identical scaling and appearance portal-wide.
+
+### 2026-08-03 (Sub-Hero Section Minimalist UI Overhaul)
+* **Files:**
+  - [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Lightened Maroon Gradient Overlay**: Reduced the maroon gradient overlay opacity across desktop (`95% -> 15%`) and mobile (`88% -> 55%`) in [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php) so the background image (`assets/img/sub-hero.webp`) shows through with enhanced clarity while maintaining clear text readability.
+  - **Minimalist Layout & Breadcrumb Polish**: Updated title typography (`font-montserrat font-extrabold uppercase`) and added home icon breadcrumb indicators with subtle white slashes (`/`).
+
+### 2026-08-03 (Hero Section UI Minimalist Polish & Full Viewport Fit)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [assets/css/style.css](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/css/style.css)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Pulsing Indicator Dots**: Removed the pulsing dot inside the subheader badge and the pinging red dot inside the `LATEST NEWS` ticker badge for a completely static, clean, minimalist presentation.
+  - **Full Above-The-Fold Viewport Fit**: Optimized hero section height calculation (`lg:h-[calc(100vh-215px)]`) and tightened vertical padding across content elements and the statistics bar (`py-3.5 md:py-4`). Header, Hero Slider, Scrolling News Bar, and Statistics Bar now fit entirely within the initial viewport upon opening without requiring scrolling.
+  - **Minimalist Hero Gradient Masks**: Streamlined complex multi-stop overlapping inline gradients into clean, high-contrast horizontal mask (`90deg`) on desktop and vertical mask (`180deg`) on mobile.
+  - **Sleek Action Buttons & Swiper Pagination Controls**: Standardized quick links and view news CTA buttons with clean icons, smooth micro-interactions, and updated Swiper bullet indicators.
 
 ### 2026-08-03 (Public Frontend UI/UX Enhancements)
 * **Files:**
@@ -1323,8 +1555,9 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 
 
-
-
-
-
-
+### 2026-08-04 (Fixed Browser Autofill Overlap on Admin Login Page)
+* **Files:** [admin/login.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/login.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **CSS Autofill Styling**: Added CSS selectors targeting `:-webkit-autofill` and `:autofill` to hide custom placeholder labels when input fields are autofilled.
+  - **JavaScript Autofill Detector**: Integrated a robust JavaScript routine that checks input value states on page load and at delayed intervals (100ms, 300ms, 500ms, 1000ms) to ensure autofilled credentials do not overlap with their corresponding labels across all browsers.

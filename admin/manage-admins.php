@@ -95,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 $stmt = $pdo->query("SELECT * FROM admins ORDER BY created_at DESC");
 $admins = $stmt->fetchAll();
 
+$pageTitle = 'Manage Admins';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>

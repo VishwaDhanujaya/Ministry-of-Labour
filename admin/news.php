@@ -61,20 +61,25 @@ if ($activeTab === 'approvals' && $canApprove) {
 $stmt = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id $whereClause ORDER BY n.created_at DESC");
 $newsList = $stmt->fetchAll();
 
+$pageTitle = 'Manage News';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
 
 <!-- Main wrapper -->
-<div class="flex-1 flex flex-col min-w-0 bg-white relative z-10">
+<div class="flex-1 flex flex-col min-w-0 bg-[#F8F9FA] relative z-10 font-inter">
     <?php include 'includes/topbar.php'; ?>
 
-    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-10">
+    <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold font-montserrat text-gray-900">News</h2>
-            <a href="news-add" class="bg-secondary text-white px-5 py-2.5 rounded-md text-[13px] font-semibold hover:bg-[#320000] transition-colors shadow-sm flex items-center">
-                <span class="mr-1.5 text-lg leading-none">+</span> Add News
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
+            <div>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage News</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Create, review, approve, and manage press releases and news articles.</p>
+            </div>
+            <a href="news-add" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
+                <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                Add News
             </a>
         </div>
 

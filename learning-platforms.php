@@ -12,7 +12,7 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-5xl">
         <!-- Section Intro -->
         <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary mb-4">Learning Platforms</h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight mb-6">Learning Platforms</h2>
             <p class="text-gray-500 text-[14px] md:text-[15px] font-inter leading-relaxed">
                 Select a publication category below to browse official educational frameworks, training modules, guides, and learning resources managed by the Ministry of Labour.
             </p>

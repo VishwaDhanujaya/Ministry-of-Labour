@@ -174,6 +174,7 @@ $stmt = $pdo->prepare("SELECT id, title, created_at, status FROM news WHERE stat
 $stmt->execute();
 $recentDrafts = $stmt->fetchAll();
 
+$pageTitle = $article ? 'Edit News' : 'Add News';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -207,12 +208,12 @@ include 'includes/header.php';
         <?php endif; ?>
 
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
             </div>
-            <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm">
+            <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
                 <svg class="w-4 h-4 text-slate-450 group-hover:text-secondary group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                 Back to News
             </a>

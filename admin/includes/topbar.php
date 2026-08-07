@@ -25,7 +25,7 @@
         
         <div class="flex items-center ml-1 md:ml-2 border-l border-gray-300 pl-4 md:pl-6 relative cursor-pointer" onclick="toggleUserDropdown(event)">
             <?php $currentUser = getLoggedInAdmin(); ?>
-            <div class="w-8 h-8 md:w-10 md:h-10 rounded bg-secondary text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-secondary text-white flex items-center justify-center font-bold text-xs md:text-sm shrink-0 shadow-inner border border-white/10">
                 <?= htmlspecialchars(getInitials($currentUser['name'] ?? 'Admin')) ?>
             </div>
             <div class="ml-2 md:ml-3 hidden md:block">
