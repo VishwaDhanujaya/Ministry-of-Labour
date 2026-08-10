@@ -6,12 +6,27 @@ function getTopOfficials(PDO $pdo): array {
     $stmt = $pdo->prepare("SELECT * FROM officials WHERE category = 'top' AND is_active = 1 ORDER BY sort_order ASC");
     $stmt->execute();
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // Alias image_path as image so templates can use $official['image'] consistently
+    // Normalize image_path to always have admin/ prefix for consistent URL generation
     foreach ($rows as &$row) {
+        $row['image_path'] = normalizeOfficialImagePath($row['image_path'] ?? '');
         $row['image'] = $row['image_path'];
     }
     return $rows;
 }
+
+/**
+ * Ensures the official image path always has the admin/ prefix.
+ * Handles legacy paths (uploads/officials/...) and new ones (admin/uploads/officials/...).
+ */
+function normalizeOfficialImagePath(?string $path): string {
+    if (empty($path)) return '';
+    // Already prefixed correctly
+    if (strpos($path, 'admin/') === 0) return $path;
+    // Bare path – prefix with admin/
+    if (strpos($path, 'uploads/') === 0) return 'admin/' . $path;
+    return $path;
+}
+
 
 function getDivisions(PDO $pdo): array {
     $stmt = $pdo->prepare("SELECT * FROM divisions ORDER BY sort_order ASC");
@@ -43,6 +58,7 @@ function getDivisions(PDO $pdo): array {
         // Iterate using the correct numeric DB ID
         $div_people = $officialsByDivision[$dbId] ?? [];
         foreach ($div_people as &$person) {
+            $person['image_path'] = normalizeOfficialImagePath($person['image_path'] ?? '');
             $person['image'] = $person['image_path'];
             $person['designation'] = $person['title'] ?? '';
             $person['designation_si'] = $person['title_si'] ?? '';

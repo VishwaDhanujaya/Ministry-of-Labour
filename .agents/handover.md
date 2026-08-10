@@ -165,6 +165,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Singular Category Mappings**: Updated the `translateCategory` helper function to support singular English values (e.g. `'Vacancy'`, `'Special Notice'`, `'Local Publication'`, etc.) and added `cat_iau_updates` to ensure categories display correctly in local languages on all document listing and index pages.
   - **Translation Isolation (notranslate)**: Added `notranslate` to `#paginationControls` across all 7 listing pages to prevent double-translation of localized pagination text/buttons. Added `notranslate` to pre-translated elements inside the `downloads.php` popup and `includes/footer.php` detail modal (category badges, refs, and language-specific PDF labels).
   - **Homepage Announcements Translation**: Added translation keys (`vacancy`, `procurement`, `notice`, and `view_pdf`) to `translations.php`. Removed `notranslate` from the `h4` title tag in the homepage announcements list to allow Google Translate to localize the database-sourced English titles. Implemented `format_date_trilingual` for the creation date in the list loop and wrapped it in `notranslate` to display correctly formatted dates.
+  - **Code Quality/Type Declarations**: Added PHP type hints and return type declarations (`string`) to `translateCategory(string $category): string` in `translations.php` to resolve IDE workspace static analysis warnings.
 
 * **Files:**
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
@@ -192,6 +193,19 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Homepage DB Query Fix**: Reverted vacancies/procurements database queries to the base fields structure after identifying that those tables do not support `title_si`/`title_ta` columns, resolving a database column mismatch causing an HTTP 500 error on first page load. Cleared JSON caches to force schema rebuilding.
   - **Consolidated Document Listing Pages**: Appended the `notranslate` class to the search/filter controls bar, document cards, list table headers (`<thead>`), list table row structures, and the empty results placeholder across all 7 listing files (`procurements.php`, `downloads.php`, `vacancies.php`, `special-notices.php`, `iau-updates.php`, `learning-platforms-local.php`, `learning-platforms-foreign.php`).
   - **Dynamic Category Translations**: Integrated category translation mappings in `includes/translations.php` (for categories such as Acts, Amendments, Procurement Plans/Notices, Vacancies, Publications, etc.) and implemented a global helper function `translateCategory($category)`. Wrapped the rendered category labels inside the category badges, list table rows, filter select options, and detail preview modal properties across all 7 document listing hubs, while keeping select option values in English to maintain search/filter integrity.
+
+### 2026-08-10 (Officials & Contacts Image Display Bug Fix)
+* **Files:**
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+  - [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Root Cause**: `handleFileUpload()` in `admin/includes/functions.php` saves files physically inside `admin/uploads/officials/` (relative to the `admin/` directory), but returns a bare path `uploads/officials/filename.jpg` without the `admin/` prefix. This bare path was stored in the DB.
+  - **Admin Panel (officials.php)**: The `src` attributes were using `../uploads/officials/...` which points OUTSIDE `admin/` to the project root where no `uploads/` folder exists. Fixed by stripping `admin/` prefix from normalized paths for browser `src` (since the admin panel is already served from `/admin/`), and using `__DIR__ . '/...'` for server-side `file_exists()` checks.
+  - **officials-api.php (Upload Save)**: Updated to store image paths with the `admin/` prefix (e.g. `admin/uploads/officials/filename.jpg`) so public-facing pages can resolve images correctly with a relative URL from the project root.
+  - **officials-service.php**: Added `normalizeOfficialImagePath()` helper function that ensures all image paths returned to templates always have the `admin/` prefix. This provides backward compatibility for any existing DB records that lack the prefix.
+  - **Net Result**: Uploaded official/contact photos now display correctly in both the admin panel (`/admin/officials.php`) and the public-facing About Us page (`/about-us.php`).
 
 ### 2026-08-10 (Admin Navigation Reorganization, Auto-Translate & Translation Corrections)
 * **Files:**

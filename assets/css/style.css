@@ -1802,6 +1802,10 @@ button,
   margin-bottom: auto;
 }
 
+.\!mb-0 {
+  margin-bottom: 0px !important;
+}
+
 .-mb-px {
   margin-bottom: -1px;
 }
@@ -2529,6 +2533,14 @@ button,
 
 .min-w-\[700px\] {
   min-width: 700px;
+}
+
+.min-w-\[900px\] {
+  min-width: 900px;
+}
+
+.min-w-full {
+  min-width: 100%;
 }
 
 .max-w-2xl {
@@ -6546,6 +6558,11 @@ button,
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.hover\:border-\[\#8e1b1b\]:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(142 27 27 / var(--tw-border-opacity, 1));
+}
+
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
@@ -6721,6 +6738,11 @@ button,
 
 .hover\:bg-gray-50\/80:hover {
   background-color: rgb(249 250 251 / 0.8);
+}
+
+.hover\:bg-green-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-primary:hover {

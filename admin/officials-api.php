@@ -80,17 +80,27 @@ try {
                     throw new Exception($uploadResult['error'] ?? 'Image upload failed.');
                 }
 
-                if (!empty($existingImage) && file_exists(__DIR__ . '/../' . $existingImage)) {
-                    if (strpos($existingImage, 'admin/uploads/officials/') === 0 || strpos($existingImage, 'uploads/officials/') === 0) {
-                        @unlink(__DIR__ . '/../' . $existingImage);
+                if (!empty($existingImage)) {
+                    // Resolve physical path – handle both admin/-prefixed and bare paths
+                    $existingPhysical = (strpos($existingImage, 'admin/') === 0)
+                        ? __DIR__ . '/../' . $existingImage
+                        : __DIR__ . '/' . $existingImage;
+                    if (file_exists($existingPhysical)) {
+                        if (strpos($existingImage, 'admin/uploads/officials/') === 0 || strpos($existingImage, 'uploads/officials/') === 0) {
+                            @unlink($existingPhysical);
+                        }
                     }
                 }
-                $data['image_path'] = $uploadResult['path'];
+                // Store with admin/ prefix so public-facing pages resolve images at admin/uploads/officials/...
+                $data['image_path'] = 'admin/' . $uploadResult['path'];
                 $data['remove_image'] = false; // New image upload overrides remove flag
             } elseif ($remove_image && $id && !empty($existingImage)) {
-                if (file_exists(__DIR__ . '/../' . $existingImage)) {
+                $existingPhysical = (strpos($existingImage, 'admin/') === 0)
+                    ? __DIR__ . '/../' . $existingImage
+                    : __DIR__ . '/' . $existingImage;
+                if (file_exists($existingPhysical)) {
                     if (strpos($existingImage, 'admin/uploads/officials/') === 0 || strpos($existingImage, 'uploads/officials/') === 0) {
-                        @unlink(__DIR__ . '/../' . $existingImage);
+                        @unlink($existingPhysical);
                     }
                 }
                 $data['image_path'] = null;

@@ -1177,7 +1177,7 @@ if (!function_exists('get_division_translation')) {
 }
 
 if (!function_exists('translateCategory')) {
-    function translateCategory($category) {
+    function translateCategory(string $category): string {
         $map = [
             // Plural forms
             'Acts' => 'cat_acts',

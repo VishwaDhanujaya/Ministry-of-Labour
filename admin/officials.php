@@ -79,8 +79,12 @@ include 'includes/header.php';
                     <div class="text-center relative z-10 flex-1 flex flex-col items-center">
                         <!-- Avatar -->
                         <div class="relative w-28 h-28 mx-auto mb-5 shrink-0">
-                            <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
-                                <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-md ring-2 ring-slate-100">
+                            <?php
+                                $imgSrc = preg_replace('#^admin/#', '', $official['image_path'] ?? '');
+                                $imgPhysical = __DIR__ . '/' . $imgSrc;
+                            ?>
+                            <?php if ($official['image_path'] && file_exists($imgPhysical)): ?>
+                                <img src="<?= htmlspecialchars($imgSrc) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-md ring-2 ring-slate-100">
                             <?php else: ?>
                                 <div class="w-full h-full rounded-full bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-2 ring-slate-100">
                                     <span class="text-white font-extrabold text-xl font-montserrat">
@@ -119,8 +123,8 @@ include 'includes/header.php';
                         <div id="preview-content-<?= $official['id'] ?>" class="hidden">
                             <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
                                 <div class="w-32 h-32 shrink-0 relative">
-                                    <?php if ($official['image_path'] && file_exists('../' . $official['image_path'])): ?>
-                                        <img src="../<?= htmlspecialchars($official['image_path']) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-50">
+                                    <?php if ($official['image_path'] && file_exists($imgPhysical)): ?>
+                                        <img src="<?= htmlspecialchars($imgSrc) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-50">
                                     <?php else: ?>
                                         <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-50">
                                             <span class="text-white font-extrabold text-3xl font-montserrat">
@@ -198,8 +202,12 @@ include 'includes/header.php';
                     </td>
                     <td class="py-4 px-6">
                         <div class="w-10 h-10 rounded-full relative">
-                            <?php if ($person['image_path']): ?>
-                                <img src="../<?= htmlspecialchars($person['image_path']) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-sm ring-1 ring-slate-100">
+                            <?php
+                                $personImgSrc = preg_replace('#^admin/#', '', $person['image_path'] ?? '');
+                                $personImgPhysical = __DIR__ . '/' . $personImgSrc;
+                            ?>
+                            <?php if ($person['image_path'] && file_exists($personImgPhysical)): ?>
+                                <img src="<?= htmlspecialchars($personImgSrc) ?>" class="w-full h-full rounded-full object-cover border-2 border-white shadow-sm ring-1 ring-slate-100">
                             <?php else: ?>
                                 <div class="w-full h-full rounded-full bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-sm ring-1 ring-slate-100">
                                     <span class="text-white font-bold text-xs font-montserrat">
@@ -217,8 +225,8 @@ include 'includes/header.php';
                         <div id="preview-content-<?= $person['id'] ?>" class="hidden">
                             <div class="flex flex-col md:flex-row gap-6 items-center md:items-start">
                                 <div class="w-32 h-32 shrink-0 relative">
-                                    <?php if ($person['image_path']): ?>
-                                        <img src="../<?= htmlspecialchars($person['image_path']) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-55">
+                                    <?php if ($person['image_path'] && file_exists($personImgPhysical)): ?>
+                                        <img src="<?= htmlspecialchars($personImgSrc) ?>" class="w-full h-full rounded-2xl object-cover border-2 border-white shadow-md ring-4 ring-slate-55">
                                     <?php else: ?>
                                         <div class="w-full h-full rounded-2xl bg-gradient-to-tr from-primary to-[#254974] flex items-center justify-center border-2 border-white shadow-md ring-4 ring-slate-55">
                                             <span class="text-white font-extrabold text-3xl font-montserrat">
@@ -652,7 +660,8 @@ function openModal(category, data = null) {
 
         // Show current image preview if the official has an image
         if (data.image_path) {
-            currentOfficialPhotoSrc = '../' + data.image_path;
+            // Strip admin/ prefix for correct src in admin panel context
+            currentOfficialPhotoSrc = data.image_path.replace(/^admin\//, '');
             previewThumb.src = currentOfficialPhotoSrc;
             if (previewTitle) previewTitle.textContent = 'Current photo';
             if (previewStatus) {
