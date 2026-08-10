@@ -160,9 +160,11 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
   - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
   - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [admin/manage-iau-officers.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-officers.php)
 * **Author:** Antigravity AI
 * **Change Description:**
   - **Added `notranslate` Classes Globally**: Applied `notranslate` to dynamically loaded modal elements in `includes/footer.php` and dynamic client-side `showToast` components in `assets/js/main.js` and `admin/assets/js/admin.js`.
+  - **Resolved CSS Style Conflict Warnings**: Refactored the inline ternary badge rendering inside `admin/manage-iau-officers.php` to define the status stylesheet classes in a PHP block variable instead of inline HTML class attributes, eliminating static analysis IDE warnings regarding conflicting Tailwind values (`text-green-700` / `text-rose-700`).
   - **Protected Form Placeholders and Validation Messages**: Applied `notranslate` to form input/textarea classes and error validation tags in `contact-us.php` so their pre-translated placeholders/messages are not corrupted by Google Translate.
   - **Audited Public Pages & Cards**: Added `notranslate` to all homepage cards, quick links descriptions, download items, stats labels, related organizations, and circuit bungalow layout elements. Aligned the "Latest News" heading and "View All" link vertically in `index.php` by changing container alignment to `items-center` and stripping the `.section-title` default margin-bottom (`mb-0`).
   - **Homepage DB Query Fix**: Reverted vacancies/procurements database queries to the base fields structure after identifying that those tables do not support `title_si`/`title_ta` columns, resolving a database column mismatch causing an HTTP 500 error on first page load. Cleared JSON caches to force schema rebuilding.
