@@ -96,7 +96,7 @@ include 'includes/sub-hero.php';
                         <img loading="lazy" src="<?= $base_url ?>assets/img/circuit-bunglalow/ampara/ampara-bungalow-1.webp" alt="Ampara Circuit Bungalow"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                            <span class="text-white text-xs font-bold tracking-wider uppercase bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5">
+                            <span class="text-white text-xs font-bold tracking-wider uppercase bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-1.5 notranslate">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z"></path></svg>
                                 <?= t('click_fullscreen', 'Click to view fullscreen') ?>
                             </span>
@@ -131,7 +131,7 @@ include 'includes/sub-hero.php';
                             class="w-full h-full object-cover">
                         <div
                             class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            <span class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1">
+                            <span class="text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1 notranslate">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
                                 <?= t('more_photos', 'More') ?>
                             </span>
@@ -148,7 +148,7 @@ include 'includes/sub-hero.php';
                 </div>
 
                 <!-- Description -->
-                <div class="text-slate-600 font-inter text-[14.5px] leading-relaxed space-y-4 mb-6">
+                <div class="text-slate-600 font-inter text-[14.5px] leading-relaxed space-y-4 mb-6 notranslate">
                     <p><?= t('ampara_desc_p1', 'Ampara, a town located in the Eastern Province of Sri Lanka...') ?></p>
                     <p><?= t('ampara_desc_p2', 'The Ministry of Labour has established this Circuit Bungalow in Ampara...') ?></p>
                     <p><?= t('ampara_desc_p3', 'The bungalow features air-conditioned double and single rooms...') ?></p>
@@ -384,8 +384,8 @@ include 'includes/sub-hero.php';
                                 <th class="pb-3 font-bold">Room Type</th>
                                 <th class="pb-3 font-bold">Beds / Max Occupancy</th>
                                 <th class="pb-3 font-bold text-right"><?= t('ministry_staff', 'Ministry Staff') ?></th>
-                                <th class="pb-3 font-bold text-right">Govt / Private</th>
-                                <th class="pb-3 font-bold text-right">Foreign</th>
+                                <th class="pb-3 font-bold text-right"><?= t('other_govt_private', 'Govt / Private') ?></th>
+                                <th class="pb-3 font-bold text-right"><?= t('foreign_visitors', 'Foreign') ?></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 bg-white text-[13.5px]">

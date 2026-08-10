@@ -3,20 +3,13 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Initialize current_lang from GET parameter, Session, Cookie, or Google Translate cookie
+// Initialize current_lang from GET parameter, Session, or default to English
 $current_lang = 'en';
 
 if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_GET['lang'];
 } elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_SESSION['lang'];
-} elseif (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
-    $current_lang = $_COOKIE['lang'];
-} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
-    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
-    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
-        $current_lang = strtolower($m[1]);
-    }
 }
 
 // Compute dynamic base URL first for absolute SEO URLs

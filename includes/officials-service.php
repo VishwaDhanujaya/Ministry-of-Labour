@@ -1,5 +1,6 @@
 <?php
 // includes/officials-service.php
+require_once __DIR__ . '/translations.php';
 
 function getTopOfficials(PDO $pdo): array {
     $stmt = $pdo->prepare("SELECT * FROM officials WHERE category = 'top' AND is_active = 1 ORDER BY sort_order ASC");
@@ -75,6 +76,8 @@ function buildContactDepartments(PDO $pdo): array {
         $contactDepts[] = [
             'id' => $modalId,
             'title' => str_replace('Hon. ', '', $top['title']),
+            'title_si' => str_replace('ගරු ', '', $top['title_si'] ?? $top['title']),
+            'title_ta' => str_replace('கௌரவ ', '', $top['title_ta'] ?? $top['title']),
             'people' => [
                 [
                     'name' => $top['name'],
@@ -101,16 +104,18 @@ function buildContactDepartments(PDO $pdo): array {
         $modalId = $div['slug'] . '-modal';
         // Maps
         if ($div['slug'] === 'administration') $modalId = 'admin-modal';
-        if ($div['slug'] === 'internal-audit') {
-            $modalId = 'audit-modal';
-            $title = 'Internal Affairs Division';
-        } else {
-            $title = str_ends_with($div['title'], 'Division') ? $div['title'] : $div['title'] . ' Division';
-        }
+        if ($div['slug'] === 'internal-audit') $modalId = 'audit-modal';
+        
+        $title_en = get_division_translation($div['slug'], 'en', true);
+        $title_si = get_division_translation($div['slug'], 'si', true);
+        $title_ta = get_division_translation($div['slug'], 'ta', true);
 
         $contactDepts[] = [
             'id' => $modalId,
-            'title' => $title,
+            'slug' => $div['slug'],
+            'title' => $title_en,
+            'title_si' => $title_si,
+            'title_ta' => $title_ta,
             'people' => $div['people']
         ];
     }

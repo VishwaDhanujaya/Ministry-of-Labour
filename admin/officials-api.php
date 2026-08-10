@@ -57,6 +57,15 @@ try {
                 'remove_image' => $remove_image
             ];
 
+            // Server-side validation
+            $required_fields = ['name', 'title', 'name_si', 'title_si', 'name_ta', 'title_ta'];
+            foreach ($required_fields as $field) {
+                if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
+                    echo json_encode(['success' => false, 'message' => 'All English, Sinhala, and Tamil names & designations are mandatory.']);
+                    exit;
+                }
+            }
+
             $existingImage = null;
             if ($id) {
                 $stmt = $pdo->prepare("SELECT image_path FROM officials WHERE id = ?");

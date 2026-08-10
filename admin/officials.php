@@ -329,8 +329,8 @@ include 'includes/header.php';
                 </div>
 
                 <!-- Language Tabs Header (News Style) -->
-                <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
-                    <div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl shadow-inner border border-slate-200/40">
+                <div class="flex items-center justify-between mb-4 gap-2 flex-wrap sm:flex-nowrap">
+                    <div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl shadow-inner border border-slate-200/40 shrink-0">
                         <button type="button" onclick="switchLangTab('en')" id="lang-tab-btn-en" class="px-5 py-2 text-[12.5px] font-bold rounded-xl text-secondary bg-white shadow-sm transition-all focus:outline-none">
                             English
                         </button>
@@ -341,8 +341,8 @@ include 'includes/header.php';
                             Tamil
                         </button>
                     </div>
-                    <button type="button" onclick="autoTranslateAll()" id="translate-all-btn" class="text-[11.5px] bg-blue-50 text-blue-600 px-3.5 py-2 rounded-xl border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1.5 font-bold shadow-sm">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.25h12M9 3v15"></path></svg>
+                    <button type="button" onclick="autoTranslateAll()" id="translate-all-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3.5 py-2 rounded-xl border border-blue-100 hover:bg-blue-100 transition-all flex items-center gap-1 font-bold shadow-sm cursor-pointer shrink-0">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 21l5.25-11.25L21 21m-9-3h7.5M3 5.621a48.474 48.474 0 016-.371m0 0c1.12 0 2.233.038 3.334.114M9 5.25V3m3.334 2.364C11.176 10.658 7.69 15.08 3 17.502m9.334-12.138A14.37 14.37 0 009 5.25M9 5.25a14.368 14.368 0 01-3.666 3.614m1.86 7.139a11.385 11.385 0 01-4.7-3.614"></path></svg>
                         Auto Translate
                     </button>
                 </div>
@@ -362,24 +362,24 @@ include 'includes/header.php';
                 <!-- Tab 2: Sinhala -->
                 <div id="lang-tab-pane-si" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Sinhala)</label>
-                        <input type="text" id="field-name-si" name="name_si" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Sinhala) <span class="text-red-500">*</span></label>
+                        <input type="text" id="field-name-si" name="name_si" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Sinhala)</label>
-                        <input type="text" id="field-title-si" name="title_si" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Sinhala) <span class="text-red-500">*</span></label>
+                        <input type="text" id="field-title-si" name="title_si" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-sinhala">
                     </div>
                 </div>
 
                 <!-- Tab 3: Tamil -->
                 <div id="lang-tab-pane-ta" class="hidden space-y-4">
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Tamil)</label>
-                        <input type="text" id="field-name-ta" name="name_ta" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name (Tamil) <span class="text-red-500">*</span></label>
+                        <input type="text" id="field-name-ta" name="name_ta" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
                     </div>
                     <div>
-                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Tamil)</label>
-                        <input type="text" id="field-title-ta" name="title_ta" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Title / Designation (Tamil) <span class="text-red-500">*</span></label>
+                        <input type="text" id="field-title-ta" name="title_ta" required class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 transition-all font-medium font-tamil">
                     </div>
                 </div>
                 
@@ -785,6 +785,51 @@ document.addEventListener('DOMContentLoaded', () => {
 async function saveOfficial(e) {
     e.preventDefault();
     
+    // Check validation of all fields manually so we can switch tabs if any is invalid
+    const nameEn = document.getElementById('field-name').value.trim();
+    const titleEn = document.getElementById('field-title').value.trim();
+    const nameSi = document.getElementById('field-name-si').value.trim();
+    const titleSi = document.getElementById('field-title-si').value.trim();
+    const nameTa = document.getElementById('field-name-ta').value.trim();
+    const titleTa = document.getElementById('field-title-ta').value.trim();
+    
+    if (!nameEn) {
+        switchLangTab('en');
+        document.getElementById('field-name').focus();
+        if (typeof window.showToast === 'function') window.showToast('Full Name in English is required.', 'error');
+        return;
+    }
+    if (!titleEn) {
+        switchLangTab('en');
+        document.getElementById('field-title').focus();
+        if (typeof window.showToast === 'function') window.showToast('Title / Designation in English is required.', 'error');
+        return;
+    }
+    if (!nameSi) {
+        switchLangTab('si');
+        document.getElementById('field-name-si').focus();
+        if (typeof window.showToast === 'function') window.showToast('Full Name in Sinhala is required.', 'error');
+        return;
+    }
+    if (!titleSi) {
+        switchLangTab('si');
+        document.getElementById('field-title-si').focus();
+        if (typeof window.showToast === 'function') window.showToast('Title / Designation in Sinhala is required.', 'error');
+        return;
+    }
+    if (!nameTa) {
+        switchLangTab('ta');
+        document.getElementById('field-name-ta').focus();
+        if (typeof window.showToast === 'function') window.showToast('Full Name in Tamil is required.', 'error');
+        return;
+    }
+    if (!titleTa) {
+        switchLangTab('ta');
+        document.getElementById('field-title-ta').focus();
+        if (typeof window.showToast === 'function') window.showToast('Title / Designation in Tamil is required.', 'error');
+        return;
+    }
+    
     if (typeof window.validateForm === 'function' && !window.validateForm(e.target)) {
         return;
     }
@@ -874,6 +919,53 @@ async function deleteOfficial(id) {
     );
 }
 
+// Translation Utilities
+async function translateText(text, fromLang, toLang) {
+    if (!text) return '';
+    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
+    const data = await res.json();
+    return data[0].map(x => x[0]).join('');
+}
+
+async function autoTranslateAll() {
+    const nameEn = document.getElementById('field-name').value.trim();
+    const titleEn = document.getElementById('field-title').value.trim();
+
+    if (!nameEn && !titleEn) {
+        showToast('Please enter an English name or title/designation to translate.', 'warning');
+        return;
+    }
+
+    const translateBtn = document.getElementById('translate-all-btn');
+    const originalText = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+    translateBtn.disabled = true;
+
+    try {
+        if (nameEn) {
+            const nameSi = await translateText(nameEn, 'en', 'si');
+            document.getElementById('field-name-si').value = nameSi;
+            
+            const nameTa = await translateText(nameEn, 'en', 'ta');
+            document.getElementById('field-name-ta').value = nameTa;
+        }
+        if (titleEn) {
+            const titleSi = await translateText(titleEn, 'en', 'si');
+            document.getElementById('field-title-si').value = titleSi;
+            
+            const titleTa = await translateText(titleEn, 'en', 'ta');
+            document.getElementById('field-title-ta').value = titleTa;
+        }
+        showToast('Fields translated successfully!', 'success');
+    } catch (err) {
+        showToast('Translation failed. Please try again or enter manually.', 'error');
+        console.error(err);
+    } finally {
+        translateBtn.innerHTML = originalText;
+        translateBtn.disabled = false;
+    }
+}
+
 // Modal Language Tabs Switcher
 function switchLangTab(lang) {
     ['en', 'si', 'ta'].forEach(l => {
@@ -893,65 +985,7 @@ function switchLangTab(lang) {
     });
 }
 
-// Translation Functions
-async function translateText(text, fromLang, toLang) {
-    if (!text) return '';
-    try {
-        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-        const json = await res.json();
-        let translatedText = '';
-        if (json && json[0]) {
-            json[0].forEach(part => {
-                if (part[0]) translatedText += part[0];
-            });
-        }
-        return translatedText;
-    } catch (e) {
-        console.error('Translation error:', e);
-        return '';
-    }
-}
 
-async function autoTranslateAll() {
-    const nameEn = document.getElementById('field-name').value.trim();
-    const titleEn = document.getElementById('field-title').value.trim();
-    
-    if (!nameEn && !titleEn) {
-        showToast('Please enter English content first to translate.', 'warning');
-        return;
-    }
-
-    const translateBtn = document.getElementById('translate-all-btn');
-    const originalText = translateBtn.innerHTML;
-    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-1.5 h-3.5 w-3.5 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
-    translateBtn.disabled = true;
-
-    try {
-        if (nameEn) {
-            const [nameSi, nameTa] = await Promise.all([
-                translateText(nameEn, 'en', 'si'),
-                translateText(nameEn, 'en', 'ta')
-            ]);
-            document.getElementById('field-name-si').value = nameSi;
-            document.getElementById('field-name-ta').value = nameTa;
-        }
-        if (titleEn) {
-            const [titleSi, titleTa] = await Promise.all([
-                translateText(titleEn, 'en', 'si'),
-                translateText(titleEn, 'en', 'ta')
-            ]);
-            document.getElementById('field-title-si').value = titleSi;
-            document.getElementById('field-title-ta').value = titleTa;
-        }
-        
-        showToast('Sinhala & Tamil translations generated! Switch tabs to review.', 'success');
-    } catch (e) {
-        showToast('Translation failed. Please try again.', 'error');
-    } finally {
-        translateBtn.innerHTML = originalText;
-        translateBtn.disabled = false;
-    }
-}
 
 // Initialize SortableJS for each division table
 document.addEventListener('DOMContentLoaded', () => {

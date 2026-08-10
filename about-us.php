@@ -56,12 +56,12 @@ include 'includes/sub-hero.php';
                 <div class="about-stat-card">
                     <div class="about-stat-card-accent"></div>
                     <span class="about-stat-number notranslate" translate="no">95</span>
-                    <span class="about-stat-label"><?= t('years_of_experience', 'Years of Experience') ?></span>
+                    <span class="about-stat-label notranslate"><?= t('years_of_experience', 'Years of Experience') ?></span>
                 </div>
                 <div class="about-stat-card">
                     <div class="about-stat-card-accent"></div>
                     <span class="about-stat-number notranslate" translate="no">95K</span>
-                    <span class="about-stat-label"><?= t('happy_customers', 'Happy Customers') ?></span>
+                    <span class="about-stat-label notranslate"><?= t('happy_customers', 'Satisfied Citizens') ?></span>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@ include 'includes/sub-hero.php';
 <!-- Related Organizations -->
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto" data-aos="fade-up">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 text-center"><?= t('related_organizations', 'Related Organizations') ?></h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 text-center notranslate"><?= t('related_organizations', 'Related Organizations') ?></h2>
         <div id="partners-track"
             class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-10 py-8 justify-items-center items-center">
             <a href="https://www.presidentsoffice.gov.lk/" target="_blank" rel="noopener noreferrer" aria-label="Presidential Secretariat Official Website"
@@ -311,9 +311,9 @@ include 'includes/sub-hero.php';
                         <?php endif; ?>
                     </div>
                     <div class="p-8">
-                        <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1">
+                        <h3 class="text-[17px] font-bold font-montserrat text-primary mb-1 notranslate" translate="no">
                             <?php echo !empty($official['title_'.$current_lang]) ? $official['title_'.$current_lang] : $official['title']; ?></h3>
-                        <p class="text-gray-500 font-inter text-sm mb-5"><?php echo !empty($official['name_'.$current_lang]) ? $official['name_'.$current_lang] : $official['name']; ?></p>
+                        <p class="text-gray-500 font-inter text-sm mb-5 notranslate" translate="no"><?php echo !empty($official['name_'.$current_lang]) ? $official['name_'.$current_lang] : $official['name']; ?></p>
                         <div class="flex gap-2.5 relative z-10">
                             <?php if ($official['email']): ?>
                                 <button
@@ -373,8 +373,8 @@ include 'includes/sub-hero.php';
                     $tabStateClass = $index === 0 ? 'bg-white text-primary shadow-sm font-bold border-gray-200/20' : 'text-gray-500 hover:text-gray-800 hover:bg-white/40 font-semibold border-transparent';
                 ?>
                 <button onclick="switchDepartmentTab('<?php echo $dept['id']; ?>')" id="tab-btn-<?php echo $dept['id']; ?>"
-                    class="px-5 py-2.5 rounded-xl border <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-[13.5px] md:text-sm cursor-pointer transition-all duration-300 snap-center flex-shrink-0 active:scale-98">
-                    <?php echo $dept['title']; ?>
+                    class="px-5 py-2.5 rounded-xl border <?php echo $tabStateClass; ?> font-montserrat whitespace-nowrap text-[13.5px] md:text-sm cursor-pointer transition-all duration-300 snap-center flex-shrink-0 active:scale-98 notranslate" translate="no">
+                    <?php echo get_division_translation($dept['slug'], $current_lang, true); ?>
                 </button>
             <?php endforeach; ?>
         </div>
@@ -402,9 +402,9 @@ include 'includes/sub-hero.php';
                                 </div>
                                 <div class="p-4 sm:p-5">
                                     <h4
-                                        class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight">
+                                        class="font-bold font-montserrat text-primary text-[12px] sm:text-[13px] mb-1 leading-tight notranslate" translate="no">
                                         <?php echo !empty($person['title_'.$current_lang]) ? $person['title_'.$current_lang] : (!empty($person['designation_'.$current_lang]) ? $person['designation_'.$current_lang] : (!empty($person['title']) ? $person['title'] : $person['designation'])); ?></h4>
-                                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4">
+                                    <p class="text-[11px] sm:text-[12px] text-gray-500 font-inter mb-4 notranslate" translate="no">
                                         <?php echo !empty($person['name_'.$current_lang]) ? $person['name_'.$current_lang] : $person['name']; ?></p>
                                     <div class="flex gap-1.5 sm:gap-2 relative z-10">
                                         <?php if ($person['email']): ?>

@@ -39,7 +39,7 @@ foreach ($raw_pubs as $pub) {
     <div class="container mx-auto max-w-6xl">
         
         <!-- Controls Bar -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8 notranslate">
             <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
                 
                 <!-- Search -->
@@ -97,7 +97,7 @@ foreach ($raw_pubs as $pub) {
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer notranslate" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                 'title' => $doc['title'],
                 'content' => $doc['description'],
                 'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -133,7 +133,7 @@ foreach ($raw_pubs as $pub) {
         <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12">
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm text-gray-600 font-inter">
-                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100">
+                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100 notranslate">
                         <tr>
                             <th class="px-6 py-4 font-semibold text-[13.5px]">Document Title</th>
                             <th class="px-6 py-4 font-semibold text-[13.5px] w-48">Category</th>
@@ -145,7 +145,7 @@ foreach ($raw_pubs as $pub) {
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer notranslate" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                             'title' => $doc['title'],
                             'content' => $doc['description'],
                             'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -178,7 +178,7 @@ foreach ($raw_pubs as $pub) {
         </div>
 
         <!-- No Results State -->
-        <div id="noResultsMsg" class="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-3xl border border-gray-100 shadow-sm" style="display: none;">
+        <div id="noResultsMsg" class="flex flex-col items-center justify-center py-16 px-4 bg-white rounded-3xl border border-gray-100 shadow-sm notranslate" style="display: none;">
             <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <p class="text-[17px] font-bold text-gray-800 mb-1">No publications matched your search</p>
             <p class="text-sm text-gray-400">Try adjusting your filters or search keywords</p>

@@ -24,6 +24,13 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
+            </ul>
+        </div>
+
+        <!-- Group: HOMEPAGE CONTENT -->
+        <div class="mb-6">
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">HOMEPAGE CONTENT</h3>
+            <ul class="space-y-1 px-3">
                 <?php if (hasPermission("manage_sliders")): ?>
                 <li>
                     <a href="manage-sliders" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-sliders' || $current_page == 'new-slider' || $current_page == 'edit-slider') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
@@ -32,26 +39,34 @@
                     </a>
                 </li>
                 <?php endif; ?>
+                <?php if (hasPermission("manage_notices")): ?>
+                <li>
+                    <a href="manage-special-notices" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-special-notices' || $current_page == 'new-special-notice') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <span>Special Notices</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if (hasPermission("manage_statistics")): ?>
+                <li>
+                    <a href="manage-statistics" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-statistics') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <span>Statistics</span>
+                    </a>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
 
-        <!-- Group: NEWS & UPDATES -->
+        <!-- Group: NEWS & COMMUNICATIONS -->
         <div class="mb-6">
-            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">NEWS & UPDATES</h3>
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">NEWS & COMMUNICATIONS</h3>
             <ul class="space-y-1 px-3">
                 <?php if (hasPermission("manage_news")): ?>
                 <li>
                     <a href="news" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'news' || $current_page == 'news-add') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
                         <span>News</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-                <?php if (hasPermission("manage_notices")): ?>
-                <li>
-                    <a href="manage-special-notices" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-special-notices' || $current_page == 'new-special-notice') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                        <span>Special Notices</span>
                     </a>
                 </li>
                 <?php endif; ?>
@@ -66,10 +81,41 @@
             </ul>
         </div>
 
-        <!-- Group: PUBLICATIONS -->
+        <!-- Group: DIRECTORY & STAFF -->
         <div class="mb-6">
-            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">PUBLICATIONS</h3>
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">DIRECTORY & STAFF</h3>
             <ul class="space-y-1 px-3">
+                <?php if (hasPermission("manage_officials")): ?>
+                <li>
+                    <a href="officials" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'officials') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <span>Officials & Contacts</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+                <?php if (hasPermission("manage_iau")): ?>
+                <li>
+                    <a href="manage-iau-officers" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-iau-officers') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span>IAU Officers</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <!-- Group: PUBLICATIONS & LAWS -->
+        <div class="mb-6">
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">PUBLICATIONS & LAWS</h3>
+            <ul class="space-y-1 px-3">
+                <?php if (hasPermission("manage_acts")): ?>
+                <li>
+                    <a href="manage-acts" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-acts' || $current_page == 'new-act') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <span>Acts & Amendments</span>
+                    </a>
+                </li>
+                <?php endif; ?>
                 <?php if (hasPermission("manage_local_pubs")): ?>
                 <li>
                     <a href="manage-learning-platforms-local" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-learning-platforms-local' || $current_page == 'new-learning-platform-local') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
@@ -105,9 +151,9 @@
             </ul>
         </div>
 
-        <!-- Group: MANAGEMENT -->
+        <!-- Group: CAREERS & TENDERS -->
         <div class="mb-6">
-            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">MANAGEMENT</h3>
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">CAREERS & TENDERS</h3>
             <ul class="space-y-1 px-3">
                 <?php if (hasPermission("manage_vacancies")): ?>
                 <li>
@@ -125,29 +171,13 @@
                     </a>
                 </li>
                 <?php endif; ?>
-                <?php if (hasPermission("manage_acts")): ?>
-                <li>
-                    <a href="manage-acts" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-acts' || $current_page == 'new-act') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <span>Acts & Amendments</span>
-                    </a>
-                </li>
-                <?php endif; ?>
             </ul>
         </div>
 
-        <!-- Group: SERVICES & DIRECTORY -->
+        <!-- Group: SERVICES -->
         <div class="mb-6">
-            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">SERVICES & DIRECTORY</h3>
+            <h3 class="px-6 text-[10px] font-bold text-white/50 tracking-wider mb-2 uppercase">SERVICES</h3>
             <ul class="space-y-1 px-3">
-                <?php if (hasPermission("manage_officials")): ?>
-                <li>
-                    <a href="officials" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'officials') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <span>Officials & Contacts</span>
-                    </a>
-                </li>
-                <?php endif; ?>
                 <?php if (hasPermission("manage_bookings")): ?>
                 <li>
                     <a href="bungalow-bookings" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'bungalow-bookings') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
@@ -169,14 +199,6 @@
                         <span>Settings</span>
                     </a>
                 </li>
-                <?php if (hasPermission("manage_statistics")): ?>
-                <li>
-                    <a href="manage-statistics" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-statistics') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
-                        <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                        <span>Statistics</span>
-                    </a>
-                </li>
-                <?php endif; ?>
                 <?php if (isSuperAdmin()): ?>
                 <li>
                     <a href="manage-admins" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'manage-admins') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">

@@ -8,13 +8,6 @@ if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_GET['lang'];
 } elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_SESSION['lang'];
-} elseif (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], ['en', 'si', 'ta'])) {
-    $current_lang = $_COOKIE['lang'];
-} elseif (isset($_COOKIE['googtrans']) && !empty($_COOKIE['googtrans'])) {
-    $gt_raw = trim(urldecode($_COOKIE['googtrans']), '"');
-    if (preg_match('#/(si|ta|en)$#i', $gt_raw, $m)) {
-        $current_lang = strtolower($m[1]);
-    }
 }
 
 require_once 'admin/includes/db.php';

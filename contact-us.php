@@ -130,27 +130,27 @@ include 'includes/sub-hero.php';
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('full_name', 'Full Name') ?> <span class="text-red-500">*</span></label>
-                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_full_name', 'Kamal Perera')) ?>">
-                        <p id="fullname-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
+                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_full_name', 'Kamal Perera')) ?>">
+                        <p id="fullname-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                         <div>
                             <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('email_address', 'Email Address') ?> <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_email', 'your@email.com')) ?>">
-                            <p id="email-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
+                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_email', 'your@email.com')) ?>">
+                            <p id="email-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                         </div>
                         <div>
                             <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('phone_number', 'Phone Number') ?></label>
-                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors" placeholder="<?= htmlspecialchars(t('ph_phone', '+94 77 123 4567')) ?>">
-                            <p id="phone-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
+                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_phone', '+94 77 123 4567')) ?>">
+                            <p id="phone-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                         </div>
                     </div>
 
                     <div>
                         <label for="message" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('message', 'Message') ?> <span class="text-red-500">*</span></label>
-                        <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5" placeholder="<?= htmlspecialchars(t('how_can_we_help', 'How can we help you?')) ?>"></textarea>
-                        <p id="message-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium"></p>
+                        <textarea id="message" name="message" required rows="4" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors resize-none md:rows-5 notranslate" placeholder="<?= htmlspecialchars(t('how_can_we_help', 'How can we help you?')) ?>"></textarea>
+                        <p id="message-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row items-center gap-4 pt-2 md:pt-4">
@@ -193,8 +193,8 @@ include 'includes/sub-hero.php';
         <h3 class="text-xl md:text-[22px] font-semibold font-montserrat text-gray-900 mb-5 md:mb-6 notranslate" data-aos="fade-up"><?= t('contact_numbers', 'Contact Numbers') ?></h3>
         <div class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-gray-200 border border-gray-200 rounded-2xl overflow-hidden font-inter" data-aos="fade-up" data-aos-delay="100">
             <?php foreach($contact_departments as $dept): ?>
-            <div onclick="openModal('<?php echo $dept['id']; ?>')" class="bg-[#FAFAFA] cursor-pointer py-6 md:py-8 px-2 sm:px-4 flex items-center justify-center font-medium text-gray-900 text-sm md:text-[15px] hover:bg-gray-100 transition-colors text-center h-full">
-                <?php echo $dept['title']; ?>
+            <div onclick="openModal('<?php echo $dept['id']; ?>')" class="bg-[#FAFAFA] cursor-pointer py-6 md:py-8 px-2 sm:px-4 flex items-center justify-center font-medium text-gray-900 text-sm md:text-[15px] hover:bg-gray-100 transition-colors text-center h-full notranslate" translate="no">
+                <?php echo !empty($dept['title_'.$current_lang]) ? $dept['title_'.$current_lang] : $dept['title']; ?>
             </div>
             <?php endforeach; ?>
         </div>
@@ -212,7 +212,7 @@ include 'includes/sub-hero.php';
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         
-        <h3 class="text-xl md:text-[26px] font-semibold font-montserrat mb-4 md:mb-6 sticky top-0 bg-secondary pt-2 pb-4"><?php echo $dept['title']; ?></h3>
+        <h3 class="text-xl md:text-[26px] font-semibold font-montserrat mb-4 md:mb-6 sticky top-0 bg-secondary pt-2 pb-4 notranslate" translate="no"><?php echo !empty($dept['title_'.$current_lang]) ? $dept['title_'.$current_lang] : $dept['title']; ?></h3>
         
         <div class="space-y-8 font-inter">
             <?php foreach($dept['people'] as $index => $person): ?>
@@ -220,10 +220,10 @@ include 'includes/sub-hero.php';
                     <hr class="border-white/20 w-[60%] mx-auto my-6">
                 <?php endif; ?>
                 <div>
-                    <p class="text-[18px] sm:text-xl md:text-[22px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight"><?php echo !empty($person['name_'.$current_lang]) ? $person['name_'.$current_lang] : $person['name']; ?></p>
+                    <p class="text-[18px] sm:text-xl md:text-[22px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight notranslate" translate="no"><?php echo !empty($person['name_'.$current_lang]) ? $person['name_'.$current_lang] : $person['name']; ?></p>
                     <?php $posTitle = !empty($person['title_'.$current_lang]) ? $person['title_'.$current_lang] : (!empty($person['designation_'.$current_lang]) ? $person['designation_'.$current_lang] : (!empty($person['title']) ? $person['title'] : $person['designation'])); ?>
                     <?php if($posTitle): ?>
-                    <p class="text-sm md:text-base text-gray-300 pb-1 md:pb-2"><?php echo $posTitle; ?></p>
+                    <p class="text-sm md:text-base text-gray-300 pb-1 md:pb-2 notranslate" translate="no"><?php echo $posTitle; ?></p>
                     <?php endif; ?>
                     
                     <div class="space-y-1 mt-3">

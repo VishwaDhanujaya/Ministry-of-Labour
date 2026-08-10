@@ -284,8 +284,8 @@
             <!-- Header -->
             <div class="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-[#FAFAFA] shrink-0">
                 <div class="flex-1 min-w-0 pr-4">
-                    <span id="modal-badge" class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border whitespace-nowrap uppercase tracking-wider bg-secondary/5 text-secondary border-secondary/10">Category</span>
-                    <h3 id="modal-title" class="text-[17px] font-bold font-montserrat text-gray-900 mt-2 truncate"></h3>
+                    <span id="modal-badge" class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border whitespace-nowrap uppercase tracking-wider bg-secondary/5 text-secondary border-secondary/10 notranslate">Category</span>
+                    <h3 id="modal-title" class="text-[17px] font-bold font-montserrat text-gray-900 mt-2 truncate notranslate"></h3>
                 </div>
                 <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-250 text-gray-500 hover:text-gray-700 flex items-center justify-center transition-colors focus:outline-none shrink-0 cursor-pointer">
                     <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -297,7 +297,7 @@
                 <!-- Meta Date -->
                 <div class="flex items-center gap-1.5 text-xs text-gray-400 font-inter font-medium tracking-wide mb-4 pb-4 border-b border-gray-100 select-none">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <span id="modal-date">Published Date</span>
+                    <span id="modal-date" class="notranslate">Published Date</span>
                 </div>
                 <!-- Body Text -->
                 <div id="modal-body" class="text-[14.5px] text-gray-600 leading-relaxed font-inter prose max-w-none notranslate"></div>

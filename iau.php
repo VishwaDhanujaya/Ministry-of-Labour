@@ -1,115 +1,41 @@
 <?php
 // iau.php
-$iau_staff = [
-    [
-        'id' => 'staff-1',
-        'title' => 'Head of the IAU',
-        'department' => '',
-        'name' => 'Ms. T.P. Muditha Pathmajay',
-        'designation' => 'Additional Secretary (Development)',
-        'phone' => '0718123025',
-        'email' => 'mpathmajay@gmail.com'
-    ],
-    [
-        'id' => 'staff-2',
-        'title' => 'Integrity Officer',
-        'department' => 'Ministry of Labour',
-        'name' => 'Mr. P.D. Chandana Pathirage',
-        'designation' => 'Director (Development)',
-        'phone' => '0713373538',
-        'email' => 'pstchandana@gmail.com'
-    ],
-    [
-        'id' => 'staff-3',
-        'title' => 'Member',
-        'department' => 'Department of Manpower and Employment',
-        'name' => 'Mrs. W. C. K. Wijemanna',
-        'designation' => 'Additional Director General',
-        'phone' => '0776182082',
-        'email' => 'kumudinichampa@yahoo.com'
-    ],
-    [
-        'id' => 'staff-4',
-        'title' => 'Member',
-        'department' => 'National Institute of Labour Studies',
-        'name' => 'Mrs. W.D.D. Weerathunga',
-        'designation' => 'Administrative Officer',
-        'phone' => '0776911027',
-        'email' => 'deepikaweerathunga2@gmail.com'
-    ],
-    [
-        'id' => 'staff-5',
-        'title' => 'Member',
-        'department' => 'National Institute of Occupational Safety and Health',
-        'name' => 'Mr. P.M.K. Perera',
-        'designation' => 'Assistant Director (Finance)',
-        'phone' => '0773956382',
-        'email' => 'mohan@niosh.gov.lk'
-    ],
-    [
-        'id' => 'staff-6',
-        'title' => 'Member',
-        'department' => 'Office of the Commissioner for Workmen’s Compensation',
-        'name' => 'Mrs. Y. Ganga',
-        'designation' => 'Accountant',
-        'phone' => '076-4500454',
-        'email' => 'm.kganga4@gmail.com'
-    ],
-    [
-        'id' => 'staff-7',
-        'title' => 'Member',
-        'department' => 'Shrama Vasana Fund',
-        'name' => 'Mr. H.W. Thilakarathne',
-        'designation' => 'Manager',
-        'phone' => '0712809917',
-        'email' => 'thilak22@hotmail.com'
-    ],
-    [
-        'id' => 'staff-8',
-        'title' => 'Member',
-        'department' => 'Policy Formulation & Foreign Relations Division',
-        'name' => 'Mr. B. Vasanthan',
-        'designation' => 'Senior Assistant Secretary (Foreign Relations)',
-        'phone' => '0718249902',
-        'email' => 'bvasanthan@yahoo.com'
-    ],
-    [
-        'id' => 'staff-9',
-        'title' => 'Member',
-        'department' => 'Accounts Division',
-        'name' => 'Mrs. S.S. Shiroma Nandani',
-        'designation' => 'Chief Accountant',
-        'phone' => '0752261785',
-        'email' => 'shiromanandani@yahoo.com'
-    ],
-    [
-        'id' => 'staff-10',
-        'title' => 'Member',
-        'department' => 'Planning Division',
-        'name' => 'Mrs. M.P.D.C. W. Kumari',
-        'designation' => 'Deputy Director (Planning)',
-        'phone' => '0716897218',
-        'email' => 'kuma_lg@yahoo.com'
-    ],
-    [
-        'id' => 'staff-11',
-        'title' => 'Member',
-        'department' => 'Administration Division',
-        'name' => 'Mrs. S. Luxiga',
-        'designation' => 'Assistant Secretary (Administration)',
-        'phone' => '0779265869',
-        'email' => 'skluxi@gmail.com'
-    ],
-    [
-        'id' => 'staff-12',
-        'title' => 'Member',
-        'department' => 'Legal Division',
-        'name' => 'Mrs. W.P.A.G. Wijesooriya',
-        'designation' => 'Legal Officer',
-        'phone' => '0763526589',
-        'email' => 'gayaniew1@gmail.com'
-    ]
-];
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'admin/includes/db.php';
+
+try {
+    $stmt = $pdo->query("SELECT * FROM `iau_officers` WHERE `is_active` = 1 ORDER BY `sort_order` ASC");
+    $db_officers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $db_officers = [];
+}
+
+$iau_staff = [];
+foreach ($db_officers as $officer) {
+    // Determine language suffix
+    $lang_suffix = '';
+    if (isset($current_lang) && ($current_lang === 'si' || $current_lang === 'ta')) {
+        $lang_suffix = '_' . $current_lang;
+    }
+    
+    $title = !empty($officer['title' . $lang_suffix]) ? $officer['title' . $lang_suffix] : $officer['title'];
+    $department = !empty($officer['department' . $lang_suffix]) ? $officer['department' . $lang_suffix] : $officer['department'];
+    $name = !empty($officer['name' . $lang_suffix]) ? $officer['name' . $lang_suffix] : $officer['name'];
+    $designation = !empty($officer['designation' . $lang_suffix]) ? $officer['designation' . $lang_suffix] : $officer['designation'];
+    
+    $iau_staff[] = [
+        'id' => 'staff-' . $officer['id'],
+        'title' => $title,
+        'department' => $department,
+        'name' => $name,
+        'designation' => $designation,
+        'phone' => $officer['phone'],
+        'email' => $officer['email']
+    ];
+}
+
 
 include 'includes/header.php';
 $page_title = 'IAU <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">' . t('iau_sub_title', '(Internal Affairs Unit)') . '</span>';
@@ -247,7 +173,7 @@ include 'includes/sub-hero.php';
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
             <?php foreach($iau_staff as $staff): ?>
-            <div onclick="openModal('<?php echo $staff['id']; ?>')" class="bg-white cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full">
+            <div onclick="openModal('<?php echo $staff['id']; ?>')" class="bg-white cursor-pointer hover:bg-gray-50 transition-colors p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center text-center h-full notranslate" translate="no">
                 <h4 class="text-base md:text-lg font-semibold font-montserrat text-gray-900 mb-1.5 md:mb-2"><?php echo $staff['title']; ?></h4>
                 <?php if($staff['department']): ?>
                 <p class="text-xs md:text-sm font-inter text-gray-500"><?php echo $staff['department']; ?></p>
@@ -292,11 +218,11 @@ include 'includes/sub-hero.php';
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
         
-        <h3 class="text-xl md:text-[26px] font-semibold font-montserrat mb-4 md:mb-6"><?php echo $staff['title']; ?><?php if($staff['department']) echo ' - ' . $staff['department']; ?></h3>
+        <h3 class="text-xl md:text-[26px] font-semibold font-montserrat mb-4 md:mb-6 notranslate" translate="no"><?php echo $staff['title']; ?><?php if($staff['department']) echo ' - ' . $staff['department']; ?></h3>
         
         <hr class="border-white/50 w-[85%] mx-auto mb-6 md:mb-8">
         
-        <div class="space-y-2 md:space-y-3 font-inter">
+        <div class="space-y-2 md:space-y-3 font-inter notranslate" translate="no">
             <p class="text-[20px] sm:text-2xl md:text-[28px] font-semibold font-montserrat mb-1 md:mb-2 leading-tight"><?php echo $staff['name']; ?></p>
             <?php if($staff['designation']): ?>
             <p class="text-base md:text-lg pb-1 md:pb-2"><?php echo $staff['designation']; ?></p>

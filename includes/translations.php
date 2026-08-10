@@ -293,17 +293,17 @@ $lang_dict = [
     ],
     'years_of_experience' => [
         'en' => 'Years of Experience',
-        'si' => 'වසර ගණනාවක අත්දැකීම්',
-        'ta' => 'ஆண்டுகள் அனுபவம்'
+        'si' => 'වසරක අත්දැකීම්',
+        'ta' => 'வருட கால அனுபவம்'
     ],
     'happy_customers' => [
-        'en' => 'Happy Customers',
-        'si' => 'සතුටුදායක ගනුදෙනුකරුවන්',
-        'ta' => 'மகிழ்ச்சியான வாடிக்கையாளர்கள்'
+        'en' => 'Satisfied Citizens',
+        'si' => 'තෘප්තිමත් සේවාලාභීන්',
+        'ta' => 'திருப்தியடைந்த குடிமக்கள்'
     ],
     'related_organizations' => [
         'en' => 'Related Organizations',
-        'si' => 'සම්බන්දිත ආයතන',
+        'si' => 'සම්බන්ධිත ආයතන',
         'ta' => 'தொடர்புடைய அமைப்புகள்'
     ],
 
@@ -382,12 +382,12 @@ $lang_dict = [
     ],
     'inst_dme_title' => [
         'en' => 'Department of Manpower and Employment',
-        'si' => 'මිනිස්බල හා රැකියා නියුක්ති දෙපාර්තමේන්තුව',
+        'si' => 'මිනිස්බල හා රැකිරක්ෂා දෙපාර්තමේන්තුව',
         'ta' => 'மனிதவலு மற்றும் வேலைவாய்ப்புத் திணைக்களம்'
     ],
     'inst_dme_p1' => [
         'en' => 'The Department of Manpower and Employment was established in 2010 under the Ministry of Labour Relations and Manpower, in accordance with the provisions of the Extraordinary Gazette Notification No. 1640/31 dated February 12, 2010. It currently functions under the Ministry of Labour. Established as a "Grade A" department, its designated subjects include the promotion of employment, employment planning, employment and labor market information, and vocational guidance programs. Additionally, the department is assigned with the responsibility of maintaining public employment services and implementing the provisions of the National Human Resources and Employment Policy.',
-        'si' => '2010.02.12 දිනැති අංක 1640/31 දරණ අතිවිශේෂ ගැසට් පත්‍රයේ විධිවිධාන අනුව මිනිස්බල හා රැකියා නියුක්ති දෙපාර්තමේන්තුව 2010 වර්ෂයේදී කම්කරු සබඳතා හා මිනිස්බල අමාත්‍යාංශය යටතේ ස්ථාපනය කරන ලද අතර වර්තමානයේ කම්කරු අමාත්‍යාංශය යටතේ ක්‍රියාත්මක වේ. A ශ්‍රේණියේ දෙපාර්තමේන්තුවක් ලෙස ස්ථාපනය කරන ලද මෙම දෙපාර්තමේන්තුව සඳහා රැකියා නියුක්තිය ප්‍රවර්ධනය කිරීම, රැකියා සැලසුම්කරණය, රැකියා නියුක්තිය හා ශ්‍රම වෙළඳපොළ තොරතුරු, වෘත්තීය මාර්ගෝපදේශන වැඩසටහන් යන විෂයන් නියම කරනු ලැබිණි. ඊට අමතරව දෙපාර්තමේන්තුව වෙත මහජන රැකියා සේවාවන් පවත්වාගෙන යාම හා ජාතික මානව සම්පත් හා රැකියා නියුක්ති ප්‍රතිපත්තියේ විධිවිධාන ක්‍රියාත්මක කිරීමේ වගකීම ද පැවරී ඇත.',
+        'si' => '2010.02.12 දිනැති අංක 1640/31 දරණ අතිවිශේෂ ගැසට් පත්‍රයේ විධිවිධාන අනුව මිනිස්බල හා රැකිරක්ෂා දෙපාර්තමේන්තුව 2010 වර්ෂයේදී කම්කරු සබඳතා හා මිනිස්බල අමාත්‍යාංශය යටතේ ස්ථාපනය කරන ලද අතර වර්තමානයේ කම්කරු අමාත්‍යාංශය යටතේ ක්‍රියාත්මක වේ. A ශ්‍රේණියේ දෙපාර්තමේන්තුවක් ලෙස ස්ථාපනය කරන ලද මෙම දෙපාර්තමේන්තුව සඳහා රැකියා නියුක්තිය ප්‍රවර්ධනය කිරීම, රැකියා සැලසුම්කරණය, රැකියා නියුක්තිය හා ශ්‍රම වෙළඳපොළ තොරතුරු, වෘත්තීය මාර්ගෝපදේශන වැඩසටහන් යන විෂයන් නියම කරනු ලැබිණි. ඊට අමතරව දෙපාර්තමේන්තුව වෙත මහජන රැකියා සේවාවන් පවත්වාගෙන යාම හා ජාතික මානව සම්පත් හා රැකියා නියුක්ති ප්‍රතිපත්තියේ විධිවිධාන ක්‍රියාත්මක කිරීමේ වගකීම ද පැවරී ඇත.',
         'ta' => '12.02.2010 திகதியிட்ட 1640/31 ஆம் இலக்கம் கொண்ட அதிவிசேட வர்த்தமானியின் விதிகளின்படி, மனிதவலு மற்றும் வேலைவாய்ப்புத் திணைக்களம் 2010 இல் தொழில் உறவுகள் மற்றும் மனிதவள அமைச்சின் கீழ் நிறுவப்பட்டது மற்றும் தற்போது தொழில் அமைச்சின் கீழ் செயல்பட்டு வருகிறது. A-தரத் திணைக்களமாக நிறுவப்பட்ட இந்த திணைக்களம் வேலைவாய்ப்பு அபிவிருத்தி, வேலைவாய்ப்பு திட்டமிடல், வேலைவாய்ப்பு மற்றும் தொழில் சந்தை தகவல் மற்றும் தொழில் வழிகாட்டுதல் திட்டங்கள் ஆகிய விடயங்கள் தீர்மானிக்கப்பட்டன. இதற்கு மேலதிகமாக இந்தத் திணைக்களத்துக்கு மக்கள் வேலைவாய்ப்பு சேவைகளைப் பராமரிப்பதற்கும் தேசிய மனிதவளம் மற்றும் வேலைவாய்ப்புக் கொள்கையின் விதிகளை செயல்படுத்துவதற்குமான பொறுப்பு ஒப்படைக்கப்பட்டுள்ளது.'
     ],
     'inst_dme_p2' => [
@@ -448,12 +448,12 @@ $lang_dict = [
 ),
     'div_admin_title' => array (
   'en' => 'Administration and Establishments Division',
-  'si' => 'පාලන හා ආයතන අංශය',
+  'si' => 'පරිපාලන හා ආයතන අංශය',
   'ta' => 'நிர்வாகம் மற்றும் தாபனப் பிரிவு',
 ),
     'div_admin_content' => array (
   'en' => '<p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">The Administration Division is functioned in three sub-divisions: Administration, Establishment and Legal. The Administration and Establishment sub division handle the ministry\'s administration, human resource management, general maintenance, staff training, coordination of departments institutions affiliated to the ministry.</p><p class="mt-4">Meanwhile, the Legal section is responsible for taking necessary steps to update existing labor laws to align with new trends, introducing and implementing new rules and regulations to facilitate the execution of ratified international conventions with follow-up activities. Further, functions performed by the Administration Division are as follows.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">Preparation of cabinet memoranda and taking action in respect of cabinet decisions.</li><li class="pl-1">Providing answers to referrals made by the Consultative Committee and Public Petitions Committee as well as parliamentary questions.</li><li class="pl-1">Submission of annual reports and performance reports of the Ministry and all departments and statutory institutions under the Ministry to Parliament.</li><li class="pl-1">Collection and submission of declarations of assets and liabilities of relevant officers in accordance with the regulations of the Commission to Investigate Allegations of Bribery or Corruption.</li><li class="pl-1">Handling reservations, maintenance, and administrative activities of the Ministry’s circuit bungalow in Ampara.</li><li class="pl-1">Managing matters related to lands and buildings owned by the Ministry and by departments and statutory institutions under it.</li><li class="pl-1">Handling matters related to the appointment of boards of directors of statutory institutions functioning under the Ministry.</li><li class="pl-1">Handling activities related to July strike compensation payments.</li></ul>',
-  'si' => '<p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">පාලන අංශය පාලන, ආයතන හා නීති ලෙස උප අංශ තුනක් යටතේ ක්‍රියාත්මක වේ. අමාත්‍යාංශයේ පරිපාලනය, මානව සම්පත් කළමනාකරණය, සාමාන්‍ය නඩත්තුව, කාර්ය මණ්ඩල පුහුණු කිරීම සහ අමාත්‍යාංශය යටතේ ක්‍රියාත්මක වන ආයතන සම්බන්ධීකරණය කිරීම සහ ඒ අනුව රාජ්‍යපරිපාලන හා ආයතන අංශ යටතේ සිදු කෙරේ.</p><p class="mt-4">එසේම පවත්නා කම්කරු නීති නව ප්‍රවණතා අනුව ගැලපෙන ලෙස යාවත්කාලීන කිරීම සඳහා අවශ්‍ය ක්‍රියාමාර්ග ගැනීම, අප්‍රමාදිත කරන ලද ජාත්‍යන්තර සම්මුතීන් ක්‍රියාවේ යෙදීමට හැකිවන නව නීති රීති හඳුන්වා දීම හා ක්‍රියාත්මක කිරීම සහ පසු විපරම් යනාදී කාර්යයන් නීති අංශය හරහා සිදු කෙරේ. මීට අමතරව පාලන අංශය විසින් සිදු කෙරෙන කාර්යයන් පහත පරිදි වේ.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">අමාත්‍ය මණ්ඩල සංදේශ සෑදීම හා අමාත්‍ය මණ්ඩල තීරණ පිළිබඳ ක්‍රියාකිරීම.</li><li class="pl-1">උපදේශක කාරක සභා, මහජන පෙත්සම් කාරක සභා වෙතින් සිදු කරන යොමු කිරීම් සඳහා පිළිතුරු සැපයීම මෙන්ම පාර්ලිමේන්තු ප්‍රශ්න සඳහා පිළිතුරු සැපයීම.</li><li class="pl-1">අමාත්‍යාංශය සහ අමාත්‍යාංශය යටතේ පවතින දෙපාර්තමේන්තු හා ව්‍යවස්ථාපිත ආයතනවල වාර්ෂික වාර්තා සහ කාර්යසාධන වාර්තා පාර්ලිමේන්තුව වෙත ඉදිරිපත් කිරීම.</li><li class="pl-1">අල්ලස් හා දූෂණ විමර්ශන කොමිෂන් සභාවේ නියමය පරිදි අදාළ නිලධාරීන්ගේ වත්කම් හා බැරකම් ප්‍රකාශ එකතු කිරීම හා ඉදිරිපත් කිරීම.</li><li class="pl-1">අමාත්‍යාංශය සතු අමතර සංචාරක බංගලාව වෙන් කිරීම, නඩත්තු හා පරිපාලන කටයුතු සිදු කිරීම.</li><li class="pl-1">අමාත්‍යාංශය සහ අමාත්‍යාංශය යටතේ පවතින දෙපාර්තමේන්තු හා ව්‍යවස්ථාපිත ආයතන සතු ඉඩම් හා ගොඩනැගිලි සම්බන්ධ කටයුතු.</li><li class="pl-1">අමාත්‍යාංශය යටතේ පවතින ව්‍යවස්ථාපිත ආයතනවල අධ්‍යක්ෂ මණ්ඩල පත්කිරීම සම්බන්ධ කටයුතු.</li><li class="pl-1">ජූලි වර්ජිත ගෙවීම් සම්බන්ධ කටයුතු.</li></ul>',
+  'si' => '<p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">පරිපාලන අංශය පරිපාලන, ආයතන හා නීති ලෙස උප අංශ තුනක් යටතේ ක්‍රියාත්මක වේ. අමාත්‍යාංශයේ පරිපාලනය, මානව සම්පත් කළමනාකරණය, සාමාන්‍ය නඩත්තුව, කාර්ය මණ්ඩල පුහුණු කිරීම සහ අමාත්‍යාංශය යටතේ ක්‍රියාත්මක වන ආයතන සම්බන්ධීකරණය කිරීම සහ ඒ අනුව රාජ්‍යපරිපාලන හා ආයතන අංශ යටතේ සිදු කෙරේ.</p><p class="mt-4">එසේම පවත්නා කම්කරු නීති නව ප්‍රවණතා අනුව ගැලපෙන ලෙස යාවත්කාලීන කිරීම සඳහා අවශ්‍ය ක්‍රියාමාර්ග ගැනීම, අප්‍රමාදිත කරන ලද ජාත්‍යන්තර සම්මුතීන් ක්‍රියාවේ යෙදීමට හැකිවන නව නීති රීති හඳුන්වා දීම හා ක්‍රියාත්මක කිරීම සහ පසු විපරම් යනාදී කාර්යයන් නීති අංශය හරහා සිදු කෙරේ. මීට අමතරව පරිපාලන අංශය විසින් සිදු කෙරෙන කාර්යයන් පහත පරිදි වේ.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">අමාත්‍ය මණ්ඩල සංදේශ සෑදීම හා අමාත්‍ය මණ්ඩල තීරණ පිළිබඳ ක්‍රියාකිරීම.</li><li class="pl-1">උපදේශක කාරක සභා, මහජන පෙත්සම් කාරක සභා වෙතින් සිදු කරන යොමු කිරීම් සඳහා පිළිතුරු සැපයීම මෙන්ම පාර්ලිමේන්තු ප්‍රශ්න සඳහා පිළිතුරු සැපයීම.</li><li class="pl-1">අමාත්‍යාංශය සහ අමාත්‍යාංශය යටතේ පවතින දෙපාර්තමේන්තු හා ව්‍යවස්ථාපිත ආයතනවල වාර්ෂික වාර්තා සහ කාර්යසාධන වාර්තා පාර්ලිමේන්තුව වෙත ඉදිරිපත් කිරීම.</li><li class="pl-1">අල්ලස් හා දූෂණ විමර්ශන කොමිෂන් සභාවේ නියමය පරිදි අදාළ නිලධාරීන්ගේ වත්කම් හා බැරකම් ප්‍රකාශ එකතු කිරීම හා ඉදිරිපත් කිරීම.</li><li class="pl-1">අමාත්‍යාංශය සතු අමතර සංචාරක බංගලාව වෙන් කිරීම, නඩත්තු හා පරිපාලන කටයුතු සිදු කිරීම.</li><li class="pl-1">අමාත්‍යාංශය සහ අමාත්‍යාංශය යටතේ පවතින දෙපාර්තමේන්තු හා ව්‍යවස්ථාපිත ආයතන සතු ඉඩම් හා ගොඩනැගිලි සම්බන්ධ කටයුතු.</li><li class="pl-1">අමාත්‍යාංශය යටතේ පවතින ව්‍යවස්ථාපිත ආයතනවල අධ්‍යක්ෂ මණ්ඩල පත්කිරීම සම්බන්ධ කටයුතු.</li><li class="pl-1">ජූලි වර්ජිත ගෙවීම් සම්බන්ධ කටයුතු.</li></ul>',
   'ta' => '<p class="text-gray-700 bg-blue-50/50 p-4 rounded-xl border border-blue-100">நிர்வாகப் பிரிவு நிர்வாகம், நிறுவனங்கள் மற்றும் சட்டம் என மூன்று துணைப் பிரிவுகளின் கீழ் செயல்படுகிறது. அமைச்சின் நிர்வாகம், மனிதவள மேலாண்மை, பொது பராமரிப்பு, பணியாளர் பயிற்சி மற்றும் அமைச்சின் கீழ் இயங்கும் நிறுவனங்களின் ஒருங்கிணைப்பு மற்றும் தொடர்புடைய பணிகள் நிர்வாக மற்றும் நிறுவனப் பிரிவுகளின் கீழ் மேற்கொள்ளப்படுகின்றன.</p><p class="mt-4">மேலும், புதிய போக்குகளுக்கு ஏற்ப தற்போதுள்ள தொழில் சட்டங்களைப் புதுப்பிக்க தேவையான நடவடிக்கைகளை எடுத்தல், அங்கீகரிக்கப்பட்ட சர்வதேச சமவாயங்களை செயல்படுத்துவதற்கும், பின்தொடர்வதற்கும் உதவும் புதிய சட்டங்கள் மற்றும் ஒழுங்குமுறைகளை அறிமுகப்படுத்துதல் மற்றும் செயல்படுத்துதல் போன்றவை சட்டப் பிரிவின் மூலம் மேற்கொள்ளப்படுகின்றன. கூடுதலாக, நிர்வாகப் பிரிவால் செய்யப்படும் செயல்பாடுகள் பின்வருமாறு.</p><ul class="space-y-3 marker:text-secondary list-outside list-disc pl-5 mt-4"><li class="pl-1">அமைச்சரவை விசேடாம்பங்களை தயாரித்தல் மற்றும் அமைச்சரவை முடிவுகள் மீதான நடவடிக்கை.</li><li class="pl-1">ஆலோசனைக் குழுக்கள், பொது மனு குழுக்கள் மூலம் செய்யப்படும் கணக்குமுடிப்புகளுக்கு பதில்களை வழங்குதல் மற்றும் பாராளுமன்ற கேள்விகளுக்கு பதில்களை வழங்குதல்.</li><li class="pl-1">அமைச்சு மற்றும் அமைச்சின் கீழுள்ள திணைக்களங்கள் மற்றும் நியதி சட்டப்பூர்வ அமைப்புகளின் ஆண்டு அறிக்கைகள் மற்றும் செயலாற்றுகை அறிக்கைகளை பாராளுமன்றத்தில் சமர்ப்பித்தல்.</li><li class="pl-1">இலஞ்சம் அல்லது ஊழல் பற்றிய சாத்தத்தங்களை புலனாய்வு செய்வதற்கான ஆணைக்குழுவின் உத்தரவின்படி தொடர்புடைய அதிகாரிகளின் சொத்துக்கள் மற்றும் பொறுப்புக்கள் பற்றிய அறிக்கைகளை சேகரித்து சமர்ப்பித்தல்.</li><li class="pl-1">அமைச்சுக்குச் சொந்தமான அம்பாறை சுற்றுலா பங்களாவின் முன்பதிவு, பராமரிப்பு மற்றும் நிர்வாக நடவடிக்கைகள்.</li><li class="pl-1">அமைச்சு மற்றும் அமைச்சின் கீழுள்ள திணைக்களங்கள் மற்றும் நியதி சட்டப்பூர்வ அமைப்புகளின் சொந்தமான நிலம் மற்றும் கட்டிடங்கள் தொடர்பான செயல்பாடுகள்.</li><li class="pl-1">அமைச்சின் கீழுள்ள நியதி சட்டப்பூர்வ அமைப்புகளின் பணிப்பாளர்களின் குழுவை நியமிப்பது தொடர்பான செயல்பாடுகள்.</li><li class="pl-1">ஜூலை வேலைநிறுத்தக் கொடுப்பனவுகள் தொடர்பான செயல்பாடுகள்.</li></ul>',
 ),
     'div_dev_title' => array (
@@ -478,7 +478,7 @@ $lang_dict = [
 ),
     'div_finance_title' => array (
   'en' => 'Finance Division',
-  'si' => 'මූල්‍ය අංශය',
+  'si' => 'ගිණුම් අංශය',
   'ta' => 'நிதிப் பிரிவு',
 ),
     'div_finance_content' => array (
@@ -988,3 +988,46 @@ if (!function_exists('format_date_trilingual')) {
         return date($format, $timestamp);
     }
 }
+
+/**
+ * Global Division Translation Helper Function `get_division_translation($slug, $lang, $isOfficial)`
+ * Returns correct trilingual name for division based on its slug, with/without 'Division' suffix.
+ */
+if (!function_exists('get_division_translation')) {
+    function get_division_translation(string $slug, string $lang, bool $isOfficial = false): string {
+        $map = [
+            'administration' => [
+                'en' => $isOfficial ? 'Administration and Establishments' : 'Administration and Establishments Division',
+                'si' => $isOfficial ? 'පරිපාලන හා ආයතන' : 'පරිපාලන හා ආයතන අංශය',
+                'ta' => $isOfficial ? 'நிர்வாகம் மற்றும் தாபனம்' : 'நிர்வாகம் மற்றும் தாபனப் பிரிவு'
+            ],
+            'development' => [
+                'en' => $isOfficial ? 'Policy Formulation & Foreign Relations' : 'Policy Formulation & Foreign Relations Division',
+                'si' => $isOfficial ? 'ප්‍රතිපත්ති සම්පාදන සහ විදේශ සබඳතා' : 'ප්‍රතිපත්ති සම්පාදන සහ විදේශ සබඳතා අංශය',
+                'ta' => $isOfficial ? 'கொள்கை உருவாக்கம் மற்றும் வெளிநாட்டு உறவுகள்' : 'கொள்கை உருவாக்கம் மற்றும் வெளிநாட்டு உறவுகள் பிரிவு'
+            ],
+            'planning' => [
+                'en' => $isOfficial ? 'Planning and Monitoring' : 'Planning and Monitoring Division',
+                'si' => $isOfficial ? 'සැලසුම් හා මෙහෙයුම්' : 'සැලසුම් හා මෙහෙයුම් අංශය',
+                'ta' => $isOfficial ? 'திட்டமிடல் மற்றும் கண்காணிப்பு' : 'திட்டமிடல் மற்றும் செயல்பாட்டுப் பிரிவு'
+            ],
+            'finance' => [
+                'en' => $isOfficial ? 'Finance' : 'Finance Division',
+                'si' => $isOfficial ? 'ගිණුම්' : 'ගිණුම් අංශය',
+                'ta' => $isOfficial ? 'நிதி' : 'நிதிப் பிரிவு'
+            ],
+            'internal-audit' => [
+                'en' => $isOfficial ? 'Internal Audit' : 'Internal Audit Division',
+                'si' => $isOfficial ? 'අභ්‍යන්තර විගණන' : 'අභ්‍යන්තර විගණන අංශය',
+                'ta' => $isOfficial ? 'உள்நாட்டு கணக்காய்வு' : 'உள்ளக கணக்காய்வு பிரிவு'
+            ],
+            'rti-officers' => [
+                'en' => 'RTI Officers',
+                'si' => 'තොරතුරු දැනගැනීමේ නිලධාරීන්',
+                'ta' => 'தகவல் அறியும் உத்தியோகத்தர்கள்'
+            ]
+        ];
+        return $map[$slug][$lang] ?? $map[$slug]['en'] ?? '';
+    }
+}
+

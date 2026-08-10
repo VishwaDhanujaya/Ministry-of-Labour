@@ -144,7 +144,96 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
-* **Task Management (`TODO.md`):** Sequential project goals should be listed in `TODO.md` at the project root. The AI should follow these incrementally.
+### 2026-08-10 (Translation Audit & Double-Translation Prevention)
+* **Files:**
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Added `notranslate` Classes Globally**: Applied `notranslate` to dynamically loaded modal elements in `includes/footer.php` and dynamic client-side `showToast` components in `assets/js/main.js` and `admin/assets/js/admin.js`.
+  - **Protected Form Placeholders and Validation Messages**: Applied `notranslate` to form input/textarea classes and error validation tags in `contact-us.php` so their pre-translated placeholders/messages are not corrupted by Google Translate.
+  - **Audited Public Pages & Cards**: Added `notranslate` to all homepage cards, quick links descriptions, download items, stats labels, related organizations, and circuit bungalow layout elements. Aligned the "Latest News" heading and "View All" link vertically in `index.php` by changing container alignment to `items-center` and stripping the `.section-title` default margin-bottom (`mb-0`).
+  - **Homepage DB Query Fix**: Reverted vacancies/procurements database queries to the base fields structure after identifying that those tables do not support `title_si`/`title_ta` columns, resolving a database column mismatch causing an HTTP 500 error on first page load. Cleared JSON caches to force schema rebuilding.
+  - **Consolidated Document Listing Pages**: Appended the `notranslate` class to the search/filter controls bar, document cards, list table headers (`<thead>`), list table row structures, and the empty results placeholder across all 7 listing files (`procurements.php`, `downloads.php`, `vacancies.php`, `special-notices.php`, `iau-updates.php`, `learning-platforms-local.php`, `learning-platforms-foreign.php`).
+
+### 2026-08-10 (Admin Navigation Reorganization, Auto-Translate & Translation Corrections)
+* **Files:**
+  - [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/manage-iau-officers.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-officers.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php)
+  - Database Table `divisions` (Updated title for `internal-audit` record)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reorganized Navigation Categories**: Reclassified and sorted the 18 sidebar menu navigation elements into 8 conceptual categories (MAIN, HOMEPAGE CONTENT, NEWS & COMMUNICATIONS, DIRECTORY & STAFF, PUBLICATIONS & LAWS, CAREERS & TENDERS, SERVICES, and SYSTEM) to streamline administrative workflow and dashboard UX.
+  - **Relocated Specific Components**: Shipped `IAU Officers` under DIRECTORY & STAFF alongside `Officials & Contacts`, moved `Acts & Amendments` into PUBLICATIONS & LAWS, and shifted homepage `Statistics` out of the SYSTEM settings group into HOMEPAGE CONTENT.
+  - **Auto-Translate Restoration & Addition**: Added custom client-side AJAX Google Translate wrappers to the modal forms in `officials.php` and `manage-iau-officers.php`. This allows editors to fill in English fields and click "Auto Translate" to immediately populate matching Sinhala and Tamil input fields, resolving manual translation overhead for personnel details.
+  - **Division Title Correction (Internal Audit)**: Fixed the division title in the `divisions` table for slug `'internal-audit'` from `'Internal Affairs'` to `'Internal Audit'` to resolve a naming discrepancy in the Officials & Contacts page.
+  - **Division Naming Correction (Finance to Accounts)**: Renamed the Sinhala translation for the Finance Division (`'finance'`) from `'මූල්‍ය අංශය'` to `'ගිණුම් අංශය'` (Accounts Division) inside `includes/translations.php` as requested.
+  - **About Us Statistics Labels Update**: Renamed `"Years of Experience"` translation in Sinhala to `'වසරක අත්දැකීම්'` (from `'වසර ගණනාවක අත්දැකීම්'`), and updated `"Happy Customers"` to `'Satisfied Citizens'` (Sinhala: `'තෘප්තිමත් සේවාලාභීන්'`, Tamil: `'திருப்தியடைந்த குடிமக்கள்'`) across `includes/translations.php` and `about-us.php` to match a professional ministerial standard.
+  - **Department Naming Correction (Manpower and Employment)**: Renamed `"Department of Manpower and Employment"` translation in Sinhala from `'මිනිස්බල හා රැකියා නියුක්ති දෙපාර්තමේන්තුව'` to `'මිනිස්බල හා රැකිරක්ෂා දෙපාර්තමේන්තුව'` inside `includes/translations.php` as requested.
+  - **Complaints Page Translation Fix**: Added `notranslate` HTML classes to all dynamic text sections inside `complaints.php` to prevent the browser-side Google Translate widget from double-translating the pre-translated PHP-rendered server-side values.
+
+### 2026-08-08 (IAU Officers CMS Management Module)
+* **Files:**
+  - [admin/iau-officers-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/iau-officers-api.php)
+  - [admin/manage-iau-officers.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-officers.php)
+  - [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Database Migration**: Created a dedicated `iau_officers` table to store trilingual Title, Department, Name, and Designation fields along with Phone, Email, active status, and drag-and-drop sort order. Seeded the table with the 12 legacy officers from the `iau.php` template.
+  - **API CRUD Controller**: Created `admin/iau-officers-api.php` to handle secure database updates with CSRF checks, status toggling, SortableJS order updates, and validation requiring trilingual inputs for Name, Title, and Designation.
+  - **CMS Management Panel**: Developed `admin/manage-iau-officers.php` to provide a drag-and-drop sortable list, edit/add modals, and language-tabbed forms with cross-tab client-side validation.
+  - **CMS Navigation**: Added a link to "IAU Officers" in the admin sidebar.
+  - **Frontend Integration**: Refactored `iau.php` to query dynamic data from the database. Added `class="notranslate"` and `translate="no"` tags to prevent Google Translate corruption on name cards and modals.
+
+### 2026-08-08 (Officials Validation & Auto-Translate Removal)
+* **Files:**
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Auto-Translate Removal**: Removed the "Auto Translate" button and disabled translation functions (`autoTranslateAll()`, `translateText()`) on the officials form, requiring manually supplied translations.
+  - **Required Multilingual Inputs**: Add HTML5 `required` constraints to Sinhala and Tamil fields in the edit/add official modal.
+  - **Multi-Tab Validation JS**: Integrated validation in the client-side `saveOfficial()` submit handler to scan all fields across language tabs, switch the active tab to the invalid input, and focus it with an error toast.
+  - **Server-Side Validation**: Implemented validation checks inside `admin/officials-api.php` to reject empty translations.
+  - **Migration Patch**: Executed a one-time database patch to copy English names/titles to missing Sinhala/Tamil records for existing data.
+  - **Frontend Translate Exclusions**: Refactored `about-us.php` and `contact-us.php` to explicitly apply `class="notranslate"` and `translate="no"` to all rendered official names and titles/designations, preventing Google Translate from double-translating or overriding them.
+  - **Sinhala Spelling Corrections**: Globally corrected Sinhala spelling for the Administration division from **පාලන** to **පරිපාලන** inside translation keys and content descriptions in `includes/translations.php`.
+  - **Dynamic Division Translations & Suffix Exclusion**: Added `get_division_translation()` inside `translations.php` and integrated it with `officials-service.php`, `about-us.php`, and `contact-us.php`. Omitted the "Division" / "අංශය" / "பிரிவு" suffix for any display related to officials (tabs, buttons, modal headers) to keep them clean and prevent double-translations.
+
+
+### 2026-08-08 (Default Language to English on Startup)
+* **Files:**
+  - [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php)
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Session-Based Initialization**: Refactored language detection in the main configuration files to check session variables (`$_SESSION['lang']`) and query parameters (`$_GET['lang']`) instead of long-lived persistent cookies.
+  - **Authoritative English Landing**: Ensures the website always starts in English on a fresh landing or brand new browser session, while correctly preserving the user's selected language during active navigation in the same session.
+
 ### 2026-08-07 (Upload Centralization & Flattening)
 * **Files:**
   - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)

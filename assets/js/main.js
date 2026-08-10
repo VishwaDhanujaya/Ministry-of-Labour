@@ -457,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const config = statusColors[type] || statusColors.info;
         
-        toastEl.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] text-white text-[13px] font-semibold bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full animate-toast-in`;
+        toastEl.className = `relative overflow-hidden flex items-center gap-3.5 p-4 pr-10 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.3)] text-white text-[13px] font-semibold bg-[#13273F]/95 backdrop-blur-md border border-white/10 font-inter pointer-events-auto max-w-sm w-full animate-toast-in notranslate`;
         
         toastEl.innerHTML = `
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${config.bg} border border-current/10">

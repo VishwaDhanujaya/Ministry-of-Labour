@@ -542,7 +542,7 @@ if (empty($hero_sliders)) {
     <div class="container mx-auto relative z-10" data-aos="fade-up">
         <div class="mb-12">
             <div>
-                <h2 class="section-title text-white mb-0"><?= t('quick_links', 'Quick Links') ?></h2>
+                <h2 class="section-title text-white mb-0 notranslate"><?= t('quick_links', 'Quick Links') ?></h2>
                 <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left">Direct access to our most crucial portals and services.</p>
             </div>
         </div>
@@ -558,7 +558,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate">NLAC</h3>
-                        <p class="focus-card-desc"><?= t('nlac_desc') ?></p>
+                        <p class="focus-card-desc notranslate"><?= t('nlac_desc') ?></p>
                     </div>
                 </a>
                 
@@ -584,7 +584,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('learning_platforms', 'Learning Platforms') ?></h3>
-                        <p class="focus-card-desc"><?= t('learning_platforms_desc', 'Access local and foreign publications related to your knowledge.') ?></p>
+                        <p class="focus-card-desc notranslate"><?= t('learning_platforms_desc', 'Access local and foreign publications related to your knowledge.') ?></p>
                     </div>
                 </a>
  
@@ -597,7 +597,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('ql_news_updates', 'News Updates') ?></h3>
-                        <p class="focus-card-desc"><?= t('news_updates_desc', 'Read the latest news and updated notices related to the Ministry.') ?></p>
+                        <p class="focus-card-desc notranslate"><?= t('news_updates_desc', 'Read the latest news and updated notices related to the Ministry.') ?></p>
                     </div>
                 </a>
  
@@ -610,7 +610,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('rti') ?></h3>
-                        <p class="focus-card-desc"><?= t('rti_desc', 'Submit information requests under the Right to Information Act in Sri Lanka.') ?></p>
+                        <p class="focus-card-desc notranslate"><?= t('rti_desc', 'Submit information requests under the Right to Information Act in Sri Lanka.') ?></p>
                     </div>
                 </a>
  
@@ -623,7 +623,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('ql_complaints', 'Complaints') ?></h3>
-                        <p class="focus-card-desc"><?= t('complaints_desc', 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.') ?></p>
+                        <p class="focus-card-desc notranslate"><?= t('complaints_desc', 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.') ?></p>
                     </div>
                 </a>
             </div>
@@ -635,10 +635,9 @@ if (empty($hero_sliders)) {
 <!-- Latest Articles -->
 <section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="news-section">
     <div class="container mx-auto">
-        <div class="flex justify-between items-end mb-12" data-aos="fade-up">
+        <div class="flex justify-between items-center mb-12" data-aos="fade-up">
             <div>
-                <h2 class="section-title notranslate">
-                    <?= t('latest_news') ?></h2>
+                <h2 class="section-title mb-0 notranslate"><?= t('latest_news') ?></h2>
             </div>
             <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
@@ -717,7 +716,7 @@ if (empty($hero_sliders)) {
                     foreach($downloads as $download):
                     ?>
                     <a href="<?= $download['url'] ?>" class="group flex items-center justify-between bg-white border border-gray-200 rounded-[16px] px-6 py-4 hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($download['title']) ?></span>
+                        <span class="text-gray-800 font-medium font-inter text-[14.5px] group-hover:text-secondary transition-colors notranslate"><?= htmlspecialchars($download['title']) ?></span>
                         <div class="bg-secondary text-white w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
                             <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </div>
@@ -734,21 +733,21 @@ if (empty($hero_sliders)) {
                 </div>
                 <div class="divide-y divide-gray-100 bg-white flex-grow flex flex-col">
                     <?php if(empty($announcements)): ?>
-                        <div class="p-6 text-center text-gray-500 font-inter flex-grow flex items-center justify-center">No announcements available at the moment.</div>
+                        <div class="p-6 text-center text-gray-500 font-inter flex-grow flex items-center justify-center notranslate"><?= t('no_announcements_available', 'No announcements available at the moment.') ?></div>
                     <?php else: ?>
                         <?php foreach($announcements as $notice): 
                             $isVacancy = ($notice['type'] === 'Vacancy');
                             $hasPdf = !empty($notice['pdf_path']) && !$isVacancy;
                             $btnUrl = $hasPdf ? htmlspecialchars(resolvePdfUrl($notice['pdf_path'])) : ($isVacancy ? 'vacancies' : 'procurements');
                             $btnTarget = $hasPdf ? '_blank' : '_self';
-                            $btnText = $hasPdf ? 'View PDF' : 'Read More';
+                            $btnText = $hasPdf ? t('view_pdf', 'View PDF') : t('read_more', 'Read More');
                         ?>
                         <div class="p-4 md:p-5 flex justify-between items-center gap-4 hover:bg-gray-50/50 transition-colors duration-200">
                             <div class="flex-grow">
                                 <div class="mb-1">
-                                    <span class="inline-block px-2.5 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-md font-inter"><?= $notice['type'] ?></span>
+                                    <span class="inline-block px-2.5 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-md font-inter notranslate"><?= t(strtolower($notice['type']), $notice['type']) ?></span>
                                 </div>
-                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug">
+                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate">
                                     <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-secondary transition-colors duration-200">
                                         <?= htmlspecialchars($notice['title']) ?>
                                     </a>
@@ -756,7 +755,7 @@ if (empty($hero_sliders)) {
                                 <p class="text-[12px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
                             </div>
                             <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>"
-                                class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-semibold px-4 py-1.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0"><?= $btnText ?></a>
+                                class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-semibold px-4 py-1.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0 notranslate"><?= $btnText ?></a>
                         </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
