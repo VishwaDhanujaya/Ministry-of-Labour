@@ -639,7 +639,7 @@ if (empty($hero_sliders)) {
             <div>
                 <h2 class="section-title mb-0 notranslate"><?= t('latest_news') ?></h2>
             </div>
-            <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 border border-secondary text-secondary font-bold py-2.5 px-6 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs uppercase tracking-wider notranslate">
+            <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 bg-secondary border border-secondary text-white font-bold py-2.5 px-6 rounded-lg hover:bg-[#8e1b1b] hover:border-[#8e1b1b] transition-all text-xs uppercase tracking-wider notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>
         </div>
@@ -688,7 +688,7 @@ if (empty($hero_sliders)) {
 
         <div class="mt-10 text-center md:hidden">
             <a href="<?= navUrl('news') ?>"
-                class="inline-flex items-center space-x-2 border border-secondary text-secondary font-bold py-3 px-8 rounded-lg hover:bg-secondary hover:text-white transition-all text-xs tracking-wider uppercase notranslate">
+                class="inline-flex items-center space-x-2 bg-secondary border border-secondary text-white font-bold py-3 px-8 rounded-lg hover:bg-[#8e1b1b] hover:border-[#8e1b1b] transition-all text-xs tracking-wider uppercase notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>
         </div>
