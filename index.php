@@ -636,9 +636,7 @@ if (empty($hero_sliders)) {
 <section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-center mb-12" data-aos="fade-up">
-            <div>
-                <h2 class="section-title mb-0 notranslate"><?= t('latest_news') ?></h2>
-            </div>
+            <h2 class="section-title !mb-0 notranslate"><?= t('latest_news') ?></h2>
             <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 bg-secondary border border-secondary text-white font-bold py-2.5 px-6 rounded-lg hover:bg-[#8e1b1b] hover:border-[#8e1b1b] transition-all text-xs uppercase tracking-wider notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>
@@ -664,7 +662,7 @@ if (empty($hero_sliders)) {
                         </div>
                         <div class="p-8 pb-4">
                             <div class="flex justify-between items-center mb-4">
-                                <span class="text-xs text-gray-500 font-inter font-bold"><?= format_date_trilingual($news['created_at']) ?></span>
+                                <span class="text-xs text-gray-500 font-inter font-bold notranslate"><?= format_date_trilingual($news['created_at']) ?></span>
                             </div>
                             <h3 class="text-lg font-semibold text-primary font-montserrat mb-4 leading-snug line-clamp-2 notranslate">
                                 <a href="<?= navUrl('news/' . $news['id']) ?>" class="hover:text-secondary transition-colors duration-300">
@@ -747,12 +745,12 @@ if (empty($hero_sliders)) {
                                 <div class="mb-1">
                                     <span class="inline-block px-2.5 py-0.5 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider rounded-md font-inter notranslate"><?= t(strtolower($notice['type']), $notice['type']) ?></span>
                                 </div>
-                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug notranslate">
+                                <h4 class="text-gray-800 font-medium font-inter mb-1 text-[13.5px] md:text-[14.5px] leading-snug">
                                     <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>" class="hover:text-secondary transition-colors duration-200">
                                         <?= htmlspecialchars($notice['title']) ?>
                                     </a>
                                 </h4>
-                                <p class="text-[12px] text-gray-400 font-inter"><?= date('M d, Y', strtotime($notice['created_at'])) ?></p>
+                                <p class="text-[12px] text-gray-400 font-inter notranslate"><?= format_date_trilingual($notice['created_at']) ?></p>
                             </div>
                             <a href="<?= $btnUrl ?>" target="<?= $btnTarget ?>"
                                 class="border border-secondary text-secondary hover:bg-secondary hover:text-white text-[12px] font-semibold px-4 py-1.5 rounded-lg transition-all duration-200 text-center whitespace-nowrap font-inter shrink-0 notranslate"><?= $btnText ?></a>

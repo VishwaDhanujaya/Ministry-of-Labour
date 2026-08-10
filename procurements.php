@@ -93,7 +93,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                         <select id="categoryFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
                             <option value="" <?= ($preselected_category === '') ? 'selected' : '' ?>><?= t('all_categories', 'All Categories') ?></option>
                             <?php foreach ($categories as $cat): ?>
-                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
+                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars(translateCategory($cat)) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -133,11 +133,11 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer notranslate" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                 'title' => $doc['title'],
                 'content' => $doc['description'],
                 'date' => date('M d, Y', strtotime($doc['created_at'])),
-                'category' => $doc['category'],
+                'category' => translateCategory($doc['category']),
                 'pdf_path' => $doc['pdf_path'] ?? '',
                 'pdf_path_si' => $doc['pdf_path_si'] ?? '',
                 'pdf_path_ta' => $doc['pdf_path_ta'] ?? ''
@@ -145,7 +145,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                 <div>
                     <!-- Badge & Icon -->
                     <div class="flex items-center justify-between mb-4">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                        <span class="notranslate px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <!-- Title -->
@@ -174,21 +174,21 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                 <table class="w-full text-left text-sm text-gray-600 font-inter">
                     <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100 notranslate">
                         <tr>
-                            <th class="px-6 py-4 font-semibold text-[13.5px]"><?= t('document_title', 'Document Title') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48"><?= t('category', 'Category') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40"><?= t('published_date', 'Published Date') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56"><?= t('action', 'Action') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px]"><?= t('th_document_title', 'Document Title') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48"><?= t('th_category', 'Category') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40"><?= t('th_published_date', 'Published Date') ?></th>
+                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56"><?= t('th_action', 'Action') ?></th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer notranslate" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                             'title' => $doc['title'],
                             'content' => $doc['description'],
                             'date' => date('M d, Y', strtotime($doc['created_at'])),
-                            'category' => $doc['category'],
+                            'category' => translateCategory($doc['category']),
                             'pdf_path' => $doc['pdf_path'] ?? '',
                             'pdf_path_si' => $doc['pdf_path_si'] ?? '',
                             'pdf_path_ta' => $doc['pdf_path_ta'] ?? ''
@@ -197,7 +197,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
                                 <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                                <span class="notranslate px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
                             </td>
                             <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
                                 <?= htmlspecialchars($doc['ref']) ?>
@@ -227,7 +227,7 @@ $preselected_category = isset($_GET['category']) ? $_GET['category'] : '';
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 notranslate" style="display: none;">
             <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
                 <!-- Dynamic user-friendly pagination summary -->
             </div>
@@ -297,8 +297,12 @@ function filterTable() {
     // Filter matching item indexes
     filteredIndexes = [];
     documents.forEach(doc => {
+        const gridCard = document.querySelector(`.document-card[data-index="${doc.index}"]`);
+        const titleEl = gridCard ? gridCard.querySelector('h3') : null;
+        const visibleTitle = titleEl ? titleEl.textContent.toLowerCase() : doc.title;
+        
         const matchesSearch = searchInput === "" || 
-                              doc.title.includes(searchInput) || 
+                              visibleTitle.includes(searchInput) || 
                               doc.ref.includes(searchInput);
                               
         const matchesCategory = categoryFilter === "" || 
@@ -429,7 +433,7 @@ function renderPaginationButtons(totalPages) {
     let html = '';
     
     // Prev Button
-    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Prev</button>`;
+    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_prev", "Prev") ?>' + `</button>`;
     
     // Numbers
     let startPage = Math.max(1, currentPage - 2);
@@ -457,7 +461,7 @@ function renderPaginationButtons(totalPages) {
     }
     
     // Next Button
-    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Next</button>`;
+    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_next", "Next") ?>' + `</button>`;
     
     container.innerHTML = html;
 }

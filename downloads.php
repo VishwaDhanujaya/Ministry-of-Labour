@@ -164,7 +164,7 @@ $categoryColors = [
                             <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>><?= t('acts_amendments_filter', 'Acts & Amendments') ?></option>
                             <option value="procurements" <?= ($preselected_category === 'procurements') ? 'selected' : '' ?>><?= t('all_procurements', 'All Procurements') ?></option>
                             <?php foreach ($categories as $cat): ?>
-                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars($cat) ?></option>
+                                <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars(translateCategory($cat)) ?></option>
                             <?php endforeach; ?>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
@@ -216,11 +216,11 @@ $categoryColors = [
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer notranslate" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
                 <div>
                     <!-- Badge & Icon -->
                     <div class="flex items-center justify-between mb-4">
-                        <span class="px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                        <span class="notranslate px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <!-- Title -->
@@ -256,12 +256,12 @@ $categoryColors = [
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer notranslate" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
                             <td class="px-6 py-4">
                                 <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars($doc['category']) ?></span>
+                                <span class="notranslate px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
                             </td>
                             <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
                                 <?= htmlspecialchars($doc['ref']) ?>
@@ -288,7 +288,7 @@ $categoryColors = [
         </div>
 
         <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4" style="display: none;">
+        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 notranslate" style="display: none;">
             <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
                 <!-- Dynamic user-friendly pagination summary -->
             </div>
@@ -308,16 +308,16 @@ $categoryColors = [
         </button>
         
         <div class="mb-6">
-            <span id="modalCategory" class="px-3 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap bg-primary/5 text-primary border-primary/10 inline-block mb-3">Category</span>
+            <span id="modalCategory" class="px-3 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap bg-primary/5 text-primary border-primary/10 inline-block mb-3 notranslate">Category</span>
             <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug font-montserrat mb-1">Document Title</h3>
-            <p id="modalRef" class="text-xs text-gray-500 font-medium font-inter">Ref: -</p>
+            <p id="modalRef" class="text-xs text-gray-500 font-medium font-inter notranslate">Ref: -</p>
         </div>
         
         <div class="space-y-3 mb-6">
-            <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2">Select Language PDF Version</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate">Select Language PDF Version</p>
             
             <!-- English PDF Button -->
-            <a id="btnModalEn" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group">
+            <a id="btnModalEn" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">EN</span>
                     <div>
@@ -332,7 +332,7 @@ $categoryColors = [
             </a>
             
             <!-- Sinhala PDF Button -->
-            <a id="btnModalSi" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group">
+            <a id="btnModalSi" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs font-noto">සිං</span>
                     <div>
@@ -347,7 +347,7 @@ $categoryColors = [
             </a>
             
             <!-- Tamil PDF Button -->
-            <a id="btnModalTa" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group">
+            <a id="btnModalTa" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs font-noto">த</span>
                     <div>
@@ -381,7 +381,7 @@ const documents = <?php echo json_encode(array_map(function($doc, $i) {
         'title' => strtolower($doc['title']),
         'raw_ref' => $doc['ref'],
         'ref' => strtolower($doc['ref']),
-        'raw_category' => $doc['category'],
+        'raw_category' => translateCategory($doc['category']),
         'category' => strtolower($doc['category']),
         'pdf_en' => $doc['pdf_path'] ?? '',
         'pdf_si' => $doc['pdf_path_si'] ?? '',
@@ -509,8 +509,12 @@ function filterTable() {
     // Filter matching item indexes
     filteredIndexes = [];
     documents.forEach(doc => {
+        const gridCard = document.querySelector(`.document-card[data-index="${doc.index}"]`);
+        const titleEl = gridCard ? gridCard.querySelector('h3') : null;
+        const visibleTitle = titleEl ? titleEl.textContent.toLowerCase() : doc.title;
+        
         const matchesSearch = searchInput === "" || 
-                              doc.title.includes(searchInput) || 
+                              visibleTitle.includes(searchInput) || 
                               doc.ref.includes(searchInput);
                               
         let matchesCategory = false;
@@ -706,7 +710,7 @@ function renderPaginationButtons(totalPages) {
     let html = '';
     
     // Prev Button
-    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Prev</button>`;
+    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_prev", "Prev") ?>' + `</button>`;
     
     // Numbers
     let startPage = Math.max(1, currentPage - 2);
@@ -734,7 +738,7 @@ function renderPaginationButtons(totalPages) {
     }
     
     // Next Button
-    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>Next</button>`;
+    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_next", "Next") ?>' + `</button>`;
     
     container.innerHTML = html;
 }

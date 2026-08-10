@@ -144,7 +144,28 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
-### 2026-08-10 (Translation Audit & Double-Translation Prevention)
+### 2026-08-10 (Translation & Layout Hotfixes)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Latest News Alignment**: Enforced `!mb-0` on the section title and removed the wrapper div in `index.php` to ensure the "View All" button and heading align perfectly on the same vertical axis.
+  - **Happy Customers Translation**: Updated the Sinhala translation for `happy_customers` to `'සතුටුදායක ගනුදෙනුකරුවන්'` in `translations.php`.
+  - **Regression Testing**: Executed syntax checks across all listing pages (vacancies, procurements, downloads, special-notices, iau-updates, learning platforms) to verify HTTP 500 error resolution, confirming zero PHP parse errors.
+  - **Category Translations & Terminology Correction**: Changed "ප්‍රවර්ගය" (and plural "ප්‍රවර්ග") to "කාණ්ඩය" (and "කාණ්ඩ") in Sinhala as requested.
+  - **Singular Category Mappings**: Updated the `translateCategory` helper function to support singular English values (e.g. `'Vacancy'`, `'Special Notice'`, `'Local Publication'`, etc.) and added `cat_iau_updates` to ensure categories display correctly in local languages on all document listing and index pages.
+  - **Translation Isolation (notranslate)**: Added `notranslate` to `#paginationControls` across all 7 listing pages to prevent double-translation of localized pagination text/buttons. Added `notranslate` to pre-translated elements inside the `downloads.php` popup and `includes/footer.php` detail modal (category badges, refs, and language-specific PDF labels).
+  - **Homepage Announcements Translation**: Added translation keys (`vacancy`, `procurement`, `notice`, and `view_pdf`) to `translations.php`. Removed `notranslate` from the `h4` title tag in the homepage announcements list to allow Google Translate to localize the database-sourced English titles. Implemented `format_date_trilingual` for the creation date in the list loop and wrapped it in `notranslate` to display correctly formatted dates.
+
 * **Files:**
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
@@ -161,6 +182,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
   - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
   - [admin/manage-iau-officers.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-officers.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
 * **Author:** Antigravity AI
 * **Change Description:**
   - **Added `notranslate` Classes Globally**: Applied `notranslate` to dynamically loaded modal elements in `includes/footer.php` and dynamic client-side `showToast` components in `assets/js/main.js` and `admin/assets/js/admin.js`.
@@ -169,6 +191,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Audited Public Pages & Cards**: Added `notranslate` to all homepage cards, quick links descriptions, download items, stats labels, related organizations, and circuit bungalow layout elements. Aligned the "Latest News" heading and "View All" link vertically in `index.php` by changing container alignment to `items-center` and stripping the `.section-title` default margin-bottom (`mb-0`). Also updated both desktop and mobile "View All" buttons for news to be solid maroon (`bg-secondary text-white`) by default.
   - **Homepage DB Query Fix**: Reverted vacancies/procurements database queries to the base fields structure after identifying that those tables do not support `title_si`/`title_ta` columns, resolving a database column mismatch causing an HTTP 500 error on first page load. Cleared JSON caches to force schema rebuilding.
   - **Consolidated Document Listing Pages**: Appended the `notranslate` class to the search/filter controls bar, document cards, list table headers (`<thead>`), list table row structures, and the empty results placeholder across all 7 listing files (`procurements.php`, `downloads.php`, `vacancies.php`, `special-notices.php`, `iau-updates.php`, `learning-platforms-local.php`, `learning-platforms-foreign.php`).
+  - **Dynamic Category Translations**: Integrated category translation mappings in `includes/translations.php` (for categories such as Acts, Amendments, Procurement Plans/Notices, Vacancies, Publications, etc.) and implemented a global helper function `translateCategory($category)`. Wrapped the rendered category labels inside the category badges, list table rows, filter select options, and detail preview modal properties across all 7 document listing hubs, while keeping select option values in English to maintain search/filter integrity.
 
 ### 2026-08-10 (Admin Navigation Reorganization, Auto-Translate & Translation Corrections)
 * **Files:**

@@ -298,7 +298,7 @@ $lang_dict = [
     ],
     'happy_customers' => [
         'en' => 'Satisfied Citizens',
-        'si' => 'තෘප්තිමත් සේවාලාභීන්',
+        'si' => 'සතුටුදායක ගනුදෙනුකරුවන්',
         'ta' => 'திருப்தியடைந்த குடிமக்கள்'
     ],
     'related_organizations' => [
@@ -685,7 +685,7 @@ $lang_dict = [
     ),
     'all_categories' => array(
         'en' => 'All Categories',
-        'si' => 'සියලු ප්‍රවර්ග',
+        'si' => 'සියලු කාණ්ඩ',
         'ta' => 'அனைத்து வகைகள்'
     ),
     'acts_amendments_filter' => array(
@@ -720,7 +720,7 @@ $lang_dict = [
     ),
     'category_col' => array(
         'en' => 'Category',
-        'si' => 'ප්‍රවර්ගය',
+        'si' => 'කාණ්ඩය',
         'ta' => 'வகை'
     ),
     'reference_col' => array(
@@ -921,6 +921,151 @@ $lang_dict = [
         'en' => 'Message must be at least 10 characters long.',
         'si' => 'පණිවිඩය අවම වශයෙන් අක්ෂර 10 ක් විය යුතුය.',
         'ta' => 'செய்தி குறைந்தது 10 எழுத்துக்களாக இருக்க வேண்டும்.'
+    ),
+    'cat_acts' => array(
+        'en' => 'Acts',
+        'si' => 'පනත්',
+        'ta' => 'சட்டங்கள்'
+    ),
+    'cat_amendments' => array(
+        'en' => 'Amendments',
+        'si' => 'සංශෝධන',
+        'ta' => 'திருத்தங்கள்'
+    ),
+    'cat_procurement_plan' => array(
+        'en' => 'Procurement Plan',
+        'si' => 'ප්‍රසම්පාදන සැලැස්ම',
+        'ta' => 'கொள்முதல் திட்டம்'
+    ),
+    'cat_procurement_notice' => array(
+        'en' => 'Procurement Notice',
+        'si' => 'ප්‍රසම්පාදන දැන්වීම්',
+        'ta' => 'கொள்முதல் அறிவிப்பு'
+    ),
+    'cat_contract_award' => array(
+        'en' => 'Contract Award Details',
+        'si' => 'කොන්ත්‍රාත් ප්‍රදානය කිරීමේ තොරතුරු',
+        'ta' => 'ஒப்பந்தம் வழங்கப்பட்ட விவரங்கள்'
+    ),
+    'cat_vacancies' => array(
+        'en' => 'Vacancies',
+        'si' => 'පුරප්පාඩු',
+        'ta' => 'காலிப்பணியிடங்கள்'
+    ),
+    'cat_local_publications' => array(
+        'en' => 'Local Publications',
+        'si' => 'දේශීය ප්‍රකාශන',
+        'ta' => 'உள்நாட்டு வெளியீடுகள்'
+    ),
+    'cat_foreign_publications' => array(
+        'en' => 'Foreign Publications',
+        'si' => 'විදේශීය ප්‍රකාශන',
+        'ta' => 'வெளிநாட்டு வெளியீடுகள்'
+    ),
+    'cat_special_notices' => array(
+        'en' => 'Special Notices',
+        'si' => 'විශේෂ නිවේදන',
+        'ta' => 'சிறப்பு அறிவிப்புகள்'
+    ),
+    'cat_action_plans' => array(
+        'en' => 'Action Plans',
+        'si' => 'ක්‍රියාකාරී සැලසුම්',
+        'ta' => 'செயல் திட்டங்கள்'
+    ),
+    'cat_rti_reports' => array(
+        'en' => 'RTI Reports',
+        'si' => 'තොරතුරු දැනගැනීමේ අයිතිවාසිකම් වාර්තා',
+        'ta' => 'தகவல் அறியும் உரிமை அறிக்கைகள்'
+    ),
+    'cat_iau_updates' => array(
+        'en' => 'IAU Updates',
+        'si' => 'අභ්‍යන්තර විගණන යාවත්කාලීන',
+        'ta' => 'உள்ளக கணக்காய்வு புதுப்பிப்புகள்'
+    ),
+    'vacancy' => array(
+        'en' => 'Vacancy',
+        'si' => 'පුරප්පාඩු',
+        'ta' => 'காலிப்பணியிடம்'
+    ),
+    'procurement' => array(
+        'en' => 'Procurement',
+        'si' => 'ප්‍රසම්පාදන',
+        'ta' => 'கொள்முதல்'
+    ),
+    'notice' => array(
+        'en' => 'Notice',
+        'si' => 'නිවේදන',
+        'ta' => 'அறிவிப்பு'
+    ),
+    'view_pdf' => array(
+        'en' => 'View PDF',
+        'si' => 'PDF බලන්න',
+        'ta' => 'PDF ஐப் பார்க்கவும்'
+    ),
+    'search_vacancies_placeholder' => array(
+        'en' => 'Search vacancies by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව පුරප්පාඩු සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் காலிப்பணியிடங்களைத் தேடுக...'
+    ),
+    'search_procurements_placeholder' => array(
+        'en' => 'Search procurements by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව ප්‍රසම්පාදන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் கொள்முதல்களைத் தேடுக...'
+    ),
+    'search_special_notices_placeholder' => array(
+        'en' => 'Search special notices by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව විශේෂ නිවේදන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் சிறப்பு அறிவிப்புகளைத் தேடுக...'
+    ),
+    'search_iau_placeholder' => array(
+        'en' => 'Search IAU updates by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව අභ්‍යන්තර විගණන යාවත්කාලීන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் உள்ளக கணக்காய்வு புதுப்பிப்புகளைத் தேடுக...'
+    ),
+    'search_local_pub_placeholder' => array(
+        'en' => 'Search local publications by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව දේශීය ප්‍රකාශන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் உள்நாட்டு வெளியீடுகளைத் தேடுக...'
+    ),
+    'search_foreign_pub_placeholder' => array(
+        'en' => 'Search foreign publications by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව විදේශීය ප්‍රකාශන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் வெளிநாட்டு வெளியீடுகளைத் தேடுக...'
+    ),
+    'th_document_title' => array(
+        'en' => 'Document Title',
+        'si' => 'ලේඛනයේ මාතෘකාව',
+        'ta' => 'ஆவணத்தின் தலைப்பு'
+    ),
+    'th_category' => array(
+        'en' => 'Category',
+        'si' => 'කාණ්ඩය',
+        'ta' => 'வகை'
+    ),
+    'th_published_date' => array(
+        'en' => 'Published Date',
+        'si' => 'ප්‍රකාශිත දිනය',
+        'ta' => 'வெளியிடப்பட்ட தேதி'
+    ),
+    'th_action' => array(
+        'en' => 'Action',
+        'si' => 'ක්‍රියාව',
+        'ta' => 'செயல்'
+    ),
+    'pdf_english' => array(
+        'en' => 'English PDF',
+        'si' => 'ඉංග්‍රීසි PDF',
+        'ta' => 'ஆங்கில PDF'
+    ),
+    'pdf_sinhala' => array(
+        'en' => 'Sinhala PDF',
+        'si' => 'සිංහල PDF',
+        'ta' => 'சிங்கள PDF'
+    ),
+    'pdf_tamil' => array(
+        'en' => 'Tamil PDF',
+        'si' => 'දෙමළ PDF',
+        'ta' => 'தமிழ் PDF'
     )
 ];
 
@@ -1028,6 +1173,43 @@ if (!function_exists('get_division_translation')) {
             ]
         ];
         return $map[$slug][$lang] ?? $map[$slug]['en'] ?? '';
+    }
+}
+
+if (!function_exists('translateCategory')) {
+    function translateCategory($category) {
+        $map = [
+            // Plural forms
+            'Acts' => 'cat_acts',
+            'Amendments' => 'cat_amendments',
+            'Procurement Plan' => 'cat_procurement_plan',
+            'Procurement Notice' => 'cat_procurement_notice',
+            'Contract Award Details' => 'cat_contract_award',
+            'Vacancies' => 'cat_vacancies',
+            'Local Publications' => 'cat_local_publications',
+            'Foreign Publications' => 'cat_foreign_publications',
+            'Special Notices' => 'cat_special_notices',
+            'Action Plans' => 'cat_action_plans',
+            'RTI Reports' => 'cat_rti_reports',
+            'IAU Updates' => 'cat_iau_updates',
+
+            // Singular forms
+            'Act' => 'cat_acts',
+            'Amendment' => 'cat_amendments',
+            'Vacancy' => 'cat_vacancies',
+            'Local Publication' => 'cat_local_publications',
+            'Foreign Publication' => 'cat_foreign_publications',
+            'Special Notice' => 'cat_special_notices',
+            'Action Plan' => 'cat_action_plans',
+            'RTI Report' => 'cat_rti_reports',
+            'IAU Update' => 'cat_iau_updates'
+        ];
+        
+        $key = $map[$category] ?? null;
+        if ($key !== null) {
+            return t($key, $category);
+        }
+        return $category;
     }
 }
 
