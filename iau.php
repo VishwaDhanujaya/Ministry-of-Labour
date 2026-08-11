@@ -52,9 +52,9 @@ include 'includes/sub-hero.php';
 <!-- About the Unit Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white border-b border-slate-200/80">
     <div class="container mx-auto">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6">About the Unit</h2>
-        <p class="text-gray-600 font-inter text-[15px] leading-relaxed mb-12 max-w-5xl">
-            The Internal Affairs Unit (IAU) of the Ministry of Labour is committed to promoting integrity, transparency, and accountability while actively working to prevent bribery and corruption. The unit is responsible for implementing institutional integrity action plans and collaborating with national anti-corruption bodies like CIABOC.
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 notranslate"><?= t('iau_about_unit', 'About the Unit') ?></h2>
+        <p class="text-gray-600 font-inter text-[15px] leading-relaxed mb-12 max-w-5xl notranslate">
+            <?= t('iau_about_desc') ?>
         </p>
 
         <!-- Key Objectives Card -->
@@ -63,14 +63,14 @@ include 'includes/sub-hero.php';
                 <img loading="lazy" src="assets/img/IAU/about-iau.webp" alt="IAU Meeting" class="w-full h-auto object-cover rounded-2xl shadow-sm">
             </div>
             <div class="w-full lg:w-3/5">
-                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-4">Key Objectives of the Internal Affairs Unit (IAU)</h3>
-                <p class="text-gray-700 font-inter text-[15px] mb-4">The IAU in each institution is expected to achieve the following objectives:</p>
-                <ol class="list-[lower-alpha] pl-5 space-y-3 text-gray-600 font-inter text-[15px] leading-relaxed">
-                    <li>Prevent corruption in the institution and cultivate a culture of integrity.</li>
-                    <li>Ensure transparency and accountability in all activities of the institution and ensure public access to information regarding institutional practices and decisions.</li>
-                    <li>Promote ethical governance within the institution.</li>
-                    <li>Develop a secure and accessible system to encourage reporting misconduct, protect whistleblowers and maintain confidentiality.</li>
-                    <li>Support legal enforcement Allegations of Bribery or Corruption (CIABOC).</li>
+                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-4 notranslate"><?= t('iau_objectives_title', 'Key Objectives of the Internal Affairs Unit (IAU)') ?></h3>
+                <p class="text-gray-700 font-inter text-[15px] mb-4 notranslate"><?= t('iau_objectives_intro', 'The IAU in each institution is expected to achieve the following objectives:') ?></p>
+                <ol class="list-[lower-alpha] pl-5 space-y-3 text-gray-600 font-inter text-[15px] leading-relaxed notranslate">
+                    <li><?= t('iau_obj_a') ?></li>
+                    <li><?= t('iau_obj_b') ?></li>
+                    <li><?= t('iau_obj_c') ?></li>
+                    <li><?= t('iau_obj_d') ?></li>
+                    <li><?= t('iau_obj_e') ?></li>
                 </ol>
             </div>
         </div>
@@ -82,29 +82,29 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto flex flex-col lg:flex-row gap-16">
         <!-- Left Side: List -->
         <div class="w-full lg:w-[65%]">
-            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 font-montserrat mb-8">Responsibilities and Functions of the Internal Affairs Unit (IAU)</h2>
-            <ol class="list-decimal pl-5 space-y-4 text-gray-700 font-inter text-[15px] leading-relaxed">
-                <li>Examine current procedures and circulars to identify systemic bottlenecks within the institution and identify them to enhance operational efficiency.</li>
-                <li>Conduct Corruption Risk Assessments (CRA) to identify areas in the institution vulnerable to corruption and unethical conduct and take targeted preventive measures.</li>
-                <li>Develop and implement an Institutional Integrity Action Plan outlining specific anti-corruption objectives and strategies tailored to the institution's needs.</li>
-                <li>Ensure full compliance with national anti-corruption Action Plan.</li>
-                <li>Conduct regular compliance reviews to assess the institution's compliance with national and international anti-corruption laws, including the Anti-Corruption Act No. 9 of 2023.</li>
-                <li>Ensure compliance with Asset Declaration requirements for all public officials and employees, and manage conflicts of interest.</li>
-                <li>Establish a secure system to receive and manage complaints related to corruptions and unethical conduct in the institution; ensure that all such complaints are promptly addressed.</li>
-                <li>Develop and publish a Citizens Charter outlining services provided by the institution.</li>
-                <li>Establish and enforce policies that promote ethical governance, including a standardized code of conduct.</li>
-                <li>Implement measures, including training and awareness creation, to motivate employees to commit to anti-corruption principles.</li>
-                <li>Act as the institutional focal point for the National Anti-corruption Integrity Assessment.</li>
-                <li>Maintain liaison with the CIABOC to receive ongoing guidance and support in EXECUTING THE UNIT'S DUTIES.</li>
-                <li>Produce periodic and annual reports summarizing the IAU's activities.</li>
-                <li>Collaborate with private sector stakeholders to plan and implement integrity development programs.</li>
+            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 font-montserrat mb-8 notranslate"><?= t('iau_resp_title', 'Responsibilities and Functions of the Internal Affairs Unit (IAU)') ?></h2>
+            <ol class="list-decimal pl-5 space-y-4 text-gray-700 font-inter text-[15px] leading-relaxed notranslate">
+                <li><?= t('iau_resp_1') ?></li>
+                <li><?= t('iau_resp_2') ?></li>
+                <li><?= t('iau_resp_3') ?></li>
+                <li><?= t('iau_resp_4') ?></li>
+                <li><?= t('iau_resp_5') ?></li>
+                <li><?= t('iau_resp_6') ?></li>
+                <li><?= t('iau_resp_7') ?></li>
+                <li><?= t('iau_resp_8') ?></li>
+                <li><?= t('iau_resp_9') ?></li>
+                <li><?= t('iau_resp_10') ?></li>
+                <li><?= t('iau_resp_11') ?></li>
+                <li><?= t('iau_resp_12') ?></li>
+                <li><?= t('iau_resp_13') ?></li>
+                <li><?= t('iau_resp_14') ?></li>
             </ol>
         </div>
 
         <!-- Right Side: Contact Card -->
         <div class="w-full lg:w-[35%] pt-2 md:pt-16">
             <div class="bg-primary rounded-[32px] p-8 md:p-10 text-white shadow-lg sticky top-32">
-                <h3 class="text-xl md:text-2xl font-semibold font-montserrat mb-8 text-[#FAFAFA]">Submission of Suggestions/ ideas/<br>Complaints</h3>
+                <h3 class="text-xl md:text-2xl font-semibold font-montserrat mb-8 text-[#FAFAFA] notranslate"><?= t('iau_submission_title', 'Submission of Suggestions / Ideas / Complaints') ?></h3>
                 
                 <div class="space-y-6">
                     <div class="flex items-start gap-4">
@@ -113,10 +113,8 @@ include 'includes/sub-hero.php';
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
                         </div>
-                        <p class="text-[#FAFAFA] font-inter text-sm leading-relaxed pt-1">
-                            Internal Affairs Unit,<br>
-                            Ministry of Labour<br>
-                            6th Floor, Mehewara Piyasa, Narahenpita, Colombo 05
+                        <p class="text-[#FAFAFA] font-inter text-sm leading-relaxed pt-1 notranslate">
+                            <?= t('iau_address') ?>
                         </p>
                     </div>
                     
@@ -155,7 +153,7 @@ include 'includes/sub-hero.php';
 
                     <!-- QR Code Section -->
                     <div class="border-t border-white/10 pt-6 mt-6 flex flex-col items-center">
-                        <p class="text-xs text-white/70 mb-3 font-medium tracking-wide">Scan to Submit Complaints / Suggestions</p>
+                        <p class="text-xs text-white/70 mb-3 font-medium tracking-wide notranslate"><?= t('iau_scan_qr', 'Scan to Submit Complaints / Suggestions') ?></p>
                         <div class="w-40 h-40 bg-white p-2 rounded-2xl flex items-center justify-center shadow-sm">
                             <img loading="lazy" src="assets/img/IAU/IAU_QR.png" alt="IAU QR Code" class="w-full h-full object-contain rounded-lg">
                         </div>
@@ -169,7 +167,7 @@ include 'includes/sub-hero.php';
 <!-- Contact Grid Section -->
 <section class="py-16 md:py-24 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/90 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 md:mb-10 text-center md:text-left">Internal Affairs Unit Contact Information</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 md:mb-10 text-center md:text-left notranslate"><?= t('iau_contact_title', 'Internal Affairs Unit Contact Information') ?></h2>
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-gray-100 border-[0.5px] border-[#D4D4D4] rounded-[32px] overflow-hidden">
             <?php foreach($iau_staff as $staff): ?>
@@ -192,7 +190,7 @@ include 'includes/sub-hero.php';
                 <?php 
                     $pdfId = 'iau-pdf-1';
                     $pdfUrl = 'assets/img/IAU/pdf-1.pdf';
-                    $pdfTitle = 'IAU Document 1';
+                    $pdfTitle = t('iau_doc_1', 'IAU Document 1');
                     include 'includes/pdf-viewer.php'; 
                 ?>
             </div>
@@ -200,7 +198,7 @@ include 'includes/sub-hero.php';
                 <?php 
                     $pdfId = 'iau-pdf-2';
                     $pdfUrl = 'assets/img/IAU/pdf-2.pdf';
-                    $pdfTitle = 'IAU Document 2';
+                    $pdfTitle = t('iau_doc_2', 'IAU Document 2');
                     include 'includes/pdf-viewer.php'; 
                 ?>
             </div>

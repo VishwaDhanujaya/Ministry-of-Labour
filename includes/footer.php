@@ -174,9 +174,18 @@
                         ?>
                         <img loading="lazy" src="assets/img/logo.png?v=<?= $logo_version ?>" alt="Ministry of Labour - Government of Sri Lanka" class="h-14 w-auto object-contain">
                     </div>
-                    <p class="text-gray-300 text-sm font-inter leading-relaxed">
+                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
                         <?= t('footer_motto') ?>
                     </p>
+                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-4">
+                        <?= t('subscribe_title') ?>
+                    </p>
+                    <div class="mb-4">
+                        <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
+                            <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
+                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
+                        </form>
+                    </div>
                 </div>
                 
                 <!-- Col 2: Quick Links -->

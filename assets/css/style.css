@@ -3306,6 +3306,11 @@ button,
   border-bottom-left-radius: 1rem;
 }
 
+.rounded-l-lg {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
 .rounded-r-2xl {
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
@@ -3314,6 +3319,11 @@ button,
 .rounded-r-\[24px\] {
   border-top-right-radius: 24px;
   border-bottom-right-radius: 24px;
+}
+
+.rounded-r-lg {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .rounded-r-md {
@@ -3376,6 +3386,10 @@ button,
 
 .border-r {
   border-right-width: 1px;
+}
+
+.border-r-0 {
+  border-right-width: 0px;
 }
 
 .border-r-8 {
@@ -3887,6 +3901,11 @@ button,
   background-color: rgb(19 39 63 / 0.95);
 }
 
+.bg-\[\#1B2E42\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(27 46 66 / var(--tw-bg-opacity, 1));
+}
+
 .bg-\[\#320000\] {
   --tw-bg-opacity: 1;
   background-color: rgb(50 0 0 / var(--tw-bg-opacity, 1));
@@ -3899,6 +3918,11 @@ button,
 
 .bg-\[\#4E0911\]\/5 {
   background-color: rgb(78 9 17 / 0.05);
+}
+
+.bg-\[\#E5E0DB\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 224 219 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[\#ECFDF5\] {
@@ -7172,6 +7196,10 @@ button,
   border-color: rgb(78 9 17 / var(--tw-border-opacity, 1));
 }
 
+.focus\:bg-white\/10:focus {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -8244,8 +8272,8 @@ button,
     height: 480px;
   }
 
-  .lg\:h-\[calc\(100vh-215px\)\] {
-    height: calc(100vh - 215px);
+  .lg\:h-\[calc\(100vh-190px\)\] {
+    height: calc(100vh - 190px);
   }
 
   .lg\:max-h-28 {

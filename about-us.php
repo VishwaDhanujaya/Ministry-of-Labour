@@ -160,8 +160,8 @@ include 'includes/sub-hero.php';
 
             <!-- Organizational Chart -->
             <div class="w-full lg:w-[37%] bg-white p-8 md:p-10 lg:p-12 flex flex-col justify-center">
-                <h3 class="text-2xl md:text-3xl font-bold font-montserrat text-gray-900 mb-6 text-left tracking-tight">
-                    Organizational Chart</h3>
+                <h3 class="text-2xl md:text-3xl font-bold font-montserrat text-gray-900 mb-6 text-left tracking-tight notranslate">
+                    <?= t('org_chart_title', 'Organizational Chart') ?></h3>
 
                 <div
                     class="relative group rounded-2xl border border-gray-200/60 bg-gray-50/50 p-3 max-w-[380px] w-full mr-auto hover:shadow-md hover:border-gray-300 hover:bg-white transition-all duration-300">
@@ -172,9 +172,9 @@ include 'includes/sub-hero.php';
                             
                             <!-- Hover zoom icon overlay -->
                             <div class="absolute inset-0 bg-primary/20 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
-                                <span class="bg-white/95 text-primary text-xs font-bold px-4 py-2 rounded-full shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                <span class="bg-white/95 text-primary text-xs font-bold px-4 py-2 rounded-full shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 notranslate">
                                     <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
-                                    View Diagram
+                                    <?= t('view_diagram', 'View Diagram') ?>
                                 </span>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ include 'includes/sub-hero.php';
                         class="absolute bottom-5 right-5 flex items-center bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-200 shadow-sm opacity-90 group-hover:opacity-100 transition-opacity z-20">
                         <button onclick="openOrgChart()"
                             class="p-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
-                            title="Preview (Zoom & Pan)">
+                            title="<?= htmlspecialchars(t('preview_zoom_pan', 'Preview (Zoom & Pan)')) ?>">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
@@ -195,7 +195,7 @@ include 'includes/sub-hero.php';
                         <a href="assets/img/about-us/organizational-chart.webp"
                             download="Ministry_of_Labour_Organizational_Chart.webp"
                             class="p-2 text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
-                            title="Download">
+                            title="<?= htmlspecialchars(t('download', 'Download')) ?>">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
@@ -289,7 +289,7 @@ include 'includes/sub-hero.php';
 <!-- Ministry Leadership & Officials -->
 <section class="py-20 md:py-28 px-4 md:px-16 bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
     <div class="container mx-auto">
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-10 text-center" data-aos="fade-up">Ministry Leadership</h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-10 text-center notranslate" data-aos="fade-up"><?= t('ministry_leadership', 'Ministry Leadership') ?></h2>
 
         <!-- Top Officials -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
@@ -362,7 +362,7 @@ include 'includes/sub-hero.php';
 
         <!-- Our Officials Division Heads -->
         <div class="mt-20 pt-14 border-t border-slate-200/60" data-aos="fade-up">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8">Our Officials</h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-8 notranslate"><?= t('our_officials', 'Our Officials') ?></h2>
         </div>
 
         <!-- Department Tabs -->
@@ -576,15 +576,15 @@ include 'includes/sub-hero.php';
         
         <!-- Left Side: Main Text -->
         <div class="w-full lg:w-[45%]">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 leading-tight">
-                Our Commitment to Public<br>Service Excellence
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 leading-tight notranslate">
+                <?= t('citizen_charter_title', 'Our Commitment to Public Service Excellence') ?>
             </h2>
-            <div class="space-y-6 text-gray-600 font-inter text-[15px] leading-relaxed pr-0 md:pr-4">
+            <div class="space-y-6 text-gray-600 font-inter text-[15px] leading-relaxed pr-0 md:pr-4 notranslate">
                 <p>
-                    The Citizen Charter reflects the Ministry's dedication to delivering reliable, timely, and high-quality services to all citizens. It clearly defines our service standards, responsibilities, and the rights of the public, ensuring transparency and accountability in every interaction.
+                    <?= t('citizen_charter_p1') ?>
                 </p>
                 <p>
-                    Through this charter, we aim to build trust, improve service delivery, and create a responsive system that prioritizes the needs and expectations of the people we serve.
+                    <?= t('citizen_charter_p2') ?>
                 </p>
             </div>
         </div>
@@ -594,7 +594,7 @@ include 'includes/sub-hero.php';
             <?php 
                 $pdfId = 'citizen-charter-doc';
                 $pdfUrl = 'assets/img/citizen-charter/citizen-charter.pdf';
-                $pdfTitle = 'Citizen Charter';
+                $pdfTitle = t('citizen_charter', 'Citizen Charter');
                 include 'includes/pdf-viewer.php'; 
             ?>
         </div>
@@ -687,10 +687,10 @@ include 'includes/sub-hero.php';
 
     function copyToClipboard(text, message) {
         navigator.clipboard.writeText(text).then(() => {
-            showToast(message, 'success');
+            showToast(<?= json_encode(t('copy_email_success', 'Email address copied!')) ?>, 'success');
         }).catch(err => {
             console.error('Failed to copy: ', err);
-            showToast('Failed to copy email. Your browser may not support this feature.', 'error');
+            showToast(<?= json_encode(t('copy_email_error', 'Failed to copy email. Your browser may not support this feature.')) ?>, 'error');
         });
     }
 </script>

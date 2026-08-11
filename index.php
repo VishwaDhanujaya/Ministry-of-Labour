@@ -72,7 +72,7 @@ $stats = [
     'ilo_conventions' => [
         'stat_label' => 'ILO Ratified Conventions',
         'stat_label_si' => 'අපරානුමත කරන ලද ILO සම්මුතීන්',
-        'stat_label_ta' => 'ஒப்புதல் அளிக்கப்பட்ட ஐ.எல்.ஓ உடன்படிக்கைகள்',
+        'stat_label_ta' => 'ஏற்று அங்கீகரிக்கப்பட்ட ILO சமவாயங்கள்',
         'stat_value' => '44',
         'stat_suffix' => ''
     ],
@@ -208,7 +208,7 @@ if (empty($hero_sliders)) {
 }
 ?>
 <!-- Hero Section -->
-<section class="relative bg-[#091522] overflow-hidden min-h-[420px] sm:min-h-[460px] lg:h-[calc(100vh-215px)] lg:min-h-[400px] max-h-[640px] w-full flex flex-col justify-center">
+<section class="relative bg-[#091522] overflow-hidden min-h-[420px] sm:min-h-[460px] lg:h-[calc(100vh-210px)] lg:min-h-[400px] max-h-[640px] w-full flex flex-col justify-center">
     <!-- Full-Bleed Background Swiper Image Carousel -->
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden" data-aos="fade" data-aos-duration="800">
         <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.35);">
@@ -300,7 +300,7 @@ if (empty($hero_sliders)) {
                         <span class="w-1 h-1 rounded-full bg-white/20 shrink-0"></span>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <span class="text-slate-400 mx-8 font-inter text-xs">No recent news available.</span>
+                    <span class="text-slate-400 mx-8 font-inter text-xs"><?= htmlspecialchars(t('no_news_available', 'No recent news available.')) ?></span>
                 <?php endif; ?>
             </div>
         </div>
@@ -543,7 +543,7 @@ if (empty($hero_sliders)) {
         <div class="mb-12">
             <div>
                 <h2 class="section-title text-white mb-0 notranslate"><?= t('quick_links', 'Quick Links') ?></h2>
-                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left">Direct access to our most crucial portals and services.</p>
+                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left"><?= htmlspecialchars(t('quick_links_subtitle', 'Direct access to our most crucial portals and services.')) ?></p>
             </div>
         </div>
 
@@ -571,7 +571,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('ql_ampara') ?></h3>
-                        <p class="focus-card-desc">Book and reserve the Ministry's comfortable circuit bungalow in Ampara online.</p>
+                        <p class="focus-card-desc"><?= htmlspecialchars(t('ql_ampara_desc', 'Book and reserve the Ministry\'s comfortable circuit bungalow in Ampara online.')) ?></p>
                     </div>
                 </a>
  

@@ -144,6 +144,33 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
+
+### 2026-08-11 (Translation Dictionary Reorganization, PDF Button Sizing Fix & 100% Manual Translation for Homepage, About Us & IAU Overview Pages)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/pdf-viewer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/pdf-viewer.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Full IAU Overview Manual Translation Integration**: Added 28 new dictionary keys (`iau_about_unit`, `iau_about_desc`, `iau_objectives_title`, `iau_objectives_intro`, `iau_obj_a`..`iau_obj_e`, `iau_resp_title`, `iau_resp_1`..`iau_resp_14`, `iau_submission_title`, `iau_address`, `iau_scan_qr`, `iau_contact_title`, `iau_doc_1`, `iau_doc_2`) to [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) and updated [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php) to ensure 100% of all static text elements (About section, Key Objectives, 14 Responsibilities & Functions, Contact Submission card with address, QR label, Contact Grid header, and PDF document titles) render via `$t(...)`. Refined `iau_resp_6` in Sinhala to use the official Sri Lankan administrative term `අභිලාෂයන් අතර ගැටුම් කළමනාකරණය කිරීම` (Conflicts of Interest) and `iau_obj_d` (`අනාචාරාත්මක ක්‍රියා වාර්තා කිරීම`).
+  - **PDF Overlay Button Sizing & Translation Optimization**: Updated [includes/pdf-viewer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/pdf-viewer.php) to replace hardcoded English button text with manual translation helpers `t('open_pdf')` and `t('download')` wrapped in `.notranslate` tags. Optimized dictionary terms (`view_pdf`: SI `PDF බලන්න`, TA `PDF பார்க்க`; `download`: SI `බාගන්න`, TA `பதிவිරக்குக`) and adjusted button padding from `px-6 py-3` to `px-4 py-2.5 sm:px-5 sm:py-2.5` with `text-xs sm:text-sm max-w-[200px]` to prevent buttons from overflowing or stretching excessively when rendered in Sinhala or Tamil.
+  - **Structured & Commented Translations Array**: Reorganized all 253 dictionary translation keys in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) into 10 major section categories with double-line divider comments (`// SECTION 1: HEADER & NAVIGATION` through `// SECTION 10: MESSAGES, TOAST NOTIFICATIONS & VALIDATION`) and descriptive subsection headers (Primary Menu Links, Header Topbar, Footer Branding, Vision & Mission, Divisions, Document Filters, Ampara Rates, IAU Responsibilities, Validation Errors, etc.) for clear developer navigation.
+  - **Linguistic & Grammatical Audit Corrections**: Corrected corrupted machine translation strings and typos across Sinhala and Tamil entries: fixed `vehicle_parking` (`වාහන නැවැත්වීමේ පහසුකම්`), `amenities_facilities` (`පහසුකම් සහ අංගයන්`), `kitchen_dining` (`මුළුතැන්ගෙය සහ භෝජනාගාරය`), `ampara_desc_p3` (fixed typo "කෝලය" to "මුළුතැන්ගෙයි පහසුකම්"), `leave_a_message` (`අපට පණිවිඩයක් තබන්න`), `iau_sub_title` (updated EN to `Internal Audit Unit`, SI to `අභ්‍යන්තර විගණන ඒකකය`, TA to `உள்ளக கணக்காய்வுப் பிரிவு`), `iau_updates` (TA: `உள்ளக கணக்காய்வு புதுப்பிப்புகள்`), `of_label` (SI: `අතුරින්`), `happy_customers` (`තෘප්තිමත් සේවාලාභීන්`), `overview` (`හැඳින්වීම`), `recent_posts` (`මෑතකාලීන පළකිරීම්`), `contact_subtitle` (`සම්බන්ධ වන්න`), `how_can_we_help` (`අපට ඔබට කෙසේ උපකාර කළ හැකිද?`), `nlac_desc` (TA sandhi spelling fix), `div_admin_content` (SI: legal term `අපරානුමත කරන ලද` and `රාජ්‍ය පරිපාලන`), `div_audit_content` (TA: Financial Regulation FR `133 மற்றும் 134`), `years_of_experience` (SI: `වසර ගණනාවක අත්දැකීම්`), `vacancy` (SI: `පුරප්පාඩුව`), `notice` (SI: `නිවේදනය`), `get_directions` (TA: `திசைவழியைப் பெறுங்கள்`), `booking_dates_note` (TA: `அனுமதியின் பின்னரே நேரடிப் பணம் செலுத்துதல் மேற்கொள்ளப்படும்.`), `ampara_desc_p2` (SI: `ඉඩ පහසුකම් පවතින පරිදි`), `div_finance_content` (TA: `கணக்காய்வு வினா ஆவணங்களை இற்றைப்படுத்தி பராமரித்தல்`), `cat_procurement_notice` (SI: `ප්‍රසම්පාදන දැන්වීම`), `cat_contract_award` (SI: `කොන්ත්‍රාත් පිරිනැමීමේ තොරතුරු`, TA: `ஒப்பந்த வழங்கல் விவரங்கள்`), `ph_email` (`name@domain.gov.lk`), `complaints_desc` (SI: `WhatsApp හරහා අමාත්‍යාංශයට සහ CMS පද්ධතිය හරහා කම්කරු දෙපාර්තමේන්තුවට පැමිණිලි යොමු කරන්න.`), `ilo_conventions` (TA: `ஏற்று அங்கீகரிக்கப்பட்ட ILO சமவாயங்கள்`), and `learning_platforms_desc` (TA: `உங்கள் அறிவு சார்ந்த உள்நாட்டு மற்றும் வெளிநாட்டு வெளியீடுகளை அணுகவும்.`).
+
+### 2026-08-10 (Official Vision, Mission & Overview Translations Update, Footer Subscription Restored & Hero Height Fix)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Vision & Mission Translations**: Updated the English, Sinhala, and Tamil translations for the Ministry's Vision (`about_vision_text`) and Mission (`about_mission_text`) to use the official ministerial phrasing provided by the user.
+  - **Overview Paragraphs Translations**: Updated the first and second paragraphs (`overview_p1` and `overview_p2`) representing the official introduction text of the Ministry in English, Sinhala, and Tamil to align with the latest Gazette notifications (Gazette Extraordinary No. 2412/08 dated 25.11.2024 and Gazette Extraordinary No. 2289/43 dated 22.07.2022).
+  - **Footer Newsletter Form**: Reintroduced the newsletter subscription form and email input field under the motto in footer column 1.
+  - **Homepage Hero Height adjustment**: Changed the hero section container's height class to `lg:h-[calc(100vh-190px)]` to make the hero slightly taller, ensuring the stats bar fills the bottom of the viewport on first load without a white gap.
+
 ### 2026-08-10 (Translation & Layout Hotfixes)
 * **Files:**
   - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
