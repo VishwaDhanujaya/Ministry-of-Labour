@@ -356,7 +356,7 @@ $categoryColors = [
                     </div>
                 </div>
                 <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
-                    பதிவிறக்குக
+                    பதிவிறக்கம்
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </span>
             </a>
@@ -551,19 +551,24 @@ function updateDownloadLinks(lang) {
         const pdfUrl = card.getAttribute(`data-pdf-${lang}`);
         
         card.onclick = () => openDownloadModal(index);
-        if (btn) {
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                openDownloadModal(index);
-            };
-        }
         
         if (pdfUrl) {
+            if (btn) {
+                btn.href = pdfUrl;
+                btn.onclick = (e) => e.stopPropagation();
+            }
             btn.classList.remove('hidden');
             btn.classList.add('inline-flex');
             fallback.classList.add('hidden');
             fallback.classList.remove('inline-flex');
         } else {
+            if (btn) {
+                btn.removeAttribute('href');
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    openDownloadModal(index);
+                };
+            }
             btn.classList.add('hidden');
             btn.classList.remove('inline-flex');
             fallback.classList.remove('hidden');
@@ -578,18 +583,23 @@ function updateDownloadLinks(lang) {
         const pdfUrl = row.getAttribute(`data-pdf-${lang}`);
         
         row.onclick = () => openDownloadModal(index);
-        if (btn) {
-            btn.onclick = (e) => {
-                e.stopPropagation();
-                openDownloadModal(index);
-            };
-        }
         
         if (pdfUrl) {
+            if (btn) {
+                btn.href = pdfUrl;
+                btn.onclick = (e) => e.stopPropagation();
+            }
             btn.classList.remove('hidden');
             btn.classList.add('inline-flex');
             fallback.classList.add('hidden');
         } else {
+            if (btn) {
+                btn.removeAttribute('href');
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    openDownloadModal(index);
+                };
+            }
             btn.classList.add('hidden');
             btn.classList.remove('inline-flex');
             fallback.classList.remove('hidden');
@@ -665,7 +675,7 @@ function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'doc
 
     const entityNames = {
         documents: { en: 'documents', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
-        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'காலிப்பணியிடங்கள்' },
+        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'வெற்றிடங்கள்' },
         notices: { en: 'notices', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
         updates: { en: 'updates', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
         publications: { en: 'publications', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }

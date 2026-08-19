@@ -55,8 +55,8 @@ include 'includes/sub-hero.php';
                     </div>
                     <h3 class="text-base md:text-lg font-medium font-montserrat notranslate"><?= t('address', 'Address') ?></h3>
                 </div>
-                <p class="text-xs md:text-[13px] font-inter text-gray-200 leading-relaxed">
-                    6th floor, Mehewara Piyasa,<br>Narahenpita, Colombo 05, Sri Lanka.
+                <p class="text-xs md:text-[13px] font-inter text-gray-200 leading-relaxed notranslate">
+                    <?= t('contact_address', '6th floor, Mehewara Piyasa, Narahenpita, Colombo 05, Sri Lanka.') ?>
                 </p>
             </a>
             
@@ -117,7 +117,7 @@ include 'includes/sub-hero.php';
                         <div>
                             <p class="text-xs text-teal-800/70 font-semibold font-inter uppercase tracking-wider notranslate"><?= t('complaints', 'Complaints') ?></p>
                             <p class="text-base font-bold text-teal-900 font-inter mt-0.5 notranslate"><?= t('lodge_complaint', 'Lodge a Formal Complaint') ?></p>
-                            <p class="text-[11px] text-teal-800/85 font-inter mt-1 leading-tight">Submit your complaints via the Department of Labour CMS portal or escalate via WhatsApp if needed.</p>
+                            <p class="text-[11px] text-teal-800/85 font-inter mt-1 leading-tight notranslate"><?= t('complaints_desc', 'Submit your complaints via the Department of Labour CMS portal or escalate via WhatsApp if needed.') ?></p>
                         </div>
                     </div>
                     <a href="<?= navUrl('complaints') ?>" class="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block whitespace-nowrap font-inter shadow-sm active:scale-95 notranslate">
@@ -130,19 +130,19 @@ include 'includes/sub-hero.php';
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                     <div>
                         <label for="fullname" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('full_name', 'Full Name') ?> <span class="text-red-500">*</span></label>
-                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_full_name', 'Kamal Perera')) ?>">
+                        <input type="text" id="fullname" name="fullname" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_full_name', 'eg: Kamal Perera')) ?>">
                         <p id="fullname-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                         <div>
                             <label for="email" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('email_address', 'Email Address') ?> <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_email', 'your@email.com')) ?>">
+                            <input type="email" id="email" name="email" required class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_email', 'eg: name@domain.gov.lk')) ?>">
                             <p id="email-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                         </div>
                         <div>
                             <label for="phone" class="block text-xs md:text-[13px] font-medium text-gray-500 font-inter mb-1.5 md:mb-2 notranslate"><?= t('phone_number', 'Phone Number') ?></label>
-                            <input type="tel" id="phone" name="phone" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_phone', '+94 77 123 4567')) ?>">
+                            <input type="tel" id="phone" name="phone" maxlength="10" class="bg-white border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full p-2.5 md:p-3 outline-none transition-colors notranslate" placeholder="<?= htmlspecialchars(t('ph_phone', 'eg: 0771234567')) ?>">
                             <p id="phone-error" class="hidden text-xs text-red-500 mt-1.5 font-inter font-medium notranslate"></p>
                         </div>
                     </div>
@@ -327,10 +327,17 @@ include 'includes/sub-hero.php';
         }
     }
 
-    function validateField(fieldId) {
+    let formSubmitted = false;
+
+    function validateField(fieldId, force = false) {
         const input = document.getElementById(fieldId);
         if (!input) return true;
         const val = input.value.trim();
+
+        if (val === '' && !force && !formSubmitted) {
+            setFieldError(fieldId, null);
+            return true;
+        }
 
         if (fieldId === 'fullname') {
             if (val.length < 2) {
@@ -345,9 +352,8 @@ include 'includes/sub-hero.php';
             }
         } else if (fieldId === 'phone') {
             if (val.length > 0) {
-                const cleaned = val.replace(/[\s\-\(\)]+/g, '');
-                const slPhoneRegex = /^(?:\+94|0094|0)?(?:7[01245678]\d{7}|[1-9]\d{8})$/;
-                if (!slPhoneRegex.test(cleaned)) {
+                const slPhoneRegex = /^0\d{9}$/;
+                if (!slPhoneRegex.test(val)) {
                     setFieldError('phone', valMsg.phone);
                     return false;
                 }
@@ -366,22 +372,33 @@ include 'includes/sub-hero.php';
     ['fullname', 'email', 'phone', 'message'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
+            if (id === 'phone') {
+                el.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 10);
+                    const errEl = document.getElementById(id + '-error');
+                    if (errEl && !errEl.classList.contains('hidden')) {
+                        validateField(id);
+                    }
+                });
+            } else {
+                el.addEventListener('input', () => {
+                    const errEl = document.getElementById(id + '-error');
+                    if (errEl && !errEl.classList.contains('hidden')) {
+                        validateField(id);
+                    }
+                });
+            }
             el.addEventListener('blur', () => validateField(id));
-            el.addEventListener('input', () => {
-                const errEl = document.getElementById(id + '-error');
-                if (errEl && !errEl.classList.contains('hidden')) {
-                    validateField(id);
-                }
-            });
         }
     });
 
     document.getElementById('contactForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
+        formSubmitted = true;
         let isValid = true;
         ['fullname', 'email', 'phone', 'message'].forEach(id => {
-            if (!validateField(id)) {
+            if (!validateField(id, true)) {
                 isValid = false;
             }
         });
@@ -402,7 +419,7 @@ include 'includes/sub-hero.php';
         submitBtn.disabled = true;
         submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
         spinner.classList.remove('hidden');
-        btnText.textContent = 'Sending...';
+        btnText.textContent = <?= json_encode(t('sending', 'Sending...')) ?>;
 
         // Prepare data
         const formData = new FormData(form);
@@ -416,7 +433,7 @@ include 'includes/sub-hero.php';
         .then(data => {
             // Restore button text and hide spinner
             spinner.classList.add('hidden');
-            btnText.textContent = 'Send Message';
+            btnText.textContent = <?= json_encode(t('send_message', 'Send Message')) ?>;
 
             // Reset recaptcha widget and disable submit button
             if (typeof grecaptcha !== 'undefined') {
@@ -427,6 +444,7 @@ include 'includes/sub-hero.php';
             if (data.success) {
                 showToast(<?= json_encode(t('msg_sent_success', 'Message sent successfully!')) ?>, 'success');
                 form.reset();
+                formSubmitted = false;
                 ['fullname', 'email', 'phone', 'message'].forEach(id => setFieldError(id, null));
             } else {
                 showToast(data.message || <?= json_encode(t('msg_send_failed', 'Failed to send message.')) ?>, 'error');

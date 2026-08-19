@@ -467,7 +467,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     $logo_black_version = file_exists($logo_black_path) ? filemtime($logo_black_path) : time();
                     ?>
                     <img src="assets/img/logo-black.png?v=<?= $logo_black_version ?>" alt="Ministry of Labour - Government of Sri Lanka"
-                        class="h-12 md:h-14 w-auto object-contain">
+                        class="h-12 md:h-12 w-auto object-contain">
                 </a>
             </div>
 

@@ -267,7 +267,7 @@ function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'new
     const entityNames = {
         documents: { en: 'documents', singular: 'document', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
         news: { en: 'news articles', singular: 'news article', si: 'පුවත් ලිපි', ta: 'செய்தி கட்டுரைகள்' },
-        vacancies: { en: 'vacancies', singular: 'vacancy', si: 'පුරප්පාඩු', ta: 'காலிப்பணியிடங்கள்' },
+        vacancies: { en: 'vacancies', singular: 'vacancy', si: 'පුරප්පාඩු', ta: 'வெற்றிடங்கள்' },
         notices: { en: 'notices', singular: 'notice', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
         updates: { en: 'updates', singular: 'update', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
         publications: { en: 'publications', singular: 'publication', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }

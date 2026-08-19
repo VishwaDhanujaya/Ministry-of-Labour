@@ -1,9 +1,22 @@
 <?php
-$page_title = 'Learning Platforms';
-$pageTitle = 'Learning Platforms - Ministry of Labour - Sri Lanka';
+// learning-platforms.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_SESSION['lang'];
+}
+
+include 'includes/header.php';
+
+$page_title = t('learning_platforms', 'Learning Platforms');
+$pageTitle = t('learning_platforms', 'Learning Platforms') . ' - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Access local and foreign learning platforms, training programs, publications, and study resources from the Ministry of Labour, Sri Lanka.';
 $metaKeywords = 'Learning Platforms, Training, Publications, Local Publications, Foreign Publications, Ministry of Labour, Sri Lanka';
-include 'includes/header.php';
+
 include 'includes/sub-hero.php';
 ?>
 
@@ -12,9 +25,9 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-5xl">
         <!-- Section Intro -->
         <div class="text-center max-w-2xl mx-auto mb-16" data-aos="fade-up">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight mb-6">Learning Platforms</h2>
-            <p class="text-gray-500 text-[14px] md:text-[15px] font-inter leading-relaxed">
-                Select a publication category below to browse official educational frameworks, training modules, guides, and learning resources managed by the Ministry of Labour.
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight mb-6 notranslate"><?= t('learning_platforms', 'Learning Platforms') ?></h2>
+            <p class="text-gray-500 text-[14px] md:text-[15px] font-inter leading-relaxed notranslate">
+                <?= t('lp_intro_desc', 'Select a publication category below to browse official educational frameworks, training modules, guides, and learning resources managed by the Ministry of Labour.') ?>
             </p>
         </div>
         
@@ -34,17 +47,17 @@ include 'includes/sub-hero.php';
                     </div>
                     <!-- Badge and Title -->
                     <div class="flex items-center gap-3 mb-4">
-                        <h3 class="text-xl md:text-2xl font-bold font-montserrat text-primary">Local Publications</h3>
-                        <span class="px-2.5 py-0.5 bg-red-50 text-secondary text-[10px] font-bold rounded-full uppercase tracking-wider">Local</span>
+                        <h3 class="text-xl md:text-2xl font-bold font-montserrat text-primary notranslate"><?= t('local_publications', 'Local Publications') ?></h3>
+                        <span class="px-2.5 py-0.5 bg-red-50 text-secondary text-[10px] font-bold rounded-full uppercase tracking-wider notranslate"><?= t('badge_local', 'Local') ?></span>
                     </div>
                     <!-- Description -->
-                    <p class="text-gray-500 text-[14px] leading-relaxed mb-8 font-inter">
-                        Explore essential training materials, local publications, reports, acts, and study guides aligned with Sri Lankan labour standards, vocational development, and industrial welfare.
+                    <p class="text-gray-500 text-[14px] leading-relaxed mb-8 font-inter notranslate">
+                        <?= t('lp_local_desc', 'Explore essential training materials, local publications, reports, acts, and study guides aligned with Sri Lankan labour standards, vocational development, and industrial welfare.') ?>
                     </p>
                 </div>
                 <!-- Action Link -->
-                <a href="learning-platforms-local" class="inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-[14.5px] transition-colors group/link">
-                    Access Local Platform
+                <a href="learning-platforms-local" class="inline-flex items-center gap-2 text-secondary hover:text-primary font-bold text-[14.5px] transition-colors group/link notranslate">
+                    <span><?= t('btn_access_local', 'Access Local Platform') ?></span>
                     <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>
@@ -65,17 +78,17 @@ include 'includes/sub-hero.php';
                     </div>
                     <!-- Badge and Title -->
                     <div class="flex items-center gap-3 mb-4">
-                        <h3 class="text-xl md:text-2xl font-bold font-montserrat text-primary">Foreign Publications</h3>
-                        <span class="px-2.5 py-0.5 bg-blue-50 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider">Foreign</span>
+                        <h3 class="text-xl md:text-2xl font-bold font-montserrat text-primary notranslate"><?= t('foreign_publications', 'Foreign Publications') ?></h3>
+                        <span class="px-2.5 py-0.5 bg-blue-50 text-primary text-[10px] font-bold rounded-full uppercase tracking-wider notranslate"><?= t('badge_foreign', 'Foreign') ?></span>
                     </div>
                     <!-- Description -->
-                    <p class="text-gray-500 text-[14px] leading-relaxed mb-8 font-inter">
-                        Browse international educational materials, training agreements, guidelines from organizations such as the ILO, and scholarship pathways supporting foreign employment.
+                    <p class="text-gray-500 text-[14px] leading-relaxed mb-8 font-inter notranslate">
+                        <?= t('lp_foreign_desc', 'Browse international educational materials, training agreements, guidelines from organizations such as the ILO, and scholarship pathways supporting foreign employment.') ?>
                     </p>
                 </div>
                 <!-- Action Link -->
-                <a href="learning-platforms-foreign" class="inline-flex items-center gap-2 text-primary hover:text-secondary font-bold text-[14.5px] transition-colors group/link">
-                    Access Foreign Platform
+                <a href="learning-platforms-foreign" class="inline-flex items-center gap-2 text-primary hover:text-secondary font-bold text-[14.5px] transition-colors group/link notranslate">
+                    <span><?= t('btn_access_foreign', 'Access Foreign Platform') ?></span>
                     <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>

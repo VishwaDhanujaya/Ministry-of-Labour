@@ -1,23 +1,35 @@
 <?php
 // nlac.php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_SESSION['lang'];
+}
+
 require_once 'admin/includes/db.php';
 
-$page_title = 'National Labour Advisory Council';
-$pageTitle = 'National Labour Advisory Council - Ministry of Labour - Sri Lanka';
+include 'includes/header.php';
+
+$page_title = t('nlac_full', 'National Labour Advisory Council (NLAC)');
+$pageTitle = t('nlac_full', 'National Labour Advisory Council') . ' - Ministry of Labour - Sri Lanka';
 $metaDescription = 'National Labour Advisory Council (NLAC) is the national tripartite consultative mechanism established in 1994.';
 $metaKeywords = 'Ministry of Labour, Sri Lanka, NLAC, National Labour Advisory Council, Tripartite Consultative Mechanism';
-include 'includes/header.php';
+
 include 'includes/sub-hero.php';
 ?>
 
 <section class="py-16 md:py-24 px-4 md:px-16 bg-white">
     <div class="container mx-auto max-w-5xl" data-aos="fade-up">
         
-        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 md:mb-8 notranslate"><?= t('nlac_full') ?></h2>
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary font-montserrat tracking-tight uppercase mb-6 md:mb-8 notranslate"><?= t('nlac_full', 'National Labour Advisory Council (NLAC)') ?></h2>
         
         <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12">
-            <p class="mb-4">
-                National Labour Advisory Council (NLAC) is the national tripartite consultative mechanism established in 1994 to provide for consultations and cooperation between the government and the organization of workers and employers at the national level on matters relating to social and labour policies and international labour standards following the ratification of Tripartite Consultation Convention. Minister assigned to the labour portfolio is the chairman of the council. NLAC has been successfully functioning since its inception and helped to maintain industrial peace in the country. The viewpoint of the NLAC in labour policies is highly valued in many forums and due consideration is given in policy-making practice.
+            <p class="mb-4 notranslate">
+                <?= t('nlac_intro_p1') ?>
             </p>
         </div>
 
@@ -27,11 +39,11 @@ include 'includes/sub-hero.php';
                 <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                     <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-primary font-montserrat mb-4">The objectives of the NLAC shall be;</h3>
-                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5">
-                    <li>To promote social dialogue between the government and the organizations of workers and employers on social and labour issues.</li>
-                    <li>To provide a forum for the government to seek the views, advice and assistance of organizations of workers and employers on matters relating to social and labour policies, labour legislation and matters concerning the ratification, application and implementation of international labour standards.</li>
-                    <li>To promote mutual understanding and good relations and foster closer co-operation between the government and organizations of workers and employers with a view to developing the economy, improving conditions of work and raising standards of living.</li>
+                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 notranslate"><?= t('nlac_objectives_title', 'The objectives of the NLAC shall be;') ?></h3>
+                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5 notranslate">
+                    <li><?= t('nlac_obj_1') ?></li>
+                    <li><?= t('nlac_obj_2') ?></li>
+                    <li><?= t('nlac_obj_3') ?></li>
                 </ul>
             </div>
 
@@ -40,12 +52,12 @@ include 'includes/sub-hero.php';
                 <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center mb-6">
                     <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-primary font-montserrat mb-4">Functions of the NLAC shall be;</h3>
-                <p class="text-gray-600 font-inter text-sm mb-3">Consultation and co-operation between the government and organizations of workers and employers on such matters such as;</p>
-                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5">
-                    <li>Establishment and functioning of national bodies</li>
-                    <li>Formulation and implementation of laws and regulations affecting the interests of workers and employers</li>
-                    <li>Consideration of matters concerning replies to the International Labour Organization on ratification and implementation of labour standards</li>
+                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 notranslate"><?= t('nlac_functions_title', 'Functions of the NLAC shall be;') ?></h3>
+                <p class="text-gray-600 font-inter text-sm mb-3 notranslate"><?= t('nlac_func_intro') ?></p>
+                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5 notranslate">
+                    <li><?= t('nlac_func_1') ?></li>
+                    <li><?= t('nlac_func_2') ?></li>
+                    <li><?= t('nlac_func_3') ?></li>
                 </ul>
             </div>
         </div>
@@ -53,39 +65,39 @@ include 'includes/sub-hero.php';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
             <!-- Composition -->
             <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3">
+                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3 notranslate">
                     <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    Composition
+                    <span><?= t('nlac_composition_title', 'Composition') ?></span>
                 </h3>
-                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5">
-                    <li>The Hon. Minister of Labour and Foreign Employment act as the chairman of the NLAC</li>
-                    <li>The minister appoints a suitable officer in the ministry as the Secretary to the NLAC</li>
-                    <li>The organizations and institutions represented in the NLAC will be selected by the Hon. Minister from among "most representative" organizations of employers and workers in the different sectors of the economy</li>
+                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5 notranslate">
+                    <li><?= t('nlac_comp_1') ?></li>
+                    <li><?= t('nlac_comp_2') ?></li>
+                    <li><?= t('nlac_comp_3') ?></li>
                 </ul>
             </div>
 
             <!-- How it works -->
             <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300">
-                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3">
+                <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3 notranslate">
                     <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    How the NLAC works
+                    <span><?= t('nlac_how_it_works_title', 'How the NLAC works') ?></span>
                 </h3>
-                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5">
-                    <li>The term of the NLAC is a one year</li>
-                    <li>Meetings of the NLAC convene regularly and frequently as may be determined by the minister, at least once a month</li>
-                    <li>There may be appointed tripartite Industrial Committees and Ad hoc Committees to discuss special issues for study and report to the NLAC, with expert assistance whenever necessary.</li>
+                <ul class="space-y-3 text-gray-600 font-inter text-sm list-disc pl-5 notranslate">
+                    <li><?= t('nlac_works_1') ?></li>
+                    <li><?= t('nlac_works_2') ?></li>
+                    <li><?= t('nlac_works_3') ?></li>
                 </ul>
             </div>
         </div>
 
-        <h3 class="text-2xl font-bold text-primary font-montserrat mb-8">Members of the National Labour Advisory Council</h3>
+        <h3 class="text-2xl font-bold text-primary font-montserrat mb-8 notranslate"><?= t('nlac_members_title', 'Members of the National Labour Advisory Council') ?></h3>
         
         <div class="flex flex-wrap items-center gap-2 mb-8 bg-gray-100 p-1.5 rounded-xl max-w-xl">
-            <button id="btn-employer" onclick="showTab('employer')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all bg-primary text-white shadow">
-                Employer Trade Unions
+            <button id="btn-employer" onclick="showTab('employer')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all bg-primary text-white shadow notranslate">
+                <?= t('tab_employer_tu', 'Employer Trade Unions') ?>
             </button>
-            <button id="btn-employee" onclick="showTab('employee')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all text-gray-500 hover:text-gray-800 hover:bg-white/50">
-                Employee Trade Unions
+            <button id="btn-employee" onclick="showTab('employee')" class="flex-1 text-center py-2.5 px-4 rounded-lg font-bold text-sm transition-all text-gray-500 hover:text-gray-800 hover:bg-white/50 notranslate">
+                <?= t('tab_employee_tu', 'Employee Trade Unions') ?>
             </button>
         </div>
         
@@ -94,11 +106,11 @@ include 'includes/sub-hero.php';
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">No</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Title</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Designation</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name of TU</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_no', 'No') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_title', 'Title') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name', 'Name') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_designation', 'Designation') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name_of_tu', 'Name of TU') ?></th>
                     </tr>
                 </thead>
                 <tbody class="text-sm text-gray-600 font-inter divide-y divide-gray-100">
@@ -230,11 +242,11 @@ include 'includes/sub-hero.php';
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">No</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Title</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Designation</th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b">Name of TU</th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_no', 'No') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_title', 'Title') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name', 'Name') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_designation', 'Designation') ?></th>
+                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name_of_tu', 'Name of TU') ?></th>
                     </tr>
                 </thead>
                 <tbody class="text-sm text-gray-600 font-inter divide-y divide-gray-100">
@@ -390,23 +402,23 @@ include 'includes/sub-hero.php';
         </script>
 
         <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 max-w-lg">
-            <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3">
+            <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3 notranslate">
                 <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                Contact Information
+                <span><?= t('contact_info_title', 'Contact Information') ?></span>
             </h3>
             <p class="text-gray-800 font-bold font-inter text-[15px] mb-1">Mr. B Vasanthan</p>
-            <p class="text-gray-500 font-inter text-sm mb-4">Senior Assistant Secretary (Foreign Relations)</p>
+            <p class="text-gray-500 font-inter text-sm mb-4 notranslate"><?= t('nlac_contact_person', 'Senior Assistant Secretary (Foreign Relations)') ?></p>
             <ul class="space-y-2 text-gray-600 font-inter text-sm">
                 <li class="flex items-center gap-2">
-                    <span class="font-semibold text-gray-700 w-12">Tel:</span> 
+                    <span class="font-semibold text-gray-700 w-12 notranslate"><?= t('tel_lbl', 'Tel:') ?></span> 
                     <a href="tel:+94112368609" class="hover:text-primary transition-colors notranslate">+94-11-2368609</a>
                 </li>
                 <li class="flex items-center gap-2">
-                    <span class="font-semibold text-gray-700 w-12">Fax:</span> 
+                    <span class="font-semibold text-gray-700 w-12 notranslate"><?= t('fax_lbl', 'Fax:') ?></span> 
                     <span class="notranslate">+94-11-2368609</span>
                 </li>
                 <li class="flex items-center gap-2">
-                    <span class="font-semibold text-gray-700 w-12">Email:</span> 
+                    <span class="font-semibold text-gray-700 w-12 notranslate"><?= t('email_lbl', 'Email:') ?></span> 
                     <a href="mailto:sasfr@sltnet.lk" class="hover:text-primary transition-colors notranslate">sasfr@sltnet.lk</a>
                 </li>
             </ul>

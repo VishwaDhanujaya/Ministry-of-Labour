@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobalInteractions();
     initTableFiltering();
     initFormValidation();
+    initIdleTimer();
 });
 
 // --- UI Utilities (Toasts & Modals) ---
@@ -1031,5 +1032,64 @@ document.addEventListener('change', (e) => {
         });
     }
 });
+
+// --- Idle Session Lock Screen ---
+function initIdleTimer() {
+    const path = window.location.pathname;
+    if (path.includes('login') || path.includes('logout') || path.includes('unlock')) {
+        return;
+    }
+
+    let idleTime = 0;
+    // Lock screen triggers after 15 minutes of inactivity (900 seconds)
+    const idleLimit = 900; 
+
+    setInterval(() => {
+        if (localStorage.getItem('workspace_locked') === 'true') {
+            idleTime = 0;
+            return;
+        }
+        idleTime++;
+        if (idleTime >= idleLimit) {
+            triggerWorkspaceLock();
+        }
+    }, 1000);
+
+    const resetIdleTime = () => {
+        idleTime = 0;
+    };
+
+    const events = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
+    events.forEach(event => {
+        document.addEventListener(event, resetIdleTime, { passive: true });
+    });
+}
+
+function triggerWorkspaceLock() {
+    const currentUrl = window.location.pathname + window.location.search;
+    const formData = new FormData();
+    formData.append('current_url', currentUrl);
+
+    fetch('lock-session.php', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            if (typeof window.showLockscreen === 'function') {
+                window.showLockscreen();
+            } else {
+                window.location.reload();
+            }
+        }
+    })
+    .catch(err => {
+        window.location.reload();
+    });
+}
 
 

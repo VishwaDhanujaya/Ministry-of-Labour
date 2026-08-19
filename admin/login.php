@@ -23,7 +23,11 @@ if (isLoggedIn()) {
 $error = '';
 
 if (isset($_GET['timeout'])) {
-    $error = "You have been logged out due to inactivity.";
+    if ($_GET['timeout'] == '2') {
+        $error = "Too many failed unlock attempts. You have been logged out for security.";
+    } else {
+        $error = "You have been logged out due to inactivity.";
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

@@ -77,8 +77,8 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage News</h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create, review, approve, and manage press releases and news articles.</p>
             </div>
-            <a href="news-add" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5">
-                <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+            <a href="news-add" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5 whitespace-nowrap">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                 Add News
             </a>
         </div>
@@ -114,10 +114,7 @@ include 'includes/header.php';
         
         renderAdminTable($headers, $newsList, function($news) {
             ?>
-            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer <?= $news['status'] === 'Pending Approval' ? 'bg-amber-50/40 relative' : '' ?>" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= ($news['status'] === 'Pending Approval' && hasPermission('approve_news')) ? "'news?approve={$news['id']}&csrf_token=" . generateCsrfToken() . "'" : "null" ?>)">
-                <?php if ($news['status'] === 'Pending Approval'): ?>
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-400"></div>
-                <?php endif; ?>
+            <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group cursor-pointer <?= $news['status'] === 'Pending Approval' ? 'bg-amber-50/40' : '' ?>" onclick="showPreviewModal(<?= $news['id'] ?>, '<?= htmlspecialchars(addslashes($news['title'])) ?>', 'news-add?id=<?= $news['id'] ?>', 'news?delete=<?= $news['id'] ?>&csrf_token=<?= generateCsrfToken() ?>', <?= ($news['status'] === 'Pending Approval' && hasPermission('approve_news')) ? "'news?approve={$news['id']}&csrf_token=" . generateCsrfToken() . "'" : "null" ?>)">
                 <td class="py-5 px-6">
                     <?php if(!empty($news['cover_image']) && file_exists($news['cover_image'])): ?>
                         <a data-fslightbox="gallery" href="<?= htmlspecialchars($news['cover_image']) ?>" class="block rounded border border-gray-200 shadow-sm overflow-hidden w-12 h-12 cursor-pointer group" onclick="event.stopPropagation();">

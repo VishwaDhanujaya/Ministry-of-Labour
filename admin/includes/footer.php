@@ -68,5 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<?php if (isLoggedIn()): ?>
+    <?php include __DIR__ . '/lockscreen-template.php'; ?>
+<?php endif; ?>
 </body>
 </html>

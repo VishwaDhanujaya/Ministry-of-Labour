@@ -92,7 +92,7 @@ try {
             'titles' => [
                 'en' => 'Ampara Circuit Bungalow - Online Booking',
                 'si' => 'අම්පාර සංචාරක බංගලාව - මාර්ගගත වෙන්කිරීම්',
-                'ta' => 'அம்பாறை சுற்றுவட்ட பங்களா - ஆன்லைன் முன்பதிவு'
+                'ta' => 'அம்பாறை சுற்றுலா பங்களா - ஆன்லைன் முன்பதிவு'
             ],
             'keywords' => ['ampara', 'circuit bungalow', 'booking', 'bungalow', 'accommodation', 'holiday', 'අම්පාර', 'බංගලාව', 'அம்பாறை']
         ],
@@ -128,9 +128,9 @@ try {
             'titles' => [
                 'en' => 'Procurements & Tenders',
                 'si' => 'ප්‍රසම්පාදන සහ ටෙන්ඩර්',
-                'ta' => 'கொள்முதல் மற்றும் ஏலங்கள்'
+                'ta' => 'பெறுகை மற்றும் ஏலங்கள்'
             ],
-            'keywords' => ['procurements', 'tenders', 'bids', 'purchasing', 'ප්‍රසම්පාදන', 'ටෙන්ඩර්', 'கொள்முதல்']
+            'keywords' => ['procurements', 'tenders', 'bids', 'purchasing', 'ප්‍රසම්පාදන', 'ටෙන්ඩර්', 'பெறுகை']
         ],
         [
             'url' => 'learning-platforms',
@@ -139,7 +139,7 @@ try {
                 'si' => 'ඔබේ දැනුමට සහ ප්‍රකාශන',
                 'ta' => 'கற்றல் தளங்கள் மற்றும் வெளியீடுகள்'
             ],
-            'keywords' => ['learning', 'platforms', 'publications', 'training', 'courses', 'education', 'ඔබේ දැනුමට', 'දැනුමට', 'ප්‍රකාශන', 'කற்றல்']
+            'keywords' => ['learning', 'platforms', 'publications', 'training', 'courses', 'education', 'ඔබේ දැනුමට', 'දැනුමට', 'ප්‍රකාශන', 'கற்றல்']
         ],
         [
             'url' => 'learning-platforms-local',

@@ -45,7 +45,7 @@ $lang_dict = [
     ],
     'learning_platforms' => [
         'en' => 'Learning Platforms',
-        'si' => 'ඔබේ දැනුමට',
+        'si' => 'ඉගෙනුම් පද්ධති',
         'ta' => 'கற்றல் தளங்கள்'
     ],
     'learning_platforms_desc' => [
@@ -76,12 +76,12 @@ $lang_dict = [
     'procurements' => [
         'en' => 'Procurements',
         'si' => 'ප්‍රසම්පාදන',
-        'ta' => 'கொள்முதல்கள்'
+        'ta' => 'பெறுகைகள்'
     ],
     'vacancies' => [
         'en' => 'Vacancies',
         'si' => 'පුරප්පාඩු',
-        'ta' => 'காலிப்பணியிடங்கள்'
+        'ta' => 'வெற்றிடங்கள்'
     ],
     'special_notices' => [
         'en' => 'Special Notices',
@@ -143,7 +143,7 @@ $lang_dict = [
     'email_placeholder' => [
         'en' => 'Your Email Address',
         'si' => 'ඔබගේ විද්‍යුත් තැපැල් ලිපිනය',
-        'ta' => 'உங்கள் மின்னஞ்சல் முகவரி'
+        'ta' => 'மின்னஞ்சல் முகவரி'
     ],
     'subscribe_btn' => [
         'en' => 'Subscribe',
@@ -185,12 +185,7 @@ $lang_dict = [
     'recent_posts' => [
         'en' => 'Recent Posts',
         'si' => 'මෑතකාලීන පළකිරීම්',
-        'ta' => 'சமீபத்திய இடுகைகள்'
-    ],
-    'nlac_full' => [
-        'en' => 'National Labour Advisory Council (NLAC)',
-        'si' => 'ජාතික කම්කරු උපදේශක සභාව (NLAC)',
-        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC)'
+        'ta' => 'சமீபகால பதிவுகள்'
     ],
     'nlac_desc' => [
         'en' => 'National Labour Advisory Council — consultative labour governance and social dialogue.',
@@ -205,7 +200,7 @@ $lang_dict = [
     'complaints_desc' => [
         'en' => 'Submit complaints to the Ministry via WhatsApp and submit complaints to the Department of Labour via CMS.',
         'si' => 'WhatsApp හරහා අමාත්‍යාංශයට සහ CMS පද්ධතිය හරහා කම්කරු දෙපාර්තමේන්තුවට පැමිණිලි යොමු කරන්න.',
-        'ta' => 'வாட்ஸ்அப் மூலம் அமைச்சிற்கு புகார்களை சமர்ப்பிக்கவும் மற்றும் CMS மூலம் தொழிலாளர் திணைக்களத்திற்கு புகார்களை சமர்ப்பிக்கவும்.'
+        'ta' => 'WhatsApp மூலம் அமைச்சிற்கு முறைப்பாடுகளைச் சமர்ப்பிக்கவும் மற்றும் CMS மூலம் தொழில் திணைக்களத்திற்கு முறைப்பாடுகளைச் சமர்ப்பிக்கவும்.'
     ],
     'rti_desc' => [
         'en' => 'Submit information requests under the Right to Information Act in Sri Lanka.',
@@ -316,12 +311,12 @@ $lang_dict = [
     'vacancy' => [
         'en' => 'Vacancy',
         'si' => 'පුරප්පාඩුව',
-        'ta' => 'காலிப்பணியிடம்'
+        'ta' => 'வெற்றிடம்'
     ],
     'procurement' => [
         'en' => 'Procurement',
         'si' => 'ප්‍රසම්පාදන',
-        'ta' => 'கொள்முதல்'
+        'ta' => 'பெறுகை'
     ],
     'notice' => [
         'en' => 'Notice',
@@ -597,6 +592,153 @@ $lang_dict = [
         'ta' => 'மின்னஞ்சல் முகவரியை நகலெடுக்க முடியவில்லை. உங்கள் உலாவி இந்த அம்சத்தை ஆதரிக்கவில்லை.'
     ],
 
+    // National Labour Advisory Council (NLAC) Overview
+    'nlac_full' => [
+        'en' => 'National Labour Advisory Council (NLAC)',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාව (NLAC)',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC)'
+    ],
+    'nlac_intro_p1' => [
+        'en' => 'National Labour Advisory Council (NLAC) is the national tripartite consultative mechanism established in 1994 to provide for consultations and cooperation between the government and the organization of workers and employers at the national level on matters relating to social and labour policies and international labour standards following the ratification of Tripartite Consultation Convention. Minister assigned to the labour portfolio is the chairman of the council. NLAC has been successfully functioning since its inception and helped to maintain industrial peace in the country. The viewpoint of the NLAC in labour policies is highly valued in many forums and due consideration is given in policy-making practice.',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාව (NLAC) යනු ත්‍රිපාර්ශ්වික විමර්ශන සම්මුතිය අපරානුමත කිරීමෙන් පසුව, සමාජ හා කම්කරු ප්‍රතිපත්ති සහ ජාත්‍යන්තර කම්කරු ප්‍රමිතීන් පිළිබඳව ජාතික මට්ටමින් රජය, සේව්‍ය සහ සේවක සංවිධාන අතර සාකච්ඡා සහ සහයෝගීතාව සඳහා 1994 දී පිහිටුවන ලද ජාතික ත්‍රිපාර්ශ්වික උපදේශක යාන්ත්‍රණයයි. කම්කරු විෂය භාර අමාත්‍යවරයා සභාවේ සභාපතිවරයා වේ. ආරම්භයේ සිටම සාර්ථකව ක්‍රියාත්මක වන NLAC, රට තුළ කාර්මික සාමය පවත්වා ගැනීමට උපකාරී වී ඇත. කම්කරු ප්‍රතිපත්ති පිළිබඳ NLAC හි මතය බොහෝ සංසදවල ඉහළින් අගය කරනු ලබන අතර ප්‍රතිපත්ති සම්පාදනයේදී ඊට නිසි සැලකිල්ලක් දක්වයි.',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழு (NLAC) என்பது முத்தரப்பு கலந்தாய்வு சமவாயத்தை ஏற்று அங்கீகரித்ததைத் தொடர்ந்து, சமூக மற்றும் தொழிலாளர் கொள்கைகள் மற்றும் சர்வதேச தொழிலாளர் தரநிலைகள் தொடர்பான விடயங்களில் தேசிய மட்டத்தில் அரசாங்கம், தொழிலாளர்கள் மற்றும் முதலாளிகளின் அமைப்புகளுக்கு இடையே கலந்தாலோசனை மற்றும் ஒத்துழைப்பை வழங்குவதற்காக 1994 இல் நிறுவப்பட்ட தேசிய முத்தரப்பு ஆலோசனைக் பொறிமுறையாகும். தொழிலாளர் துறைக்கு பொறுப்பான அமைச்சரே குழுவின் தலைவராவார். NLAC தொடங்கப்பட்டதிலிருந்து வெற்றிகரமாக இயங்கி வருகிறது மற்றும் நாட்டில் தொழிற்துறை அமைதியைப் பேண உதவியுள்ளது. தொழிலாளர் கொள்கைகளில் NLAC இன் கருத்து பல மன்றங்களில் பெரிதும் மதிக்கப்படுகிறது மற்றும் கொள்கை உருவாக்கும் நடைமுறையில் தகுந்த பரிசீலனை வழங்கப்படுகிறது.'
+    ],
+    'nlac_objectives_title' => [
+        'en' => 'The objectives of the NLAC shall be;',
+        'si' => 'NLAC හි අරමුණු පහත පරිදි වේ;',
+        'ta' => 'NLAC இன் நோக்கங்கள் பின்வருமாறு;'
+    ],
+    'nlac_obj_1' => [
+        'en' => 'To promote social dialogue between the government and the organizations of workers and employers on social and labour issues.',
+        'si' => 'සමාජ හා කම්කරු ගැටලු සම්බන්ධයෙන් රජය සහ සේව්‍ය සහ සේවක සංවිධාන අතර සමාජ සංවාදය ප්‍රවර්ධනය කිරීම.',
+        'ta' => 'சமூக மற்றும் தொழிலாளர் பிரச்சினைகள் குறித்து அரசாங்கத்திற்கும் தொழிலாளர்கள் மற்றும் முதலாளிகளின் அமைப்புகளுக்கும் இடையே சமூக உரையாடலை மேம்படுத்துதல்.'
+    ],
+    'nlac_obj_2' => [
+        'en' => 'To provide a forum for the government to seek the views, advice and assistance of organizations of workers and employers on matters relating to social and labour policies, labour legislation and matters concerning the ratification, application and implementation of international labour standards.',
+        'si' => 'සමාජ හා කම්කරු ප්‍රතිපත්ති, කම්කරු නීති සහ ජාත්‍යන්තර කම්කරු ප්‍රමිතීන් අපරානුමත කිරීම, යෙදවීම සහ ක්‍රියාත්මක කිරීම සම්බන්ධ කරුණුවලදී සේව්‍ය සහ සේවක සංවිධානවල අදහස්, උපදෙස් සහ සහාය ලබා ගැනීමට රජයට සංසදයක් සැපයීම.',
+        'ta' => 'சமூக மற்றும் தொழிலாளர் கொள்கைகள், தொழிலாளர் சட்டங்கள் மற்றும் சர்வதேச தொழிலாளர் தரநிலைகளை ஏற்று அங்கீகரித்தல், பயன்படுத்துதல் மற்றும் நடைமுறைப்படுத்துதல் தொடர்பான விடயங்களில் தொழிலாளர்கள் மற்றும் முதலாளிகளின் அமைப்புகளின் கருத்துக்கள், ஆலோசனைகள் மற்றும் உதவிகளைப் பெற அரசாங்கத்திற்கு ஒரு மன்றத்தை வழங்குதல்.'
+    ],
+    'nlac_obj_3' => [
+        'en' => 'To promote mutual understanding and good relations and foster closer co-operation between the government and organizations of workers and employers with a view to developing the economy, improving conditions of work and raising standards of living.',
+        'si' => 'ආර්ථිකය සංවර්ධනය කිරීම, වැඩකරන පරිසරය වැඩිදියුණු කිරීම සහ ජීවන තත්ත්වය උසස් කිරීමේ අරමුණින් රජය සහ සේව්‍ය සේවක සංවිධාන අතර පරස්පර අවබෝධය, යහපත් සබඳතා සහ සමීප සහයෝගීතාව වර්ධනය කිරීම.',
+        'ta' => 'பொருளாதாரத்தை மேம்படுத்துதல், வேலை நிலைமைகளை மேம்படுத்துதல் மற்றும் வாழ்க்கைத்தரத்தை உயர்த்துதல் ஆகிய நோக்கங்களுடன் அரசாங்கத்திற்கும் தொழிலாளர்கள் மற்றும் முதலாளிகளின் அமைப்புகளுக்கும் இடையே பரஸ்பர புரிதல், நல்லுறவு மற்றும் நெருக்கமான ஒத்துழைப்பை வளர்த்தல்.'
+    ],
+    'nlac_functions_title' => [
+        'en' => 'Functions of the NLAC shall be;',
+        'si' => 'NLAC හි කාර්යයන් පහත පරිදි වේ;',
+        'ta' => 'NLAC இன் பணிகள் பின்வருமாறு;'
+    ],
+    'nlac_func_intro' => [
+        'en' => 'Consultation and co-operation between the government and organizations of workers and employers on such matters such as;',
+        'si' => 'පහත සඳහන් කරුණු සම්බන්ධයෙන් රජය සහ සේව්‍ය සේවක සංවිධාන අතර සාකච්ඡා සහ සහයෝගීතාව පැවැත්වීම;',
+        'ta' => 'பின்வரும் விடயங்களில் அரசாங்கத்திற்கும் தொழிலாளர்கள் மற்றும் முதலாளிகளின் அமைப்புகளுக்கும் இடையே கலந்தாலோசனை மற்றும் ஒத்துழைப்பு;'
+    ],
+    'nlac_func_1' => [
+        'en' => 'Establishment and functioning of national bodies',
+        'si' => 'ජාතික ආයතන පිහිටුවීම සහ ඒවා ක්‍රියාත්මක වීම',
+        'ta' => 'தேசிய அமைப்புகளை நிறுவுதலும் இயங்குதலும்'
+    ],
+    'nlac_func_2' => [
+        'en' => 'Formulation and implementation of laws and regulations affecting the interests of workers and employers',
+        'si' => 'සේව්‍ය සහ සේවකයින්ගේ නීත්‍යානුකූල අයිතිවාසිකම්වලට බලපාන නීති සහ රීති සම්පාදනය කිරීම සහ ක්‍රියාත්මක කිරීම',
+        'ta' => 'தொழிலாளர்கள் மற்றும் முதலாளிகளின் நலன்களைப் பாதிக்கும் சட்டங்கள் மற்றும் ஒழுங்குவிதிகளை உருவாக்குதலும் நடைமுறைப்படுத்துதலும்'
+    ],
+    'nlac_func_3' => [
+        'en' => 'Consideration of matters concerning replies to the International Labour Organization on ratification and implementation of labour standards',
+        'si' => 'කම්කරු ප්‍රමිතීන් අපරානුමත කිරීම සහ ක්‍රියාත්මක කිරීම සම්බන්ධයෙන් ජාත්‍යන්තර කම්කරු සංවිධානයට යවන පිළිතුරු පිළිබඳ කරුණු සලකා බැලීම',
+        'ta' => 'தொழிலாளர் தரநிலைகளை ஏற்று அங்கீகரித்தல் மற்றும் நடைமுறைப்படுத்துதல் தொடர்பாக சர்வதேச தொழிலாளர் அமைப்பிற்கு அனுப்பும் பதில்கள் குறித்த விடயங்களைப் பரிசீலித்தல்'
+    ],
+    'nlac_composition_title' => [
+        'en' => 'Composition',
+        'si' => 'සංයුතිය',
+        'ta' => 'அமைப்பு (கூட்டுரு)'
+    ],
+    'nlac_comp_1' => [
+        'en' => 'The Hon. Minister of Labour and Foreign Employment act as the chairman of the NLAC',
+        'si' => 'ගරු කම්කරු අමාත්‍යවරයා NLAC හි සභාපතිවරයා ලෙස කටයුතු කරයි',
+        'ta' => 'கௌரவ தொழில் அமைச்சர் NLAC இன் தலைவராகச் செயல்படுகிறார்'
+    ],
+    'nlac_comp_2' => [
+        'en' => 'The minister appoints a suitable officer in the ministry as the Secretary to the NLAC',
+        'si' => 'අමාත්‍යවරයා විසින් අමාත්‍යාංශයේ සුදුසු නිලධාරියෙකු NLAC හි ලේකම්වරයා ලෙස පත් කරයි',
+        'ta' => 'அமைச்சர் அமைச்சின் பொருத்தமான அதிகாரி ஒருவரை NLAC இன் செயலாளராக நியமிக்கிறார்'
+    ],
+    'nlac_comp_3' => [
+        'en' => 'The organizations and institutions represented in the NLAC will be selected by the Hon. Minister from among "most representative" organizations of employers and workers in the different sectors of the economy',
+        'si' => 'ආර්ථිකයේ විවිධ ක්ෂේත්‍රවල සේව්‍ය සහ සේවකයින් නියෝජනය කරන වඩාත්ම නියෝජිත සංවිධාන අතරින් ගරු අමාත්‍යවරයා විසින් NLAC හි නියෝජනය වන සංවිධාන තෝරා ගනු ලැබේ',
+        'ta' => 'பொருளாதாரத்தின் பல்வேறு துறைகளில் உள்ள முதலாளிகள் மற்றும் தொழிலாளர்களின் "மிகவும் பிரதிநிதித்துவ" அமைப்புகளிலிருந்து கௌரவ அமைச்சரால் NLAC இல் பிரதிநிதித்துவப்படுத்தப்படும் அமைப்புகள் தேர்ந்தெடுக்கப்படும்'
+    ],
+    'nlac_how_it_works_title' => [
+        'en' => 'How the NLAC works',
+        'si' => 'NLAC ක්‍රියාත්මක වන ආකාරය',
+        'ta' => 'NLAC எவ்வாறு இயங்குகிறது'
+    ],
+    'nlac_works_1' => [
+        'en' => 'The term of the NLAC is a one year',
+        'si' => 'NLAC හි ධුර කාලය වසර එකකි',
+        'ta' => 'NLAC இன் பதவிக் காலம் ஒரு வருடமாகும்'
+    ],
+    'nlac_works_2' => [
+        'en' => 'Meetings of the NLAC convene regularly and frequently as may be determined by the minister, at least once a month',
+        'si' => 'අඩුම තරමින් මසකට වරක්වත් අමාත්‍යවරයා තීරණය කරන පරිදි NLAC රැස්වීම් නියමිත පරිදි පැවැත්වේ',
+        'ta' => 'குறைந்தது மாதத்திற்கு ஒரு முறையாவது அமைச்சரால் தீர்மானிக்கப்படும் வகையில் NLAC கூட்டங்கள் தவறாமல் கூடுகின்றன'
+    ],
+    'nlac_works_3' => [
+        'en' => 'There may be appointed tripartite Industrial Committees and Ad hoc Committees to discuss special issues for study and report to the NLAC, with expert assistance whenever necessary.',
+        'si' => 'අවශ්‍ය සෑම විටම විශේෂඥ සහාය ඇතිව, විශේෂ කරුණු අධ්‍යයනය කර NLAC වෙත වාර්තා කිරීම සඳහා ත්‍රිපාර්ශ්වික කාර්මික කාරක සභා සහ විශේෂ කාරක සභා පත් කළ හැකිය.',
+        'ta' => 'தேவையான போதெல்லாம் நிபுணர் உதவியுடன் சிறப்புப் பிரச்சினைகளை ஆராய்ந்து NLAC க்கு அறிக்கை செய்ய முத்தரப்பு தொழிற்துறைக் குழுக்கள் மற்றும் தற்காலிகக் குழுக்கள் நியமிக்கப்படலாம்.'
+    ],
+    'nlac_members_title' => [
+        'en' => 'Members of the National Labour Advisory Council',
+        'si' => 'ජාතික කම්කරු උපදේශක සභාවේ සාමාජිකයින්',
+        'ta' => 'தேசிய தொழிலாளர் ஆலோசனைக் குழுவின் உறுப்பினர்கள்'
+    ],
+    'tab_employer_tu' => [
+        'en' => 'Employer Trade Unions',
+        'si' => 'සේව්‍ය වෘත්තීය සමිති',
+        'ta' => 'முதலாளி தொழிற்சங்கங்கள்'
+    ],
+    'tab_employee_tu' => [
+        'en' => 'Employee Trade Unions',
+        'si' => 'සේවක වෘත්තීය සමිති',
+        'ta' => 'ஊழியர் தொழிற்சங்கங்கள்'
+    ],
+    'th_no' => [
+        'en' => 'No',
+        'si' => 'අංකය',
+        'ta' => 'எண்'
+    ],
+    'th_title' => [
+        'en' => 'Title',
+        'si' => 'තනතුරු නාමය',
+        'ta' => 'தலைப்பு'
+    ],
+    'th_name' => [
+        'en' => 'Name',
+        'si' => 'නම',
+        'ta' => 'பெயர்'
+    ],
+    'th_designation' => [
+        'en' => 'Designation',
+        'si' => 'තනතුර',
+        'ta' => 'பதவி'
+    ],
+    'th_name_of_tu' => [
+        'en' => 'Name of TU',
+        'si' => 'වෘත්තීය සමිතියේ නම',
+        'ta' => 'தொழிற்சங்கத்தின் பெயர்'
+    ],
+    'contact_info_title' => [
+        'en' => 'Contact Information',
+        'si' => 'සන්නිවේදන තොරතුරු',
+        'ta' => 'தொடர்புத் தகவல்கள்'
+    ],
+    'nlac_contact_person' => [
+        'en' => 'Senior Assistant Secretary (Foreign Relations)',
+        'si' => 'ජ්‍යෙෂ්ඨ සහකාර ලේකම් (විදේශ සබඳතා)',
+        'ta' => 'மூத்த உதவிச் செயலாளர் (வெளிநாட்டு உறவுகள்)'
+    ],
+
     // ===========================================================================
     // SECTION 5: DOCUMENT LISTINGS, TABLES & DOWNLOADS
     // ===========================================================================
@@ -619,17 +761,17 @@ $lang_dict = [
     'all_procurements' => [
         'en' => 'All Procurements',
         'si' => 'සියලු ප්‍රසම්පාදන',
-        'ta' => 'அனைத்து கொள்முதல்கள்'
+        'ta' => 'அனைத்துப் பெறுகைகள்'
     ],
     'search_vacancies_placeholder' => [
         'en' => 'Search vacancies by title or date...',
         'si' => 'මාතෘකාව හෝ දිනය අනුව පුරප්පාඩු සොයන්න...',
-        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் காலிப்பணியிடங்களைத் தேடுக...'
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் வெற்றிடங்களைத் தேடுக...'
     ],
     'search_procurements_placeholder' => [
         'en' => 'Search procurements by title or date...',
         'si' => 'මාතෘකාව හෝ දිනය අනුව ප්‍රසම්පාදන සොයන්න...',
-        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் கொள்முதல்களைத் தேடுக...'
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் பெறுகைகளைத் தேடுக...'
     ],
     'search_special_notices_placeholder' => [
         'en' => 'Search special notices by title or date...',
@@ -726,7 +868,7 @@ $lang_dict = [
     'download_document' => [
         'en' => 'Download Document',
         'si' => 'ලේඛනය බාගන්න',
-        'ta' => 'ஆவணத்தை பதிவிறக்குக'
+        'ta' => 'ஆவணப் பதிவிறக்கம்'
     ],
     'no_document' => [
         'en' => 'No Document',
@@ -736,7 +878,7 @@ $lang_dict = [
     'download' => [
         'en' => 'Download',
         'si' => 'බාගන්න',
-        'ta' => 'பதிවිරக்குக'
+        'ta' => 'பதிவிறக்கம்'
     ],
     'open_pdf' => [
         'en' => 'Open PDF',
@@ -781,7 +923,7 @@ $lang_dict = [
     'items_per_page' => [
         'en' => 'Items per page',
         'si' => 'පිටුවකට අයිතම',
-        'ta' => 'பக்கத்திற்கு உருப்படிகள்'
+        'ta' => 'பக்கத்திற்குரிய உருப்படி'
     ],
 
     // Document Category Badges & System Mapping
@@ -798,12 +940,12 @@ $lang_dict = [
     'cat_procurement_plan' => [
         'en' => 'Procurement Plan',
         'si' => 'ප්‍රසම්පාදන සැලැස්ම',
-        'ta' => 'கொள்முதல் திட்டம்'
+        'ta' => 'பெறுகைத் திட்டம்'
     ],
     'cat_procurement_notice' => [
         'en' => 'Procurement Notice',
         'si' => 'ප්‍රසම්පාදන දැන්වීම',
-        'ta' => 'கொள்முதல் அறிவிப்பு'
+        'ta' => 'பெறுகை அறிவிப்பு'
     ],
     'cat_contract_award' => [
         'en' => 'Contract Award Details',
@@ -813,7 +955,7 @@ $lang_dict = [
     'cat_vacancies' => [
         'en' => 'Vacancies',
         'si' => 'පුරප්පාඩු',
-        'ta' => 'காலிப்பணியிடங்கள்'
+        'ta' => 'வெற்றிடங்கள்'
     ],
     'cat_local_publications' => [
         'en' => 'Local Publications',
@@ -846,6 +988,43 @@ $lang_dict = [
         'ta' => 'உள்ளக கணக்காய்வு புதுப்பிப்புகள்'
     ],
 
+    // Learning Platforms Page
+    'lp_intro_desc' => [
+        'en' => 'Select a publication category below to browse official educational frameworks, training modules, guides, and learning resources managed by the Ministry of Labour.',
+        'si' => 'කම්කරු අමාත්‍යාංශය විසින් පාලනය කරනු ලබන නිල අධ්‍යාපනික රාමු, පුහුණු මොඩියුල, මාර්ගෝපදේශ සහ ඉගෙනුම් සම්පත් පරිශීලනය කිරීම සඳහා පහත දැක්වෙන ප්‍රකාශන වර්ගයක් තෝරන්න.',
+        'ta' => 'தொழில் அமைச்சினால் நிர்வகிக்கப்படும் உத்தியோகபூர்வ கல்வி முறைகள், பயிற்சி தொகுதிகள், வழிகாட்டிகள் மற்றும் கற்றல் வளங்களைப் பார்வையிட கீழே உள்ள வெளியீட்டு வகையைத் தேர்ந்தெடுக்கவும்.'
+    ],
+    'badge_local' => [
+        'en' => 'Local',
+        'si' => 'දේශීය',
+        'ta' => 'உள்நாட்டு'
+    ],
+    'lp_local_desc' => [
+        'en' => 'Explore essential training materials, local publications, reports, acts, and study guides aligned with Sri Lankan labour standards, vocational development, and industrial welfare.',
+        'si' => 'ශ්‍රී ලාංකික කම්කරු ප්‍රමිතීන්, වෘත්තීය සංවර්ධනය සහ කාර්මික සුභසාධනයට අනුකූල අත්‍යවශ්‍ය පුහුණු ද්‍රව්‍ය, දේශීය ප්‍රකාශන, වාර්තා, පනත් සහ අධ්‍යයන මාර්ගෝපදේශ මෙතැනින් ලබාගන්න.',
+        'ta' => 'இலங்கை தொழிலாளர் தரநிலைகள், தொழிற்கல்வி வளர்ச்சி மற்றும் தொழிற்துறை நலன்களுக்கு அமைவான அத்தியாவசிய பயிற்சிப் பொருட்கள், உள்நாட்டு வெளியீடுகள், அறிக்கைகள், சட்டங்கள் மற்றும் கற்றல் வழிகாட்டிகளை ஆராயுங்கள்.'
+    ],
+    'btn_access_local' => [
+        'en' => 'Access Local Platform',
+        'si' => 'දේශීය පද්ධතියට පිවිසෙන්න',
+        'ta' => 'உள்நாட்டுத் தளத்தை அணுகவும்'
+    ],
+    'badge_foreign' => [
+        'en' => 'Foreign',
+        'si' => 'විදේශීය',
+        'ta' => 'வெளிநாட்டு'
+    ],
+    'lp_foreign_desc' => [
+        'en' => 'Browse international educational materials, training agreements, guidelines from organizations such as the ILO, and scholarship pathways supporting foreign employment.',
+        'si' => 'ජාත්‍යන්තර කම්කරු සංවිධානය (ILO) වැනි සංවිධානවල ජාත්‍යන්තර අධ්‍යාපනික ද්‍රව්‍ය, පුහුණු ගිවිසුම්, මාර්ගෝපදේශ සහ විදේශ රැකියා සඳහා උපකාරී වන ශිෂ්‍යත්ව මාර්ග මෙතැනින් නරඹන්න.',
+        'ta' => 'சர்வதேச தொழிலாளர் அமைப்பு (ILO) போன்ற அமைப்புகளின் சர்வதேச கல்விப் பொருட்கள், பயிற்சி ஒப்பந்தங்கள், வழிகாட்டல்கள் மற்றும் வெளிநாட்டு வேலைவாய்ப்பை ஆதரிக்கும் புலமைப்பரிசில் பாதைகளைப் பார்வையிடுங்கள்.'
+    ],
+    'btn_access_foreign' => [
+        'en' => 'Access Foreign Platform',
+        'si' => 'විදේශීය පද්ධතියට පිවිසෙන්න',
+        'ta' => 'வெளிநாட்டுத் தளத்தை அணுகவும்'
+    ],
+
     // ===========================================================================
     // SECTION 6: AMPARA CIRCUIT BUNGALOW PAGE
     // ===========================================================================
@@ -871,9 +1050,9 @@ $lang_dict = [
         'ta' => 'தொழில் அமைச்சு, தனது அதிகாரிகளுக்கு உயர்தர தங்குமிட வசதிகளை வழங்கும் நோக்கத்துடன் அம்பாறையில் இந்த சுற்றுலா பங்களாவை நிறுவியுள்ளது. முதன்மையாக தொழிலாளர் திணைக்கள ஊழியர்களுக்கு ஒதுக்கப்பட்டிருந்தாலும், இடம் கிடைக்கும் பட்சத்தில் பிற அரச அதிகாரிகள் மற்றும் பொதுமக்களும் விண்ணப்பிக்க வரவேற்கிறோம்.'
     ],
     'ampara_desc_p3' => [
-        'en' => 'The bungalow features air-conditioned double and single rooms, chalets, common dining halls, and full culinary facilities. Meal preparation can be requested on-site, or guests may arrange to utilize the kitchen resources directly.',
-        'si' => 'බංගලාවේ වායු සමනය කළ ද්විත්ව සහ තනි කාමර, චලේ, පොදු ආහාර හෝල් සහ සම්පූර්ණ ඉවුම් පිහුම් පහසුකම් ඇත. ආහාර සකස් කිරීම ස්ථානයේදීම ඉල්ලා සිටිය හැකිය, නැතහොත් අමුත්තන්ට මුළුතැන්ගෙයි පහසුකම් සෘජුවම භාවිතා කළ හැකිය.',
-        'ta' => 'பங்களாவில் குளிரூட்டப்பட்ட இரட்டை மற்றும் ஒற்றை அறைகள், சேலட்கள், பொதுவான சாப்பாட்டு அரங்குகள் மற்றும் முழுமையான சமையல் வசதிகள் உள்ளன. உணவு தயாரிப்பை ஆன்-சைட்டில் கோரலாம், அல்லது விருந்தினர்கள் சமையலறை வளங்களை நேரடியாக பயன்படுத்திக்கொள்ளலாம்.'
+        'en' => 'The bungalow features air-conditioned double and single rooms, common dining halls, and full culinary facilities. Meal preparation can be requested on-site, or guests may arrange to utilize the kitchen resources directly.',
+        'si' => 'බංගලාවේ වායු සමනය කළ ද්විත්ව සහ තනි කාමර, පොදු ආහාර හෝල් සහ සම්පූර්ණ ඉවුම් පිහුම් පහසුකම් ඇත. ආහාර සකස් කිරීම ස්ථානයේදීම ඉල්ලා සිටිය හැකිය, නැතහොත් අමුත්තන්ට මුළුතැන්ගෙයි පහසුකම් සෘජුවම භාවිතා කළ හැකිය.',
+        'ta' => 'பங்களாவில் குளிரூட்டப்பட்ட இரட்டை மற்றும் ஒற்றை அறைகள், பொதுவான சாப்பாட்டு அறைகள் மற்றும் முழுமையான சமையல் வசதிகள் உள்ளன. உணவு தயாரிப்பை ஆன்-சைட்டில் கோரலாம், அல்லது விருந்தினர்கள் சமையலறை வளங்களை நேரடியாக பயன்படுத்திக்கொள்ளலாம்.'
     ],
 
     // Pricing, Rates & Gallery
@@ -915,7 +1094,7 @@ $lang_dict = [
     'foreign_visitors' => [
         'en' => 'Foreign Visitors',
         'si' => 'විදේශ අමුත්තන්',
-        'ta' => 'வெளிநாட்டு பார்வையாளர்கள்'
+        'ta' => 'வெளிநாட்டு பிரயாணிகள்'
     ],
 
     // Amenities & Features
@@ -962,9 +1141,9 @@ $lang_dict = [
         'ta' => 'உங்கள் முன்பதிவு கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது மற்றும் அனுமதிக்காக காத்திருக்கிறது.'
     ],
     'view_on_google_maps' => [
-        'en' => 'View Location on Google Maps',
-        'si' => 'Google Maps හි ස්ථානය බලන්න',
-        'ta' => 'Google Maps இல் இடத்தை பார்க்கவும்'
+        'en' => 'View Location on Google Map',
+        'si' => 'Google Map හි ස්ථානය බලන්න',
+        'ta' => 'Google Map இல் இடத்தை பார்க்கவும்'
     ],
     'reservation_details' => [
         'en' => 'Reservation Details',
@@ -1007,6 +1186,188 @@ $lang_dict = [
         'ta' => 'முன்பதிவு கோரிக்கையை சமர்ப்பிக்கவும்'
     ],
 
+    // Room Types, Additional Items & Payment Details
+    'room_gf_double_ac' => [
+        'en' => 'Ground Floor Double Room (AC)',
+        'si' => 'බිම් මහලේ ද්විත්ව කාමරය (වායු සමනය කළ)',
+        'ta' => 'தரைத்தள இரட்டை அறை (குளிரூட்டப்பட்டது)'
+    ],
+    'room_gf_double_ac_sub' => [
+        'en' => '1 Double Bed / Max 2 Persons',
+        'si' => '1 ද්විත්ව ඇඳ / උපරිම පුද්ගලයින් 2',
+        'ta' => '1 இரட்டைப் படுக்கை / அதிகபட்சம் 2 நபர்கள்'
+    ],
+    'room_gf_single_ac' => [
+        'en' => 'Ground Floor Single Room (AC)',
+        'si' => 'බිම් මහලේ තනි කාමරය (වායු සමනය කළ)',
+        'ta' => 'தரைத்தள ஒற்றை அறை (குளிரூட்டப்பட்டது)'
+    ],
+    'room_gf_single_ac_sub' => [
+        'en' => '1 Single Bed / Max 1 Person',
+        'si' => '1 තනි ඇඳ / උපරිම පුද්ගලයා 1',
+        'ta' => '1 ஒற்றைப் படுக்கை / அதிகபட்சம் 1 நபர்'
+    ],
+    'room_chalet_single_ac' => [
+        'en' => 'Chalet Room (Single AC)',
+        'si' => 'චලේ කාමරය (තනි වායු සමනය කළ)',
+        'ta' => 'சேலட் அறை (ஒற்றைக் குளிரூட்டப்பட்டது)'
+    ],
+    'room_uf_double_ac' => [
+        'en' => 'Upper Floor Double Room (AC)',
+        'si' => 'ඉහළ මහලේ ද්විත්ව කාමරය (වායු සමනය කළ)',
+        'ta' => 'மேல் தள இரட்டை அறை (குளிரூட்டப்பட்டது)'
+    ],
+    'room_uf_double_ac_rooms' => [
+        'en' => '(3 Rooms)',
+        'si' => '(කාමර 3)',
+        'ta' => '(3 அறைகள்)'
+    ],
+    'room_uf_double_ac_sub' => [
+        'en' => '2 Double Beds / Max 4 Persons',
+        'si' => '2 ද්විත්ව ඇඳන් / උපරිම පුද්ගලයින් 4',
+        'ta' => '2 இரட்டைப் படுக்கைகள் / அதிகபட்சம் 4 நபர்கள்'
+    ],
+    'room_driver_single_non_ac' => [
+        'en' => 'Driver\'s Room (Single Non-AC)',
+        'si' => 'රියදුරු කාමරය (වායු සමනය නොකළ)',
+        'ta' => 'சாரதி அறை (குளிரூட்டப்படாதது)'
+    ],
+    'room_driver_sub' => [
+        'en' => '2 Beds / Max 2 Persons',
+        'si' => '2 ඇඳන් / උපරිම පුද්ගලයින් 2',
+        'ta' => '2 படுக்கைகள் / அதிகபட்சம் 2 நபர்கள்'
+    ],
+    'room_entire_bungalow' => [
+        'en' => 'Entire Bungalow (Per Day)',
+        'si' => 'සම්පූර්ණ බංගලාව (දිනකට)',
+        'ta' => 'முழுப் பங்களாவும் (ஒரு நாளுக்கு)'
+    ],
+    'room_entire_sub' => [
+        'en' => 'All Rooms / Full Access',
+        'si' => 'සියලුම කාමර / සම්පූර්ණ ප්‍රවේශය',
+        'ta' => 'அனைத்து அறைகளும் / முழு அணுகல்'
+    ],
+    'th_room_type' => [
+        'en' => 'Room Type',
+        'si' => 'කාමර වර්ගය',
+        'ta' => 'அறை வகை'
+    ],
+    'th_beds_occupancy' => [
+        'en' => 'Beds / Max Occupancy',
+        'si' => 'ඇඳන් / උපරිම ධාරිතාව',
+        'ta' => 'படுக்கைகள் / அதிகபட்ச கொள்ளளவு'
+    ],
+    'driver_accom_title' => [
+        'en' => 'Driver Accommodation:',
+        'si' => 'රියදුරු නවාතැන්:',
+        'ta' => 'சாரதி தங்குமிடம்:'
+    ],
+    'driver_accom_text' => [
+        'en' => '1 room (accommodating up to 4 drivers in a group) is available',
+        'si' => '1 කාමරයක් (කණ්ඩායමකට රියදුරන් 4 දෙනෙකු දක්වා) පවතී',
+        'ta' => '1 அறை (ஒரு குழுவில் 4 சாரதிகள் வரை தங்கும் வசதி) உள்ளது'
+    ],
+    'free_of_charge' => [
+        'en' => 'Free of Charge',
+        'si' => 'නොමිලේ',
+        'ta' => 'இலவசமாக'
+    ],
+    'additional_charges_title' => [
+        'en' => 'Optional / Additional Charges',
+        'si' => 'අතිරේක ගාස්තු',
+        'ta' => 'கூடுதல் கட்டணங்கள்'
+    ],
+    'item_single_sheet' => [
+        'en' => 'Single Bed Sheet',
+        'si' => 'තනි ඇඳ ඇතිරිල්ල',
+        'ta' => 'ஒற்றைப் படுக்கை விரிப்பு'
+    ],
+    'item_double_sheet' => [
+        'en' => 'Double Bed Sheet',
+        'si' => 'ද්විත්ව ඇඳ ඇතිරිල්ල',
+        'ta' => 'இரட்டைப் படுக்கை விரிப்பு'
+    ],
+    'item_pillow' => [
+        'en' => 'Pillow Request',
+        'si' => 'කොට්ටයක් සඳහා',
+        'ta' => 'தலையணை கோரிக்கை'
+    ],
+    'item_towel' => [
+        'en' => 'Towel Request',
+        'si' => 'තුවායක් සඳහා',
+        'ta' => 'துவாலை கோரிக்கை'
+    ],
+    'item_kettle' => [
+        'en' => 'Electric Kettle',
+        'si' => 'විදුලි කේතලය',
+        'ta' => 'மின்சார கெட்டில்'
+    ],
+    'item_kitchen_fuel' => [
+        'en' => 'Kitchen Fuel (per day)',
+        'si' => 'මුළුතැන්ගෙයි ගෑස්/ඉන්ධන (දිනකට)',
+        'ta' => 'சமையலறை எரிபொருள் (ஒரு நாளுக்கு)'
+    ],
+    'bank_details_title' => [
+        'en' => 'Official Bank Account Details',
+        'si' => 'නිල බැංකු ගිණුම් විස්තර',
+        'ta' => 'உத்தியோகபூர்வ வங்கி கணக்கு விபரங்கள்'
+    ],
+    'bank_payment_note' => [
+        'en' => 'Payments should only be deposited after receiving official approval from the Ministry.',
+        'si' => 'මුදල් ගෙවීම් කළ යුත්තේ අමාත්‍යාංශයෙන් නිල අනුමැතිය ලැබීමෙන් පසුව පමණි.',
+        'ta' => 'அமைச்சின் உத்தியோகபூர்வ அனுமதி கிடைத்த பின்னரே கட்டணங்கள் செலுத்தப்பட வேண்டும்.'
+    ],
+    'beneficiary_bank' => [
+        'en' => 'Beneficiary Bank',
+        'si' => 'ප්‍රතිලාභී බැංකුව',
+        'ta' => 'பயனடைபவர் வங்கி'
+    ],
+    'peoples_bank_branch' => [
+        'en' => 'People\'s Bank – Narahenpita Branch',
+        'si' => 'මහජන බැංකුව - නාරාහේන්පිට ශාඛාව',
+        'ta' => 'மக்கள் வங்கி - நாரஹேன்பிட்ட கிளை'
+    ],
+    'account_number' => [
+        'en' => 'Account Number',
+        'si' => 'ගිණුම් අංකය',
+        'ta' => 'கணக்கு எண்'
+    ],
+    'manual_app_title' => [
+        'en' => 'Manual Application',
+        'si' => 'අතින් සම්පූර්ණ කරන ඉල්ලුම්පත',
+        'ta' => 'கைமுறை விண்ணப்பம்'
+    ],
+    'manual_app_desc' => [
+        'en' => 'Alternatively, you may submit a physical booking application by downloading, printing, and delivering the official document.',
+        'si' => 'විකල්පයක් ලෙස, නිල ලේඛනය බාගත කර, මුද්‍රණය කර භාර දීමෙන් ඔබට ලිඛිත ඉල්ලුම්පතක් ඉදිරිපත් කළ හැකිය.',
+        'ta' => 'மாற்றாக, உத்தியோகபூர்வ படிவத்தைப் பதிவிறக்கம் செய்து, அச்சிட்டு சமர்ப்பிப்பதன் மூலம் நீங்கள் நேரடியாக விண்ணப்பிக்கலாம்.'
+    ],
+    'download_pdf_form' => [
+        'en' => 'Download PDF Form',
+        'si' => 'PDF ඉල්ලුම්පත බාගත කරන්න',
+        'ta' => 'PDF படிவப் பதிவிறக்கம்'
+    ],
+    'location_contact_title' => [
+        'en' => 'Location & Contact',
+        'si' => 'ස්ථානය සහ සන්නිවේදනය',
+        'ta' => 'இருப்பிடம் மற்றும் தொடர்பு'
+    ],
+    'tel_fax_lbl' => [
+        'en' => 'Telephone / Fax',
+        'si' => 'දුරකථන / ෆැක්ස්',
+        'ta' => 'தொலைபேசி / தொலைநகல்'
+    ],
+    'email_contact_lbl' => [
+        'en' => 'Email Contact',
+        'si' => 'විද්‍යුත් තැපැල් සම්බන්ධතාව',
+        'ta' => 'மின்னஞ்சல் தொடர்பு'
+    ],
+    'ampara_bungalow_address' => [
+        'en' => 'Ministry of Labour Circuit Bungalow, Ampara',
+        'si' => 'කම්කරු අමාත්‍යාංශ සංචාරක බංගලාව, අම්පාර',
+        'ta' => 'தொழில் அமைச்சு சுற்றுலா பங்களா, அம்பாறை'
+    ],
+
     // ===========================================================================
     // SECTION 7: CONTACT US & COMPLAINTS PAGE
     // ===========================================================================
@@ -1028,8 +1389,8 @@ $lang_dict = [
     ],
     'contact_subtitle' => [
         'en' => 'Stay updated with Ministry of Labour',
-        'si' => 'කම්කරු අමාත්‍යාංශය සමඟ සම්බන්ධ වන්න',
-        'ta' => 'தொழிலாளர் அமைச்சுடன் புதுப்பிக்கப்பட்டிருங்கள்'
+        'si' => 'කම්කරු අමාත්‍යාංශය හා සම්බන්ධ වන්න',
+        'ta' => 'தொழில் அமைச்சுடன் இணைந்திருங்கள்'
     ],
     'address' => [
         'en' => 'Address',
@@ -1043,7 +1404,7 @@ $lang_dict = [
     ],
     'fax' => [
         'en' => 'Fax',
-        'si' => 'ෆැක්ස්',
+        'si' => 'ෆැක්ස් අංකය',
         'ta' => 'தொலைநகல்'
     ],
     'email_address' => [
@@ -1054,7 +1415,7 @@ $lang_dict = [
     'full_name' => [
         'en' => 'Full Name',
         'si' => 'සම්පූර්ණ නම',
-        'ta' => 'முழு பெயர்'
+        'ta' => 'முழுப் பெயர்'
     ],
     'message' => [
         'en' => 'Message',
@@ -1069,49 +1430,54 @@ $lang_dict = [
     'leave_a_message' => [
         'en' => 'Leave Us A Message',
         'si' => 'අපට පණිවිඩයක් තබන්න',
-        'ta' => 'எங்களுக்கு ஒரு செய்தி விடுங்கள்'
+        'ta' => 'எங்களுக்கு ஒரு செய்தி அனுப்புங்கள்'
     ],
     'contact_numbers' => [
         'en' => 'Contact Numbers',
-        'si' => 'සම්බන්ධ කිරීමේ අංක',
-        'ta' => 'தொடர்பு இலக்கங்கள்'
+        'si' => 'සන්නිවේදන දුරකථන අංක',
+        'ta' => 'தொடர்பு எண்கள்'
     ],
     'complaints' => [
         'en' => 'Complaints',
         'si' => 'පැමිණිලි',
-        'ta' => 'புகார்கள்'
+        'ta' => 'முறைப்பாடுகள்'
     ],
     'submit_complaint' => [
         'en' => 'Submit Complaint',
         'si' => 'පැමිණිල්ල ඉදිරිපත් කරන්න',
-        'ta' => 'புகார் சமர்ப்பிக்கவும்'
+        'ta' => 'முறைப்பாட்டைச் சமர்ப்பிக்கவும்'
     ],
     'lodge_complaint' => [
         'en' => 'Lodge a Formal Complaint',
         'si' => 'නිල පැමිණිල්ලක් ඉදිරිපත් කරන්න',
-        'ta' => 'முறையான புகாரை பதிவு செய்யுங்கள்'
+        'ta' => 'முறையான முறைப்பாட்டைச் சமர்ப்பிக்கவும்'
     ],
     'how_can_we_help' => [
         'en' => 'How can we help you?',
         'si' => 'අපට ඔබට කෙසේ උපකාර කළ හැකිද?',
         'ta' => 'நாங்கள் உங்களுக்கு எவ்வாறு உதவலாம்?'
     ],
+    'contact_address' => [
+        'en' => '6th floor, Mehewara Piyasa, Narahenpita, Colombo 05, Sri Lanka.',
+        'si' => '6 වන මහල, "මෙහෙවර පියෙස", නාරාහේන්පිට, කොළඹ 05, ශ්‍රී ලංකාව.',
+        'ta' => '6 ஆம் மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05, இலங்கை.'
+    ],
 
     // Form Placeholders
     'ph_full_name' => [
-        'en' => 'John Doe',
-        'si' => 'කමල් පෙරේරා',
-        'ta' => 'கமல் பெரேரா'
+        'en' => 'eg: Kamal Perera',
+        'si' => 'උදා: කමල් පෙරේරා',
+        'ta' => 'உதா: கமால் பெரேரா'
     ],
     'ph_email' => [
-        'en' => 'name@domain.gov.lk',
-        'si' => 'name@domain.gov.lk',
-        'ta' => 'name@domain.gov.lk'
+        'en' => 'eg: name@domain.gov.lk',
+        'si' => 'උදා: name@domain.gov.lk',
+        'ta' => 'உதா: name@domain.gov.lk'
     ],
     'ph_phone' => [
-        'en' => '+94 77 123 4567',
-        'si' => '+94 77 123 4567',
-        'ta' => '+94 77 123 4567'
+        'en' => 'eg: 0771234567',
+        'si' => 'උදා: 0771234567',
+        'ta' => 'உதா: 0771234567'
     ],
 
     // ===========================================================================
@@ -1290,6 +1656,259 @@ $lang_dict = [
         'ta' => 'IAU ஆவணம் 2'
     ],
 
+    // RTI Overview, Vision & Mission
+    'rti_intro' => [
+        'en' => 'At the Ministry of Labour, we are committed to transparency and accountability. In line with this commitment, we fully support the Right to Information (RTI) Act No. 12 of 2016, ensuring that you have easy access to the information you require.',
+        'si' => 'කම්කරු අමාත්‍යාංශය තුළ අපි විනිවිදභාවය සහ වගවීම උදෙසා කැපවී සිටිමු. මෙම කැපවීමට අනුකූලව, 2016 අංක 12 දරන තොරතුරු දැනගැනීමේ අයිතිවාසිකම් (RTI) පනතට අපි පූර්ණ සහාය පළ කරන අතර, ඔබට අවශ්‍ය තොරතුරු පහසුවෙන් ලබා ගැනීමට ඇති අයිතිය තහවුරු කරමු.',
+        'ta' => 'தொழில் அமைச்சில், வெளிப்படைத்தன்மை மற்றும் பொறுப்புக்கூறலுக்கு நாம் அர்ப்பணிப்புடன் செயல்படுகிறோம். இந்த உறுதிப்பாட்டிற்கு இணங்க, 2016 ஆம் ஆண்டின் 12 ஆம் இலக்க தகவல் அறியும் உரிமை (RTI) சட்டத்திற்கு நாங்கள் முழு ஆதரவை வழங்குவதுடன், உங்களுக்குத் தேவையான தகவல்களை எளிதாக அணுகுவதை உறுதிசெய்கிறோம்.'
+    ],
+    'rti_vision_title' => [
+        'en' => 'Vision',
+        'si' => 'දැක්ම',
+        'ta' => 'எமது நோக்கு'
+    ],
+    'rti_vision' => [
+        'en' => 'To ensure the right of citizens of Sri Lanka to access information related to the labour sector.',
+        'si' => 'ශ්‍රී ලංකාවේ පුරවැසියන් සඳහා කම්කරු ක්ෂේත්‍රයට අයත් තොරතුරු වෙත ප්‍රවේශ වීමේ අයිතිය තහවුරු කිරීම.',
+        'ta' => 'இலங்கை குடிமக்களுக்கு தொழில் துறை சார்ந்த தகவல்களை அணுகும் உரிமையை உறுதி செய்தல்.'
+    ],
+    'rti_mission_title' => [
+        'en' => 'Mission',
+        'si' => 'මෙහෙවර',
+        'ta' => 'எமது பணிப்பொறுப்பு'
+    ],
+    'rti_mission' => [
+        'en' => 'To promote and safeguard the right of access to information held by the Ministry of Labour and its affiliated institutions, while providing Sri Lankan citizens with a more effective and efficient service through transparency.',
+        'si' => 'කම්කරු අමාත්‍යාංශය සහ ඊට අනුබද්ධ ආයතන සතුව ඇති තොරතුරු වෙත ප්‍රවේශ වීමේ අයිතිය ප්‍රවර්ධනය කිරීම සහ ආරක්ෂා කිරීමත්, විනිවිදභාවය තුළින් ශ්‍රී ලංකාවේ පුරවැසියන්ට වඩාත් ඵලදායී හා කාර්යක්ෂම සේවාවක් සැපයීමත් අපගේ මෙහෙවරයි.',
+        'ta' => 'தொழில் அமைச்சு மற்றும் அதன் இணைந்த நிறுவனங்கள் வைத்துள்ள தகவல்களை அணுகும் உரிமையை மேம்படுத்துவதும் பாதுகாப்பதும், அதே வேளையில் இலங்கை குடிமக்களுக்கு வெளிப்படைத்தன்மையின் மூலம் மிகவும் பயனுள்ள மற்றும் திறமையான சேவையை வழங்குவதாகும்.'
+    ],
+
+    // RTI Officers Section Labels
+    'rti_officers_title' => [
+        'en' => 'RTI Officers',
+        'si' => 'තොරතුරු දැනගැනීමේ නිලධාරීන්',
+        'ta' => 'தகவல் அறியும் உரிமை அதிகாரிகள்'
+    ],
+    'rti_designated_officer' => [
+        'en' => 'Designated Officer',
+        'si' => 'නම්කළ නිලධාරී',
+        'ta' => 'நியமிக்கப்பட்ட அதிகாரி'
+    ],
+    'rti_information_officer' => [
+        'en' => 'Information Officer',
+        'si' => 'තොරතුරු නිලධාරී',
+        'ta' => 'தகவல் அதிகாரி'
+    ],
+    'rti_central_officer' => [
+        'en' => 'Central Officer',
+        'si' => 'කේන්ද්‍රීය නිලධාරී',
+        'ta' => 'மத்திய அதிகாரி'
+    ],
+    'rti_name_lbl' => [
+        'en' => 'Name',
+        'si' => 'නම',
+        'ta' => 'பெயர்'
+    ],
+    'rti_designation_lbl' => [
+        'en' => 'Designation',
+        'si' => 'තනතුර',
+        'ta' => 'பதவி'
+    ],
+    'rti_address_lbl' => [
+        'en' => 'Address',
+        'si' => 'ලිපිනය',
+        'ta' => 'முகவரி'
+    ],
+    'rti_tel_lbl' => [
+        'en' => 'Telephone',
+        'si' => 'දුරකථන අංකය',
+        'ta' => 'தொலைபேசி'
+    ],
+    'rti_fax_lbl' => [
+        'en' => 'Fax',
+        'si' => 'ෆැක්ස් අංකය',
+        'ta' => 'தொலைநகல்'
+    ],
+    'rti_email_lbl' => [
+        'en' => 'Email',
+        'si' => 'ඊමේල් ලිපිනය',
+        'ta' => 'மின்னஞ்சல்'
+    ],
+    'rti_more_info_title' => [
+        'en' => 'For more information',
+        'si' => 'වැඩිදුර තොරතුරු සඳහා',
+        'ta' => 'மேலும் தகவலுக்கு'
+    ],
+    'rti_more_info_desc' => [
+        'en' => 'Visit the official government Right to Information portal for forms, rules, and further circulars.',
+        'si' => 'ආකෘති පත්‍ර, රීති සහ වැඩිදුර චක්‍රලේඛ සඳහා රජයේ නිල තොරතුරු දැනගැනීමේ ද්වාරය වෙත පිවිසෙන්න.',
+        'ta' => 'படிவங்கள், விதிகள் மற்றும் மேலதிக சுற்றறிக்கைகளுக்கு அரசாங்கத்தின் உத்தியோகபூர்வ தகவல் அறியும் இணையத்தளத்திற்கு விஜயம் செய்யுங்கள்.'
+    ],
+    'rti_central_officer_desc' => [
+        'en' => 'Responsible for the coordination of RTI applications and processes within the Ministry of Labour.',
+        'si' => 'කම්කරු අමාත්‍යාංශයේ තොරතුරු දැනගැනීමේ අයදුම්පත් සහ සම්බන්ධීකරණ කටයුතු භාර නිලධාරී.',
+        'ta' => 'தொழில் அமைச்சின் தகவல் அறியும் விண்ணப்பங்கள் மற்றும் ஒருங்கிணைப்புக்கு பொறுப்பான அதிகாரி.'
+    ],
+
+    // RTI Guidelines, Notices & Complaints
+    'rti_section_subtitle' => [
+        'en' => 'Guidelines & Downloads',
+        'si' => 'මාර්ගෝපදේශ සහ බාගත කිරීම්',
+        'ta' => 'வழிகாட்டல்கள் & பதிவிறக்கங்கள்'
+    ],
+    'rti_section_title' => [
+        'en' => 'Forms & Details',
+        'si' => 'අයදුම්පත් සහ තොරතුරු',
+        'ta' => 'விண்ணப்பங்கள் & விபரங்கள்'
+    ],
+    'rti_act_intro' => [
+        'en' => 'Sri Lanka’s Right to Information (RTI) Act comes into effect by bringing with it a promise of open government, citizens’ active participation in governance, and accountability to the people of the country.',
+        'si' => 'ශ්‍රී ලංකා තොරතුරු දැනගැනීමේ අයිතිවාසිකම් (RTI) පනත ක්‍රියාත්මක වීමත් සමඟ විවෘත රාජ්‍ය පාලනයක්, පුරවැසියන්ගේ සක්‍රීය සහභාගිත්වය සහ වගවීම සහතික කෙරේ.',
+        'ta' => 'இலங்கையின் தகவல் அறியும் உரிமை (RTI) சட்டம் நடைமுறைக்கு வருவதன் மூலம் திறந்த அரசாங்கமும், குடிமக்களின் தீவிர பங்கேற்பும், பொறுப்புக்கூறலும் உறுதி செய்யப்படுகிறது.'
+    ],
+    'rti_complaints_title' => [
+        'en' => 'Complaints & Labour Laws Information',
+        'si' => 'පැමිණිලි සහ කම්කරු නීති තොරතුරු',
+        'ta' => 'முறைப்பாடுகள் & தொழிலாளர் சட்டங்கள் தகவல்'
+    ],
+    'rti_complaints_text_1' => [
+        'en' => 'Note: The information on the progress related to the investigations of the complaints which forwarded to the Department of Labour and the measures taken in respect of those complaints can directly be obtained by the parties to such complaints. The requests for such information do not need to be made under the Right to Information Act. Further, if a court action has already been taken regarding the matters related to an investigation, the request is forwarded to the Court and upon the permission of the Court information is provided to the respective parties.',
+        'si' => 'සටහන: කම්කරු දෙපාර්තමේන්තුව වෙත යොමු කරන ලද පැමිණිලි සම්බන්ධයෙන් සිදු කෙරෙන විමර්ශනවල ප්‍රගතිය සහ එම පැමිණිලි සම්බන්ධයෙන් ගෙන ඇති පියවර පිළිබඳ තොරතුරු අදාළ පැමිණිලිකාර පාර්ශවයන්ට සෘජුවම ලබා ගත හැක. ඒ සඳහා තොරතුරු දැනගැනීමේ පනත යටතේ ඉල්ලීම් ඉදිරිපත් කිරීමට අවශ්‍ය නොවේ. තවද, කිසියම් පැමිණිල්ලක් සම්බන්ධයෙන් දැනටමත් අධිකරණ ක්‍රියාමාර්ග ගෙන තිබේ නම්, එම ඉල්ලීම අධිකරණය වෙත යොමු කෙරෙන අතර අධිකරණයේ අවසරය මත අදාළ පාර්ශවයන්ට තොරතුරු සපයනු ලැබේ.',
+        'ta' => 'குறிப்பு: தொழிலாளர் திணைக்களத்திற்கு அனுப்பப்பட்ட முறைப்பாடுகள் தொடர்பான விசாரணைகளின் முன்னேற்றம் மற்றும் எடுக்கப்பட்ட நடவடிக்கைகள் பற்றிய தகவல்களை முறைப்பாட்டாளர்கள் நேரடியாகப் பெற்றுக் கொள்ளலாம். இதற்காக தகவல் அறியும் உரிமைச் சட்டத்தின் கீழ் கோரிக்கை விடுக்கத் தேவையில்லை. மேலும், ஒரு விசாரணை தொடர்பான விடயங்களில் ஏற்கனவே நீதிமன்ற நடவடிக்கை எடுக்கப்பட்டிருந்தால், கோரிக்கை நீதிமன்றத்திற்கு மாற்றப்பட்டு நீதிமன்றத்தின் அனுமதியுடன் சம்பந்தப்பட்ட தரப்பினருக்கு தகவல் வழங்கப்படும்.'
+    ],
+    'rti_complaints_text_2' => [
+        'en' => 'However, in the event of an outside party to a complaint requests the information on the complaint or the information on the investigation made in relation to the complaint, it will be ascertained whether a court action has already been taken on the complaint or whether there is a possibility to take a court action in future. Considering the said facts, only the disclosable information will be provided to the requesting party.',
+        'si' => 'කෙසේ වෙතත්, පැමිණිල්ලකට සම්බන්ධ නොවන බාහිර පාර්ශවයක් විසින් පැමිණිල්ලක විමර්ශන ප්‍රගතිය හෝ තොරතුරු ඉල්ලා සිටින අවස්ථාවකදී, එම පැමිණිල්ල සම්බන්ධයෙන් දැනටමත් අධිකරණ ක්‍රියාමාර්ග ගෙන තිබේද නැතහොත් අනාගතයේදී අධිකරණ ක්‍රියාමාර්ග ගැනීමට හැකියාවක් පවතීද යන්න සොයා බලා, අනාවරණය කළ හැකි තොරතුරු පමණක් ලබා දෙනු ඇත.',
+        'ta' => 'எவ்வாறாயினும், ஒரு முறைப்பாட்டுடன் தொடர்பில்லாத வெளி தரப்பினர் முறைப்பாடு அல்லது விசாரணை பற்றிய தகவல்களைக் கோரும் சந்தர்ப்பத்தில், நீதிமன்ற நடவடிக்கை எடுக்கப்பட்டுள்ளதா அல்லது எதிர்காலத்தில் நீதிமன்ற நடவடிக்கை எடுப்பதற்கான சாத்தியக்கூறுகள் உள்ளதா என்பது கண்டறியப்பட்டு, வெளிப்படுத்தக்கூடிய தகவல்கள் மட்டுமே வழங்கப்படும்.'
+    ],
+    'rti_complaints_text_3' => [
+        'en' => 'Since all the ordinances, Acts, regulations, formats and set of instructions pertinent to all the labour laws have already been published on the web site, requests need not to be made under the Right to information Act to obtain such documents or information on such ordinances, Acts, regulations, formats and set of instructions. Those can directly be obtained though the web site. Moreover, if need further clarification on these matters it can be obtained through your nearest Labour office. Telephone numbers of all the Labour offices have been published on the web site. (This is not included disclosing the information to the media.)',
+        'si' => 'සියලුම කම්කරු නීතිවලට අදාළ ආඥාපනත්, පනත්, රීති සහ උපදෙස් මාලා දැනටමත් වෙබ් අඩවියේ පළ කර ඇති බැවින්, එම ලේඛන හෝ තොරතුරු ලබා ගැනීමට තොරතුරු දැනගැනීමේ පනත යටතේ ඉල්ලීම් ඉදිරිපත් කිරීමට අවශ්‍ය නොවේ. ඒවා සෘජුවම වෙබ් අඩවියෙන් බාගත හැක. වැඩිදුර තොරතුරු අවශ්‍ය නම් ළඟම ඇති කම්කරු කාර්යාලයෙන් ලබාගත හැක. සියලුම කම්කරු කාර්යාලවල දුරකථන අංක වෙබ් අඩවියේ පළ කර ඇත. (මෙයට මාධ්‍ය වෙත තොරතුරු අනාවරණය කිරීම ඇතුළත් නොවේ.)',
+        'ta' => 'அனைத்து தொழிலாளர் சட்டங்கள் தொடர்பான கட்டளைகள், சட்டங்கள், ஒழுங்குவிதிகள் மற்றும் அறிவுறுத்தல்கள் ஏற்கனவே இணையதளத்தில் வெளியிடப்பட்டுள்ளதால், அத்தகைய ஆவணங்களைப் பெறுவதற்கு தகவல் அறியும் சட்டத்தின் கீழ் விண்ணப்பிக்கத் தேவையில்லை. அவற்றை இணையதளத்தில் நேரடியாகப் பெற்றுக்கொள்ளலாம். மேலதிக விபரங்களுக்கு அருகிலுள்ள தொழிலாளர் அலுவலகத்தை தொடர்பு கொள்ளவும். (இது ஊடகங்களுக்கு தகவல் வெளியிடுவதை உள்ளடக்காது.)'
+    ],
+    'rti_request_title' => [
+        'en' => 'Notice: Submitting Information Requests',
+        'si' => 'නිවේදනය: තොරතුරු ඉල්ලීම් ඉදිරිපත් කිරීම',
+        'ta' => 'அறிவித்தல்: தகவல் கோரிக்கைகளை சமர்ப்பித்தல்'
+    ],
+    'rti_request_intro' => [
+        'en' => 'In accordance with the Right to Information Act, No. 12 of 2016, requests for Information should be made to the following Information Officer by completing and handing over a request preferably in the manner prescribed in the Form RTI 01 although this is not mandatory.',
+        'si' => '2016 අංක 12 දරන තොරතුරු දැනගැනීමේ අයිතිවාසිකම් පනතට අනුකූලව, තොරතුරු ලබාගැනීම සඳහා වන ඉල්ලීම් RTI 01 ආකෘති පත්‍රය මඟින් හෝ ලිඛිතව තොරතුරු නිලධාරියා වෙත ඉදිරිපත් කළ යුතුය.',
+        'ta' => '2016 ஆம் ஆண்டின் 12 ஆம் இலக்க தகவல் அறியும் உரிமைச் சட்டத்தின்படி, தகவல்களுக்கான கோரிக்கைகளை RTI 01 படிவம் மூலமாக அல்லது எழுத்துப்பூர்வமாக தகவல் அதிகாரிக்கு சமர்ப்பிக்க வேண்டும்.'
+    ],
+    'rti_request_list_1' => [
+        'en' => 'Upon making the request for information, either in verbal or written form obtain the written acknowledgment from the Information Officer.',
+        'si' => 'තොරතුරු ඉල්ලීම වාචිකව හෝ ලිඛිතව ඉදිරිපත් කළ පසු, තොරතුරු නිලධාරියාගෙන් ලිඛිත පිළිගැනීමේ පත්‍රයක් ලබා ගන්න.',
+        'ta' => 'தகவல் கோரிக்கையை வாய்மொழியாக அல்லது எழுத்துப்பூர்வமாக சமர்ப்பித்ததும், தகவல் அதிகாரியிடமிருந்து எழுத்துப்பூர்வ ஒப்புதலைப் பெற்றுக்கொள்ளவும்.'
+    ],
+    'rti_request_list_2' => [
+        'en' => 'The decision whether to grant the information or not shall be given as expeditiously as possible and in any case within 14 days.',
+        'si' => 'තොරතුරු ලබා දෙන්නේද නැද්ද යන්න පිළිබඳ තීරණය හැකි ඉක්මනින් සහ දින 14ක් ඇතුළත ලබා දිය යුතුය.',
+        'ta' => 'தகவல் வழங்குவதா இல்லையா என்ற முடிவு கூடிய விரைவில் மற்றும் 14 நாட்களுக்குள் வழங்கப்பட வேண்டும்.'
+    ],
+    'rti_request_list_3' => [
+        'en' => 'If a decision is made to provide the information, the information officer will inform the citizen making the request that the information will be provided on the payment of a fee in accordance with the Fee Schedule prescribed by the Right to Information Commission. If the information is subject to payment of fee, the information shall be provided within 14 days of the payment. Information will be provided within 14 days of the decision if there is no requirement to pay a fee.',
+        'si' => 'තොරතුරු සැපයීමට තීරණය කරන්නේ නම්, තොරතුරු කොමිෂන් සභාව නියම කර ඇති ගාස්තු ගෙවීමෙන් පසු තොරතුරු ලබා දෙන බව තොරතුරු නිලධාරියා දැනුම් දෙනු ඇත. ගාස්තු ගෙවා දින 14ක් ඇතුළත තොරතුරු ලබා දිය යුතුය. ගාස්තුවක් අය නොකෙරේ නම් තීරණය ගෙන දින 14ක් ඇතුළත තොරතුරු සැපයිය යුතුය.',
+        'ta' => 'தகவல் வழங்க முடிவு செய்யப்பட்டால், தகவல் அறியும் ஆணையம் பரிந்துரைத்துள்ள கட்டணத்தைச் செலுத்தியதும் தகவல் வழங்கப்படும் என்று தகவல் அதிகாரி அறிவிப்பார். கட்டணம் செலுத்தி 14 நாட்களுக்குள் தகவல் வழங்கப்பட வேண்டும். கட்டணம் எதுவும் தேவையில்லை எனில் முடிவு எடுக்கப்பட்டு 14 நாட்களுக்குள் தகவல் வழங்கப்பட வேண்டும்.'
+    ],
+    'rti_request_list_4' => [
+        'en' => 'If, after payment of fees the information cannot be provided within 14 days, the person making the request will be informed that there will be a further extension period – up to a maximum of 21 days – to provide the information and given reasons for the extension.',
+        'si' => 'ගාස්තු ගෙවීමෙන් පසුවද දින 14ක් ඇතුළත තොරතුරු ලබා දීමට නොහැකි නම්, ඒ සඳහා හේතු දක්වමින් තොරතුරු සැපයීම උපරිම දින 21ක් දක්වා දීර්ඝ කරන බව අයදුම්කරුට දැනුම් දෙනු ලැබේ.',
+        'ta' => 'கட்டணம் செலுத்திய பின்னரும் 14 நாட்களுக்குள் தகவலை வழங்க முடியாவிட்டால், அதற்கான காரணங்களுடன் தகவல் வழங்குவது அதிகபட்சமாக 21 நாட்கள் வரை நீட்டிக்கப்படும் என்று விண்ணப்பதாரருக்கு அறிவிக்கப்படும்.'
+    ],
+    'rti_request_list_5' => [
+        'en' => 'When the request relates to the life and personal liberty of a citizen the information officer shall provide a response to the request within 48 hours.',
+        'si' => 'ඉල්ලීම පුරවැසියෙකුගේ ජීවිතයට හෝ පුද්ගලික නිදහසට අදාළ වන විට, පැය 48ක් ඇතුළත ඊට ප්‍රතිචාර දැක්විය යුතුය.',
+        'ta' => 'கோரிக்கை ஒரு குடிமகனின் உயிர் அல்லது தனிப்பட்ட சுதந்திரம் தொடர்பானது எனில், 48 மணி நேரத்திற்குள் பதிலளிக்கப்பட வேண்டும்.'
+    ],
+
+    // RTI Appeals Process & Download Box
+    'rti_appeals_title' => [
+        'en' => 'Notice: Appeals Process',
+        'si' => 'නිවේදනය: අභියාචනා ක්‍රියාවලිය',
+        'ta' => 'அறிவித்தல்: மேன்முறையீட்டு செயல்முறை'
+    ],
+    'rti_appeals_intro' => [
+        'en' => 'An appeal may be made in situations where:',
+        'si' => 'පහත සඳහන් අවස්ථාවලදී නම් කරන ලද නිලධාරියා වෙත අභියාචනයක් ඉදිරිපත් කළ හැකිය:',
+        'ta' => 'பின்வரும் சூழ்நிலைகளில் நியமிக்கப்பட்ட அதிகாரிக்கு மேன்முறையீடு செய்யலாம்:'
+    ],
+    'rti_appeals_item_1' => [
+        'en' => 'The Information Officer refuses a request made for information',
+        'si' => 'තොරතුරු නිලධාරියා තොරතුරු සැපයීම ප්‍රතික්ෂේප කිරීම',
+        'ta' => 'தகவல் அதிகாரி தகவலை வழங்க மறுப்பது'
+    ],
+    'rti_appeals_item_2' => [
+        'en' => 'The Information Officer refuses access to the information on the ground that such information is exempted from being granted under Section 5',
+        'si' => '5 වන වගන්තිය යටතේ නිදහස් කර ඇති තොරතුරු බව පවසමින් ප්‍රවේශය ප්‍රතික්ෂේප කිරීම',
+        'ta' => 'பிரிவு 5 இன் கீழ் விலக்கு அளிக்கப்பட்ட தகவல் எனக் கூறி அணுகலை மறுப்பது'
+    ],
+    'rti_appeals_item_3' => [
+        'en' => 'Non-compliance with time frames specified in the Act',
+        'si' => 'පනතේ දක්වා ඇති කාලසීමාවන් නොපිළිපැදීම',
+        'ta' => 'சட்டவழிகளில் குறிப்பிடப்பட்டுள்ள காலக்கெடுவைக் கடைப்பிடிக்காமை'
+    ],
+    'rti_appeals_item_4' => [
+        'en' => 'The Information Officer granted incomplete, misleading or false information',
+        'si' => 'අසම්පූර්ණ, නොමඟ යවන හෝ වැරදි තොරතුරු සැපයීම',
+        'ta' => 'அரைகுறையான, தவறான தகவல்களை வழங்கியமை'
+    ],
+    'rti_appeals_item_5' => [
+        'en' => 'The Information Officer charged excessive fees',
+        'si' => 'අධික ගාස්තු අය කිරීම',
+        'ta' => 'அதிகப்படியான கட்டணம் வசூலித்தமை'
+    ],
+    'rti_appeals_item_6' => [
+        'en' => 'The Information Officer refused to provide information in the form requested',
+        'si' => 'ඉල්ලූ ආකෘතියෙන් තොරතුරු සැපයීම ප්‍රතික්ෂේප කිරීම',
+        'ta' => 'கேட்கப்பட்ட வடிவில் தகவல்களை வழங்க மறுப்பது'
+    ],
+    'rti_appeals_item_7' => [
+        'en' => 'The citizen making the request had reasonable grounds to believe that information has been deformed, destroyed or misplaced to prevent him/her from having access to the information',
+        'si' => 'තොරතුරු විකෘති කර, විනාශ කර හෝ අස්ථානගත කර ඇති බවට අයදුම්කරුට සාධාරණ සැකයක් ඇති වීම',
+        'ta' => 'தகவல் சிதைக்கப்பட்டு, அழிக்கப்பட்டு அல்லது தவறவிடப்பட்டுள்ளது என்று விண்ணப்பதாரருக்கு நியாயமான காரணம் இருப்பது'
+    ],
+    'rti_appeals_outro' => [
+        'en' => 'When making an appeal as mentioned in s.6 of this notice, complete and hand over Form RTI 10, to the Designated Officer. The RTI 10 Form is not compulsory. A citizen making a request can make the appeal by a letter with the basic information indicated in RTI 10 justifying the appeal.',
+        'si' => 'නම් කරන ලද නිලධාරියා වෙත අභියාචනයක් ඉදිරිපත් කිරීමේදී RTI 10 ආකෘති පත්‍රය සම්පූර්ණ කර භාර දෙන්න. RTI 10 පත්‍රය අනිවාර්ය නොවන අතර, අයදුම්කරුට ලිපියක් මඟින්ද අභියාචනය ඉදිරිපත් කළ හැක.',
+        'ta' => 'நியமிக்கப்பட்ட அதிகாரிக்கு மேன்முறையீடு செய்யும்போது RTI 10 படிவத்தைப் பூர்த்தி செய்து சமர்ப்பிக்கவும். RTI 10 படிவம் கட்டாயமில்லை, கடிதம் மூலமாகவும் மேன்முறையீடு செய்ய முடியும்.'
+    ],
+    'rti_download_box_title' => [
+        'en' => 'Downloads & Forms',
+        'si' => 'නිල පෝරම සහ සබැඳි',
+        'ta' => 'வழிகாட்டல்கள் & பதிவிறக்கங்கள்'
+    ],
+    'rti_download_box_desc' => [
+        'en' => 'Access and download the official Right to Information documents, forms, and regulations.',
+        'si' => 'තොරතුරු දැනගැනීමේ අයිතියට අදාළ නිල ලේඛන, පෝරම සහ රීති බාගත කරගන්න.',
+        'ta' => 'தகவல் அறியும் உரிமை தொடர்பான உத்தியோகபூர்வ ஆவணங்கள், படிவங்கள் மற்றும் விதிகளைப் பதிவிறக்கம் செய்யவும்.'
+    ],
+    'rti_doc_1' => [
+        'en' => 'Right to Information Act, No. 12 of 2016',
+        'si' => '2016 අංක 12 දරන තොරතුරු දැනගැනීමේ අයිතිවාසිකම් පනත',
+        'ta' => '2016 ஆம் ஆண்டின் 12 ஆம் இலக்க தகவல் அறியும் உரிமைச் சட்டம்'
+    ],
+    'rti_doc_2' => [
+        'en' => 'Regulations promulgated on 03.02.2017',
+        'si' => '2017.02.03 දින ප්‍රකාශයට පත් කරන ලද රීති',
+        'ta' => '03.02.2017 திகதியில் பிரகடனப்படுத்தப்பட்ட ஒழுங்குவிதிகள்'
+    ],
+    'rti_doc_3' => [
+        'en' => 'Application to receive information (RTI 01)',
+        'si' => 'තොරතුරු ලබාගැනීම සඳහා වන අයදුම්පත (RTI 01)',
+        'ta' => 'தகவல்களைப் பெறுவதற்கான விண்ணப்பப் படிவம் (RTI 01)'
+    ],
+    'rti_doc_4' => [
+        'en' => 'Appeal form (RTI 10)',
+        'si' => 'අභියාචනා පත්‍රය (RTI 10)',
+        'ta' => 'மேன்முறையீட்டுப் படிவம் (RTI 10)'
+    ],
+    'rti_doc_5' => [
+        'en' => 'Information Officers List of Dept. of Labour',
+        'si' => 'කම්කරු දෙපාර්තමේන්තුවේ තොරතුරු නිලධාරීන්ගේ ලැයිස්තුව',
+        'ta' => 'தொழில் திணைக்களத்தின் தகவல் அதிகாரிகளின் பட்டியல்'
+    ],
+
     // ===========================================================================
     // SECTION 9: SINGLE ARTICLE PAGE & BLOG
     // ===========================================================================
@@ -1337,7 +1956,12 @@ $lang_dict = [
     'msg_error_occurred' => [
         'en' => 'An error occurred. Please try again later.',
         'si' => 'දෝෂයක් සිදු විය. පසුව නැවත උත්සාහ කරන්න.',
-        'ta' => 'ஒரு பிழை ஏற்பட்டது. பின்னர் மீண்டும் முயற்சிக்கவும்.'
+        'ta' => 'ஒரு பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.'
+    ],
+    'sending' => [
+        'en' => 'Sending...',
+        'si' => 'යවමින් පවතී...',
+        'ta' => 'அனுப்பப்படுகிறது...'
     ],
 
     // Form Field Validation Error Messages
@@ -1352,9 +1976,9 @@ $lang_dict = [
         'ta' => 'தயவுசெய்து செல்லுபடியாகும் மின்னஞ்சல் முகவரியை உள்ளிடவும்.'
     ],
     'val_phone_invalid' => [
-        'en' => 'Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 11 258 1991).',
-        'si' => 'කරුණාකර නිවැරදි ශ්‍රී ලාංකික දුරකථන අංකයක් ඇතුළත් කරන්න (උදා: 077 123 4567 හෝ +94 11 258 1991).',
-        'ta' => 'தயவுசெய்து செல்லுபடியாகும் இலங்கை தொலைபேசி எண்ணை உள்ளிடவும் (எ.கா. 077 123 4567 அல்லது +94 11 258 1991).'
+        'en' => 'Please enter a valid phone number (exactly 10 digits starting with 0).',
+        'si' => 'කරුණාකර නිවැරදි දුරකථන අංකයක් ඇතුළත් කරන්න (0 න් ආරම්භ වන ඉලක්කම් 10 ක්).',
+        'ta' => 'தயவுசெய்து செல்லுபடியாகும் தொலைபேசி எண்ணை உள்ளிடவும் (0 இல் தொடங்கும் சரியாக 10 இலக்கங்கள்).'
     ],
     'val_message_short' => [
         'en' => 'Message must be at least 10 characters long.',
@@ -1458,7 +2082,7 @@ if (!function_exists('get_division_translation')) {
             'internal-audit' => [
                 'en' => $isOfficial ? 'Internal Audit' : 'Internal Audit Division',
                 'si' => $isOfficial ? 'අභ්‍යන්තර විගණන' : 'අභ්‍යන්තර විගණන අංශය',
-                'ta' => $isOfficial ? 'உள்நாட்டு கணக்காய்வு' : 'உள்ளக கணக்காய்வு பிரிவு'
+                'ta' => $isOfficial ? 'உள்ளகக் கணக்காய்வு' : 'உள்ளக கணக்காய்வு பிரிவு'
             ],
             'rti-officers' => [
                 'en' => 'RTI Officers',

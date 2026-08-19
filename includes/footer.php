@@ -177,14 +177,14 @@
                     <p class="text-gray-300 text-sm font-inter leading-relaxed mb-6">
                         <?= t('footer_motto') ?>
                     </p>
-                    <p class="text-gray-300 text-sm font-inter leading-relaxed mb-4">
-                        <?= t('subscribe_title') ?>
-                    </p>
                     <div class="mb-4">
                         <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
-                            <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-4 py-2.5 rounded-l-lg w-full focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-sm font-inter transition-all duration-300">
-                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
+                            <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-3 sm:px-4 py-2.5 rounded-l-lg w-full min-w-0 focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-xs sm:text-sm font-inter transition-all duration-300">
+                            <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-3 sm:px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-xs sm:text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
                         </form>
+                        <p class="text-gray-400 text-[11px] sm:text-xs font-inter leading-relaxed mt-2.5 opacity-85">
+                            <?= t('subscribe_title') ?>
+                        </p>
                     </div>
                 </div>
                 

@@ -213,7 +213,7 @@ include 'includes/header.php';
                 <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
             </div>
-            <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
+            <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto whitespace-nowrap">
                 <svg class="w-4 h-4 text-slate-450 group-hover:text-secondary group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
                 Back to News
             </a>
@@ -254,7 +254,7 @@ include 'includes/header.php';
                             <div>
                                 <div class="flex justify-between items-center mb-2">
                                     <label class="block text-[13px] font-semibold text-gray-800">News Title (English) <span class="text-red-500">*</span></label>
-                                    <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                    <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
                                         Auto Translate Title
                                     </button>
@@ -264,7 +264,7 @@ include 'includes/header.php';
                             <div>
                                 <div class="flex justify-between items-center mb-2">
                                     <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span class="text-red-500">*</span></label>
-                                    <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                                    <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
                                         Auto Translate Body
                                     </button>
@@ -371,30 +371,30 @@ include 'includes/header.php';
                     <div class="sticky bottom-4 z-50 bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-white/50 flex flex-col sm:flex-row gap-4 justify-between items-center mt-8 ring-1 ring-slate-900/5">
                         <div>
                             <?php if ($article): ?>
-                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-rose-200/60 text-rose-500 hover:bg-rose-50 rounded-xl text-[13px] font-bold transition-all inline-flex items-center justify-center">
+                                <a href="news?delete=<?= $article['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this news item?" class="w-full sm:w-auto px-4 py-2 border border-rose-200/60 text-rose-500 hover:bg-rose-50 rounded-xl text-[13px] font-bold transition-all inline-flex items-center justify-center whitespace-nowrap">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     Delete Article
                                 </a>
                             <?php endif; ?>
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center shadow-sm">
+                            <a href="news" data-confirm="Are you sure you want to cancel? Any unsaved changes will be lost." class="w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-[13px] font-bold hover:bg-slate-50 transition-all bg-white text-center flex items-center justify-center shadow-sm whitespace-nowrap">
                                 Cancel
                             </a>
                             <?php if (!$article || $article['status'] === 'Draft' || $article['status'] === 'Pending Approval'): ?>
-                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 hover:text-secondary hover:border-secondary/30 transition-all bg-white shadow-sm flex items-center justify-center gap-2">
+                            <button type="submit" name="save_draft" value="1" formnovalidate class="js-save-draft w-full sm:w-auto px-6 py-2.5 border border-slate-200 text-slate-700 rounded-xl text-[13px] font-bold hover:bg-slate-50 hover:text-secondary hover:border-secondary/30 transition-all bg-white shadow-sm flex items-center justify-center gap-2 whitespace-nowrap">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                                 <?= $article ? 'Save Draft' : 'Save as Draft' ?>
                             </button>
                             <?php endif; ?>
                             <?php if (hasPermission('approve_news')): ?>
-                            <button type="submit" name="publish" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-secondary to-[#6a0000] text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(78,0,0,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                            <button type="submit" name="publish" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-secondary to-[#6a0000] text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(78,0,0,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap">
                                 <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                                 <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                 <span class="relative z-10"><?= $article && $article['status'] === 'Published' ? 'Update News' : 'Publish News' ?></span>
                             </button>
                             <?php else: ?>
-                            <button type="submit" name="submit_approval" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden">
+                            <button type="submit" name="submit_approval" value="1" class="relative group w-full sm:w-auto px-8 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-xl text-[13px] font-bold hover:shadow-[0_8px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2 overflow-hidden whitespace-nowrap">
                                 <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                                 <svg class="w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                                 <span class="relative z-10"><?= $article && $article['status'] === 'Pending Approval' ? 'Update Request' : 'Submit for Approval' ?></span>

@@ -1,6 +1,15 @@
 <?php
 // ampara-circuit-bungalow.php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$current_lang = 'en';
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_GET['lang'];
+} elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
+    $current_lang = $_SESSION['lang'];
+}
+
 require_once 'admin/includes/db.php';
 
 $success = isset($_GET['success']) && $_GET['success'] == 1;
@@ -67,17 +76,17 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// Old booking logic removed. Booking is now handled in ampara-circuit-bungalow-booking.php
-// ampara-circuit-bungalow.php
-$page_title = 'Ampara Circuit Bungalow';
-$pageTitle = 'Ampara Circuit Bungalow - Ministry of Labour - Sri Lanka';
+include 'includes/header.php';
+
+$page_title = t('ampara_bungalow', 'Ampara Circuit Bungalow');
+$pageTitle = t('ampara_bungalow', 'Ampara Circuit Bungalow') . ' - Ministry of Labour - Sri Lanka';
 $metaDescription = 'Book the Ampara Circuit Bungalow. Discover accommodation details, room types, pricing, and amenities for your stay in Ampara, Sri Lanka.';
 $metaKeywords = 'Ampara Circuit Bungalow, Booking, Accommodation, Ministry of Labour, Sri Lanka';
 $breadcrumbs = [
-    ['label' => 'Circuit Bungalows'],
-    ['label' => 'Ampara Circuit Bungalow']
+    ['label' => t('circuit_bungalows', 'Circuit Bungalows')],
+    ['label' => t('ampara_bungalow', 'Ampara Circuit Bungalow')]
 ];
-include 'includes/header.php';
+
 include 'includes/sub-hero.php';
 ?>
 
@@ -142,16 +151,16 @@ include 'includes/sub-hero.php';
 
             <!-- Title & Rating & Description Wrapper Card -->
             <div class="bg-white rounded-[24px] border border-slate-100/80 p-6 md:p-8 shadow-[0_4px_25px_rgba(0,0,0,0.015)] mb-8">
-                <!-- Title & Rating -->
+                <!-- Title -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4 border-b border-slate-50 pb-4">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight">Ampara Circuit Bungalow</h2>
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('ampara_bungalow', 'Ampara Circuit Bungalow') ?></h2>
                 </div>
 
                 <!-- Description -->
                 <div class="text-slate-600 font-inter text-[14.5px] leading-relaxed space-y-4 mb-6 notranslate">
-                    <p><?= t('ampara_desc_p1', 'Ampara, a town located in the Eastern Province of Sri Lanka...') ?></p>
-                    <p><?= t('ampara_desc_p2', 'The Ministry of Labour has established this Circuit Bungalow in Ampara...') ?></p>
-                    <p><?= t('ampara_desc_p3', 'The bungalow features air-conditioned double and single rooms...') ?></p>
+                    <p><?= t('ampara_desc_p1') ?></p>
+                    <p><?= t('ampara_desc_p2') ?></p>
+                    <p><?= t('ampara_desc_p3') ?></p>
                 </div>
 
                 <div class="pt-3 border-t border-slate-50">
@@ -170,8 +179,6 @@ include 'includes/sub-hero.php';
 
             <!-- Booking Widget (Mobile Only) -->
             <div class="block lg:hidden bg-white rounded-[24px] p-6 border border-slate-100 shadow-md mb-8">
-
-
                 <?php if ($success): ?>
                     <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -246,8 +253,8 @@ include 'includes/sub-hero.php';
                     <!-- Ground Floor Double Room (AC) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Ground Floor Double Room (AC)</h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">1 Double Bed / Max 2 Persons</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_gf_double_ac', 'Ground Floor Double Room (AC)') ?></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_gf_double_ac_sub', '1 Double Bed / Max 2 Persons') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -268,8 +275,8 @@ include 'includes/sub-hero.php';
                     <!-- Ground Floor Single Room (AC) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Ground Floor Single Room (AC)</h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">1 Single Bed / Max 1 Person</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_gf_single_ac', 'Ground Floor Single Room (AC)') ?></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_gf_single_ac_sub', '1 Single Bed / Max 1 Person') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -290,8 +297,8 @@ include 'includes/sub-hero.php';
                     <!-- Chalet Room (Single AC) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Chalet Room (Single AC)</h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">1 Single Bed / Max 1 Person</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_chalet_single_ac', 'Chalet Room (Single AC)') ?></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_gf_single_ac_sub', '1 Single Bed / Max 1 Person') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -312,8 +319,8 @@ include 'includes/sub-hero.php';
                     <!-- Upper Floor Double Room (AC) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Upper Floor Double Room (AC) <span class="text-[10px] text-slate-400 font-normal ml-1">(3 Rooms)</span></h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">2 Double Beds / Max 4 Persons</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_uf_double_ac', 'Upper Floor Double Room (AC)') ?> <span class="text-[10px] text-slate-400 font-normal ml-1"><?= t('room_uf_double_ac_rooms', '(3 Rooms)') ?></span></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_uf_double_ac_sub', '2 Double Beds / Max 4 Persons') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -334,8 +341,8 @@ include 'includes/sub-hero.php';
                     <!-- Driver's Room (Single Non-AC) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Driver's Room (Single Non-AC)</h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">2 Beds / Max 2 Persons</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_driver_single_non_ac', "Driver's Room (Single Non-AC)") ?></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_driver_sub', '2 Beds / Max 2 Persons') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -356,8 +363,8 @@ include 'includes/sub-hero.php';
                     <!-- Entire Bungalow (Per Day) -->
                     <div class="bg-slate-50 border border-slate-100 rounded-xl p-4 shadow-sm">
                         <div class="mb-3 border-b border-slate-200/50 pb-2">
-                            <h4 class="font-bold text-slate-800 text-sm">Entire Bungalow (Per Day)</h4>
-                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide">All Rooms / Full Access</span>
+                            <h4 class="font-bold text-slate-800 text-sm notranslate"><?= t('room_entire_bungalow', 'Entire Bungalow (Per Day)') ?></h4>
+                            <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wide notranslate"><?= t('room_entire_sub', 'All Rooms / Full Access') ?></span>
                         </div>
                         <div class="space-y-1.5 text-xs text-slate-600">
                             <div class="flex justify-between">
@@ -381,8 +388,8 @@ include 'includes/sub-hero.php';
                     <table class="w-full text-left text-sm text-slate-600 min-w-[600px] border-collapse">
                         <thead>
                             <tr class="border-b border-slate-100 text-slate-400 text-xs font-bold uppercase tracking-wider notranslate">
-                                <th class="pb-3 font-bold">Room Type</th>
-                                <th class="pb-3 font-bold">Beds / Max Occupancy</th>
+                                <th class="pb-3 font-bold"><?= t('th_room_type', 'Room Type') ?></th>
+                                <th class="pb-3 font-bold"><?= t('th_beds_occupancy', 'Beds / Max Occupancy') ?></th>
                                 <th class="pb-3 font-bold text-right"><?= t('ministry_staff', 'Ministry Staff') ?></th>
                                 <th class="pb-3 font-bold text-right"><?= t('other_govt_private', 'Govt / Private') ?></th>
                                 <th class="pb-3 font-bold text-right"><?= t('foreign_visitors', 'Foreign') ?></th>
@@ -390,43 +397,43 @@ include 'includes/sub-hero.php';
                         </thead>
                         <tbody class="divide-y divide-slate-100 bg-white text-[13.5px]">
                             <tr class="hover:bg-slate-50/55 transition-colors">
-                                <td class="py-3.5 font-bold text-slate-800">Ground Floor Double Room (AC)</td>
-                                <td class="py-3.5 text-slate-500">1 Double Bed / 2 Persons</td>
+                                <td class="py-3.5 font-bold text-slate-800 notranslate"><?= t('room_gf_double_ac', 'Ground Floor Double Room (AC)') ?></td>
+                                <td class="py-3.5 text-slate-500 notranslate"><?= t('room_gf_double_ac_sub', '1 Double Bed / 2 Persons') ?></td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 1,500</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 3,000</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 6,000</td>
                             </tr>
                             <tr class="hover:bg-slate-50/55 transition-colors">
-                                <td class="py-3.5 font-bold text-slate-800">Ground Floor Single Room (AC)</td>
-                                <td class="py-3.5 text-slate-500">1 Single Bed / 1 Person</td>
+                                <td class="py-3.5 font-bold text-slate-800 notranslate"><?= t('room_gf_single_ac', 'Ground Floor Single Room (AC)') ?></td>
+                                <td class="py-3.5 text-slate-500 notranslate"><?= t('room_gf_single_ac_sub', '1 Single Bed / 1 Person') ?></td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 1,200</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 2,000</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 4,000</td>
                             </tr>
                             <tr class="hover:bg-slate-50/55 transition-colors">
-                                <td class="py-3.5 font-bold text-slate-800">Chalet Room (Single AC)</td>
-                                <td class="py-3.5 text-slate-500">1 Single Bed / 1 Person</td>
+                                <td class="py-3.5 font-bold text-slate-800 notranslate"><?= t('room_chalet_single_ac', 'Chalet Room (Single AC)') ?></td>
+                                <td class="py-3.5 text-slate-500 notranslate"><?= t('room_gf_single_ac_sub', '1 Single Bed / 1 Person') ?></td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 1,200</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 2,000</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 4,000</td>
                             </tr>
                             <tr class="hover:bg-slate-50/55 transition-colors">
-                                <td class="py-3.5 font-bold text-slate-800">Upper Floor Double Room (AC) <span class="text-[10.5px] text-slate-400 font-medium ml-1">(3 Rooms)</span></td>
-                                <td class="py-3.5 text-slate-500">2 Double Beds / 4 Persons</td>
+                                <td class="py-3.5 font-bold text-slate-800 notranslate"><?= t('room_uf_double_ac', 'Upper Floor Double Room (AC)') ?> <span class="text-[10.5px] text-slate-400 font-medium ml-1"><?= t('room_uf_double_ac_rooms', '(3 Rooms)') ?></span></td>
+                                <td class="py-3.5 text-slate-500 notranslate"><?= t('room_uf_double_ac_sub', '2 Double Beds / 4 Persons') ?></td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 2,000</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 4,000</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 8,000</td>
                             </tr>
                             <tr class="hover:bg-slate-50/55 transition-colors">
-                                <td class="py-3.5 font-bold text-slate-800">Driver's Room (Single Non-AC)</td>
-                                <td class="py-3.5 text-slate-500">2 Beds / 2 Persons</td>
+                                <td class="py-3.5 font-bold text-slate-800 notranslate"><?= t('room_driver_single_non_ac', "Driver's Room (Single Non-AC)") ?></td>
+                                <td class="py-3.5 text-slate-500 notranslate"><?= t('room_driver_sub', '2 Beds / 2 Persons') ?></td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 500</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 1,500</td>
                                 <td class="py-3.5 text-right font-semibold text-slate-700">Rs. 1,500</td>
                             </tr>
                             <tr class="bg-slate-50/50 font-bold border-t border-slate-200">
-                                <td class="py-4 font-bold text-primary">Entire Bungalow (Per Day)</td>
-                                <td class="py-4 text-slate-500 font-medium">All Rooms / Full Access</td>
+                                <td class="py-4 font-bold text-primary notranslate"><?= t('room_entire_bungalow', 'Entire Bungalow (Per Day)') ?></td>
+                                <td class="py-4 text-slate-500 font-medium notranslate"><?= t('room_entire_sub', 'All Rooms / Full Access') ?></td>
                                 <td class="py-4 text-right font-extrabold text-primary">Rs. 10,000</td>
                                 <td class="py-4 text-right font-extrabold text-primary">Rs. 20,000</td>
                                 <td class="py-4 text-right font-extrabold text-primary">Rs. 35,000</td>
@@ -440,40 +447,40 @@ include 'includes/sub-hero.php';
                     <div class="shrink-0 w-6 h-6 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-700 mt-0.5">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <div class="text-[13px] font-medium font-inter text-slate-600 leading-relaxed">
-                        <span class="font-bold text-slate-800">Driver Accommodation:</span> 1 room (accommodating up to 4 drivers in a group) is available <span class="font-bold text-emerald-700 bg-emerald-100/50 px-1.5 py-0.5 rounded">Free of Charge</span>.
+                    <div class="text-[13px] font-medium font-inter text-slate-600 leading-relaxed notranslate">
+                        <span class="font-bold text-slate-800"><?= t('driver_accom_title', 'Driver Accommodation:') ?></span> <?= t('driver_accom_text') ?> <span class="font-bold text-emerald-700 bg-emerald-100/50 px-1.5 py-0.5 rounded"><?= t('free_of_charge', 'Free of Charge') ?></span>.
                     </div>
                 </div>
 
                 <!-- Additional Charges -->
                 <div class="mt-8 pt-6 border-t border-slate-100">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5 notranslate">
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        Optional / Additional Charges
+                        <span><?= t('additional_charges_title', 'Optional / Additional Charges') ?></span>
                     </h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2.5 text-[13.5px] text-slate-600 font-medium">
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Single Bed Sheet</span>
+                            <span class="notranslate"><?= t('item_single_sheet', 'Single Bed Sheet') ?></span>
                             <span class="font-bold text-slate-800">Rs. 50</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Double Bed Sheet</span>
+                            <span class="notranslate"><?= t('item_double_sheet', 'Double Bed Sheet') ?></span>
                             <span class="font-bold text-slate-800">Rs. 150</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Pillow Request</span>
+                            <span class="notranslate"><?= t('item_pillow', 'Pillow Request') ?></span>
                             <span class="font-bold text-slate-800">Rs. 75</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Towel Request</span>
+                            <span class="notranslate"><?= t('item_towel', 'Towel Request') ?></span>
                             <span class="font-bold text-slate-800">Rs. 100</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Electric Kettle</span>
+                            <span class="notranslate"><?= t('item_kettle', 'Electric Kettle') ?></span>
                             <span class="font-bold text-slate-800">Rs. 100</span>
                         </div>
                         <div class="flex justify-between py-1 border-b border-slate-50">
-                            <span>Kitchen Fuel (per day)</span>
+                            <span class="notranslate"><?= t('item_kitchen_fuel', 'Kitchen Fuel (per day)') ?></span>
                             <span class="font-bold text-slate-800">Rs. 100 - 150</span>
                         </div>
                     </div>
@@ -483,36 +490,36 @@ include 'includes/sub-hero.php';
             <!-- Payment Information & Manual Application -->
             <div class="mb-10 bg-white rounded-[24px] p-6 md:p-8 border border-slate-100/80 shadow-[0_4px_25px_rgba(0,0,0,0.015)] space-y-6">
                 <div>
-                    <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-3 pb-3 border-b border-slate-100 flex items-center gap-2">
+                    <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-3 pb-3 border-b border-slate-100 flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
-                        Official Bank Account Details
+                        <span><?= t('bank_details_title', 'Official Bank Account Details') ?></span>
                     </h3>
-                    <p class="text-slate-500 text-[13.5px] leading-relaxed mb-4">
-                        Payments should only be deposited <strong>after</strong> receiving official approval from the Ministry.
+                    <p class="text-slate-500 text-[13.5px] leading-relaxed mb-4 notranslate">
+                        <?= t('bank_payment_note', 'Payments should only be deposited after receiving official approval from the Ministry.') ?>
                     </p>
                     <div class="bg-[#F8FAFC] border border-slate-100 p-4 rounded-xl space-y-2.5 text-[13.5px] text-slate-700 shadow-inner">
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Beneficiary Bank</span>
-                            <span class="font-bold text-slate-800">People's Bank – Narahenpita Branch</span>
+                            <span class="text-slate-400 notranslate"><?= t('beneficiary_bank', 'Beneficiary Bank') ?></span>
+                            <span class="font-bold text-slate-800 notranslate"><?= t('peoples_bank_branch', "People's Bank – Narahenpita Branch") ?></span>
                         </div>
                         <div class="flex justify-between border-t border-slate-200/50 pt-2">
-                            <span class="text-slate-400">Account Number</span>
-                            <span class="font-extrabold text-primary">119-1-001-59025666</span>
+                            <span class="text-slate-400 notranslate"><?= t('account_number', 'Account Number') ?></span>
+                            <span class="font-extrabold text-primary notranslate">119-1-001-59025666</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="pt-4 border-t border-slate-100">
-                    <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-3 flex items-center gap-2">
+                    <h3 class="text-lg font-bold font-montserrat text-gray-900 mb-3 flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        Manual Application
+                        <span><?= t('manual_app_title', 'Manual Application') ?></span>
                     </h3>
-                    <p class="text-slate-500 text-[13.5px] leading-relaxed mb-4">
-                        Alternatively, you may submit a physical booking application by downloading, printing, and delivering the official document.
+                    <p class="text-slate-500 text-[13.5px] leading-relaxed mb-4 notranslate">
+                        <?= t('manual_app_desc') ?>
                     </p>
-                    <a href="<?= $base_url ?>assets/docs/ampara-application.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-secondary text-secondary font-bold text-[12.5px] uppercase tracking-wide rounded-xl hover:bg-secondary/5 active:scale-95 transition-all shadow-sm w-full sm:w-auto">
+                    <a href="<?= $base_url ?>assets/docs/ampara-application.pdf" target="_blank" class="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-secondary text-secondary font-bold text-[12.5px] uppercase tracking-wide rounded-xl hover:bg-secondary/5 active:scale-95 transition-all shadow-sm w-full sm:w-auto notranslate">
                         <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        Download PDF Form
+                        <span><?= t('download_pdf_form', 'Download PDF Form') ?></span>
                     </a>
                 </div>
             </div>
@@ -525,11 +532,10 @@ include 'includes/sub-hero.php';
             <!-- Booking Widget -->
             <div class="hidden lg:block bg-white rounded-[24px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.03)]">
 
-
                 <?php if ($success): ?>
-                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2">
+                    <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3.5 rounded-xl mb-4 font-inter text-sm font-semibold flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Your booking request has been submitted successfully and is pending approval.
+                        <?= t('booking_success_msg', 'Your booking request has been submitted successfully and is pending approval.') ?>
                     </div>
                 <?php endif; ?>
                 <?php if ($error): ?>
@@ -552,9 +558,9 @@ include 'includes/sub-hero.php';
 
             <!-- Location & Contact -->
             <div class="bg-white rounded-[24px] p-6 border border-slate-100 shadow-[0_8px_30px_rgba(0,0,0,0.02)]">
-                <h3 class="text-sm font-bold font-montserrat text-gray-900 mb-6 uppercase tracking-wider border-b border-slate-50 pb-3 flex items-center gap-2">
+                <h3 class="text-sm font-bold font-montserrat text-gray-900 mb-6 uppercase tracking-wider border-b border-slate-50 pb-3 flex items-center gap-2 notranslate">
                     <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    Location & Contact
+                    <span><?= t('location_contact_title', 'Location & Contact') ?></span>
                 </h3>
 
                 <ul class="space-y-4 text-sm text-slate-600 font-medium font-inter">
@@ -570,8 +576,8 @@ include 'includes/sub-hero.php';
                             </svg>
                         </div>
                         <div>
-                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5">Address</span>
-                            <span class="text-[12px] leading-normal block">Ministry of Labour Circuit Bungalow, Ampara</span>
+                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5 notranslate"><?= t('address', 'Address') ?></span>
+                            <span class="text-[12px] leading-normal block notranslate"><?= t('ampara_bungalow_address', 'Ministry of Labour Circuit Bungalow, Ampara') ?></span>
                         </div>
                     </li>
                     <li class="flex gap-3">
@@ -584,8 +590,8 @@ include 'includes/sub-hero.php';
                             </svg>
                         </div>
                         <div>
-                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5">Telephone / Fax</span>
-                            <span class="text-[12px] leading-normal block">+94 11 2368143</span>
+                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5 notranslate"><?= t('tel_fax_lbl', 'Telephone / Fax') ?></span>
+                            <span class="text-[12px] leading-normal block notranslate">+94 11 2368143</span>
                         </div>
                     </li>
                     <li class="flex gap-3">
@@ -598,7 +604,7 @@ include 'includes/sub-hero.php';
                             </svg>
                         </div>
                         <div>
-                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5">Email Contact</span>
+                            <span class="block font-bold text-slate-800 text-[13px] mb-0.5 notranslate"><?= t('email_contact_lbl', 'Email Contact') ?></span>
                             <a href="mailto:info@labour.gov.lk"
                                 class="text-[12px] hover:text-secondary leading-normal block transition-colors notranslate" translate="no">info@labour.gov.lk</a>
                         </div>

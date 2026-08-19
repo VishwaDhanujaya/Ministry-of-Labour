@@ -75,9 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Sri Lanka Phone Number Validation (if provided)
     if (!empty($phone)) {
-        $cleanedPhone = preg_replace('/[\s\-\(\)]+/', '', $phone);
-        if (!preg_match('/^(?:\+94|0094|0)?(?:7[01245678]\d{7}|[1-9]\d{8})$/', $cleanedPhone)) {
-            echo json_encode(['success' => false, 'message' => t('val_phone_invalid', 'Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 11 258 1991).')]);
+        $cleanedPhone = preg_replace('/\D+/', '', $phone);
+        if (!preg_match('/^0\d{9}$/', $cleanedPhone)) {
+            echo json_encode(['success' => false, 'message' => t('val_phone_invalid', 'Please enter a valid phone number (exactly 10 digits starting with 0).')]);
             exit;
         }
     }

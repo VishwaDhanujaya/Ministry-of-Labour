@@ -145,6 +145,211 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 
+### 2026-08-19 (🔒 Idle Session Lock Screen Implementation)
+* **Files:**
+  - [admin/includes/auth.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/auth.php)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/login.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/login.php)
+  - [admin/lock-session.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/lock-session.php) [NEW]
+  - [admin/unlock.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/unlock.php) [NEW]
+  - [admin/includes/lockscreen-template.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/lockscreen-template.php) [NEW]
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Inactivity Timeout Restructuring**: Refactored the backend inactivity checking in [admin/includes/auth.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/auth.php) to support a two-tier timeout. An idle duration of 15 minutes (900 seconds) flags the session as locked (`$_SESSION['is_locked'] = true`), while a 30-minute absolute timeout destroys the session and logs the user out. Updated `loginAdmin()` to reset all lock session variables (`is_locked = false`, `failed_unlock_attempts = 0`, `locked_page`) upon successful login. Added global Cache-Control headers in `auth.php` to prevent the browser from caching the lock screen view, ensuring fresh admin pages render instantly on sign-in without requiring manual page reload.
+  - **Dynamic In-DOM Lock Screen Overlay**: Set the lock screen to always render in the page layout via [admin/includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/footer.php), but hidden (`hidden`) by default if the session is unlocked. This removes the concept of a standalone lock screen or blue screen after login, ensuring the active dashboard page is always fully rendered and blurred underneath the overlay.
+  - **Write Action Restrictions**: Blocked all POST requests globally in [admin/includes/auth.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/auth.php) when the session is locked to prevent any data mutations.
+  - **Minimalist White Mode Template**: Created a clean white mode lock screen template [admin/includes/lockscreen-template.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/lockscreen-template.php) with slide-up and shake animations, user initials avatar badge, flat brand burgundy submit button, and a show/hide password visibility toggle button. The popup card is solid white, overlaying a dark semi-transparent glass blur backdrop (`bg-slate-950/40 backdrop-blur-xl`).
+  - **AJAX Pop-up Lock & Unlock (No-Reload)**: Handled session transitions completely on the client side without page reloads. When inactivity triggers, the overlay removes its `hidden` class and blurs the screen instantly. On successful password verification via AJAX, the overlay fades out smoothly and hides itself, preserving user form inputs and state.
+  - **Cross-Tab Real-Time State Synchronization**: Synced workspace locks in real-time across all open tabs by listening to standard `storage` events on `localStorage.setItem('workspace_locked')`. Locking or unlocking the session in one tab instantly replicates the lock state across all other tabs without a page refresh or server polling.
+  - **Verification Service**: Implemented [admin/unlock.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/unlock.php) to process password submissions securely using `password_verify` and parameterized database fetches. It limits failed attempts to 3 before forcing a session logout.
+  - **Lightweight Lock API**: Added [admin/lock-session.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/lock-session.php) to allow the frontend to set the backend locked state via AJAX.
+  - **Client-Side Idle Monitoring**: Extended [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js) to monitor user interaction and automatically lock the workspace after 15 minutes of inactivity.
+
+### 2026-08-19 (Add News Button, UI Wrapping, & Yellow Line Removal Fixes)
+* **Files:**
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Add News Button Wrapping Fix**: Added `whitespace-nowrap` to the "Add News" action button in [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php) and fixed its SVG icon's non-standard spacing classes (`w-4.5 h-4.5` corrected to standard `w-4 h-4`) to prevent text wrapping on narrow viewports.
+  - **Form Action Buttons Wrapping Fixes**: Applied `whitespace-nowrap` to all primary form buttons ("Save Draft", "Publish News", "Submit for Approval", "Cancel", and "Delete Article") and helper control buttons ("Back to News", "Auto Translate Title", "Auto Translate Body") in [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) to prevent text from awkwardly wrapping into multiple lines on smaller screens.
+  - **Yellow Line Removal**: Removed the invalid HTML absolute `div` yellow indicator line (`bg-amber-400`) in table rows representing articles pending approval inside [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php) to clean up the table presentation near the sidebar.
+  - **Tailwind Compilation**: Recompiled Tailwind styles using production minification.
+
+### 2026-08-19 (Standardized Tamil 'Download' Translations & Mixed-Character Corruption Fix)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Standardized "Download" Tamil Translation**: Replaced outlier Tamil verb forms like `பதிவிறக்குக` / `பதிவිරக்குக` with the standard noun form `பதிவிறக்கம்` across the platform, targeting the dictionary keys `download`, `download_document`, and `download_pdf_form`, as well as the hardcoded button label on [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php).
+  - **Fixed Unicode Mixed-Character Corruption**: Cleaned up various hidden Unicode corruptions where Sinhala characters (such as `ව` `i` `ra` `la` `ka`) were mixed into Tamil text due to visual similarity (e.g. in `பதிவிறக்கம்`, `தொலைநகல்`, `வெளியீடுகள்`, and `கற்றல்`).
+
+### 2026-08-13 (Dynamic Sub-Hero Background Images Implementation)
+* **Files:**
+  - [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Sub-Hero Backgrounds**: Refactored the sub-hero header block (`includes/sub-hero.php`) to dynamically map specific web portal pages (about-us, IAU, RTI, announcements, contact-us, downloads, learning platforms, news) to corresponding `.webp` background images inside the `assets/img/sub-hero/` folder. Retained `assets/img/sub-hero.webp` as the global fallback background.
+
+### 2026-08-13 (Ampara Circuit Bungalow Tamil Translation Standardization)
+* **Files:**
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Ampara Circuit Bungalow Translation Fix**: Standardized the Tamil translation for "Ampara Circuit Bungalow" to `அம்பாறை சுற்றுலா பங்களா` across the entire web portal. Changed the outlier translation `அம்பாறை சுற்றுவட்ட பங்களா` inside the autocomplete search suggestions (`search-suggest.php`) to match this standard.
+
+### 2026-08-13 (Announcements & News Tamil Translations Update)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Terminology Standardization**: Updated Tamil translation values to align with the user's specific terminology:
+    - "Procurement" / "Procurements" -> `பெறுகை` / `பெறுகைகள்` (previously `கொள்முதல்` / `கொள்முதல்கள்`)
+    - "Vacancy" / "Vacancies" -> `வெற்றிடம்` / `வெற்றிடங்கள்` (previously `காலிப்பணியிடம்` / `காலிப்பணியிடங்கள்`)
+    - "Download" -> `பதிவிறக்கம்` (previously `பதிவිරக்குக`)
+    - "Recent Posts" -> `சமீபகால பதிவுகள்` (previously `சமீபத்திய இடுகைகள்`)
+    - "Items per page" -> `பக்கத்திற்குரிய உருப்படி` (previously `பக்கத்திற்கு உருப்படிகள்`)
+  - **Unified Consistency**: Updated the corresponding translation strings, search keywords, search suggestions, and client-side pagination metadata objects across all frontend and listing pages.
+
+### 2026-08-13 (Officials & Contacts Database & File Path Alignment)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Broken Images Resolution**: Discovered that multiple officials (Mr. Lal Samarasekara, Mr. P D Chandana Pathirage, Ms. I V N Preethika Kumuduni, Ms. M.P.D.C.W.Kumari) had missing or incorrect paths (e.g. pointing to local relative files without `admin/` prefix, or set to null) in the database even though their corresponding `.webp` images were already present inside the physical `admin/uploads/officials/` folder. Executed a database transaction mapping these IDs to their valid physical files on disk.
+  - **Database Housekeeping**: Cleaned up 10 blank test rows from the `officials` table that had empty values generated during manual testing or seeding, restoring schema integrity.
+
+### 2026-08-13 (RTI Frontend Officers Database Mapping Sync)
+* **Files:**
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Database Mapping Sync**: Corrected `designation` mapping in `rti.php` to fetch the correct database column (`title` instead of the non-existent `designation` column) from the `officials` table.
+  - **Trilingual Rendering Support**: Added support for language translation suffixes (`name_si`, `name_ta` and `title_si`, `title_ta`) for both name and designation to properly synchronize frontend displays with edits performed inside the admin panel.
+  - **Avatar Initials Fallback**: Kept an English name reference (`name_en`) specifically for the `get_initials()` method, ensuring clean alphabetical Latin characters inside the initials profile circle on all languages.
+
+### 2026-08-13 (Contact Us Form Placeholders & Phone Number Validation Update)
+* **Files:**
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [process-contact.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-contact.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Placeholder Prefix Update**: Prepended 'eg:' / 'උදා:' / 'உதா:' prefixes to the full name, email, and phone placeholders in the contact-us form and localization dictionary to clearly signify they are examples.
+  - **Phone Number Restriction**: Enforced a strict 10-digit Sri Lankan standard (starts with 0 and followed by 9 digits) on both frontend and backend validations. Restrained input box digits via `maxlength="10"` and an `input` event listener stripping any non-numeric characters. Updated error validation text translation mappings accordingly.
+  - **Validation Error Message Style Alignment**: Aligned the phone validation error message style with the full name field to explicitly detail the constraints in brackets, i.e., `Please enter a valid phone number (exactly 10 digits starting with 0).` (and localized equivalents).
+  - **Validation UX Fix**: Added a `formSubmitted` flag to prevent showing error messages on required fields while the user is simply tabbing through or before any submission is attempted. Errors are only shown on submit attempts, or if the user begins typing invalid values and blurs/edits the fields.
+  - **Footer Layout & Tamil Placeholder Fix**: Solved a clipping issue where the Tamil placeholder `உங்கள் மின்னஞ்சல் முகவரி` (Your Email Address) would be truncated in the footer subscription box. Shortened the Tamil translation to the more compact and standard `மின்னஞ்சல் முகவரி` (Email Address). Integrated responsive font sizes (`text-xs sm:text-sm`), responsive padding, and `min-w-0` on the input element to allow flexible shrinking beside the wide Tamil button (`பதிவு செய்யவும்`).
+  - **Subscription Text Repositioning**: Moved the newsletter subscription description text (`subscribe_title`) below the newsletter signup form in the footer and styled it with small, muted text (`text-[11px] sm:text-xs text-gray-400 mt-2.5 opacity-85`) for better layout hierarchy and vertical space optimization.
+
+### 2026-08-12 (Direct PDF Download Action on Downloads Page)
+* **Files:**
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Direct PDF Download Link Activation**: Updated `updateDownloadLinks()` in `downloads.php` to set the button's `href` attribute directly to the resolved PDF path of the selected language and stop event propagation so that the browser can open it in a new tab without showing the language selection modal.
+  - **Modal Click Behavior Retention**: Kept the trilingual download modal popup behavior when a user clicks the card or row background/item itself.
+
+### 2026-08-12 (Codebase Maintenance & Safe Temporary File Cleanup)
+* **Files Deleted:**
+  - `admin_script.py`
+  - `scratch/` (`scratch/regression_test.php`, `scratch/update_db.php`)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Safe Maintenance Cleanup**: Safely removed non-essential temporary build scripts (`admin_script.py`) and development test artifacts (`scratch/` directory). Kept all `V9.zip` through `V22.zip` backup archives intact as requested.
+
+### 2026-08-12 (Learning Platforms & Complaints Pages Tamil Translation Review Word Document Generation)
+* **Files:**
+  - [Learning_Platforms_and_Complaints_Tamil_Translation_Review_Sheet.docx](file:///c:/xampp/htdocs/Ministry-of-Labour/Learning_Platforms_and_Complaints_Tamil_Translation_Review_Sheet.docx)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reviewer Audit Document Creation**: Generated a formatted Word document (`Learning_Platforms_and_Complaints_Tamil_Translation_Review_Sheet.docx`) containing a 3-column comparative audit table (1. English Content, 2. Existing Tamil Content, 3. Corrected Tamil Content [blank for reviewer feedback]). Covers 100% of all Learning Platforms page elements (Local & Foreign portal titles, descriptions, CTA buttons) and Complaints portal channels (Department of Labour CMS, WhatsApp hotline escalation, IAU direct reporting channel).
+
+### 2026-08-12 (Ampara Circuit Bungalow Page Tamil Translation Review Word Document Generation)
+* **Files:**
+  - [Ampara_Circuit_Bungalow_Tamil_Translation_Review_Sheet.docx](file:///c:/xampp/htdocs/Ministry-of-Labour/Ampara_Circuit_Bungalow_Tamil_Translation_Review_Sheet.docx)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reviewer Audit Document Creation**: Generated a formatted Word document (`Ampara_Circuit_Bungalow_Tamil_Translation_Review_Sheet.docx`) containing a 3-column comparative audit table (1. English Content, 2. Existing Tamil Content, 3. Corrected Tamil Content [blank for reviewer feedback]). Covers 100% of all Ampara Bungalow page elements (Introductory overview, room types & subtexts, category pricing, driver accommodation notices, optional amenities price list, bank payment rules, manual PDF download card, reservation modal fields, and sidebar contact info).
+
+### 2026-08-12 (NLAC Page Tamil Translation Review Word Document Generation)
+* **Files:**
+  - [NLAC_Tamil_Translation_Review_Sheet.docx](file:///c:/xampp/htdocs/Ministry-of-Labour/NLAC_Tamil_Translation_Review_Sheet.docx)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reviewer Audit Document Creation**: Generated a formatted Word document (`NLAC_Tamil_Translation_Review_Sheet.docx`) containing a 3-column comparative audit table (1. English Content, 2. Existing Tamil Content, 3. Corrected Tamil Content [blank for reviewer feedback]). Covers 100% of all NLAC page elements (Tripartite overview, Objectives, Functions, Composition rules, How NLAC Works, Member table headers, and Contact Info).
+
+### 2026-08-12 (Contact Us Page Tamil Translation Review Word Document Generation)
+* **Files:**
+  - [Contact_Us_Tamil_Translation_Review_Sheet.docx](file:///c:/xampp/htdocs/Ministry-of-Labour/Contact_Us_Tamil_Translation_Review_Sheet.docx)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reviewer Audit Document Creation**: Generated a formatted Word document (`Contact_Us_Tamil_Translation_Review_Sheet.docx`) containing a 3-column comparative audit table (1. English Content, 2. Existing Tamil Content, 3. Corrected Tamil Content [blank for reviewer feedback]). Covers 100% of all Contact Us page elements (Header badge, address, complaints callout, form fields, placeholders, validation error strings, and toast notifications).
+
+### 2026-08-12 (Tamil Translation Review Word Document Generation)
+* **Files:**
+  - [IAU_Tamil_Translation_Review_Sheet.docx](file:///c:/xampp/htdocs/Ministry-of-Labour/IAU_Tamil_Translation_Review_Sheet.docx)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Reviewer Audit Document Creation**: Generated a formatted Word document (`IAU_Tamil_Translation_Review_Sheet.docx`) containing a 3-column comparative audit table (1. English Content, 2. Existing Tamil Content, 3. Corrected Tamil Content [blank for reviewer feedback]). Covers 100% of all Internal Affairs Unit (IAU) page text elements (Objectives, 14 Responsibilities & Functions, Complaints Card, Contact Info) and RTI Overview Page items.
+
+### 2026-08-11 (100% Manual Translation Integration for Ampara Circuit Bungalow Overview Page)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **100% Ampara Circuit Bungalow Page Manual Translation Refactor**: Added and refined 36 new dictionary translation keys (`room_gf_double_ac`, `room_gf_single_ac`, `room_chalet_single_ac`, `room_uf_double_ac`, `room_driver_single_non_ac`, `room_entire_bungalow`, `th_room_type`, `th_beds_occupancy`, `driver_accom_title`, `driver_accom_text`, `free_of_charge`, `additional_charges_title`, `item_single_sheet`..`kitchen_fuel`, `bank_details_title`, `bank_payment_note`, `beneficiary_bank`, `peoples_bank_branch`, `account_number`, `manual_app_title`, `manual_app_desc`, `download_pdf_form`, `location_contact_title`, `tel_fax_lbl`, `email_contact_lbl`, `ampara_bungalow_address`) in Section 6 of [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - **`ampara-circuit-bungalow.php` Code Integration**: Converted 100% of all static room type names, capacity badges, table headers, driver accommodation notices, optional amenities price list, bank deposit instructions, manual PDF download card, and sidebar location details to render via `$t(...)` helper calls wrapped in `.notranslate` tags. Reordered header include above `$page_title = t(...)` evaluation to prevent runtime error.
+
+### 2026-08-11 (100% Manual Translation Integration for National Labour Advisory Council Page)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **100% NLAC Page Manual Translation Refactor**: Added and refined 29 dictionary translation keys (`nlac_full`, `nlac_intro_p1`, `nlac_objectives_title`, `nlac_obj_1`..`3`, `nlac_functions_title`, `nlac_func_intro`, `nlac_func_1`..`3` [TA: `விடயங்களைப் பரிசீලිத்தல்`], `nlac_composition_title` [TA: `அமைப்பு (கூட்டுරු)`], `nlac_comp_1`..`3`, `nlac_how_it_works_title`, `nlac_works_1`..`3`, `nlac_members_title`, `tab_employer_tu`, `tab_employee_tu`, `th_no`, `th_title`, `th_name`, `th_designation`, `th_name_of_tu`, `contact_info_title`, `nlac_contact_person`) in Section 4 of [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - **`nlac.php` Code Integration**: Converted 100% of all static introductory paragraphs, objectives list, functions list, composition principles, operational rules, trade union table headers, tab switch buttons, and officer contact details to render via `$t(...)` helper calls wrapped in `.notranslate` tags.
+
+### 2026-08-11 (100% Manual Translation Integration for Learning Platforms Landing Page)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [learning-platforms.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **100% Learning Platforms Page Manual Translation Refactor**: Added and refined 10 dictionary translation keys (`learning_platforms`, `lp_intro_desc`, `local_publications`, `badge_local`, `lp_local_desc`, `btn_access_local` [TA: `உள்நாட்டுත් தளத்தை அணுகவும்`], `foreign_publications`, `badge_foreign`, `lp_foreign_desc`, `btn_access_foreign` [TA: `வெளிநாட்டுத் தளத்தை அணுகவும்`]) in Section 5 of [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - **`learning-platforms.php` Code Integration & Fatal Error Fix**: Moved `include 'includes/header.php'` above `$page_title = t(...)` evaluation to ensure `t()` helper is loaded prior to execution, resolving the `Call to undefined function t()` error. Converted 100% of all static card titles, intro text, local and foreign publication category badges, descriptions, and CTA action buttons to render via `$t(...)` helper calls wrapped in `.notranslate` tags.
+
+### 2026-08-11 (100% Manual Translation Integration for Contact Us Page)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **100% Contact Us Page Manual Translation Audit**: Audited and completed dictionary entries for all Contact Us elements including `contact_address`, `sending`, `contact_subtitle`, `get_in_touch`, `address`, `phone_number`, `fax`, `email_address`, `leave_a_message`, `complaints` (TA: official administrative term `முறைப்பாடுகள்`), `lodge_complaint` (`முறையான முறைப்பாட்டைச் சமர்ப்பிக்கவும்`), `complaints_desc`, `submit_complaint`, `full_name`, `message`, `how_can_we_help`, `send_message`, `contact_numbers`, validation error strings (`val_fullname_required`, `val_email_invalid`, `val_phone_invalid`, `val_message_short`), and submission toast messages (`msg_sent_success`, `msg_send_failed`, `msg_error_occurred`).
+  - **`contact-us.php` Code Integration**: Replaced remaining hardcoded address block (`6th floor, Mehewara Piyasa...`), complaints description text, and dynamic JavaScript submit button states (`Sending...` / `Send Message`) with `$t(...)` helper calls wrapped in `.notranslate` tags.
+
+### 2026-08-11 (100% Manual Translation Integration for RTI Overview Page & Global Dictionary Sync)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **100% RTI Overview Page Manual Translation Refactor**: Added 37 dictionary translation keys (`rti_intro`, `rti_vision_title`, `rti_vision`, `rti_mission_title`, `rti_mission`, `rti_officers_title`, `rti_designated_officer`, `rti_information_officer`, `rti_central_officer`, `rti_name_lbl`, `rti_designation_lbl`, `rti_address_lbl`, `rti_tel_lbl`, `rti_fax_lbl`, `rti_email_lbl`, `rti_more_info_title`, `rti_more_info_desc`, `rti_central_officer_desc`, `rti_section_subtitle`, `rti_section_title`, `rti_act_intro`, `rti_complaints_title`, `rti_complaints_text_1`..`3`, `rti_request_title`, `rti_request_intro`, `rti_request_list_1`..`5`, `rti_appeals_title`, `rti_appeals_intro`, `rti_appeals_item_1`..`7`, `rti_appeals_outro`, `rti_download_box_title`, `rti_download_box_desc`, `rti_doc_1`..`5`) into Section 8 of [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php).
+  - **`rti.php` Code Cleanup & Architecture Standardization**: Removed hardcoded local `$rti_texts` and `$rti_details` arrays from [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php) and converted 100% of all static page headings, paragraphs, notice lists, appeals conditions, officer labels, and sidebar download links to use `$t(...)` translation calls wrapped in `.notranslate` tags.
+  - **Preserved Manual User Edits**: Preserved user's latest Tamil edits to IAU keys (`iau_objectives_intro`, `iau_obj_c`, `iau_resp_2`, `iau_resp_3`, `iau_resp_6`, `iau_resp_7`, `iau_resp_10`) and synced central `lang_dict.json`.
+
 ### 2026-08-11 (Translation Dictionary Reorganization, PDF Button Sizing Fix & 100% Manual Translation for Homepage, About Us & IAU Overview Pages)
 * **Files:**
   - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
