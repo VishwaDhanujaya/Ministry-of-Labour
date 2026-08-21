@@ -152,6 +152,9 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
   - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [process-contact.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-contact.php)
   - [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php)
   - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
   - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
@@ -166,6 +169,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Last Updated Date Calculation**: Excluded private and hidden news articles from the `MAX(created_at)` calculation in `includes/footer.php` to prevent potential metadata leakage of private updates.
   - **Browser Cache Prevention**: Added global `Cache-Control: no-cache, must-revalidate` headers inside [`admin/includes/db.php`](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php) to prevent browsers from caching dynamic PHP pages. This ensures that logging out of an admin session instantly updates the public frontend view without requiring a manual browser cache clear or hard refresh.
   - **Homepage Recent News Cache**: Configured the homepage news caching to strictly use a single public key (`home_recent_news_public`) to prevent public users from being served cached private news.
+  - **Full Name Validation (No Numbers)**: Added validation to the Contact Us form name field to disallow numeric characters. Restricted the input field in real-time (`e.target.value.replace(/\d/g, '')`) on the client side to block the user from typing or pasting numbers. Implemented regex checks on both the client side (`/\d/.test(val)`) and server side (`preg_match('/\\d/', $fullname)`) as fallback. Localized the error message across English, Sinhala, and Tamil.
 
 ### 2026-08-19 (🔒 Idle Session Lock Screen Implementation)
 * **Files:**

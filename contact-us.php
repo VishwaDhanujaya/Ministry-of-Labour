@@ -303,7 +303,7 @@ include 'includes/sub-hero.php';
 
     // Trilingual Validation Error Messages
     const valMsg = {
-        fullname: <?= json_encode(t('val_fullname_required', 'Please enter a valid full name (at least 2 characters).')) ?>,
+        fullname: <?= json_encode(t('val_fullname_required', 'Please enter a valid full name (at least 2 characters, no numbers).')) ?>,
         email: <?= json_encode(t('val_email_invalid', 'Please enter a valid email address.')) ?>,
         phone: <?= json_encode(t('val_phone_invalid', 'Please enter a valid Sri Lankan phone number (e.g., 077 123 4567 or +94 11 258 1991).')) ?>,
         message: <?= json_encode(t('val_message_short', 'Message must be at least 10 characters long.')) ?>
@@ -340,7 +340,7 @@ include 'includes/sub-hero.php';
         }
 
         if (fieldId === 'fullname') {
-            if (val.length < 2) {
+            if (val.length < 2 || /\d/.test(val)) {
                 setFieldError('fullname', valMsg.fullname);
                 return false;
             }
@@ -375,6 +375,14 @@ include 'includes/sub-hero.php';
             if (id === 'phone') {
                 el.addEventListener('input', (e) => {
                     e.target.value = e.target.value.replace(/\D/g, '').substring(0, 10);
+                    const errEl = document.getElementById(id + '-error');
+                    if (errEl && !errEl.classList.contains('hidden')) {
+                        validateField(id);
+                    }
+                });
+            } else if (id === 'fullname') {
+                el.addEventListener('input', (e) => {
+                    e.target.value = e.target.value.replace(/\d/g, '');
                     const errEl = document.getElementById(id + '-error');
                     if (errEl && !errEl.classList.contains('hidden')) {
                         validateField(id);

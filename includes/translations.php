@@ -1966,9 +1966,9 @@ $lang_dict = [
 
     // Form Field Validation Error Messages
     'val_fullname_required' => [
-        'en' => 'Please enter a valid full name (at least 2 characters).',
-        'si' => 'කරුණාකර නිවැරදි සම්පූර්ණ නම ඇතුළත් කරන්න (අඩුම තරමින් අක්ෂර 2ක්).',
-        'ta' => 'தயவுசெய்து செல்லுபடியாகும் முழுப் பெயரை உள்ளிடவும் (குறைந்தது 2 எழுத்துக்கள்).'
+        'en' => 'Please enter a valid full name (at least 2 characters, no numbers).',
+        'si' => 'කරුණාකර නිවැරදි සම්පූර්ණ නම ඇතුළත් කරන්න (අඩුම තරමින් අක්ෂර 2ක්, ඉලක්කම් ඇතුළත් කළ නොහැක).',
+        'ta' => 'தயவுசெய்து செல்லுபடியாகும் முழுப் பெயரை உள்ளிடவும் (குறைந்தது 2 எழுத்துக்கள், எண்கள் அனுமதிக்கப்படாது).'
     ],
     'val_email_invalid' => [
         'en' => 'Please enter a valid email address.',

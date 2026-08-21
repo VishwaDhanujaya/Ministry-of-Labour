@@ -63,8 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $messageBody = trim($_POST['message'] ?? '');
 
     // Validate inputs
-    if (empty($fullname) || mb_strlen($fullname) < 2) {
-        echo json_encode(['success' => false, 'message' => t('val_fullname_required', 'Please enter a valid full name (at least 2 characters).')]);
+    if (empty($fullname) || mb_strlen($fullname) < 2 || preg_match('/\d/', $fullname)) {
+        echo json_encode(['success' => false, 'message' => t('val_fullname_required', 'Please enter a valid full name (at least 2 characters, no numbers).')]);
         exit;
     }
 
