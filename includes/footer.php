@@ -251,7 +251,7 @@
                     if (isset($pdo)) {
                         try {
                             $queries = [
-                                "SELECT MAX(created_at) FROM news WHERE status = 'Published'",
+                                "SELECT MAX(created_at) FROM news WHERE status = 'Published' AND visibility = 'public'",
                                 "SELECT MAX(created_at) FROM special_notices WHERE status = 'Published'",
                                 "SELECT MAX(created_at) FROM learning_platforms_local WHERE status = 'Published'",
                                 "SELECT MAX(created_at) FROM learning_platforms_foreign WHERE status = 'Published'",

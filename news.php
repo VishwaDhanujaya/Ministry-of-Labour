@@ -3,7 +3,7 @@
 require_once 'admin/includes/db.php';
 
 // Fetch all published news
-$allArticlesRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC")->fetchAll();
+$allArticlesRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' ORDER BY created_at DESC")->fetchAll();
 $allArticles = [];
 foreach ($allArticlesRaw as $article) {
     if ($current_lang === 'si') {

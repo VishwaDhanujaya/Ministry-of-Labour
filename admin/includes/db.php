@@ -74,8 +74,23 @@ try {
 }
 
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => 86400, // 1 day
+        'path' => '/',
+        'secure' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'),
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
+    ini_set('session.use_only_cookies', 1);
     session_start();
 }
+
+// Prevent browser from caching dynamic PHP pages
+if (!headers_sent() && php_sapi_name() !== 'cli') {
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
+}
+
 // Determine current language from GET parameter, Session, or default to English
 $current_lang = 'en';
 if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {

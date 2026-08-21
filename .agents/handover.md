@@ -145,6 +145,28 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 
+### 2026-08-21 (Announcements & News Home Page Cache Clears & Private News Visibility Fix)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [admin/includes/db.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Immediate Home Page Cache Invalidation**: Fixed a bug where deleting, adding, or updating vacancies, procurements, or news items took up to 5 minutes to show up on the public home page announcements section. Integrated inline cache eviction calls using the `Cache::forget()` utility class inside all CRUD operation success states across the admin panel, forcing instant synchronization of the home page statistics, recent news, and announcements.
+  - **Private Visibility Restriction**: Restrained news articles marked with `visibility = 'private'` or `visibility = 'hidden'` to be completely hidden from all public-facing frontend pages (including index, news listings, single article views, and sidebars) for all users, including logged-in administrators. Private articles can only be managed inside the secure `/admin` CMS pages.
+  - **Unified Session Cookie Context**: Relocated session configuration and start parameters to the global database layer [`admin/includes/db.php`](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php) and removed early, default session boots in public frontends. This ensures session cookie paths (`'path' => '/'`) are identical, permitting public pages to read active admin login variables accurately.
+  - **Search Suggest Filtering**: Extended visibility restrictions to autocomplete search queries in [`search-suggest.php`](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php) to hide private news items from all searches.
+  - **Last Updated Date Calculation**: Excluded private and hidden news articles from the `MAX(created_at)` calculation in `includes/footer.php` to prevent potential metadata leakage of private updates.
+  - **Browser Cache Prevention**: Added global `Cache-Control: no-cache, must-revalidate` headers inside [`admin/includes/db.php`](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/db.php) to prevent browsers from caching dynamic PHP pages. This ensures that logging out of an admin session instantly updates the public frontend view without requiring a manual browser cache clear or hard refresh.
+  - **Homepage Recent News Cache**: Configured the homepage news caching to strictly use a single public key (`home_recent_news_public`) to prevent public users from being served cached private news.
+
 ### 2026-08-19 (🔒 Idle Session Lock Screen Implementation)
 * **Files:**
   - [admin/includes/auth.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/auth.php)

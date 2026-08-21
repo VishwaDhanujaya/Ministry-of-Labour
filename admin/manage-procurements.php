@@ -30,6 +30,8 @@ if (isset($_GET['delete'])) {
         }
         $stmt = $pdo->prepare("DELETE FROM procurements WHERE id = ?");
         $stmt->execute([$del_id]);
+        require_once '../includes/Cache.php';
+        Cache::forget('home_announcements');
         $success = "Procurement deleted successfully.";
     } else {
         $error = "Procurement not found.";
@@ -68,6 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if (empty($error)) {
                 $stmt = $pdo->prepare("INSERT INTO procurements (title, category, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 if ($stmt->execute([$title, $category, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                    require_once '../includes/Cache.php';
+                    Cache::forget('home_announcements');
                     $success = "Procurement added successfully.";
                 } else {
                     $error = "Failed to add procurement.";
@@ -112,6 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 if (empty($error)) {
                     $stmt = $pdo->prepare("UPDATE procurements SET title = ?, category = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
                     if ($stmt->execute([$title, $category, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
+                        require_once '../includes/Cache.php';
+                        Cache::forget('home_announcements');
                         $success = "Procurement updated successfully.";
                     } else {
                         $error = "Failed to update procurement.";

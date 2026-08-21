@@ -30,6 +30,8 @@ if (isset($_GET['delete'])) {
         }
         $stmt = $pdo->prepare("DELETE FROM vacancies WHERE id = ?");
         $stmt->execute([$del_id]);
+        require_once '../includes/Cache.php';
+        Cache::forget('home_announcements');
         $success = "vacancy deleted successfully.";
     } else {
         $error = "vacancy not found.";
@@ -67,6 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             if (empty($error)) {
                 $stmt = $pdo->prepare("INSERT INTO vacancies (title, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?)");
                 if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                    require_once '../includes/Cache.php';
+                    Cache::forget('home_announcements');
                     $success = "vacancy added successfully.";
                 } else {
                     $error = "Failed to add vacancy.";
@@ -111,6 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 if (empty($error)) {
                     $stmt = $pdo->prepare("UPDATE vacancies SET title = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
                     if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
+                        require_once '../includes/Cache.php';
+                        Cache::forget('home_announcements');
                         $success = "vacancy updated successfully.";
                     } else {
                         $error = "Failed to update vacancy.";

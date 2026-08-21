@@ -27,6 +27,9 @@ if (isset($_GET['delete'])) {
     
     $stmt = $pdo->prepare("DELETE FROM news WHERE id = ?");
     $stmt->execute([$del_id]);
+    require_once '../includes/Cache.php';
+    Cache::forget('home_recent_news_admin');
+    Cache::forget('home_recent_news_public');
     header("Location: news?success=deleted");
     exit;
 }
@@ -41,6 +44,9 @@ if (isset($_GET['approve'])) {
     $app_id = (int)$_GET['approve'];
     $stmt = $pdo->prepare("UPDATE news SET status = 'Published' WHERE id = ?");
     $stmt->execute([$app_id]);
+    require_once '../includes/Cache.php';
+    Cache::forget('home_recent_news_admin');
+    Cache::forget('home_recent_news_public');
     header("Location: news?success=approved");
     exit;
 }

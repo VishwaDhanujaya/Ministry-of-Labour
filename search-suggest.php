@@ -205,7 +205,7 @@ try {
     $lang_prefix = $current_lang . '/';
 
     // 1. Search News
-    $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM news WHERE status = 'Published' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
+    $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM news WHERE status = 'Published' AND visibility = 'public' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
     $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
     $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
     

@@ -136,6 +136,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($success_db) {
+                require_once '../includes/Cache.php';
+                Cache::forget('home_recent_news_admin');
+                Cache::forget('home_recent_news_public');
                 $success = "News item " . ($status === 'Draft' ? "saved as draft." : ($status === 'Pending Approval' ? "submitted for approval." : "published successfully."));
                 
                 // Handle multiple images

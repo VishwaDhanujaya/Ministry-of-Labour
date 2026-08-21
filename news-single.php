@@ -1,16 +1,13 @@
 <?php
 // article.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'admin/includes/db.php';
+
 $current_lang = 'en';
 if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_GET['lang'];
 } elseif (isset($_SESSION['lang']) && in_array($_SESSION['lang'], ['en', 'si', 'ta'])) {
     $current_lang = $_SESSION['lang'];
 }
-
-require_once 'admin/includes/db.php';
 require_once 'includes/translations.php';
 
 // Determine absolute base URL dynamically for redirects & SEO meta tags
@@ -26,7 +23,7 @@ if (!$id) {
     exit;
 }
 
-$stmt = $pdo->prepare("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id WHERE n.id = ? AND n.status = 'Published'");
+$stmt = $pdo->prepare("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id WHERE n.id = ? AND n.status = 'Published' AND n.visibility = 'public'");
 $stmt->execute([$id]);
 $article = $stmt->fetch();
 
@@ -50,7 +47,7 @@ $imgStmt->execute([$id]);
 $additionalImages = $imgStmt->fetchAll();
 
 // Fetch recent posts for sidebar (limit 10)
-$recentPostsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 10")->fetchAll();
+$recentPostsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' ORDER BY created_at DESC LIMIT 10")->fetchAll();
 $recentPosts = [];
 foreach ($recentPostsRaw as $post) {
     if ($current_lang === 'si' && !empty($post['title_si'])) $post['title'] = $post['title_si'];
@@ -59,7 +56,7 @@ foreach ($recentPostsRaw as $post) {
 }
 
 // Fetch Previous Article
-$prevStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND (created_at < ? OR (created_at = ? AND id < ?)) ORDER BY created_at DESC, id DESC LIMIT 1");
+$prevStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (created_at < ? OR (created_at = ? AND id < ?)) ORDER BY created_at DESC, id DESC LIMIT 1");
 $prevStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
 $prevArticle = $prevStmt->fetch();
 if ($prevArticle) {
@@ -68,7 +65,7 @@ if ($prevArticle) {
 }
 
 // Fetch Next Article
-$nextStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND (created_at > ? OR (created_at = ? AND id > ?)) ORDER BY created_at ASC, id ASC LIMIT 1");
+$nextStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (created_at > ? OR (created_at = ? AND id > ?)) ORDER BY created_at ASC, id ASC LIMIT 1");
 $nextStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
 $nextArticle = $nextStmt->fetch();
 if ($nextArticle) {

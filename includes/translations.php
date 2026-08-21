@@ -31,7 +31,7 @@ $lang_dict = [
     'overview' => [
         'en' => 'Overview',
         'si' => 'හැඳින්වීම',
-        'ta' => 'கண்ணோட்டம்'
+        'ta' => 'அறிமுகம்'
     ],
     'current_updates' => [
         'en' => 'Current Updates',
@@ -1544,7 +1544,7 @@ $lang_dict = [
     'iau_obj_e' => [
         'en' => 'Support legal enforcement Allegations of Bribery or Corruption (CIABOC).',
         'si' => 'අල්ලස් හෝ දූෂණ චෝදනා විමර්ශන කොමිෂන් සභාවේ (CIABOC) නීතිමය ක්‍රියාමාර්ග සඳහා සහාය වීම.',
-        'ta' => 'லஞ்சம் அல்லது ஊழல் பற்றிய குற்றச்சாட்டுகள் புலனாய்வு ஆணைக்குழுவின் (CIABOC) சட்ட அமலாக்கத்திற்கு ஆதரவளித்தல்.'
+        'ta' => 'லஞ்சம் அல்லது ஊழல் பற்றிய குற்றச்சாட்டுகள் புலனாய்வு ஆணைக்குழுவின் (CIABOC) சட்ட அமுலாக்க ஆதரவை வழங்குதல்'
     ],
 
     // IAU Responsibilities & Functions (14 Points)

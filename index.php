@@ -1,8 +1,5 @@
 <?php
 // index.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 require_once 'admin/includes/db.php';
 require_once 'includes/Cache.php';
 
@@ -18,10 +15,10 @@ if (!isset($_SESSION['has_visited_site'])) {
 
 
 // Fetch recent news (limit 3)
-$recentNewsRaw = Cache::get('home_recent_news', 300);
+$recentNewsRaw = Cache::get('home_recent_news_public', 300);
 if ($recentNewsRaw === null) {
-    $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' ORDER BY created_at DESC LIMIT 3")->fetchAll();
-    Cache::set('home_recent_news', $recentNewsRaw);
+    $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+    Cache::set('home_recent_news_public', $recentNewsRaw);
 }
 $recentNews = [];
 foreach ($recentNewsRaw as $news) {
