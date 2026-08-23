@@ -565,6 +565,18 @@ function initFormValidation() {
         }
 
         form.addEventListener('submit', (e) => {
+            // Check form double submission
+            if (form.dataset.submitting === 'true') {
+                const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
+                if (submitBtn && submitBtn.disabled) {
+                    e.preventDefault();
+                    return;
+                } else {
+                    // The button was re-enabled by an AJAX script, so reset submitting state
+                    form.dataset.submitting = 'false';
+                }
+            }
+
             // Check form dirtiness first
             if (!skipDirtyCheck && initialState !== '') {
                 const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
@@ -597,6 +609,9 @@ function initFormValidation() {
                 }
                 return;
             }
+            
+            // Validation passed, mark form as submitting to prevent double-clicks
+            form.dataset.submitting = 'true';
             
             // If valid (or validation bypassed), apply loading state to the submit button
             const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
@@ -1091,5 +1106,245 @@ function triggerWorkspaceLock() {
         window.location.reload();
     });
 }
+
+window.resolvePdfUrlJs = function(path) {
+    if (!path || path === '#') return '#';
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+        return path;
+    }
+    let cleanPath = path;
+    if (cleanPath.startsWith('/')) {
+        cleanPath = cleanPath.substring(1);
+    }
+    if (cleanPath.startsWith('admin/')) {
+        cleanPath = cleanPath.substring(6);
+    }
+    return cleanPath;
+};
+
+// --- Trilingual PDF Upload Widget Preview & Clear Controls ---
+document.addEventListener('DOMContentLoaded', () => {
+    // Wrap openEditModal and openAddModal to clear cached attributes
+    ['openEditModal', 'openAddModal'].forEach(funcName => {
+        const originalFunc = window[funcName];
+        if (typeof originalFunc === 'function') {
+            window[funcName] = function(...args) {
+                ['En', 'Si', 'Ta'].forEach(suffix => {
+                    const container = document.getElementById('pdfViewContainer' + suffix);
+                    if (container) {
+                        container.removeAttribute('data-original-href');
+                        container.removeAttribute('data-original-text');
+                    }
+                });
+                return originalFunc.apply(this, args);
+            };
+        }
+    });
+});
+
+// Listener for file input selection to show local preview
+document.addEventListener('change', (e) => {
+    const input = e.target;
+    if (input.tagName === 'INPUT' && input.type === 'file' && input.accept === 'application/pdf') {
+        const file = input.files[0];
+        let suffix = '';
+        if (input.id.endsWith('En')) suffix = 'En';
+        else if (input.id.endsWith('Si')) suffix = 'Si';
+        else if (input.id.endsWith('Ta')) suffix = 'Ta';
+        
+        if (!suffix) return;
+        
+        const container = document.getElementById('pdfViewContainer' + suffix);
+        const link = document.getElementById('pdfLink' + suffix);
+        
+        if (container && link) {
+            if (file) {
+                if (!container.hasAttribute('data-original-href')) {
+                    container.setAttribute('data-original-href', link.getAttribute('href') || '#');
+                    container.setAttribute('data-original-text', link.textContent || 'View PDF');
+                }
+                
+                const objectUrl = URL.createObjectURL(file);
+                link.href = objectUrl;
+                link.textContent = file.name;
+                
+                container.classList.remove('hidden');
+                container.classList.add('flex');
+            }
+        }
+    }
+});
+
+// Capturing listener to intercept and handle clicks on the delete button for local files
+document.addEventListener('click', (e) => {
+    const button = e.target.closest('button[onclick^="deletePdfAjax"]');
+    if (button) {
+        const match = button.getAttribute('onclick').match(/deletePdfAjax\('([a-z]+)'\)/);
+        if (match) {
+            const lang = match[1];
+            const suffix = lang.charAt(0).toUpperCase() + lang.slice(1);
+            
+            // Find corresponding input
+            const input = document.querySelector(`input[type="file"][id$="${suffix}"]`);
+            if (input && input.files.length > 0) {
+                // Intercept event to prevent calling backend AJAX deletion
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                
+                input.value = '';
+                
+                const container = document.getElementById('pdfViewContainer' + suffix);
+                const link = document.getElementById('pdfLink' + suffix);
+                if (container && link) {
+                    const originalHref = container.getAttribute('data-original-href') || '#';
+                    const originalText = container.getAttribute('data-original-text') || 'View PDF';
+                    
+                    if (originalHref !== '#' && originalHref !== '') {
+                        link.href = originalHref;
+                        link.textContent = originalText;
+                    } else {
+                        container.classList.add('hidden');
+                        container.classList.remove('flex');
+                    }
+                }
+                return false;
+            }
+        }
+    }
+}, true); // capturing phase is required to execute before inline onclick
+
+
+// --- Centralized Trilingual Translation & Tab Switching ---
+
+async function translateText(text, fromLang, toLang) {
+    if (!text) return '';
+    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
+    const data = await res.json();
+    return data[0].map(x => x[0]).join('');
+}
+
+async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fromLang, type) {
+    const langs = ['en', 'si', 'ta'];
+    const sourceId = idPrefix + fromLang.charAt(0).toUpperCase() + fromLang.slice(1);
+    let sourceVal = '';
+
+    if (type === 'quill') {
+        const quillSource = window['quill' + idPrefix + fromLang.charAt(0).toUpperCase() + fromLang.slice(1)];
+        if (quillSource) {
+            sourceVal = quillSource.getText().trim();
+        }
+    } else {
+        sourceVal = document.getElementById(sourceId).value.trim();
+    }
+
+    if (!sourceVal) {
+        window.showToast('Please enter text to translate.', 'warning');
+        return;
+    }
+
+    const translateBtn = document.getElementById(`translate-btn-${idPrefix}-${fromLang}`);
+    const originalText = translateBtn.innerHTML;
+    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+    translateBtn.disabled = true;
+
+    try {
+        for (const lang of langs) {
+            if (lang === fromLang) continue;
+            const targetId = idPrefix + lang.charAt(0).toUpperCase() + lang.slice(1);
+            
+            if (type === 'quill') {
+                const quillTarget = window['quill' + idPrefix + lang.charAt(0).toUpperCase() + lang.slice(1)];
+                if (quillTarget) {
+                    const translatedText = await translateText(sourceVal, fromLang, lang);
+                    quillTarget.setText(translatedText);
+                }
+            } else {
+                const translatedText = await translateText(sourceVal, fromLang, lang);
+                document.getElementById(targetId).value = translatedText;
+            }
+        }
+        window.showToast('Translation completed successfully.', 'success');
+    } catch (err) {
+        console.error(err);
+        window.showToast('An error occurred during translation.', 'error');
+    } finally {
+        translateBtn.innerHTML = originalText;
+        translateBtn.disabled = false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('click', function(e) {
+        const btn = e.target.closest('.lang-tab-btn');
+        if (!btn) return;
+        
+        const container = btn.parentElement;
+        const targetId = btn.dataset.target;
+        if (!targetId) return;
+
+        // Toggle active states on buttons within the same container
+        container.querySelectorAll('.lang-tab-btn').forEach(b => {
+            b.classList.remove('active', 'text-secondary', 'bg-white', 'shadow-sm', 'font-bold');
+            b.classList.add('text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
+        });
+        btn.classList.add('active', 'bg-white', 'shadow-sm', 'text-secondary', 'font-bold');
+        btn.classList.remove('text-slate-500', 'font-semibold', 'hover:bg-slate-50/50');
+
+        // Toggle visibility of target panels
+        const parentModalOrPage = container.parentElement;
+        parentModalOrPage.querySelectorAll('.lang-tab-content').forEach(panel => {
+            if (panel.id === targetId) {
+                panel.classList.remove('hidden');
+                panel.classList.add('block');
+            } else {
+                panel.classList.add('hidden');
+                panel.classList.remove('block');
+            }
+        });
+    });
+});
+
+window.initTrilingualQuill = function(idPrefix) {
+    const langs = ['En', 'Si', 'Ta'];
+    const options = {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link'],
+                ['clean']
+            ]
+        }
+    };
+    
+    langs.forEach(lang => {
+        const selector = '#' + idPrefix + lang;
+        const inputId = idPrefix + lang + '_input';
+        const el = document.querySelector(selector);
+        if (el) {
+            const quill = new Quill(selector, options);
+            window['quill' + idPrefix + lang] = quill;
+            
+            const input = document.getElementById(inputId);
+            if (input && input.value) {
+                quill.root.innerHTML = input.value;
+            }
+        }
+    });
+};
+
+window.syncQuillToHidden = function() {
+    const inputs = document.querySelectorAll('input[type="hidden"][id$="_input"]');
+    inputs.forEach(input => {
+        const baseId = input.id.replace('_input', '');
+        const quill = window['quill' + baseId];
+        if (quill) {
+            const html = quill.root.innerHTML;
+            input.value = (html === '<p><br></p>') ? '' : html;
+        }
+    });
+};
 
 

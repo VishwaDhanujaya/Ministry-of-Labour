@@ -36,11 +36,52 @@ if (isset($_GET['delete'])) {
     }
 }
 
+// Handle AJAX PDF Deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_pdf_ajax') {
+    requireCsrfToken('POST', 'post');
+    header('Content-Type: application/json');
+    $id = (int)($_POST['id'] ?? 0);
+    $lang = $_POST['lang'] ?? '';
+    
+    $allowed_langs = ['en', 'si', 'ta'];
+    if (!in_array($lang, $allowed_langs)) {
+        echo json_encode(['success' => false, 'error' => 'Invalid language.']);
+        exit;
+    }
+    
+    $col = ($lang === 'en') ? 'pdf_path' : 'pdf_path_' . $lang;
+    
+    $stmt = $pdo->prepare("SELECT $col FROM acts_amendments WHERE id = ?");
+    $stmt->execute([$id]);
+    $existing = $stmt->fetch();
+    
+    if (!$existing) {
+        echo json_encode(['success' => false, 'error' => 'Record not found.']);
+        exit;
+    }
+    
+    $path = $existing[$col];
+    if (!empty($path) && file_exists($path)) {
+        @unlink($path);
+    }
+    
+    $stmt = $pdo->prepare("UPDATE acts_amendments SET $col = NULL WHERE id = ?");
+    $stmt->execute([$id]);
+    
+    require_once '../includes/Cache.php';
+    Cache::forget('home_announcements');
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
 // Handle Add/Edit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     requireCsrfToken('POST', 'post');
     $action = $_POST['action'];
     $title = trim($_POST['title']);
+    $title_si = isset($_POST['title_si']) ? trim($_POST['title_si']) : null;
+    $title_ta = isset($_POST['title_ta']) ? trim($_POST['title_ta']) : null;
     $ref = trim($_POST['ref']);
     $category = $_POST['category'] ?? 'Acts';
     $status = $_POST['status'];
@@ -66,8 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 else $error = $uploadResult['error'];
             }
             if (empty($error)) {
-                $stmt = $pdo->prepare("INSERT INTO acts_amendments (title, ref, category, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                if ($stmt->execute([$title, $ref, $category, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                $stmt = $pdo->prepare("INSERT INTO acts_amendments (title, title_si, title_ta, ref, category, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $title_si, $title_ta, $ref, $category, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
                     $success = "Act/Amendment added successfully.";
                 } else {
                     $error = "Failed to add Act/Amendment.";
@@ -86,6 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $pdf_path = $existing['pdf_path'];
                 $pdf_path_si = $existing['pdf_path_si'];
                 $pdf_path_ta = $existing['pdf_path_ta'];
+                
+                // PDF files deletion handled immediately via AJAX
                 
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                     $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/acts', ['application/pdf'], 5242880);
@@ -110,8 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE acts_amendments SET title = ?, ref = ?, category = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $ref, $category, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE acts_amendments SET title = ?, title_si = ?, title_ta = ?, ref = ?, category = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $title_si, $title_ta, $ref, $category, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
                         $success = "Act/Amendment updated successfully.";
                     } else {
                         $error = "Failed to update Act/Amendment.";
@@ -300,11 +343,21 @@ include 'includes/header.php';
                         <input type="hidden" name="action" id="formAction" value="add">
                         <input type="hidden" name="act_id" id="actId" value="">
                         
+                        <?php renderTrilingualInputFields([
+                            'tab_group_id' => 'act-title-tabs',
+                            'fields' => [
+                                [
+                                    'name' => 'title',
+                                    'label' => 'Title',
+                                    'type' => 'input',
+                                    'id_prefix' => 'actTitle',
+                                    'required' => true,
+                                    'placeholder' => 'Act/Amendment Title'
+                                ]
+                            ]
+                        ]); ?>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div class="md:col-span-2">
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="actTitle" required placeholder="Act/Amendment Title" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-[13px] text-slate-700 placeholder-slate-400 font-semibold">
-                            </div>
                             
                             <div class="md:col-span-2">
                                 <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Reference No.</label>
@@ -337,23 +390,12 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
-                                <input type="file" name="pdf_file" id="actPdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
-                                <input type="file" name="pdf_file_si" id="actPdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
-                                <input type="file" name="pdf_file_ta" id="actPdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                        </div>
+                        <?php renderTrilingualPdfUploadFields([
+                            'file_input_prefix' => 'pdf_file',
+                            'file_input_id_prefix' => 'actPdf',
+                            'container_id_prefix' => 'pdfViewContainer',
+                            'link_id_prefix' => 'pdfLink'
+                        ]); ?>
 
                         <div class="pt-5 flex justify-end gap-3 border-t border-slate-100 mt-6 font-inter shrink-0">
                             <button type="button" onclick="closeActModal()" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-[12.5px] font-bold hover:bg-slate-50 transition-colors">
@@ -380,21 +422,34 @@ include 'includes/header.php';
             }
         }
 
+        let ajaxDeletedThisSession = false;
+
         function openAddModal() {
+            ajaxDeletedThisSession = false;
             document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg> Add New Document';
             document.getElementById('formAction').value = 'add';
             document.getElementById('actId').value = '';
             
             document.getElementById('actTitle').value = '';
+            document.getElementById('actTitleSi').value = '';
+            document.getElementById('actTitleTa').value = '';
             document.getElementById('actRef').value = '';
             document.getElementById('actCategory').value = 'Acts';
             document.getElementById('actStatus').value = 'Published';
             document.getElementById('actPdfEn').value = '';
             document.getElementById('actPdfSi').value = '';
             document.getElementById('actPdfTa').value = '';
-            document.getElementById('editPdfHintEn').classList.add('hidden');
-            document.getElementById('editPdfHintSi').classList.add('hidden');
-            document.getElementById('editPdfHintTa').classList.add('hidden');
+            
+            document.getElementById('pdfViewContainerEn').classList.add('hidden');
+            document.getElementById('pdfViewContainerEn').classList.remove('flex');
+            document.getElementById('pdfViewContainerSi').classList.add('hidden');
+            document.getElementById('pdfViewContainerSi').classList.remove('flex');
+            document.getElementById('pdfViewContainerTa').classList.add('hidden');
+            document.getElementById('pdfViewContainerTa').classList.remove('flex');
+            
+            // Switch to English tab by default
+            const firstTab = document.querySelector('.lang-tab-btn[data-target="act-title-tabs-en"]');
+            if (firstTab) firstTab.click();
             
             document.getElementById('submitBtnText').textContent = 'Create Document';
             
@@ -410,20 +465,49 @@ include 'includes/header.php';
         }
 
         function openEditModal(act) {
+            ajaxDeletedThisSession = false;
             document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path></svg> Edit Document';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('actId').value = act.id;
             
             document.getElementById('actTitle').value = act.title;
+            document.getElementById('actTitleSi').value = act.title_si || '';
+            document.getElementById('actTitleTa').value = act.title_ta || '';
             document.getElementById('actRef').value = act.ref || '';
             document.getElementById('actCategory').value = act.category || 'Acts';
             document.getElementById('actStatus').value = act.status;
             document.getElementById('actPdfEn').value = '';
             document.getElementById('actPdfSi').value = '';
             document.getElementById('actPdfTa').value = '';
-            document.getElementById('editPdfHintEn').classList.remove('hidden');
-            document.getElementById('editPdfHintSi').classList.remove('hidden');
-            document.getElementById('editPdfHintTa').classList.remove('hidden');
+            
+            if (act.pdf_path) {
+                document.getElementById('pdfLinkEn').href = window.resolvePdfUrlJs(act.pdf_path);
+                document.getElementById('pdfViewContainerEn').classList.remove('hidden');
+                document.getElementById('pdfViewContainerEn').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerEn').classList.add('hidden');
+                document.getElementById('pdfViewContainerEn').classList.remove('flex');
+            }
+            if (act.pdf_path_si) {
+                document.getElementById('pdfLinkSi').href = window.resolvePdfUrlJs(act.pdf_path_si);
+                document.getElementById('pdfViewContainerSi').classList.remove('hidden');
+                document.getElementById('pdfViewContainerSi').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerSi').classList.add('hidden');
+                document.getElementById('pdfViewContainerSi').classList.remove('flex');
+            }
+            if (act.pdf_path_ta) {
+                document.getElementById('pdfLinkTa').href = window.resolvePdfUrlJs(act.pdf_path_ta);
+                document.getElementById('pdfViewContainerTa').classList.remove('hidden');
+                document.getElementById('pdfViewContainerTa').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerTa').classList.add('hidden');
+                document.getElementById('pdfViewContainerTa').classList.remove('flex');
+            }
+            
+            // Switch to English tab by default
+            const firstTab = document.querySelector('.lang-tab-btn[data-target="act-title-tabs-en"]');
+            if (firstTab) firstTab.click();
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             
@@ -439,6 +523,10 @@ include 'includes/header.php';
         }
 
         function closeActModal() {
+            if (ajaxDeletedThisSession) {
+                window.location.reload();
+                return;
+            }
             const modal = document.getElementById('actModal');
             const modalBox = modal.querySelector('.bg-white');
             
@@ -450,6 +538,54 @@ include 'includes/header.php';
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }, 300);
+        }
+
+        function deletePdfAjax(lang) {
+            const id = document.getElementById('actId').value;
+            if (!id) return;
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+            
+            window.showModal(
+                'Delete Document',
+                'Are you sure you want to permanently delete this document?',
+                'Delete',
+                'bg-red-600 hover:bg-red-700',
+                function() {
+                    fetch('', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            action: 'delete_pdf_ajax',
+                            id: id,
+                            lang: lang,
+                            csrf_token: csrfToken
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.showToast('Document deleted successfully.', 'success');
+                            ajaxDeletedThisSession = true;
+                            
+                            let containerId = 'pdfViewContainerEn';
+                            if (lang === 'si') containerId = 'pdfViewContainerSi';
+                            if (lang === 'ta') containerId = 'pdfViewContainerTa';
+                            
+                            const container = document.getElementById(containerId);
+                            if (container) {
+                                container.classList.add('hidden');
+                                container.classList.remove('flex');
+                            }
+                        } else {
+                            window.showToast(data.error || 'Failed to delete document.', 'error');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        window.showToast('An error occurred while deleting the document.', 'error');
+                    });
+                }
+            );
         }
         </script>
 

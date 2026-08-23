@@ -30,7 +30,7 @@ $officers_list = [
 $ministry_address = [
     'en' => 'Ministry of Labour, 6th Floor, "Mehewara Piyesa", Narahenpita, Colombo 05',
     'si' => 'කම්කරු අමාත්‍යංශය, හයවන මහල, “මෙහෙවර පියෙස”, නාරාහේන්පිට, කොළඹ 05',
-    'ta' => 'தோழில் அமைச்சு, 6வது மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05'
+    'ta' => 'தொழில் அமைச்சு, 6வது மாடி, "மெஹெவர பியச", நாரஹேன்பிட்ட, கொழும்பு 05'
 ];
 
 foreach ($rti_officers_raw as $officer) {

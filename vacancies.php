@@ -23,9 +23,14 @@ foreach ($raw_vacancies as $vac) {
     if ($current_lang === 'si' && !empty($vac['title_si'])) $vac_title = $vac['title_si'];
     elseif ($current_lang === 'ta' && !empty($vac['title_ta'])) $vac_title = $vac['title_ta'];
 
+    // Language-aware description fallback: use native language description if available, else fall back to English
+    $vac_desc = $vac['description'];
+    if ($current_lang === 'si' && !empty($vac['description_si'])) $vac_desc = $vac['description_si'];
+    elseif ($current_lang === 'ta' && !empty($vac['description_ta'])) $vac_desc = $vac['description_ta'];
+
     $all_documents[] = [
         'title' => $vac_title,
-        'description' => $vac['description'] ?? '',
+        'description' => $vac_desc ?? '',
         'ref' => date('Y-m-d', strtotime($vac['created_at'])),
         'category' => 'Vacancy',
         'pdf_path' => !empty($vac['pdf_path']) ? resolvePdfUrl($vac['pdf_path']) : '',

@@ -49,16 +49,48 @@ try {
     $phone = $_POST['phone_mobile'] ?? '';
     $email = $_POST['email'] ?? '';
 
-    // Handle File Upload (Disabled)
+    // Handle File Upload
     $recommendation_file = null;
+    $payment_slip = null;
+    $approval_letter = null;
+    $allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
+
+    if (isset($_FILES['payment_slip']) && $_FILES['payment_slip']['error'] === UPLOAD_ERR_OK) {
+        $res = handleFileUpload($_FILES['payment_slip'], 'uploads/bookings', $allowedMimes);
+        if ($res['success']) {
+            $payment_slip = $res['path'];
+        } else {
+            header('Location: ampara-circuit-bungalow-booking?error=upload_failed:' . urlencode('Payment Slip: ' . $res['error']));
+            exit;
+        }
+    } else {
+        header('Location: ampara-circuit-bungalow-booking?error=upload_failed:' . urlencode('Payment Slip is required.'));
+        exit;
+    }
+
+    if ($applicant_category === 'Ministry of Labour Staff') {
+        if (isset($_FILES['approval_letter']) && $_FILES['approval_letter']['error'] === UPLOAD_ERR_OK) {
+            $res = handleFileUpload($_FILES['approval_letter'], 'uploads/bookings', $allowedMimes);
+            if ($res['success']) {
+                $approval_letter = $res['path'];
+            } else {
+                header('Location: ampara-circuit-bungalow-booking?error=upload_failed:' . urlencode('Approval Letter: ' . $res['error']));
+                exit;
+            }
+        } else {
+            header('Location: ampara-circuit-bungalow-booking?error=upload_failed:' . urlencode('Approval Letter is required for officers.'));
+            exit;
+        }
+    }
 
     // Insert into Bookings
     $stmt = $pdo->prepare("INSERT INTO bookings (
         bungalow_name, applicant_name, designation, is_retired, workplace_address, 
         nic, passport_number, residential_address, phone, phone_office, email, 
         applicant_category, room_type, no_of_rooms, start_date, end_date, 
-        arrival_time, departure_time, recommendation_file, entire_bungalow
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        arrival_time, departure_time, recommendation_file, entire_bungalow,
+        payment_slip, approval_letter
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
     $stmt->execute([
         $bungalow_name,
@@ -80,7 +112,9 @@ try {
         $arrival_time,
         $departure_time,
         $recommendation_file,
-        $entire_bungalow
+        $entire_bungalow,
+        $payment_slip,
+        $approval_letter
     ]);
 
     $booking_id = $pdo->lastInsertId();

@@ -36,12 +36,55 @@ if (isset($_GET['delete'])) {
     }
 }
 
+// Handle AJAX PDF Deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete_pdf_ajax') {
+    requireCsrfToken('POST', 'post');
+    header('Content-Type: application/json');
+    $id = (int)($_POST['id'] ?? 0);
+    $lang = $_POST['lang'] ?? '';
+    
+    $allowed_langs = ['en', 'si', 'ta'];
+    if (!in_array($lang, $allowed_langs)) {
+        echo json_encode(['success' => false, 'error' => 'Invalid language.']);
+        exit;
+    }
+    
+    $col = ($lang === 'en') ? 'pdf_path' : 'pdf_path_' . $lang;
+    
+    $stmt = $pdo->prepare("SELECT $col FROM learning_platforms_foreign WHERE id = ?");
+    $stmt->execute([$id]);
+    $existing = $stmt->fetch();
+    
+    if (!$existing) {
+        echo json_encode(['success' => false, 'error' => 'Record not found.']);
+        exit;
+    }
+    
+    $path = $existing[$col];
+    if (!empty($path) && file_exists($path)) {
+        @unlink($path);
+    }
+    
+    $stmt = $pdo->prepare("UPDATE learning_platforms_foreign SET $col = NULL WHERE id = ?");
+    $stmt->execute([$id]);
+    
+    require_once '../includes/Cache.php';
+    Cache::forget('home_announcements');
+    
+    echo json_encode(['success' => true]);
+    exit;
+}
+
 // Handle Add/Edit
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     requireCsrfToken('POST', 'post');
     $action = $_POST['action'];
     $title = trim($_POST['title']);
+    $title_si = isset($_POST['title_si']) ? trim($_POST['title_si']) : null;
+    $title_ta = isset($_POST['title_ta']) ? trim($_POST['title_ta']) : null;
     $description = trim($_POST['description']);
+    $description_si = isset($_POST['description_si']) ? trim($_POST['description_si']) : null;
+    $description_ta = isset($_POST['description_ta']) ? trim($_POST['description_ta']) : null;
     $status = $_POST['status'];
     
     if (empty($title)) {
@@ -65,8 +108,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 else $error = $uploadResult['error'];
             }
             if (empty($error)) {
-                $stmt = $pdo->prepare("INSERT INTO learning_platforms_foreign (title, description, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?)");
-                if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
+                $stmt = $pdo->prepare("INSERT INTO learning_platforms_foreign (title, title_si, title_ta, description, description_si, description_ta, pdf_path, pdf_path_si, pdf_path_ta, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if ($stmt->execute([$title, $title_si, $title_ta, $description, $description_si, $description_ta, $pdf_path, $pdf_path_si, $pdf_path_ta, $status])) {
                     $success = "Foreign Learning Platform added successfully.";
                 } else {
                     $error = "Failed to add learning_platform_foreign.";
@@ -85,6 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $pdf_path = $existing['pdf_path'];
                 $pdf_path_si = $existing['pdf_path_si'];
                 $pdf_path_ta = $existing['pdf_path_ta'];
+                
+                // PDF files deletion handled immediately via AJAX
                 
                 if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
                     $uploadResult = handleFileUpload($_FILES['pdf_file'], 'uploads/learning_platforms', ['application/pdf'], 5242880);
@@ -109,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
                 
                 if (empty($error)) {
-                    $stmt = $pdo->prepare("UPDATE learning_platforms_foreign SET title = ?, description = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
-                    if ($stmt->execute([$title, $description, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
+                    $stmt = $pdo->prepare("UPDATE learning_platforms_foreign SET title = ?, title_si = ?, title_ta = ?, description = ?, description_si = ?, description_ta = ?, pdf_path = ?, pdf_path_si = ?, pdf_path_ta = ?, status = ? WHERE id = ?");
+                    if ($stmt->execute([$title, $title_si, $title_ta, $description, $description_si, $description_ta, $pdf_path, $pdf_path_si, $pdf_path_ta, $status, $edit_id])) {
                         $success = "Foreign Learning Platform updated successfully.";
                     } else {
                         $error = "Failed to update learning_platform_foreign.";
@@ -283,11 +328,28 @@ include 'includes/header.php';
                         <input type="hidden" name="action" id="formAction" value="add">
                         <input type="hidden" name="pub_id" id="pubId" value="">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-[13px] font-medium text-gray-800 mb-2">Title <span class="text-red-500">*</span></label>
-                                <input type="text" name="title" id="pubTitle" required placeholder="Foreign Learning Platform title" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
-                            </div>
+                        <?php renderTrilingualInputFields([
+                            'tab_group_id' => 'pub-tabs',
+                            'fields' => [
+                                [
+                                    'name' => 'title',
+                                    'label' => 'Title',
+                                    'type' => 'input',
+                                    'id_prefix' => 'pubTitle',
+                                    'required' => true,
+                                    'placeholder' => 'Foreign Learning Platform title'
+                                ],
+                                [
+                                    'name' => 'description',
+                                    'label' => 'Description',
+                                    'type' => 'quill',
+                                    'id_prefix' => 'pubDescription',
+                                    'placeholder' => 'Foreign Learning Platform description'
+                                ]
+                            ]
+                        ]); ?>
+
+                        <div class="grid grid-cols-1 gap-6 mt-5">
                             <div>
                                 <label class="block text-[13px] font-medium text-gray-800 mb-2">Status</label>
                                 <div class="relative">
@@ -300,31 +362,12 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-[13px] font-medium text-gray-800 mb-2">Description (Optional)</label>
-                            <input type="hidden" name="description" id="pubDescriptionInput">
-                            <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
-                                <div id="pubDescription" style="height: 150px;"></div>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (English)</label>
-                                <input type="file" name="pdf_file" id="pubPdfEn" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintEn" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Sinhala)</label>
-                                <input type="file" name="pdf_file_si" id="pubPdfSi" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintSi" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">PDF File (Tamil)</label>
-                                <input type="file" name="pdf_file_ta" id="pubPdfTa" accept="application/pdf" class="w-full text-[12px] text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[12px] file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                                <p id="editPdfHintTa" class="text-[11px] text-slate-400 mt-1.5 hidden">Upload a new file to replace the existing one.</p>
-                            </div>
-                        </div>
+                        <?php renderTrilingualPdfUploadFields([
+                            'file_input_prefix' => 'pdf_file',
+                            'file_input_id_prefix' => 'pubPdf',
+                            'container_id_prefix' => 'pdfViewContainer',
+                            'link_id_prefix' => 'pdfLink'
+                        ]); ?>
 
                         <div class="pt-4 mt-2 flex justify-end gap-3 border-t border-gray-100">
                             <button type="button" onclick="closePubModal()" class="px-5 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-md text-[13px] font-medium hover:bg-gray-50 transition-colors">
@@ -340,20 +383,37 @@ include 'includes/header.php';
         </div>
 
         <script>
+        let ajaxDeletedThisSession = false;
+
         function openAddModal() {
+            ajaxDeletedThisSession = false;
             document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg> Add New Foreign Learning Platform';
             document.getElementById('formAction').value = 'add';
             document.getElementById('pubId').value = '';
             
-            document.getElementById('pubTitle').value = '';
-            quillPub.setText('');
+            document.getElementById('pubTitleEn').value = '';
+            document.getElementById('pubTitleSi').value = '';
+            document.getElementById('pubTitleTa').value = '';
+            
+            if (window.quillpubDescriptionEn) window.quillpubDescriptionEn.setText('');
+            if (window.quillpubDescriptionSi) window.quillpubDescriptionSi.setText('');
+            if (window.quillpubDescriptionTa) window.quillpubDescriptionTa.setText('');
+            
             document.getElementById('pubStatus').value = 'Published';
             document.getElementById('pubPdfEn').value = '';
             document.getElementById('pubPdfSi').value = '';
             document.getElementById('pubPdfTa').value = '';
-            document.getElementById('editPdfHintEn').classList.add('hidden');
-            document.getElementById('editPdfHintSi').classList.add('hidden');
-            document.getElementById('editPdfHintTa').classList.add('hidden');
+            
+            document.getElementById('pdfViewContainerEn').classList.add('hidden');
+            document.getElementById('pdfViewContainerEn').classList.remove('flex');
+            document.getElementById('pdfViewContainerSi').classList.add('hidden');
+            document.getElementById('pdfViewContainerSi').classList.remove('flex');
+            document.getElementById('pdfViewContainerTa').classList.add('hidden');
+            document.getElementById('pdfViewContainerTa').classList.remove('flex');
+            
+            // Reset language tabs
+            const firstTab = document.querySelector('.lang-tab-btn[data-target="pub-tabs-en"]');
+            if (firstTab) firstTab.click();
             
             document.getElementById('submitBtnText').textContent = 'Create Foreign Learning Platform';
             
@@ -363,19 +423,52 @@ include 'includes/header.php';
         }
 
         function openEditModal(pub) {
+            ajaxDeletedThisSession = false;
             document.getElementById('modalTitle').innerHTML = '<svg class="w-5 h-5 mr-2 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg> Edit Foreign Learning Platform';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('pubId').value = pub.id;
             
-            document.getElementById('pubTitle').value = pub.title;
-            quillPub.root.innerHTML = pub.description || '';
+            document.getElementById('pubTitleEn').value = pub.title;
+            document.getElementById('pubTitleSi').value = pub.title_si || '';
+            document.getElementById('pubTitleTa').value = pub.title_ta || '';
+            
+            if (window.quillpubDescriptionEn) window.quillpubDescriptionEn.root.innerHTML = pub.description || '';
+            if (window.quillpubDescriptionSi) window.quillpubDescriptionSi.root.innerHTML = pub.description_si || '';
+            if (window.quillpubDescriptionTa) window.quillpubDescriptionTa.root.innerHTML = pub.description_ta || '';
+            
             document.getElementById('pubStatus').value = pub.status;
             document.getElementById('pubPdfEn').value = '';
             document.getElementById('pubPdfSi').value = '';
             document.getElementById('pubPdfTa').value = '';
-            document.getElementById('editPdfHintEn').classList.remove('hidden');
-            document.getElementById('editPdfHintSi').classList.remove('hidden');
-            document.getElementById('editPdfHintTa').classList.remove('hidden');
+            
+            if (pub.pdf_path) {
+                document.getElementById('pdfLinkEn').href = window.resolvePdfUrlJs(pub.pdf_path);
+                document.getElementById('pdfViewContainerEn').classList.remove('hidden');
+                document.getElementById('pdfViewContainerEn').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerEn').classList.add('hidden');
+                document.getElementById('pdfViewContainerEn').classList.remove('flex');
+            }
+            if (pub.pdf_path_si) {
+                document.getElementById('pdfLinkSi').href = window.resolvePdfUrlJs(pub.pdf_path_si);
+                document.getElementById('pdfViewContainerSi').classList.remove('hidden');
+                document.getElementById('pdfViewContainerSi').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerSi').classList.add('hidden');
+                document.getElementById('pdfViewContainerSi').classList.remove('flex');
+            }
+            if (pub.pdf_path_ta) {
+                document.getElementById('pdfLinkTa').href = window.resolvePdfUrlJs(pub.pdf_path_ta);
+                document.getElementById('pdfViewContainerTa').classList.remove('hidden');
+                document.getElementById('pdfViewContainerTa').classList.add('flex');
+            } else {
+                document.getElementById('pdfViewContainerTa').classList.add('hidden');
+                document.getElementById('pdfViewContainerTa').classList.remove('flex');
+            }
+            
+            // Reset language tabs
+            const firstTab = document.querySelector('.lang-tab-btn[data-target="pub-tabs-en"]');
+            if (firstTab) firstTab.click();
             
             document.getElementById('submitBtnText').textContent = 'Save Changes';
             
@@ -385,36 +478,69 @@ include 'includes/header.php';
         }
 
         function closePubModal() {
+            if (ajaxDeletedThisSession) {
+                window.location.reload();
+                return;
+            }
             const modal = document.getElementById('pubModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }
+
+        function deletePdfAjax(lang) {
+            const id = document.getElementById('pubId').value;
+            if (!id) return;
+            const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+            
+            window.showModal(
+                'Delete Document',
+                'Are you sure you want to permanently delete this document?',
+                'Delete',
+                'bg-red-600 hover:bg-red-700',
+                function() {
+                    fetch('', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            action: 'delete_pdf_ajax',
+                            id: id,
+                            lang: lang,
+                            csrf_token: csrfToken
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.showToast('Document deleted successfully.', 'success');
+                            ajaxDeletedThisSession = true;
+                            
+                            let containerId = 'pdfViewContainerEn';
+                            if (lang === 'si') containerId = 'pdfViewContainerSi';
+                            if (lang === 'ta') containerId = 'pdfViewContainerTa';
+                            
+                            const container = document.getElementById(containerId);
+                            if (container) {
+                                container.classList.add('hidden');
+                                container.classList.remove('flex');
+                            }
+                        } else {
+                            window.showToast(data.error || 'Failed to delete document.', 'error');
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        window.showToast('An error occurred while deleting the document.', 'error');
+                    });
+                }
+            );
         }
         
         // Include Quill JS
         </script>
         <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
         <script>
-        // Initialize Quill editor
-        const quillPub = new Quill('#pubDescription', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link'],
-                    ['clean']
-                ]
-            }
-        });
-
-        // Sync Quill content to hidden input on form submit
-        const form = document.getElementById('pubForm');
-        if (form) {
-            form.addEventListener('submit', function() {
-                const html = quillPub.root.innerHTML;
-                document.getElementById('pubDescriptionInput').value = (html === '<p><br></p>') ? '' : html;
-            });
-        }
+        // Initialize Quill editors
+        window.initTrilingualQuill('pubDescription');
         </script>
 
         <!-- Preview Modal -->

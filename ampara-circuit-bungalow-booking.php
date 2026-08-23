@@ -69,6 +69,23 @@ include 'includes/sub-hero.php';
 
             <!-- Form Content -->
             <form id="bookingForm" action="process-ampara-booking" method="POST" class="p-8" enctype="multipart/form-data">
+                <?php if (isset($_GET['error'])): ?>
+                    <div class="bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3.5 rounded-xl mb-6 font-inter text-sm font-semibold flex items-center gap-2">
+                        <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>
+                            <?php
+                            $errCode = $_GET['error'];
+                            if ($errCode === 'submission_failed') {
+                                echo 'Booking submission failed. Please try again.';
+                            } elseif (strpos($errCode, 'upload_failed:') === 0) {
+                                echo htmlspecialchars(substr($errCode, 14));
+                            } else {
+                                echo 'An error occurred during booking. Please try again.';
+                            }
+                            ?>
+                        </span>
+                    </div>
+                <?php endif; ?>
                 
                 <!-- Step 1: Reservation Details -->
                 <div class="form-step active" id="step-1">
@@ -253,6 +270,22 @@ include 'includes/sub-hero.php';
                         </div>
                     </div>
 
+                    <!-- Document Upload Section -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-8">
+                        <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-primary border-b border-gray-200 pb-2">Document Upload</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div id="payment_slip_container">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Payment Slip <span class="text-red-500">*</span></label>
+                                <input type="file" name="payment_slip" id="payment_slip" accept=".jpg,.jpeg,.png,.pdf" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white" required>
+                                <span class="text-[11px] text-gray-400 mt-1 block">Supported formats: JPG, JPEG, PNG, PDF (Max 5MB)</span>
+                            </div>
+                            <div id="approval_letter_container">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Approval Letter <span class="text-red-500">*</span></label>
+                                <input type="file" name="approval_letter" id="approval_letter" accept=".jpg,.jpeg,.png,.pdf" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white" required>
+                                <span class="text-[11px] text-gray-400 mt-1 block">Supported formats: JPG, JPEG, PNG, PDF (Max 5MB)</span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="bg-gray-50 p-5 rounded-lg border border-gray-200 mb-6">
                         <h4 class="font-medium text-gray-900 mb-3 text-sm">Declaration</h4>
@@ -360,6 +393,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const retiredContainer = document.getElementById('retired_container');
     const workplaceAddressContainer = document.getElementById('workplace_address_container');
     const workplaceAddressInput = document.getElementById('workplace_address');
+    const approvalLetterContainer = document.getElementById('approval_letter_container');
+    const approvalLetterInput = document.getElementById('approval_letter');
 
     function updateIdentityFields() {
         const checkedRadio = document.querySelector('input[name="applicant_category"]:checked');
@@ -388,6 +423,10 @@ document.addEventListener('DOMContentLoaded', function() {
             retiredContainer.classList.remove('hidden');
             workplaceAddressContainer.classList.remove('hidden');
             workplaceAddressInput.setAttribute('required', 'required');
+            if (approvalLetterContainer && approvalLetterInput) {
+                approvalLetterContainer.classList.remove('hidden');
+                approvalLetterInput.setAttribute('required', 'required');
+            }
         } else {
             designationContainer.classList.add('hidden');
             designationInput.removeAttribute('required');
@@ -396,6 +435,11 @@ document.addEventListener('DOMContentLoaded', function() {
             workplaceAddressContainer.classList.add('hidden');
             workplaceAddressInput.removeAttribute('required');
             workplaceAddressInput.value = '';
+            if (approvalLetterContainer && approvalLetterInput) {
+                approvalLetterContainer.classList.add('hidden');
+                approvalLetterInput.removeAttribute('required');
+                approvalLetterInput.value = '';
+            }
         }
 
         // Force refresh room container if open

@@ -1,39 +1,48 @@
 <?php
+require_once 'admin/includes/db.php';
+
 $page_title = 'IAU Updates';
 $pageTitle = 'IAU Updates - Ministry of Labour - Sri Lanka';
-$metaDescription = 'View all current updates and notices from the Internal Affairs Unit (IAU) of the Ministry of Labour, Sri Lanka.';
-$metaKeywords = 'IAU, Internal Affairs Unit, Updates, Notices, Ministry of Labour, Sri Lanka';
+$metaDescription = 'View latest gallery updates from the Internal Affairs Unit (IAU) of the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'IAU, Internal Affairs Unit, Updates, Gallery, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
 $breadcrumbs = [
     ['label' => 'IAU', 'url' => 'iau'],
-    ['label' => 'Current Updates']
+    ['label' => 'IAU Updates']
 ];
 include 'includes/sub-hero.php';
 
-require_once 'admin/includes/db.php';
+// Fetch active gallery albums from the database
+$stmt = $pdo->prepare("SELECT * FROM iau_updates WHERE is_active = 1 ORDER BY created_at DESC");
+$stmt->execute();
+$albums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch published IAU updates
-$stmt = $pdo->query("SELECT * FROM iau_updates WHERE status = 'Published' ORDER BY created_at DESC");
-$raw_updates = $stmt->fetchAll();
-
-$all_documents = [];
-$categoryColors = [
-    'IAU Update' => 'bg-teal-50 text-teal-700 border-teal-100'
-];
-
-foreach ($raw_updates as $update) {
-    // Language-aware title fallback
-    $update_title = $update['title'];
-    if ($current_lang === 'si' && !empty($update['title_si'])) $update_title = $update['title_si'];
-    elseif ($current_lang === 'ta' && !empty($update['title_ta'])) $update_title = $update['title_ta'];
-
-    $all_documents[] = [
-        'title' => $update_title,
-        'description' => $update['content'] ?? '',
-        'ref' => date('Y-m-d', strtotime($update['created_at'])),
-        'category' => 'IAU Update',
-        'pdf_path' => !empty($update['pdf_path']) ? resolvePdfUrl($update['pdf_path']) : '',
-        'created_at' => $update['created_at']
+$gallery_items = [];
+foreach ($albums as $album) {
+    // Fetch associated gallery images
+    $imgStmt = $pdo->prepare("SELECT image_path FROM iau_update_images WHERE update_id = ? ORDER BY sort_order ASC, id ASC");
+    $imgStmt->execute([$album['id']]);
+    $images = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    // Build full slide images array starting with cover image
+    $album_images = $images;
+    if (!empty($album['cover_image']) && !in_array($album['cover_image'], $album_images)) {
+        array_unshift($album_images, $album['cover_image']);
+    }
+    
+    // Fallback if no images are attached
+    if (empty($album_images)) {
+        $album_images[] = 'assets/img/placeholder.jpg';
+    }
+    
+    $gallery_items[] = [
+        'id' => $album['id'],
+        'title_en' => $album['title_en'],
+        'title_si' => $album['title_si'],
+        'title_ta' => $album['title_ta'],
+        'cover_image' => !empty($album['cover_image']) ? $album['cover_image'] : 'assets/img/placeholder.jpg',
+        'images' => $album_images,
+        'date' => $album['created_at']
     ];
 }
 ?>
@@ -41,394 +50,291 @@ foreach ($raw_updates as $update) {
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F9FAFB] min-h-[75vh]">
     <div class="container mx-auto max-w-6xl">
         
-        <!-- Controls Bar -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8 notranslate">
-            <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
-                
-                <!-- Search -->
-                <div class="relative flex-1">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                    <input type="text" id="searchInput" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-11 pr-4 py-3 font-inter transition-all outline-none" placeholder="<?= t('search_updates_placeholder', 'Search IAU updates by title or date...') ?>" onkeyup="resetPaginationAndFilter()">
-                </div>
-                
-                <!-- Filters & Views -->
-                <div class="flex flex-wrap sm:flex-nowrap gap-3 items-center">
-                    
-                    <!-- Items per page -->
-                    <div class="relative w-full sm:w-36">
-                        <select id="itemsPerPage" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
-                            <option value="12">12 <?= t('per_page_label', 'per page') ?></option>
-                            <option value="24">24 <?= t('per_page_label', 'per page') ?></option>
-                            <option value="48">48 <?= t('per_page_label', 'per page') ?></option>
-                            <option value="all"><?= t('show_all', 'Show All') ?></option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                    </div>
-
-                    <!-- View Toggle -->
-                    <div class="bg-gray-100 p-1 rounded-xl flex items-center shrink-0">
-                        <button onclick="changeView('grid')" id="btnGridView" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all focus:outline-none" title="Grid View">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                        </button>
-                        <button onclick="changeView('list')" id="btnListView" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all focus:outline-none" title="List View">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
+        <div class="mb-10 text-center">
+            <h2 class="text-3xl font-bold text-primary font-montserrat tracking-tight uppercase"><?= t('iau_updates', 'IAU Updates') ?></h2>
+            <p class="mt-4 text-gray-500 max-w-2xl mx-auto"><?= t('iau_gallery_desc', 'Explore our latest activities and engagements promoting integrity and transparency within the Ministry.') ?></p>
         </div>
 
-        <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style="display: none;">
-            <?php foreach ($all_documents as $index => $doc): 
-                $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
+        <!-- Gallery Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <?php foreach ($gallery_items as $index => $item): 
+                $item_title = $item['title_en'];
+                if ($current_lang === 'si' && !empty($item['title_si'])) $item_title = $item['title_si'];
+                elseif ($current_lang === 'ta' && !empty($item['title_ta'])) $item_title = $item['title_ta'];
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
-                'title' => $doc['title'],
-                'content' => $doc['description'],
-                'date' => date('M d, Y', strtotime($doc['created_at'])),
-                'category' => translateCategory($doc['category']),
-                'pdf_path' => $doc['pdf_path'] ?? ''
-            ])) ?>)">
-                <div>
-                    <!-- Badge & Icon -->
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="notranslate px-2.5 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col cursor-pointer" onclick="openGalleryModal(<?= $index ?>)">
+                <div class="relative h-60 w-full overflow-hidden bg-gray-100">
+                    <img src="<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item_title) ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 fallback-img">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
+                    <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2.5 text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
-                    <!-- Title -->
-                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-secondary transition-colors group-hover:text-secondary"><?= htmlspecialchars($doc['title']) ?></h3>
-                    <!-- Reference Date -->
-                    <p class="text-xs text-gray-500 font-medium font-inter mb-6">Published: <?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
-                <!-- Action Button -->
-                <?php if (!empty($doc['pdf_path'])): ?>
-                <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm" onclick="event.stopPropagation();">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Download Document
-                </a>
-                <?php else: ?>
-                <button class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-450 border border-gray-200 text-gray-500 rounded-xl text-[13px] font-bold cursor-default" onclick="event.stopPropagation();">
-                    View Details
-                </button>
-                <?php endif; ?>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-[17px] leading-snug mb-3 group-hover:text-secondary transition-colors"><?= htmlspecialchars($item_title) ?></h3>
+                    </div>
+                    <div class="flex items-center text-xs text-gray-500 font-medium font-inter">
+                        <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <?= date('M d, Y', strtotime($item['date'])) ?>
+                    </div>
+                </div>
             </div>
             <?php endforeach; ?>
-        </div>
-
-        <!-- List View Layout Container -->
-        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-gray-600 font-inter">
-                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100 notranslate">
-                        <tr>
-                            <th class="px-6 py-4 font-semibold text-[13.5px]"><?= t('th_document_title', 'Document Title') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-48"><?= t('th_category', 'Category') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] w-40"><?= t('th_published_date', 'Published Date') ?></th>
-                            <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56"><?= t('th_action', 'Action') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <?php foreach ($all_documents as $index => $doc): 
-                            $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
-                        ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
-                            'title' => $doc['title'],
-                            'content' => $doc['description'],
-                            'date' => date('M d, Y', strtotime($doc['created_at'])),
-                            'category' => translateCategory($doc['category']),
-                            'pdf_path' => $doc['pdf_path'] ?? ''
-                        ])) ?>)">
-                            <td class="px-6 py-4">
-                                <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="notranslate px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
-                            </td>
-                            <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
-                                <?= htmlspecialchars($doc['ref']) ?>
-                            </td>
-                            <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
-                                <?php if (!empty($doc['pdf_path'])): ?>
-                                <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm">
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                    Download
-                                </a>
-                                <?php else: ?>
-                                <span class="text-xs text-gray-400 italic">No Document</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- No Results State -->
-        <div id="noResultsMsg" class="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12 notranslate" style="display: none;">
-            <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <p class="text-[17px] font-bold text-gray-800 mb-1"><?= t('no_updates_found', 'No updates matched your search') ?></p>
-            <p class="text-sm text-gray-400"><?= t('try_adjusting_filters', 'Try adjusting your filters or search keywords') ?></p>
-        </div>
-
-        <!-- Pagination Controls -->
-        <div id="paginationControls" class="bg-white rounded-2xl px-6 py-4 shadow-sm border border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 notranslate" style="display: none;">
-            <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
-                <!-- Dynamic user-friendly pagination summary -->
-            </div>
-            <div class="flex items-center gap-1.5" id="paginationButtons">
-                <!-- Pagination buttons will be injected here -->
-            </div>
         </div>
 
     </div>
 </section>
 
+<!-- Full Image Slider / Carousel Modal -->
+<div id="galleryModal" class="fixed inset-0 z-[99999] hidden opacity-0 transition-opacity duration-300 flex-col justify-between bg-black/95 select-none p-4 md:p-8">
+    
+    <!-- Backdrop overlay for click-to-close on blank spaces -->
+    <div class="absolute inset-0 z-0" onclick="closeGalleryModal()"></div>
+
+    <!-- Top Bar: Title & Close Button -->
+    <div class="relative z-10 flex items-center justify-between w-full max-w-7xl mx-auto pb-4 border-b border-white/10">
+        <h3 id="galleryModalTitle" class="text-lg sm:text-xl font-bold text-white font-montserrat truncate pr-8"></h3>
+        <button onclick="closeGalleryModal()" class="text-white/80 hover:text-white hover:bg-white/10 transition-all rounded-full p-2.5 focus:outline-none shrink-0" title="Close Gallery">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+    </div>
+
+    <!-- Main Image & Navigation Area (Flex Grow) -->
+    <div id="galleryModalSliderContainer" class="relative z-10 flex-1 flex items-center justify-center w-full max-w-7xl mx-auto py-6">
+        
+        <!-- Prev Button -->
+        <button onclick="prevSlide()" class="absolute left-2 md:left-4 z-20 bg-white/10 hover:bg-white text-white hover:text-primary p-3 rounded-full transition-all focus:outline-none flex items-center justify-center cursor-pointer shadow-lg" title="Previous Image">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+
+        <!-- Image Wrapper -->
+        <div class="relative flex items-center justify-center w-full h-full max-h-[55vh] md:max-h-[65vh]">
+            <img id="galleryModalImage" src="" alt="Gallery Image" class="max-w-full max-h-full object-contain transition-all duration-300 select-none shadow-2xl rounded-lg">
+        </div>
+
+        <!-- Next Button -->
+        <button onclick="nextSlide()" class="absolute right-2 md:right-4 z-20 bg-white/10 hover:bg-white text-white hover:text-primary p-3 rounded-full transition-all focus:outline-none flex items-center justify-center cursor-pointer shadow-lg" title="Next Image">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+
+        <!-- Current / Total Index Badge -->
+        <div class="absolute bottom-2 right-4 bg-white/10 backdrop-blur-md text-white px-3.5 py-1 rounded-full text-xs font-bold font-inter tracking-wider">
+            <span id="galleryCurrentIndex">1</span> / <span id="galleryTotalCount">1</span>
+        </div>
+    </div>
+
+    <!-- Bottom Thumbnails Strip -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto pt-4 border-t border-white/10 overflow-x-auto">
+        <div id="galleryThumbnailsContainer" class="flex gap-3 justify-center items-center overflow-x-auto min-w-max pb-1">
+            <!-- Thumbnail images will be dynamically generated by JS -->
+        </div>
+    </div>
+
+</div>
+
 <script>
-let currentPage = 1;
-let currentView = 'list'; // 'grid' or 'list'
-let filteredIndexes = [];
-
-// Capture all documents from PHP
-const documents = <?php echo json_encode(array_map(function($doc, $i) {
-    return [
-        'index' => $i,
-        'title' => strtolower($doc['title']),
-        'ref' => strtolower($doc['ref']),
-        'category' => strtolower($doc['category'])
-    ];
-}, $all_documents, array_keys($all_documents))); ?>;
-
-function changeView(view) {
-    currentView = view;
+    // Embed the items list into Javascript
+    const galleryItems = <?php echo json_encode($gallery_items); ?>;
+    const currentLang = '<?= $current_lang ?>';
     
-    // Toggle active state on buttons
-    const btnGrid = document.getElementById('btnGridView');
-    const btnList = document.getElementById('btnListView');
-    const gridContainer = document.getElementById('gridViewContainer');
-    const listContainer = document.getElementById('listViewContainer');
-    
-    if (view === 'grid') {
-        btnGrid.classList.add('bg-white', 'text-secondary', 'shadow-sm');
-        btnGrid.classList.remove('text-gray-500');
-        btnList.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
-        btnList.classList.add('text-gray-500');
-        
-        gridContainer.style.display = 'grid';
-        listContainer.style.display = 'none';
-    } else {
-        btnList.classList.add('bg-white', 'text-secondary', 'shadow-sm');
-        btnList.classList.remove('text-gray-500');
-        btnGrid.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
-        btnGrid.classList.add('text-gray-500');
-        
-        listContainer.style.display = 'block';
-        gridContainer.style.display = 'none';
+    let activeItemIndex = 0;
+    let activeSlideIndex = 0;
+    let touchstartX = 0;
+    let touchendX = 0;
+
+    function handleTouchStart(e) {
+        touchstartX = e.changedTouches[0].screenX;
     }
-    
-    filterTable();
-}
 
-function resetPaginationAndFilter() {
-    currentPage = 1;
-    filterTable();
-}
+    function handleTouchEnd(e) {
+        touchendX = e.changedTouches[0].screenX;
+        handleGesture();
+    }
 
-function filterTable() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
-    const itemsPerPage = document.getElementById("itemsPerPage").value;
-    
-    // Filter matching item indexes
-    filteredIndexes = [];
-    documents.forEach(doc => {
-        const gridCard = document.querySelector(`.document-card[data-index="${doc.index}"]`);
-        const titleEl = gridCard ? gridCard.querySelector('h3') : null;
-        const visibleTitle = titleEl ? titleEl.textContent.toLowerCase() : doc.title;
-        
-        const matchesSearch = searchInput === "" || 
-                              visibleTitle.includes(searchInput) || 
-                              doc.ref.includes(searchInput);
-                                
-        if (matchesSearch) {
-            filteredIndexes.push(doc.index);
+    function handleGesture() {
+        if (touchendX < touchstartX - 50) {
+            nextSlide();
         }
+        if (touchendX > touchstartX + 50) {
+            prevSlide();
+        }
+    }
+
+    function openGalleryModal(itemIndex) {
+        activeItemIndex = itemIndex;
+        activeSlideIndex = 0;
+        
+        const item = galleryItems[itemIndex];
+        
+        // Translate title
+        let title = item.title_en;
+        if (currentLang === 'si' && item.title_si) {
+            title = item.title_si;
+        } else if (currentLang === 'ta' && item.title_ta) {
+            title = item.title_ta;
+        }
+
+        const modal = document.getElementById('galleryModal');
+        const modalTitle = document.getElementById('galleryModalTitle');
+        const totalCountSpan = document.getElementById('galleryTotalCount');
+        
+        if (modal) {
+            modalTitle.textContent = title;
+            totalCountSpan.textContent = item.images.length;
+            
+            // Build thumbnails
+            buildThumbnails();
+            
+            // Update active slide image
+            updateSlide();
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+            
+            document.body.classList.add('overflow-hidden');
+            
+            // Keyboard controls listener
+            window.addEventListener('keydown', handleKeyNavigation);
+
+            // Mobile touch swipe controls
+            const slider = document.getElementById('galleryModalSliderContainer');
+            if (slider) {
+                slider.addEventListener('touchstart', handleTouchStart, { passive: true });
+                slider.addEventListener('touchend', handleTouchEnd, { passive: true });
+            }
+        }
+    }
+
+    function buildThumbnails() {
+        const item = galleryItems[activeItemIndex];
+        const container = document.getElementById('galleryThumbnailsContainer');
+        container.innerHTML = '';
+        
+        item.images.forEach((imgSrc, index) => {
+            const thumbButton = document.createElement('button');
+            thumbButton.className = `w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all cursor-pointer focus:outline-none shrink-0 ${index === activeSlideIndex ? 'border-white scale-105 shadow' : 'border-transparent hover:border-white/30'}`;
+            thumbButton.onclick = () => selectSlide(index);
+            
+            const thumbImg = document.createElement('img');
+            thumbImg.src = imgSrc;
+            thumbImg.alt = 'Thumbnail';
+            thumbImg.className = 'w-full h-full object-cover';
+            
+            // Fallback for thumbnail image loading error
+            thumbImg.onerror = function() {
+                this.src = 'assets/img/placeholder.jpg';
+            };
+            
+            thumbButton.appendChild(thumbImg);
+            container.appendChild(thumbButton);
+        });
+    }
+
+    function selectSlide(slideIndex) {
+        activeSlideIndex = slideIndex;
+        updateSlide();
+    }
+
+    function prevSlide() {
+        const item = galleryItems[activeItemIndex];
+        activeSlideIndex = (activeSlideIndex - 1 + item.images.length) % item.images.length;
+        updateSlide();
+    }
+
+    function nextSlide() {
+        const item = galleryItems[activeItemIndex];
+        activeSlideIndex = (activeSlideIndex + 1) % item.images.length;
+        updateSlide();
+    }
+
+    function updateSlide() {
+        const item = galleryItems[activeItemIndex];
+        const imgSrc = item.images[activeSlideIndex];
+        
+        const modalImage = document.getElementById('galleryModalImage');
+        const currentIndexSpan = document.getElementById('galleryCurrentIndex');
+        
+        if (modalImage) {
+            // Apply slight fade transition when loading new image
+            modalImage.style.opacity = '0.7';
+            modalImage.src = imgSrc;
+            
+            modalImage.onload = () => {
+                modalImage.style.opacity = '1';
+            };
+            
+            // Fallback for main image error
+            modalImage.onerror = () => {
+                modalImage.src = 'assets/img/placeholder.jpg';
+                modalImage.style.opacity = '1';
+            };
+            
+            currentIndexSpan.textContent = activeSlideIndex + 1;
+            
+            // Update active state on thumbnails
+            const thumbnails = document.getElementById('galleryThumbnailsContainer').children;
+            Array.from(thumbnails).forEach((thumb, idx) => {
+                if (idx === activeSlideIndex) {
+                    thumb.className = 'w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all cursor-pointer focus:outline-none shrink-0 border-white scale-105 shadow';
+                } else {
+                    thumb.className = 'w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden border-2 transition-all cursor-pointer focus:outline-none shrink-0 border-transparent hover:border-white/30';
+                }
+            });
+        }
+    }
+
+    function closeGalleryModal() {
+        const modal = document.getElementById('galleryModal');
+        if (modal) {
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.getElementById('galleryModalImage').src = '';
+            }, 300);
+            
+            document.body.classList.remove('overflow-hidden');
+            window.removeEventListener('keydown', handleKeyNavigation);
+
+            // Remove mobile touch swipe controls
+            const slider = document.getElementById('galleryModalSliderContainer');
+            if (slider) {
+                slider.removeEventListener('touchstart', handleTouchStart);
+                slider.removeEventListener('touchend', handleTouchEnd);
+            }
+        }
+    }
+
+    function handleKeyNavigation(e) {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+        } else if (e.key === 'Escape') {
+            closeGalleryModal();
+        }
+    }
+
+    // Move modal to body to avoid main stacking context, and handle missing images
+    document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('galleryModal');
+        if (modal) {
+            document.body.appendChild(modal);
+        }
+
+        const images = document.querySelectorAll('.fallback-img');
+        images.forEach(img => {
+            img.addEventListener('error', function() {
+                this.src = 'assets/img/placeholder.jpg';
+                this.classList.add('opacity-50');
+            });
+        });
     });
-    
-    // Hide all items (both grid cards and list rows)
-    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
-    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
-    
-    updatePaginationUI(itemsPerPage);
-}
-
-function updatePaginationUI(itemsPerPage) {
-    const noResultsMsg = document.getElementById('noResultsMsg');
-    const gridContainer = document.getElementById('gridViewContainer');
-    const listViewContainer = document.getElementById('listViewContainer');
-    const paginationControls = document.getElementById('paginationControls');
-    
-    const totalItems = filteredIndexes.length;
-    
-    if (totalItems === 0) {
-        noResultsMsg.style.display = 'flex';
-        gridContainer.style.display = 'none';
-        listViewContainer.style.display = 'none';
-        paginationControls.style.display = 'none';
-        return;
-    }
-    
-    noResultsMsg.style.display = 'none';
-    if (currentView === 'grid') {
-        gridContainer.style.display = 'grid';
-    } else {
-        listViewContainer.style.display = 'block';
-    }
-    
-    let startIdx = 0;
-    let endIdx = totalItems;
-    
-    if (itemsPerPage !== 'all') {
-        itemsPerPage = parseInt(itemsPerPage);
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
-        
-        startIdx = (currentPage - 1) * itemsPerPage;
-        endIdx = Math.min(startIdx + itemsPerPage, totalItems);
-        
-        renderPaginationButtons(totalPages);
-    } else {
-        renderPaginationButtons(1);
-    }
-    paginationControls.style.display = 'flex';
-    
-    // Show only active items for this page depending on the current view
-    const selector = currentView === 'grid' ? '.document-card' : '.document-list-row';
-    const items = document.querySelectorAll(selector);
-    
-    for (let i = startIdx; i < endIdx; i++) {
-        const itemIdx = filteredIndexes[i];
-        // Find element matching this index
-        const el = Array.from(items).find(item => parseInt(item.getAttribute('data-index')) === itemIdx);
-        if (el) {
-            el.classList.remove('hidden');
-        }
-    }
-    
-    // Update summary text
-    updatePaginationSummary(startIdx, endIdx, totalItems, 'updates');
-}
-
-function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'updates') {
-    const summaryEl = document.getElementById('paginationSummary') || document.querySelector('#paginationControls .text-sm');
-    if (!summaryEl) return;
-
-    const start = startIdx + 1;
-    const end = endIdx;
-    const lang = document.documentElement.lang || 'en';
-
-    const entityNames = {
-        documents: { en: 'documents', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
-        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'வெற்றிடங்கள்' },
-        notices: { en: 'notices', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
-        updates: { en: 'updates', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
-        publications: { en: 'publications', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }
-    };
-
-    const entity = entityNames[entityType] || entityNames.updates;
-    const name = entity[lang] || entity.en;
-
-    let text = '';
-    if (lang === 'si') {
-        if (totalItems === 1) {
-            text = `${name} 1 ක් පෙන්වයි`;
-        } else if (start === 1 && end === totalItems) {
-            text = `සියලුම ${name} <span class="font-semibold text-gray-800">${totalItems}</span> ම පෙන්වයි`;
-        } else {
-            text = `${name} <span class="font-semibold text-gray-800">${totalItems}</span> න් <span class="font-semibold text-gray-800">${start}–${end}</span> දක්වා පෙන්වයි`;
-        }
-    } else if (lang === 'ta') {
-        if (totalItems === 1) {
-            text = `1 ${name} காட்டப்படுகிறது`;
-        } else if (start === 1 && end === totalItems) {
-            text = `அனைத்து <span class="font-semibold text-gray-800">${totalItems}</span> ${name} காட்டப்படுகின்றன`;
-        } else {
-            text = `<span class="font-semibold text-gray-800">${totalItems}</span> ${name} <span class="font-semibold text-gray-800">${start}–${end}</span> காட்டப்படுகின்றன`;
-        }
-    } else {
-        const singularName = entityType === 'vacancies' ? 'vacancy' : (entityType === 'notices' ? 'notice' : (entityType === 'updates' ? 'update' : (entityType === 'publications' ? 'publication' : 'document')));
-        if (totalItems === 1) {
-            text = `Showing 1 ${singularName}`;
-        } else if (start === 1 && end === totalItems) {
-            text = `Showing all <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
-        } else {
-            text = `Showing <span class="font-semibold text-gray-800">${start}–${end}</span> of <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
-        }
-    }
-
-    summaryEl.innerHTML = text;
-}
-
-function renderPaginationButtons(totalPages) {
-    const container = document.getElementById('paginationButtons');
-    let html = '';
-    
-    // Prev Button
-    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_prev", "Prev") ?>' + `</button>`;
-    
-    // Numbers
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, startPage + 4);
-    if (endPage - startPage < 4) {
-        startPage = Math.max(1, endPage - 4);
-    }
-    
-    if (startPage > 1) {
-        html += `<button onclick="goToPage(1)" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">1</button>`;
-        if (startPage > 2) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
-    }
-    
-    for (let i = startPage; i <= endPage; i++) {
-        if (i === currentPage) {
-            html += `<button class="px-3 py-2 border border-secondary bg-secondary text-white font-bold rounded-xl text-xs">${i}</button>`;
-        } else {
-            html += `<button onclick="goToPage(${i})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${i}</button>`;
-        }
-    }
-    
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
-        html += `<button onclick="goToPage(${totalPages})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${totalPages}</button>`;
-    }
-    
-    // Next Button
-    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_next", "Next") ?>' + `</button>`;
-    
-    container.innerHTML = html;
-}
-
-function goToPage(page) {
-    currentPage = page;
-    
-    // Hide all currently visible
-    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
-    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
-    
-    const itemsPerPage = document.getElementById("itemsPerPage").value;
-    updatePaginationUI(itemsPerPage);
-}
-
-// Init page
-document.addEventListener('DOMContentLoaded', () => {
-    changeView('list');
-});
 </script>
 
-<?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>

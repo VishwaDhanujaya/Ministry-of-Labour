@@ -23,9 +23,14 @@ foreach ($raw_notices as $notice) {
     if ($current_lang === 'si' && !empty($notice['title_si'])) $notice_title = $notice['title_si'];
     elseif ($current_lang === 'ta' && !empty($notice['title_ta'])) $notice_title = $notice['title_ta'];
 
+    // Language-aware content/description fallback
+    $notice_desc = $notice['content'];
+    if ($current_lang === 'si' && !empty($notice['content_si'])) $notice_desc = $notice['content_si'];
+    elseif ($current_lang === 'ta' && !empty($notice['content_ta'])) $notice_desc = $notice['content_ta'];
+
     $all_documents[] = [
         'title' => $notice_title,
-        'description' => $notice['content'] ?? '',
+        'description' => $notice_desc ?? '',
         'ref' => date('Y-m-d', strtotime($notice['created_at'])),
         'category' => 'Special Notice',
         'pdf_path' => !empty($notice['pdf_path']) ? resolvePdfUrl($notice['pdf_path']) : '',

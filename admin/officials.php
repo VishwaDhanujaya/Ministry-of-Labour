@@ -936,12 +936,18 @@ async function translateText(text, fromLang, toLang) {
     return data[0].map(x => x[0]).join('');
 }
 
-async function autoTranslateAll() {
-    const nameEn = document.getElementById('field-name').value.trim();
-    const titleEn = document.getElementById('field-title').value.trim();
+window.activeOfficialsLang = 'en';
 
-    if (!nameEn && !titleEn) {
-        showToast('Please enter an English name or title/designation to translate.', 'warning');
+async function autoTranslateAll() {
+    const activeLang = window.activeOfficialsLang || 'en';
+    const nameId = activeLang === 'en' ? 'field-name' : `field-name-${activeLang}`;
+    const titleId = activeLang === 'en' ? 'field-title' : `field-title-${activeLang}`;
+    
+    const nameSource = document.getElementById(nameId).value.trim();
+    const titleSource = document.getElementById(titleId).value.trim();
+
+    if (!nameSource && !titleSource) {
+        showToast('Please enter a name or title/designation to translate.', 'warning');
         return;
     }
 
@@ -950,20 +956,22 @@ async function autoTranslateAll() {
     translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
     translateBtn.disabled = true;
 
+    const langs = ['en', 'si', 'ta'];
     try {
-        if (nameEn) {
-            const nameSi = await translateText(nameEn, 'en', 'si');
-            document.getElementById('field-name-si').value = nameSi;
+        for (const lang of langs) {
+            if (lang === activeLang) continue;
             
-            const nameTa = await translateText(nameEn, 'en', 'ta');
-            document.getElementById('field-name-ta').value = nameTa;
-        }
-        if (titleEn) {
-            const titleSi = await translateText(titleEn, 'en', 'si');
-            document.getElementById('field-title-si').value = titleSi;
+            const targetNameId = lang === 'en' ? 'field-name' : `field-name-${lang}`;
+            const targetTitleId = lang === 'en' ? 'field-title' : `field-title-${lang}`;
             
-            const titleTa = await translateText(titleEn, 'en', 'ta');
-            document.getElementById('field-title-ta').value = titleTa;
+            if (nameSource) {
+                const nameTranslated = await translateText(nameSource, activeLang, lang);
+                document.getElementById(targetNameId).value = nameTranslated;
+            }
+            if (titleSource) {
+                const titleTranslated = await translateText(titleSource, activeLang, lang);
+                document.getElementById(targetTitleId).value = titleTranslated;
+            }
         }
         showToast('Fields translated successfully!', 'success');
     } catch (err) {
@@ -977,6 +985,7 @@ async function autoTranslateAll() {
 
 // Modal Language Tabs Switcher
 function switchLangTab(lang) {
+    window.activeOfficialsLang = lang;
     ['en', 'si', 'ta'].forEach(l => {
         const btn = document.getElementById(`lang-tab-btn-${l}`);
         const pane = document.getElementById(`lang-tab-pane-${l}`);

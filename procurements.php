@@ -33,6 +33,11 @@ foreach ($raw_procurements as $proc) {
     if ($current_lang === 'si' && !empty($proc['title_si'])) $proc_title = $proc['title_si'];
     elseif ($current_lang === 'ta' && !empty($proc['title_ta'])) $proc_title = $proc['title_ta'];
 
+    // Language-aware description fallback
+    $proc_desc = $proc['description'];
+    if ($current_lang === 'si' && !empty($proc['description_si'])) $proc_desc = $proc['description_si'];
+    elseif ($current_lang === 'ta' && !empty($proc['description_ta'])) $proc_desc = $proc['description_ta'];
+
     $pdf_en = !empty($proc['pdf_path']) ? resolvePdfUrl($proc['pdf_path']) : '';
     $pdf_si = !empty($proc['pdf_path_si']) ? resolvePdfUrl($proc['pdf_path_si']) : '';
     $pdf_ta = !empty($proc['pdf_path_ta']) ? resolvePdfUrl($proc['pdf_path_ta']) : '';
@@ -51,7 +56,7 @@ foreach ($raw_procurements as $proc) {
 
     $all_documents[] = [
         'title' => $proc_title,
-        'description' => $proc['description'] ?? '',
+        'description' => $proc_desc ?? '',
         'ref' => date('Y-m-d', strtotime($proc['created_at'])),
         'category' => $userCat,
         'pdf_path' => $pdf_en,

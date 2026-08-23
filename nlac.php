@@ -19,6 +19,257 @@ $pageTitle = t('nlac_full', 'National Labour Advisory Council') . ' - Ministry o
 $metaDescription = 'National Labour Advisory Council (NLAC) is the national tripartite consultative mechanism established in 1994.';
 $metaKeywords = 'Ministry of Labour, Sri Lanka, NLAC, National Labour Advisory Council, Tripartite Consultative Mechanism';
 
+$employer_members = [
+    [
+        'no' => '01',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Vajira Ellepola', 'si' => 'වජිර ඇල්ලේපොල', 'ta' => 'வஜிர எல்லேபொல'],
+        'designation' => ['en' => 'Director General', 'si' => 'අධ්‍යක්ෂ ජනරාල්', 'ta' => 'பணிப்பாளர் நாயகம்'],
+        'tu' => ['en' => 'Employers\' Federation of Ceylon', 'si' => 'ලංකා සේවා යෝජකයන්ගේ සම්මේලනය', 'ta' => 'இலங்கை முதலாளிமார் சம்மேளனம்']
+    ],
+    [
+        'no' => '02',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Adhil Khasim', 'si' => 'අදිල් කාසිම්', 'ta' => 'அத்ஹில் காசிம்'],
+        'designation' => ['en' => 'Deputy Director General', 'si' => 'නියෝජ්‍ය අධ්‍යක්ෂ ජනරාල්', 'ta' => 'பிரதிப் பணிப்பாளர் நாயகம்'],
+        'tu' => ['en' => 'Employers\' Federation of Ceylon', 'si' => 'ලංකා සේවා යෝජකයන්ගේ සම්මේලනය', 'ta' => 'இலங்கை முதலாளிமார் சம்மேளனம்']
+    ],
+    [
+        'no' => '03',
+        'title' => ['en' => 'Ms', 'si' => 'මිය', 'ta' => 'திருமதி.'],
+        'name' => ['en' => 'Kirthana Krishnakumar (AAL)', 'si' => 'කීර්තනා ක්‍රිෂ්ණකුමාර් (නීතිඥ)', 'ta' => 'கீர்த்தனா கிருஷ்ணகுமார் (சட்டத்தரணி)'],
+        'designation' => ['en' => 'Senior Legal Counsel, Group Legal Department & Vice President', 'si' => 'ජ්‍යෙෂ්ඨ නීති උපදේශක, සමූහ නීති අංශය සහ උප සභාපති', 'ta' => 'மூத்த சட்ட ஆலோசகர், குழு சட்டத் துறை மற்றும் துணைத் தலைவர்'],
+        'tu' => ['en' => 'John Keells Group', 'si' => 'ජෝන් කීල්ස් සමූහය', 'ta' => 'ஜோன் கீல்ஸ் குழுமம்']
+    ],
+    [
+        'no' => '04',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Jayendra de Silva', 'si' => 'ජයේන්ද්‍ර ද සිල්වා', 'ta' => 'ஜயேந்திர டி சில்வா'],
+        'designation' => ['en' => 'General Manager- Group Human Resource Management', 'si' => 'සාමාන්්‍යාධිකාරී - සමූහ මානව සම්පත් කළමනාකරණය', 'ta' => 'பொது மேலாளர் - குழு மனித வள மேலாண்மை'],
+        'tu' => ['en' => 'Hayleys PLC', 'si' => 'හේලීස් පීඑල්සී', 'ta' => 'ஹேலீஸ் பிஎல்சி']
+    ],
+    [
+        'no' => '05',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Suresh Noel Muttiah', 'si' => 'සුරේෂ් නොයෙල් මුත්තයියා', 'ta' => 'சுரேஷ் நோயல் முத்தையா'],
+        'designation' => ['en' => 'Group Chief Human Resources Officer', 'si' => 'සමූහ ප්‍රධාන මානව සම්පත් නිලධාරී', 'ta' => 'குழு தலைமை மனித வள அதிகாரி'],
+        'tu' => ['en' => 'Aitken Spence Corporate Finance (pvt) Ltd', 'si' => 'ඇයිට්කන් ස්පෙන්ස් කෝපරේට් ෆයිනෑන්ස් (පුද්) සමාගම', 'ta' => 'எய்ட்கன் ஸ்பென்ஸ் கார்ப்பரேட் பைனான்ஸ் (தனியார்) லிமிடெட்']
+    ],
+    [
+        'no' => '06',
+        'title' => ['en' => 'Ms', 'si' => 'මිය', 'ta' => 'திருமதி.'],
+        'name' => ['en' => 'Geetha Yasanayake', 'si' => 'ගීතා යසනායක', 'ta' => 'கீதா யசநாயக்க'],
+        'designation' => ['en' => 'Group Chief HR Officer', 'si' => 'සමූහ ප්‍රධාන මානව සම්පත් නිලධාරී', 'ta' => 'குழு தலைமை மனித வள அதிகாரி'],
+        'tu' => ['en' => 'Cargills (Ceylon) Plc', 'si' => 'කාගිල්ස් (සිලෝන්) පීඑල්සී', 'ta' => 'கார்கில்ஸ் (சிலோன்) பிஎல்சி']
+    ],
+    [
+        'no' => '07',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Dhammika Fernando', 'si' => 'ධම්මික ප්‍රනාන්දු', 'ta' => 'தம்மிக்க பெர்னாண்டோ'],
+        'designation' => ['en' => 'Chairman', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'Free Trade Zone Manufacturers\' Association', 'si' => 'නිදහස් වෙළඳ කලාප නිෂ්පාදකයින්ගේ සංගමය', 'ta' => 'சுதந்திர வர்த்தக வலய உற்பத்தியாளர்கள் சங்கம்']
+    ],
+    [
+        'no' => '08',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Charaka Gunawardana', 'si' => 'චරක ගුණවර්ධන', 'ta' => 'சாரக குணவர்தன'],
+        'designation' => ['en' => 'Director- Human Resources and Sustainable Business', 'si' => 'අධ්‍යක්ෂ - මානව සම්පත් සහ තිරසාර ව්‍යාපාර', 'ta' => 'பணிப்பாளர் - மனித வளங்கள் மற்றும் நிலையான வணிகம்'],
+        'tu' => ['en' => 'MAS Active', 'si' => 'එම්ඒඑස් ඇක්ටිව්', 'ta' => 'எம்ஏஎஸ் ஆக்டிவ்']
+    ],
+    [
+        'no' => '09',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Shiran Fernando', 'si' => 'ශිරාන් ප්‍රනාන්දු', 'ta' => 'ஷிரான் பெர்னாண்டோ'],
+        'designation' => ['en' => 'Chief Economic Policy Advisor', 'si' => 'ප්‍රධාන ආර්ථික ප්‍රතිපත්ති උපදේශක', 'ta' => 'தலைமை பொருளாதார கொள்கை ஆலோசகர்'],
+        'tu' => ['en' => 'The Ceylon Chamber of Commerce', 'si' => 'ලංකා වාණිජ මණ්ඩලය', 'ta' => 'இலங்கை வர்த்தக சபை']
+    ],
+    [
+        'no' => '10',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Hemantha Balasuriya', 'si' => 'හේමන්ත බාලසූරිය', 'ta' => 'ஹேமந்த பாலசூரிய'],
+        'designation' => ['en' => 'Hony. Secretary', 'si' => 'ගරු ලේකම්', 'ta' => 'கௌரவ செயலாளர்'],
+        'tu' => ['en' => 'Sri Lanka Food Processors Association (SLFPA)', 'si' => 'ශ්‍රී ලංකා ආහාර සකසන්නන්ගේ සංගමය', 'ta' => 'இலங்கை உணவு பதப்படுத்துவோர் சங்கம் (SLFPA)']
+    ],
+    [
+        'no' => '11',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Lalith Obeyesekere', 'si' => 'ලලිත් ඔබේසේකර', 'ta' => 'லலித் ஒபயசேகர'],
+        'designation' => ['en' => 'Secretary General', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'செயலாளர் நாயகம்'],
+        'tu' => ['en' => 'The Planters\' Association of Ceylon', 'si' => 'ලංකා වැවිලිකරුවන්ගේ සංගමය', 'ta' => 'இலங்கை பெருந்தோட்ட உரிமையாளர்கள் சங்கம்']
+    ],
+    [
+        'no' => '12',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Yohan Lawrence', 'si' => 'යොහාන් ලෝරන්ස්', 'ta' => 'யோஹான் லாரன்ஸ்'],
+        'designation' => ['en' => 'Secretary General', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'செயலாளர் நாயகம்'],
+        'tu' => ['en' => 'Joint Apparel Association Forum', 'si' => 'ඒකාබද්ධ ඇඟලුම් සංගම් සංසදය', 'ta' => 'கூட்டு ஆடை சங்கங்களின் மன்றம்']
+    ],
+    [
+        'no' => '13',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Sampath Jayasundara', 'si' => 'සම්පත් ජයසුන්දර', 'ta' => 'சம்பத் ஜயசுந்தர'],
+        'designation' => ['en' => 'SLASSCOM Director/ CEO/Director-hSenid Business Solutions', 'si' => 'SLASSCOM අධ්‍යක්ෂ/ ප්‍රධාන විධායක නිලධාරී/ අධ්‍යක්ෂ - hSenid Business Solutions', 'ta' => 'SLASSCOM பணிப்பாளர்/ தலைமை நிர்வாக அதிகாரி/ பணிப்பாளர் - hSenid Business Solutions'],
+        'tu' => ['en' => 'Sri Lanka Association of Software and Services Companies (SLASSCOM)', 'si' => 'ශ්‍රී ලංකා මෘදුකාංග සහ සේවා සමාගම් සංගමය', 'ta' => 'இலங்கை மென்பொருள் மற்றும் சேவைகள் நிறுவனங்களின் சங்கம் (SLASSCOM)']
+    ],
+    [
+        'no' => '14',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'M.D.S Hemantha Kumara Perera', 'si' => 'එම්.ඩී.එස් හේමන්ත කුමාර පෙරේරා', 'ta' => 'எம்.டி.எஸ் ஹேமந்த குமார பெரேரா'],
+        'designation' => ['en' => 'Secretary General', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'செயலாளர் நாயகம்'],
+        'tu' => ['en' => 'Sri Lanka Chamber of Garment Association', 'si' => 'ශ්‍රී ලංකා ඇඟලුම් සංගම් මණ්ඩලය', 'ta' => 'இலங்கை ஆடை சங்க சம்மேளனம்']
+    ],
+    [
+        'no' => '15',
+        'title' => ['en' => 'Capt.', 'si' => 'කැප්ටන්', 'ta' => 'கேப்டன்'],
+        'name' => ['en' => 'Lal Tennekoon', 'si' => 'ලාල් තැන්නකෝන්', 'ta' => 'லால் தென்னகோன்'],
+        'designation' => ['en' => 'Senior Assistant Secretary General', 'si' => 'ජ්‍යෙෂ්ඨ සහකාර ලේකම් ජනරාල්', 'ta' => 'மூத்த உதவிச் செயலாளர் நாயகம்'],
+        'tu' => ['en' => 'Chamber of Construction Industry of Sri Lanka', 'si' => 'ශ්‍රී ලංකා ඉදිකිරීම් කර්මාන්ත මණ්ඩලය', 'ta' => 'இலங்கை கட்டுமான தொழில்துறை சம்மேளனம்']
+    ],
+    [
+        'no' => '16',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'H.T Chaminda', 'si' => 'එච්.ටී චමින්ද', 'ta' => 'எச்.டி சமிந்த'],
+        'designation' => ['en' => 'Vice President - Human Resources', 'si' => 'උප සභාපති - මානව සම්පත්', 'ta' => 'துணைத் தலைவர் - மனித வளங்கள்'],
+        'tu' => ['en' => 'Associated CEAT (pvt) Ltd', 'si' => 'ඇසෝසියේටඩ් සීට් (පුද්) සමාගම', 'ta' => 'அசோசியேட்டட் சியட் (தனியார்) லிமிடெட்']
+    ],
+    [
+        'no' => '17',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Kavinda Rajapaksha', 'si' => 'කවීන්ද රාජපක්ෂ', 'ta' => 'கவிந்த ராஜபக்ச'],
+        'designation' => ['en' => 'Senior Deputy President', 'si' => 'ජ්‍යෙෂ්ඨ නියෝජ්‍ය සභාපති', 'ta' => 'மூத்த பிரதித் தலைவர்'],
+        'tu' => ['en' => 'National Chamber of Commerce Sri Lanka', 'si' => 'ශ්‍රී ලංකා ජාතික වාණිජ මණ්ඩලය', 'ta' => 'இலங்கை தேசிய வர்த்தக சபை']
+    ]
+];
+
+$employee_members = [
+    [
+        'no' => '01',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'S.Rajamany', 'si' => 'එස්. රාජමනී', 'ta' => 'எஸ். இராஜமணி'],
+        'designation' => ['en' => 'Vice President', 'si' => 'උප සභාපති', 'ta' => 'துணைத் தலைவர்'],
+        'tu' => ['en' => 'Ceylon Workers’ Congress', 'si' => 'ලංකා කම්කරු කොංග්‍රසය', 'ta' => 'இலங்கை தொழிலாளர் காங்கிரஸ்']
+    ],
+    [
+        'no' => '02',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Vadivel Suresh', 'si' => 'වඩිවෙල් සුරේෂ්', 'ta' => 'வடிவேல் சுரேஷ்'],
+        'designation' => ['en' => 'General Secretary', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'பொதுச் செயலாளர்'],
+        'tu' => ['en' => 'Lanka Jathika Estate Workers Union', 'si' => 'ලංකා ජාතික වතු කම්කරු සංගමය', 'ta' => 'லங்கா ஜாதிக தோட்டத் தொழிலாளர் சங்கம்']
+    ],
+    [
+        'no' => '03',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Leslie Devendra', 'si' => 'ලෙස්ලි දේවේන්ද්‍ර', 'ta' => 'லெஸ்லி தேவேந்திரா'],
+        'designation' => ['en' => 'General Secretary', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'பொதுச் செயலாளர்'],
+        'tu' => ['en' => 'Sri Lanka Nidahas Sewaka Sangamaya', 'si' => 'ශ්‍රී ලංකා නිදහස් සේවක සංගමය', 'ta' => 'இலங்கை சுதந்திர ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '04',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'S.Ramanathan', 'si' => 'එස්. රාමානාදන්', 'ta' => 'எஸ். இராமநாதன்'],
+        'designation' => ['en' => 'Secretary General', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'செயலாளர் நாயகம்'],
+        'tu' => ['en' => 'Joint Plantation Trade Union Centre', 'si' => 'ඒකාබද්ධ වතු වෘත්තීය සමිති මධ්‍යස්ථානය', 'ta' => 'கூட்டு தோட்ட தொழிற்சங்க மையம்']
+    ],
+    [
+        'no' => '05',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Channa Sirinath Dissanayake', 'si' => 'චන්න සිරිනාත් දිසානායක', 'ta' => 'சன்ன சிரினாத் திசாநாயக்க'],
+        'designation' => ['en' => 'President', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'Ceylon Bank Employees Union', 'si' => 'ලංකා බැංකු සේවක සංගමය', 'ta' => 'இலங்கை வங்கி ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '06',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'G.D. Indika Pushpakumara', 'si' => 'ජී.ඩී. ඉන්දික පුෂ්පකුමාර', 'ta' => 'ஜி.டி. இந்திக புஷ்பகுமார'],
+        'designation' => ['en' => 'General Secretary', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'பொதுச் செயலாளர்'],
+        'tu' => ['en' => 'Jathika Sewaka Sangamaya', 'si' => 'ජාතික සේවක සංගමය', 'ta' => 'ஜாதிக சேவக சங்கம்']
+    ],
+    [
+        'no' => '07',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Amarapala Gamage', 'si' => 'අමරපාල ගමගේ', 'ta' => 'அமரபால கமகே'],
+        'designation' => ['en' => 'National Organizer/Senior Vice President', 'si' => 'ජාතික සංවිධායක/ජ්‍යෙෂ්ඨ උප සභාපති', 'ta' => 'தேசிய அமைப்பாளர்/மூத்த துணைத் தலைவர்'],
+        'tu' => ['en' => 'Podujana Pragathasheeli Sewaka Sangamaya', 'si' => 'පොදුජන ප්‍රගතිශීලී සේවක සංගමය', 'ta' => 'பொதுஜன பிரகதிஷீலி சேவக சங்கம்']
+    ],
+    [
+        'no' => '08',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Palitha Athukorale', 'si' => 'පාලිත ඇතුකෝරල', 'ta' => 'பாலித அத்துகோரல'],
+        'designation' => ['en' => 'Chairman', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'National Union of Seafarer Sri Lanka', 'si' => 'ශ්‍රී ලංකා නාවිකයින්ගේ ජාතික සංගමය', 'ta' => 'இலங்கை கடல்சார் தேசிய சங்கம்']
+    ],
+    [
+        'no' => '09',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Nishantha Wanniarachchi', 'si' => 'නිශාන්ත වන්නිආරච්චි', 'ta' => 'நிஷாந்த வன்னியாரச்சி'],
+        'designation' => ['en' => 'President', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'Ceylon Estate Staffs’ Union', 'si' => 'ලංකා වතු සේවක සංගමය', 'ta' => 'இலங்கை தோட்ட ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '10',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Warahena Liyanage Don Marcus', 'si' => 'වරහේන ලියනගේ දොන් මාකස්', 'ta' => 'வரஹேன லியனகே டொன் மார்கஸ்'],
+        'designation' => ['en' => 'Member', 'si' => 'සාමාජික', 'ta' => 'உறுப்பினர்'],
+        'tu' => ['en' => 'Free Trade Zones and General Services Employees Union', 'si' => 'නිදහස් වෙළඳ කලාප සහ පොදු සේවා සේවක සංගමය', 'ta' => 'சுதந்திர வர்த்தக வலயங்கள் மற்றும் பொது சேவைகள் ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '11',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'J.M.A Premarathna', 'si' => 'ජේ.එම්.ඒ ප්‍රේමරත්න', 'ta' => 'ஜே.எம்.ஏ பிரேமரத்ன'],
+        'designation' => ['en' => 'Secretary', 'si' => 'ලේකම්', 'ta' => 'செயலாளர்'],
+        'tu' => ['en' => 'All Ceylon Estate Workers Union', 'si' => 'සමස්ත ලංකා වතු කම්කරු සංගමය', 'ta' => 'அகில இலங்கை தோட்டத் தொழிலாளர் சங்கம்']
+    ],
+    [
+        'no' => '12',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Prasanga Medawatte', 'si' => 'ප්‍රසංග මැදවත්ත', 'ta' => 'பிரசங்க மேடவத்தே'],
+        'designation' => ['en' => 'President', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'All Ceylon Port Public Employees’ Union', 'si' => 'සමස්ත ලංකා වරාය පොදු සේවක සංගමය', 'ta' => 'அகில இலங்கை துறைமுக பொது ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '13',
+        'title' => ['en' => 'Ms', 'si' => 'මිය', 'ta' => 'திருமதி.'],
+        'name' => ['en' => 'Lalitha Ranjani Dedduwakumara', 'si' => 'ලලිතා රංජනී දෙද්දුවකුමාර', 'ta' => 'லலிதா ரஞ்சனி தெத்துவகுமார'],
+        'designation' => ['en' => 'Chief Organizer', 'si' => 'ප්‍රධාන සංවිධායක', 'ta' => 'தலைமை அமைப்பாளர்'],
+        'tu' => ['en' => 'Textile, Garment and Clothing Workers Union (TGCWU)', 'si' => 'නිමි භාණ්ඩ ඇඟළුම් හා රෙදිපිළි සේවක සංගමය', 'ta' => 'ஆடை, ஆடை மற்றும் ஆடைத் தொழிலாளர் சங்கம் (TGCWU)']
+    ],
+    [
+        'no' => '14',
+        'title' => ['en' => 'Ms', 'si' => 'මිය', 'ta' => 'திருமதி.'],
+        'name' => ['en' => 'P.K Chamila Thushari', 'si' => 'පී.කේ චමිලා තුෂාරි', 'ta' => 'பி.கே சமிலா துஷாரி'],
+        'designation' => ['en' => 'Secretary', 'si' => 'ලේකම්', 'ta' => 'செயலாளர்'],
+        'tu' => ['en' => 'Dabindu Collective', 'si' => 'දබිඳු සාමූහිකය', 'ta' => 'தபிந்து கூட்டுறவு']
+    ],
+    [
+        'no' => '15',
+        'title' => ['en' => 'Ms', 'si' => 'මිය', 'ta' => 'திருமதி.'],
+        'name' => ['en' => 'Eranga Amali Kalupahana', 'si' => 'එරංගා අමාලි කළුපහන', 'ta' => 'இரங்கா அமாலி களுபஹன'],
+        'designation' => ['en' => 'President', 'si' => 'සභාපති', 'ta' => 'தலைவர்'],
+        'tu' => ['en' => 'Centre for Working Women', 'si' => 'වැඩකරන කාන්තා මධ්‍යස්ථානය', 'ta' => 'உழைக்கும் பெண்கள் மையம்']
+    ],
+    [
+        'no' => '16',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Amal Wedage', 'si' => 'අමල් වෙදගේ', 'ta' => 'அமல் வெடகே'],
+        'designation' => ['en' => 'Deputy General Secretary', 'si' => 'නියෝජ්‍ය ප්‍රධාන ලේකම්', 'ta' => 'துணைப் பொதுச் செயலாளர்'],
+        'tu' => ['en' => 'Ceylon Federation of Trade Unions', 'si' => 'ලංකා වෘත්තීය සමිති සම්මේලනය', 'ta' => 'இலங்கை தொழிற்சங்க சம்மேளனம்']
+    ],
+    [
+        'no' => '17',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'Janaka Adhikari (AAL)', 'si' => 'ජනක අධිකාරි (නීතිඥ)', 'ta' => 'ஜனக அதிகாரி (சட்டத்தரணி)'],
+        'designation' => ['en' => 'General Secretary', 'si' => 'ලේකම් ජනරාල්', 'ta' => 'பொதுச் செயலாளர்'],
+        'tu' => ['en' => 'Inter Company Employees Union', 'si' => 'අන්තර් සමාගම් සේවක සංගමය', 'ta' => 'நிறுவனங்களுக்கு இடையிலான ஊழியர் சங்கம்']
+    ],
+    [
+        'no' => '18',
+        'title' => ['en' => 'Mr', 'si' => 'මහතා', 'ta' => 'திரு.'],
+        'name' => ['en' => 'K.S Munasinghe', 'si' => 'කේ.එස් මුණසිංහ', 'ta' => 'கே.எஸ் முனசிங்க'],
+        'designation' => ['en' => 'Co-Secretary', 'si' => 'සහ-ලේකම්', 'ta' => 'இணைச் செயலாளர்'],
+        'tu' => ['en' => 'All Ceylon Transport Employees Union', 'si' => 'සමස්ත ලංකා ප්‍රවාහන සේවක සංගමය', 'ta' => 'அகில இலங்கை போக்குவரத்து ஊழியர் சங்கம்']
+    ]
+];
+
 include 'includes/sub-hero.php';
 ?>
 
@@ -102,7 +353,7 @@ include 'includes/sub-hero.php';
         </div>
         
         <!-- Employer Trade Unions -->
-        <div id="table-employer" class="tu-table overflow-x-auto mb-12 rounded-xl border border-gray-200">
+        <div id="table-employer" class="tu-table overflow-x-auto mb-12 rounded-xl border border-gray-200 notranslate">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
@@ -114,131 +365,26 @@ include 'includes/sub-hero.php';
                     </tr>
                 </thead>
                 <tbody class="text-sm text-gray-600 font-inter divide-y divide-gray-100">
+                    <?php foreach ($employer_members as $m): 
+                        $title = $m['title'][$current_lang] ?? $m['title']['en'];
+                        $name = $m['name'][$current_lang] ?? $m['name']['en'];
+                        $designation = $m['designation'][$current_lang] ?? $m['designation']['en'];
+                        $tu = $m['tu'][$current_lang] ?? $m['tu']['en'];
+                    ?>
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">01</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Vajira Ellepola</td>
-                        <td class="py-3 px-4">Director General</td>
-                        <td class="py-3 px-4">Employers' Federation of Ceylon</td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($m['no']) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($title) ?></td>
+                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($name) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($designation) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($tu) ?></td>
                     </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">02</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Adhil Khasim</td>
-                        <td class="py-3 px-4">Deputy Director General</td>
-                        <td class="py-3 px-4">Employers' Federation of Ceylon</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">03</td>
-                        <td class="py-3 px-4">Ms</td>
-                        <td class="py-3 px-4">Kirthana Krishnakumar (AAL)</td>
-                        <td class="py-3 px-4">Senior Legal Counsel, Group Legal Department & Vice President</td>
-                        <td class="py-3 px-4">John Keells Group</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">04</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Jayendra de Silva</td>
-                        <td class="py-3 px-4">General Manager- Group Human Resource Management</td>
-                        <td class="py-3 px-4">Hayleys PLC</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">05</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Suresh Noel Muttiah</td>
-                        <td class="py-3 px-4">Group Chief Human Resources Officer</td>
-                        <td class="py-3 px-4">Aitken Spence Corporate Finance (pvt) Ltd</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">06</td>
-                        <td class="py-3 px-4">Ms</td>
-                        <td class="py-3 px-4">Geetha Yasanayake</td>
-                        <td class="py-3 px-4">Group Chief HR Officer</td>
-                        <td class="py-3 px-4">Cargills (Ceylon) Plc</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">07</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Dhammika Fernando</td>
-                        <td class="py-3 px-4">Chairman</td>
-                        <td class="py-3 px-4">Free Trade Zone Manufacturers' Association</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">08</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Charaka Gunawardana</td>
-                        <td class="py-3 px-4">Director- Human Resources and Sustainable Business</td>
-                        <td class="py-3 px-4">MAS Active</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">09</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Shiran Fernando</td>
-                        <td class="py-3 px-4">Chief Economic Policy Advisor</td>
-                        <td class="py-3 px-4">The Ceylon Chamber of Commerce</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">10</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Hemantha Balasuriya</td>
-                        <td class="py-3 px-4">Hony. Secretary</td>
-                        <td class="py-3 px-4">Sri Lanka Food Processors Association (SLFPA)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">11</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Lalith Obeyesekere</td>
-                        <td class="py-3 px-4">Secretary General</td>
-                        <td class="py-3 px-4">The Planters' Association of Ceylon</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">12</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Yohan Lawrence</td>
-                        <td class="py-3 px-4">Secretary General</td>
-                        <td class="py-3 px-4">Joint Apparel Association Forum</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">13</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Sampath Jayasundara</td>
-                        <td class="py-3 px-4">SLASSCOM Director/ CEO/Director-hSenid Business Solutions</td>
-                        <td class="py-3 px-4">Sri Lanka Association of Software and Services Companies (SLASSCOM)</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">14</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">M.D.S Hemantha Kumara Perera</td>
-                        <td class="py-3 px-4">Secretary General</td>
-                        <td class="py-3 px-4">Sri Lanka Chamber of Garment Association</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">15</td>
-                        <td class="py-3 px-4">Capt.</td>
-                        <td class="py-3 px-4">Lal Tennekoon</td>
-                        <td class="py-3 px-4">Senior Assistant Secretary General</td>
-                        <td class="py-3 px-4">Chamber of Construction Industry of Sri Lanka</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">16</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">H.T Chaminda</td>
-                        <td class="py-3 px-4">Vice President - Human Resources</td>
-                        <td class="py-3 px-4">Associated CEAT (pvt) Ltd</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">17</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Kavinda Rajapaksha</td>
-                        <td class="py-3 px-4">Senior Deputy President</td>
-                        <td class="py-3 px-4">National Chamber of Commerce Sri Lanka</td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
         
         <!-- Employee Trade Unions -->
-        <div id="table-employee" class="tu-table hidden overflow-x-auto mb-12 rounded-xl border border-gray-200">
+        <div id="table-employee" class="tu-table hidden overflow-x-auto mb-12 rounded-xl border border-gray-200 notranslate">
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="bg-gray-100">
@@ -250,132 +396,20 @@ include 'includes/sub-hero.php';
                     </tr>
                 </thead>
                 <tbody class="text-sm text-gray-600 font-inter divide-y divide-gray-100">
+                    <?php foreach ($employee_members as $m): 
+                        $title = $m['title'][$current_lang] ?? $m['title']['en'];
+                        $name = $m['name'][$current_lang] ?? $m['name']['en'];
+                        $designation = $m['designation'][$current_lang] ?? $m['designation']['en'];
+                        $tu = $m['tu'][$current_lang] ?? $m['tu']['en'];
+                    ?>
                     <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">01</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">S.Rajamany</td>
-                        <td class="py-3 px-4">Vice President</td>
-                        <td class="py-3 px-4">Ceylon Workers’ Congress</td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($m['no']) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($title) ?></td>
+                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($name) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($designation) ?></td>
+                        <td class="py-3 px-4"><?= htmlspecialchars($tu) ?></td>
                     </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">02</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Vadivel Suresh</td>
-                        <td class="py-3 px-4">General Secretary</td>
-                        <td class="py-3 px-4">Lanka Jathika Estate Workers Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">03</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Leslie Devendra</td>
-                        <td class="py-3 px-4">General Secretary</td>
-                        <td class="py-3 px-4">Sri Lanka Nidahas Sewaka Sangamaya</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">04</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">S.Ramanathan</td>
-                        <td class="py-3 px-4">Secretary General</td>
-                        <td class="py-3 px-4">Joint Plantation Trade Union Centre</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">05</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Channa Sirinath Dissanayake</td>
-                        <td class="py-3 px-4">President</td>
-                        <td class="py-3 px-4">Ceylon Bank Employees Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">06</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">G.D. Indika Pushpakumara</td>
-                        <td class="py-3 px-4">General Secretary</td>
-                        <td class="py-3 px-4">Jathika Sewaka Sangamaya</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">07</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Amarapala Gamage</td>
-                        <td class="py-3 px-4">National Organizer/Senior Vice President</td>
-                        <td class="py-3 px-4">Podujana Pragathasheeli Sewaka Sangamaya</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">08</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Palitha Athukorale</td>
-                        <td class="py-3 px-4">Chairman</td>
-                        <td class="py-3 px-4">National Union of Seafarer Sri Lanka</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">09</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Nishantha Wanniarachchi</td>
-                        <td class="py-3 px-4">President</td>
-                        <td class="py-3 px-4">Ceylon Estate Staffs’ Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">10</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Warahena Liyanage Don Marcus</td>
-                        <td class="py-3 px-4">Member</td>
-                        <td class="py-3 px-4">Free Trade Zones and General Services Employees Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">11</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">J.M.A Premarathna</td>
-                        <td class="py-3 px-4">Secretary</td>
-                        <td class="py-3 px-4">All Ceylon Estate Workers Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">12</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Prasanga Medawatte</td>
-                        <td class="py-3 px-4">President</td>
-                        <td class="py-3 px-4">All Ceylon Port Public Employees’ Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">13</td>
-                        <td class="py-3 px-4">Ms</td>
-                        <td class="py-3 px-4">Lalitha Ranjani Dedduwakumara</td>
-                        <td class="py-3 px-4">Chief Organizer</td>
-                        <td class="py-3 px-4">Textile, Garment and Clothing Workers Union (TGCWU) <span class="text-xs text-gray-400 block font-normal font-sans">නිමි භාණ්ඩ ඇඟළුම් හා රෙදිපිළි සේවක සංගමය</span></td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">14</td>
-                        <td class="py-3 px-4">Ms</td>
-                        <td class="py-3 px-4">P.K Chamila Thushari</td>
-                        <td class="py-3 px-4">Secretary</td>
-                        <td class="py-3 px-4">Dabindu Collective</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">15</td>
-                        <td class="py-3 px-4">Ms</td>
-                        <td class="py-3 px-4">Eranga Amali Kalupahana</td>
-                        <td class="py-3 px-4">President</td>
-                        <td class="py-3 px-4">Centre for Working Women</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">16</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Amal Wedage</td>
-                        <td class="py-3 px-4">Deputy General Secretary</td>
-                        <td class="py-3 px-4">Ceylon Federation of Trade Unions</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">17</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">Janaka Adhikari (AAL)</td>
-                        <td class="py-3 px-4">General Secretary</td>
-                        <td class="py-3 px-4">Inter Company Employees Union</td>
-                    </tr>
-                    <tr class="hover:bg-gray-50 transition-colors">
-                        <td class="py-3 px-4">18</td>
-                        <td class="py-3 px-4">Mr</td>
-                        <td class="py-3 px-4">K.S Munasinghe</td>
-                        <td class="py-3 px-4">Co-Secretary</td>
-                        <td class="py-3 px-4">All Ceylon Transport Employees Union</td>
-                    </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
@@ -401,12 +435,12 @@ include 'includes/sub-hero.php';
         }
         </script>
 
-        <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 max-w-lg">
+        <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 max-w-lg notranslate">
             <h3 class="text-xl font-bold text-primary font-montserrat mb-4 flex items-center gap-3 notranslate">
                 <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                 <span><?= t('contact_info_title', 'Contact Information') ?></span>
             </h3>
-            <p class="text-gray-800 font-bold font-inter text-[15px] mb-1">Mr. B Vasanthan</p>
+            <p class="text-gray-800 font-bold font-inter text-[15px] mb-1"><?= t('nlac_contact_name', 'Mr. B Vasanthan') ?></p>
             <p class="text-gray-500 font-inter text-sm mb-4 notranslate"><?= t('nlac_contact_person', 'Senior Assistant Secretary (Foreign Relations)') ?></p>
             <ul class="space-y-2 text-gray-600 font-inter text-sm">
                 <li class="flex items-center gap-2">

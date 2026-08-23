@@ -17,6 +17,7 @@ if (!function_exists('resolve_subhero_translation')) {
             'Overview' => 'overview',
             'Current Updates' => 'current_updates',
             'IAU Updates' => 'iau_updates',
+            'IAU Downloads' => 'iau_downloads',
             'RTI' => 'rti',
             'Right to Information' => 'rti',
             'Learning Platforms' => 'learning_platforms',
@@ -98,6 +99,9 @@ if (isset($current_page)) {
             break;
         case 'news-single':
             $sub_hero_img = 'assets/img/sub-hero/news-single.webp';
+            break;
+        case 'ampara-circuit-bungalow':
+            $sub_hero_img = 'assets/img/sub-hero/ampara-bunglaow.webp';
             break;
     }
 }

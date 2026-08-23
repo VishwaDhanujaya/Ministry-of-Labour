@@ -117,6 +117,25 @@ try {
         $row['pdf_path_ta'] = !empty($row['pdf_path_ta']) ? resolvePdfUrl($row['pdf_path_ta']) : '';
         $all_documents[] = $row;
     }
+
+    // Fetch IAU Downloads
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM iau_downloads WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    while ($row = $stmt->fetch()) {
+        $row['category'] = 'IAU Update';
+        $row['ref'] = date('Y-m-d', strtotime($row['ref']));
+        $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
+        $row['pdf_path_si'] = !empty($row['pdf_path_si']) ? resolvePdfUrl($row['pdf_path_si']) : '';
+        $row['pdf_path_ta'] = !empty($row['pdf_path_ta']) ? resolvePdfUrl($row['pdf_path_ta']) : '';
+        
+        // Language-aware title resolution with English fallback
+        if ($current_lang === 'si' && !empty($row['title_si'])) {
+            $row['title'] = $row['title_si'];
+        } elseif ($current_lang === 'ta' && !empty($row['title_ta'])) {
+            $row['title'] = $row['title_ta'];
+        }
+        
+        $all_documents[] = $row;
+    }
 } catch (PDOException $e) {
     // Silently continue
 }
@@ -134,7 +153,8 @@ $categoryColors = [
     'Foreign Publications' => 'bg-rose-50 text-rose-700 border-rose-100',
     'Special Notices' => 'bg-orange-50 text-orange-700 border-orange-100',
     'Action Plans' => 'bg-pink-50 text-pink-700 border-pink-100',
-    'RTI Reports' => 'bg-teal-50 text-teal-700 border-teal-100'
+    'RTI Reports' => 'bg-teal-50 text-teal-700 border-teal-100',
+    'IAU Update' => 'bg-sky-50 text-sky-700 border-sky-100'
 ];
 ?>
 
@@ -164,6 +184,7 @@ $categoryColors = [
                             <option value="acts-amendments" <?= ($preselected_category === 'acts-amendments') ? 'selected' : '' ?>><?= t('acts_amendments_filter', 'Acts & Amendments') ?></option>
                             <option value="procurements" <?= ($preselected_category === 'procurements') ? 'selected' : '' ?>><?= t('all_procurements', 'All Procurements') ?></option>
                             <?php foreach ($categories as $cat): ?>
+                                <?php if (in_array($cat, ['Acts', 'Amendments', 'Procurement Plan', 'Procurement Notice', 'Contract Award Details'])) continue; ?>
                                 <option value="<?= htmlspecialchars($cat) ?>" <?= ($preselected_category === $cat) ? 'selected' : '' ?>><?= htmlspecialchars(translateCategory($cat)) ?></option>
                             <?php endforeach; ?>
                         </select>

@@ -22,9 +22,19 @@ $categoryColors = [
 ];
 
 foreach ($raw_pubs as $pub) {
+    // Language-aware title fallback
+    $pub_title = $pub['title'];
+    if ($current_lang === 'si' && !empty($pub['title_si'])) $pub_title = $pub['title_si'];
+    elseif ($current_lang === 'ta' && !empty($pub['title_ta'])) $pub_title = $pub['title_ta'];
+
+    // Language-aware description fallback
+    $pub_desc = $pub['description'];
+    if ($current_lang === 'si' && !empty($pub['description_si'])) $pub_desc = $pub['description_si'];
+    elseif ($current_lang === 'ta' && !empty($pub['description_ta'])) $pub_desc = $pub['description_ta'];
+
     $all_documents[] = [
-        'title' => $pub['title'],
-        'description' => $pub['description'] ?? '',
+        'title' => $pub_title,
+        'description' => $pub_desc ?? '',
         'ref' => date('Y-m-d', strtotime($pub['created_at'])),
         'category' => 'Foreign Publication',
         'pdf_path' => !empty($pub['pdf_path']) ? resolvePdfUrl($pub['pdf_path']) : '',

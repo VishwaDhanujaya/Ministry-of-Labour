@@ -145,6 +145,221 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 ## 🗂️ Workflow & Templates
 * **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
 
+### 2026-08-23 (Fix Admin Bungalow Bookings Crash)
+* **Files:**
+  - [admin/bungalow-bookings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/bungalow-bookings.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Type Coercion Fix**: Changed the parameter type declaration of `$entireBungalow` in `getEstimatedCost()` to `string|int` to allow processing string values like `'Yes'` or `'No'` fetched from the database, resolving a fatal `TypeError` that was causing the admin panel Bungalow Bookings page to completely crash on load.
+
+### 2026-08-22 (Add Document Uploads to Bungalow Booking Form)
+* **Files:**
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [process-ampara-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-ampara-booking.php)
+  - [admin/bungalow-bookings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/bungalow-bookings.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Schema Update**: Added `payment_slip` and `approval_letter` fields to the `bookings` database table.
+  - **Frontend Form Toggles**: Integrated custom file inputs for the Payment Slip and Approval Letter into Step 4 of the reservation wizard. Designed a JS toggler to require and display the Approval Letter specifically for the "Ministry of Labour Staff" category, while hiding it and only requiring the Payment Slip for others.
+  - **Secure Processing**: Integrated the uploads with the `handleFileUpload()` core utility in `process-ampara-booking.php` to handle secure uploads (JPG, PNG, PDF formats, max 5MB).
+  - **Admin Detail Modal**: Updated the admin booking modal dashboard to display quick clickable links to the uploaded slip and/or letter for direct verification.
+
+### 2026-08-22 (Translate National Labour Advisory Council Members Table)
+* **Files:**
+  - [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Full Trilingual Tables**: Converted the hardcoded English tables for NLAC members into loops over PHP arrays containing complete Sinhala and Tamil translations for all 35 representatives.
+  - **Contact Person Name**: Added translation dictionary key `nlac_contact_name` to translate "Mr. B Vasanthan" to Sinhala/Tamil on the public portal.
+  - **Enforce Manual Translation**: Added the `notranslate` class to the tables and contact info card wrappers, preventing browser translation widgets from overriding the high-quality server-side manual translations.
+
+### 2026-08-22 (Update Ampara Circuit Bungalow Sub-Hero Background Image)
+* **Files:**
+  - [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Background Image Update**: Added a switch-case option inside `includes/sub-hero.php` for `ampara-circuit-bungalow` to load `assets/img/sub-hero/ampara-bunglaow.webp`, ensuring the Ampara Circuit Bungalow page displays the correct custom sub-hero background image.
+
+### 2026-08-22 (Enable Tri-directional Auto-Translation for RTI, News and Officials)
+* **Files:**
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **RTI Reports Refactoring**: Replaced manual vertical forms with the `renderTrilingualInputFields` helper in `manage-rti-reports.php`. This fixes the modal opening crash and adds individual Sinhala and Tamil "Auto Translate" tabs/buttons.
+  - **News auto-translation**: Refactored the Title and Body Quill editor translation scripts in `news-add.php` to accept the source language as a parameter and translate into the remaining two languages, rendering individual "Auto Translate" buttons on all three language tabs.
+  - **Officials auto-translation**: Refactored `autoTranslateAll()` and language tab toggles in `officials.php` to dynamically read from the active tab pane (English, Sinhala, or Tamil) and auto-translate names and titles into the other two languages.
+
+### 2026-08-22 (Fix Edit/New Popup Opening JavaScript Errors in Admin Modules)
+* **Files:**
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **JS Element ID Reference Correcting**: Fixed a Javascript runtime TypeError (setting property of null) inside `openAddModal()` and `openEditModal()` functions in 8 modules. Since `renderTrilingualInputFields` dynamically outputs element IDs suffixed with `En` (e.g. `pubTitleEn`, `procTitleEn`, `noticeTitleEn`, `updateTitleEn`), the JS handlers had thrown errors attempting to set values on non-existent non-suffixed IDs (e.g. `pubTitle`), preventing the modals from toggling visibility. Corrected all these references to target the `En` IDs.
+
+### 2026-08-22 (Refactor Remaining Admin CMS Modules and Frontend Pages to Trilingual Auto-Translation)
+* **Files:**
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Trilingual CMS Form Inputs**: Integrated `renderTrilingualInputFields` inside the Add/Edit modals for Local Learning Platforms, Foreign Learning Platforms, Action Plans, and IAU Updates.
+  - **Controller Actions**: Updated the POST controllers of all remaining admin modules to capture, validate, and store localized title and description/content values (`title_si`, `title_ta`, `description_si`, `description_ta`/`content_si`, `content_ta`) to their database columns.
+  - **JS Modal Controllers & Resetting**: Refactored `openAddModal` and `openEditModal` frontend routines in each page to populate language tabs, initialize the trilingual Quill editor dynamically (`window.initTrilingualQuill`), and reset default tabs to English.
+  - **Trilingual Frontend Rendering**: Updated the public portal pages (`downloads.php`, `vacancies.php`, `procurements.php`, `learning-platforms-local.php`, `learning-platforms-foreign.php`, `special-notices.php`, and `iau-updates.php`) to retrieve localized title/description/content from the database, falling back cleanly to the primary English fields if Sinhala or Tamil columns are empty.
+
+### 2026-08-22 (Enable Trilingual Auto-Translation for Acts & Amendments)
+* **Files:**
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Database Migration**: Added `title_si` and `title_ta` to the `acts_amendments` table.
+  - **Trilingual Form Tabs**: Added English, Sinhala, and Tamil tabs layout for document titles inside `#actModal` in `manage-acts.php`.
+  - **Tri-directional Translation Logic**: Implemented JavaScript translation fetcher and auto-translation routine (`autoTranslateActTitle`), supporting translation from any of the three languages to the other two.
+  - **Controller and SQL mapping**: Updated Add/Edit POST routes to store translated titles to database, and modal script logic to populate fields.
+  - **Frontend Page Localized Titles**: Modified `downloads.php` to query `title_si`/`title_ta` columns and swap the rendered document title dynamically depending on the selected site language, falling back to English.
+
+### 2026-08-22 (Enable Trilingual PDF Uploads for IAU Updates)
+* **Files:**
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Trilingual Widget Integration**: Integrated the shared PHP function `renderTrilingualPdfUploadFields` inside the Add/Edit form in `manage-iau-updates.php`.
+  - **Controller Actions**: Updated the GET delete route and POST add/edit routes to capture, validate, and write file uploads (`pdf_file`, `pdf_file_si`, `pdf_file_ta`) directly into the DB columns and upload folder (`uploads/iau`), clearing disk footprints upon deletion.
+  - **AJAX File Deletions**: Implemented `delete_pdf_ajax` backend and `deletePdfAjax` frontend JS routines to support immediate PDF unlinking on the IAU Updates screen.
+  - **Language-Aware Public Rendering**: Modified `iau-updates.php` to retrieve translation files, map the primary card link to the current site language, and propagate PDF paths into `openDetailModal` to permit trilingual document previews.
+
+### 2026-08-22 (Add Local PDF Selection Preview & Clear Controls Globally)
+* **Files:**
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Local Selection Observer**: Added event listener in `admin/assets/js/admin.js` to detect when a PDF file input changes. When a local file is selected, it dynamically displays the premium download/view card showing the local file name, and binds a local blob preview object URL to the "View PDF" anchor tag so the user can verify their document before saving.
+  - **Click Interceptor**: Added capturing click listener to intercept clicks on the delete/trash button when a local file is active. Clicking it clears the newly selected file (and restores the original server file if editing, or hides the container if adding) without making any network deletion requests to the backend.
+  - **Metadata Cache Clearer**: Wrapped the global modal opening functions (`openEditModal` and `openAddModal`) to automatically clear any cached file metadata between records.
+
+### 2026-08-22 (Fix Sinhala & Tamil Filename Uploads Sanitization)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Phonetic Transliterator**: Added `transliterateNonAscii(string $text)` to `admin/includes/functions.php` to phonetically map Sinhala and Tamil Unicode character blocks to safe Latin ASCII character representations before filename slugification.
+  - **Sanitization & Fallback**: Updated `handleFileUpload` to transliterate non-ASCII characters and set smart fallback names based on the extension type (e.g. falling back to `document-xxxx` for PDF file types rather than general `image-xxxx`), preventing files with native Sinhala or Tamil names from losing their name semantics or causing file preservation issues.
+
+### 2026-08-22 (Fix Tamil Translation Spelling Typo for Ministry of Labour)
+* **Files:**
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Correction of Typo**: Changed spelling of `தோழில்` to the correct spelling `தொழில்` (Thozhil) in rti.php's `$ministry_address['ta']` and search-suggest.php's `static_pages` titles. This ensures that "தொழில் அமைச்சு" (Ministry of Labour) appears correctly everywhere.
+
+### 2026-08-21 (Resolve PDF View Link 404s in Edit Modals)
+* **Files:**
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **JavaScript URL Resolver**: Added `window.resolvePdfUrlJs(path)` helper function to `admin/assets/js/admin.js` to strip leading slashes and redundant `admin/` directory prefixes from DB values before binding to link hrefs.
+  - **Wrapper Integration**: Wrapped all link bindings in the `openEditModal` Javascript methods across the 8 admin modules with this helper function, eliminating 404 errors for records containing varying path structures in the database.
+
+### 2026-08-21 (DRY Refactoring of Trilingual PDF Upload Fields in Admin Modules)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Shared UI Function**: Added `renderTrilingualPdfUploadFields(array $config)` to `admin/includes/functions.php` to generate the HTML for the three trilingual file uploads using the new compact design layout (PDF icon + View PDF link + delete button).
+  - **DRY Refactoring**: Replaced all custom, repeated HTML widget boilerplate rows across the 8 admin modules with a call to the new helper function. This ensures design changes can be done globally in a single place.
+
+### 2026-08-21 (Redesign Global Detail Preview Modal with Premium Trilingual Cards)
+* **Files:**
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Premium Trilingual Download Cards**: Redesigned the global frontend detail preview modal (`detail-modal`) inside `includes/footer.php` to display files using the premium trilingual language selection cards matching the design of the downloads page. Removed the simple plain-text PDF links from the modal footer.
+  - **Dynamic Visibility Handling**: Structured the modal body container to hold the download cards section and updated the JavaScript logic to toggling display using Tailwind flex utilities and hiding the section dynamically if no PDF documents exist for the selected item.
+
+### 2026-08-21 (Fix Edit Modal PDF View Link Paths)
+* **Files:**
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Edit Modal PDF Link Paths Resolution Fix**: Resolved a "Page Not Found (404)" error that occurred when clicking the "View PDF" links inside the edit modals on the admin pages. Since the files are uploaded directly inside the `admin/uploads/` directory, prepending `'../'` to the database-stored relative path (e.g., `uploads/procurements/file.pdf`) caused incorrect directory traversal out of the `admin` folder. Removed the redundant `'../'` prefix across all 8 modules, allowing the links to correctly resolve relative to `/admin/`.
+
+### 2026-08-21 (User-friendly AJAX-based trilingual PDF Deletion for remaining modules)
+* **Files:**
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **AJAX-based Trilingual PDF Deletion**: Implemented user-friendly AJAX file deletion across all remaining CMS modules. Replaced the old "Remove existing PDF" checkboxes with Tailwind badge cards showing "View PDF" links and red trash bin icons.
+  - **Confirmation Dialog**: Wired the trash bin clicks to use the custom admin UI modal dialog confirmation `window.showModal()` instead of standard JS alerts or confirms.
+  - **Immediate AJAX Deletion**: Upon deletion confirmation, a POST request with the action `delete_pdf_ajax` and appropriate CSRF token is dispatched to the backend. The backend unlinks the physical file and sets the column to `NULL` in the database, evicting the homepage announcements cache instantly.
+  - **Live Dynamic Modal Reload**: Tracked session deletion using an `ajaxDeletedThisSession` flag to force parent table reloads on modal cancel/close only if files were mutated, maintaining dynamic visual consistency.
+
+### 2026-08-21 (PDF Removal Checkboxes, Double Submission Prevention, & Filename Collisions Fix)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Sinhala/Tamil Uploads Filename Collision Fix**: Replaced `uniqid()` with `bin2hex(random_bytes(4))` in `handleFileUpload()` within `admin/includes/functions.php` to prevent filename collisions when files with non-English characters are stripped to identical slugs in rapid succession.
+  - **Double Form Submission Prevention**: Implemented a global locking mechanism inside `initFormValidation` in `admin/assets/js/admin.js`. When a form is successfully validated and submitted, it is flagged with a `data-submitting = "true"` attribute, and all subsequent clicks are ignored until the page unloads, preventing duplication records in the database.
+  - **PDF Removal Checkboxes (Backend & Frontend UI)**: Added standard UI checkboxes ("Remove existing PDF") across all 8 major CRUD management modules in the admin dashboard (`manage-vacancies`, `manage-procurements`, `manage-special-notices`, `manage-rti-reports`, `manage-learning-platforms-local`, `manage-learning-platforms-foreign`, `manage-acts`, `manage-action-plans`). Added corresponding backend logic during the `edit` action to capture the boolean flag, invoke `unlink()` on the physical file to clear disk space, and nullify the database column for English, Sinhala, and Tamil variants independently.
+
 ### 2026-08-21 (Announcements & News Home Page Cache Clears & Private News Visibility Fix)
 * **Files:**
   - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
@@ -1925,10 +2140,6 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Change Description:** Removed the duplicate array key `'nlac_full'` entry from [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php#L234), eliminating the duplicate array key notice while preserving the trilingual NLAC title definition with acronym protection.
 
 
-
-
-
-
 ### 2026-07-31 (Added Trilingual Support for Officials and Renamed Internal Affairs)
 * **Files:** [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php), [admin/officials-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials-api.php), [includes/officials-service.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/officials-service.php), [about-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/about-us.php), [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [.agents/handover.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/handover.md)
 * **Author:** Antigravity AI
@@ -1947,3 +2158,68 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Change Description:**
   - **CSS Autofill Styling**: Added CSS selectors targeting `:-webkit-autofill` and `:autofill` to hide custom placeholder labels when input fields are autofilled.
   - **JavaScript Autofill Detector**: Integrated a robust JavaScript routine that checks input value states on page load and at delayed intervals (100ms, 300ms, 500ms, 1000ms) to ensure autofilled credentials do not overlap with their corresponding labels across all browsers.
+
+### 2026-08-23 (Renamed IAU Updates to Downloads and Created New IAU Gallery Page)
+* **Files:** [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php), [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:** Renamed the existing iau-updates.php file (handling document downloads) to iau-downloads.php. Updated all UI translation keys across English, Sinhala, and Tamil to reflect 'IAU Downloads'. Created a brand new iau-updates.php file implementing a static image gallery UI (with cover images, titles, and modal support) for IAU activities. Updated the main header navigation menu to include both the new 'Current Updates' (Gallery) and 'Downloads' pages under the IAU section.
+
+### 2026-08-23 (Added Multi-Image Slider for IAU Updates Gallery)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the single-image modal viewer with an interactive multi-image lightbox slider. Clicking a gallery card now opens all images associated with that workshop or campaign. Integrated previous/next navigation buttons, dynamic image indicator badge, a responsive thumbnail row at the bottom for quick select, and keyboard arrow key support (ArrowLeft, ArrowRight, Escape) for a premium user experience. Added high-quality AI-generated images in the /assets/img/IAU/ folder to serve as the live demonstration.
+
+### 2026-08-23 (Added Touch Gestures and Mobile Optimization for Gallery Lightbox)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Optimized the gallery slider modal specifically for mobile screens. Added touch events (	ouchstart and 	ouchend) to register swipe gestures for navigating left and right. Ensured navigation arrows are always visible on mobile, adjusted sizing of control buttons, and set responsive max-height constraints (max-h-[40vh]) for the main image so that headings and thumbnails are never cut off.
+
+### 2026-08-23 (Full-Screen Dark Lightbox Implementation for Gallery Modal)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced the white card styled modal with a full-screen dark-themed lightbox gallery modal (g-black/95). The main image now expands to fill the available screen area (max-h-[55vh] and max-h-[65vh]) and remains perfectly centered vertically and horizontally without forcing any vertical page scroll. Adjusted styling of header, close button, navigation controls, and thumbnail selectors to match the dark aesthetic.
+
+### 2026-08-23 (Fixed Modal Stacking Context & Overlay Hierarchy)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Solved the issue where the header navbar and footer remained visible over the open gallery modal due to a stacking context created by the parent <main> tag's CSS animation. Increased modal z-index to z-[99999] and added a JS DOM relocation snippet to dynamically append #galleryModal directly to document.body on load, fully covering all other elements on the screen.
+
+### 2026-08-23 (Built Admin Panel Integration for IAU Updates & Downloads)
+* **Files:** [admin/manage-iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-downloads.php), [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php), [admin/manage-iau-images.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-images.php), [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+* **Author:** Antigravity AI
+* **Change Description:** Renamed the legacy `iau_updates` table to `iau_downloads`. Created new `iau_updates` (Gallery Albums) and `iau_update_images` (Gallery Images) tables. Renamed `admin/manage-iau-updates.php` to `admin/manage-iau-downloads.php` and updated its SQL queries and UI text to target the downloads module. Built `admin/manage-iau-updates.php` and `admin/manage-iau-images.php` to handle CRUD operations for the new dynamic image gallery. Updated `admin/includes/sidebar.php` to link to both sections.
+
+### 2026-08-23 (Upgraded Album Modal File Upload UI to Match News Module)
+* **Files:** [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Upgraded the file upload UI in the album modal to match the news module drag-and-drop zone style with instant preview cards. Integrated Javascript preview helpers (`previewSingleImage` and `previewMultipleImages`) to render new uploads on-the-fly and enable file removal. Built an AJAX-based existing image delete mechanism (`deleteExistingImage`) so administrators can delete individual files permanently from edited albums without page reloads.
+
+### 2026-08-23 (Connected Frontend IAU Gallery to MySQL Database)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:** Integrated dynamic PDO queries into `iau-updates.php` to fetch active albums (`is_active = 1`) and their associated additional gallery images from `iau_updates` and `iau_update_images` tables. The frontend now serves real-time administrative content and media uploads in place of the previous hardcoded static demonstration data.
+
+### 2026-08-23 (Fixed Frontend IAU Downloads and Page Title Translation Map)
+* **Files:** [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php), [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:** Corrected the primary query in `iau-downloads.php` and the last updated check in `includes/footer.php` to fetch from the newly renamed `iau_downloads` table instead of the new gallery-focused `iau_updates` table. Added the missing title mapping for `'IAU Downloads'` in `includes/sub-hero.php` to ensure the sub-hero breadcrumbs and heading translate correctly into Sinhala and Tamil.
+
+### 2026-08-23 (Integrated IAU Downloads into Central Downloads Portal)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:** Integrated database queries into the general `downloads.php` search portal to retrieve records from the `iau_downloads` table alongside other ministry documents. Added the 'IAU Update' category classification dynamically and mapped a dedicated category tag background color (`bg-sky-50`) to separate internal affairs documents from other publications.
+
+### 2026-08-23 (Filtered Duplicates from General Downloads Category Selector)
+* **Files:** [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:** Refactored the category dropdown list on the `downloads.php` search portal. Excluded individual sub-category options (such as 'Acts', 'Amendments', and individual procurement plans/notices/contract details) because they are already collectively grouped and filtered by the main parent categories 'Acts & Amendments' and 'All Procurements'. This eliminates redundant duplicate values inside the select dropdown.
+
+### 2026-08-23 (Resolved CSS Class and Linter Conflicts)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+* **Author:** Antigravity AI
+* **Change Description:** Addressed active IDE code quality warnings. Removed conflicting layout display class combination (`hidden` and `flex`) from the main image slider modal tag in `iau-updates.php` by shifting the `flex` class handling dynamically to Javascript toggle routes. Cleaned up redundant font weight styles (`font-bold font-medium`) from the Tamil download tag in `includes/footer.php`.
+
+### 2026-08-23 (Completed Frontend Trilingual Translation Setup)
+* **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced hardcoded English text blocks with dynamic translation hookouts. Registered new translatable strings (`iau_gallery_desc`, `view_details`, `published_label`) inside the central `translations.php` vocabulary dictionary. Adjusted breadcrumb names to align with existing mapping tokens so breadcrumbs are fully localized on load.

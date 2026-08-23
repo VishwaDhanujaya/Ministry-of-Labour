@@ -258,7 +258,7 @@
                                 "SELECT MAX(created_at) FROM vacancies WHERE status = 'Published'",
                                 "SELECT MAX(created_at) FROM procurements WHERE status = 'Published'",
                                 "SELECT MAX(created_at) FROM acts_amendments WHERE status = 'Published'",
-                                "SELECT MAX(created_at) FROM iau_updates WHERE status = 'Published'"
+                                "SELECT MAX(created_at) FROM iau_downloads WHERE status = 'Published'"
                             ];
                             $dates = [];
                             foreach ($queries as $q) {
@@ -305,28 +305,66 @@
             <div class="overflow-y-auto p-6 md:p-8 flex-grow">
                 <!-- Meta Date -->
                 <div class="flex items-center gap-1.5 text-xs text-gray-400 font-inter font-medium tracking-wide mb-4 pb-4 border-b border-gray-100 select-none">
-                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span id="modal-date" class="notranslate">Published Date</span>
                 </div>
                 <!-- Body Text -->
                 <div id="modal-body" class="text-[14.5px] text-gray-600 leading-relaxed font-inter prose max-w-none notranslate"></div>
-            </div>
 
+                <!-- Trilingual Download Language Selection -->
+                <div id="modal-pdf-section" class="mt-8 pt-6 border-t border-gray-100 space-y-3 hidden">
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate">Select Language PDF Version</p>
+                    
+                    <!-- English PDF Button -->
+                    <a id="modal-pdf-link-en" href="#" target="_blank" class="hidden items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">EN</span>
+                            <div class="text-left">
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors">English PDF</p>
+                                <p class="text-[11px] text-gray-400">Official English Document</p>
+                            </div>
+                        </div>
+                        <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm">
+                            Download
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </span>
+                    </a>
+                    
+                    <!-- Sinhala PDF Button -->
+                    <a id="modal-pdf-link-si" href="#" target="_blank" class="hidden items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs font-noto">සිං</span>
+                            <div class="text-left">
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">සිංහල PDF (Sinhala)</p>
+                                <p class="text-[11px] text-gray-400 font-noto">සිංහල මාධ්‍ය නිල ලේඛනය</p>
+                            </div>
+                        </div>
+                        <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
+                            බාගත කරන්න
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </span>
+                    </a>
+                    
+                    <!-- Tamil PDF Button -->
+                    <a id="modal-pdf-link-ta" href="#" target="_blank" class="hidden items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs font-noto">த</span>
+                            <div class="text-left">
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">தமிழ் PDF (Tamil)</p>
+                                <p class="text-[11px] text-gray-400 font-noto">தமிழ் மொழி அதிகாரப்பூர்வ ஆவணம்</p>
+                            </div>
+                        </div>
+                        <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
+                            பதிவிறக்கம்
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            
             <!-- Footer / Action bar -->
             <div id="modal-footer" class="px-6 py-5 border-t border-gray-100 bg-[#FAFAFA] flex justify-end gap-3 shrink-0 flex-wrap">
                 <button onclick="closeDetailModal()" class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer">Close</button>
-                <a id="modal-pdf-link-en" href="#" target="_blank" class="hidden px-4 py-2.5 text-[12.5px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl transition-all shadow-md items-center gap-1.5 focus:outline-none cursor-pointer notranslate">
-                    <svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                    EN PDF
-                </a>
-                <a id="modal-pdf-link-si" href="#" target="_blank" class="hidden px-4 py-2.5 text-[12.5px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl transition-all shadow-md items-center gap-1.5 focus:outline-none cursor-pointer notranslate">
-                    <svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                    SI PDF
-                </a>
-                <a id="modal-pdf-link-ta" href="#" target="_blank" class="hidden px-4 py-2.5 text-[12.5px] font-bold text-white bg-secondary hover:bg-[#3d0000] rounded-xl transition-all shadow-md items-center gap-1.5 focus:outline-none cursor-pointer notranslate">
-                    <svg class="w-4 h-4 text-red-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
-                    TA PDF
-                </a>
             </div>
         </div>
     </div>
@@ -344,26 +382,37 @@
         const pdfLinkTa = document.getElementById('modal-pdf-link-ta');
         
         pdfLinkEn.classList.add('hidden');
-        pdfLinkEn.classList.remove('inline-flex');
+        pdfLinkEn.classList.remove('flex');
         pdfLinkSi.classList.add('hidden');
-        pdfLinkSi.classList.remove('inline-flex');
+        pdfLinkSi.classList.remove('flex');
         pdfLinkTa.classList.add('hidden');
-        pdfLinkTa.classList.remove('inline-flex');
+        pdfLinkTa.classList.remove('flex');
 
+        let hasPdf = false;
         if (data.pdf_path) {
             pdfLinkEn.href = data.pdf_path;
             pdfLinkEn.classList.remove('hidden');
-            pdfLinkEn.classList.add('inline-flex');
+            pdfLinkEn.classList.add('flex');
+            hasPdf = true;
         }
         if (data.pdf_path_si) {
             pdfLinkSi.href = data.pdf_path_si;
             pdfLinkSi.classList.remove('hidden');
-            pdfLinkSi.classList.add('inline-flex');
+            pdfLinkSi.classList.add('flex');
+            hasPdf = true;
         }
         if (data.pdf_path_ta) {
             pdfLinkTa.href = data.pdf_path_ta;
             pdfLinkTa.classList.remove('hidden');
-            pdfLinkTa.classList.add('inline-flex');
+            pdfLinkTa.classList.add('flex');
+            hasPdf = true;
+        }
+        
+        const pdfSection = document.getElementById('modal-pdf-section');
+        if (hasPdf) {
+            pdfSection.classList.remove('hidden');
+        } else {
+            pdfSection.classList.add('hidden');
         }
         
         modal.classList.remove('hidden');

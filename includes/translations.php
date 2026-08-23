@@ -738,6 +738,11 @@ $lang_dict = [
         'si' => 'ජ්‍යෙෂ්ඨ සහකාර ලේකම් (විදේශ සබඳතා)',
         'ta' => 'மூத்த உதவிச் செயலாளர் (வெளிநாட்டு உறவுகள்)'
     ],
+    'nlac_contact_name' => [
+        'en' => 'Mr. B Vasanthan',
+        'si' => 'බී. වසන්තන් මහතා',
+        'ta' => 'திரு. பி. வசந்தன்'
+    ],
 
     // ===========================================================================
     // SECTION 5: DOCUMENT LISTINGS, TABLES & DOWNLOADS
@@ -782,6 +787,11 @@ $lang_dict = [
         'en' => 'Search IAU updates by title or date...',
         'si' => 'මාතෘකාව හෝ දිනය අනුව අභ්‍යන්තර විගණන යාවත්කාලීන සොයන්න...',
         'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் உள்ளக கணக்காய்வு புதுப்பிப்புகளைத் தேடுக...'
+    ],
+    'search_downloads_placeholder' => [
+        'en' => 'Search IAU downloads by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව IAU බාගත කිරීම් සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது தேதியின் அடிப்படையில் IAU பதிவிறக்கங்களைத் தேடுக...'
     ],
     'search_local_pub_placeholder' => [
         'en' => 'Search local publications by title or date...',
@@ -890,6 +900,11 @@ $lang_dict = [
         'si' => 'ඔබගේ සෙවීමට ගැලපෙන ලේඛන හමු නොවිණ',
         'ta' => 'உங்கள் தேடலுக்கு பொருந்தும் ஆவணங்கள் இல்லை'
     ],
+    'no_downloads_found' => [
+        'en' => 'No downloads matched your search',
+        'si' => 'ඔබගේ සෙවුමට ගැලපෙන බාගත කිරීම් කිසිවක් හමු නොවීය',
+        'ta' => 'உங்கள் தேடலுக்குப் பொருந்தும் பதிவிறக்கங்கள் எதுவும் இல்லை'
+    ],
     'no_docs_found_sub' => [
         'en' => 'Try adjusting your filters or search keywords',
         'si' => 'ඔබගේ පෙරහන් හෝ සෙවීමේ යතුරු වචන සකස් කිරීමට උත්සාහ කරන්න',
@@ -986,6 +1001,21 @@ $lang_dict = [
         'en' => 'IAU Updates',
         'si' => 'අභ්‍යන්තර විගණන යාවත්කාලීන',
         'ta' => 'உள்ளக கணக்காய்வு புதுப்பிப்புகள்'
+    ],
+    'iau_gallery_desc' => [
+        'en' => 'Explore our latest activities and engagements promoting integrity and transparency within the Ministry.',
+        'si' => 'කම්කරු අමාත්‍යාංශය තුළ අඛණ්ඩතාව සහ විනිවිදභාවය ප්‍රවර්ධනය කරමින් අපගේ නවතම ක්‍රියාකාරකම් සහ සම්බන්ධතා සොයා බලන්න.',
+        'ta' => 'அமைச்சிற்குள் நேர்மை மற்றும் வெளிப்படைத்தன்மையை மேம்படுத்தும் எமது அண்மைய நடவடிக்கைகள் மற்றும் ஈடுபாடுகளை ஆராயுங்கள்.'
+    ],
+    'view_details' => [
+        'en' => 'View Details',
+        'si' => 'විස්තර බලන්න',
+        'ta' => 'விபரங்களைப் பார்க்க'
+    ],
+    'published_label' => [
+        'en' => 'Published:',
+        'si' => 'ප්‍රකාශිත දිනය:',
+        'ta' => 'வெளியிடப்பட்டது:'
     ],
 
     // Learning Platforms Page
@@ -1498,6 +1528,11 @@ $lang_dict = [
         'en' => 'IAU Updates',
         'si' => 'අභ්‍යන්තර කටයුතු ඒකකයේ නවතම තත්වය',
         'ta' => 'உள்ளக விவகாரங்கள் பிரிவு புதுப்பிப்புகள்'
+    ],
+    'iau_downloads' => [
+        'en' => 'IAU Downloads',
+        'si' => 'අභ්‍යන්තර කටයුතු ඒකකයේ බාගත කිරීම්',
+        'ta' => 'உள்ளக விவகாரங்கள் பிரிவு பதிவிறக்கங்கள்'
     ],
 
     // IAU Overview & Objectives

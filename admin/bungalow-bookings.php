@@ -197,12 +197,13 @@ function getDayOccupancy(array $dayBookings) {
     ];
 }
 
-function getEstimatedCost(?string $category, ?string $roomTypeStr, int|string $nights, int $entireBungalow = 0): float|int {
+function getEstimatedCost(?string $category, ?string $roomTypeStr, int|string $nights, string|int $entireBungalow = 0): float|int {
     $category = trim((string)$category);
     $roomTypeStr = (string)$roomTypeStr;
     $nights = (int)$nights;
     if ($nights <= 0) $nights = 1;
 
+    $isEntire = ($entireBungalow === 1 || $entireBungalow === '1' || strcasecmp((string)$entireBungalow, 'Yes') === 0);
     
     $tier = 2; // Default: Local Citizens / Private
     if (stripos($category, 'Ministry of Labour') !== false || stripos($category, 'MOL') !== false) {
@@ -211,7 +212,7 @@ function getEstimatedCost(?string $category, ?string $roomTypeStr, int|string $n
         $tier = 3;
     }
     
-    if ($entireBungalow || stripos($roomTypeStr, 'Entire Bungalow') !== false) {
+    if ($isEntire || stripos($roomTypeStr, 'Entire Bungalow') !== false) {
         $rates = [1 => 5000, 2 => 10000, 3 => 25000];
         return $rates[$tier] * $nights;
     }
@@ -946,6 +947,27 @@ function openViewModal(booking) {
                     <div class="col-span-2">
                         <span class="block text-[10px] font-semibold text-slate-400">Residential Address</span>
                         <span class="block font-medium text-slate-800">${booking.residential_address || 'N/A'}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Uploaded Documents -->
+            <div class="bg-white border border-slate-100 p-4 rounded-xl shadow-sm space-y-3">
+                <span class="block text-[10.5px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-50 pb-1.5">Uploaded Documents</span>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <span class="block text-[10px] font-semibold text-slate-400">Payment Slip</span>
+                        ${booking.payment_slip ? `<a href="${booking.payment_slip}" target="_blank" class="text-primary hover:underline font-bold block mt-1 flex items-center gap-1">
+                            <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            View Slip
+                        </a>` : '<span class="text-slate-400 block mt-1">No payment slip</span>'}
+                    </div>
+                    <div>
+                        <span class="block text-[10px] font-semibold text-slate-400">Approval Letter</span>
+                        ${booking.approval_letter ? `<a href="${booking.approval_letter}" target="_blank" class="text-primary hover:underline font-bold block mt-1 flex items-center gap-1">
+                            <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            View Letter
+                        </a>` : '<span class="text-slate-400 block mt-1">No approval letter</span>'}
                     </div>
                 </div>
             </div>

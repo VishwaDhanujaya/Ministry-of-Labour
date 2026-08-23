@@ -257,7 +257,7 @@ include 'includes/header.php';
                             <div>
                                 <div class="flex justify-between items-center mb-2">
                                     <label class="block text-[13px] font-semibold text-gray-800">News Title (English) <span class="text-red-500">*</span></label>
-                                    <button type="button" onclick="autoTranslateTitle()" id="translate-title-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <button type="button" onclick="autoTranslateTitle('en')" id="translate-title-btn-en" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
                                         Auto Translate Title
                                     </button>
@@ -267,7 +267,7 @@ include 'includes/header.php';
                             <div>
                                 <div class="flex justify-between items-center mb-2">
                                     <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span class="text-red-500">*</span></label>
-                                    <button type="button" onclick="autoTranslateBody()" id="translate-body-btn" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <button type="button" onclick="autoTranslateBody('en')" id="translate-body-btn-en" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
                                         Auto Translate Body
                                     </button>
@@ -283,11 +283,23 @@ include 'includes/header.php';
                     <!-- Sinhala Tab -->
                     <div id="lang-si" class="lang-tab-content hidden space-y-6">
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Sinhala)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-[13px] font-semibold text-gray-800">News Title (Sinhala)</label>
+                                <button type="button" onclick="autoTranslateTitle('si')" id="translate-title-btn-si" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                    Auto Translate Title
+                                </button>
+                            </div>
                             <input type="text" id="title_si" name="title_si" style="font-family: 'Noto Sans Sinhala', sans-serif;" value="<?= $article && isset($article['title_si']) ? htmlspecialchars($article['title_si']) : '' ?>" placeholder="Sinhala translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Sinhala)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-[13px] font-semibold text-gray-800">News Body (Sinhala)</label>
+                                <button type="button" onclick="autoTranslateBody('si')" id="translate-body-btn-si" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                    Auto Translate Body
+                                </button>
+                            </div>
                             <input type="hidden" name="content_si" id="content_si_input">
                             <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
                                 <div id="content_si" style="height: 300px;"><?= $article && isset($article['content_si']) ? $article['content_si'] : '' ?></div>
@@ -298,11 +310,23 @@ include 'includes/header.php';
                     <!-- Tamil Tab -->
                     <div id="lang-ta" class="lang-tab-content hidden space-y-6">
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Title (Tamil)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-[13px] font-semibold text-gray-800">News Title (Tamil)</label>
+                                <button type="button" onclick="autoTranslateTitle('ta')" id="translate-title-btn-ta" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                    Auto Translate Title
+                                </button>
+                            </div>
                             <input type="text" id="title_ta" name="title_ta" style="font-family: 'Noto Sans Tamil', sans-serif;" value="<?= $article && isset($article['title_ta']) ? htmlspecialchars($article['title_ta']) : '' ?>" placeholder="Tamil translation" class="w-full px-4 py-3 bg-[#F9FAFB] border border-gray-100 rounded-lg focus:outline-none focus:ring-1 focus:ring-secondary text-[13px] text-gray-900 placeholder-gray-400">
                         </div>
                         <div>
-                            <label class="block text-[13px] font-semibold text-gray-800 mb-2">News Body (Tamil)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-[13px] font-semibold text-gray-800">News Body (Tamil)</label>
+                                <button type="button" onclick="autoTranslateBody('ta')" id="translate-body-btn-ta" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                                    Auto Translate Body
+                                </button>
+                            </div>
                             <input type="hidden" name="content_ta" id="content_ta_input">
                             <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
                                 <div id="content_ta" style="height: 300px;"><?= $article && isset($article['content_ta']) ? $article['content_ta'] : '' ?></div>
@@ -638,24 +662,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-async function autoTranslateTitle() {
-    const titleEn = document.getElementById('title_en').value;
-    if (!titleEn) {
-        showToast('Please enter an English title to translate.', 'warning');
+async function autoTranslateTitle(fromLang) {
+    const sourceId = 'title_' + fromLang;
+    const sourceVal = document.getElementById(sourceId).value.trim();
+    if (!sourceVal) {
+        showToast('Please enter a title to translate.', 'warning');
         return;
     }
 
-    const translateBtn = document.getElementById('translate-title-btn');
+    const translateBtn = document.getElementById('translate-title-btn-' + fromLang);
     const originalText = translateBtn.innerHTML;
     translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
     translateBtn.disabled = true;
 
+    const langs = ['en', 'si', 'ta'];
     try {
-        const titleSi = await translateText(titleEn, 'en', 'si');
-        document.getElementById('title_si').value = titleSi;
-        
-        const titleTa = await translateText(titleEn, 'en', 'ta');
-        document.getElementById('title_ta').value = titleTa;
+        for (const lang of langs) {
+            if (lang === fromLang) continue;
+            const targetId = 'title_' + lang;
+            const translatedText = await translateText(sourceVal, fromLang, lang);
+            document.getElementById(targetId).value = translatedText;
+        }
+        showToast('Title translated successfully!', 'success');
     } catch (err) {
         showToast('Title translation failed. Please try again or enter manually.', 'error');
         console.error(err);
@@ -665,24 +693,40 @@ async function autoTranslateTitle() {
     }
 }
 
-async function autoTranslateBody() {
-    const contentEn = quillEn.getText().trim();
-    if (!contentEn) {
-        showToast('Please enter English content to translate.', 'warning');
+async function autoTranslateBody(fromLang) {
+    let sourceVal = '';
+    if (fromLang === 'en') {
+        sourceVal = quillEn.getText().trim();
+    } else if (fromLang === 'si') {
+        sourceVal = quillSi.getText().trim();
+    } else if (fromLang === 'ta') {
+        sourceVal = quillTa.getText().trim();
+    }
+
+    if (!sourceVal) {
+        showToast('Please enter content to translate.', 'warning');
         return;
     }
 
-    const translateBtn = document.getElementById('translate-body-btn');
+    const translateBtn = document.getElementById('translate-body-btn-' + fromLang);
     const originalText = translateBtn.innerHTML;
     translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
     translateBtn.disabled = true;
 
+    const langs = ['en', 'si', 'ta'];
     try {
-        const contentSi = await translateText(contentEn, 'en', 'si');
-        quillSi.setText(contentSi + '\n');
-        
-        const contentTa = await translateText(contentEn, 'en', 'ta');
-        quillTa.setText(contentTa + '\n');
+        for (const lang of langs) {
+            if (lang === fromLang) continue;
+            const translatedText = await translateText(sourceVal, fromLang, lang);
+            if (lang === 'en') {
+                quillEn.setText(translatedText + '\n');
+            } else if (lang === 'si') {
+                quillSi.setText(translatedText + '\n');
+            } else if (lang === 'ta') {
+                quillTa.setText(translatedText + '\n');
+            }
+        }
+        showToast('Body translated successfully!', 'success');
     } catch (err) {
         showToast('Body translation failed. Please try again or enter manually.', 'error');
         console.error(err);

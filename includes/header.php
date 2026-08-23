@@ -483,7 +483,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'about-us') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['about_us'][$current_lang] ?? 'About Us') ?></a>
 
                 <div class="relative group">
-                    <a href="<?= navUrl('iau') ?>" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                    <a href="<?= navUrl('iau') ?>" class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'iau' || $current_page == 'iau-updates' || $current_page == 'iau-downloads') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
                         <?= htmlspecialchars($nav_trans['iau'][$current_lang] ?? 'IAU') ?>
                         <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </a>
@@ -491,7 +491,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <div class="absolute left-0 mt-0 min-w-[240px] w-max max-w-[360px] bg-white border border-gray-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
                         <div class="py-1">
                             <a href="<?= navUrl('iau') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
-                            <a href="<?= navUrl('iau-updates') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
+                            <a href="<?= navUrl('iau-updates') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-updates') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['iau_updates'][$current_lang] ?? 'IAU Updates') ?></a>
+                            <a href="<?= navUrl('iau-downloads') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'iau-downloads') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['iau_downloads'][$current_lang] ?? 'IAU Downloads') ?></a>
                         </div>
                     </div>
                 </div>
@@ -628,7 +629,8 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
                     </a>
                     <a href="<?= navUrl('iau') ?>" class="pl-6 py-1 <?= ($current_page == 'iau') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['overview'][$current_lang] ?? 'Overview') ?></a>
-                    <a href="<?= navUrl('iau-updates') ?>" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['current_updates'][$current_lang] ?? 'Current Updates') ?></a>
+                    <a href="<?= navUrl('iau-updates') ?>" class="pl-6 py-1 <?= ($current_page == 'iau-updates') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['iau_updates'][$current_lang] ?? 'IAU Updates') ?></a>
+                    <a href="<?= navUrl('iau-downloads') ?>" class="pl-6 py-1 <?= ($current_page == 'iau-downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['iau_downloads'][$current_lang] ?? 'IAU Downloads') ?></a>
                 </div>
                 <a href="<?= navUrl('rti') ?>" class="pl-3 py-1 <?= ($current_page == 'rti') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['rti'][$current_lang] ?? 'RTI') ?></a>
 
