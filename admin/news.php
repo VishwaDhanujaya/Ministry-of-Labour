@@ -219,19 +219,7 @@ include 'includes/header.php';
         ?>
     </main>
 
-    <?php if (isset($_GET['success'])): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof window.showToast === 'function') {
-                <?php if ($_GET['success'] == 'approved'): ?>
-                window.showToast("Article approved and published successfully.", "success");
-                <?php elseif ($_GET['success'] == 'deleted'): ?>
-                window.showToast("Article deleted successfully.", "success");
-                <?php endif; ?>
-            }
-        });
-    </script>
-    <?php endif; ?>
+
 
 </div>
 

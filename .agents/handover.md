@@ -143,7 +143,120 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
-* **Templates (`templates/`):** When generating new UI or CMS pages, always look for boilerplate files here to duplicate. This saves tokens and guarantees architecture consistency.
+### 2026-08-28 (Move Payment Instructions to Step 4 of Bungalow Booking)
+* **Files:**
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Relocated Payment Instructions**: Moved the payment instructions block from the "Application Submitted!" success screen to Step 4 (Confirmation & Declaration) of the Ampara Circuit Bungalow booking wizard. This places the bank deposit instructions right before/above the payment slip upload input, so applicants can make deposits and upload slips during the application process.
+
+### 2026-08-25 (Fix AJAX Form JSON Parsing Errors)
+* **Files:**
+  - [admin/manage-admins.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-admins.php)
+  - [admin/manage-statistics.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-statistics.php)
+  - [admin/settings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/settings.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **AJAX JSON Response Bridge**: Added checks for `HTTP_X_REQUESTED_WITH === 'XMLHttpRequest'` at the end of the POST blocks in the Admins, Statistics, and Settings modules. This ensures AJAX submissions via forms of class `js-validate-form` receive a clean JSON success/error response instead of rendering a full HTML page, which previously caused the JS JSON parser to fail with the `Unexpected token '<'` error.
+
+### 2026-08-25 (Fix News Add/Edit Quill Editor Validation)
+* **Files:**
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Expose Quill Editors to Window**: Bound Quill editor instances to `window.quillcontent_en`, `window.quillcontent_si`, and `window.quillcontent_ta`. This ensures the global `syncQuillToHidden` defined in `admin.js` (which overwrites the local helper) successfully locates the editors to copy HTML values.
+  - **Real-Time Quill Validation**: Added `text-change` event listeners to all three news content Quill editors to automatically sync HTML values to hidden inputs and call `window.toggleSubmitButton` in real-time, preventing the submit button from staying permanently disabled on load.
+
+### 2026-08-25 (Workspace Cleanup, Slider Migration & Database Sync Audit)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Slider Directory Consolidation**: Migrated all active homepage slider images from the legacy `assets/img/home/2026/` directory to the standardized `admin/uploads/sliders/` directory. Updated all 20 corresponding database paths in `hero_sliders.image` column to point to `uploads/sliders/` to keep directory structure clean and logical.
+  - **Directory Cleanup**: Deleted legacy `assets/img/home/2026` folder and deleted the orphaned `assets/img/home/minister.jpg` file, removing the now-empty `assets/img/home` folder.
+  - **Database & Upload Audit**: Wrote a diagnostic utility to verify table schema mappings (e.g. `acts_amendments`, `rti_reports`, `vacancies`, `news_images`, `officials`) against the active physical uploads folder. Verified that 100% of the active database file references correctly exist on the disk.
+  - **Vulnerability Cleanup**: Deleted 17 legacy project backup zip archives (`V9.zip` to `V25.zip`) from the web root and `admin/admin.zip` from the administration subdirectory to prevent public source/configuration download vulnerabilities.
+
+### 2026-08-25 (Overhaul AJAX Validation & Dynamic Warning Messaging + Bug Fix)
+* **Files:**
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/login.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/login.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **IAU Empty State Block**: Added a check in `iau-updates.php` to handle situations where no albums are active or returned from the database. It now mirrors the exact layout, CSS classes, and sad face SVG icon from the news list empty state. Replaced the generic fallback text with a localized translation string: `<?= t('no_updates_found', 'No updates found.') ?>`. Added the `no_updates_found` translation definition arrays for English, Sinhala, and Tamil to `includes/translations.php` for full multi-language compatibility.
+  - **Disable Login Validation**: Removed `js-validate-form` class from the login form in `admin/login.php` to skip custom AJAX real-time validation checks for administrative login inputs. Standard HTML5 input constraint validation remains active.
+  - **Dynamic Context-Aware Warnings**: Overhauled `isFormValid()` to return a rich object containing detailed flags (e.g. `missingRequired`, `missingTranslation`, `invalidEmail`, `invalidPassword`). Rewrote `toggleSubmitButton()` to display a precise warning message based on the actual validation state (e.g. `"⚠️ Required fields are missing."` or `"⚠️ Translation required for all filled fields."`). Also added matching tooltips to disabled submit buttons.
+  - **Deduplicated Trilingual Validation**: Extracted `_getTrilingualStatus()` helper in `admin.js` to serve as the unified trilingual validation logic for both on-blur real-time checks and on-submit modal forms.
+  - **Scoped Quill Verification**: Replaced the global Quill body check with an attribute-based search targeting `data-required-quill="true"`, preventing validation logic side-effects from firing on other forms. Added the attribute to the English news body input in `news-add.php`.
+  - **Critical Root-Cause Fix — `form.action` DOM Shadowing**: Forms containing `<input name="action">` (e.g. `actForm`, `pubForm`, `procForm`) caused `form.action` to return an `HTMLInputElement` instead of a string. Calling `.includes()` on this element threw a `TypeError` in `initFormValidation`, crashing the forEach loop before the `input`/`blur`/`change` event listeners could be attached. This silently prevented ALL real-time validation re-evaluation on those forms. Fixed by replacing `form.action.includes(...)` with `(form.getAttribute('action') || '').includes(...)` which always reads the raw HTML attribute as a string.
+
+### 2026-08-25 (Make Descriptions & Contents Optional for All Downloads)
+* **Files:**
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-downloads.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Exempt Descriptions/Contents from Trilingual Completeness checks**: Modified `isFormValid()` and `validateForm()` inside `admin.js` to target only text input fields (`input[type="text"]`, i.e., Titles) for trilingual consistency validation. Bypassed `textarea` and Quill hidden fields (`input[type="hidden"][id$="_input"]`), allowing descriptions to remain untranslated or blank.
+  - **Removed Server-side Description Validation**: Removed the backend `$desc_err` and `$content_err` validation checks across all 8 major document and download modules. Descriptions/contents are now completely optional and will not block document creation.
+
+### 2026-08-25 (Enforce Compulsory Trilingual Translations & Clear Sticky URL Deletions)
+* **Files:**
+  - [admin/includes/functions.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/functions.php)
+  - [admin/includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/footer.php)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-downloads.php)
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **IAU Frontend PDF Language Selector**: Added the missing PDF Language Filter selector to [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php) Controls Bar. Integrated the layout data properties (`data-pdf-en`, `data-pdf-si`, `data-pdf-ta`) into the grid cards and list rows, and added `updateDownloadLinks` inside the Javascript logic, exactly mimicking the pattern established in the Special Notices module. The selector pre-selects the language option matching the user's current session locale.
+  - **Draft Save Validations Bypassed**: Modified client-side `toggleSubmitButton` in `admin.js` to recognize buttons with the `formnovalidate` attribute (e.g. Save Draft) and ensure they are always enabled. Updated server-side checks in [news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) to skip trilingual field validation (title & content) and cover image checks if the status is `'Draft'`, ensuring drafts can be saved at any incomplete state.
+  - **Duplicate Toasts Fixed**: Identified and removed redundant local inline script blocks that called `window.showToast` on page success/error (in `admin/news.php`, `admin/news-add.php`, and `admin/manage-iau-updates.php`). Centered all message mapping logic inside the global toast handler inside [footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/footer.php) to ensure only a single toast is fired per event.
+  - **Trilingual Validation Completeness Enforced**: Added client-side and server-side checks to enforce that if a user types a title or body text in any of the three language tabs (English, Sinhala, or Tamil) on any CRUD input page, they must fill out/translate the other two tabs as well before submitting.
+  - **Submit Button Translation Notice**: When the submit button is disabled due to missing translations, a helper warning message (`⚠️ Translation required for all filled fields.`) is dynamically displayed on the far-left of the action bar/footer container, letting the user know exactly what needs to be fixed.
+  - **On-Blur Real-Time Validation**: Introduced field-level blur checks that validate fields immediately when clicked away, highlighting errors instantly.
+  - **Disabled Submit Buttons**: Form submit buttons are disabled dynamically and grayed out until all required fields and trilingual sets are fully and correctly filled out.
+  - **AJAX Form Persistence**: Converted all form submissions inside the admin dashboard to asynchronous AJAX (`fetch` API and JSON response bridge on the server). If a server-side error occurs (e.g. database error, or file upload limit exceeded), the modal remains open and data remains completely populated (no data loss). On success, the page redirects with a success parameter to refresh the table.
+  - **Auto-tab Switcher on Failure**: Added client-side script behavior to switch tabs automatically to the first invalid translation field if a form submission fails validation, improving user feedback.
+  - **Sticky URL Params Cleared**: Modified `admin/includes/footer.php` to parse and strip sticky `?delete` and `&csrf_token` query variables from the browser's address bar after a deletion completes (without reloading the page). This solves the bug where submitting a form after a successful delete would post to the deletion URL again and throw a "Special notice not found" error.
+  - **Auto Translate Event Bridge**: Updated the translation logic to automatically clear red validation markings and text error elements when using the Auto Translate buttons.
+
+### 2026-08-25 (Fix Acts & Amendments New/Edit Buttons Modal Bug)
+* **Files:**
+  - [admin/manage-acts.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-acts.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **JS Element ID Reference Correcting**: Fixed a Javascript runtime TypeError where clicking the "New Document" or "Edit" buttons threw an exception (cannot set properties of null (setting 'value')) because the scripts in `openAddModal()` and `openEditModal()` referenced the non-existent non-suffixed ID `actTitle` instead of the correct suffix-appended `actTitleEn` ID generated by the trilingual inputs widget. Corrected both occurrences to target `actTitleEn` properly.
+
+### 2026-08-25 (Fix Admin Quill Editors Initialization Timing)
+* **Files:**
+  - [admin/manage-special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-special-notices.php)
+  - [admin/manage-vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-vacancies.php)
+  - [admin/manage-rti-reports.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-rti-reports.php)
+  - [admin/manage-procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-procurements.php)
+  - [admin/manage-learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-local.php)
+  - [admin/manage-learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-learning-platforms-foreign.php)
+  - [admin/manage-iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-downloads.php)
+  - [admin/manage-action-plans.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-action-plans.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Quill Editor Load Fix**: Resolved a Javascript timing error where `window.initTrilingualQuill` was invoked synchronously in inline script tags before the `admin.js` library (which defines the function) was loaded via `includes/footer.php` at the bottom of the page. Wrapped all `initTrilingualQuill` calls inside a `DOMContentLoaded` event listener to ensure that `admin.js` is fully loaded, parsed, and initialized before execution.
 
 ### 2026-08-23 (Fix Admin Bungalow Bookings Crash)
 * **Files:**
@@ -2223,3 +2336,23 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Files:** [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php), [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php), [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
 * **Author:** Antigravity AI
 * **Change Description:** Replaced hardcoded English text blocks with dynamic translation hookouts. Registered new translatable strings (`iau_gallery_desc`, `view_details`, `published_label`) inside the central `translations.php` vocabulary dictionary. Adjusted breadcrumb names to align with existing mapping tokens so breadcrumbs are fully localized on load.
+
+### 2026-08-23 (Set Dedicated Sub-Hero Background Image for NLAC)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:** Added case logic inside `includes/sub-hero.php`'s background selector switches targeting the `'nlac'` page route. This maps the NLAC layout template page to use its dedicated premium background graphic `assets/img/sub-hero/NLAC.webp` instead of loading the generic website fallback image.
+
+### 2026-08-23 (Updated RTI Concept Image to WEBP Format)
+* **Files:** [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:** Updated the source path of the Right to Information introduction section graphic inside `rti.php` to reference `assets/img/rti-concept.webp` instead of its legacy raw JPG counterpart (`assets/img/rti-concept.jpg`). This optimizes image asset delivery payload sizes from 625KB down to 85KB for significantly faster page loads.
+
+### 2026-08-23 (Unified Sub-Hero Background for All IAU Pages)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:** Mapped `'iau-downloads'` as a dynamic case under the IAU banner selectors in `includes/sub-hero.php`. This ensures that the downloads page for the Internal Affairs Unit shares the same custom header banner asset `assets/img/sub-hero/IAU.webp` as the overview and updates pages.
+
+### 2026-08-23 (Set Dedicated Sub-Hero Background Image for Complaints Page)
+* **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+* **Author:** Antigravity AI
+* **Change Description:** Added case logic inside `includes/sub-hero.php`'s background selector switches targeting the `'complaints'` page route. This maps the Complaints page to load its specific background banner graphic `assets/img/sub-hero/complaints.webp` instead of loading the generic website fallback image.

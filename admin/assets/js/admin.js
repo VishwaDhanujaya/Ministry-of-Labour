@@ -540,7 +540,10 @@ function initFormValidation() {
     
     forms.forEach(form => {
         // Skip dirtiness check for forms that shouldn't have it (like search filters or login)
-        const skipDirtyCheck = form.classList.contains('js-no-dirty-check') || form.action.includes('login.php') || window.location.href.includes('login');
+        // NOTE: Use getAttribute('action') instead of form.action to avoid DOM shadowing
+        // where <input name="action"> inside a form overrides the native form.action property.
+        const formActionAttr = (form.getAttribute('action') || '');
+        const skipDirtyCheck = form.classList.contains('js-no-dirty-check') || formActionAttr.includes('login.php') || window.location.href.includes('login');
         
         // Function to serialize form, including handling Quill if present
         const getFormState = (submitter = null) => {
@@ -562,6 +565,51 @@ function initFormValidation() {
             setTimeout(() => {
                 initialState = getFormState();
             }, 500);
+        }
+
+        // On-blur validation for all fields inside AJAX forms
+        if (form.classList.contains('js-validate-form')) {
+            // Disable submit button on load
+            setTimeout(() => {
+                window.toggleSubmitButton(form);
+            }, 600); // Allow Quill to load first
+            
+            form.addEventListener('blur', (e) => {
+                const field = e.target;
+                if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA' || field.tagName === 'SELECT') {
+                    // Check if it's a trilingual input
+                    let basePrefix = null;
+                    const id = field.id;
+                    if (id) {
+                        if (id.endsWith('En')) { basePrefix = id.slice(0, -2); }
+                        else if (id.endsWith('Si')) { basePrefix = id.slice(0, -2); }
+                        else if (id.endsWith('Ta')) { basePrefix = id.slice(0, -2); }
+                        else if (id.endsWith('_en')) { basePrefix = id.slice(0, -3); }
+                        else if (id.endsWith('_si')) { basePrefix = id.slice(0, -3); }
+                        else if (id.endsWith('_ta')) { basePrefix = id.slice(0, -3); }
+                        else if (id.endsWith('En_input')) { basePrefix = id.slice(0, -8); }
+                        else if (id.endsWith('Si_input')) { basePrefix = id.slice(0, -8); }
+                        else if (id.endsWith('Ta_input')) { basePrefix = id.slice(0, -8); }
+                        else if (id.endsWith('_en_input')) { basePrefix = id.slice(0, -9); }
+                        else if (id.endsWith('_si_input')) { basePrefix = id.slice(0, -9); }
+                        else if (id.endsWith('_ta_input')) { basePrefix = id.slice(0, -9); }
+                    }
+
+                    if (basePrefix) {
+                        window.validateTrilingualGroup(form, basePrefix);
+                    } else {
+                        window.validateSingleField(form, field);
+                    }
+                    window.toggleSubmitButton(form);
+                }
+            }, true); // Use capture phase for blur events to bubble up
+
+            form.addEventListener('input', () => {
+                window.toggleSubmitButton(form);
+            });
+            form.addEventListener('change', () => {
+                window.toggleSubmitButton(form);
+            });
         }
 
         form.addEventListener('submit', (e) => {
@@ -610,26 +658,56 @@ function initFormValidation() {
                 return;
             }
             
-            // Validation passed, mark form as submitting to prevent double-clicks
+            // If it's not an AJAX form, submit normally
+            if (!form.classList.contains('js-validate-form')) {
+                form.dataset.submitting = 'true';
+                const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    const originalText = submitBtn.textContent.trim();
+                    let processingText = "Processing...";
+                    if (originalText.toLowerCase() === 'login') processingText = 'Authenticating...';
+                    else if (originalText.toLowerCase().includes('save')) processingText = 'Saving...';
+                    else if (originalText.toLowerCase().includes('submit')) processingText = 'Submitting...';
+                    else if (originalText.toLowerCase().includes('publish')) processingText = 'Publishing...';
+
+                    if (!submitBtn.dataset.originalContent) {
+                        submitBtn.dataset.originalContent = submitBtn.innerHTML;
+                    }
+
+                    submitBtn.innerHTML = `
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        ${processingText}
+                    `;
+                    
+                    if (form.id !== 'loginForm') {
+                        setTimeout(() => {
+                            submitBtn.disabled = true;
+                            submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                        }, 10);
+                    }
+                }
+                return;
+            }
+
+            // --- AJAX submission logic ---
+            e.preventDefault();
             form.dataset.submitting = 'true';
             
-            // If valid (or validation bypassed), apply loading state to the submit button
             const submitBtn = e.submitter || form.querySelector('button[type="submit"]');
             if (submitBtn) {
-                // Determine processing text based on original text
                 const originalText = submitBtn.textContent.trim();
                 let processingText = "Processing...";
-                if (originalText.toLowerCase() === 'login') processingText = 'Authenticating...';
-                else if (originalText.toLowerCase().includes('save')) processingText = 'Saving...';
+                if (originalText.toLowerCase().includes('save')) processingText = 'Saving...';
                 else if (originalText.toLowerCase().includes('submit')) processingText = 'Submitting...';
                 else if (originalText.toLowerCase().includes('publish')) processingText = 'Publishing...';
 
-                // Save original content in case we need to revert (though usually page reloads)
                 if (!submitBtn.dataset.originalContent) {
                     submitBtn.dataset.originalContent = submitBtn.innerHTML;
                 }
 
-                // Add spinner and processing text
                 submitBtn.innerHTML = `
                     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -637,21 +715,137 @@ function initFormValidation() {
                     </svg>
                     ${processingText}
                 `;
-                
-                // Disable the button to prevent double submission (except for login form to allow browser credential saving)
-                if (form.id !== 'loginForm') {
-                    setTimeout(() => {
-                        submitBtn.disabled = true;
-                        submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
-                    }, 10);
-                }
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
             }
+
+            const formData = new FormData(form);
+            if (e.submitter && e.submitter.name) {
+                formData.append(e.submitter.name, e.submitter.value);
+            }
+
+            const targetUrl = form.getAttribute('action') || window.location.href;
+
+            fetch(targetUrl, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned error code ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                form.dataset.submitting = 'false';
+                if (submitBtn) {
+                    submitBtn.innerHTML = submitBtn.dataset.originalContent;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+                }
+                
+                if (data.success) {
+                    // Redirect with success toast parameter to refresh the page
+                    const nextUrl = new URL(window.location.href);
+                    nextUrl.searchParams.set('success', data.message || 'Operation completed successfully.');
+                    nextUrl.searchParams.delete('error');
+                    nextUrl.searchParams.delete('delete');
+                    nextUrl.searchParams.delete('csrf_token');
+                    window.location.href = nextUrl.toString();
+                } else {
+                    if (typeof window.showToast === 'function') {
+                        window.showToast(data.error || 'Failed to save data.', 'error');
+                    }
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                form.dataset.submitting = 'false';
+                if (submitBtn) {
+                    submitBtn.innerHTML = submitBtn.dataset.originalContent;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+                }
+                if (typeof window.showToast === 'function') {
+                    window.showToast(error.message || 'An error occurred during submission.', 'error');
+                }
+            });
         });
     });
 }
 
+function _getTrilingualStatus(form) {
+    const trilingualPrefixes = new Set();
+    form.querySelectorAll('input[type="text"]').forEach(el => {
+        const id = el.id;
+        if (!id) return;
+        
+        if (id.endsWith('En')) {
+            trilingualPrefixes.add(JSON.stringify({ prefix: id.slice(0, -2), suffixEn: 'En', suffixSi: 'Si', suffixTa: 'Ta' }));
+        } else if (id.endsWith('_en')) {
+            trilingualPrefixes.add(JSON.stringify({ prefix: id.slice(0, -3), suffixEn: '_en', suffixSi: '_si', suffixTa: '_ta' }));
+        }
+    });
+
+    let isMissingTranslation = false;
+    const invalidGroups = [];
+
+    trilingualPrefixes.forEach(itemStr => {
+        const { prefix, suffixEn, suffixSi, suffixTa } = JSON.parse(itemStr);
+        
+        let elEn = document.getElementById(prefix + suffixEn);
+        let elSi = document.getElementById(prefix + suffixSi);
+        let elTa = document.getElementById(prefix + suffixTa);
+
+        let valEn = elEn ? elEn.value.trim() : '';
+        let valSi = elSi ? elSi.value.trim() : '';
+        let valTa = elTa ? elTa.value.trim() : '';
+
+        const isPopulated = (val) => {
+            if (!val) return false;
+            let cleanVal = val.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, '').trim();
+            return cleanVal !== '';
+        };
+
+        const hasEn = isPopulated(valEn);
+        const hasSi = isPopulated(valSi);
+        const hasTa = isPopulated(valTa);
+
+        if (hasEn || hasSi || hasTa) {
+            // Only require full trilingual completion if a non-English (optional)
+            // translation has been started. Filling English only is perfectly valid.
+            const hasAnyOptional = hasSi || hasTa;
+            if (hasAnyOptional && (!hasEn || !hasSi || !hasTa)) {
+                isMissingTranslation = true;
+                invalidGroups.push({
+                    prefix,
+                    suffixEn,
+                    suffixSi,
+                    suffixTa,
+                    hasEn,
+                    hasSi,
+                    hasTa
+                });
+            }
+        }
+    });
+
+    return {
+        isMissingTranslation,
+        invalidGroups
+    };
+}
+
 // Global Validation Helper (allows AJAX forms like officials.php to reuse custom validation styles)
 window.validateForm = function(form, skipValidation = false) {
+    // Sync Quill editors first
+    if (typeof window.syncQuillToHidden === 'function') {
+        window.syncQuillToHidden();
+    }
+
     let isValid = true;
     const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
     
@@ -718,16 +912,16 @@ window.validateForm = function(form, skipValidation = false) {
     });
 
     // Quill Editor Checks (typically hidden inputs representing rich text)
-    const quillInputs = form.querySelectorAll('#content_en_input, #content_si_input, #content_ta_input');
+    const quillInputs = form.querySelectorAll('input[data-required-quill="true"]');
     quillInputs.forEach(input => {
         // Sync Quill editors first
         if (typeof window.syncQuillToHidden === 'function') {
             window.syncQuillToHidden();
         }
-        // Only validate if it's the primary content (English/default)
-        if (input.id === 'content_en_input' && !input.value.trim()) {
+        if (!input.value.trim()) {
             isValid = false;
-            const quillEditor = form.querySelector('#content_en');
+            const editorId = input.id.replace('_input', '');
+            const quillEditor = form.querySelector(`#${editorId}`);
             if (quillEditor) {
                 const quillContainer = quillEditor.closest('.border');
                 if (quillContainer) {
@@ -736,12 +930,53 @@ window.validateForm = function(form, skipValidation = false) {
                     
                     const errorMsg = document.createElement('p');
                     errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
-                    errorMsg.textContent = 'News Body (English) is required.';
+                    
+                    let label = form.querySelector(`label[for="${editorId}"]`) || quillEditor.closest('div')?.querySelector('label');
+                    const fieldName = label ? label.textContent.replace('*', '').trim() : 'This field';
+                    errorMsg.textContent = `${fieldName} is required.`;
                     quillContainer.insertAdjacentElement('afterend', errorMsg);
                 }
             }
         }
     });
+
+    // Trilingual Field Completeness Check
+    const triStatus = _getTrilingualStatus(form);
+    if (triStatus.isMissingTranslation) {
+        isValid = false;
+        triStatus.invalidGroups.forEach(group => {
+            const { prefix, suffixEn, suffixSi, suffixTa, hasEn, hasSi, hasTa } = group;
+            const langs = [
+                { key: suffixEn, has: hasEn, label: 'English', suffix: suffixEn },
+                { key: suffixSi, has: hasSi, label: 'Sinhala', suffix: suffixSi },
+                { key: suffixTa, has: hasTa, label: 'Tamil', suffix: suffixTa }
+            ];
+
+            langs.forEach(lang => {
+                if (!lang.has) {
+                    let targetId = prefix + lang.suffix;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        if (!targetEl.classList.contains('border-red-500')) {
+                            targetEl.classList.add('border-red-500', 'focus:ring-red-500');
+                            if (!firstInvalidField) firstInvalidField = targetEl;
+                            
+                            const errorMsg = document.createElement('p');
+                            errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+                            errorMsg.textContent = `Please translate into ${lang.label}.`;
+                            
+                            const parent = targetEl.parentElement;
+                            if (parent && parent.classList.contains('relative')) {
+                                parent.insertAdjacentElement('afterend', errorMsg);
+                            } else {
+                                targetEl.insertAdjacentElement('afterend', errorMsg);
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    }
 
     // Optional but filled password check (e.g. for edits where password is not required but filled)
     const optionalPwds = form.querySelectorAll('input[type="password"]:not([required])');
@@ -833,6 +1068,14 @@ window.validateForm = function(form, skipValidation = false) {
         
         // Scroll to first invalid field smoothly
         if (firstInvalidField) {
+            // Find closest tab content wrapper to auto-switch tabs
+            const tabContent = firstInvalidField.closest('.lang-tab-content');
+            if (tabContent && tabContent.id) {
+                const tabBtn = document.querySelector(`.lang-tab-btn[data-target="${tabContent.id}"]`);
+                if (tabBtn) {
+                    tabBtn.click();
+                }
+            }
             firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
             setTimeout(() => firstInvalidField.focus(), 300);
         }
@@ -1258,10 +1501,25 @@ async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fro
                 if (quillTarget) {
                     const translatedText = await translateText(sourceVal, fromLang, lang);
                     quillTarget.setText(translatedText);
+                    
+                    // Clear validation styling for Quill
+                    const quillContainer = document.getElementById(targetId)?.closest('.border');
+                    if (quillContainer) {
+                        quillContainer.classList.remove('border-red-500');
+                        const errorSibling = quillContainer.nextElementSibling;
+                        if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+                            errorSibling.remove();
+                        }
+                    }
                 }
             } else {
                 const translatedText = await translateText(sourceVal, fromLang, lang);
-                document.getElementById(targetId).value = translatedText;
+                const targetInput = document.getElementById(targetId);
+                if (targetInput) {
+                    targetInput.value = translatedText;
+                    // Trigger input event to clear validation styling dynamically
+                    targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                }
             }
         }
         window.showToast('Translation completed successfully.', 'success');
@@ -1328,8 +1586,19 @@ window.initTrilingualQuill = function(idPrefix) {
             window['quill' + idPrefix + lang] = quill;
             
             const input = document.getElementById(inputId);
-            if (input && input.value) {
-                quill.root.innerHTML = input.value;
+            if (input) {
+                if (input.value) {
+                    quill.root.innerHTML = input.value;
+                }
+                
+                quill.on('text-change', () => {
+                    const html = quill.root.innerHTML;
+                    input.value = (html === '<p><br></p>') ? '' : html;
+                    const form = input.closest('form');
+                    if (form) {
+                        window.toggleSubmitButton(form);
+                    }
+                });
             }
         }
     });
@@ -1346,5 +1615,314 @@ window.syncQuillToHidden = function() {
         }
     });
 };
+
+window.isFormValid = function(form) {
+    try {
+        if (typeof window.syncQuillToHidden === 'function') {
+            window.syncQuillToHidden();
+        }
+
+        let isMissingRequired = false;
+        let isInvalidEmail = false;
+        let isInvalidPassword = false;
+        
+        // 1. Validate required fields
+        const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isMissingRequired = true;
+            }
+        });
+
+        // 2. Validate email
+        const emailFields = form.querySelectorAll('input[type="email"]');
+        emailFields.forEach(field => {
+            if (field.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(field.value.trim())) {
+                    isInvalidEmail = true;
+                }
+            }
+        });
+
+        // 3. Password length check for fields with js-pwd class or with password/confirm password required
+        const pwdFields = form.querySelectorAll('input[type="password"]');
+        pwdFields.forEach(field => {
+            if (field.value.trim()) {
+                if (field.value.length < 6) {
+                    isInvalidPassword = true;
+                }
+            } else if (field.hasAttribute('required')) {
+                isMissingRequired = true;
+            }
+        });
+
+        // 4. Passwords match check
+        const pwd = form.querySelector('.js-pwd');
+        const pwdConfirm = form.querySelector('.js-pwd-confirm');
+        if (pwd && pwdConfirm && (pwd.value.trim() || pwdConfirm.value.trim()) && pwd.value !== pwdConfirm.value) {
+            isInvalidPassword = true;
+        }
+
+        // 5. Quill editor checks (news-add.php specific, scoped via data-required-quill="true")
+        const quillInputs = form.querySelectorAll('input[data-required-quill="true"]');
+        quillInputs.forEach(input => {
+            if (!input.value.trim()) {
+                isMissingRequired = true;
+            }
+        });
+
+        // 6. Trilingual check using extracted helper
+        const triStatus = _getTrilingualStatus(form);
+
+        const isValid = !isMissingRequired && !isInvalidEmail && !isInvalidPassword && !triStatus.isMissingTranslation;
+
+        return {
+            valid: isValid,
+            missingRequired: isMissingRequired,
+            missingTranslation: triStatus.isMissingTranslation,
+            invalidEmail: isInvalidEmail,
+            invalidPassword: isInvalidPassword
+        };
+    } catch (err) {
+        console.error('[isFormValid] Unexpected error:', err);
+        return { valid: false, missingRequired: true, missingTranslation: false, invalidEmail: false, invalidPassword: false };
+    }
+};
+
+window.toggleSubmitButton = function(form) {
+    const submitBtns = form.querySelectorAll('button[type="submit"]');
+    if (submitBtns.length === 0) return;
+    
+    const formStatus = window.isFormValid(form);
+    const isValid = formStatus.valid;
+    let warningMsg = form.querySelector('.submit-validation-warning');
+    
+    let warningText = '';
+    if (!isValid) {
+        if (formStatus.missingRequired) {
+            warningText = 'Required fields are missing.';
+        } else if (formStatus.invalidEmail) {
+            warningText = 'Please enter a valid email address.';
+        } else if (formStatus.invalidPassword) {
+            warningText = 'Password must be at least 6 characters and match.';
+        } else if (formStatus.missingTranslation) {
+            warningText = 'Translation required for all filled fields.';
+        }
+    }
+    
+    submitBtns.forEach(btn => {
+        if (btn.hasAttribute('formnovalidate')) {
+            // Draft buttons with formnovalidate bypass validation entirely
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            btn.removeAttribute('title');
+            return;
+        }
+        
+        if (isValid) {
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            btn.removeAttribute('title');
+        } else {
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            btn.setAttribute('title', warningText);
+        }
+    });
+    
+    if (isValid) {
+        if (warningMsg) {
+            warningMsg.remove();
+        }
+    } else {
+        if (warningMsg) {
+            const warningSpan = warningMsg.querySelector('.warning-text');
+            if (warningSpan) {
+                warningSpan.textContent = warningText;
+            }
+        } else {
+            warningMsg = document.createElement('span');
+            warningMsg.className = 'submit-validation-warning text-xs text-amber-600 font-semibold flex items-center gap-1 mr-auto sm:mr-4';
+            warningMsg.innerHTML = `<svg class="w-4 h-4 text-amber-500 shrink-0 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg> <span class="warning-text">${warningText}</span>`;
+            
+            // Target the outer container to align warning to the far left
+            const targetBtn = Array.from(submitBtns).find(btn => !btn.hasAttribute('formnovalidate')) || submitBtns[0];
+            const footer = targetBtn.closest('.sticky') || targetBtn.parentElement;
+            if (footer) {
+                footer.insertAdjacentElement('afterbegin', warningMsg);
+            } else {
+                targetBtn.insertAdjacentElement('beforebegin', warningMsg);
+            }
+        }
+    }
+};
+
+window.validateSingleField = function(form, field) {
+    const parent = field.parentElement;
+    let errorSibling = parent.classList.contains('relative') ? parent.nextElementSibling : field.nextElementSibling;
+    if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+        errorSibling.remove();
+    }
+    field.classList.remove('border-red-500', 'focus:ring-red-500');
+
+    if (field.hasAttribute('required') && !field.value.trim()) {
+        field.classList.add('border-red-500', 'focus:ring-red-500');
+        let label = form.querySelector(`label[for="${field.id}"]`) || field.closest('div')?.querySelector('label');
+        const fieldName = label ? label.textContent.replace('*', '').trim() : 'This field';
+        
+        const errorMsg = document.createElement('p');
+        errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+        errorMsg.textContent = `${fieldName} is required.`;
+        if (parent.classList.contains('relative')) {
+            parent.insertAdjacentElement('afterend', errorMsg);
+        } else {
+            field.insertAdjacentElement('afterend', errorMsg);
+        }
+        return false;
+    }
+
+    if (field.type === 'email' && field.value.trim()) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(field.value.trim())) {
+            field.classList.add('border-red-500', 'focus:ring-red-500');
+            const errorMsg = document.createElement('p');
+            errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+            errorMsg.textContent = 'Please enter a valid email address.';
+            if (parent.classList.contains('relative')) {
+                parent.insertAdjacentElement('afterend', errorMsg);
+            } else {
+                field.insertAdjacentElement('afterend', errorMsg);
+            }
+            return false;
+        }
+    }
+    return true;
+};
+
+window.validateTrilingualGroup = function(form, prefix) {
+    let suffixEn = 'En', suffixSi = 'Si', suffixTa = 'Ta', isQuill = false;
+    if (document.getElementById(prefix + '_en')) {
+        suffixEn = '_en'; suffixSi = '_si'; suffixTa = '_ta';
+    } else if (document.getElementById(prefix + 'En_input')) {
+        suffixEn = 'En_input'; suffixSi = 'Si_input'; suffixTa = 'Ta_input'; isQuill = true;
+    } else if (document.getElementById(prefix + '_en_input')) {
+        suffixEn = '_en_input'; suffixSi = '_si_input'; suffixTa = '_ta_input'; isQuill = true;
+    }
+
+    let elEn = document.getElementById(prefix + suffixEn);
+    let elSi = document.getElementById(prefix + suffixSi);
+    let elTa = document.getElementById(prefix + suffixTa);
+
+    [suffixEn, suffixSi, suffixTa].forEach(suff => {
+        let targetId = prefix + suff;
+        if (isQuill) {
+            targetId = targetId.replace('_input', '');
+        }
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+            if (isQuill) {
+                const quillContainer = targetEl.closest('.border');
+                if (quillContainer) {
+                    quillContainer.classList.remove('border-red-500');
+                    const errorSibling = quillContainer.nextElementSibling;
+                    if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+                        errorSibling.remove();
+                    }
+                }
+            } else {
+                targetEl.classList.remove('border-red-500', 'focus:ring-red-500');
+                const parent = targetEl.parentElement;
+                const errorSibling = parent.classList.contains('relative') ? parent.nextElementSibling : targetEl.nextElementSibling;
+                if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+                    errorSibling.remove();
+                }
+            }
+        }
+    });
+
+    let valEn = elEn ? elEn.value.trim() : '';
+    let valSi = elSi ? elSi.value.trim() : '';
+    let valTa = elTa ? elTa.value.trim() : '';
+
+    const isPopulated = (val) => {
+        if (!val) return false;
+        let cleanVal = val.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, '').trim();
+        return cleanVal !== '';
+    };
+
+    const hasEn = isPopulated(valEn);
+    const hasSi = isPopulated(valSi);
+    const hasTa = isPopulated(valTa);
+
+    let isValid = true;
+
+    if (hasEn || hasSi || hasTa) {
+        // Only require all three translations when a non-English (optional) one has been started
+        const hasAnyOptional = hasSi || hasTa;
+        if (hasAnyOptional && (!hasEn || !hasSi || !hasTa)) {
+            isValid = false;
+            const langs = [
+                { suffix: suffixEn, has: hasEn, label: 'English' },
+                { suffix: suffixSi, has: hasSi, label: 'Sinhala' },
+                { suffix: suffixTa, has: hasTa, label: 'Tamil' }
+            ];
+
+            langs.forEach(lang => {
+                if (!lang.has) {
+                    let targetId = prefix + lang.suffix;
+                    if (isQuill) {
+                        targetId = targetId.replace('_input', '');
+                    }
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        if (isQuill) {
+                            const quillContainer = targetEl.closest('.border');
+                            if (quillContainer && !quillContainer.classList.contains('border-red-500')) {
+                                quillContainer.classList.add('border-red-500');
+                                const errorMsg = document.createElement('p');
+                                errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+                                errorMsg.textContent = `Please translate into ${lang.label}.`;
+                                quillContainer.insertAdjacentElement('afterend', errorMsg);
+                            }
+                        } else {
+                            if (!targetEl.classList.contains('border-red-500')) {
+                                targetEl.classList.add('border-red-500', 'focus:ring-red-500');
+                                const errorMsg = document.createElement('p');
+                                errorMsg.className = 'custom-error-msg text-xs text-red-600 mt-1 font-semibold';
+                                errorMsg.textContent = `Please translate into ${lang.label}.`;
+                                const parent = targetEl.parentElement;
+                                if (parent && parent.classList.contains('relative')) {
+                                    parent.insertAdjacentElement('afterend', errorMsg);
+                                } else {
+                                    targetEl.insertAdjacentElement('afterend', errorMsg);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    return isValid;
+};
+
+// Wrap openEditModal and openAddModal to re-evaluate submit button state
+document.addEventListener('DOMContentLoaded', () => {
+    ['openEditModal', 'openAddModal'].forEach(funcName => {
+        const originalFunc = window[funcName];
+        if (typeof originalFunc === 'function') {
+            window[funcName] = function(...args) {
+                const result = originalFunc.apply(this, args);
+                setTimeout(() => {
+                    const forms = document.querySelectorAll('.js-validate-form');
+                    forms.forEach(form => window.toggleSubmitButton(form));
+                }, 100);
+                return result;
+            };
+        }
+    });
+});
+
 
 

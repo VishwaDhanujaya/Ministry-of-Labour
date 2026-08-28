@@ -49,6 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
         }
     }
+
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        header('Content-Type: application/json');
+        if (!empty($error)) {
+            echo json_encode(['success' => false, 'error' => $error]);
+        } else {
+            echo json_encode(['success' => true, 'message' => $success]);
+        }
+        exit;
+    }
 }
 
 // Fetch statistics

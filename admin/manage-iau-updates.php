@@ -78,8 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         $title_en = trim($_POST['title']);
     }
     
+    $title_err = validateTrilingualFields([$title_en, $title_si, $title_ta], 'Title');
+    
     if (empty($title_en)) {
         $error = "Title (English) is required.";
+    } elseif ($title_err) {
+        $error = $title_err;
     } else {
         if ($action === 'add') {
             $cover_image = '';
@@ -172,6 +176,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
         }
     }
+    
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        header('Content-Type: application/json');
+        if (!empty($error)) {
+            echo json_encode(['success' => false, 'error' => $error]);
+        } else {
+            echo json_encode(['success' => true, 'message' => $success]);
+        }
+        exit;
+    }
 }
 
 // Fetch albums with their corresponding additional images
@@ -193,12 +207,7 @@ include 'includes/header.php';
     <?php include 'includes/topbar.php'; ?>
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-[#F8F9FA]">
-        <?php if (!empty($error)): ?>
-            <script>document.addEventListener('DOMContentLoaded', () => { window.showToast('<?= addslashes($error) ?>', 'error'); });</script>
-        <?php endif; ?>
-        <?php if (!empty($success)): ?>
-            <script>document.addEventListener('DOMContentLoaded', () => { window.showToast('<?= addslashes($success) ?>', 'success'); });</script>
-        <?php endif; ?>
+
 
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>

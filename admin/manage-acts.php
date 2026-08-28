@@ -86,8 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $category = $_POST['category'] ?? 'Acts';
     $status = $_POST['status'];
     
+    $title_err = validateTrilingualFields([$title, $title_si, $title_ta], 'Title');
+    
     if (empty($title)) {
         $error = "Title is required.";
+    } elseif ($title_err) {
+        $error = $title_err;
     } else {
         $pdf_path = null; $pdf_path_si = null; $pdf_path_ta = null;
         if ($action === 'add') {
@@ -162,6 +166,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
             }
         }
+    }
+    
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        header('Content-Type: application/json');
+        if (!empty($error)) {
+            echo json_encode(['success' => false, 'error' => $error]);
+        } else {
+            echo json_encode(['success' => true, 'message' => $success]);
+        }
+        exit;
     }
 }
 
@@ -430,7 +444,7 @@ include 'includes/header.php';
             document.getElementById('formAction').value = 'add';
             document.getElementById('actId').value = '';
             
-            document.getElementById('actTitle').value = '';
+            document.getElementById('actTitleEn').value = '';
             document.getElementById('actTitleSi').value = '';
             document.getElementById('actTitleTa').value = '';
             document.getElementById('actRef').value = '';
@@ -470,7 +484,7 @@ include 'includes/header.php';
             document.getElementById('formAction').value = 'edit';
             document.getElementById('actId').value = act.id;
             
-            document.getElementById('actTitle').value = act.title;
+            document.getElementById('actTitleEn').value = act.title;
             document.getElementById('actTitleSi').value = act.title_si || '';
             document.getElementById('actTitleTa').value = act.title_ta || '';
             document.getElementById('actRef').value = act.ref || '';

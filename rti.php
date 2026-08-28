@@ -105,7 +105,7 @@ include 'includes/sub-hero.php';
             <!-- Right Column: Generated concept image -->
             <div class="w-full lg:w-1/2" data-aos="fade-left">
                 <div class="relative group rounded-3xl overflow-hidden shadow-md border-[0.5px] border-[#D4D4D4] bg-white p-2">
-                    <img loading="lazy" src="assets/img/rti-concept.jpg" alt="Right to Information" class="w-full h-auto object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
+                    <img loading="lazy" src="assets/img/rti-concept.webp" alt="Right to Information" class="w-full h-auto object-cover rounded-2xl group-hover:scale-[1.02] transition-transform duration-500">
                 </div>
             </div>
         </div>

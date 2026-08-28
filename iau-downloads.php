@@ -32,20 +32,12 @@ foreach ($raw_updates as $update) {
     if ($current_lang === 'si' && !empty($update['content_si'])) $update_desc = $update['content_si'];
     elseif ($current_lang === 'ta' && !empty($update['content_ta'])) $update_desc = $update['content_ta'];
 
-    // Language-aware PDF resolution with English fallback
-    $update_pdf = $update['pdf_path'] ?? '';
-    if ($current_lang === 'si' && !empty($update['pdf_path_si'])) {
-        $update_pdf = $update['pdf_path_si'];
-    } elseif ($current_lang === 'ta' && !empty($update['pdf_path_ta'])) {
-        $update_pdf = $update['pdf_path_ta'];
-    }
-
     $all_documents[] = [
         'title' => $update_title,
         'description' => $update_desc ?? '',
         'ref' => date('Y-m-d', strtotime($update['created_at'])),
         'category' => 'IAU Update',
-        'pdf_path' => !empty($update_pdf) ? resolvePdfUrl($update_pdf) : '',
+        'pdf_path' => !empty($update['pdf_path']) ? resolvePdfUrl($update['pdf_path']) : '',
         'pdf_path_si' => !empty($update['pdf_path_si']) ? resolvePdfUrl($update['pdf_path_si']) : '',
         'pdf_path_ta' => !empty($update['pdf_path_ta']) ? resolvePdfUrl($update['pdf_path_ta']) : '',
         'created_at' => $update['created_at']
@@ -84,6 +76,18 @@ foreach ($raw_updates as $update) {
                         </div>
                     </div>
 
+                    <!-- Language Filter -->
+                    <div class="relative w-full sm:w-40">
+                        <select id="langFilter" class="bg-gray-50/50 border border-gray-200 text-gray-900 text-sm rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-3 font-inter transition-all outline-none appearance-none cursor-pointer" onchange="resetPaginationAndFilter()">
+                            <option value="en" <?= $current_lang === 'en' ? 'selected' : '' ?>><?= t('pdf_english', 'English PDF') ?></option>
+                            <option value="si" <?= $current_lang === 'si' ? 'selected' : '' ?>><?= t('pdf_sinhala', 'Sinhala PDF') ?></option>
+                            <option value="ta" <?= $current_lang === 'ta' ? 'selected' : '' ?>><?= t('pdf_tamil', 'Tamil PDF') ?></option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+
                     <!-- View Toggle -->
                     <div class="bg-gray-100 p-1 rounded-xl flex items-center shrink-0">
                         <button onclick="changeView('grid')" id="btnGridView" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 transition-all focus:outline-none" title="Grid View">
@@ -103,7 +107,7 @@ foreach ($raw_updates as $update) {
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                 'title' => $doc['title'],
                 'content' => $doc['description'],
                 'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -124,16 +128,13 @@ foreach ($raw_updates as $update) {
                     <p class="text-xs text-gray-500 font-medium font-inter mb-6"><?= t('published_label', 'Published:') ?> <?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
                 <!-- Action Button -->
-                <?php if (!empty($doc['pdf_path'])): ?>
-                <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm" onclick="event.stopPropagation();">
+                <a href="#" target="_blank" class="download-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm hidden" onclick="event.stopPropagation();">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <?= t('download_document', 'Download Document') ?>
                 </a>
-                <?php else: ?>
-                <button class="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-450 border border-gray-200 text-gray-500 rounded-xl text-[13px] font-bold cursor-default" onclick="event.stopPropagation();">
+                <button class="view-details-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-450 border border-gray-200 text-gray-500 rounded-xl text-[13px] font-bold cursor-default hidden" onclick="event.stopPropagation();">
                     <?= t('view_details', 'View Details') ?>
                 </button>
-                <?php endif; ?>
             </div>
             <?php endforeach; ?>
         </div>
@@ -154,7 +155,7 @@ foreach ($raw_updates as $update) {
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDetailModal(<?= htmlspecialchars(json_encode([
                             'title' => $doc['title'],
                             'content' => $doc['description'],
                             'date' => date('M d, Y', strtotime($doc['created_at'])),
@@ -173,14 +174,11 @@ foreach ($raw_updates as $update) {
                                 <?= htmlspecialchars($doc['ref']) ?>
                             </td>
                             <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
-                                <?php if (!empty($doc['pdf_path'])): ?>
-                                 <a href="<?= htmlspecialchars($doc['pdf_path']) ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm">
+                                <a href="#" target="_blank" class="list-download-btn items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm hidden">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     <?= t('download', 'Download') ?>
-                                 </a>
-                                <?php else: ?>
-                                 <span class="text-xs text-gray-400 italic"><?= t('no_document', 'No Document') ?></span>
-                                <?php endif; ?>
+                                </a>
+                                <span class="list-no-doc text-xs text-gray-400 italic hidden"><?= t('no_document', 'No Document') ?></span>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -262,6 +260,7 @@ function resetPaginationAndFilter() {
 function filterTable() {
     const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
     const itemsPerPage = document.getElementById("itemsPerPage").value;
+    const lang = document.getElementById("langFilter").value;
     
     // Filter matching item indexes
     filteredIndexes = [];
@@ -283,7 +282,48 @@ function filterTable() {
     document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
     document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
     
+    // Update links based on selected language
+    updateDownloadLinks(lang);
+    
     updatePaginationUI(itemsPerPage);
+}
+
+function updateDownloadLinks(lang) {
+    document.querySelectorAll('.document-card').forEach(card => {
+        const btn = card.querySelector('.download-btn');
+        const fallback = card.querySelector('.view-details-btn');
+        const pdfUrl = card.getAttribute(`data-pdf-${lang}`);
+        
+        if (pdfUrl) {
+            btn.href = pdfUrl;
+            btn.classList.remove('hidden');
+            btn.classList.add('inline-flex');
+            fallback.classList.add('hidden');
+            fallback.classList.remove('inline-flex');
+        } else {
+            btn.classList.add('hidden');
+            btn.classList.remove('inline-flex');
+            fallback.classList.remove('hidden');
+            fallback.classList.add('inline-flex');
+        }
+    });
+
+    document.querySelectorAll('.document-list-row').forEach(row => {
+        const btn = row.querySelector('.list-download-btn');
+        const fallback = row.querySelector('.list-no-doc');
+        const pdfUrl = row.getAttribute(`data-pdf-${lang}`);
+        
+        if (pdfUrl) {
+            btn.href = pdfUrl;
+            btn.classList.remove('hidden');
+            btn.classList.add('inline-flex');
+            fallback.classList.add('hidden');
+        } else {
+            btn.classList.add('hidden');
+            btn.classList.remove('inline-flex');
+            fallback.classList.remove('hidden');
+        }
+    });
 }
 
 function updatePaginationUI(itemsPerPage) {

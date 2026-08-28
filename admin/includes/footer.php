@@ -52,17 +52,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.showToast === 'function') {
             <?php
             $getSuccess = trim($_GET['success']);
-            $successMsg = ($getSuccess !== '' && $getSuccess !== '1' && $getSuccess !== 'true') ? $getSuccess : "Operation completed successfully.";
+            $success_messages = [
+                'approved' => 'Article approved and published successfully.',
+                'deleted' => 'Article deleted successfully.',
+                'saved' => 'Article saved successfully.',
+            ];
+            $successMsg = $success_messages[$getSuccess] ?? (($getSuccess !== '' && $getSuccess !== '1' && $getSuccess !== 'true') ? $getSuccess : "Operation completed successfully.");
             ?>
             window.showToast(<?= json_encode($successMsg) ?>, 'success');
         }
     <?php endif; ?>
 
-    <?php if (isset($_GET['success']) || isset($_GET['error'])): ?>
+    <?php if (isset($_GET['success']) || isset($_GET['error']) || isset($_GET['delete'])): ?>
         // Clean up URL parameters without refreshing page
         const url = new URL(window.location);
         url.searchParams.delete('success');
         url.searchParams.delete('error');
+        url.searchParams.delete('delete');
+        url.searchParams.delete('csrf_token');
         window.history.replaceState({}, '', url);
     <?php endif; ?>
 });

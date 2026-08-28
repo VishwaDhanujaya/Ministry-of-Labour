@@ -113,14 +113,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Cover image is required to publish.";
     }
 
+    $title_err = ($status === 'Draft') ? null : validateTrilingualFields([$title, $title_si, $title_ta], 'Title');
+    $content_err = ($status === 'Draft') ? null : validateTrilingualFields([$content, $content_si, $content_ta], 'Content');
+
     if (empty($title)) {
         $error = "Title is required.";
+    } elseif ($title_err) {
+        $error = $title_err;
     }
 
     if ($status === 'Draft') {
         if (empty($content)) $content = '';
     } else {
-        if (empty($content)) $error = "Content is required to publish.";
+        if (empty($content)) {
+            $error = "Content is required to publish.";
+        } elseif ($content_err) {
+            $error = $content_err;
+        }
     }
 
     if (empty($error)) {
@@ -161,6 +170,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
                     }
                 }
+                
+                if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                    header('Content-Type: application/json');
+                    echo json_encode(['success' => true, 'message' => $success]);
+                    exit;
+                }
+                
                 header("Location: news?success=saved");
                 exit;
             } else {
@@ -169,6 +185,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             $error = "Database Error: " . $e->getMessage() . " - Please ensure your server database is up-to-date with your local changes.";
         }
+    }
+    
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        header('Content-Type: application/json');
+        if (!empty($error)) {
+            echo json_encode(['success' => false, 'error' => $error]);
+        } else {
+            echo json_encode(['success' => true, 'message' => $success]);
+        }
+        exit;
     }
 }
 
@@ -190,25 +216,7 @@ include 'includes/header.php';
         <!-- Include Quill CSS -->
         <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
         
-        <?php if (!empty($success)): ?>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (typeof window.showToast === 'function') {
-                        window.showToast("<?= htmlspecialchars(addslashes($success)) ?>", "success");
-                    }
-                });
-            </script>
-        <?php endif; ?>
 
-        <?php if (!empty($error)): ?>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    if (typeof window.showToast === 'function') {
-                        window.showToast("<?= htmlspecialchars(addslashes($error)) ?>", "error");
-                    }
-                });
-            </script>
-        <?php endif; ?>
 
         <!-- Header -->
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
@@ -272,7 +280,7 @@ include 'includes/header.php';
                                         Auto Translate Body
                                     </button>
                                 </div>
-                                <input type="hidden" name="content" id="content_en_input">
+                                <input type="hidden" name="content" id="content_en_input" data-required-quill="true">
                                 <div class="bg-white rounded-lg border border-gray-100 overflow-hidden">
                                     <div id="content_en" style="height: 300px;"><?= $article ? $article['content'] : '' ?></div>
                                 </div>
@@ -521,7 +529,27 @@ include 'includes/header.php';
         const quillSi = new Quill('#content_si', quillOptions);
         const quillTa = new Quill('#content_ta', quillOptions);
 
-        // Sync Quill content to hidden inputs on form submit
+        // Expose to window for admin.js sync compatibility (using exact lowercase/camelcase format matches)
+        window.quillcontent_en = quillEn;
+        window.quillcontent_si = quillSi;
+        window.quillcontent_ta = quillTa;
+
+        // Custom local sync function to handle real-time sync and validation trigger
+        const syncAndValidate = (quill, inputId) => {
+            const html = quill.root.innerHTML;
+            document.getElementById(inputId).value = (html === '<p><br></p>') ? '' : html;
+            const form = document.querySelector('.js-validate-form');
+            if (form && typeof window.toggleSubmitButton === 'function') {
+                window.toggleSubmitButton(form);
+            }
+        };
+
+        // Listen to editor text changes for real-time validation re-evaluation
+        quillEn.on('text-change', () => syncAndValidate(quillEn, 'content_en_input'));
+        quillSi.on('text-change', () => syncAndValidate(quillSi, 'content_si_input'));
+        quillTa.on('text-change', () => syncAndValidate(quillTa, 'content_ta_input'));
+
+        // Fallback sync on submit
         window.syncQuillToHidden = function() {
             const enHtml = quillEn.root.innerHTML;
             const siHtml = quillSi.root.innerHTML;

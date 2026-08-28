@@ -73,6 +73,7 @@ if (isset($current_page)) {
             break;
         case 'iau':
         case 'iau-updates':
+        case 'iau-downloads':
             $sub_hero_img = 'assets/img/sub-hero/IAU.webp';
             break;
         case 'rti':
@@ -102,6 +103,12 @@ if (isset($current_page)) {
             break;
         case 'ampara-circuit-bungalow':
             $sub_hero_img = 'assets/img/sub-hero/ampara-bunglaow.webp';
+            break;
+        case 'nlac':
+            $sub_hero_img = 'assets/img/sub-hero/NLAC.webp';
+            break;
+        case 'complaints':
+            $sub_hero_img = 'assets/img/sub-hero/complaints.webp';
             break;
     }
 }

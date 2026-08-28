@@ -87,8 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     $description_ta = isset($_POST['description_ta']) ? trim($_POST['description_ta']) : null;
     $status = $_POST['status'];
     
+    $title_err = validateTrilingualFields([$title, $title_si, $title_ta], 'Title');
+    
     if (empty($title)) {
         $error = "Title is required.";
+    } elseif ($title_err) {
+        $error = $title_err;
     } else {
         $pdf_path = null; $pdf_path_si = null; $pdf_path_ta = null;
         if ($action === 'add') {
@@ -163,6 +167,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 }
             }
         }
+    }
+    
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+        header('Content-Type: application/json');
+        if (!empty($error)) {
+            echo json_encode(['success' => false, 'error' => $error]);
+        } else {
+            echo json_encode(['success' => true, 'message' => $success]);
+        }
+        exit;
     }
 }
 
@@ -540,7 +554,9 @@ include 'includes/header.php';
         <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
         <script>
         // Initialize Quill editors
-        window.initTrilingualQuill('pubDescription');
+        document.addEventListener('DOMContentLoaded', () => {
+            window.initTrilingualQuill('pubDescription');
+        });
         </script>
 
         <!-- Preview Modal -->

@@ -56,32 +56,39 @@ foreach ($albums as $album) {
         </div>
 
         <!-- Gallery Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            <?php foreach ($gallery_items as $index => $item): 
-                $item_title = $item['title_en'];
-                if ($current_lang === 'si' && !empty($item['title_si'])) $item_title = $item['title_si'];
-                elseif ($current_lang === 'ta' && !empty($item['title_ta'])) $item_title = $item['title_ta'];
-            ?>
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col cursor-pointer" onclick="openGalleryModal(<?= $index ?>)">
-                <div class="relative h-60 w-full overflow-hidden bg-gray-100">
-                    <img src="<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item_title) ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 fallback-img">
-                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
-                    <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2.5 text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
-                    </div>
-                </div>
-                <div class="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-gray-800 text-[17px] leading-snug mb-3 group-hover:text-secondary transition-colors"><?= htmlspecialchars($item_title) ?></h3>
-                    </div>
-                    <div class="flex items-center text-xs text-gray-500 font-medium font-inter">
-                        <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <?= date('M d, Y', strtotime($item['date'])) ?>
-                    </div>
-                </div>
+        <?php if (empty($gallery_items)): ?>
+            <div class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12 w-full">
+                <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-[17px] font-bold text-gray-800 mb-1"><?= t('no_updates_found', 'No updates found.') ?></p>
             </div>
-            <?php endforeach; ?>
-        </div>
+        <?php else: ?>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                <?php foreach ($gallery_items as $index => $item): 
+                    $item_title = $item['title_en'];
+                    if ($current_lang === 'si' && !empty($item['title_si'])) $item_title = $item['title_si'];
+                    elseif ($current_lang === 'ta' && !empty($item['title_ta'])) $item_title = $item['title_ta'];
+                ?>
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col cursor-pointer" onclick="openGalleryModal(<?= $index ?>)">
+                    <div class="relative h-60 w-full overflow-hidden bg-gray-100">
+                        <img src="<?= htmlspecialchars($item['cover_image']) ?>" alt="<?= htmlspecialchars($item_title) ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 fallback-img">
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
+                        <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2.5 text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-y-4 group-hover:translate-y-0">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                        </div>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-gray-800 text-[17px] leading-snug mb-3 group-hover:text-secondary transition-colors"><?= htmlspecialchars($item_title) ?></h3>
+                        </div>
+                        <div class="flex items-center text-xs text-gray-500 font-medium font-inter">
+                            <svg class="w-4 h-4 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <?= date('M d, Y', strtotime($item['date'])) ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
     </div>
 </section>

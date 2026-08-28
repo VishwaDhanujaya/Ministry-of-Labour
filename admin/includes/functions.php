@@ -291,6 +291,7 @@ function renderTrilingualInputFields(array $config): void {
     ];
 
     // 1. Output the Tabs header
+    // 1. Output the Tabs header
     echo '<div class="inline-flex p-1 bg-slate-100/80 backdrop-blur-md rounded-2xl mb-4 shadow-inner border border-slate-200/40 relative ' . htmlspecialchars($tabGroupId) . '-btns">';
     foreach ($langs as $lang => $langDef) {
         $activeClass = $lang === 'en' ? 'active bg-white shadow-sm text-secondary font-bold' : 'text-slate-500 font-semibold hover:bg-slate-50/50';
@@ -377,6 +378,35 @@ function transliterateNonAscii(string $text): string {
         'ெ' => 'e', 'ே' => 'ae', 'ை' => 'ai', 'ொ' => 'o', 'ோ' => 'oe', 'ௌ' => 'au', '்' => ''
     ];
     return strtr($text, $map);
+}
+
+/**
+ * Validate that if any translation of a set is filled, all translations must be filled.
+ *
+ * @param array $fields Array of field values to check
+ * @param string $fieldName Human readable name of the field for the error message
+ * @return string|null Error message, or null if valid
+ */
+function validateTrilingualFields(array $fields, string $fieldName): ?string {
+    $hasAny = false;
+    $hasAll = true;
+    
+    foreach ($fields as $val) {
+        $cleanVal = trim(strip_tags($val ?? ''));
+        // Clean empty Quill paragraphs or space characters
+        $cleanVal = str_replace(['&nbsp;', ' '], '', $cleanVal);
+        if ($cleanVal !== '') {
+            $hasAny = true;
+        } else {
+            $hasAll = false;
+        }
+    }
+    
+    if ($hasAny && !$hasAll) {
+        return "Please provide all translations (English, Sinhala, and Tamil) for the " . htmlspecialchars($fieldName) . " field.";
+    }
+    
+    return null;
 }
 
 require_once __DIR__ . '/table-helper.php';

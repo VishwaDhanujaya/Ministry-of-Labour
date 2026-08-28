@@ -26,16 +26,6 @@ include 'includes/sub-hero.php';
                     <p class="text-gray-600 max-w-md mx-auto mb-8 leading-relaxed">
                         Your booking application has been received and is currently <strong>Pending Approval</strong>. Once the Ministry confirms your booking, you may proceed with the payment.
                     </p>
-                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-left max-w-lg mx-auto mb-8">
-                        <h4 class="font-semibold text-blue-900 mb-4">Payment Instructions</h4>
-                        <ol class="list-decimal pl-5 text-sm text-blue-800 space-y-3">
-                            <li>Deposit the required amount to:<br>
-                                <strong class="text-gray-900">Bank:</strong> People's Bank – Narahenpita Branch<br>
-                                <strong class="text-gray-900">Account Number:</strong> 119-1-001-59025666
-                            </li>
-                            <li>Send the payment receipt via Email to <a href="mailto:admin@labourmin.gov.lk" class="font-medium underline notranslate" translate="no">admin@labourmin.gov.lk</a> or via WhatsApp.</li>
-                        </ol>
-                    </div>
                     <a href="ampara-circuit-bungalow.php" class="inline-flex px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition shadow-md">Return to Details</a>
                 </div>
             <?php else: ?>
@@ -268,6 +258,21 @@ include 'includes/sub-hero.php';
                                 <span id="summary-cost" class="font-bold text-secondary text-lg">-</span>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Payment Instructions -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 text-left mb-8">
+                        <h4 class="font-semibold text-blue-900 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Payment Instructions</span>
+                        </h4>
+                        <ol class="list-decimal pl-5 text-sm text-blue-800 space-y-3">
+                            <li>Deposit the required amount to:<br>
+                                <strong class="text-gray-900">Bank:</strong> People's Bank – Narahenpita Branch<br>
+                                <strong class="text-gray-900">Account Number:</strong> <span class="notranslate" translate="no">119-1-001-59025666</span>
+                            </li>
+                            <li>Send the payment receipt via Email to <a href="mailto:admin@labourmin.gov.lk" class="font-medium underline notranslate" translate="no">admin@labourmin.gov.lk</a> or via WhatsApp.</li>
+                        </ol>
                     </div>
 
                     <!-- Document Upload Section -->

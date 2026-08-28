@@ -163,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2 class="text-2xl font-extrabold text-slate-800 text-center mb-2 font-montserrat tracking-tight">Admin Portal</h2>
             <p class="text-xs text-slate-400 text-center mb-8 font-inter">Secure administrator workspace login</p>
 
-            <form id="loginForm" action="" method="POST" class="js-validate-form space-y-5">
+            <form id="loginForm" action="" method="POST" class="space-y-5">
                 <!-- Email Input -->
                 <div class="relative group">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none transition-colors group-focus-within:text-secondary">
