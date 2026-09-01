@@ -358,7 +358,6 @@ include 'includes/sub-hero.php';
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_no', 'No') ?></th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_title', 'Title') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name', 'Name') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_designation', 'Designation') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name_of_tu', 'Name of TU') ?></th>
@@ -370,11 +369,27 @@ include 'includes/sub-hero.php';
                         $name = $m['name'][$current_lang] ?? $m['name']['en'];
                         $designation = $m['designation'][$current_lang] ?? $m['designation']['en'];
                         $tu = $m['tu'][$current_lang] ?? $m['tu']['en'];
+
+                        if ($current_lang === 'si') {
+                            if (in_array($title, ['මහතා', 'මිය'])) {
+                                if (preg_match('/^(.*?)\s*(\([^\)]+\))$/u', $name, $matches)) {
+                                    $fullName = $matches[1] . ' ' . $title . ' ' . $matches[2];
+                                } else {
+                                    $fullName = $name . ' ' . $title;
+                                }
+                            } else {
+                                $fullName = trim($title . ' ' . $name);
+                            }
+                        } elseif ($current_lang === 'ta') {
+                            $fullName = trim($title . ' ' . $name);
+                        } else {
+                            $formattedTitle = (in_array($title, ['Mr', 'Ms', 'Mrs', 'Dr', 'Prof']) && substr($title, -1) !== '.') ? $title . '.' : $title;
+                            $fullName = trim($formattedTitle . ' ' . $name);
+                        }
                     ?>
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-4"><?= htmlspecialchars($m['no']) ?></td>
-                        <td class="py-3 px-4"><?= htmlspecialchars($title) ?></td>
-                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($name) ?></td>
+                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($fullName) ?></td>
                         <td class="py-3 px-4"><?= htmlspecialchars($designation) ?></td>
                         <td class="py-3 px-4"><?= htmlspecialchars($tu) ?></td>
                     </tr>
@@ -389,7 +404,6 @@ include 'includes/sub-hero.php';
                 <thead>
                     <tr class="bg-gray-100">
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_no', 'No') ?></th>
-                        <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_title', 'Title') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name', 'Name') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_designation', 'Designation') ?></th>
                         <th class="py-4 px-4 font-semibold text-gray-700 text-sm border-b notranslate"><?= t('th_name_of_tu', 'Name of TU') ?></th>
@@ -401,11 +415,27 @@ include 'includes/sub-hero.php';
                         $name = $m['name'][$current_lang] ?? $m['name']['en'];
                         $designation = $m['designation'][$current_lang] ?? $m['designation']['en'];
                         $tu = $m['tu'][$current_lang] ?? $m['tu']['en'];
+
+                        if ($current_lang === 'si') {
+                            if (in_array($title, ['මහතා', 'මිය'])) {
+                                if (preg_match('/^(.*?)\s*(\([^\)]+\))$/u', $name, $matches)) {
+                                    $fullName = $matches[1] . ' ' . $title . ' ' . $matches[2];
+                                } else {
+                                    $fullName = $name . ' ' . $title;
+                                }
+                            } else {
+                                $fullName = trim($title . ' ' . $name);
+                            }
+                        } elseif ($current_lang === 'ta') {
+                            $fullName = trim($title . ' ' . $name);
+                        } else {
+                            $formattedTitle = (in_array($title, ['Mr', 'Ms', 'Mrs', 'Dr', 'Prof']) && substr($title, -1) !== '.') ? $title . '.' : $title;
+                            $fullName = trim($formattedTitle . ' ' . $name);
+                        }
                     ?>
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="py-3 px-4"><?= htmlspecialchars($m['no']) ?></td>
-                        <td class="py-3 px-4"><?= htmlspecialchars($title) ?></td>
-                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($name) ?></td>
+                        <td class="py-3 px-4 font-semibold"><?= htmlspecialchars($fullName) ?></td>
                         <td class="py-3 px-4"><?= htmlspecialchars($designation) ?></td>
                         <td class="py-3 px-4"><?= htmlspecialchars($tu) ?></td>
                     </tr>

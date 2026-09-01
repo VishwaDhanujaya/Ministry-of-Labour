@@ -2356,3 +2356,51 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Files:** [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
 * **Author:** Antigravity AI
 * **Change Description:** Added case logic inside `includes/sub-hero.php`'s background selector switches targeting the `'complaints'` page route. This maps the Complaints page to load its specific background banner graphic `assets/img/sub-hero/complaints.webp` instead of loading the generic website fallback image.
+
+### 2026-09-01 (Resilient Auto-Translation Engine for Admin Panel)
+* **Files:** 
+  - [admin/translate-api.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/translate-api.php) (NEW)
+  - [admin/includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/header.php)
+  - [admin/assets/js/admin.js](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/assets/js/admin.js)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/officials.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/officials.php)
+  - [admin/manage-iau-officers.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-officers.php)
+  - [.agents/AGENTS.md](file:///c:/xampp/htdocs/Ministry-of-Labour/.agents/AGENTS.md)
+* **Author:** Antigravity AI
+* **Change Description:** 
+  - Resolved intermittent auto-translation failures across all admin panel modules on live servers.
+  - Implemented server-side translation proxy (`admin/translate-api.php`) with multi-provider fallback hierarchy (Google Dict Chrome Extension, Google GTX, and MyMemory Free API), intelligent sentence/paragraph chunking for long text and Quill rich-text HTML, and 30-day file caching via `Cache.php`.
+  - Added global `<meta name="csrf-token">` and `<meta name="admin-base">` in `admin/includes/header.php` ensuring all 21+ admin pages have reliable CSRF token resolution and base path detection.
+  - Centralized frontend translation logic in `admin.js` (`window.translateText`, `window.autoTranslateTrilingualField`), added rich-text HTML preservation (`quill.root.innerHTML`), and automated input validation event dispatching.
+
+### 2026-09-01 (Standardize Sinhala Download Terminology)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+* **Author:** Antigravity AI
+* **Change Description:** Replaced informal Sinhala translation text `බාගන්න` with the formal standard `බාගත කරන්න` across global dictionary mappings (`download_document`, `download`) and page metadata descriptions to maintain consistent, formal government portal terminology.
+
+### 2026-09-01 (Merge Title and Name Columns in NLAC Page)
+* **Files:**
+  - [nlac.php](file:///c:/xampp/htdocs/Ministry-of-Labour/nlac.php)
+* **Author:** Antigravity AI
+* **Change Description:** Merged the separate "Title" and "Name" columns into a unified "Name" column across both Employer Trade Unions and Employee Trade Unions tables on the NLAC page. Formatted trilingual names respectfully and grammatically (prefixing honorifics in English and Tamil e.g. `Mr. Vajira Ellepola`, `திரு. வஜிர எல்லேபொல`, and placing standard honorifics respectfully in Sinhala e.g. `වජිර ඇල්ලේපොල මහතා`, `කීර්තනා ක්‍රිෂ්ණකුමාර් මිය (නීතිඥ)`).
+
+
+### 2026-09-01 (Rename පරිපාලන හා ආයතන to පාලන හා ආයතන)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:** Renamed division title in Sinhala from 'පරිපාලන හා ආයතන' / 'පරිපාලන හා ආයතන අංශය' to 'පාලන හා ආයතන' / 'පාලන හා ආයතන අංශය' across the global translation dictionary (div_admin_title) and get_division_translation() helper mapping to match official Ministry departmental naming.
+
+### 2026-09-01 (Rename සංවිධානාත්මක සටහන to සංවිධාන සටහන)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:** Renamed 'org_chart_title' in Sinhala from 'සංවිධානාත්මක සටහන' to 'සංවිධාන සටහන' in translations dictionary to adhere to standard administrative terminology.
+
+### 2026-09-01 (Fix News Title Auto-Translation ReferenceError)
+* **Files:**
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+* **Author:** Antigravity AI
+* **Change Description:** Resolved 'Title translation failed' error when clicking auto-translate on the News Add/Edit page. The variable 'translatedText' was referenced before being fetched via 'await translateText(sourceVal, fromLang, lang)', causing a JavaScript ReferenceError caught by the try-catch block. Restored the missing API call and added input event and validation error clearing.

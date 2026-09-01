@@ -489,7 +489,7 @@ $lang_dict = [
     ],
     'div_admin_title' => [
         'en' => 'Administration and Establishments Division',
-        'si' => 'පරිපාලන හා ආයතන අංශය',
+        'si' => 'පාලන හා ආයතන අංශය',
         'ta' => 'நிர்வாகம் மற்றும் தாபனப் பிரிவு'
     ],
     'div_admin_content' => [
@@ -541,7 +541,7 @@ $lang_dict = [
     // Organizational Structure & Leadership
     'org_chart_title' => [
         'en' => 'Organizational Chart',
-        'si' => 'සංවිධානාත්මක සටහන',
+        'si' => 'සංවිධාන සටහන',
         'ta' => 'நிறுவன கட்டமைப்பு வரைபடம்'
     ],
     'view_diagram' => [
@@ -882,7 +882,7 @@ $lang_dict = [
     ],
     'download_document' => [
         'en' => 'Download Document',
-        'si' => 'ලේඛනය බාගන්න',
+        'si' => 'ලේඛනය බාගත කරන්න',
         'ta' => 'ஆவணப் பதிவிறக்கம்'
     ],
     'no_document' => [
@@ -892,7 +892,7 @@ $lang_dict = [
     ],
     'download' => [
         'en' => 'Download',
-        'si' => 'බාගන්න',
+        'si' => 'බාගත කරන්න',
         'ta' => 'பதிவிறக்கம்'
     ],
     'open_pdf' => [
@@ -2101,7 +2101,7 @@ if (!function_exists('get_division_translation')) {
         $map = [
             'administration' => [
                 'en' => $isOfficial ? 'Administration and Establishments' : 'Administration and Establishments Division',
-                'si' => $isOfficial ? 'පරිපාලන හා ආයතන' : 'පරිපාලන හා ආයතන අංශය',
+                'si' => $isOfficial ? 'පාලන හා ආයතන' : 'පාලන හා ආයතන අංශය',
                 'ta' => $isOfficial ? 'நிர்வாகம் மற்றும் தாபனம்' : 'நிர்வாகம் மற்றும் தாபனப் பிரிவு'
             ],
             'development' => [

@@ -929,12 +929,6 @@ async function deleteOfficial(id) {
 }
 
 // Translation Utilities
-async function translateText(text, fromLang, toLang) {
-    if (!text) return '';
-    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-    const data = await res.json();
-    return data[0].map(x => x[0]).join('');
-}
 
 window.activeOfficialsLang = 'en';
 
@@ -966,11 +960,19 @@ async function autoTranslateAll() {
             
             if (nameSource) {
                 const nameTranslated = await translateText(nameSource, activeLang, lang);
-                document.getElementById(targetNameId).value = nameTranslated;
+                const targetNameEl = document.getElementById(targetNameId);
+                if (targetNameEl) {
+                    targetNameEl.value = nameTranslated;
+                    targetNameEl.dispatchEvent(new Event('input', { bubbles: true }));
+                }
             }
             if (titleSource) {
                 const titleTranslated = await translateText(titleSource, activeLang, lang);
-                document.getElementById(targetTitleId).value = titleTranslated;
+                const targetTitleEl = document.getElementById(targetTitleId);
+                if (targetTitleEl) {
+                    targetTitleEl.value = titleTranslated;
+                    targetTitleEl.dispatchEvent(new Event('input', { bubbles: true }));
+                }
             }
         }
         showToast('Fields translated successfully!', 'success');

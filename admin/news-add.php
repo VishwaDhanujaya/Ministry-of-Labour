@@ -651,13 +651,6 @@ window.removeAdditionalFile = function(index, previewId, inputId) {
     renderAdditionalPreviews(preview, input);
 }
 
-async function translateText(text, fromLang, toLang) {
-    if (!text) return '';
-    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-    const data = await res.json();
-    return data[0].map(x => x[0]).join('');
-}
-
 // Tab Switching Logic
 document.addEventListener('DOMContentLoaded', function() {
     const tabBtns = document.querySelectorAll('.lang-tab-btn');
@@ -707,9 +700,16 @@ async function autoTranslateTitle(fromLang) {
     try {
         for (const lang of langs) {
             if (lang === fromLang) continue;
-            const targetId = 'title_' + lang;
             const translatedText = await translateText(sourceVal, fromLang, lang);
-            document.getElementById(targetId).value = translatedText;
+            const targetId = 'title_' + lang;
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.value = translatedText;
+                targetEl.dispatchEvent(new Event('input', { bubbles: true }));
+                targetEl.classList.remove('border-red-500');
+                const err = targetEl.parentElement ? targetEl.parentElement.querySelector('.custom-error-msg') : null;
+                if (err) err.remove();
+            }
         }
         showToast('Title translated successfully!', 'success');
     } catch (err) {
@@ -724,11 +724,14 @@ async function autoTranslateTitle(fromLang) {
 async function autoTranslateBody(fromLang) {
     let sourceVal = '';
     if (fromLang === 'en') {
-        sourceVal = quillEn.getText().trim();
+        sourceVal = quillEn.root.innerHTML;
+        if (sourceVal === '<p><br></p>') sourceVal = '';
     } else if (fromLang === 'si') {
-        sourceVal = quillSi.getText().trim();
+        sourceVal = quillSi.root.innerHTML;
+        if (sourceVal === '<p><br></p>') sourceVal = '';
     } else if (fromLang === 'ta') {
-        sourceVal = quillTa.getText().trim();
+        sourceVal = quillTa.root.innerHTML;
+        if (sourceVal === '<p><br></p>') sourceVal = '';
     }
 
     if (!sourceVal) {
@@ -747,16 +750,17 @@ async function autoTranslateBody(fromLang) {
             if (lang === fromLang) continue;
             const translatedText = await translateText(sourceVal, fromLang, lang);
             if (lang === 'en') {
-                quillEn.setText(translatedText + '\n');
+                quillEn.root.innerHTML = translatedText;
             } else if (lang === 'si') {
-                quillSi.setText(translatedText + '\n');
+                quillSi.root.innerHTML = translatedText;
             } else if (lang === 'ta') {
-                quillTa.setText(translatedText + '\n');
+                quillTa.root.innerHTML = translatedText;
             }
         }
         showToast('Body translated successfully!', 'success');
+        if (typeof window.syncQuillToHidden === 'function') window.syncQuillToHidden();
     } catch (err) {
-        showToast('Body translation failed. Please try again or enter manually.', 'error');
+        showToast('Body translation failed. Please try again.', 'error');
         console.error(err);
     } finally {
         translateBtn.innerHTML = originalText;

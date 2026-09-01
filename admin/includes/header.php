@@ -18,6 +18,9 @@ $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Global CSRF Token & Admin Base URL for AJAX/Translation APIs -->
+    <meta name="csrf-token" content="<?= generateCsrfToken() ?>">
+    <meta name="admin-base" content="<?= $base_url ?>admin/">
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' - Admin Panel - Ministry of Labour' : 'Admin Dashboard - Ministry of Labour' ?></title>
     
     <!-- Google Fonts: Inter, Montserrat, Noto Sans Sinhala, Noto Sans Tamil -->

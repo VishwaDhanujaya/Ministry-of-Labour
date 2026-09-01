@@ -1462,10 +1462,63 @@ document.addEventListener('click', (e) => {
 
 async function translateText(text, fromLang, toLang) {
     if (!text) return '';
-    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-    const data = await res.json();
-    return data[0].map(x => x[0]).join('');
+    try {
+        // Find CSRF token from global meta tag first, then input field
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+            || document.querySelector('input[name="csrf_token"]')?.value
+            || '';
+        
+        // Resolve admin base URL for resilient routing
+        const adminBase = document.querySelector('meta[name="admin-base"]')?.getAttribute('content') || '';
+        const endpoint = (adminBase ? adminBase.replace(/\/+$/, '') + '/' : '') + 'translate-api.php';
+
+        const formData = new FormData();
+        formData.append('action', 'translate');
+        formData.append('text', text);
+        formData.append('from', fromLang);
+        formData.append('to', toLang);
+        if (csrfToken) {
+            formData.append('csrf_token', csrfToken);
+        }
+
+        const headers = {};
+        if (csrfToken) {
+            headers['X-CSRF-Token'] = csrfToken;
+        }
+
+        const proxyRes = await fetch(endpoint, {
+            method: 'POST',
+            headers: headers,
+            body: formData
+        });
+        
+        if (proxyRes.ok) {
+            const proxyData = await proxyRes.json();
+            if (proxyData.success && proxyData.translatedText !== undefined) {
+                return proxyData.translatedText;
+            }
+        }
+    } catch (e) {
+        console.warn('Backend proxy failed, falling back to direct client fetch', e);
+    }
+
+    // Tier 2: Fallback to direct client fetch if proxy fails
+    try {
+        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=dict-chrome-ex&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`, {
+            referrerPolicy: 'no-referrer'
+        });
+        const data = await res.json();
+        if (data && data[0] && Array.isArray(data[0])) {
+            return data[0].map(x => x[0]).join('');
+        }
+    } catch (err) {
+        console.error('Direct fallback translation failed', err);
+    }
+    
+    // If all fail, throw error so UI catches it and restores button state
+    throw new Error('Translation failed');
 }
+window.translateText = translateText;
 
 async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fromLang, type) {
     const langs = ['en', 'si', 'ta'];
@@ -1475,10 +1528,14 @@ async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fro
     if (type === 'quill') {
         const quillSource = window['quill' + idPrefix + fromLang.charAt(0).toUpperCase() + fromLang.slice(1)];
         if (quillSource) {
-            sourceVal = quillSource.getText().trim();
+            sourceVal = quillSource.root.innerHTML;
+            if (sourceVal === '<p><br></p>') sourceVal = '';
         }
     } else {
-        sourceVal = document.getElementById(sourceId).value.trim();
+        const sourceEl = document.getElementById(sourceId);
+        if (sourceEl) {
+            sourceVal = sourceEl.value.trim();
+        }
     }
 
     if (!sourceVal) {
@@ -1487,9 +1544,11 @@ async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fro
     }
 
     const translateBtn = document.getElementById(`translate-btn-${idPrefix}-${fromLang}`);
-    const originalText = translateBtn.innerHTML;
-    translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
-    translateBtn.disabled = true;
+    const originalText = translateBtn ? translateBtn.innerHTML : '';
+    if (translateBtn) {
+        translateBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Translating...';
+        translateBtn.disabled = true;
+    }
 
     try {
         for (const lang of langs) {
@@ -1500,7 +1559,7 @@ async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fro
                 const quillTarget = window['quill' + idPrefix + lang.charAt(0).toUpperCase() + lang.slice(1)];
                 if (quillTarget) {
                     const translatedText = await translateText(sourceVal, fromLang, lang);
-                    quillTarget.setText(translatedText);
+                    quillTarget.root.innerHTML = translatedText;
                     
                     // Clear validation styling for Quill
                     const quillContainer = document.getElementById(targetId)?.closest('.border');
@@ -1517,20 +1576,33 @@ async function autoTranslateTrilingualField(tabGroupId, fieldName, idPrefix, fro
                 const targetInput = document.getElementById(targetId);
                 if (targetInput) {
                     targetInput.value = translatedText;
-                    // Trigger input event to clear validation styling dynamically
+                    
+                    // Clear validation error styling on inputs/textareas
+                    targetInput.classList.remove('border-red-500', 'focus:ring-red-500');
+                    const parent = targetInput.parentElement;
+                    const errorSibling = parent && parent.classList.contains('relative') ? parent.nextElementSibling : targetInput.nextElementSibling;
+                    if (errorSibling && errorSibling.classList.contains('custom-error-msg')) {
+                        errorSibling.remove();
+                    }
+                    
+                    // Trigger input event to clear validation styling and notify listeners
                     targetInput.dispatchEvent(new Event('input', { bubbles: true }));
                 }
             }
         }
         window.showToast('Translation completed successfully.', 'success');
+        if (typeof window.syncQuillToHidden === 'function') window.syncQuillToHidden();
     } catch (err) {
         console.error(err);
-        window.showToast('An error occurred during translation.', 'error');
+        window.showToast('An error occurred during translation. Please try again.', 'error');
     } finally {
-        translateBtn.innerHTML = originalText;
-        translateBtn.disabled = false;
+        if (translateBtn) {
+            translateBtn.innerHTML = originalText;
+            translateBtn.disabled = false;
+        }
     }
 }
+window.autoTranslateTrilingualField = autoTranslateTrilingualField;
 
 document.addEventListener('DOMContentLoaded', function() {
     document.body.addEventListener('click', function(e) {

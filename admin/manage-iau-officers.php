@@ -262,12 +262,6 @@ include 'includes/header.php';
 let activeLang = 'en';
 
 // Translation Utilities
-async function translateText(text, fromLang, toLang) {
-    if (!text) return '';
-    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-    const data = await res.json();
-    return data[0].map(x => x[0]).join('');
-}
 
 async function autoTranslateAll() {
     const titleEn = document.getElementById('field-title').value.trim();
@@ -286,33 +280,28 @@ async function autoTranslateAll() {
     translateBtn.disabled = true;
 
     try {
+        const setVal = (id, val) => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = val;
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+        };
         if (titleEn) {
-            const titleSi = await translateText(titleEn, 'en', 'si');
-            document.getElementById('field-title-si').value = titleSi;
-            
-            const titleTa = await translateText(titleEn, 'en', 'ta');
-            document.getElementById('field-title-ta').value = titleTa;
+            setVal('field-title-si', await translateText(titleEn, 'en', 'si'));
+            setVal('field-title-ta', await translateText(titleEn, 'en', 'ta'));
         }
         if (deptEn) {
-            const deptSi = await translateText(deptEn, 'en', 'si');
-            document.getElementById('field-department-si').value = deptSi;
-            
-            const deptTa = await translateText(deptEn, 'en', 'ta');
-            document.getElementById('field-department-ta').value = deptTa;
+            setVal('field-department-si', await translateText(deptEn, 'en', 'si'));
+            setVal('field-department-ta', await translateText(deptEn, 'en', 'ta'));
         }
         if (nameEn) {
-            const nameSi = await translateText(nameEn, 'en', 'si');
-            document.getElementById('field-name-si').value = nameSi;
-            
-            const nameTa = await translateText(nameEn, 'en', 'ta');
-            document.getElementById('field-name-ta').value = nameTa;
+            setVal('field-name-si', await translateText(nameEn, 'en', 'si'));
+            setVal('field-name-ta', await translateText(nameEn, 'en', 'ta'));
         }
         if (desigEn) {
-            const desigSi = await translateText(desigEn, 'en', 'si');
-            document.getElementById('field-designation-si').value = desigSi;
-            
-            const desigTa = await translateText(desigEn, 'en', 'ta');
-            document.getElementById('field-designation-ta').value = desigTa;
+            setVal('field-designation-si', await translateText(desigEn, 'en', 'si'));
+            setVal('field-designation-ta', await translateText(desigEn, 'en', 'ta'));
         }
         showToast('Fields translated successfully!', 'success');
     } catch (err) {

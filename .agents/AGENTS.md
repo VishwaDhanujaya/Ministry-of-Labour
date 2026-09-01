@@ -32,3 +32,8 @@ These rules apply automatically to any AI coding assistant (like Gemini/Antigrav
   - **Consistent Code**: Keep the frontend `showToast` in `assets/js/main.js` structurally identical to `admin/assets/js/admin.js`.
 * **Animations & Polish**: Preserve `data-aos` attributes on HTML sections and rely on the established Tailwind micro-interactions (e.g. `hover:-translate-y-1 hover:shadow-lg`) for a premium feel.
 
+## 5. Resilient External API Integrations
+* **Avoid Client-Side Only Fetches**: Do not rely exclusively on client-side `fetch()` for unofficial or rate-limited third-party APIs (e.g., Google Translate). Client-side requests are vulnerable to CORS restrictions, strict `Referer` blocking, and privacy extensions/ad-blockers.
+* **Server-Side Proxy Fallbacks**: Always implement a server-side PHP proxy endpoint (e.g., `admin/[name]-api.php`) to handle external API communication via cURL. This provides a resilient fallback that circumvents client-side network restrictions.
+* **Handle Payload Limits**: When sending variable-length text to external APIs via GET requests, always implement chunking to prevent exceeding HTTP URI length limits (414 Request-URI Too Long).
+* **API Endpoint Naming**: Name new admin AJAX endpoints using the `[name]-api.php` convention and place them in the `admin/` directory. Ensure they include `require_once 'includes/auth.php'` and enforce `verifyCsrfToken` checks.
