@@ -143,6 +143,35 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
+### 2026-09-02 (Audit & Purge Redundant Uploads and Stale Backups)
+* **Files:**
+  - `admin/uploads/` (37 orphaned files deleted, empty subdirectories pruned)
+  - `VL.zip`, `VL2.zip` (Stale root archive backups removed)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Orphaned Uploads Audit**: Cross-referenced all 76 files in `admin/uploads/` against every active table/row in `mol_db` and the codebase.
+  - **Purged Stale Assets**: Safely deleted 37 orphaned files (~58.33 MB) belonging to deleted booking slips, removed gallery photos, unreferenced notices/documents, and replaced official portraits.
+  - **Purged Root Archives**: Deleted leftover zip backups (`VL.zip` and `VL2.zip` totaling ~167.1 MB).
+  - **Freed Disk Space**: Total freed disk space: **225.43 MB**. Zero active media files were affected.
+
+### 2026-09-02 (Separate News and Events Categories & Rename News Tab)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+  - [admin/includes/sidebar.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/includes/sidebar.php)
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Database Migration**: Added `category` column (`ENUM('News', 'Events') NOT NULL DEFAULT 'News'`) to the `news` table in `mol_db` and refreshed `database.sql`.
+  - **Renamed Navigation & Headers**: Renamed the primary public tab, admin sidebar link, and page headers from "News" to "News & Events" (with matching Sinhala `පුවත් සහ සිදුවීම්` and Tamil `செய்திகள் மற்றும் நிகழ்வுகள்` trilingual translations).
+  - **Admin Panel Category Selection**: Added a Category dropdown in the "Publish Options" sidebar widget in `admin/news-add.php`, and updated INSERT/UPDATE controllers to persist the category value.
+  - **Admin Table & Filtering**: Added a Category column and Category filter dropdown to `admin/news.php` for filtering records by "News" or "Events".
+  - **Frontend Filtering & Badges**: Added a Category filter dropdown ("All Categories", "News", "Events") in `news.php`, and styled sleek category badges with embedded SVG category icons (newspaper for News, calendar for Events) across `news.php`, `news-single.php`, `index.php` (homepage), and `admin/news.php` using the theme's brand colors: Navy Blue (`#13273F`) for **News** and Maroon (`#4E0911`) for **Events** (clean badge style without dots).
+
 ### 2026-08-28 (Move Payment Instructions to Step 4 of Bungalow Booking)
 * **Files:**
   - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)

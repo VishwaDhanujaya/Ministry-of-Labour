@@ -67,7 +67,7 @@ if ($activeTab === 'approvals' && $canApprove) {
 $stmt = $pdo->query("SELECT n.*, a.name as author_name FROM news n LEFT JOIN admins a ON n.author_id = a.id $whereClause ORDER BY n.created_at DESC");
 $newsList = $stmt->fetchAll();
 
-$pageTitle = 'Manage News';
+$pageTitle = 'Manage News & Events';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -80,12 +80,12 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
-                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage News</h2>
-                <p class="text-[13px] text-slate-500 mt-1 font-inter">Create, review, approve, and manage press releases and news articles.</p>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight">Manage News & Events</h2>
+                <p class="text-[13px] text-slate-500 mt-1 font-inter">Create, review, approve, and manage press releases, news articles, and event updates.</p>
             </div>
             <a href="news-add" class="bg-gradient-to-r from-secondary to-[#721c1c] text-white px-5 py-2.5 rounded-lg text-[13px] font-bold hover:shadow-lg hover:brightness-110 active:scale-[0.98] transition-all flex items-center shadow-sm self-start sm:self-auto gap-1.5 whitespace-nowrap">
                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                Add News
+                Add Article
             </a>
         </div>
 
@@ -93,7 +93,7 @@ include 'includes/header.php';
         <div class="mb-6 border-b border-gray-200">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                 <a href="news?tab=all" class="<?= $activeTab === 'all' ? 'border-secondary text-secondary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors">
-                    All News
+                    All News & Events
                 </a>
                 <a href="news?tab=approvals" class="<?= $activeTab === 'approvals' ? 'border-secondary text-secondary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' ?> whitespace-nowrap py-4 px-1 border-b-2 font-medium text-[13px] transition-colors flex items-center">
                     Review & Approvals
@@ -112,6 +112,7 @@ include 'includes/header.php';
         $headers = [
             ['label' => 'Image', 'class' => 'w-16'],
             ['label' => 'Title', 'class' => ''],
+            ['label' => 'Category', 'class' => ''],
             ['label' => 'Author', 'class' => ''],
             ['label' => 'Date', 'class' => ''],
             ['label' => 'Status & Visibility', 'class' => ''],
@@ -150,6 +151,17 @@ include 'includes/header.php';
                             
                             <div class="flex-1 flex flex-col">
                                 <div class="flex flex-wrap gap-2 mb-3">
+                                    <?php if (($news['category'] ?? 'News') === 'Events'): ?>
+                                        <span class="px-2.5 py-0.5 bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 text-[11px] font-semibold rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
+                                            <svg class="w-3 h-3 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            Events
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="px-2.5 py-0.5 bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 text-[11px] font-semibold rounded-full uppercase tracking-wider inline-flex items-center gap-1.5">
+                                            <svg class="w-3 h-3 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
+                                            News
+                                        </span>
+                                    <?php endif; ?>
                                     <span class="px-2 py-1 <?= $news['status'] === 'Published' ? 'bg-[#EDF7F4] text-[#166952]' : 'bg-[#FCF1F2] text-[#9E212D]' ?> text-[11px] font-bold rounded uppercase tracking-wider"><?= htmlspecialchars($news['status']) ?></span>
                                     <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                 </div>
@@ -164,6 +176,19 @@ include 'includes/header.php';
                             </div>
                         </div>
                     </div>
+                </td>
+                <td class="py-5 px-6">
+                    <?php if (($news['category'] ?? 'News') === 'Events'): ?>
+                        <span class="px-2.5 py-0.5 rounded-full bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 text-[11px] font-semibold uppercase tracking-wider inline-flex items-center gap-1.5">
+                            <svg class="w-3 h-3 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            Events
+                        </span>
+                    <?php else: ?>
+                        <span class="px-2.5 py-0.5 rounded-full bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 text-[11px] font-semibold uppercase tracking-wider inline-flex items-center gap-1.5">
+                            <svg class="w-3 h-3 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
+                            News
+                        </span>
+                    <?php endif; ?>
                 </td>
                 <td class="py-5 px-6 text-gray-800"><?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></td>
                 <td class="py-5 px-6 text-gray-800"><?= date('M d, Y', strtotime($news['created_at'])) ?></td>
@@ -195,16 +220,21 @@ include 'includes/header.php';
             </tr>
             <?php
         }, [
-            'emptyTitle' => 'No news found',
-            'emptySubtitle' => 'There are no news items matching your criteria.',
+            'emptyTitle' => 'No items found',
+            'emptySubtitle' => 'There are no news or event items matching your criteria.',
             'emptyIcon' => 'news',
             'filters' => [
-                'search' => ['placeholder' => 'Search news...', 'maxWidth' => '50%'],
+                'search' => ['placeholder' => 'Search news & events...', 'maxWidth' => '50%'],
                 'filters' => [
                     [
                         'icon' => 'status',
                         'placeholder' => 'All Status',
                         'options' => ['Published' => 'Published', 'Pending Approval' => 'Pending Approval', 'Draft' => 'Draft']
+                    ],
+                    [
+                        'icon' => 'category',
+                        'placeholder' => 'All Categories',
+                        'options' => ['News' => 'News', 'Events' => 'Events']
                     ]
                 ],
                 'reset' => true

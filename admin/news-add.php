@@ -87,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $content_si = trim($_POST['content_si'] ?? '');
     $content_ta = trim($_POST['content_ta'] ?? '');
     $visibility = strtolower($_POST['visibility'] ?? 'public');
+    $category = in_array($_POST['category'] ?? '', ['News', 'Events']) ? $_POST['category'] : 'News';
     
     // Check which button was clicked
     if (isset($_POST['save_draft'])) {
@@ -135,12 +136,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($error)) {
         try {
             if ($article) {
-                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, content=?, content_si=?, content_ta=?, cover_image=?, visibility=?, status=? WHERE id=?");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $status, $article['id']]);
+                $stmt = $pdo->prepare("UPDATE news SET title=?, title_si=?, title_ta=?, content=?, content_si=?, content_ta=?, cover_image=?, category=?, visibility=?, status=? WHERE id=?");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $category, $visibility, $status, $article['id']]);
                 $article_id = $article['id'];
             } else {
-                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, content, content_si, content_ta, cover_image, visibility, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $visibility, $status, $_SESSION['admin_id']]);
+                $stmt = $pdo->prepare("INSERT INTO news (title, title_si, title_ta, content, content_si, content_ta, cover_image, category, visibility, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $success_db = $stmt->execute([$title, $title_si, $title_ta, $content, $content_si, $content_ta, $cover_image, $category, $visibility, $status, $_SESSION['admin_id']]);
                 $article_id = $pdo->lastInsertId();
             }
 
@@ -148,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 require_once '../includes/Cache.php';
                 Cache::forget('home_recent_news_admin');
                 Cache::forget('home_recent_news_public');
-                $success = "News item " . ($status === 'Draft' ? "saved as draft." : ($status === 'Pending Approval' ? "submitted for approval." : "published successfully."));
+                $success = ($category === 'Events' ? "Event " : "News item ") . ($status === 'Draft' ? "saved as draft." : ($status === 'Pending Approval' ? "submitted for approval." : "published successfully."));
                 
                 // Handle multiple images
                 if (isset($_FILES['additional_images'])) {
@@ -203,7 +204,7 @@ $stmt = $pdo->prepare("SELECT id, title, created_at, status FROM news WHERE stat
 $stmt->execute();
 $recentDrafts = $stmt->fetchAll();
 
-$pageTitle = $article ? 'Edit News' : 'Add News';
+$pageTitle = $article ? 'Edit News & Events' : 'Add News & Events';
 include 'includes/header.php'; 
 ?>
 <?php include 'includes/sidebar.php'; ?>
@@ -221,12 +222,12 @@ include 'includes/header.php';
         <!-- Header -->
         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
             <div>
-                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News' : 'Add News' ?></h2>
+                <h2 class="text-3xl font-extrabold font-montserrat text-slate-800 tracking-tight"><?= $article ? 'Edit News & Events' : 'Add News & Events' ?></h2>
                 <p class="text-[13px] text-slate-500 mt-1 font-inter">Create and publish news articles and announcements for the portal.</p>
             </div>
             <a href="news" class="group bg-white border border-slate-200 hover:border-secondary/30 text-slate-600 hover:text-secondary px-4 py-2 rounded-xl text-[12.5px] font-bold hover:bg-secondary/5 transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto whitespace-nowrap">
                 <svg class="w-4 h-4 text-slate-450 group-hover:text-secondary group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-                Back to News
+                Back to News & Events
             </a>
         </div>
 
@@ -451,6 +452,23 @@ include 'includes/header.php';
                         </h3>
                     </div>
                     <div class="p-6 space-y-6">
+                        <!-- Category -->
+                        <div>
+                            <label class="block text-[13px] font-semibold text-slate-700 mb-2">Category <span class="text-red-500">*</span></label>
+                            <?php
+                            $catSel = ($article && isset($article['category'])) ? $article['category'] : 'News';
+                            echo renderDropdown([
+                                'name' => 'category',
+                                'options' => ['News' => 'News', 'Events' => 'Events'],
+                                'selected' => $catSel,
+                                'placeholder' => false,
+                                'required' => true,
+                                'context' => 'form',
+                                'width' => 'w-full'
+                            ]);
+                            ?>
+                        </div>
+
                         <!-- Visibility -->
                         <div>
                             <label class="block text-[13px] font-semibold text-slate-700 mb-2">Visibility <span class="text-red-500">*</span></label>

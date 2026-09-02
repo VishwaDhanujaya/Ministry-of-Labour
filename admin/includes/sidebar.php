@@ -66,7 +66,7 @@
                 <li>
                     <a href="news" class="flex items-center px-4 py-2.5 rounded-lg <?= ($current_page == 'news' || $current_page == 'news-add') ? 'bg-white text-secondary shadow-sm' : 'text-white/90 hover:bg-white/5 hover:text-white' ?> font-bold text-[13px] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2"></path></svg>
-                        <span>News</span>
+                        <span>News & Events</span>
                     </a>
                 </li>
                 <?php endif; ?>

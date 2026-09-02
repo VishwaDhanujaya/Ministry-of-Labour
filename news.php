@@ -19,20 +19,20 @@ foreach ($allArticlesRaw as $article) {
 // Fetch recent posts for sidebar (limit 10)
 $recentPosts = array_slice($allArticles, 0, 10);
 
-$page_title = 'News';
-$pageTitle = 'News - Ministry of Labour - Sri Lanka';
-$metaDescription = 'Read the latest news, updates, notices, and insights from the Ministry of Labour, Sri Lanka.';
-$metaKeywords = 'Ministry of Labour, Sri Lanka, News, Updates, Media, Notices';
+$page_title = 'News & Events';
+$pageTitle = 'News & Events - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Read the latest news, events, updates, notices, and insights from the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, News, Events, Updates, Media, Notices';
 $pageMeta = [
     'si' => [
-        'title' => 'පුවත් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
-        'desc'  => 'කම්කරු අමාත්‍යාංශයේ නවතම පුවත්, යාවත්කාලීන කිරීම් සහ නිවේදන කියවන්න.',
-        'kw'    => 'කම්කරු අමාත්‍යාංශය, පුවත්, යාවත්කාලීන කිරීම්, මාධ්‍ය'
+        'title' => 'පුවත් සහ සිදුවීම් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශයේ නවතම පුවත්, සිදුවීම්, යාවත්කාලීන කිරීම් සහ නිවේදන කියවන්න.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, පුවත්, සිදුවීම්, යාවත්කාලීන කිරීම්, මාධ්‍ය'
     ],
     'ta' => [
-        'title' => 'செய்திகள் - தொழில் அமைச்சு - இலங்கை',
-        'desc'  => 'தொழில் அமைச்சின் அண்மைய செய்திகள், புதுப்பிப்புகள் மற்றும் அறிவித்தப்புகளை வாசியுங்கள்.',
-        'kw'    => 'தொழில் அமைச்சு, செய்திகள், புதுப்பிப்புகள், ஊடகம்'
+        'title' => 'செய்திகள் மற்றும் நிகழ்வுகள் - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சின் அண்மைய செய்திகள், நிகழ்வுகள், புதுப்பிப்புகள் மற்றும் அறிவித்தப்புகளை வாசியுங்கள்.',
+        'kw'    => 'தொழில் அமைச்சு, செய்திகள், நிகழ்வுகள், புதுப்பிப்புகள், ஊடகம்'
     ]
 ];
 include 'includes/header.php';
@@ -46,7 +46,7 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-[1400px]">
         <!-- Section Title -->
         <div class="text-center mb-10 md:mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('latest_insights') ?></h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('latest_news_events', 'Latest News & Events') ?></h2>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -56,7 +56,7 @@ include 'includes/sub-hero.php';
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12" id="articles-grid">
                     <?php if (empty($allArticles)): ?>
-                        <div class="col-span-2 text-gray-500 py-4 notranslate"><?= t('no_news_found', 'No news found.') ?></div>
+                        <div class="col-span-2 text-gray-500 py-4 notranslate"><?= t('no_news_found', 'No news or events found.') ?></div>
                     <?php else: ?>
                         <?php foreach ($allArticles as $index => $article): ?>
                         <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col" data-index="<?= $index ?>">
@@ -64,12 +64,23 @@ include 'includes/sub-hero.php';
                                 <?php if (!empty($article['cover_image']) && file_exists('admin/' . $article['cover_image'])): ?>
                                     <img loading="lazy" src="admin/<?= htmlspecialchars($article['cover_image']) ?>" alt="<?= htmlspecialchars($article['title']) ?>" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                                 <?php else: ?>
-                                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                 <?php endif; ?>
                             </div>
                             <div class="p-8 pt-6 pb-8 flex flex-col flex-grow">
-                                <div class="flex justify-between items-center mb-4 text-xs text-gray-500 font-inter font-medium">
-                                    <span><?= format_date_trilingual($article['created_at']) ?></span>
+                                <div class="flex justify-between items-center mb-4 text-xs font-inter">
+                                    <span class="text-gray-500 font-medium notranslate"><?= format_date_trilingual($article['created_at']) ?></span>
+                                    <?php if (($article['category'] ?? 'News') === 'Events'): ?>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 uppercase tracking-wider inline-flex items-center gap-1.5 notranslate">
+                                            <svg class="w-3 h-3 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            <?= t('cat_events', 'Events') ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 uppercase tracking-wider inline-flex items-center gap-1.5 notranslate">
+                                            <svg class="w-3 h-3 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
+                                            <?= t('cat_news', 'News') ?>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
                                     <a href="<?= navUrl('news/' . $article['id']) ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
@@ -87,7 +98,7 @@ include 'includes/sub-hero.php';
                 <!-- No Results State -->
                 <div id="noResultsMsg" class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12" style="display: none;">
                     <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <p class="text-[17px] font-bold text-gray-800 mb-1"><?= t('no_news_found', 'No news found.') ?></p>
+                    <p class="text-[17px] font-bold text-gray-800 mb-1"><?= t('no_news_found', 'No news or events found.') ?></p>
                 </div>
 
                 <!-- Pagination Controls -->
@@ -121,8 +132,8 @@ include 'includes/sub-hero.php';
             <div class="w-full lg:w-1/3">
                 <div
                     class="border border-gray-100 rounded-3xl p-8 sticky top-32 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)]">
-                    <!-- Search -->
-                    <div class="mb-8">
+                    <!-- Search & Filter -->
+                    <div class="mb-8 space-y-4">
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                 <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor"
@@ -131,7 +142,22 @@ include 'includes/sub-hero.php';
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_news', 'Search news...')) ?>">
+                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_news', 'Search news & events...')) ?>">
+                        </div>
+
+                        <!-- Category Dropdown Filter -->
+                        <div>
+                            <label for="categoryFilter" class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1.5 font-inter notranslate"><?= t('filter_by_category', 'Filter by Category') ?></label>
+                            <div class="relative">
+                                <select id="categoryFilter" onchange="resetPaginationAndFilter()" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full px-4 py-2.5 font-inter transition-colors outline-none shadow-sm appearance-none cursor-pointer notranslate">
+                                    <option value="all"><?= t('all_categories', 'All Categories') ?></option>
+                                    <option value="News"><?= t('cat_news', 'News') ?></option>
+                                    <option value="Events"><?= t('cat_events', 'Events') ?></option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -155,7 +181,20 @@ include 'includes/sub-hero.php';
                                         <h4 class="text-[13.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors line-clamp-2 leading-snug notranslate" title="<?= htmlspecialchars($post['title']) ?>">
                                             <?= htmlspecialchars($post['title']) ?>
                                         </h4>
-                                        <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide mt-1 block"><?= date('M d, Y', strtotime($post['created_at'])) ?></span>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide notranslate"><?= date('M d, Y', strtotime($post['created_at'])) ?></span>
+                                            <?php if (($post['category'] ?? 'News') === 'Events'): ?>
+                                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded uppercase bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 inline-flex items-center gap-1 notranslate">
+                                                    <svg class="w-2.5 h-2.5 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                    <?= t('cat_events', 'Events') ?>
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded uppercase bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 inline-flex items-center gap-1 notranslate">
+                                                    <svg class="w-2.5 h-2.5 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
+                                                    <?= t('cat_news', 'News') ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 </a>
                             </li>
@@ -178,7 +217,8 @@ const articles = <?php echo json_encode(array_map(function($article, $i) {
     return [
         'index' => $i,
         'title' => strtolower($article['title']),
-        'content' => strtolower(strip_tags($article['content']))
+        'content' => strtolower(strip_tags($article['content'])),
+        'category' => $article['category'] ?? 'News'
     ];
 }, $allArticles, array_keys($allArticles))); ?>;
 
@@ -190,6 +230,8 @@ function resetPaginationAndFilter() {
 function filterArticles() {
     const searchInput = document.getElementById("searchInput");
     const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const categoryFilter = document.getElementById("categoryFilter");
+    const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
     const itemsPerPageSelect = document.getElementById("itemsPerPage");
     const itemsPerPage = itemsPerPageSelect ? itemsPerPageSelect.value : '6';
 
@@ -198,7 +240,8 @@ function filterArticles() {
         const matchesSearch = searchTerm === "" || 
                               article.title.includes(searchTerm) || 
                               article.content.includes(searchTerm);
-        if (matchesSearch) {
+        const matchesCategory = selectedCategory === "all" || article.category === selectedCategory;
+        if (matchesSearch && matchesCategory) {
             filteredIndexes.push(article.index);
         }
     });
@@ -266,7 +309,7 @@ function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'new
 
     const entityNames = {
         documents: { en: 'documents', singular: 'document', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
-        news: { en: 'news articles', singular: 'news article', si: 'පුවත් ලිපි', ta: 'செய்தி கட்டுரைகள்' },
+        news: { en: 'articles', singular: 'article', si: 'ලිපි', ta: 'கட்டுரைகள்' },
         vacancies: { en: 'vacancies', singular: 'vacancy', si: 'පුරප්පාඩු', ta: 'வெற்றிடங்கள்' },
         notices: { en: 'notices', singular: 'notice', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
         updates: { en: 'updates', singular: 'update', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
