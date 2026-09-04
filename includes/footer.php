@@ -292,7 +292,7 @@
             title="<?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?>"
             class="fixed top-32 sm:top-36 left-3 sm:left-6 w-10 h-10 sm:w-11 sm:h-11 bg-primary hover:bg-[#1B2E42] text-white rounded-full flex items-center justify-center border-2 border-white shadow-[0_8px_25px_rgba(0,0,0,0.3)] ring-1 ring-black/10 hover:scale-105 hover:shadow-[0_12px_30px_rgba(0,0,0,0.4)] transition-all duration-200 z-50 focus:outline-none cursor-pointer group active:scale-95">
             <!-- Man in Wheelchair Universal Accessibility Icon -->
-            <svg class="w-4.5 h-4.5 sm:w-5 sm:h-5 text-yellow-400 group-hover:scale-105 transition-transform shrink-0 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="w-5 h-5 text-yellow-400 group-hover:scale-105 transition-transform shrink-0 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="4" r="2"/>
                 <path d="M19 13v-2c-1.54.02-3.09-.75-4.07-1.83l-1.29-1.43c-.17-.19-.38-.34-.61-.45-.01 0-.01-.01-.02-.01H13c-.35-.2-.75-.3-1.19-.26C10.76 7.11 10 8.04 10 9.1V15c0 1.1.9 2 2 2h5v5h2v-5.5c0-1.1-.9-2-2-2h-3v-3.45c1.29 1.07 3.25 1.95 5 1.95z"/>
                 <path d="M10 18c-2.21 0-4-1.79-4-4 0-1.53.86-2.86 2.12-3.53l.71-1.89C6.83 9.4 5 11.49 5 14c0 3.31 2.69 6 6 6 1.48 0 2.84-.54 3.89-1.44l-1.44-1.44C12.63 17.67 11.39 18 10 18z"/>
@@ -305,7 +305,7 @@
             <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
                 <div class="flex items-center space-x-2.5">
                     <div class="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
-                        <svg class="w-4.5 h-4.5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                             <circle cx="12" cy="4" r="2"/>
                             <path d="M19 13v-2c-1.54.02-3.09-.75-4.07-1.83l-1.29-1.43c-.17-.19-.38-.34-.61-.45-.01 0-.01-.01-.02-.01H13c-.35-.2-.75-.3-1.19-.26C10.76 7.11 10 8.04 10 9.1V15c0 1.1.9 2 2 2h5v5h2v-5.5c0-1.1-.9-2-2-2h-3v-3.45c1.29 1.07 3.25 1.95 5 1.95z"/>
                             <path d="M10 18c-2.21 0-4-1.79-4-4 0-1.53.86-2.86 2.12-3.53l.71-1.89C6.83 9.4 5 11.49 5 14c0 3.31 2.69 6 6 6 1.48 0 2.84-.54 3.89-1.44l-1.44-1.44C12.63 17.67 11.39 18 10 18z"/>
