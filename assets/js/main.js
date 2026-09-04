@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const open = (typeof show === 'boolean') ? show : !isCurrentlyOpen;
 
         if (open) {
-            a11yDropdown.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+            a11yDropdown.classList.remove('opacity-0', '-translate-y-2', 'translate-y-2', 'pointer-events-none');
             a11yDropdown.classList.add('opacity-100', 'translate-y-0');
             if (a11yChevron) a11yChevron.classList.add('rotate-180');
             if (a11yBtn) {
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 a11yBtn.classList.add('ring-2', 'ring-yellow-400', 'ring-offset-2');
             }
         } else {
-            a11yDropdown.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+            a11yDropdown.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
             a11yDropdown.classList.remove('opacity-100', 'translate-y-0');
             if (a11yChevron) a11yChevron.classList.remove('rotate-180');
             if (a11yBtn) {

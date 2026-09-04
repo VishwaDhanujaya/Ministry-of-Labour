@@ -143,7 +143,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
-### 2026-09-04 (Relocate Accessibility Menu to Floating Button with Wheelchair Icon)
+### 2026-09-04 (Relocate Accessibility Menu to Top-Left Floating Button Under Navbar)
 * **Files:**
   - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
@@ -151,10 +151,10 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Relocated Accessibility Widget**: Moved the Accessibility menu out of the topbar in `includes/header.php` and converted it into a persistent floating action button in `includes/footer.php`, positioned at `fixed bottom-20 right-6` directly 12px above the "Back to Top" button (`fixed bottom-6 right-6`).
-  - **Universal Accessibility Wheelchair Icon**: Styled the floating action button with the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400`) inside a primary navy circular button (`w-11 h-11 bg-primary`).
-  - **Upward-Opening Responsive Panel**: Styled the `#accessibility-dropdown` panel to open upward from the bottom-right (`fixed bottom-32 right-4 sm:right-6 origin-bottom-right z-[99999]`), ensuring high z-index above all page contents and modals.
-  - **Interactive Focus Feedback**: Updated `toggleA11yDropdown()` in `assets/js/main.js` to add active ring feedback (`ring-2 ring-yellow-400 ring-offset-2`) on the floating button when the panel is open.
+  - **Top-Left Placement Under Navbar**: Moved the Accessibility menu out of the topbar in `includes/header.php` and positioned it as a persistent floating circular button in `includes/footer.php` at `fixed top-24 left-4 sm:left-6 z-50`, sitting directly under the sticky navbar on the top left of the screen.
+  - **Universal Accessibility Wheelchair Icon**: Styled the floating action button with the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400`) inside a primary navy circular button (`w-11 h-11 bg-primary hover:bg-[#1B2E42]`).
+  - **Downward-Opening Responsive Panel**: Styled the `#accessibility-dropdown` panel to open downward from the top-left (`fixed top-36 left-4 sm:left-6 origin-top-left z-[99999]`), ensuring high z-index above all page contents and modals.
+  - **Interactive Focus Feedback**: Updated `toggleA11yDropdown()` in `assets/js/main.js` to add active ring feedback (`ring-2 ring-yellow-400 ring-offset-2`) and smooth dropdown transitions.
   - **Preserved Trilingual Engine**: Added `personalize_view` and `close_menu` definitions to `includes/translations.php` and verified that 100% of accessibility features (Font Resizing, Color Blindness SVG filters, Link Highlighter, AI TTS Screen Reader) remain fully functional and trilingual across all 21 pages.
 
 ### 2026-09-04 (Refine IAU Navbar Sinhala & Tamil Labels)
