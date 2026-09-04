@@ -38,6 +38,7 @@ RewriteRule ^ %{REQUEST_SCHEME}://%{HTTP_HOST}%1/%2 [R=301,L]
 
 # Pretty URLs
 RewriteRule ^news/([0-9]+)/?$ news-single.php?id=$1 [QSA,L]
+RewriteRule ^events/([0-9]+)/?$ news-single.php?id=$1 [QSA,L]
 RewriteRule ^admin/officials$ admin/officials.php [L]
 RewriteRule ^admin/officials-api$ admin/officials-api.php [L]
 

@@ -13,6 +13,8 @@ vendor/
 # User uploads and dynamic assets
 /uploads/**/*
 !/uploads/**/.gitkeep
+/admin/uploads/**/*
+!/admin/uploads/**/.gitkeep
 
 # IDE and Editor settings
 .vscode/
@@ -52,5 +54,7 @@ Thumbs.db
 *.backup
 *.bak
 
-# Scratch scripts
+# Scratch scripts and temporary runtime cache
 scratch/
+cache/
+

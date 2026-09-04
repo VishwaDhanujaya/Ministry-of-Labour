@@ -25,9 +25,26 @@ include 'includes/sub-hero.php';
 $all_documents = [];
 
 try {
+    // Helper closure to resolve multilingual fields with graceful fallback to English
+    $resolveLocalizedFields = function(&$row) use ($current_lang) {
+        if ($current_lang === 'si' && !empty($row['title_si'])) {
+            $row['title'] = $row['title_si'];
+        } elseif ($current_lang === 'ta' && !empty($row['title_ta'])) {
+            $row['title'] = $row['title_ta'];
+        }
+        if (isset($row['description'])) {
+            if ($current_lang === 'si' && !empty($row['description_si'])) {
+                $row['description'] = $row['description_si'];
+            } elseif ($current_lang === 'ta' && !empty($row['description_ta'])) {
+                $row['description'] = $row['description_ta'];
+            }
+        }
+    };
+
     // Fetch Acts and Amendments
-    $stmt = $pdo->query("SELECT title, ref, category, created_at, pdf_path, pdf_path_si, pdf_path_ta FROM acts_amendments WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, ref, category, created_at, pdf_path, pdf_path_si, pdf_path_ta FROM acts_amendments WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['ref'] = !empty($row['ref']) ? $row['ref'] : date('Y-m-d', strtotime($row['created_at']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
         $row['pdf_path_si'] = !empty($row['pdf_path_si']) ? resolvePdfUrl($row['pdf_path_si']) : '';
@@ -41,8 +58,9 @@ try {
         'Notice' => 'Procurement Notice',
         'Award' => 'Contract Award Details'
     ];
-    $stmt = $pdo->query("SELECT title, created_at as ref, category, pdf_path, pdf_path_si, pdf_path_ta FROM procurements WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, category, pdf_path, pdf_path_si, pdf_path_ta FROM procurements WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $rawCat = $row['category'] ?? 'Notice';
         $row['category'] = $categoryMapping[$rawCat] ?? 'Procurement Notice';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
@@ -53,8 +71,9 @@ try {
     }
 
     // Fetch Vacancies
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM vacancies WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM vacancies WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'Vacancies';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -64,8 +83,9 @@ try {
     }
 
     // Fetch Local Publications
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_local WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_local WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'Local Publications';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -75,8 +95,9 @@ try {
     }
 
     // Fetch Foreign Publications
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_foreign WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM learning_platforms_foreign WHERE (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'Foreign Publications';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -86,8 +107,9 @@ try {
     }
 
     // Fetch Special Notices
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM special_notices WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM special_notices WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'Special Notices';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -97,8 +119,9 @@ try {
     }
 
     // Fetch Action Plans
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM action_plans WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM action_plans WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'Action Plans';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -108,8 +131,9 @@ try {
     }
 
     // Fetch RTI Reports
-    $stmt = $pdo->query("SELECT title, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM rti_reports WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM rti_reports WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'RTI Reports';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
@@ -119,23 +143,24 @@ try {
     }
 
     // Fetch IAU Downloads
-    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM iau_downloads WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '')");
+    $stmt = $pdo->query("SELECT title, title_si, title_ta, created_at, created_at as ref, pdf_path, pdf_path_si, pdf_path_ta FROM iau_downloads WHERE status = 'Published' AND (pdf_path != '' OR pdf_path_si != '' OR pdf_path_ta != '') ORDER BY created_at DESC");
     while ($row = $stmt->fetch()) {
+        $resolveLocalizedFields($row);
         $row['category'] = 'IAU Update';
         $row['ref'] = date('Y-m-d', strtotime($row['ref']));
         $row['pdf_path'] = !empty($row['pdf_path']) ? resolvePdfUrl($row['pdf_path']) : '';
         $row['pdf_path_si'] = !empty($row['pdf_path_si']) ? resolvePdfUrl($row['pdf_path_si']) : '';
         $row['pdf_path_ta'] = !empty($row['pdf_path_ta']) ? resolvePdfUrl($row['pdf_path_ta']) : '';
-        
-        // Language-aware title resolution with English fallback
-        if ($current_lang === 'si' && !empty($row['title_si'])) {
-            $row['title'] = $row['title_si'];
-        } elseif ($current_lang === 'ta' && !empty($row['title_ta'])) {
-            $row['title'] = $row['title_ta'];
-        }
-        
         $all_documents[] = $row;
     }
+
+    // Global sort: newest created/uploaded documents always appear at the top
+    usort($all_documents, function($a, $b) {
+        $tA = isset($a['created_at']) ? strtotime($a['created_at']) : 0;
+        $tB = isset($b['created_at']) ? strtotime($b['created_at']) : 0;
+        if ($tA === $tB) return 0;
+        return ($tA < $tB) ? 1 : -1;
+    });
 } catch (PDOException $e) {
     // Silently continue
 }
@@ -233,11 +258,11 @@ $categoryColors = [
         </div>
 
         <!-- Grid View Layout Container -->
-        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style="display: none;">
+        <div id="gridViewContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 notranslate" translate="no" style="display: none;">
             <?php foreach ($all_documents as $index => $doc): 
                 $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
             ?>
-            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
+            <div class="document-card bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer notranslate" translate="no" data-index="<?= $index ?>" data-title="<?= htmlspecialchars(strtolower($doc['title'])) ?>" data-ref="<?= htmlspecialchars(strtolower($doc['ref'])) ?>" data-category="<?= htmlspecialchars(strtolower($doc['category'])) ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDownloadModal(<?= $index ?>)">
                 <div>
                     <!-- Badge & Icon -->
                     <div class="flex items-center justify-between mb-4">
@@ -245,27 +270,24 @@ $categoryColors = [
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
                     <!-- Title -->
-                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-secondary transition-colors group-hover:text-secondary"><?= htmlspecialchars($doc['title']) ?></h3>
+                    <h3 class="font-bold text-gray-800 text-[15px] leading-snug mb-2 hover:text-secondary transition-colors group-hover:text-secondary notranslate" translate="no"><?= htmlspecialchars($doc['title']) ?></h3>
                     <!-- Reference -->
-                    <p class="text-xs text-gray-500 font-medium font-inter mb-6">Ref: <?= htmlspecialchars($doc['ref']) ?></p>
+                    <p class="text-xs text-gray-500 font-medium font-inter mb-6 notranslate"><?= t('ref_prefix', 'Ref: ') ?><?= htmlspecialchars($doc['ref']) ?></p>
                 </div>
                 <!-- Action Button -->
-                <a href="#" target="_blank" class="download-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm hidden notranslate" onclick="event.stopPropagation();">
+                <button type="button" class="download-btn w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-xl text-[13px] font-bold transition-all gap-2 shadow-sm notranslate" onclick="openDownloadModal(<?= $index ?>)">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <?= t('download_document', 'Download Document') ?>
-                </a>
-                <span class="no-doc-btn w-full items-center justify-center px-4 py-2.5 bg-gray-50 text-gray-400 border border-gray-200 rounded-xl text-[13px] font-bold cursor-not-allowed hidden notranslate">
-                    <?= t('no_document', 'No Document') ?>
-                </span>
+                </button>
             </div>
             <?php endforeach; ?>
         </div>
 
         <!-- List View Layout Container -->
-        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12">
+        <div id="listViewContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-12 notranslate" translate="no">
             <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-gray-600 font-inter">
-                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100 notranslate">
+                <table class="w-full text-left text-sm text-gray-600 font-inter notranslate" translate="no">
+                    <thead class="bg-gray-50/70 text-gray-600 border-b border-gray-100 notranslate" translate="no">
                         <tr>
                             <th class="px-6 py-4 font-semibold text-[13.5px] notranslate"><?= t('doc_title_col', 'Document Title') ?></th>
                             <th class="px-6 py-4 font-semibold text-[13.5px] w-40 notranslate"><?= t('category_col', 'Category') ?></th>
@@ -273,26 +295,25 @@ $categoryColors = [
                             <th class="px-6 py-4 font-semibold text-[13.5px] text-right w-56 notranslate"><?= t('action_col', 'Action') ?></th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100 notranslate" translate="no">
                         <?php foreach ($all_documents as $index => $doc): 
                             $badgeClass = $categoryColors[$doc['category']] ?? 'bg-gray-50 text-gray-700 border-gray-100';
                         ?>
-                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>">
-                            <td class="px-6 py-4">
-                                <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors"><?= htmlspecialchars($doc['title']) ?></h3>
+                        <tr class="document-list-row hover:bg-gray-50/40 transition-all duration-150 cursor-pointer notranslate" translate="no" data-index="<?= $index ?>" data-pdf-en="<?= htmlspecialchars($doc['pdf_path'] ?? '') ?>" data-pdf-si="<?= htmlspecialchars($doc['pdf_path_si'] ?? '') ?>" data-pdf-ta="<?= htmlspecialchars($doc['pdf_path_ta'] ?? '') ?>" onclick="openDownloadModal(<?= $index ?>)">
+                            <td class="px-6 py-4 notranslate">
+                                <h3 class="font-bold text-gray-800 text-[14px] group-hover:text-secondary transition-colors notranslate" translate="no"><?= htmlspecialchars($doc['title']) ?></h3>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 notranslate">
                                 <span class="notranslate px-2.5 py-0.5 rounded-lg text-xs font-semibold border whitespace-nowrap <?= $badgeClass ?>"><?= htmlspecialchars(translateCategory($doc['category'])) ?></span>
                             </td>
-                            <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter">
+                            <td class="px-6 py-4 text-xs text-gray-500 font-medium font-inter notranslate">
                                 <?= htmlspecialchars($doc['ref']) ?>
                             </td>
-                            <td class="px-6 py-4 text-right" onclick="event.stopPropagation();">
-                                <a href="#" target="_blank" class="list-download-btn items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm hidden notranslate">
+                            <td class="px-6 py-4 text-right notranslate">
+                                <button type="button" class="list-download-btn inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-secondary hover:text-white border border-gray-200 text-gray-700 rounded-lg text-[12px] font-bold transition-all gap-1.5 shadow-sm notranslate" onclick="openDownloadModal(<?= $index ?>)">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                     <?= t('download', 'Download') ?>
-                                </a>
-                                <span class="list-no-doc text-xs text-gray-400 italic hidden notranslate"><?= t('no_document', 'No Document') ?></span>
+                                </button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -329,25 +350,25 @@ $categoryColors = [
         </button>
         
         <div class="mb-6">
-            <span id="modalCategory" class="px-3 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap bg-primary/5 text-primary border-primary/10 inline-block mb-3 notranslate">Category</span>
-            <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug font-montserrat mb-1">Document Title</h3>
-            <p id="modalRef" class="text-xs text-gray-500 font-medium font-inter notranslate">Ref: -</p>
+            <span id="modalCategory" class="px-3 py-1 rounded-lg text-xs font-semibold border whitespace-nowrap bg-primary/5 text-primary border-primary/10 inline-block mb-3 notranslate"><?= t('category', 'Category') ?></span>
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug font-montserrat mb-1"><?= t('doc_title', 'Document Title') ?></h3>
+            <p id="modalRef" class="text-xs text-gray-500 font-medium font-inter notranslate"><?= t('ref_prefix', 'Ref: ') ?>-</p>
         </div>
         
         <div class="space-y-3 mb-6">
-            <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate">Select Language PDF Version</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate"><?= t('select_pdf_version', 'Select Language PDF Version') ?></p>
             
             <!-- English PDF Button -->
             <a id="btnModalEn" href="#" target="_blank" class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">EN</span>
                     <div>
-                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors">English PDF</p>
-                        <p class="text-[11px] text-gray-400">Official English Document</p>
+                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors"><?= t('pdf_english', 'English PDF') ?></p>
+                        <p class="text-[11px] text-gray-400"><?= t('pdf_english_desc', 'Official English Document') ?></p>
                     </div>
                 </div>
                 <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm">
-                    Download
+                    <?= t('download', 'Download') ?>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </span>
             </a>
@@ -357,12 +378,12 @@ $categoryColors = [
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs font-noto">සිං</span>
                     <div>
-                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">සිංහල PDF (Sinhala)</p>
-                        <p class="text-[11px] text-gray-400 font-noto">සිංහල මාධ්‍ය නිල ලේඛනය</p>
+                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto"><?= t('pdf_sinhala', 'සිංහල PDF (Sinhala)') ?></p>
+                        <p class="text-[11px] text-gray-400 font-noto"><?= t('pdf_sinhala_desc', 'සිංහල මාධ්‍ය නිල ලේඛනය') ?></p>
                     </div>
                 </div>
                 <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
-                    බාගත කරන්න
+                    <?= t('download', 'බාගත කරන්න') ?>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </span>
             </a>
@@ -372,27 +393,26 @@ $categoryColors = [
                 <div class="flex items-center gap-3">
                     <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs font-noto">த</span>
                     <div>
-                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">தமிழ் PDF (Tamil)</p>
-                        <p class="text-[11px] text-gray-400 font-noto">தமிழ் மொழி அதிகாரப்பூர்வ ஆவணம்</p>
+                        <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto"><?= t('pdf_tamil', 'தமிழ் PDF (Tamil)') ?></p>
+                        <p class="text-[11px] text-gray-400 font-noto"><?= t('pdf_tamil_desc', 'தமிழ் மொழி அதிகாரப்பூர்வ ஆவணம்') ?></p>
                     </div>
                 </div>
                 <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
-                    பதிவிறக்கம்
+                    <?= t('download', 'பதிவிறக்கம்') ?>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 </span>
             </a>
         </div>
         
         <div class="pt-4 border-t border-gray-100 flex justify-end">
-            <button onclick="closeDownloadModal()" class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs transition-colors">Close</button>
+            <button onclick="closeDownloadModal()" class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs transition-colors"><?= t('close_btn', 'Close') ?></button>
         </div>
     </div>
 </div>
 
 <script>
-let currentPage = 1;
-let currentView = 'list'; // 'grid' or 'list'
-let filteredIndexes = [];
+let downloadsPaginator;
+let currentView = 'list';
 
 // Capture all documents from PHP
 const documents = <?php echo json_encode(array_map(function($doc, $i) {
@@ -418,66 +438,70 @@ function openDownloadModal(index) {
     if (!doc) return;
     
     document.getElementById('modalTitle').innerText = doc.raw_title;
-    document.getElementById('modalRef').innerText = 'Ref: ' + doc.raw_ref;
+    document.getElementById('modalRef').innerText = '<?= t("ref_prefix", "Ref: ") ?>' + doc.raw_ref;
     document.getElementById('modalCategory').innerText = doc.raw_category;
     
     // English PDF Button
     const btnEn = document.getElementById('btnModalEn');
-    if (doc.pdf_en) {
-        btnEn.href = doc.pdf_en;
-        btnEn.classList.remove('opacity-40', 'pointer-events-none');
-        btnEn.querySelector('span:last-child').style.display = 'flex';
-    } else {
-        btnEn.removeAttribute('href');
-        btnEn.classList.add('opacity-40', 'pointer-events-none');
-        btnEn.querySelector('span:last-child').style.display = 'none';
+    if (btnEn) {
+        if (doc.pdf_en) {
+            btnEn.href = doc.pdf_en;
+            btnEn.classList.remove('opacity-40', 'pointer-events-none');
+        } else {
+            btnEn.removeAttribute('href');
+            btnEn.classList.add('opacity-40', 'pointer-events-none');
+        }
     }
     
     // Sinhala PDF Button
     const btnSi = document.getElementById('btnModalSi');
-    if (doc.pdf_si) {
-        btnSi.href = doc.pdf_si;
-        btnSi.classList.remove('opacity-40', 'pointer-events-none');
-        btnSi.querySelector('span:last-child').style.display = 'flex';
-    } else {
-        btnSi.removeAttribute('href');
-        btnSi.classList.add('opacity-40', 'pointer-events-none');
-        btnSi.querySelector('span:last-child').style.display = 'none';
+    if (btnSi) {
+        if (doc.pdf_si) {
+            btnSi.href = doc.pdf_si;
+            btnSi.classList.remove('opacity-40', 'pointer-events-none');
+        } else {
+            btnSi.removeAttribute('href');
+            btnSi.classList.add('opacity-40', 'pointer-events-none');
+        }
     }
 
     // Tamil PDF Button
     const btnTa = document.getElementById('btnModalTa');
-    if (doc.pdf_ta) {
-        btnTa.href = doc.pdf_ta;
-        btnTa.classList.remove('opacity-40', 'pointer-events-none');
-        btnTa.querySelector('span:last-child').style.display = 'flex';
-    } else {
-        btnTa.removeAttribute('href');
-        btnTa.classList.add('opacity-40', 'pointer-events-none');
-        btnTa.querySelector('span:last-child').style.display = 'none';
+    if (btnTa) {
+        if (doc.pdf_ta) {
+            btnTa.href = doc.pdf_ta;
+            btnTa.classList.remove('opacity-40', 'pointer-events-none');
+        } else {
+            btnTa.removeAttribute('href');
+            btnTa.classList.add('opacity-40', 'pointer-events-none');
+        }
     }
 
     const modal = document.getElementById('downloadModal');
     const card = document.getElementById('modalCard');
-    modal.classList.remove('opacity-0', 'pointer-events-none');
-    modal.classList.add('opacity-100');
-    card.classList.remove('scale-95');
-    card.classList.add('scale-100');
+    if (modal && card) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+    }
     document.body.style.overflow = 'hidden';
 }
 
 function closeDownloadModal() {
     const modal = document.getElementById('downloadModal');
     const card = document.getElementById('modalCard');
-    modal.classList.remove('opacity-100');
-    modal.classList.add('opacity-0', 'pointer-events-none');
-    card.classList.remove('scale-100');
-    card.classList.add('scale-95');
+    if (modal && card) {
+        modal.classList.remove('opacity-100');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+    }
     document.body.style.overflow = '';
 }
 
 // Close on backdrop click
-document.getElementById('downloadModal').addEventListener('click', (e) => {
+document.getElementById('downloadModal')?.addEventListener('click', (e) => {
     if (e.target.id === 'downloadModal') closeDownloadModal();
 });
 
@@ -489,46 +513,36 @@ document.addEventListener('keydown', (e) => {
 function changeView(view) {
     currentView = view;
     
-    // Toggle active state on buttons
     const btnGrid = document.getElementById('btnGridView');
     const btnList = document.getElementById('btnListView');
-    const gridContainer = document.getElementById('gridViewContainer');
-    const listContainer = document.getElementById('listViewContainer');
     
     if (view === 'grid') {
-        btnGrid.classList.add('bg-white', 'text-secondary', 'shadow-sm');
-        btnGrid.classList.remove('text-gray-500');
-        btnList.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
-        btnList.classList.add('text-gray-500');
-        
-        gridContainer.style.display = 'grid';
-        listContainer.style.display = 'none';
+        btnGrid?.classList.add('bg-white', 'text-secondary', 'shadow-sm');
+        btnGrid?.classList.remove('text-gray-500');
+        btnList?.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
+        btnList?.classList.add('text-gray-500');
     } else {
-        btnList.classList.add('bg-white', 'text-secondary', 'shadow-sm');
-        btnList.classList.remove('text-gray-500');
-        btnGrid.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
-        btnGrid.classList.add('text-gray-500');
-        
-        listContainer.style.display = 'block';
-        gridContainer.style.display = 'none';
+        btnList?.classList.add('bg-white', 'text-secondary', 'shadow-sm');
+        btnList?.classList.remove('text-gray-500');
+        btnGrid?.classList.remove('bg-white', 'text-secondary', 'shadow-sm');
+        btnGrid?.classList.add('text-gray-500');
     }
     
-    filterTable();
+    if (downloadsPaginator) {
+        downloadsPaginator.setView(view);
+    }
 }
 
 function resetPaginationAndFilter() {
-    currentPage = 1;
     filterTable();
 }
 
 function filterTable() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
-    const categoryFilter = document.getElementById("categoryFilter").value.toLowerCase();
-    const itemsPerPage = document.getElementById("itemsPerPage").value;
-    const lang = document.getElementById("langFilter").value;
+    const searchInput = document.getElementById("searchInput") ? document.getElementById("searchInput").value.toLowerCase().trim() : '';
+    const categoryFilter = document.getElementById("categoryFilter") ? document.getElementById("categoryFilter").value.toLowerCase() : '';
+    const lang = document.getElementById("langFilter") ? document.getElementById("langFilter").value : 'en';
     
-    // Filter matching item indexes
-    filteredIndexes = [];
+    const filteredIndexes = [];
     documents.forEach(doc => {
         const gridCard = document.querySelector(`.document-card[data-index="${doc.index}"]`);
         const titleEl = gridCard ? gridCard.querySelector('h3') : null;
@@ -554,244 +568,29 @@ function filterTable() {
         }
     });
     
-    // Hide all items (both grid cards and list rows)
-    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
-    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
-    
-    // Update links based on selected language
-    updateDownloadLinks(lang);
-    
-    updatePaginationUI(itemsPerPage);
+    if (downloadsPaginator) {
+        downloadsPaginator.setFilteredIndexes(filteredIndexes);
+    }
 }
 
-function updateDownloadLinks(lang) {
-    document.querySelectorAll('.document-card').forEach(card => {
-        const index = parseInt(card.getAttribute('data-index'));
-        const btn = card.querySelector('.download-btn');
-        const fallback = card.querySelector('.no-doc-btn');
-        const pdfUrl = card.getAttribute(`data-pdf-${lang}`);
-        
-        card.onclick = () => openDownloadModal(index);
-        
-        if (pdfUrl) {
-            if (btn) {
-                btn.href = pdfUrl;
-                btn.onclick = (e) => e.stopPropagation();
-            }
-            btn.classList.remove('hidden');
-            btn.classList.add('inline-flex');
-            fallback.classList.add('hidden');
-            fallback.classList.remove('inline-flex');
-        } else {
-            if (btn) {
-                btn.removeAttribute('href');
-                btn.onclick = (e) => {
-                    e.stopPropagation();
-                    openDownloadModal(index);
-                };
-            }
-            btn.classList.add('hidden');
-            btn.classList.remove('inline-flex');
-            fallback.classList.remove('hidden');
-            fallback.classList.add('inline-flex');
-        }
-    });
-
-    document.querySelectorAll('.document-list-row').forEach(row => {
-        const index = parseInt(row.getAttribute('data-index'));
-        const btn = row.querySelector('.list-download-btn');
-        const fallback = row.querySelector('.list-no-doc');
-        const pdfUrl = row.getAttribute(`data-pdf-${lang}`);
-        
-        row.onclick = () => openDownloadModal(index);
-        
-        if (pdfUrl) {
-            if (btn) {
-                btn.href = pdfUrl;
-                btn.onclick = (e) => e.stopPropagation();
-            }
-            btn.classList.remove('hidden');
-            btn.classList.add('inline-flex');
-            fallback.classList.add('hidden');
-        } else {
-            if (btn) {
-                btn.removeAttribute('href');
-                btn.onclick = (e) => {
-                    e.stopPropagation();
-                    openDownloadModal(index);
-                };
-            }
-            btn.classList.add('hidden');
-            btn.classList.remove('inline-flex');
-            fallback.classList.remove('hidden');
-        }
-    });
-}
-
-function updatePaginationUI(itemsPerPage) {
-    const noResultsMsg = document.getElementById('noResultsMsg');
-    const gridContainer = document.getElementById('gridViewContainer');
-    const listViewContainer = document.getElementById('listViewContainer');
-    const paginationControls = document.getElementById('paginationControls');
-    
-    const totalItems = filteredIndexes.length;
-    
-    if (totalItems === 0) {
-        noResultsMsg.style.display = 'flex';
-        gridContainer.style.display = 'none';
-        listViewContainer.style.display = 'none';
-        paginationControls.style.display = 'none';
-        return;
-    }
-    
-    noResultsMsg.style.display = 'none';
-    if (currentView === 'grid') {
-        gridContainer.style.display = 'grid';
-    } else {
-        listViewContainer.style.display = 'block';
-    }
-    
-    let startIdx = 0;
-    let endIdx = totalItems;
-    
-    if (itemsPerPage !== 'all') {
-        itemsPerPage = parseInt(itemsPerPage);
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
-        
-        startIdx = (currentPage - 1) * itemsPerPage;
-        endIdx = Math.min(startIdx + itemsPerPage, totalItems);
-        
-        renderPaginationButtons(totalPages);
-    } else {
-        renderPaginationButtons(1);
-    }
-    paginationControls.style.display = 'flex';
-    
-    // Show only active items for this page depending on the current view
-    const selector = currentView === 'grid' ? '.document-card' : '.document-list-row';
-    const items = document.querySelectorAll(selector);
-    
-    for (let i = startIdx; i < endIdx; i++) {
-        const itemIdx = filteredIndexes[i];
-        // Find element matching this index
-        const el = Array.from(items).find(item => parseInt(item.getAttribute('data-index')) === itemIdx);
-        if (el) {
-            el.classList.remove('hidden');
-        }
-    }
-    
-    // Update summary text
-    updatePaginationSummary(startIdx, endIdx, totalItems, 'documents');
-}
-
-function updatePaginationSummary(startIdx, endIdx, totalItems, entityType = 'documents') {
-    const summaryEl = document.getElementById('paginationSummary') || document.querySelector('#paginationControls .text-sm');
-    if (!summaryEl) return;
-
-    const start = startIdx + 1;
-    const end = endIdx;
-    const lang = document.documentElement.lang || 'en';
-
-    const entityNames = {
-        documents: { en: 'documents', si: 'ලේඛන', ta: 'ஆவணங்கள்' },
-        vacancies: { en: 'vacancies', si: 'පුරප්පාඩු', ta: 'வெற்றிடங்கள்' },
-        notices: { en: 'notices', si: 'නිවේදන', ta: 'அறிவிப்புகள்' },
-        updates: { en: 'updates', si: 'යාවත්කාලීන', ta: 'புதுப்பிப்புகள்' },
-        publications: { en: 'publications', si: 'ප්‍රකාශන', ta: 'வெளியீடுகள்' }
-    };
-
-    const entity = entityNames[entityType] || entityNames.documents;
-    const name = entity[lang] || entity.en;
-
-    let text = '';
-    if (lang === 'si') {
-        if (totalItems === 1) {
-            text = `${name} 1 ක් පෙන්වයි`;
-        } else if (start === 1 && end === totalItems) {
-            text = `සියලුම ${name} <span class="font-semibold text-gray-800">${totalItems}</span> ම පෙන්වයි`;
-        } else {
-            text = `${name} <span class="font-semibold text-gray-800">${totalItems}</span> න් <span class="font-semibold text-gray-800">${start}–${end}</span> දක්වා පෙන්වයි`;
-        }
-    } else if (lang === 'ta') {
-        if (totalItems === 1) {
-            text = `1 ${name} காட்டப்படுகிறது`;
-        } else if (start === 1 && end === totalItems) {
-            text = `அனைத்து <span class="font-semibold text-gray-800">${totalItems}</span> ${name} காட்டப்படுகின்றன`;
-        } else {
-            text = `<span class="font-semibold text-gray-800">${totalItems}</span> ${name} <span class="font-semibold text-gray-800">${start}–${end}</span> காட்டப்படுகின்றன`;
-        }
-    } else {
-        const singularName = entityType === 'vacancies' ? 'vacancy' : (entityType === 'notices' ? 'notice' : (entityType === 'updates' ? 'update' : (entityType === 'publications' ? 'publication' : 'document')));
-        if (totalItems === 1) {
-            text = `Showing 1 ${singularName}`;
-        } else if (start === 1 && end === totalItems) {
-            text = `Showing all <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
-        } else {
-            text = `Showing <span class="font-semibold text-gray-800">${start}–${end}</span> of <span class="font-semibold text-gray-800">${totalItems}</span> ${name}`;
-        }
-    }
-
-    summaryEl.innerHTML = text;
-}
-
-function renderPaginationButtons(totalPages) {
-    const container = document.getElementById('paginationButtons');
-    let html = '';
-    
-    // Prev Button
-    html += `<button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="px-3.5 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3.5 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_prev", "Prev") ?>' + `</button>`;
-    
-    // Numbers
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, startPage + 4);
-    if (endPage - startPage < 4) {
-        startPage = Math.max(1, endPage - 4);
-    }
-    
-    if (startPage > 1) {
-        html += `<button onclick="goToPage(1)" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">1</button>`;
-        if (startPage > 2) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
-    }
-    
-    for (let i = startPage; i <= endPage; i++) {
-        if (i === currentPage) {
-            html += `<button class="px-3 py-2 border border-secondary bg-secondary text-white font-bold rounded-xl text-xs">${i}</button>`;
-        } else {
-            html += `<button onclick="goToPage(${i})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${i}</button>`;
-        }
-    }
-    
-    if (endPage < totalPages) {
-        if (endPage < totalPages - 1) html += `<span class="px-1.5 text-gray-400 text-xs">...</span>`;
-        html += `<button onclick="goToPage(${totalPages})" class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all">${totalPages}</button>`;
-    }
-    
-    // Next Button
-    html += `<button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="px-3 py-2 border border-gray-200 text-gray-400 rounded-xl text-xs cursor-not-allowed bg-gray-50/50"' : 'class="px-3 py-2 border border-gray-200 text-gray-600 bg-white hover:bg-gray-50 rounded-xl text-xs font-semibold transition-all"'}>` + '<?= t("pagination_next", "Next") ?>' + `</button>`;
-    
-    container.innerHTML = html;
-}
-
-function goToPage(page) {
-    currentPage = page;
-    
-    // Hide all currently visible
-    document.querySelectorAll('.document-card').forEach(card => card.classList.add('hidden'));
-    document.querySelectorAll('.document-list-row').forEach(row => row.classList.add('hidden'));
-    
-    const itemsPerPage = document.getElementById("itemsPerPage").value;
-    updatePaginationUI(itemsPerPage);
-}
-
-// Init page
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('downloadModal');
     if (modal && modal.parentNode !== document.body) {
         document.body.appendChild(modal);
     }
+    
+    downloadsPaginator = new ContentPaginator({
+        items: documents,
+        entityType: 'documents',
+        itemSelectors: ['.document-card', '.document-list-row'],
+        gridContainerId: 'gridViewContainer',
+        listContainerId: 'listViewContainer',
+        currentView: 'list',
+        defaultItemsPerPage: 12
+    });
+
     changeView('list');
+    filterTable();
 });
 </script>
 

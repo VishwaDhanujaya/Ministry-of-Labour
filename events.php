@@ -1,9 +1,9 @@
 <?php
-// news.php
+// events.php
 require_once 'admin/includes/db.php';
 
-// Fetch all published news (Category = 'News')
-$stmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (category = 'News' OR category IS NULL OR category = '') ORDER BY created_at DESC");
+// Fetch all published events (Category = 'Events')
+$stmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND category = 'Events' ORDER BY created_at DESC");
 $stmt->execute();
 $allArticlesRaw = $stmt->fetchAll();
 $allArticles = [];
@@ -18,23 +18,23 @@ foreach ($allArticlesRaw as $article) {
     $allArticles[] = $article;
 }
 
-// Fetch recent posts for sidebar (limit 10)
+// Fetch recent event posts for sidebar (limit 10)
 $recentPosts = array_slice($allArticles, 0, 10);
 
-$page_title = 'News';
-$pageTitle = 'News - Ministry of Labour - Sri Lanka';
-$metaDescription = 'Read the latest news, press releases, media updates, and insights from the Ministry of Labour, Sri Lanka.';
-$metaKeywords = 'Ministry of Labour, Sri Lanka, News, Press Releases, Media, Updates, Notices';
+$page_title = 'Events';
+$pageTitle = 'Events - Ministry of Labour - Sri Lanka';
+$metaDescription = 'Explore upcoming and past events, ceremonies, workshops, and official programmes of the Ministry of Labour, Sri Lanka.';
+$metaKeywords = 'Ministry of Labour, Sri Lanka, Events, Workshops, Programmes, Ceremonies';
 $pageMeta = [
     'si' => [
-        'title' => 'පුවත් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
-        'desc'  => 'කම්කරු අමාත්‍යාංශයේ නවතම පුවත්, මාධ්‍ය නිවේදන සහ යාවත්කාලීන කිරීම් කියවන්න.',
-        'kw'    => 'කම්කරු අමාත්‍යාංශය, පුවත්, මාධ්‍ය නිවේදන, යාවත්කාලීන කිරීම්'
+        'title' => 'සිදුවීම් - කම්කරු අමාත්‍යාංශය - ශ්‍රී ලංකාව',
+        'desc'  => 'කම්කරු අමාත්‍යාංශයේ ඉදිරි සහ පසුගිය සිදුවීම්, වැඩමුළු සහ නිල වැඩසටහන් ගවේෂණය කරන්න.',
+        'kw'    => 'කම්කරු අමාත්‍යාංශය, සිදුවීම්, වැඩමුළු, වැඩසටහන්, උත්සව'
     ],
     'ta' => [
-        'title' => 'செய்திகள் - தொழில் அமைச்சு - இலங்கை',
-        'desc'  => 'தொழில் அமைச்சின் அண்மைய செய்திகள், ஊடக அறிக்கைகள் மற்றும் புதுப்பிப்புகளை வாசியுங்கள்.',
-        'kw'    => 'தொழில் அமைச்சு, செய்திகள், ஊடக வெளியீடுகள், புதுப்பிப்புகள்'
+        'title' => 'நிகழ்வுகள் - தொழில் அமைச்சு - இலங்கை',
+        'desc'  => 'தொழில் அமைச்சின் எதிர்வரும் மற்றும் கடந்தகால நிகழ்வுகள், பட்டறைகள் மற்றும் உத்தியோகபூர்வ நிகழ்வுகளைப் பார்வையிடுங்கள்.',
+        'kw'    => 'தொழில் அமைச்சு, நிகழ்வுகள், பட்டறைகள், உத்தியோகபூர்வ நிகழ்வுகள்'
     ]
 ];
 include 'includes/header.php';
@@ -48,7 +48,7 @@ include 'includes/sub-hero.php';
     <div class="container mx-auto max-w-[1400px]">
         <!-- Section Title -->
         <div class="text-center mb-10 md:mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('latest_news', 'Latest News') ?></h2>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-montserrat text-primary uppercase tracking-tight notranslate"><?= t('latest_events', 'Latest Events') ?></h2>
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">
@@ -58,7 +58,7 @@ include 'includes/sub-hero.php';
                 <!-- Articles Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-12" id="articles-grid">
                     <?php if (empty($allArticles)): ?>
-                        <div class="col-span-2 text-gray-500 py-4 notranslate"><?= t('no_news_found', 'No news found.') ?></div>
+                        <div class="col-span-2 text-gray-500 py-4 notranslate"><?= t('no_events_found', 'No events found.') ?></div>
                     <?php else: ?>
                         <?php foreach ($allArticles as $index => $article): ?>
                         <div class="article-card bg-white rounded-[20px] overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-lg transition-shadow duration-300 flex flex-col" data-index="<?= $index ?>">
@@ -72,17 +72,17 @@ include 'includes/sub-hero.php';
                             <div class="p-8 pt-6 pb-8 flex flex-col flex-grow">
                                 <div class="flex justify-between items-center mb-4 text-xs font-inter">
                                     <span class="text-gray-500 font-medium notranslate"><?= format_date_trilingual($article['created_at']) ?></span>
-                                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 uppercase tracking-wider inline-flex items-center gap-1.5 notranslate">
-                                        <svg class="w-3 h-3 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
-                                        <?= t('cat_news', 'News') ?>
+                                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 uppercase tracking-wider inline-flex items-center gap-1.5 notranslate">
+                                        <svg class="w-3 h-3 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <?= t('cat_events', 'Events') ?>
                                     </span>
                                 </div>
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
-                                    <a href="<?= navUrl('news/' . $article['id']) ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
+                                    <a href="<?= navUrl('events/' . $article['id']) ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
                                     <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
-                                    <a href="<?= navUrl('news/' . $article['id']) ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 notranslate"><?= t('read_more', 'Read More') ?></a>
+                                    <a href="<?= navUrl('events/' . $article['id']) ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 notranslate"><?= t('read_more', 'Read More') ?></a>
                                 </div>
                             </div>
                         </div>
@@ -93,12 +93,12 @@ include 'includes/sub-hero.php';
                 <!-- No Results State -->
                 <div id="noResultsMsg" class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12" style="display: none;">
                     <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <p class="text-[17px] font-bold text-gray-800 mb-1 notranslate"><?= t('no_news_found', 'No news found.') ?></p>
+                    <p class="text-[17px] font-bold text-gray-800 mb-1 notranslate"><?= t('no_events_found', 'No events found.') ?></p>
                     <p class="text-sm text-gray-400 notranslate"><?= t('try_different_search', 'Try adjusting your search terms.') ?></p>
                 </div>
 
-                <!-- Dynamic Clean Pagination Controls -->
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-gray-100" id="paginationControls">
+                <!-- Pagination Container -->
+                <div id="paginationControls" class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-gray-100">
                     <div class="flex items-center gap-3">
                         <span class="text-xs text-gray-400 font-inter uppercase tracking-wider font-semibold notranslate"><?= t('show', 'Show') ?>:</span>
                         <div class="relative">
@@ -113,12 +113,8 @@ include 'includes/sub-hero.php';
                             </div>
                         </div>
                     </div>
-                    <div class="text-sm text-gray-500 font-inter" id="paginationSummary">
-                        <!-- Dynamic user-friendly pagination summary -->
-                    </div>
-                    <div class="flex items-center gap-1.5" id="paginationButtons">
-                        <!-- Pagination buttons will be injected here -->
-                    </div>
+                    <div class="text-sm text-gray-500 font-inter" id="paginationSummary"></div>
+                    <div class="flex items-center gap-1.5" id="paginationButtons"></div>
                 </div>
 
             </div>
@@ -137,36 +133,38 @@ include 'includes/sub-hero.php';
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_news', 'Search news...')) ?>">
+                            <input type="text" id="searchInput" class="bg-[#FAFAFA] border border-[#E5E7EB] text-gray-900 text-[13px] rounded-xl focus:ring-secondary focus:border-secondary block w-full pl-10 py-2.5 font-inter transition-colors outline-none shadow-sm placeholder-gray-400 notranslate" placeholder="<?= htmlspecialchars(t('search_events', 'Search events...')) ?>">
                         </div>
                     </div>
 
-                    <!-- Recent Posts -->
-                    <div class="mb-10">
-                        <h3 class="text-[20px] font-semibold font-montserrat text-[#2D2D43] mb-6 notranslate"><?= t('recent_posts') ?></h3>
-                        <ul class="space-y-5">
+                    <!-- Recent News / Highlights Sidebar -->
+                    <div>
+                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                            <h3 class="text-base font-bold text-gray-900 font-montserrat flex items-center gap-2 notranslate">
+                                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                <?= t('recent_events', 'Recent Events') ?>
+                            </h3>
+                            <a href="<?= navUrl('events') ?>" class="text-xs font-semibold text-secondary hover:underline notranslate"><?= t('view_all', 'View All') ?></a>
+                        </div>
+                        <ul class="space-y-4">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="<?= navUrl('news/' . $post['id']) ?>" class="flex items-start gap-4 group">
-                                    <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
+                                <a href="<?= navUrl('events/' . $post['id']) ?>" class="group flex gap-4 items-center">
+                                    <div class="w-16 h-16 rounded-xl bg-gray-100 flex-shrink-0 overflow-hidden relative">
                                         <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
-                                            <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                            <img src="admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                         <?php else: ?>
-                                            <div class="w-full h-full flex items-center justify-center bg-slate-50 text-slate-300">
-                                                <svg class="w-5 h-5 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path></svg>
+                                            <div class="w-full h-full flex items-center justify-center bg-gray-50 text-gray-400">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                             </div>
                                         <?php endif; ?>
                                     </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h4 class="text-[13.5px] font-bold text-slate-700 group-hover:text-secondary transition-colors line-clamp-2 leading-snug notranslate" title="<?= htmlspecialchars($post['title']) ?>">
+                                    <div class="flex-grow min-w-0">
+                                        <h4 class="text-[13px] font-semibold text-gray-800 font-montserrat group-hover:text-secondary transition-colors line-clamp-2 leading-snug notranslate">
                                             <?= htmlspecialchars($post['title']) ?>
                                         </h4>
                                         <div class="flex items-center gap-2 mt-1">
-                                            <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide notranslate"><?= date('M d, Y', strtotime($post['created_at'])) ?></span>
-                                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded uppercase bg-[#13273F]/10 text-[#13273F] border border-[#13273F]/20 inline-flex items-center gap-1 notranslate">
-                                                <svg class="w-2.5 h-2.5 text-[#13273F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11h2m-2 4h6"></path></svg>
-                                                <?= t('cat_news', 'News') ?>
-                                            </span>
+                                            <span class="text-[11px] text-gray-400 font-inter notranslate"><?= format_date_trilingual($post['created_at']) ?></span>
                                         </div>
                                     </div>
                                 </a>
@@ -182,7 +180,7 @@ include 'includes/sub-hero.php';
 </section>
 
 <script>
-let newsPaginator;
+let eventsPaginator;
 
 document.addEventListener("DOMContentLoaded", () => {
     const articles = <?php echo json_encode(array_map(function($article, $i) {
@@ -193,9 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
     }, $allArticles, array_keys($allArticles))); ?>;
 
-    newsPaginator = new ContentPaginator({
+    eventsPaginator = new ContentPaginator({
         items: articles,
-        entityType: 'news',
+        entityType: 'events',
         itemSelectors: ['.article-card'],
         gridContainerId: 'articles-grid',
         defaultItemsPerPage: 6
@@ -210,11 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 article.title.includes(searchTerm) || 
                 article.content.includes(searchTerm)
             ).map(a => a.index);
-            newsPaginator.setFilteredIndexes(filtered);
+            eventsPaginator.setFilteredIndexes(filtered);
         });
     }
 
-    newsPaginator.updateUI();
+    eventsPaginator.updateUI();
 });
 </script>
 

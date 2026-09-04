@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         if ($action === 'add') {
             $cover_image = '';
             if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
-                $uploadResult = handleFileUpload($_FILES['cover_image'], '../assets/img/IAU', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
-                if ($uploadResult['success']) $cover_image = str_replace('../', '', $uploadResult['path']);
+                $uploadResult = handleFileUpload($_FILES['cover_image'], 'uploads/iau', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                if ($uploadResult['success']) $cover_image = $uploadResult['path'];
                 else $error = $uploadResult['error'];
             }
             
@@ -110,9 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                     'error' => $_FILES['additional_images']['error'][$i],
                                     'size' => $_FILES['additional_images']['size'][$i]
                                 ];
-                                $uploadResult = handleFileUpload($file, '../assets/img/IAU', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                                $uploadResult = handleFileUpload($file, 'uploads/iau', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
                                 if ($uploadResult['success']) {
-                                    $img_path = str_replace('../', '', $uploadResult['path']);
+                                    $img_path = $uploadResult['path'];
                                     $stmt_img = $pdo->prepare("INSERT INTO iau_update_images (update_id, image_path, sort_order) VALUES (?, ?, 0)");
                                     $stmt_img->execute([$album_id, $img_path]);
                                 }
@@ -136,10 +136,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             } else {
                 $cover_image = $existing['cover_image'];
                 if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] === UPLOAD_ERR_OK) {
-                    $uploadResult = handleFileUpload($_FILES['cover_image'], '../assets/img/IAU', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                    $uploadResult = handleFileUpload($_FILES['cover_image'], 'uploads/iau', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
                     if ($uploadResult['success']) {
-                        if (!empty($cover_image) && file_exists('../' . $cover_image)) @unlink('../' . $cover_image);
-                        $cover_image = str_replace('../', '', $uploadResult['path']);
+                        if (!empty($cover_image)) {
+                            if (file_exists($cover_image)) @unlink($cover_image);
+                            elseif (file_exists('../' . $cover_image)) @unlink('../' . $cover_image);
+                        }
+                        $cover_image = $uploadResult['path'];
                     } else $error = $uploadResult['error'];
                 }
                 
@@ -159,9 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                         'error' => $_FILES['additional_images']['error'][$i],
                                         'size' => $_FILES['additional_images']['size'][$i]
                                     ];
-                                    $uploadResult = handleFileUpload($file, '../assets/img/IAU', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                                    $uploadResult = handleFileUpload($file, 'uploads/iau', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
                                     if ($uploadResult['success']) {
-                                        $img_path = str_replace('../', '', $uploadResult['path']);
+                                        $img_path = $uploadResult['path'];
                                         $stmt_img = $pdo->prepare("INSERT INTO iau_update_images (update_id, image_path, sort_order) VALUES (?, ?, 0)");
                                         $stmt_img->execute([$edit_id, $img_path]);
                                     }
@@ -232,8 +235,20 @@ include 'includes/header.php';
             ?>
             <tr class="hover:bg-slate-50/60 bg-white border-b border-slate-50/70 transition-all duration-150 group">
                 <td class="py-4 px-6">
-                    <?php if(!empty($update['cover_image'])): ?>
-                        <img src="../<?= htmlspecialchars($update['cover_image']) ?>" class="w-12 h-12 rounded object-cover border border-gray-200">
+                    <?php 
+                    $coverSrc = '';
+                    if (!empty($update['cover_image'])) {
+                        if (file_exists($update['cover_image'])) {
+                            $coverSrc = $update['cover_image'];
+                        } elseif (file_exists('uploads/iau/' . basename($update['cover_image']))) {
+                            $coverSrc = 'uploads/iau/' . basename($update['cover_image']);
+                        } elseif (file_exists('../' . $update['cover_image'])) {
+                            $coverSrc = '../' . $update['cover_image'];
+                        }
+                    }
+                    ?>
+                    <?php if(!empty($coverSrc)): ?>
+                        <img src="<?= htmlspecialchars($coverSrc) ?>" class="w-12 h-12 rounded object-cover border border-gray-200">
                     <?php else: ?>
                         <div class="w-12 h-12 rounded bg-gray-100 flex items-center justify-center border border-gray-200"><span class="text-xs text-gray-400">No Img</span></div>
                     <?php endif; ?>
@@ -471,6 +486,21 @@ include 'includes/header.php';
             modal.classList.add('flex');
         }
 
+        function resolveAdminImgPath(path) {
+            if (!path) return '';
+            if (path.startsWith('http://') || path.startsWith('https://')) return path;
+            if (path.startsWith('uploads/')) {
+                return path;
+            }
+            if (path.startsWith('assets/')) {
+                return '../' + path;
+            }
+            if (path.startsWith('../')) {
+                return path;
+            }
+            return 'uploads/iau/' + path;
+        }
+
         function openEditModal(update) {
             document.getElementById('modalTitle').textContent = 'Edit Album';
             document.getElementById('formAction').value = 'edit';
@@ -484,7 +514,8 @@ include 'includes/header.php';
             // Previews
             const coverPreview = document.getElementById('cover-preview');
             if (update.cover_image) {
-                coverPreview.innerHTML = `<div class="relative group"><img loading="lazy" src="../${update.cover_image}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-2 text-center">Current</span></div></div>`;
+                const resolvedCover = resolveAdminImgPath(update.cover_image);
+                coverPreview.innerHTML = `<div class="relative group"><img loading="lazy" src="${resolvedCover}" class="h-24 w-24 object-cover rounded-lg border border-gray-200 shadow-sm"><div class="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg"><span class="text-white text-[10px] font-bold px-2 text-center">Current</span></div></div>`;
             } else {
                 coverPreview.innerHTML = '';
             }
@@ -498,10 +529,11 @@ include 'includes/header.php';
             existingPreview.innerHTML = '';
             if (update.images && update.images.length > 0) {
                 update.images.forEach(img => {
+                    const resolvedImg = resolveAdminImgPath(img.image_path);
                     const itemDiv = document.createElement('div');
                     itemDiv.className = 'relative group';
                     itemDiv.innerHTML = `
-                        <img loading="lazy" src="../${img.image_path}" class="h-20 w-20 object-cover rounded-lg border border-gray-200 shadow-sm">
+                        <img loading="lazy" src="${resolvedImg}" class="h-20 w-20 object-cover rounded-lg border border-gray-200 shadow-sm">
                         <button type="button" onclick="deleteExistingImage(${img.id}, this)" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         </button>

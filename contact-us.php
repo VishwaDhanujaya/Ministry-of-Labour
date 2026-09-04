@@ -228,15 +228,15 @@ include 'includes/sub-hero.php';
                     
                     <div class="space-y-1 mt-3">
                         <?php if($person['phone']): ?>
-                        <p class="text-xs md:text-[14px] text-gray-200">Tel: <span class="notranslate"><?php echo $person['phone']; ?></span></p>
+                        <p class="text-xs md:text-[14px] text-gray-200"><span class="notranslate" translate="no"><?= t('tel_label', 'Tel:') ?></span> <span class="notranslate"><?php echo $person['phone']; ?></span></p>
                         <?php endif; ?>
                         
                         <?php if($person['fax']): ?>
-                        <p class="text-xs md:text-[14px] text-gray-200">Fax: <span class="notranslate"><?php echo $person['fax']; ?></span></p>
+                        <p class="text-xs md:text-[14px] text-gray-200"><span class="notranslate" translate="no"><?= t('fax_label', 'Fax:') ?></span> <span class="notranslate"><?php echo $person['fax']; ?></span></p>
                         <?php endif; ?>
                         
                         <?php if($person['email']): ?>
-                        <p class="text-xs md:text-[14px] text-gray-200">Email: <a href="mailto:<?php echo $person['email']; ?>" class="hover:text-white transition-colors notranslate" translate="no"><?php echo $person['email']; ?></a></p>
+                        <p class="text-xs md:text-[14px] text-gray-200"><span class="notranslate" translate="no"><?= t('email_label', 'Email:') ?></span> <a href="mailto:<?php echo $person['email']; ?>" class="hover:text-white transition-colors notranslate" translate="no"><?php echo $person['email']; ?></a></p>
                         <?php endif; ?>
                     </div>
                 </div>

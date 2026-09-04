@@ -14,10 +14,10 @@ if (!isset($_SESSION['has_visited_site'])) {
 }
 
 
-// Fetch recent news (limit 3)
+// Fetch recent news (limit 10 for ticker & recent grid, category News only)
 $recentNewsRaw = Cache::get('home_recent_news_public', 300);
 if ($recentNewsRaw === null) {
-    $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' ORDER BY created_at DESC LIMIT 3")->fetchAll();
+    $recentNewsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (category = 'News' OR category IS NULL OR category = '') ORDER BY created_at DESC LIMIT 10")->fetchAll();
     Cache::set('home_recent_news_public', $recentNewsRaw);
 }
 $recentNews = [];
@@ -35,8 +35,8 @@ foreach ($recentNewsRaw as $news) {
 // Fetch Vacancies and Procurements for Announcements (limit 4 combined)
 $announcementsRaw = Cache::get('home_announcements', 300);
 if ($announcementsRaw === null) {
-    $vacanciesRaw = $pdo->query("SELECT id, title, 'Vacancy' as type, pdf_path, created_at, description FROM vacancies WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
-    $procurementsRaw = $pdo->query("SELECT id, title, 'Procurement' as type, pdf_path, created_at, description FROM procurements WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+    $vacanciesRaw = $pdo->query("SELECT id, title, title_si, title_ta, 'Vacancy' as type, pdf_path, created_at, description, description_si, description_ta FROM vacancies WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
+    $procurementsRaw = $pdo->query("SELECT id, title, title_si, title_ta, 'Procurement' as type, pdf_path, created_at, description, description_si, description_ta FROM procurements WHERE status = 'Published' ORDER BY created_at DESC LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
 
     $announcementsRaw = array_merge($vacanciesRaw, $procurementsRaw);
     // Sort by created_at descending
@@ -49,6 +49,13 @@ if ($announcementsRaw === null) {
 
 $announcements = [];
 foreach ($announcementsRaw as $notice) {
+    if ($current_lang === 'si') {
+        if (!empty($notice['title_si'])) $notice['title'] = $notice['title_si'];
+        if (!empty($notice['description_si'])) $notice['description'] = $notice['description_si'];
+    } elseif ($current_lang === 'ta') {
+        if (!empty($notice['title_ta'])) $notice['title'] = $notice['title_ta'];
+        if (!empty($notice['description_ta'])) $notice['description'] = $notice['description_ta'];
+    }
     $notice['content'] = $notice['description'];
     $announcements[] = $notice;
 }
@@ -283,35 +290,66 @@ if (empty($hero_sliders)) {
             <?= t('latest_news') ?>
         </div>
         
-        <div class="flex-1 overflow-hidden relative flex items-center h-full group">
-            <div class="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused] items-center">
-                <?php if(!empty($recentNews)): ?>
-                    <?php 
-                    $tickerNews = array_merge($recentNews, $recentNews, $recentNews, $recentNews); 
-                    foreach($tickerNews as $news): 
-                    ?>
-                        <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-slate-200 hover:text-amber-300 transition-colors mx-6 font-inter text-xs md:text-[13px] font-medium group/link notranslate">
-                            <?= htmlspecialchars($news['title']) ?>
-                            <svg class="w-3.5 h-3.5 ml-1.5 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                        <span class="w-1 h-1 rounded-full bg-white/20 shrink-0"></span>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <span class="text-slate-400 mx-8 font-inter text-xs"><?= htmlspecialchars(t('no_news_available', 'No recent news available.')) ?></span>
-                <?php endif; ?>
-            </div>
+        <div class="flex-1 overflow-hidden relative flex items-center h-full ticker-wrapper">
+            <!-- Left & Right subtle edge fade gradients -->
+            <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#060d15]/90 to-transparent z-10 pointer-events-none hidden md:block"></div>
+            <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#060d15]/90 to-transparent z-10 pointer-events-none hidden md:block"></div>
+
+            <?php 
+            $tickerNews = array_slice($recentNews, 0, 5);
+            if(!empty($tickerNews)): 
+            ?>
+                <div class="ticker-content flex whitespace-nowrap overflow-hidden w-full">
+                    <!-- Track 1 -->
+                    <div class="ticker-track">
+                        <?php foreach($tickerNews as $news): ?>
+                            <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-slate-200 hover:text-amber-300 transition-colors mx-6 font-inter text-xs md:text-[13px] font-medium group/link notranslate">
+                                <?= htmlspecialchars($news['title']) ?>
+                                <svg class="w-3.5 h-3.5 ml-1.5 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                            <span class="w-1 h-1 rounded-full bg-white/20 shrink-0"></span>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Track 2 (Seamless Infinite Clone) -->
+                    <div class="ticker-track" aria-hidden="true">
+                        <?php foreach($tickerNews as $news): ?>
+                            <a href="<?= navUrl('news/' . $news['id']) ?>" class="inline-flex items-center text-slate-200 hover:text-amber-300 transition-colors mx-6 font-inter text-xs md:text-[13px] font-medium group/link notranslate" tabindex="-1">
+                                <?= htmlspecialchars($news['title']) ?>
+                                <svg class="w-3.5 h-3.5 ml-1.5 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </a>
+                            <span class="w-1 h-1 rounded-full bg-white/20 shrink-0"></span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <span class="text-slate-400 mx-8 font-inter text-xs notranslate"><?= htmlspecialchars(t('no_news_available', 'No recent news available.')) ?></span>
+            <?php endif; ?>
         </div>
     </div>
 </section>
 
 <style>
-    @keyframes marquee {
+    @keyframes ticker-slide {
         0% { transform: translateX(0); }
-        100% { transform: translateX(-25%); } 
+        100% { transform: translateX(-100%); } 
     }
-    .animate-marquee {
-        animation: marquee 40s linear infinite;
+    .ticker-content {
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+    }
+    .ticker-track {
+        display: flex;
+        flex-shrink: 0;
+        min-width: 100%;
+        justify-content: space-around;
+        align-items: center;
+        animation: ticker-slide 55s linear infinite;
         will-change: transform;
+    }
+    .ticker-wrapper:hover .ticker-track {
+        animation-play-state: paused;
     }
     .swiper-pagination-bullet {
         transition: all 0.3s ease !important;
@@ -540,7 +578,7 @@ if (empty($hero_sliders)) {
         <div class="mb-12">
             <div>
                 <h2 class="section-title text-white mb-0 notranslate"><?= t('quick_links', 'Quick Links') ?></h2>
-                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left"><?= htmlspecialchars(t('quick_links_subtitle', 'Direct access to our most crucial portals and services.')) ?></p>
+                <p class="text-gray-300 font-inter font-normal text-sm md:text-base mt-3 text-left notranslate" translate="no"><?= htmlspecialchars(t('quick_links_subtitle', 'Direct access to our most crucial portals and services.')) ?></p>
             </div>
         </div>
 
@@ -568,7 +606,7 @@ if (empty($hero_sliders)) {
                             </svg>
                         </div>
                         <h3 class="focus-card-title notranslate"><?= t('ql_ampara') ?></h3>
-                        <p class="focus-card-desc"><?= htmlspecialchars(t('ql_ampara_desc', 'Book and reserve the Ministry\'s comfortable circuit bungalow in Ampara online.')) ?></p>
+                        <p class="focus-card-desc notranslate" translate="no"><?= htmlspecialchars(t('ql_ampara_desc', 'Book and reserve the Ministry\'s comfortable circuit bungalow in Ampara online.')) ?></p>
                     </div>
                 </a>
  
@@ -633,7 +671,7 @@ if (empty($hero_sliders)) {
 <section class="py-12 md:py-18 px-4 md:px-16 relative overflow-hidden bg-[#F1F5F9] border-t border-b border-slate-200/80 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]" id="news-section">
     <div class="container mx-auto">
         <div class="flex justify-between items-center mb-12" data-aos="fade-up">
-            <h2 class="section-title !mb-0 notranslate"><?= t('latest_news_events', 'Latest News & Events') ?></h2>
+            <h2 class="section-title !mb-0 notranslate"><?= t('latest_news', 'Latest News') ?></h2>
             <a href="<?= navUrl('news') ?>" class="hidden md:flex items-center space-x-2 bg-secondary border border-secondary text-white font-bold py-2.5 px-6 rounded-lg hover:bg-[#8e1b1b] hover:border-[#8e1b1b] transition-all text-xs uppercase tracking-wider notranslate">
                 <span><?= t('view_all', 'View All') ?></span>
             </a>
@@ -643,7 +681,7 @@ if (empty($hero_sliders)) {
             <?php if(empty($recentNews)): ?>
                 <div class="col-span-3 text-center text-gray-500 py-10 notranslate"><?= t('no_news_found', 'No recent news available.') ?></div>
             <?php else: ?>
-                <?php foreach($recentNews as $news): ?>
+                <?php foreach(array_slice($recentNews, 0, 3) as $news): ?>
                 <div class="news-card">
                     <div>
                         <div class="h-56 overflow-hidden bg-gray-100 flex items-center justify-center">

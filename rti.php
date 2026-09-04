@@ -77,7 +77,7 @@ include 'includes/header.php';
 $page_title = 'RTI <span class="text-2xl md:text-3xl font-medium tracking-normal pb-1">' . t('rti_sub_title', '(Right to Information)') . '</span>';
 $pageTitle = 'RTI ' . t('rti_sub_title', '(Right to Information)') . ' - Ministry of Labour - Sri Lanka';
 $breadcrumbs = [
-    ['label' => 'RTI']
+    ['label' => t('rti', 'RTI')]
 ];
 
 $metaDescription = 'Learn about the Right to Information (RTI) Act in Sri Lanka, how to request information from the Ministry of Labour, and download necessary RTI forms and documents.';
@@ -171,13 +171,13 @@ include 'includes/sub-hero.php';
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-primary/5 text-primary border border-primary/10 mb-1 notranslate">
                                         <?= t('rti_' . $type . '_officer') ?>
                                     </span>
-                                    <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug">
+                                    <h3 class="text-base font-bold font-montserrat text-gray-900 leading-snug notranslate" translate="no">
                                         <?= htmlspecialchars($officer['name']) ?>
                                     </h3>
                                 </div>
                             </div>
                             
-                            <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px]">
+                            <p class="text-xs md:text-sm font-inter text-gray-500 font-semibold mb-6 min-h-[36px] notranslate" translate="no">
                                 <?= htmlspecialchars($officer['designation']) ?>
                             </p>
                             

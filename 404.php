@@ -1,32 +1,8 @@
 <?php 
 http_response_code(404);
-$pageTitle = "404 - Page Not Found";
+require_once 'includes/translations.php';
+$pageTitle = "404 - " . t('page_not_found_title', 'Page Not Found') . " - Ministry of Labour - Sri Lanka";
 include 'includes/header.php'; 
-
-// Localized Content Arrays
-$titleText = [
-    'en' => 'Page Not Found',
-    'si' => 'පිටුව සොයාගත නොහැක',
-    'ta' => 'பக்கம் கண்டறியப்படவில்லை'
-];
-
-$descText = [
-    'en' => 'Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
-    'si' => 'ඔබ සොයන පිටුව ඉවත් කර ඇති, නම වෙනස් කර ඇති හෝ තාවකාලිකව අක්‍රිය කර තිබිය හැක.',
-    'ta' => 'நீங்கள் தேடும் பக்கம் நீக்கப்பட்டிருக்கலாம், பெயர் மாற்றப்பட்டிருக்கலாம் அல்லது தற்காலிகமாக கிடைக்காமல் போகலாம்.'
-];
-
-$btnHomeText = [
-    'en' => 'Return to Homepage',
-    'si' => 'ප්‍රධාන පිටුවට',
-    'ta' => 'முகப்புப் பக்கத்திற்கு'
-];
-
-$btnContactText = [
-    'en' => 'Contact Support',
-    'si' => 'සහාය අමතන්න',
-    'ta' => 'உதவிக்கு தொடர்பு கொள்ளவும்'
-];
 ?>
 
 <main class="min-h-[75vh] flex items-center justify-center bg-gradient-to-br from-primary/5 via-[#F9FAFB] to-secondary/5 py-16 px-4 relative overflow-hidden">
@@ -50,22 +26,22 @@ $btnContactText = [
             
             <h1 class="text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-secondary via-primary to-secondary font-montserrat tracking-tight mb-2 select-none animate-pulse">404</h1>
             
-            <h2 class="text-xl md:text-2xl font-bold text-gray-900 font-montserrat mb-4 tracking-wide uppercase">
-                <?= htmlspecialchars($titleText[$current_lang]) ?>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 font-montserrat mb-4 tracking-wide uppercase notranslate">
+                <?= t('page_not_found_title', 'Page Not Found') ?>
             </h2>
             
-            <p class="text-gray-500 mb-10 font-inter text-sm md:text-[14.5px] max-w-sm mx-auto leading-relaxed">
-                <?= htmlspecialchars($descText[$current_lang]) ?>
+            <p class="text-gray-500 mb-10 font-inter text-sm md:text-[14.5px] max-w-sm mx-auto leading-relaxed notranslate">
+                <?= t('page_not_found_desc') ?>
             </p>
             
             <!-- Modern CTA Buttons -->
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="home" class="w-full sm:w-auto inline-flex items-center justify-center bg-gradient-to-r from-primary to-[#1e3d62] text-white font-bold px-8 py-3.5 rounded-xl hover:shadow-lg hover:shadow-primary/20 active:scale-95 transition-all duration-300 text-xs tracking-wider uppercase font-montserrat">
+                <a href="home" class="w-full sm:w-auto inline-flex items-center justify-center bg-gradient-to-r from-primary to-[#1e3d62] text-white font-bold px-8 py-3.5 rounded-xl hover:shadow-lg hover:shadow-primary/20 active:scale-95 transition-all duration-300 text-xs tracking-wider uppercase font-montserrat notranslate">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path></svg>
-                    <?= htmlspecialchars($btnHomeText[$current_lang]) ?>
+                    <?= t('return_to_homepage', 'Return to Homepage') ?>
                 </a>
-                <a href="contact-us" class="w-full sm:w-auto inline-flex items-center justify-center bg-white border-2 border-gray-200 text-gray-700 font-bold px-8 py-3 rounded-xl hover:border-secondary hover:text-secondary active:scale-95 transition-all duration-300 text-xs tracking-wider uppercase font-montserrat">
-                    <?= htmlspecialchars($btnContactText[$current_lang]) ?>
+                <a href="contact-us" class="w-full sm:w-auto inline-flex items-center justify-center bg-white border-2 border-gray-200 text-gray-700 font-bold px-8 py-3 rounded-xl hover:border-secondary hover:text-secondary active:scale-95 transition-all duration-300 text-xs tracking-wider uppercase font-montserrat notranslate">
+                    <?= t('contact_support', 'Contact Support') ?>
                 </a>
             </div>
         </div>

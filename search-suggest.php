@@ -170,7 +170,31 @@ try {
         ]
     ];
 
-    // Search Static Pages
+    // Trilingual category badge translations
+    $type_labels = [
+        'Page' => [
+            'en' => 'Page',
+            'si' => 'පිටුව',
+            'ta' => 'பக்கம்'
+        ],
+        'News' => [
+            'en' => 'News',
+            'si' => 'පුවත්',
+            'ta' => 'செய்திகள்'
+        ],
+        'Vacancy' => [
+            'en' => 'Vacancy',
+            'si' => 'පුරප්පාඩු',
+            'ta' => 'காலியிடம்'
+        ],
+        'Procurement' => [
+            'en' => 'Procurement',
+            'si' => 'ප්‍රසම්පාදන',
+            'ta' => 'கொள்முதல்'
+        ]
+    ];
+
+    $lang_prefix = $current_lang . '/';
     $q_lower = mb_strtolower($query, 'UTF-8');
     $page_count = 0;
     foreach ($static_pages as $page) {
@@ -192,17 +216,15 @@ try {
         }
         
         if ($matched) {
-            $lang_prefix = $current_lang . '/';
             $results[] = [
                 'title' => $title,
                 'type' => 'Page',
+                'type_label' => $type_labels['Page'][$current_lang] ?? 'Page',
                 'url' => $lang_prefix . ltrim($page['url'], '/')
             ];
             $page_count++;
         }
     }
-
-    $lang_prefix = $current_lang . '/';
 
     // 1. Search News
     $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM news WHERE status = 'Published' AND visibility = 'public' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
@@ -220,30 +242,45 @@ try {
         $results[] = [
             'title' => $title,
             'type' => 'News',
+            'type_label' => $type_labels['News'][$current_lang] ?? 'News',
             'url' => $lang_prefix . 'news/' . $n['id']
         ];
     }
 
     // 2. Search Vacancies
-    $stmt = $pdo->prepare("SELECT id, title FROM vacancies WHERE status = 'Published' AND title LIKE ? ORDER BY created_at DESC LIMIT 5");
-    $stmt->execute([$searchTerm]);
+    $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM vacancies WHERE status = 'Published' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
+    $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
     $vacancies = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($vacancies as $v) {
+        $title = $v['title'];
+        if ($current_lang === 'si' && !empty($v['title_si'])) {
+            $title = $v['title_si'];
+        } elseif ($current_lang === 'ta' && !empty($v['title_ta'])) {
+            $title = $v['title_ta'];
+        }
         $results[] = [
-            'title' => $v['title'],
+            'title' => $title,
             'type' => 'Vacancy',
+            'type_label' => $type_labels['Vacancy'][$current_lang] ?? 'Vacancy',
             'url' => $lang_prefix . 'vacancies'
         ];
     }
 
     // 3. Search Procurements
-    $stmt = $pdo->prepare("SELECT id, title FROM procurements WHERE status = 'Published' AND title LIKE ? ORDER BY created_at DESC LIMIT 5");
-    $stmt->execute([$searchTerm]);
+    $stmt = $pdo->prepare("SELECT id, title, title_si, title_ta FROM procurements WHERE status = 'Published' AND (title LIKE ? OR title_si LIKE ? OR title_ta LIKE ?) ORDER BY created_at DESC LIMIT 5");
+    $stmt->execute([$searchTerm, $searchTerm, $searchTerm]);
     $procurements = $stmt->fetchAll(PDO::FETCH_ASSOC);
     foreach ($procurements as $p) {
+        $title = $p['title'];
+        if ($current_lang === 'si' && !empty($p['title_si'])) {
+            $title = $p['title_si'];
+        } elseif ($current_lang === 'ta' && !empty($p['title_ta'])) {
+            $title = $p['title_ta'];
+        }
         $results[] = [
-            'title' => $p['title'],
+            'title' => $title,
             'type' => 'Procurement',
+            'type_label' => $type_labels['Procurement'][$current_lang] ?? 'Procurement',
             'url' => $lang_prefix . 'procurements'
         ];
     }

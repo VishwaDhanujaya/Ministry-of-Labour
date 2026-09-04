@@ -88,10 +88,50 @@ $lang_dict = [
         'si' => 'විශේෂ නිවේදන',
         'ta' => 'சிறப்பு அறிவிப்புகள்'
     ],
-    'news' => [
+    'news_and_events' => [
         'en' => 'News & Events',
         'si' => 'පුවත් සහ සිදුවීම්',
         'ta' => 'செய்திகள் மற்றும் நிகழ்வுகள்'
+    ],
+    'news' => [
+        'en' => 'News',
+        'si' => 'පුවත්',
+        'ta' => 'செய்திகள்'
+    ],
+    'events' => [
+        'en' => 'Events',
+        'si' => 'සිදුවීම්',
+        'ta' => 'நிகழ்வுகள்'
+    ],
+    'cat_news' => [
+        'en' => 'News',
+        'si' => 'පුවත්',
+        'ta' => 'செய்திகள்'
+    ],
+    'cat_events' => [
+        'en' => 'Events',
+        'si' => 'සිදුවීම්',
+        'ta' => 'நிகழ்வுகள்'
+    ],
+    'latest_news' => [
+        'en' => 'Latest News',
+        'si' => 'නවතම පුවත්',
+        'ta' => 'அண்மைய செய்திகள்'
+    ],
+    'latest_events' => [
+        'en' => 'Latest Events',
+        'si' => 'නවතම සිදුවීම්',
+        'ta' => 'அண்மைய நிகழ்வுகள்'
+    ],
+    'no_events_found' => [
+        'en' => 'No events found.',
+        'si' => 'සිදුවීම් හමු නොවීය.',
+        'ta' => 'நிகழ்வுகள் எதுவும் காணப்படவில்லை.'
+    ],
+    'search_events' => [
+        'en' => 'Search events...',
+        'si' => 'සිදුවීම් සොයන්න...',
+        'ta' => 'நிகழ்வுகளைத் தேடுங்கள்...'
     ],
     'downloads' => [
         'en' => 'Downloads',
@@ -149,6 +189,605 @@ $lang_dict = [
         'en' => 'Subscribe',
         'si' => 'ලියාපදිංචි වන්න',
         'ta' => 'பதிவு செய்யவும்'
+    ],
+
+    // Accessibility Menu
+    'accessibility' => [
+        'en' => 'Accessibility',
+        'si' => 'ප්‍රවේශ්‍යතාව',
+        'ta' => 'அணுகல்தன்மை'
+    ],
+    'text_size' => [
+        'en' => 'Text Size',
+        'si' => 'අකුරු ප්‍රමාණය',
+        'ta' => 'உரை அளவு'
+    ],
+    'color_mode' => [
+        'en' => 'Color Mode',
+        'si' => 'වර්ණ ප්‍රකාරය',
+        'ta' => 'வண்ண முறை'
+    ],
+    'normal_colors' => [
+        'en' => 'Normal Colors',
+        'si' => 'සාමාන්‍ය වර්ණ',
+        'ta' => 'இயல்பான நிறங்கள்'
+    ],
+    'grayscale' => [
+        'en' => 'Grayscale',
+        'si' => 'අළු පරිමාණය',
+        'ta' => 'சாம்பல் நிறம்'
+    ],
+    'protanopia' => [
+        'en' => 'Protanopia (Red-blind)',
+        'si' => 'ප්‍රෝටනෝපියා (රතු-අන්ධ)',
+        'ta' => 'புரோட்டானோபியா (சிவப்பு-குருடு)'
+    ],
+    'deuteranopia' => [
+        'en' => 'Deuteranopia (Green-blind)',
+        'si' => 'ඩියුටෙරනෝපියා (කොළ-අන්ධ)',
+        'ta' => 'டியூட்டரானோபியா (பச்சை-குருடு)'
+    ],
+    'tritanopia' => [
+        'en' => 'Tritanopia (Blue-blind)',
+        'si' => 'ට්‍රයිටනෝපියා (නිල්-අන්ධ)',
+        'ta' => 'ட்ரைட்டானோபியா (நீல-குருடு)'
+    ],
+    'highlight_links' => [
+        'en' => 'Highlight Links',
+        'si' => 'සබැඳි ඉස්මතු කරන්න',
+        'ta' => 'இணைப்புகளை முன்னிலைப்படுத்துக'
+    ],
+    'text_to_speech' => [
+        'en' => 'Text-to-Speech',
+        'si' => 'හඬ කියවීම (Text-to-Speech)',
+        'ta' => 'உரையை ஒலியாக்குதல்'
+    ],
+    'enable_tts' => [
+        'en' => 'Enable Text-to-Speech',
+        'si' => 'හඬ කියවීම සක්‍රිය කරන්න',
+        'ta' => 'உரையை ஒலியாக்குதலை இயக்கு'
+    ],
+    'read_page' => [
+        'en' => 'Read Page',
+        'si' => 'මුළු පිටුවම කියවන්න',
+        'ta' => 'பக்கத்தை வாசிக்கவும்'
+    ],
+    'read_on_hover' => [
+        'en' => 'Read on Hover',
+        'si' => 'ස්පර්ශ කරන විට කියවන්න',
+        'ta' => 'சுட்டியை வைக்கும்போது வாசி'
+    ],
+    'read_on_selection' => [
+        'en' => 'Read on Selection',
+        'si' => 'තේරූ පෙළ කියවන්න',
+        'ta' => 'தேர்ந்தெடுத்ததை வாசி'
+    ],
+    'reading_aloud' => [
+        'en' => 'Reading...',
+        'si' => 'කියවමින්...',
+        'ta' => 'வாசிக்கிறது...'
+    ],
+    'stop' => [
+        'en' => 'Stop',
+        'si' => 'නවත්වන්න',
+        'ta' => 'நிறுத்து'
+    ],
+    'reset_accessibility' => [
+        'en' => 'Reset',
+        'si' => 'නැවත සකසන්න',
+        'ta' => 'மீட்டமைக்கவும்'
+    ],
+
+    // Ampara Circuit Bungalow & Online Booking
+    'circuit_bungalows' => [
+        'en' => 'Circuit Bungalows',
+        'si' => 'සංචාරක බංගලා',
+        'ta' => 'சுற்றுலா பங்களாக்கள்'
+    ],
+    'ampara' => [
+        'en' => 'Ampara',
+        'si' => 'අම්පාර',
+        'ta' => 'அம்பாறை'
+    ],
+    'ampara_circuit_bungalow' => [
+        'en' => 'Ampara Circuit Bungalow',
+        'si' => 'අම්පාර සංචාරක බංගලාව',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா'
+    ],
+    'ampara_booking_title' => [
+        'en' => 'Ampara Circuit Bungalow Booking',
+        'si' => 'අම්පාර සංචාරක බංගලාව වෙන්කිරීම',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா முன்பதிவு'
+    ],
+    'ampara_booking_meta_desc' => [
+        'en' => 'Book the Ampara Circuit Bungalow online. Fill in your reservation details, applicant information, and submit your request.',
+        'si' => 'අම්පාර සංචාරක බංගලාව මාර්ගගතව වෙන්කරවා ගන්න. ඔබගේ වෙන්කිරීමේ සහ අයදුම්කරුගේ තොරතුරු ඇතුළත් කර අයදුම්පත යොමු කරන්න.',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களாவை ஆன்லைனில் முன்பதிவு செய்யுங்கள். உங்கள் முன்பதிவு விவரங்கள், விண்ணப்பதாரர் தகவல்களை நிரப்பி விண்ணப்பிக்கவும்.'
+    ],
+    'ampara_booking_meta_kw' => [
+        'en' => 'Ampara Circuit Bungalow, Booking, Accommodation, Ministry of Labour, Sri Lanka',
+        'si' => 'අම්පාර සංචාරක බංගලාව, වෙන්කිරීම්, නවාතැන්, කම්කරු අමාත්‍යාංශය, ශ්‍රී ලංකාව',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா, முன்பதிவு, தங்குமிடம், தொழில் அமைச்சு, இலங்கை'
+    ],
+    'ampara_form_title' => [
+        'en' => 'Ampara Circuit Bungalow Reservation Form',
+        'si' => 'අම්පාර සංචාරක බංගලාව වෙන්කිරීමේ අයදුම්පත',
+        'ta' => 'அம்பாறை சுற்றுலா பங்களா முன்பதிவு படிவம்'
+    ],
+    'booking_submitted_title' => [
+        'en' => 'Application Submitted!',
+        'si' => 'අයදුම්පත සාර්ථකව ඉදිරිපත් කරන ලදී!',
+        'ta' => 'விண்ணப்பம் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!'
+    ],
+    'booking_submitted_desc' => [
+        'en' => 'Your booking application has been received and is currently <strong>Pending Approval</strong>. Once the Ministry confirms your booking, you may proceed with the payment.',
+        'si' => 'ඔබගේ වෙන්කිරීමේ අයදුම්පත ලැබී ඇති අතර එය මේ වන විට <strong>අනුමැතිය අපේක්ෂාවෙන්</strong> පවතී. අමාත්‍යාංශය ඔබගේ වෙන්කිරීම තහවුරු කළ පසු ගෙවීම් කටයුතු සිදු කළ හැක.',
+        'ta' => 'உங்கள் முன்பதிவு விண்ணப்பம் பெறப்பட்டு தற்போது <strong>ஒப்புதலுக்காக நிலுவையில் உள்ளது</strong>. அமைச்சு உங்கள் முன்பதிவை உறுதிசெய்ததும் கட்டணத்தைச் செலுத்தலாம்.'
+    ],
+    'return_to_details' => [
+        'en' => 'Return to Details',
+        'si' => 'විස්තර වෙත ආපසු යන්න',
+        'ta' => 'விவரங்களுக்குத் திரும்பு'
+    ],
+    'booking_err_failed' => [
+        'en' => 'Booking submission failed. Please try again.',
+        'si' => 'වෙන්කිරීම ඉදිරිපත් කිරීම අසාර්ථක විය. කරුණාකර නැවත උත්සාහ කරන්න.',
+        'ta' => 'முன்பதிவு சமர்ப்பிப்பது தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.'
+    ],
+    'booking_err_generic' => [
+        'en' => 'An error occurred during booking. Please try again.',
+        'si' => 'වෙන්කිරීමේදී දෝෂයක් සිදු විය. කරුණාකර නැවත උත්සාහ කරන්න.',
+        'ta' => 'முன்பதிவின் போது பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.'
+    ],
+    'booking_step_reservation' => [
+        'en' => 'Reservation',
+        'si' => 'වෙන්කිරීම',
+        'ta' => 'முன்பதிவு'
+    ],
+    'booking_step_applicant' => [
+        'en' => 'Applicant',
+        'si' => 'අයදුම්කරු',
+        'ta' => 'விண்ணப்பதாரர்'
+    ],
+    'booking_step_guests' => [
+        'en' => 'Guests',
+        'si' => 'අමුත්තන්',
+        'ta' => 'விருந்தினர்கள்'
+    ],
+    'booking_step_confirm' => [
+        'en' => 'Confirm',
+        'si' => 'තහවුරු කිරීම',
+        'ta' => 'உறுதிப்படுத்தல்'
+    ],
+    'step_1_title' => [
+        'en' => '1. Reservation Details',
+        'si' => '1. වෙන්කිරීමේ විස්තර',
+        'ta' => '1. முன்பதிவு விவரங்கள்'
+    ],
+    'cal_grid_title' => [
+        'en' => 'Live Availability Calendar Grid',
+        'si' => 'සජීවී කාමර ලබා ගැනීමේ දින දර්ශනය',
+        'ta' => 'நேரலை கிடைக்கும் தன்மை நாட்காட்டி'
+    ],
+    'cal_status_available' => [
+        'en' => 'Available',
+        'si' => 'ලබා ගත හැක',
+        'ta' => 'கிடைக்கக்கூடியவை'
+    ],
+    'cal_status_pending' => [
+        'en' => 'Pending',
+        'si' => 'සලකා බලමින්',
+        'ta' => 'நிலுவையில்'
+    ],
+    'cal_status_booked' => [
+        'en' => 'Booked',
+        'si' => 'වෙන්කර ඇත',
+        'ta' => 'முன்பதிவு செய்யப்பட்டுள்ளது'
+    ],
+    'cal_btn_prev' => [
+        'en' => 'Prev',
+        'si' => 'පෙර',
+        'ta' => 'முந்தைய'
+    ],
+    'cal_btn_next' => [
+        'en' => 'Next',
+        'si' => 'ඊළඟ',
+        'ta' => 'அடுத்து'
+    ],
+    'cal_failed_load' => [
+        'en' => 'Failed to load calendar.',
+        'si' => 'දින දර්ශනය පූරණය කිරීම අසාර්ථක විය.',
+        'ta' => 'நாட்காட்டியை ஏற்றுவதில் தோல்வி ஏற்பட்டது.'
+    ],
+    'checkin_date' => [
+        'en' => 'Check-in Date',
+        'si' => 'පැමිණීමේ දිනය',
+        'ta' => 'வருகை தேதி'
+    ],
+    'checkout_date' => [
+        'en' => 'Check-out Date',
+        'si' => 'පිටවීමේ දිනය',
+        'ta' => 'வெளியேறும் தேதி'
+    ],
+    'ph_select_checkin' => [
+        'en' => 'Select check-in date',
+        'si' => 'පැමිණීමේ දිනය තෝරන්න',
+        'ta' => 'வருகை தேதியைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'ph_select_checkout' => [
+        'en' => 'Select check-out date',
+        'si' => 'පිටවීමේ දිනය තෝරන්න',
+        'ta' => 'வெளியேறும் தேதியைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'arrival_time' => [
+        'en' => 'Expected Arrival Time',
+        'si' => 'පැමිණීමට අපේක්ෂිත වේලාව',
+        'ta' => 'எதிர்பார்க்கப்படும் வருகை நேரம்'
+    ],
+    'departure_time' => [
+        'en' => 'Expected Departure Time',
+        'si' => 'පිටවීමට අපේක්ෂිත වේලාව',
+        'ta' => 'எதிர்பார்க்கப்படும் புறப்படும் நேரம்'
+    ],
+    'ph_select_arrival_time' => [
+        'en' => 'Select arrival time',
+        'si' => 'පැමිණීමේ වේලාව තෝරන්න',
+        'ta' => 'வருகை நேரத்தைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'ph_select_departure_time' => [
+        'en' => 'Select departure time',
+        'si' => 'පිටවීමේ වේලාව තෝරන්න',
+        'ta' => 'புறப்படும் நேரத்தைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'applicant_category' => [
+        'en' => 'Applicant Category',
+        'si' => 'අයදුම්කරුගේ කාණ්ඩය',
+        'ta' => 'விண்ணப்பதாரர் வகை'
+    ],
+    'cat_mol_staff' => [
+        'en' => 'Ministry of Labour Staff',
+        'si' => 'කම්කරු අමාත්‍යාංශ කාර්ය මණ්ඩලය',
+        'ta' => 'தொழில் அமைச்சு ஊழியர்கள்'
+    ],
+    'cat_other_govt_private' => [
+        'en' => 'Other Govt / Private Sector',
+        'si' => 'වෙනත් රජයේ / පෞද්ගලික අංශය',
+        'ta' => 'பிற அரச / தனியார் துறை'
+    ],
+    'cat_foreign_visitors' => [
+        'en' => 'Foreign Visitors',
+        'si' => 'විදේශීය අමුත්තන්',
+        'ta' => 'வெளிநாட்டு பார்வையாளர்கள்'
+    ],
+    'room_selection_title' => [
+        'en' => 'Room Selection',
+        'si' => 'කාමර තෝරා ගැනීම',
+        'ta' => 'அறை தேர்வு'
+    ],
+    'btn_check_availability' => [
+        'en' => 'Check Availability',
+        'si' => 'ලබා ගැනීමේ හැකියාව පරීක්ෂා කරන්න',
+        'ta' => 'கிடைக்குந்தன்மையை சரிபார்க்கவும்'
+    ],
+    'room_checking' => [
+        'en' => 'Checking...',
+        'si' => 'පරීක්ෂා කරමින්...',
+        'ta' => 'சரிபார்க்கிறது...'
+    ],
+    'room_avail_success' => [
+        'en' => 'Rooms available for selected dates. Please select:',
+        'si' => 'තෝරාගත් දින සඳහා කාමර ලබා ගත හැක. කරුණාකර තෝරන්න:',
+        'ta' => 'தேர்ந்தெடுக்கப்பட்ட தேதிகளுக்கு அறைகள் கிடைக்கின்றன. தயவுசெய்து தேர்ந்தெடுக்கவும்:'
+    ],
+    'room_select_dates_first' => [
+        'en' => 'Please select Check-in and Check-out dates first.',
+        'si' => 'කරුණාකර පළමුව පැමිණීමේ සහ පිටවීමේ දිනයන් තෝරන්න.',
+        'ta' => 'முதலில் வருகை மற்றும் புறப்படும் தேதிகளைத் தேர்ந்தெடுக்கவும்.'
+    ],
+    'room_gf_double_ac' => [
+        'en' => 'Ground Floor Double Room (AC)',
+        'si' => 'බිම් මහලේ ද්විත්ව කාමරය (වායුසමනය කළ)',
+        'ta' => 'தரைத்தள இரட்டை அறை (ஏசி)'
+    ],
+    'room_gf_single_ac' => [
+        'en' => 'Ground Floor Single Room (AC)',
+        'si' => 'බිම් මහලේ තනි කාමරය (වායුසමනය කළ)',
+        'ta' => 'தரைத்தள ஒற்றை அறை (ஏசி)'
+    ],
+    'room_chalet_single_ac' => [
+        'en' => 'Chalet Room (Single AC)',
+        'si' => 'චැලේ කාමරය (තනි වායුසමනය කළ)',
+        'ta' => 'சாலேட் அறை (ஒற்றை ஏசி)'
+    ],
+    'room_uf_double_ac' => [
+        'en' => 'Upper Floor Double Room (AC)',
+        'si' => 'ඉහළ මහලේ ද්විත්ව කාමරය (වායුසමනය කළ)',
+        'ta' => 'மேல் தள இரட்டை அறை (ஏசி)'
+    ],
+    'room_driver_single_non_ac' => [
+        'en' => 'Driver\'s Room (Single Non-AC)',
+        'si' => 'රියදුරු කාමරය (වායුසමනය නොකළ)',
+        'ta' => 'சாரதி அறை (ஏசி அல்லாத)'
+    ],
+    'room_entire_bungalow' => [
+        'en' => 'Reserve Entire Bungalow',
+        'si' => 'සම්පූර්ණ බංගලාවම වෙන්කරවා ගැනීම',
+        'ta' => 'முழு பங்களாவையும் முன்பதிவு செய்தல்'
+    ],
+    'room_entire_bungalow_desc' => [
+        'en' => 'Exclusive access to all rooms',
+        'si' => 'සියලුම කාමර සඳහා පූර්ණ ප්‍රවේශය',
+        'ta' => 'அனைத்து அறைகளுக்கும் பிரத்தியேக அணுகல்'
+    ],
+    'room_max_guests_1' => [
+        'en' => 'Max 1 Guest',
+        'si' => 'උපරිම අමුත්තන් 1',
+        'ta' => 'அதிகபட்சம் 1 விருந்தினர்'
+    ],
+    'room_max_guests_2' => [
+        'en' => 'Max 2 Guests',
+        'si' => 'උපරිම අමුත්තන් 2',
+        'ta' => 'அதிகபட்சம் 2 விருந்தினர்கள்'
+    ],
+    'room_max_guests_4' => [
+        'en' => 'Max 4 Guests',
+        'si' => 'උපරිම අමුත්තන් 4',
+        'ta' => 'அதிகபட்சம் 4 விருந்தினர்கள்'
+    ],
+    'per_night' => [
+        'en' => 'night',
+        'si' => 'රාත්‍රියකට',
+        'ta' => 'இரவுக்கு'
+    ],
+    'room_qty_1' => [
+        'en' => '1 Room',
+        'si' => 'කාමර 1',
+        'ta' => '1 அறை'
+    ],
+    'room_qty_2' => [
+        'en' => '2 Rooms',
+        'si' => 'කාමර 2',
+        'ta' => '2 அறைகள்'
+    ],
+    'room_qty_3' => [
+        'en' => '3 Rooms',
+        'si' => 'කාමර 3',
+        'ta' => '3 அறைகள்'
+    ],
+    'step_2_title' => [
+        'en' => '2. Applicant Details',
+        'si' => '2. අයදුම්කරුගේ විස්තර',
+        'ta' => '2. விண்ணப்பதாரர் விவரங்கள்'
+    ],
+    'designation' => [
+        'en' => 'Designation',
+        'si' => 'තනතුර',
+        'ta' => 'பதவி'
+    ],
+    'nic_card' => [
+        'en' => 'National Identity Card (NIC)',
+        'si' => 'ජාතික හැඳුනුම්පත් අංකය (NIC)',
+        'ta' => 'தேசிய அடையாள அட்டை (NIC)'
+    ],
+    'passport_number' => [
+        'en' => 'Passport Number',
+        'si' => 'විදේශ ගමන් බලපත්‍ර අංකය',
+        'ta' => 'கடவுச்சீட்டு எண்'
+    ],
+    'retired_question' => [
+        'en' => 'Retired?',
+        'si' => 'විශ්‍රාමිකද?',
+        'ta' => 'ஓய்வு பெற்றவரா?'
+    ],
+    'yes' => [
+        'en' => 'Yes',
+        'si' => 'ඔව්',
+        'ta' => 'ஆம்'
+    ],
+    'no' => [
+        'en' => 'No',
+        'si' => 'නැත',
+        'ta' => 'இல்லை'
+    ],
+    'workplace_address_label' => [
+        'en' => 'Ministry/Department/Organization & Address',
+        'si' => 'අමාත්‍යාංශය / දෙපාර්තමේන්තුව / ආයතනය සහ ලිපිනය',
+        'ta' => 'அமைச்சு / திணைக்களம் / நிறுவனம் மற்றும் முகவரி'
+    ],
+    'residential_address_label' => [
+        'en' => 'Residential Address',
+        'si' => 'පුද්ගලික පදිංචි ලිපිනය',
+        'ta' => 'வசிப்பிட முகவரி'
+    ],
+    'mobile_number' => [
+        'en' => 'Mobile Number',
+        'si' => 'ජංගම දුරකථන අංකය',
+        'ta' => 'கைபேசி எண்'
+    ],
+    'office_number' => [
+        'en' => 'Office Number',
+        'si' => 'කාර්යාල දුරකථන අංකය',
+        'ta' => 'அலுவலக எண்'
+    ],
+    'step_3_title' => [
+        'en' => '3. Details of Other Guests',
+        'si' => '3. අනෙකුත් අමුත්තන් පිළිබඳ විස්තර',
+        'ta' => '3. பிற விருந்தினர்களின் விவரங்கள்'
+    ],
+    'guests_guidance' => [
+        'en' => 'Do not include children under 12 years of age. (Maximum 16 guests).',
+        'si' => 'වයස අවුරුදු 12ට අඩු ළමුන් ඇතුළත් නොකරන්න. (උපරිම අමුත්තන් 16 දෙනෙකු සඳහා පමණි).',
+        'ta' => '12 வயதுக்குட்பட்ட குழந்தைகளை சேர்க்க வேண்டாம். (அதிகபட்சம் 16 விருந்தினர்கள்).'
+    ],
+    'guests_travel_alone_note' => [
+        'en' => 'If you are traveling alone, you can remove the default guest card below.',
+        'si' => 'ඔබ තනිව ගමන් කරන්නේ නම්, පහත දැක්වෙන අමුත්තන්ගේ පෝරමය ඉවත් කළ හැක.',
+        'ta' => 'நீங்கள் தனியாகப் பயணம் செய்தால், கீழே உள்ள இயல்புநிலை விருந்தினர் அட்டையை அகற்றலாம்.'
+    ],
+    'guest_name' => [
+        'en' => 'Guest Name',
+        'si' => 'අමුත්තාගේ නම',
+        'ta' => 'விருந்தினர் பெயர்'
+    ],
+    'relationship' => [
+        'en' => 'Relationship',
+        'si' => 'ඥාති සම්බන්ධතාවය',
+        'ta' => 'உறவுமுறை'
+    ],
+    'nic_number' => [
+        'en' => 'NIC Number',
+        'si' => 'හැඳුනුම්පත් අංකය',
+        'ta' => 'அடையாள அட்டை எண்'
+    ],
+    'btn_add_guest' => [
+        'en' => 'Add Guest',
+        'si' => 'අමුත්තෙකු එක් කරන්න',
+        'ta' => 'விருந்தினரைச் சேர்க்கவும்'
+    ],
+    'step_4_title' => [
+        'en' => '4. Confirmation & Declaration',
+        'si' => '4. තහවුරු කිරීම සහ ප්‍රකාශය',
+        'ta' => '4. உறுதிப்படுத்தல் மற்றும் பிரகடனம்'
+    ],
+    'booking_summary_title' => [
+        'en' => 'Booking Details Summary',
+        'si' => 'වෙන්කිරීමේ විස්තර සාරාංශය',
+        'ta' => 'முன்பதிவு விவர சுருக்கம்'
+    ],
+    'summary_applicant_name' => [
+        'en' => 'Applicant Name',
+        'si' => 'අයදුම්කරුගේ නම',
+        'ta' => 'விண்ணப்பதாரர் பெயர்'
+    ],
+    'summary_duration' => [
+        'en' => 'Booking Duration',
+        'si' => 'වෙන්කළ කාල සීමාව',
+        'ta' => 'முன்பதிவு காலம்'
+    ],
+    'summary_rooms' => [
+        'en' => 'Selected Rooms',
+        'si' => 'තෝරාගත් කාමර',
+        'ta' => 'தேர்ந்தெடுக்கப்பட்ட அறைகள்'
+    ],
+    'summary_total_cost' => [
+        'en' => 'Total Estimated Cost',
+        'si' => 'ඇස්තමේන්තුගත මුළු මුදල',
+        'ta' => 'மொத்த மதிப்பிடப்பட்ட செலவு'
+    ],
+    'payment_instructions_title' => [
+        'en' => 'Payment Instructions',
+        'si' => 'ගෙවීම් උපදෙස්',
+        'ta' => 'கட்டண வழிமுறைகள்'
+    ],
+    'payment_deposit_to' => [
+        'en' => 'Deposit the required amount to:',
+        'si' => 'අදාළ මුදල පහත ගිණුමට තැන්පත් කරන්න:',
+        'ta' => 'தேவையான தொகையை பின்வரும் கணக்கில் செலுத்தவும்:'
+    ],
+    'payment_bank_label' => [
+        'en' => 'Bank:',
+        'si' => 'බැංකුව:',
+        'ta' => 'வங்கி:'
+    ],
+    'payment_bank_name' => [
+        'en' => 'People\'s Bank – Narahenpita Branch',
+        'si' => 'මහජන බැංකුව - නාරාහේන්පිට ශාඛාව',
+        'ta' => 'மக்கள் வங்கி - நாராஹேன்பிட்ட கிளை'
+    ],
+    'payment_acc_label' => [
+        'en' => 'Account Number:',
+        'si' => 'ගිණුම් අංකය:',
+        'ta' => 'கணக்கு எண்:'
+    ],
+    'payment_receipt_instruction' => [
+        'en' => 'Send the payment receipt via Email to %s or via WhatsApp.',
+        'si' => 'ගෙවීම් රිසිට්පත %s විද්‍යුත් තැපෑලට හෝ WhatsApp මඟින් යොමු කරන්න.',
+        'ta' => 'கட்டண ரசீதை %s மின்னஞ்சல் அல்லது WhatsApp மூலம் அனுப்பவும்.'
+    ],
+    'doc_upload_title' => [
+        'en' => 'Document Upload',
+        'si' => 'ලේඛන උඩුගත කිරීම',
+        'ta' => 'ஆவண பதிவேற்றம்'
+    ],
+    'payment_slip_label' => [
+        'en' => 'Payment Slip',
+        'si' => 'ගෙවීම් රිසිට්පත',
+        'ta' => 'கட்டண ரசீது'
+    ],
+    'approval_letter_label' => [
+        'en' => 'Approval Letter',
+        'si' => 'අනුමත ලිපිය',
+        'ta' => 'ஒப்புதல் கடிதம்'
+    ],
+    'doc_supported_formats' => [
+        'en' => 'Supported formats: JPG, JPEG, PNG, PDF (Max 5MB)',
+        'si' => 'සහය දක්වන ආකෘති: JPG, JPEG, PNG, PDF (උපරිම 5MB)',
+        'ta' => 'ஆதரிக்கப்படும் வடிவங்கள்: JPG, JPEG, PNG, PDF (அதிகபட்சம் 5MB)'
+    ],
+    'declaration_title' => [
+        'en' => 'Declaration',
+        'si' => 'ප්‍රකාශය',
+        'ta' => 'பிரகடனம்'
+    ],
+    'declaration_text' => [
+        'en' => 'I hereby declare that all the information provided above is true and correct. I have read and understood the terms and conditions of the Ampara Circuit Bungalow and agree to abide by them. I understand that the payment receipt must be emailed or sent via WhatsApp after the application is submitted.',
+        'si' => 'ඉහත මා විසින් සපයන ලද සියලු තොරතුරු සත්‍ය හා නිවැරදි බවට මෙයින් ප්‍රකාශ කරමි. අම්පාර සංචාරක බංගලාවේ නියමයන් සහ කොන්දේසි කියවා තේරුම් ගත් අතර ඒවාට එකඟ වෙමි. අයදුම්පත ඉදිරිපත් කිරීමෙන් පසු ගෙවීම් රිසිට්පත විද්‍යුත් තැපෑල හෝ WhatsApp මඟින් එවිය යුතු බව මම දනිමි.',
+        'ta' => 'மேலே வழங்கப்பட்டுள்ள அனைத்து தகவல்களும் உண்மை மற்றும் சரியானவை என்று நான் இதன்மூலம் அறிவிக்கிறேன். அம்பாறை சுற்றுலா பங்களாவின் விதிமுறைகள் மற்றும் நிபந்தனைகளை நான் படித்து புரிந்துகொண்டேன், அவற்றுக்குக் கட்டுப்பட ஒப்புக்கொள்கிறேன். விண்ணப்பம் சமர்ப்பிக்கப்பட்ட பிறகு கட்டண ரசீதை மின்னஞ்சல் அல்லது WhatsApp மூலம் அனுப்ப வேண்டும் என்பதை நான் புரிந்துகொள்கிறேன்.'
+    ],
+    'btn_back' => [
+        'en' => 'Back',
+        'si' => 'ආපසු',
+        'ta' => 'பின்செல்க'
+    ],
+    'btn_next_step' => [
+        'en' => 'Next Step',
+        'si' => 'ඊළඟ පියවර',
+        'ta' => 'அடுத்த படி'
+    ],
+    'btn_submit_app' => [
+        'en' => 'Submit Application',
+        'si' => 'අයදුම්පත ඉදිරිපත් කරන්න',
+        'ta' => 'விண்ணப்பத்தை சமர்ப்பிக்கவும்'
+    ],
+    'toast_fill_required' => [
+        'en' => 'Please fill in all required fields.',
+        'si' => 'කරුණාකර අවශ්‍ය සියලුම ක්ෂේත්‍ර පුරවන්න.',
+        'ta' => 'தேவையான அனைத்து புலங்களையும் நிரப்பவும்.'
+    ],
+    'toast_select_room' => [
+        'en' => 'Please select at least one room or the entire bungalow to proceed.',
+        'si' => 'ඉදිරියට යාමට කරුණාකර අවම වශයෙන් එක් කාමරයක් හෝ සම්පූර්ණ බංගලාව තෝරන්න.',
+        'ta' => 'தொடர குறைந்தபட்சம் ஒரு அறை அல்லது முழு பங்களாவையும் தேர்ந்தெடுக்கவும்.'
+    ],
+    'toast_max_guests' => [
+        'en' => 'Maximum 16 guests allowed.',
+        'si' => 'උපරිම අමුත්තන් 16 දෙනෙකුට පමණක් අවසර ඇත.',
+        'ta' => 'அதிகபட்சம் 16 விருந்தினர்கள் மட்டுமே அனுமதிக்கப்படுவர்.'
+    ],
+    'no_rooms_selected' => [
+        'en' => 'No rooms selected',
+        'si' => 'කාමර තෝරාගෙන නොමැත',
+        'ta' => 'அறைகள் எதுவும் தேர்ந்தெடுக்கப்படவில்லை'
+    ],
+    'total_cost_night' => [
+        'en' => 'night',
+        'si' => 'රාත්‍රියකට',
+        'ta' => 'இரவு'
+    ],
+    'est_total' => [
+        'en' => 'Est. Total',
+        'si' => 'ඇස්තමේන්තුගත එකතුව',
+        'ta' => 'மதிப்பிடப்பட்ட மொத்தம்'
+    ],
+    'nights_label' => [
+        'en' => 'Nights',
+        'si' => 'රාත්‍රී',
+        'ta' => 'இரவுகள்'
+    ],
+    'night_single_label' => [
+        'en' => 'Night',
+        'si' => 'රාත්‍රිය',
+        'ta' => 'இரவு'
     ],
 
     // Quick Navigation & Links
@@ -1531,12 +2170,12 @@ $lang_dict = [
     ],
     'iau_updates' => [
         'en' => 'IAU Updates',
-        'si' => 'අභ්‍යන්තර කටයුතු ඒකකයේ නවතම තත්වය',
+        'si' => 'IAU නවතම තත්වය',
         'ta' => 'உள்ளக விவகாரங்கள் பிரிவு புதுப்பிப்புகள்'
     ],
     'iau_downloads' => [
         'en' => 'IAU Downloads',
-        'si' => 'අභ්‍යන්තර කටයුතු ඒකකයේ බාගත කිරීම්',
+        'si' => 'IAU බාගත කිරීම්',
         'ta' => 'உள்ளக விவகாரங்கள் பிரிவு பதிவிறக்கங்கள்'
     ],
 
@@ -2054,6 +2693,361 @@ $lang_dict = [
         'en' => 'Filter by Category',
         'si' => 'ප්‍රවර්ගය අනුව තෝරන්න',
         'ta' => 'வகை வாரியாக வடிகட்டவும்'
+    ],
+    // 404 Error Page
+    'page_not_found_title' => [
+        'en' => 'Page Not Found',
+        'si' => 'පිටුව සොයාගත නොහැක',
+        'ta' => 'பக்கம் கண்டறியப்படவில்லை'
+    ],
+    'page_not_found_desc' => [
+        'en' => 'Oops! The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.',
+        'si' => 'ඔබ සොයන පිටුව ඉවත් කර ඇති, නම වෙනස් කර ඇති හෝ තාවකාලිකව අක්‍රිය කර තිබිය හැක.',
+        'ta' => 'நீங்கள் தேடும் பக்கம் நீக்கப்பட்டிருக்கலாம், பெயர் மாற்றப்பட்டிருக்கலாம் அல்லது தற்காலிகமாக கிடைக்காமல் போகலாம்.'
+    ],
+    'return_to_homepage' => [
+        'en' => 'Return to Homepage',
+        'si' => 'ප්‍රධාන පිටුවට',
+        'ta' => 'முகப்புப் பக்கத்திற்கு'
+    ],
+    'contact_support' => [
+        'en' => 'Contact Support',
+        'si' => 'සහාය අමතන්න',
+        'ta' => 'உதவிக்கு தொடர்பு கொள்ளவும்'
+    ],
+    // Complaints Page
+    'complaints_page_title' => [
+        'en' => 'Complaints',
+        'si' => 'පැමිණිලි',
+        'ta' => 'முறைப்பாடுகள்'
+    ],
+    'complaints_meta_desc' => [
+        'en' => 'Submit your complaints to the Department of Labour CMS portal or escalate them directly to the Ministry of Labour via WhatsApp.',
+        'si' => 'කම්කරු දෙපාර්තමේන්තුවේ CMS ද්වාරය හරහා පැමිණිලි ඉදිරිපත් කරන්න හෝ කම්කරු අමාත්‍යාංශය WhatsApp මඟින් සම්බන්ධ කරගන්න.',
+        'ta' => 'தொழிலாளர் திணைக்களத்தின் CMS போர்டல் மூலம் உங்கள் முறைப்பாடுகளைச் சமர்ப்பிக்கவும் அல்லது வாட்ஸ்அப் மூலம் தொழில் அமைச்சிற்கு அனுப்பவும்.'
+    ],
+    'complaints_meta_keywords' => [
+        'en' => 'Complaints, Department of Labour CMS, WhatsApp Complaint, Ministry of Labour, Sri Lanka',
+        'si' => 'පැමිණිලි, කම්කරු දෙපාර්තමේන්තු CMS, WhatsApp පැමිණිලි, කම්කරු අමාත්‍යාංශය, ශ්‍රී ලංකාව',
+        'ta' => 'முறைப்பாடுகள், தொழிலாளர் திணைக்களம் CMS, WhatsApp முறைப்பாடு, தொழில் அமைச்சு, இலங்கை'
+    ],
+    'complaints_official_channels' => [
+        'en' => 'Official Channels',
+        'si' => 'නිල මාර්ග',
+        'ta' => 'உத்தியோகபூர்வ சேனல்கள்'
+    ],
+    'complaints_lodge_title' => [
+        'en' => 'Lodge a Complaint',
+        'si' => 'පැමිණිල්ලක් ඉදිරිපත් කිරීම',
+        'ta' => 'முறைப்பாட்டைச் சமர்ப்பித்தல்'
+    ],
+    'complaints_intro_p' => [
+        'en' => 'The Ministry of Labour, in coordination with the Department of Labour, provides official channels to submit, track, and resolve employee and public complaints. Please follow the steps below to ensure your complaint is routed and addressed effectively.',
+        'si' => 'සේවකයින්ගේ සහ මහජනතාවගේ පැමිණිලි ඉදිරිපත් කිරීම, සොයා බැලීම සහ කඩිනම් කිරීම සඳහා කම්කරු අමාත්‍යාංශය සහ කම්කරු දෙපාර්තමේන්තුව ඒකාබද්ධව නිල මාර්ග සපයයි. ඔබගේ පැමිණිල්ල නිවැරදිව යොමු කිරීමට පහත පියවර අනුගමනය කරන්න.',
+        'ta' => 'தொழிலாளர்கள் மற்றும் பொதுமக்களின் முறைப்பாடுகளைச் சமர்ப்பிக்கவும், கண்காணிக்கவும் மற்றும் விரைவுபடுத்தவும் தொழில் அமைச்சு, தொழிலாளர் திணைக்களத்துடன் இணைந்து உத்தியோகபூர்வ வழிகளை வழங்குகிறது. முறைப்பாட்டைச் சரியாக அனுப்ப கீழே உள்ள வழிமுறைகளைப் பின்பற்றவும்.'
+    ],
+    'cms_card_title' => [
+        'en' => 'Step 1: Department of Labour CMS Portal',
+        'si' => 'පියවර 1: කම්කරු දෙපාර්තමේන්තුවේ CMS ද්වාරය',
+        'ta' => 'படி 1: தொழிலாளர் திணைக்களம் CMS போர்டல்'
+    ],
+    'cms_card_desc' => [
+        'en' => 'To submit your complaint, please use the link below to access the official Department of Labour CMS portal. This is the primary and formal channel for registering complaints.',
+        'si' => 'ඔබගේ පැමිණිල්ල ඉදිරිපත් කිරීමට, කරුණාකර කම්කරු දෙපාර්තමේන්තුවේ නිල CMS ද්වාරය වෙත පිවිසීමට පහත සබැඳිය භාවිතා කරන්න:',
+        'ta' => 'உங்கள் முறைப்பாட்டைச் சமர்ப்பிக்க, தொழிலாளர் திணைக்களத்தின் உத்தியோகபூர்வ CMS போர்ட்டலை அணுக கீழே உள்ள இணைப்பைப் பயன்படுத்தவும்:'
+    ],
+    'cms_bullet_1' => [
+        'en' => 'Formal registration of dispute details and workplace issues',
+        'si' => 'සේවා ස්ථාන ගැටලු සහ ආරවුල් පිළිබඳ නිල ලියාපදිංචිය',
+        'ta' => 'வேலைஸ்தல பிரச்சனைகள் மற்றும் தகராறுகளின் உத்தியோகபூர்வ பதிவு'
+    ],
+    'cms_bullet_2' => [
+        'en' => 'Official tracking number provided instantly upon submission',
+        'si' => 'පැමිණිල්ල ඉදිරිපත් කළ වහාම නිල යොමු අංකයක් ලබාදීම',
+        'ta' => 'சமர்ப்பித்தவுடன் உடனடியாக வழங்கப்படும் உத்தியோகபூர்வ குறிப்பு எண்'
+    ],
+    'cms_bullet_3' => [
+        'en' => 'Complaints are routed directly to designated Department officers',
+        'si' => 'දෙපාර්තමේන්තුවේ නම් කළ නිලධාරීන් විසින් සෘජුවම විමර්ශන මෙහෙයවීම',
+        'ta' => 'திணைக்களத்தின் நியமிக்கப்பட்ட அதிகாரிகளால் நேரடியாகக் கையாளப்படும்'
+    ],
+    'cms_btn_text' => [
+        'en' => 'Access Labour CMS Portal',
+        'si' => 'CMS ද්වාරය වෙත පිවිසෙන්න',
+        'ta' => 'CMS போர்ட்டலை அணுகவும்'
+    ],
+    'whatsapp_card_title' => [
+        'en' => 'Step 2: Ministry WhatsApp Escalation',
+        'si' => 'පියවර 2: අමාත්‍යාංශයේ WhatsApp සේවාව',
+        'ta' => 'படி 2: அமைச்சு வாட்ஸ்அப் (WhatsApp) சேவை'
+    ],
+    'whatsapp_card_desc' => [
+        'en' => 'If you do not receive a satisfactory response to your complaint submitted through the CMS portal above, please contact the Ministry of Labour via WhatsApp:',
+        'si' => 'ඉහත සබැඳිය හරහා ඉදිරිපත් කරන ලද ඔබගේ පැමිණිල්ලට සතුටුදායක ප්‍රතිචාරයක් නොලැබුනේ නම්, කරුණාකර කම්කරු අමාත්‍යාංශය අපගේ නිල WhatsApp අංකය ඔස්සේ සම්බන්ධ කරගන්න:',
+        'ta' => 'மேலே உள்ள இணைப்பின் மூலம் சமர்ப்பிக்கப்பட்ட உங்கள் முறைப்பாட்டிற்கு திருப்திகரமான பதில் கிடைக்கவில்லை எனின், தயவுசெய்து தொழில் அமைச்சை எமது உத்தியோகபூர்வ வாட்ஸ்அப் எண் மூலம் தொடர்பு கொள்ளவும்:'
+    ],
+    'whatsapp_bullet_1' => [
+        'en' => 'Direct escalation channel to Ministry representatives',
+        'si' => 'අමාත්‍යාංශ නිලධාරීන් වෙත සෘජුවම පැමිණිල්ල යොමු කිරීමේ අවස්ථාව',
+        'ta' => 'அமைச்சின் பிரதிநிதிகளுக்கான நேரடி மேல்முறையீட்டு சேனல்'
+    ],
+    'whatsapp_bullet_2' => [
+        'en' => 'Requires a valid Department of Labour CMS reference number',
+        'si' => 'කම්කරු දෙපාර්තමේන්තුවේ වලංගු CMS යොමු අංකය ඉදිරිපත් කිරීම අවශ්‍ය වේ',
+        'ta' => 'செல்லுபடியாகும் தொழிலாளர் திணைக்களம் CMS குறிப்பு எண் தேவைப்படும்'
+    ],
+    'whatsapp_bullet_3' => [
+        'en' => 'Quick turnaround for unresolved inquiries and status updates',
+        'si' => 'විසඳා නොමැති ගැටලු පිළිබඳ ඉක්මන් විමසීම් සහ ප්‍රගති සමාලෝචන',
+        'ta' => 'தீர்க்கப்படாத விசாரணைகள் மற்றும் நிலை புதுப்பிப்புகளுக்கான விரைவான பதில்'
+    ],
+    'whatsapp_btn_label' => [
+        'en' => 'Contact via WhatsApp',
+        'si' => 'WhatsApp මඟින් සම්බන්ධ වන්න',
+        'ta' => 'வாட்ஸ்அப் மூலம் தொடர்பு கொள்ளவும்'
+    ],
+    'complaints_guidance_title' => [
+        'en' => 'Important Guidance',
+        'si' => 'වැදගත් උපදෙස්',
+        'ta' => 'முக்கிய வழிகாட்டுதல்'
+    ],
+    'complaints_guidance_text' => [
+        'en' => 'Please ensure you first attempt to submit your complaint via the Department of Labour CMS portal. This ensures all formal records are generated and processed through appropriate legal channels. Keep any reference numbers for subsequent WhatsApp escalation inquiries.',
+        'si' => 'පළමුව කම්කරු දෙපාර්තමේන්තුවේ CMS ද්වාරය හරහා පැමිණිල්ල ඉදිරිපත් කිරීමට කටයුතු කරන්න. එමඟින් අදාළ නීතිමය අංශ හරහා පැමිණිල්ල විමර්ශනය කිරීමට අවස්ථාව ලැබෙනු ඇත. පසුකාලීන විමසීම් සඳහා එහි සඳහන් යොමු අංකය සුරක්ෂිතව තබා ගන්න.',
+        'ta' => 'முதலில் தொழிலாளர் திணைக்களத்தின் CMS போர்டல் மூலம் உங்கள் முறைப்பாட்டைச் சமர்ப்பிக்க முயற்சிக்கவும். இதன் மூலம் அனைத்து உத்தியோகபூர்வ ஆவணங்களும் சட்டத் திணைக்களங்கள் மூலம் செயலாக்கப்படும். வாட்ஸ்அப் மூலம் மேல்முறையீடு செய்ய அதன் குறிப்பு எண்ணைச் சேமித்துக்கொள்ளவும்.'
+    ],
+    // Contact Modal Prefix Labels
+    'tel_label' => [
+        'en' => 'Tel:',
+        'si' => 'දුරකථන:',
+        'ta' => 'தொலைபேசி:'
+    ],
+    'fax_label' => [
+        'en' => 'Fax:',
+        'si' => 'ෆැක්ස්:',
+        'ta' => 'தொலைநகல்:'
+    ],
+    'email_label' => [
+        'en' => 'Email:',
+        'si' => 'විද්‍යුත් තැපෑල:',
+        'ta' => 'மின்னஞ்சல்:'
+    ],
+    // Pagination & Search UI Keys
+    'pagination_prev' => [
+        'en' => 'Prev',
+        'si' => 'පෙර',
+        'ta' => 'முந்தைய'
+    ],
+    'pagination_next' => [
+        'en' => 'Next',
+        'si' => 'මීළඟ',
+        'ta' => 'அடுத்தது'
+    ],
+    'events_plural' => [
+        'en' => 'events',
+        'si' => 'සිදුවීම්',
+        'ta' => 'நிகழ்வுகள்'
+    ],
+    'event_singular' => [
+        'en' => 'event',
+        'si' => 'සිදුවීම',
+        'ta' => 'நிகழ்வு'
+    ],
+    'search_searching' => [
+        'en' => 'Searching records...',
+        'si' => 'වාර්තා සොයමින් පවතී...',
+        'ta' => 'பதிவுகள் தேடப்படுகின்றன...'
+    ],
+    'search_no_matches' => [
+        'en' => 'No matches found',
+        'si' => 'ගැලපෙන ප්‍රතිඵල හමු නොවීය',
+        'ta' => 'பொருத்தமான முடிவுகள் எதுவும் கிடைக்கவில்லை'
+    ],
+    'search_try_adjusting_keywords' => [
+        'en' => 'Try adjusting keywords or check spelling',
+        'si' => 'මූලපද වෙනස් කර හෝ අක්ෂර වින්‍යාසය පරීක්ෂා කරන්න',
+        'ta' => 'முக்கிய வார்த்தைகளை மாற்றி அல்லது எழுத்துப் பிழையைச் சரிபார்க்கவும்'
+    ],
+    'search_failed_fetch' => [
+        'en' => 'Failed to fetch suggestions',
+        'si' => 'යෝජනා ලබා ගැනීම අසාර්ථක විය',
+        'ta' => 'பரிந்துரைகளைப் பெறுவதில் தோல்வி'
+    ],
+    // Additional UI & Component Translation Keys
+    'book_now' => [
+        'en' => 'Book Now',
+        'si' => 'දැන් වෙන්කරන්න',
+        'ta' => 'இப்போதே முன்பதிவு செய்யுங்கள்'
+    ],
+    'close_btn' => [
+        'en' => 'Close',
+        'si' => 'වසන්න',
+        'ta' => 'மூடுக'
+    ],
+    'try_different_search' => [
+        'en' => 'Try adjusting your search terms.',
+        'si' => 'ඔබගේ සෙවුම් පද වෙනස් කර නැවත උත්සාහ කරන්න.',
+        'ta' => 'உங்கள் தேடல் சொற்களை சரிசெய்து மீண்டும் முயற்சிக்கவும்.'
+    ],
+    'show' => [
+        'en' => 'Show',
+        'si' => 'පෙන්වන්න',
+        'ta' => 'காட்டு'
+    ],
+    'all' => [
+        'en' => 'All',
+        'si' => 'සියල්ල',
+        'ta' => 'அனைத்தும்'
+    ],
+    'recent_events' => [
+        'en' => 'Recent Events',
+        'si' => 'මෑතකාලීන සිදුවීම්',
+        'ta' => 'சமீபத்திய நிகழ்வுகள்'
+    ],
+    'try_adjusting_filters' => [
+        'en' => 'Try adjusting your filters or search keywords',
+        'si' => 'ඔබගේ පෙරහන් හෝ සෙවුම් වචන වෙනස් කර නැවත උත්සාහ කරන්න',
+        'ta' => 'உங்கள் வடிப்பான்கள் அல்லது தேடல் முக்கிய வார்த்தைகளை மாற்றி முயற்சிக்கவும்'
+    ],
+    'no_announcements_available' => [
+        'en' => 'No announcements available at the moment.',
+        'si' => 'මෙම අවස්ථාවේදී නිවේදන කිසිවක් නොමැත.',
+        'ta' => 'தற்போது எந்த அறிவிப்புகளும் கிடைக்கப்பெறவில்லை.'
+    ],
+    'search_publications_placeholder' => [
+        'en' => 'Search publications by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව ප්‍රකාශන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது திகதி மூலம் வெளியீடுகளைத் தேடுங்கள்...'
+    ],
+    'published' => [
+        'en' => 'Published',
+        'si' => 'පළ කළ දිනය',
+        'ta' => 'வெளியிடப்பட்டது'
+    ],
+    'no_publications_found' => [
+        'en' => 'No publications matched your search',
+        'si' => 'ඔබගේ සෙවීමට ගැළපෙන ප්‍රකාශන කිසිවක් හමු නොවීය',
+        'ta' => 'உங்கள் தேடலுக்கு ஏற்ற வெளியீடுகள் எதுவும் காணப்படவில்லை'
+    ],
+    'tel_lbl' => [
+        'en' => 'Tel:',
+        'si' => 'දුරකථන:',
+        'ta' => 'தொலைபேசி:'
+    ],
+    'fax_lbl' => [
+        'en' => 'Fax:',
+        'si' => 'ෆැක්ස්:',
+        'ta' => 'தொலைநகல்:'
+    ],
+    'email_lbl' => [
+        'en' => 'Email:',
+        'si' => 'විද්‍යුත් තැපෑල:',
+        'ta' => 'மின்னஞ்சல்:'
+    ],
+    'no_documents_found' => [
+        'en' => 'No documents matched your search',
+        'si' => 'ඔබගේ සෙවීමට ගැළපෙන ලේඛන කිසිවක් හමු නොවීය',
+        'ta' => 'உங்கள் தேடலுக்கு ஏற்ற ஆவணங்கள் எதுவும் காணப்படவில்லை'
+    ],
+    'search_notices_placeholder' => [
+        'en' => 'Search special notices by title or date...',
+        'si' => 'මාතෘකාව හෝ දිනය අනුව විශේෂ නිවේදන සොයන්න...',
+        'ta' => 'தலைப்பு அல்லது திகதி மூலம் சிறப்பு அறிவிப்புகளைத் தேடுங்கள்...'
+    ],
+    'no_notices_found' => [
+        'en' => 'No notices matched your search',
+        'si' => 'ඔබගේ සෙවීමට ගැළපෙන නිවේදන කිසිවක් හමු නොවීය',
+        'ta' => 'உங்கள் தேடலுக்கு ஏற்ற அறிவிப்புகள் எதுவும் காணப்படவில்லை'
+    ],
+    'no_vacancies_found' => [
+        'en' => 'No vacancies matched your search',
+        'si' => 'ඔබගේ සෙවීමට ගැළපෙන පුරප්පාඩු කිසිවක් හමු නොවීය',
+        'ta' => 'உங்கள் தேடலுக்கு ஏற்ற வெற்றிடங்கள் எதுவும் காணப்படவில்லை'
+    ],
+    'select_pdf_version' => [
+        'en' => 'Select Language PDF Version',
+        'si' => 'භාෂා මාධ්‍ය අනුව PDF ලේඛනය තෝරන්න',
+        'ta' => 'மொழிப் பதிப்பிற்கான PDF ஐத் தேர்ந்தெடுக்கவும்'
+    ],
+    'published_prefix' => [
+        'en' => 'Published: ',
+        'si' => 'පළ කළ දිනය: ',
+        'ta' => 'வெளியிடப்பட்டது: '
+    ],
+    'ref_prefix' => [
+        'en' => 'Ref: ',
+        'si' => 'යොමු අංකය: ',
+        'ta' => 'குறிப்பு: '
+    ],
+    'doc_title' => [
+        'en' => 'Document Title',
+        'si' => 'ලේඛන මාතෘකාව',
+        'ta' => 'ஆவணத்தின் தலைப்பு'
+    ],
+    'published_date' => [
+        'en' => 'Published Date',
+        'si' => 'ප්‍රකාශිත දිනය',
+        'ta' => 'வெளியிடப்பட்ட தேதி'
+    ],
+    'pdf_english_desc' => [
+        'en' => 'Official English Document',
+        'si' => 'ඉංග්‍රීසි මාධ්‍ය නිල ලේඛනය',
+        'ta' => 'ஆங்கில மொழி அதிகாரப்பூர்வ ஆவணம்'
+    ],
+    'pdf_sinhala_desc' => [
+        'en' => 'Official Sinhala Document',
+        'si' => 'සිංහල මාධ්‍ය නිල ලේඛනය',
+        'ta' => 'சிங்கள மொழி அதிகாரப்பூர்வ ஆவணம்'
+    ],
+    'pdf_tamil_desc' => [
+        'en' => 'Official Tamil Document',
+        'si' => 'දෙමළ මාධ්‍ය නිල ලේඛනය',
+        'ta' => 'தமிழ் மொழி அதிகாரப்பூர்வ ஆவணம்'
+    ],
+    'no_desc_provided' => [
+        'en' => 'No description provided.',
+        'si' => 'විස්තරයක් සපයා නොමැත.',
+        'ta' => 'விளக்கம் எதுவும் வழங்கப்படவில்லை.'
+    ],
+    'personalize_view' => [
+        'en' => 'Personalize View',
+        'si' => 'දසුන සකසන්න',
+        'ta' => 'தோற்றத்தை தனிப்பயனாக்குங்கள்'
+    ],
+    'choose_preferred_language' => [
+        'en' => 'Choose your preferred language to continue',
+        'si' => 'ඉදිරියට යාමට ඔබ කැමති භාෂාව තෝරන්න',
+        'ta' => 'தொடர உங்கள் விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'dismiss' => [
+        'en' => 'Dismiss',
+        'si' => 'ඉවත් කරන්න',
+        'ta' => 'நிராகரி'
+    ],
+    'subscribed_success' => [
+        'en' => 'Successfully subscribed!',
+        'si' => 'සාර්ථකව ලියාපදිංචි විය!',
+        'ta' => 'வெற்றிகரமாக பதிவு செய்யப்பட்டது!'
+    ],
+    'booking_modal_instructions' => [
+        'en' => 'Please fill in your details to submit a reservation request. Grey dates in the calendar are already booked.',
+        'si' => 'වෙන්කිරීමේ ඉල්ලීමක් ඉදිරිපත් කිරීමට කරුණාකර ඔබගේ තොරතුරු පුරවන්න. දිනදර්ශනයේ අළු පැහැති දින දැනටමත් වෙන්කර ඇත.',
+        'ta' => 'முன்பதிவு கோரிக்கையை சமர்ப்பிக்க உங்கள் விவரங்களை நிரப்பவும். நாட்காட்டியில் சாம்பல் நிற தேதிகள் ஏற்கனவே முன்பதிவு செய்யப்பட்டுள்ளன.'
+    ],
+    'booking_select_dates_first' => [
+        'en' => 'Please select dates first to see availability',
+        'si' => 'ලබා ගත හැකි දැයි බැලීමට කරුණාකර පළමුව දින තෝරන්න',
+        'ta' => 'கிடைக்கும் தன்மையைப் பார்க்க முதலில் தேதிகளைத் தேர்ந்தெடுக்கவும்'
+    ],
+    'ph_applicant_name' => [
+        'en' => 'Enter applicant name',
+        'si' => 'අයදුම්කරුගේ නම ඇතුළත් කරන්න',
+        'ta' => 'விண்ணப்பதாரரின் பெயரை உள்ளிடவும்'
+    ],
+    'select_language' => [
+        'en' => 'Select Language',
+        'si' => 'භාෂාව තෝරන්න',
+        'ta' => 'மொழியைத் தேர்ந்தெடுக்கவும்'
     ],
 ];
 

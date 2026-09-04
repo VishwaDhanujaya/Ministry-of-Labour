@@ -143,6 +143,149 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
+### 2026-09-04 (Refine IAU Navbar Sinhala Labels)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Refined IAU Dropdown & Navigation Labels**: Updated `iau_updates` and `iau_downloads` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) to use the concise `IAU` prefix in Sinhala (`IAU නවතම තත්වය` and `IAU බාගත කිරීම්` instead of the lengthy `අභ්‍යන්තර කටයුතු ඒකකයේ...`), keeping navbar dropdowns and breadcrumbs compact and readable.
+
+### 2026-09-04 (Complete Removal of Client-Side Google Translate from Frontend)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Client-Side Google Translate Widget & Script**: Removed the external `https://translate.google.com/translate_a/element.js` script tag and `#google_translate_element` DOM container.
+  - **Removed Obsolete CSS Overrides**: Cleaned out redundant CSS rules targeting Google Translate frames, banner wrappers, text highlighting, and tooltips (`.goog-te-*`, `#goog-gt-tt`, `div[id*="goog"]`, `font` overrides).
+  - **Streamlined Language Switching Flow**: Refactored `changeLanguage()` and `getActiveLanguage()` in `header.php` to operate entirely on native PHP trilingual cookie persistence (`lang`) and clean URL routing (`/si/...`, `/ta/...`, `/en/...`), eliminating all client-side `googtrans` cookie writes and auto-translation retry loops while automatically cleaning any legacy `googtrans` cookies from client storage.
+  - **100% Native Trilingual Operation**: Frontend now relies entirely on the server-side multilingual engine (`includes/translations.php` and database `_si` / `_ta` columns) with zero external script latency or layout shift.
+
+### 2026-09-03 (Comprehensive Frontend Trilingual Verification & Header Sequence Fixes)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [404.php](file:///c:/xampp/htdocs/Ministry-of-Labour/404.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Full Frontend Audit Verification**: Executed automated simulated rendering tests across all 21 public frontend pages in English, Sinhala, and Tamil. Verified 100% dictionary completeness (all 574 unique keys contain complete, non-empty, genuine Sinhala and Tamil translations).
+  - **Header Inclusion Sequence Alignment**: Adjusted inclusion sequence in `complaints.php`, `ampara-circuit-bungalow-booking.php`, and `404.php` so `includes/header.php` and `translations.php` are initialized prior to calling `t(...)` for page metadata.
+  - **Localized Drawer Language Heading**: Added `select_language` translation key and wrapped the mobile drawer language selector heading in `includes/header.php`.
+
+### 2026-09-03 (Localize Frontend Breadcrumbs Arrays)
+* **Files:**
+  - [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Multilingual Breadcrumb Trails**: Replaced static English strings in `$breadcrumbs` arrays across IAU Downloads (`t('iau')`, `t('downloads')`), IAU Updates (`t('iau')`, `t('iau_updates')`), Local Publications (`t('learning_platforms')`, `t('local_publications')`), Foreign Publications (`t('learning_platforms')`, `t('foreign_publications')`), IAU (`t('iau')`), and RTI (`t('rti')`) with dynamic `t()` helper calls.
+  - **Header Inclusion Sequence**: Shifted `include 'includes/header.php'` above the `$breadcrumbs` definitions on publications pages to guarantee that `$current_lang` and translation helpers are initialized prior to breadcrumb resolution.
+
+### 2026-09-03 (Localize Hardcoded English Strings in Frontend Templates & Modals)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Trilingual Dictionary Expansion**: Added 14 new translation dictionary entries (`ref_prefix`, `doc_title`, `published_date`, `pdf_english_desc`, `pdf_sinhala_desc`, `pdf_tamil_desc`, `no_desc_provided`, `personalize_view`, `choose_preferred_language`, `dismiss`, `subscribed_success`, `booking_modal_instructions`, `booking_select_dates_first`, `ph_applicant_name`).
+  - **Downloads Grid & Modal**: Wrapped hardcoded `Ref: `, `Category`, `Document Title`, `Select Language PDF Version`, `English PDF`, `Official English Document`, and `Download` labels in [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php) with `t()` translation helpers and dynamic JS prefixing.
+  - **Footer Previews & Booking Modal**: Localized the preview detail modal (`Category`, `Published Date`, `Download`, `No description provided.`) and bungalow booking instructions/placeholders in [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php).
+  - **Header Accessibility & Mobile Language Popup**: Localized `Personalize View`, `Choose your preferred language to continue`, and `Dismiss` in [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php).
+  - **Newsletter Dynamic Toast**: Integrated `data-subscribed-msg` attribute in the footer form and updated [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js) to display trilingual subscription feedback.
+
+### 2026-09-03 (Add 20 Missing Translation Keys to Central Dictionary)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Added 20 Missing Translation Keys**: Added trilingual definitions (English, Sinhala, Tamil) for all 20 translation keys called across frontend pages (`book_now`, `close_btn`, `try_different_search`, `show`, `all`, `recent_events`, `try_adjusting_filters`, `no_announcements_available`, `search_publications_placeholder`, `published`, `no_publications_found`, `tel_lbl`, `fax_lbl`, `email_lbl`, `no_documents_found`, `search_notices_placeholder`, `no_notices_found`, `no_vacancies_found`, `select_pdf_version`, `published_prefix`).
+  - **100% Dictionary Coverage**: Verified that all 717 `t()` translation calls across the entire codebase now have full English, Sinhala, and Tamil coverage.
+
+### 2026-09-02 (Full-Width Continuous Twin-Track Marquee on Homepage)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Gapless Continuous Ribbon Architecture**: Removed artificial `min-width: 100%` stretching which caused blank gaps/breaks. Set track elements to their natural item widths with a 12-item auto-padded array (`tickerTrack`), ensuring Track 1 and Track 2 flow directly into each other with zero gaps, zero breaks, and identical item spacing.
+  - **Exact Brand Colors Maintained**: Kept original slate-200 text, amber hover colors, and subtle white divider dots.
+  - **Increased Query Ceiling**: Increased news query limit to 10 for the ticker while cleanly slicing to the top 3 for the bottom grid cards.
+
+### 2026-09-02 (Scope Homepage to Strictly Show Latest News)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Scoped Query to News Category Only**: Updated the `$recentNewsRaw` query and cache on the homepage to strictly filter by `category = 'News' OR category IS NULL OR category = ''`, ensuring events are not mixed into the homepage ticker or latest news section.
+  - **Updated Section Heading**: Changed the homepage section heading from "Latest News & Events" (`latest_news_events`) to "Latest News" (`latest_news`).
+
+### 2026-09-02 (Resolve Multilingual Database Fields Across Master Downloads, Homepage & Search)
+* **Files:**
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Master Downloads Aggregator**: In [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php), all 9 sub-table queries (`acts_amendments`, `procurements`, `vacancies`, `learning_platforms_local`, `learning_platforms_foreign`, `special_notices`, `action_plans`, `rti_reports`, `iau_downloads`) were previously selecting only raw English `title` columns. Updated all queries to select `title_si`, `title_ta`, `description_si`, and `description_ta` and resolved each item with `$resolveLocalizedFields` according to `$current_lang` before populating the table and modal.
+  - **Homepage Announcements**: In [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php), updated vacancies and procurements announcements queries to fetch and resolve `title_si`, `title_ta`, `description_si`, and `description_ta`.
+  - **Search Suggest API**: In [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php), updated vacancies and procurements autocomplete searches to query and resolve `title_si` and `title_ta`.
+
+### 2026-09-02 (Enforce `notranslate` and `translate="no"` on Table and Listing Data)
+* **Files:**
+  - [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [rti.php](file:///c:/xampp/htdocs/Ministry-of-Labour/rti.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Auto-Translation Prevention**: Added `class="notranslate"` and `translate="no"` attributes to grid cards, table wrappers, titles, metadata badges, and action buttons across IAU Downloads, Documents, Procurements, Vacancies, Special Notices, Learning Platforms, and RTI pages.
+  - **Preserves Native Database & Static Translations**: Prevents client-side Google Translate from overriding or corrupting pre-translated Sinhala/Tamil database records (`title_si`, `title_ta`, `content_si`, `content_ta`) and dictionary helpers.
+
+### 2026-09-02 (Separate News & Events Frontend Pages & Navigation Dropdown)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [includes/sub-hero.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/sub-hero.php)
+  - [.htaccess](file:///c:/xampp/htdocs/Ministry-of-Labour/.htaccess)
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Main Navigation Dropdown**: Converted the "News" link in desktop navbar and mobile drawer into a "News & Events" dropdown menu with direct links to "News" (`/news`) and "Events" (`/events`).
+  - **Dedicated Frontend Pages**: Separated articles by category: `news.php` displays only `category = 'News'` items, while the new `events.php` page displays only `category = 'Events'` items.
+  - **Removed In-Page Category Filter**: Removed the redundant dropdown filter from the sidebar in both pages since each category now has its own dedicated page.
+  - **Dynamic Breadcrumbs & Routing**: Updated `.htaccess` with `events/{id}` URL rewriting, and updated `news-single.php` to dynamically route breadcrumbs, canonical URLs, and next/previous links to the appropriate category section.
+  - **Category Isolation in Single View**: In `news-single.php`, strictly scoped recent posts, previous/next article pagination, and sidebar search to the matching category (events only show events, and news only show news).
+  - **Sub-Hero Background Mapping**: Configured `includes/sub-hero.php` so the dedicated `events` page uses the same `assets/img/sub-hero/news.webp` background banner as the news page.
+
+### 2026-09-02 (Remove Documents Section from IAU Page)
+* **Files:**
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+  - `assets/img/IAU/pdf-1.pdf`, `assets/img/IAU/pdf-2.pdf` (Removed unused PDFs)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed PDF Documents Section**: Removed the PDF documents viewing section from [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php) along with the `includes/pdf-modal.php` include.
+  - **Purged Static PDF Assets**: Deleted `pdf-1.pdf` and `pdf-2.pdf` from `assets/img/IAU/`, freeing up ~8.8 MB of disk space.
+
+### 2026-09-02 (Remove Redundant IAU Updates Heading & Subtitle)
+* **Files:**
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Duplicate Title/Subtitle Block**: Removed the redundant "IAU Updates / Explore our latest activities and engagements..." header block from `iau-updates.php` to avoid duplicating the page title already rendered by the sub-hero component.
+
 ### 2026-09-02 (Audit & Purge Redundant Uploads and Stale Backups)
 * **Files:**
   - `admin/uploads/` (37 orphaned files deleted, empty subdirectories pruned)
@@ -2433,3 +2576,160 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
 * **Author:** Antigravity AI
 * **Change Description:** Resolved 'Title translation failed' error when clicking auto-translate on the News Add/Edit page. The variable 'translatedText' was referenced before being fetched via 'await translateText(sourceVal, fromLang, lang)', causing a JavaScript ReferenceError caught by the try-catch block. Restored the missing API call and added input event and validation error clearing.
+
+### 2026-09-03 (Home Latest News Ticker Speed & Cycle Adjustment)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:** Adjusted the hero section latest news ticker on the homepage to strictly display only the latest 5 news articles per cycle (`array_slice($recentNews, 0, 5)`) instead of inflating tracks with duplicated items. Slowed down the ticker animation duration from 35s to 55s and added `min-w-full justify-around` to ensure a smooth, easily legible reading speed and seamless infinite loop across all viewport resolutions.
+
+### 2026-09-03 (Granular Text-to-Speech Suite, Collapsible Controls & Solid Card)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+* **Author:** Antigravity AI
+* **Change Description:** Implemented conditional expansion for the Text-to-Speech sub-options (`Read Page`, `Stop`, `Read on Hover`, `Read on Selection`) inside `#a11y-tts-options`—these controls remain clean and hidden until the user turns on the master **"Enable Text-to-Speech"** toggle. Renamed the accessibility reset action from **"Reset Settings"** to **"Reset"** across [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) and [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php) with matching Sinhala (`නැවත සකසන්න`) and Tamil (`மீட்டமைக்கவும்`) translations. Redesigned the Accessibility Panel UI/UX to be 100% solid non-transparent (`bg-white` with solid `bg-gray-50` cards, crisp borders, and deep shadow `shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)]`), eliminating background bleed-through. Made it fully mobile responsive with responsive anchoring (`fixed inset-x-3 top-12 sm:absolute sm:inset-x-auto sm:right-0 sm:top-full`), close button (X), touch-optimized targets, and removed duplicate accessibility controls from the mobile slideout side menu so that accessibility remains cleanly unified in the permanent top bar across mobile, tablet, and desktop.
+
+### 2026-09-03 (Frontend JavaScript Widgets & Pagination Localizations)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php)
+  - [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php)
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+* **Author:** Antigravity AI
+* **Change Description:** Resolved frontend widget translation gaps and hardcoded English strings:
+  - **News Pagination Buttons**: Standardized Prev and Next dynamic buttons in [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) with `t('pagination_prev', 'Prev')` and `t('pagination_next', 'Next')`.
+  - **Events Page Localization**: Replaced `date('M d, Y')` in [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php) sidebar with `format_date_trilingual()` and added complete Sinhala, Tamil, and English branches to `updatePaginationUI()`.
+  - **Live Search Autocomplete & Type Badges**:
+    - Added trilingual category badge mapping (`Page` -> `පිටුව` / `பக்கம்`, `News` -> `පුවත්` / `செய்திகள்`, `Vacancy` -> `පුරප්පාඩු` / `காலியிடம்`, `Procurement` -> `ප්‍රසම්පාදන` / `கொள்முதல்`) in [search-suggest.php](file:///c:/xampp/htdocs/Ministry-of-Labour/search-suggest.php).
+    - Updated [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js) to pass `&lang=` parameter to `search-suggest.php`, localize loading/empty states (`Searching records...`, `No matches found`, `Try adjusting keywords...`), and render localized badges with `notranslate` tags.
+
+### 2026-09-03 (Centralize Ampara Circuit Bungalow Booking Wizard into Translations Dictionary)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+* **Author:** Antigravity AI
+* **Change Description:** Fully centralized all strings from the 4-step Ampara Circuit Bungalow online reservation wizard into [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php), adding comprehensive trilingual support (English, Sinhala, and Tamil) for:
+  - Stepper & step titles (`booking_step_reservation`, `booking_step_applicant`, `booking_step_guests`, `booking_step_confirm`)
+  - Live availability calendar headers, status badges (`Available`, `Pending`, `Booked`), month names, and weekday abbreviations
+  - Room names, capacities, descriptions, pricing indicators, and entire bungalow reservation option
+  - Applicant categories, form field labels, Flatpickr placeholders, required field indicators, and radio/checkbox toggles
+  - Dynamic guest adding form inputs, placeholders, and removal triggers
+  - Booking details summary labels, payment instructions, bank account details, and file upload guidelines
+  - Declaration terms agreement checkbox and navigation buttons (`Back`, `Next Step`, `Submit Application`)
+  - JavaScript client validation toasts and dynamic summary generators
+  - Added `notranslate` / `translate="no"` attributes to all form containers and card blocks to eliminate browser translation conflicts, font distortion, and UI flickering.
+
+### 2026-09-03 (Localize Availability Calendar & Flatpickr Widgets)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+* **Author:** Antigravity AI
+* **Change Description:** Implemented end-to-end trilingual localization for the visual availability calendar grid and Flatpickr datepicker widgets:
+  - Added short and long weekday arrays in Sinhala (`['ඉරිදා', 'සඳුදා', 'අඟහරුවාදා'...]` / `['ඉරි', 'සඳු', 'අඟ'...]`) and Tamil (`['ஞாயிற்றுக்கிழமை', 'திங்கட்கிழமை'...]` / `['ஞாயி', 'திங்', 'செவ்'...]`).
+  - Added short and long month arrays in Sinhala (`['ජනවාරි', 'පෙබරවාරි'...]` / `['ජන', 'පෙබ'...]`) and Tamil (`['ஜனவரி', 'பிப்ரவரி'...]` / `['ஜன', 'பிப்'...]`).
+  - Integrated custom `flatpickrLocale` into Flatpickr check-in/check-out and arrival/departure pickers so the interactive calendar dropdowns display in the user's active language.
+  - Localized calendar date cell tooltips (`Available` -> `ලබා ගත හැක` / `கிடைக்கக்கூடியவை`, `Pending` -> `සලකා බලමින්` / `நிலுவையில்`, `Booked` -> `වෙන්කර ඇත` / `முன்பதிவு செய்யப்பட்டுள்ளது`) and error states (`cal_failed_load`).
+
+### 2026-09-03 (Centralize In-File Translation Arrays: complaints.php & 404.php)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [complaints.php](file:///c:/xampp/htdocs/Ministry-of-Labour/complaints.php)
+  - [404.php](file:///c:/xampp/htdocs/Ministry-of-Labour/404.php)
+* **Author:** Antigravity AI
+* **Change Description:** Migrated all isolated, page-specific translation arrays into the centralized master dictionary in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php):
+  - **404 Page**: Added `page_not_found_title`, `page_not_found_desc`, `return_to_homepage`, `contact_support` and replaced local arrays with `t()` calls and `notranslate` tags.
+  - **Complaints Page**: Added `complaints_page_title`, `complaints_meta_desc`, `complaints_meta_keywords`, `complaints_official_channels`, `complaints_lodge_title`, `complaints_intro_p`, `cms_card_title`, `cms_card_desc`, `cms_bullet_1..3`, `cms_btn_text`, `whatsapp_card_title`, `whatsapp_card_desc`, `whatsapp_bullet_1..3`, `whatsapp_btn_label`, `complaints_guidance_title`, `complaints_guidance_text`. Standardized template to use `t()` calls and removed redundant inline arrays.
+
+### 2026-09-03 (Fix Untranslated Labels in Contact Modals & Homepage Quick Links)
+* **Files:**
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+  - [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:** Resolved missing translation wrappers and `notranslate` tags:
+  - **Contact Us Modals**: Added `tel_label` (`Tel:` / `දුරකථන:` / `தொலைபேசி:`), `fax_label` (`Fax:` / `ෆැක්ස්:` / `தொலைநகல்:`), and `email_label` (`Email:` / `විද්‍යුත් තැපෑල:` / `மின்னஞ்சல்:`) to the global dictionary and wrapped person contact lines in [contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php) with `t()` helpers and `notranslate` attributes.
+  - **Homepage Quick Links**: Added `notranslate` and `translate="no"` attributes to `quick_links_subtitle` and `ql_ampara_desc` on [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) to protect localized strings from client-side Google Auto-Translate interference.
+
+### 2026-09-03 (Centralize Frontend Pagination & Localize Modals Across All Listing Pages)
+* **Files:**
+  - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
+  - [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php)
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Fixed Pagination Navigation Bug**: Addressed issue where clicking pagination buttons (Prev, 1, 2, Next) failed to update displayed content or hide previous page cards.
+  - **Centralized `ContentPaginator` Suite**: Created a unified, reusable `ContentPaginator` class in [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js) eliminating ~2,000 lines of duplicated code across 9 listing pages.
+  - **Trilingual Summaries & Controls**: Supported unified Sinhala, Tamil, and English pagination summaries and numbering for `events`, `news`, `vacancies`, `notices`, `procurements`, `platforms`, `downloads`, and `documents` with `notranslate` tags.
+### 2026-09-03 (Fix Modal Popups Across All Document & Listing Pages)
+* **Files:**
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [vacancies.php](file:///c:/xampp/htdocs/Ministry-of-Labour/vacancies.php)
+  - [special-notices.php](file:///c:/xampp/htdocs/Ministry-of-Labour/special-notices.php)
+  - [procurements.php](file:///c:/xampp/htdocs/Ministry-of-Labour/procurements.php)
+  - [learning-platforms-local.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-local.php)
+  - [learning-platforms-foreign.php](file:///c:/xampp/htdocs/Ministry-of-Labour/learning-platforms-foreign.php)
+  - [iau-downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-downloads.php)
+  - [iau.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Downloads Page Popup Resolution**: Fixed issue where clicking cards, rows, or download action buttons on [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php) failed to trigger `#downloadModal`. Added explicit `onclick="openDownloadModal(<?= $index ?>)"` attributes directly to grid cards, list rows, and buttons; initialized `filterTable()` on `DOMContentLoaded`; and streamlined button language states.
+  - **Listing Pages Modal Trigger Propagation**: Fixed bug across `vacancies.php`, `special-notices.php`, `procurements.php`, `learning-platforms-local.php`, `learning-platforms-foreign.php`, and `iau-downloads.php` where `onclick="event.stopPropagation();"` on the `view-details-btn` and the action column `<td>` prevented `openDetailModal(...)` from opening when clicked.
+### 2026-09-03 (Standardize Dynamic Uploads to admin/uploads/ and Preserve Static Assets)
+* **Files:**
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [admin/manage-iau-images.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-images.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+  - [.gitignore](file:///c:/xampp/htdocs/Ministry-of-Labour/.gitignore)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Standardized Dynamic Upload Paths**: Audited all 13 upload-handling modules across the project to ensure 100% of dynamic user and admin panel uploads are stored in `admin/uploads/` subdirectories (`news`, `officials`, `sliders`, `vacancies`, `special_notices`, `procurements`, `learning_platforms`, `acts`, `action_plans`, `rti_reports`, `iau`, `bookings`).
+  - **IAU Module Alignment**: Refactored IAU gallery album and image upload scripts to store images in `admin/uploads/iau/` while adding backwards-compatible path resolution in [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php) for legacy `assets/img/IAU/` entries.
+### 2026-09-03 (Migrate Dynamic IAU Gallery Photos to admin/uploads/iau/)
+* **Files:**
+  - [assets/img/IAU/](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/img/IAU/)
+  - [admin/uploads/iau/](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/uploads/iau/)
+  - [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php)
+  - [admin/manage-iau-images.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-images.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Dynamic Files Migration**: Moved all 22 uploaded gallery images (`img-*.jpg`, `campaign_*.jpg`, `ciaboc_*.jpg`, `workshop_*.jpg`) and backup archive from `assets/img/IAU/` into `admin/uploads/iau/`.
+  - **Database Migration**: Updated database records in `iau_updates` and `iau_update_images` replacing `assets/img/IAU/` paths with `uploads/iau/`.
+  - **Static Assets Retained**: Preserved purely static UI assets (`about-iau.webp` and `IAU_QR.png`) inside `assets/img/IAU/`.
+  - **Edit Album Modal Previews**: Added `resolveAdminImgPath()` helper in JavaScript for [admin/manage-iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-iau-updates.php) so that `openEditModal()` correctly previews cover photos and existing gallery images stored in `uploads/iau/` without invalid `../` prefixes.
+### 2026-09-03 (Global Audit & Enforcement of "Latest Uploads at Top" Sorting)
+* **Files:**
+  - [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php)
+  - [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Comprehensive Audit**: Audited all SQL queries across the entire project (admin panel and public website) to verify that `ORDER BY created_at DESC` / `id DESC` is strictly enforced so newest uploads always appear first.
+  - **Downloads Aggregator Fix**: Identified that [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php) appended 9 separate document categories without a global sort. Added `ORDER BY created_at DESC` to every sub-query and implemented a global `usort()` on `$all_documents` so that the newest uploaded document from any category always renders at the very top.
+  - **IAU Updates Image Sorting**: Updated [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php) to sort attached gallery images with `id DESC`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

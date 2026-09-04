@@ -34,7 +34,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                         <p class="text-[11.5px] text-amber-800 font-inter leading-relaxed">
-                            Please fill in your details to submit a reservation request. Grey dates in the calendar are already booked.
+                            <?= t('booking_modal_instructions', 'Please fill in your details to submit a reservation request. Grey dates in the calendar are already booked.') ?>
                         </p>
                     </div>
 
@@ -77,7 +77,7 @@
                                 <svg class="w-4 h-4 text-gray-300 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                Please select dates first to see availability
+                                <?= t('booking_select_dates_first', 'Please select dates first to see availability') ?>
                             </p>
                         </div>
                         <p id="room-availability-msg" class="text-[11px] text-red-600 mt-1.5 hidden font-inter font-medium items-center gap-1">
@@ -96,7 +96,7 @@
                             <div class="relative">
                                 <input type="text" name="applicant_name" required
                                     class="w-full border border-gray-300 rounded-lg py-2.5 pl-9 pr-3 text-[13px] text-gray-900 focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary bg-white font-inter transition-all"
-                                    placeholder="Enter applicant name">
+                                    placeholder="<?= t('ph_applicant_name', 'Enter applicant name') ?>">
                                 <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
@@ -178,7 +178,7 @@
                         <?= t('footer_motto') ?>
                     </p>
                     <div class="mb-4">
-                        <form id="newsletter-form" class="flex" onsubmit="event.preventDefault();">
+                        <form id="newsletter-form" class="flex" data-subscribed-msg="<?= htmlspecialchars(t('subscribed_success', 'Successfully subscribed!')) ?>">
                             <input type="email" required placeholder="<?= htmlspecialchars(t('email_placeholder')) ?>" class="bg-[#1B2E42] text-white placeholder-gray-400 px-3 sm:px-4 py-2.5 rounded-l-lg w-full min-w-0 focus:outline-none focus:bg-white/10 border border-white/10 border-r-0 text-xs sm:text-sm font-inter transition-all duration-300">
                             <button type="submit" class="bg-[#E5E0DB] text-secondary font-bold px-3 sm:px-5 py-2.5 rounded-r-lg hover:bg-white transition-colors text-xs sm:text-sm font-inter shrink-0 active:scale-[0.98]"><?= t('subscribe_btn') ?></button>
                         </form>
@@ -293,7 +293,7 @@
             <!-- Header -->
             <div class="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-[#FAFAFA] shrink-0">
                 <div class="flex-1 min-w-0 pr-4">
-                    <span id="modal-badge" class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border whitespace-nowrap uppercase tracking-wider bg-secondary/5 text-secondary border-secondary/10 notranslate">Category</span>
+                    <span id="modal-badge" class="px-2.5 py-0.5 rounded-lg text-[10px] font-bold border whitespace-nowrap uppercase tracking-wider bg-secondary/5 text-secondary border-secondary/10 notranslate"><?= t('category', 'Category') ?></span>
                     <h3 id="modal-title" class="text-[17px] font-bold font-montserrat text-gray-900 mt-2 truncate notranslate"></h3>
                 </div>
                 <button onclick="closeDetailModal()" class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-250 text-gray-500 hover:text-gray-700 flex items-center justify-center transition-colors focus:outline-none shrink-0 cursor-pointer">
@@ -306,26 +306,26 @@
                 <!-- Meta Date -->
                 <div class="flex items-center gap-1.5 text-xs text-gray-400 font-inter font-medium tracking-wide mb-4 pb-4 border-b border-gray-100 select-none">
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                    <span id="modal-date" class="notranslate">Published Date</span>
+                    <span id="modal-date" class="notranslate"><?= t('published_date', 'Published Date') ?></span>
                 </div>
                 <!-- Body Text -->
                 <div id="modal-body" class="text-[14.5px] text-gray-600 leading-relaxed font-inter prose max-w-none notranslate"></div>
 
                 <!-- Trilingual Download Language Selection -->
                 <div id="modal-pdf-section" class="mt-8 pt-6 border-t border-gray-100 space-y-3 hidden">
-                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate">Select Language PDF Version</p>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 font-inter mb-2 notranslate"><?= t('select_pdf_version', 'Select Language PDF Version') ?></p>
                     
                     <!-- English PDF Button -->
                     <a id="modal-pdf-link-en" href="#" target="_blank" class="hidden items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-primary hover:shadow-sm transition-all duration-200 group notranslate">
                         <div class="flex items-center gap-3">
                             <span class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs">EN</span>
                             <div class="text-left">
-                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors">English PDF</p>
-                                <p class="text-[11px] text-gray-400">Official English Document</p>
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors"><?= t('pdf_english', 'English PDF') ?></p>
+                                <p class="text-[11px] text-gray-400"><?= t('pdf_english_desc', 'Official English Document') ?></p>
                             </div>
                         </div>
                         <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm">
-                            Download
+                            <?= t('download', 'Download') ?>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         </span>
                     </a>
@@ -335,12 +335,12 @@
                         <div class="flex items-center gap-3">
                             <span class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs font-noto">සිං</span>
                             <div class="text-left">
-                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">සිංහල PDF (Sinhala)</p>
-                                <p class="text-[11px] text-gray-400 font-noto">සිංහල මාධ්‍ය නිල ලේඛනය</p>
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto"><?= t('pdf_sinhala', 'සිංහල PDF (Sinhala)') ?></p>
+                                <p class="text-[11px] text-gray-400 font-noto"><?= t('pdf_sinhala_desc', 'සිංහල මාධ්‍ය නිල ලේඛනය') ?></p>
                             </div>
                         </div>
                         <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
-                            බාගත කරන්න
+                            <?= t('download', 'බාගත කරන්න') ?>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         </span>
                     </a>
@@ -350,12 +350,12 @@
                         <div class="flex items-center gap-3">
                             <span class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs font-noto">த</span>
                             <div class="text-left">
-                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto">தமிழ் PDF (Tamil)</p>
-                                <p class="text-[11px] text-gray-400 font-noto">தமிழ் மொழி அதிகாரப்பூர்வ ஆவணம்</p>
+                                <p class="font-bold text-gray-800 text-sm group-hover:text-primary transition-colors font-noto"><?= t('pdf_tamil', 'தமிழ் PDF (Tamil)') ?></p>
+                                <p class="text-[11px] text-gray-400 font-noto"><?= t('pdf_tamil_desc', 'தமிழ் மொழி அதிகாரப்பூர்ව ஆவணம்') ?></p>
                             </div>
                         </div>
                         <span class="px-3.5 py-2 bg-primary text-white rounded-xl text-xs font-bold group-hover:bg-secondary transition-colors flex items-center gap-1.5 shadow-sm font-noto">
-                            பதிவிறக்கம்
+                            <?= t('download', 'பதிவிறக்கம்') ?>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         </span>
                     </a>
@@ -364,7 +364,7 @@
             
             <!-- Footer / Action bar -->
             <div id="modal-footer" class="px-6 py-5 border-t border-gray-100 bg-[#FAFAFA] flex justify-end gap-3 shrink-0 flex-wrap">
-                <button onclick="closeDetailModal()" class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer">Close</button>
+                <button onclick="closeDetailModal()" class="px-5 py-2.5 text-[13px] font-semibold text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"><?= t('close_btn', 'Close') ?></button>
             </div>
         </div>
     </div>
@@ -374,8 +374,8 @@
         const modal = document.getElementById('detail-modal');
         document.getElementById('modal-title').textContent = data.title;
         document.getElementById('modal-badge').textContent = data.category;
-        document.getElementById('modal-date').textContent = 'Published: ' + data.date;
-        document.getElementById('modal-body').innerHTML = data.content || '<p class="text-gray-400 italic">No description provided.</p>';
+        document.getElementById('modal-date').textContent = '<?= t("published_prefix", "Published: ") ?>' + data.date;
+        document.getElementById('modal-body').innerHTML = data.content || '<p class="text-gray-400 italic"><?= t("no_desc_provided", "No description provided.") ?></p>';
         
         const pdfLinkEn = document.getElementById('modal-pdf-link-en');
         const pdfLinkSi = document.getElementById('modal-pdf-link-si');

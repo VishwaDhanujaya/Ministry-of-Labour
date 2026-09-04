@@ -44,7 +44,7 @@ $metaDescription = 'Learn about the Internal Affairs Unit (IAU) of the Ministry 
 $metaKeywords = 'Internal Affairs Unit, IAU, Integrity, Accountability, Ministry of Labour, Sri Lanka';
 $title_classes = 'flex items-end gap-2';
 $breadcrumbs = [
-    ['label' => 'IAU']
+    ['label' => t('iau', 'IAU')]
 ];
 include 'includes/sub-hero.php';
 ?>
@@ -182,36 +182,12 @@ include 'includes/sub-hero.php';
     </div>
 </section>
 
-<!-- PDF Section -->
-<section class="py-16 md:py-24 px-4 md:px-16 bg-white border-t border-slate-200/80">
-    <div class="container mx-auto">
-        <div class="flex flex-col md:flex-row gap-8 justify-start items-center">
-            <div class="w-full max-w-[400px]">
-                <?php 
-                    $pdfId = 'iau-pdf-1';
-                    $pdfUrl = 'assets/img/IAU/pdf-1.pdf';
-                    $pdfTitle = t('iau_doc_1', 'IAU Document 1');
-                    include 'includes/pdf-viewer.php'; 
-                ?>
-            </div>
-            <div class="w-full max-w-[400px]">
-                <?php 
-                    $pdfId = 'iau-pdf-2';
-                    $pdfUrl = 'assets/img/IAU/pdf-2.pdf';
-                    $pdfTitle = t('iau_doc_2', 'IAU Document 2');
-                    include 'includes/pdf-viewer.php'; 
-                ?>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Staff Modals -->
 <?php foreach($iau_staff as $staff): ?>
-<div id="<?php echo $staff['id']; ?>" class="fixed inset-0 z-[150] hidden opacity-0 transition-opacity duration-300">
+<div id="<?php echo $staff['id']; ?>" class="fixed inset-0 z-[150] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('<?php echo $staff['id']; ?>')"></div>
     
-    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[600px] bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white">
+    <div class="relative w-full max-w-[600px] bg-secondary rounded-2xl shadow-2xl p-6 sm:p-8 md:p-12 text-center text-white transform scale-95 transition-all duration-300">
         <button onclick="closeModal('<?php echo $staff['id']; ?>')" class="absolute top-4 right-4 md:top-6 md:right-6 text-white/80 hover:text-white transition-all z-10 bg-black/20 hover:bg-black/40 rounded-full p-1.5 active:scale-95 flex items-center justify-center focus:outline-none">
             <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -225,8 +201,8 @@ include 'includes/sub-hero.php';
             <?php if($staff['designation']): ?>
             <p class="text-base md:text-lg pb-1 md:pb-2"><?php echo $staff['designation']; ?></p>
             <?php endif; ?>
-            <p class="text-xs md:text-[15px]">Tel: <?php echo $staff['phone']; ?></p>
-            <p class="text-xs md:text-[15px]">Email: <span class="notranslate" translate="no"><?php echo $staff['email']; ?></span></p>
+            <p class="text-xs md:text-[15px]"><span class="notranslate" translate="no"><?= t('tel_label', 'Tel:') ?></span> <?php echo $staff['phone']; ?></p>
+            <p class="text-xs md:text-[15px]"><span class="notranslate" translate="no"><?= t('email_label', 'Email:') ?></span> <span class="notranslate" translate="no"><?php echo $staff['email']; ?></span></p>
         </div>
     </div>
 </div>
@@ -240,8 +216,14 @@ include 'includes/sub-hero.php';
                 document.body.appendChild(modal);
             }
             modal.classList.remove('hidden');
+            modal.classList.add('flex');
             setTimeout(() => {
                 modal.classList.remove('opacity-0');
+                const card = modal.querySelector('.transform');
+                if (card) {
+                    card.classList.remove('scale-95');
+                    card.classList.add('scale-100');
+                }
             }, 10);
             document.body.classList.add('overflow-hidden');
         }
@@ -251,13 +233,18 @@ include 'includes/sub-hero.php';
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.classList.add('opacity-0');
+            const card = modal.querySelector('.transform');
+            if (card) {
+                card.classList.remove('scale-100');
+                card.classList.add('scale-95');
+            }
             setTimeout(() => {
                 modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }, 300);
             document.body.classList.remove('overflow-hidden');
         }
     }
 </script>
 
-<?php include 'includes/pdf-modal.php'; ?>
 <?php include 'includes/footer.php'; ?>

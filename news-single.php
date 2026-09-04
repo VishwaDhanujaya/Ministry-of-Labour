@@ -41,13 +41,21 @@ if ($current_lang === 'si') {
     if (!empty($article['content_ta'])) $article['content'] = $article['content_ta'];
 }
 
+// Determine category and parent routing
+$is_event = (($article['category'] ?? 'News') === 'Events');
+$parent_slug = $is_event ? 'events' : 'news';
+$parent_label = $is_event ? 'Events' : 'News';
+$category_sql = $is_event ? "category = 'Events'" : "(category = 'News' OR category IS NULL OR category = '')";
+
 // Fetch additional images
 $imgStmt = $pdo->prepare("SELECT * FROM news_images WHERE news_id = ?");
 $imgStmt->execute([$id]);
 $additionalImages = $imgStmt->fetchAll();
 
-// Fetch recent posts for sidebar (limit 10)
-$recentPostsRaw = $pdo->query("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' ORDER BY created_at DESC LIMIT 10")->fetchAll();
+// Fetch recent posts for sidebar strictly of the SAME category (limit 10)
+$recentStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND $category_sql ORDER BY created_at DESC LIMIT 10");
+$recentStmt->execute();
+$recentPostsRaw = $recentStmt->fetchAll();
 $recentPosts = [];
 foreach ($recentPostsRaw as $post) {
     if ($current_lang === 'si' && !empty($post['title_si'])) $post['title'] = $post['title_si'];
@@ -55,8 +63,8 @@ foreach ($recentPostsRaw as $post) {
     $recentPosts[] = $post;
 }
 
-// Fetch Previous Article
-$prevStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (created_at < ? OR (created_at = ? AND id < ?)) ORDER BY created_at DESC, id DESC LIMIT 1");
+// Fetch Previous Article of the SAME category
+$prevStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND $category_sql AND (created_at < ? OR (created_at = ? AND id < ?)) ORDER BY created_at DESC, id DESC LIMIT 1");
 $prevStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
 $prevArticle = $prevStmt->fetch();
 if ($prevArticle) {
@@ -64,8 +72,8 @@ if ($prevArticle) {
     elseif ($current_lang === 'ta' && !empty($prevArticle['title_ta'])) $prevArticle['title'] = $prevArticle['title_ta'];
 }
 
-// Fetch Next Article
-$nextStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND (created_at > ? OR (created_at = ? AND id > ?)) ORDER BY created_at ASC, id ASC LIMIT 1");
+// Fetch Next Article of the SAME category
+$nextStmt = $pdo->prepare("SELECT * FROM news WHERE status = 'Published' AND visibility = 'public' AND $category_sql AND (created_at > ? OR (created_at = ? AND id > ?)) ORDER BY created_at ASC, id ASC LIMIT 1");
 $nextStmt->execute([$article['created_at'], $article['created_at'], $article['id']]);
 $nextArticle = $nextStmt->fetch();
 if ($nextArticle) {
@@ -73,7 +81,7 @@ if ($nextArticle) {
     elseif ($current_lang === 'ta' && !empty($nextArticle['title_ta'])) $nextArticle['title'] = $nextArticle['title_ta'];
 }
 
-$page_title = 'News & Events';
+$page_title = $parent_label;
 $pageTitle = strip_tags($article['title']);
 $metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
 $metaKeywords = 'Ministry of Labour, News, Events, Sri Lanka, Updates';
@@ -81,10 +89,10 @@ $metaKeywords = 'Ministry of Labour, News, Events, Sri Lanka, Updates';
 if (!empty($article['cover_image'])) {
     $ogImage = $site_url . 'admin/' . ltrim($article['cover_image'], '/');
 }
-$ogUrl = $site_url . 'news/' . $article['id'];
+$ogUrl = $site_url . $parent_slug . '/' . $article['id'];
 
 $breadcrumbs = [
-    ['label' => 'News & Events', 'url' => 'news'],
+    ['label' => $parent_label, 'url' => $parent_slug],
     ['label' => htmlspecialchars($article['title'])]
 ];
 include 'includes/header.php';
@@ -146,7 +154,7 @@ include 'includes/sub-hero.php';
                 <!-- Pagination Links -->
                 <div class="flex flex-col md:flex-row justify-between border-t border-gray-200 pt-8 gap-8">
                     <?php if ($prevArticle): ?>
-                    <a href="<?= navUrl('news/' . $prevArticle['id']) ?>" class="group max-w-xs block">
+                    <a href="<?= navUrl($parent_slug . '/' . $prevArticle['id']) ?>" class="group max-w-xs block">
                         <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors notranslate">&lt; <?= t('previous_article', 'Previous') ?></div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($prevArticle['title']) ?></p>
                     </a>
@@ -158,7 +166,7 @@ include 'includes/sub-hero.php';
                     <?php endif; ?>
 
                     <?php if ($nextArticle): ?>
-                    <a href="<?= navUrl('news/' . $nextArticle['id']) ?>" class="group max-w-xs text-left md:text-right block">
+                    <a href="<?= navUrl($parent_slug . '/' . $nextArticle['id']) ?>" class="group max-w-xs text-left md:text-right block">
                         <div class="text-[15px] font-montserrat text-gray-800 font-semibold mb-2 group-hover:text-secondary transition-colors notranslate"><?= t('next_article', 'Next') ?> &gt;</div>
                         <p class="text-[13px] text-gray-500 font-inter line-clamp-2 leading-relaxed notranslate"><?= htmlspecialchars($nextArticle['title']) ?></p>
                     </a>
@@ -171,17 +179,19 @@ include 'includes/sub-hero.php';
                 </div>
             </div>
 
-            <!-- Sidebar (Reused from news.php) -->
+            <!-- Sidebar -->
             <div class="w-full lg:w-1/3">
                 <div class="border border-gray-100 rounded-3xl p-8 sticky top-32 bg-white shadow-[0_4px_20px_rgb(0,0,0,0.04)]">
                     <!-- Search -->
                     <div class="mb-10">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <form action="<?= navUrl($parent_slug) ?>" method="GET">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <input type="text" name="search" class="block w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13px] placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-inter notranslate" placeholder="<?= htmlspecialchars($is_event ? t('search_events', 'Search events...') : t('search_news', 'Search news...')) ?>">
                             </div>
-                            <input type="text" class="block w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg text-[13px] placeholder-gray-400 focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors font-inter" placeholder="<?= htmlspecialchars(t('search_news', 'Search news & events...')) ?>">
-                        </div>
+                        </form>
                     </div>
                     
                     <!-- Recent Posts -->
@@ -190,7 +200,7 @@ include 'includes/sub-hero.php';
                         <ul class="space-y-5">
                             <?php foreach ($recentPosts as $post): ?>
                             <li>
-                                <a href="<?= navUrl('news/' . $post['id']) ?>" class="flex items-start gap-4 group">
+                                <a href="<?= navUrl($parent_slug . '/' . $post['id']) ?>" class="flex items-start gap-4 group">
                                     <div class="w-14 h-14 rounded-xl border border-slate-100 bg-slate-50 overflow-hidden shrink-0 shadow-sm relative group-hover:shadow-md transition-all duration-300">
                                         <?php if (!empty($post['cover_image']) && file_exists('admin/' . $post['cover_image'])): ?>
                                             <img loading="lazy" src="<?= $base_url ?>admin/<?= htmlspecialchars($post['cover_image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -206,7 +216,7 @@ include 'includes/sub-hero.php';
                                         </h4>
                                         <div class="flex items-center gap-2 mt-1">
                                             <span class="text-[11px] text-slate-400 font-inter font-medium tracking-wide notranslate"><?= format_date_trilingual($post['created_at']) ?></span>
-                                            <?php if (($post['category'] ?? 'News') === 'Events'): ?>
+                                            <?php if ($is_event): ?>
                                                 <span class="text-[10px] font-semibold px-2 py-0.5 rounded uppercase bg-[#4E0911]/10 text-[#4E0911] border border-[#4E0911]/20 inline-flex items-center gap-1 notranslate">
                                                     <svg class="w-2.5 h-2.5 text-[#4E0911]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                                     <?= t('cat_events', 'Events') ?>

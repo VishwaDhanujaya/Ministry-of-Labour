@@ -7,8 +7,8 @@ $metaDescription = 'View latest gallery updates from the Internal Affairs Unit (
 $metaKeywords = 'IAU, Internal Affairs Unit, Updates, Gallery, Ministry of Labour, Sri Lanka';
 include 'includes/header.php';
 $breadcrumbs = [
-    ['label' => 'IAU', 'url' => 'iau'],
-    ['label' => 'IAU Updates']
+    ['label' => t('iau', 'IAU'), 'url' => 'iau'],
+    ['label' => t('iau_updates', 'IAU Updates')]
 ];
 include 'includes/sub-hero.php';
 
@@ -18,21 +18,46 @@ $stmt->execute();
 $albums = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $gallery_items = [];
+$resolveIAUImg = function($path) {
+    if (empty($path)) return 'assets/img/placeholder.jpg';
+    $trimmed = ltrim($path, '/');
+    if (strpos($trimmed, 'http://') === 0 || strpos($trimmed, 'https://') === 0) return $path;
+    if (strpos($trimmed, 'uploads/') === 0) {
+        return 'admin/' . $trimmed;
+    }
+    $filename = basename($trimmed);
+    if (file_exists(__DIR__ . '/admin/uploads/iau/' . $filename)) {
+        return 'admin/uploads/iau/' . $filename;
+    }
+    if (file_exists(__DIR__ . '/' . $trimmed)) {
+        return $trimmed;
+    }
+    return 'admin/uploads/iau/' . $filename;
+};
+
 foreach ($albums as $album) {
     // Fetch associated gallery images
-    $imgStmt = $pdo->prepare("SELECT image_path FROM iau_update_images WHERE update_id = ? ORDER BY sort_order ASC, id ASC");
+    $imgStmt = $pdo->prepare("SELECT image_path FROM iau_update_images WHERE update_id = ? ORDER BY sort_order ASC, id DESC");
     $imgStmt->execute([$album['id']]);
-    $images = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+    $rawImages = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+    
+    $resolvedImages = [];
+    foreach ($rawImages as $img) {
+        $resolved = $resolveIAUImg($img);
+        if (!in_array($resolved, $resolvedImages)) {
+            $resolvedImages[] = $resolved;
+        }
+    }
     
     // Build full slide images array starting with cover image
-    $album_images = $images;
-    if (!empty($album['cover_image']) && !in_array($album['cover_image'], $album_images)) {
-        array_unshift($album_images, $album['cover_image']);
+    $coverResolved = $resolveIAUImg($album['cover_image'] ?? '');
+    if (!empty($album['cover_image']) && !in_array($coverResolved, $resolvedImages)) {
+        array_unshift($resolvedImages, $coverResolved);
     }
     
     // Fallback if no images are attached
-    if (empty($album_images)) {
-        $album_images[] = 'assets/img/placeholder.jpg';
+    if (empty($resolvedImages)) {
+        $resolvedImages[] = 'assets/img/placeholder.jpg';
     }
     
     $gallery_items[] = [
@@ -40,8 +65,8 @@ foreach ($albums as $album) {
         'title_en' => $album['title_en'],
         'title_si' => $album['title_si'],
         'title_ta' => $album['title_ta'],
-        'cover_image' => !empty($album['cover_image']) ? $album['cover_image'] : 'assets/img/placeholder.jpg',
-        'images' => $album_images,
+        'cover_image' => $coverResolved,
+        'images' => $resolvedImages,
         'date' => $album['created_at']
     ];
 }
@@ -49,12 +74,6 @@ foreach ($albums as $album) {
 
 <section class="py-12 md:py-16 px-4 md:px-16 bg-[#F9FAFB] min-h-[75vh]">
     <div class="container mx-auto max-w-6xl">
-        
-        <div class="mb-10 text-center">
-            <h2 class="text-3xl font-bold text-primary font-montserrat tracking-tight uppercase"><?= t('iau_updates', 'IAU Updates') ?></h2>
-            <p class="mt-4 text-gray-500 max-w-2xl mx-auto"><?= t('iau_gallery_desc', 'Explore our latest activities and engagements promoting integrity and transparency within the Ministry.') ?></p>
-        </div>
-
         <!-- Gallery Grid -->
         <?php if (empty($gallery_items)): ?>
             <div class="flex flex-col items-center justify-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm text-center text-gray-500 mb-12 w-full">

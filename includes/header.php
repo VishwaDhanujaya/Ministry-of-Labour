@@ -26,15 +26,6 @@ if (!headers_sent()) {
     // Always write `lang` to both root and subfolder so every environment works
     setcookie('lang', $current_lang, time() + 86400 * 30, $cookie_path);
     setcookie('lang', $current_lang, time() + 86400 * 30, '/');
-    if ($current_lang !== 'en') {
-        // Write googtrans to subfolder path (critical for subfolder installations like /MOL/)
-        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, $cookie_path);
-        setcookie('googtrans', '/en/' . $current_lang, time() + 86400 * 30, '/');
-    } else {
-        // Actively erase any stale googtrans cookie from ALL paths when switching to English
-        setcookie('googtrans', '', time() - 3600, $cookie_path);
-        setcookie('googtrans', '', time() - 3600, '/');
-    }
 }
 
 // Load Central Hybrid Translation Architecture Dictionary & Helper
@@ -102,8 +93,23 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Server-resolved active language: authoritative JS signal for Google Translate -->
+    <!-- Server-resolved active language -->
     <meta name="mol-lang" content="<?= htmlspecialchars($current_lang, ENT_QUOTES, 'UTF-8') ?>">
+
+    <!-- Instant Accessibility Preference Initialization (Zero-Flicker) -->
+    <script>
+        (function() {
+            try {
+                var size = localStorage.getItem('a11y_font_size');
+                if (size && size !== 'md') document.documentElement.setAttribute('data-a11y-size', size);
+                var colorMode = localStorage.getItem('a11y_color_mode');
+                if (colorMode && colorMode !== 'normal') {
+                    document.documentElement.classList.add('a11y-color-' + colorMode);
+                }
+                if (localStorage.getItem('a11y_highlight_links') === '1') document.documentElement.classList.add('a11y-highlight-links');
+            } catch(e) {}
+        })();
+    </script>
 
 
     <base href="<?= htmlspecialchars($base_url, ENT_QUOTES, 'UTF-8') ?>">
@@ -191,69 +197,45 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
         html, body {
             overflow-x: clip !important;
         }
-        /* Hide Google Translate top frame, tooltips, and hover popups completely */
-        iframe.goog-te-banner-frame,
-        .goog-te-banner-frame.skiptranslate,
-        #goog-gt-tt,
-        #goog-gt-tt *,
-        .goog-te-balloon-frame,
-        .goog-te-balloon-frame *,
-        .goog-tooltip,
-        .goog-tooltip *,
-        .VIpgJd-ZVi9od-ORHb-OEVmcd,
-        .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
-        .VIpgJd-yA02fl-b9fd4c-dgl2Hf,
-        .VIpgJd-yA02fl-b9fd4c-SmR85d,
-        div[id*="goog"],
-        iframe[id*="goog"],
-        div.skiptranslate { 
-            display: none !important; 
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
+
+        /* Accessibility Color Blindness & Sizing */
+        html[data-a11y-size="sm"] { font-size: 14px !important; }
+        html[data-a11y-size="md"] { font-size: 16px !important; }
+        html[data-a11y-size="lg"] { font-size: 18px !important; }
+        html[data-a11y-size="xl"] { font-size: 20px !important; }
+
+        html.a11y-color-grayscale {
+            filter: grayscale(100%) !important;
         }
-        
-        font, 
-        font:hover, 
-        font:focus, 
-        font:active, 
-        font *, 
-        .goog-text-highlight,
-        .goog-text-highlight:hover,
-        .goog-text-highlight:focus,
-        .goog-text-highlight:active,
-        [class*="goog-text-highlight"],
-        [aria-describedby],
-        [aria-describedby]:hover,
-        font[style*="background-color"],
-        span[style*="background-color"],
-        font[style*="background"],
-        span[style*="background"] { 
-            background-color: transparent !important; 
-            background: transparent !important;
-            box-shadow: none !important;
-            border: none !important;
-            outline: none !important;
-            text-shadow: none !important;
+
+        html.a11y-color-protanopia {
+            filter: url('#protanopia-filter') !important;
         }
-        body { top: 0px !important; position: relative !important; }
-        #google_translate_element { display: none !important; }
+
+        html.a11y-color-deuteranopia {
+            filter: url('#deuteranopia-filter') !important;
+        }
+
+        html.a11y-color-tritanopia {
+            filter: url('#tritanopia-filter') !important;
+        }
+
+        html.a11y-highlight-links a:not(#accessibility-dropdown a):not(.lang-btn) {
+            text-decoration: underline !important;
+            text-decoration-color: #f59e0b !important;
+            text-decoration-thickness: 2px !important;
+            text-underline-offset: 3px !important;
+        }
+
+        .a11y-tts-reading {
+            outline: 2px dashed #f59e0b !important;
+            outline-offset: 4px !important;
+            background-color: rgba(245, 158, 11, 0.08) !important;
+            transition: all 0.25s ease-in-out;
+            border-radius: 4px;
+        }
     </style>
     <script>
-        // Intercept mouse events on Google Translate elements to block hover timers & popups
-        ['mouseover', 'mouseenter', 'mousemove'].forEach(function(eventType) {
-            document.addEventListener(eventType, function(e) {
-                if (e.target && (
-                    e.target.tagName === 'FONT' || 
-                    (e.target.closest && e.target.closest('font')) ||
-                    (e.target.classList && e.target.classList.contains('goog-text-highlight')) ||
-                    (e.target.hasAttribute && (e.target.hasAttribute('goog-tab-index') || e.target.hasAttribute('aria-describedby')))
-                )) {
-                    e.stopPropagation();
-                }
-            }, true);
-        });
-
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -268,17 +250,10 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
         }
 
         function getActiveLanguage() {
-            // Priority: server meta tag > lang cookie > googtrans cookie
             var serverLang = getServerLang();
             if (serverLang && serverLang !== 'en') return serverLang;
             var lang = getCookie('lang');
             if (lang && ['en', 'si', 'ta'].indexOf(lang) !== -1) return lang;
-            var gt = getCookie('googtrans');
-            if (gt) {
-                var decoded = decodeURIComponent(gt).replace(/"/g, '');
-                var m = decoded.match(/\/(si|ta|en)$/);
-                if (m) return m[1];
-            }
             return 'en';
         }
 
@@ -318,40 +293,21 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             var expire = 'expires=Thu, 01 Jan 1970 00:00:00 UTC';
             var maxAge = 'max-age=' + (86400 * 30);
 
-            // ── STEP 1: Nuke ALL googtrans cookies from every known path & domain ──────────
+            // Clear any legacy googtrans cookies
             var pathsToClear = ['/', subfolderPath, currentPath];
             pathsToClear.forEach(function(p) {
                 document.cookie = 'googtrans=; ' + expire + '; path=' + p;
                 if (!isIpOrLocal) {
                     document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=' + host;
                     document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=.' + host;
-                    // Also clear any parent domain cookies
-                    var parts = host.split('.');
-                    while (parts.length >= 2) {
-                        var d = parts.join('.');
-                        document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=' + d;
-                        document.cookie = 'googtrans=; ' + expire + '; path=' + p + '; domain=.' + d;
-                        parts.shift();
-                    }
                 }
             });
 
-            // ── STEP 2: Write lang cookie to both subfolder and root ─────────────────────
+            // ── Write native lang cookie to both subfolder and root ─────────────────────
             document.cookie = 'lang=' + langCode + '; path=' + subfolderPath + '; ' + maxAge;
             document.cookie = 'lang=' + langCode + '; path=/; ' + maxAge;
 
-            // ── STEP 3: Write googtrans only for non-English ────────────────────────────
-            if (langCode !== 'en') {
-                var gtVal = '/en/' + langCode;
-                document.cookie = 'googtrans=' + gtVal + '; path=' + subfolderPath + '; ' + maxAge;
-                document.cookie = 'googtrans=' + gtVal + '; path=/; ' + maxAge;
-                if (!isIpOrLocal) {
-                    document.cookie = 'googtrans=' + gtVal + '; path=' + subfolderPath + '; domain=.' + host + '; ' + maxAge;
-                    document.cookie = 'googtrans=' + gtVal + '; path=/; domain=.' + host + '; ' + maxAge;
-                }
-            }
-
-            // ── STEP 4: Navigate using Pretty URLs ──
+            // ── Navigate using Pretty URLs ──
             syncTopbarLanguageUI(langCode);
             var url = new URL(window.location.href);
             
@@ -374,45 +330,36 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 window.location.href = url.toString();
             }
         }
-        
-        function applyAutoTranslation() {
-            // Use the server meta tag as the authoritative language signal
-            var activeLang = getServerLang();
-            if (activeLang && activeLang !== 'en') {
-                var combo = document.querySelector('.goog-te-combo');
-                if (combo) {
-                    if (combo.value !== activeLang) {
-                        combo.value = activeLang;
-                        combo.dispatchEvent(new Event('change'));
-                    }
-                }
-            }
-        }
-
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'en,si,ta', autoDisplay: false}, 'google_translate_element');
-            syncTopbarLanguageUI(getServerLang());
-            
-            // Staggered retries — GT may take variable time to inject its DOM
-            setTimeout(applyAutoTranslation, 200);
-            setTimeout(applyAutoTranslation, 700);
-            setTimeout(applyAutoTranslation, 1500);
-            setTimeout(applyAutoTranslation, 3000);
-        }
 
         document.addEventListener('DOMContentLoaded', function() {
             syncTopbarLanguageUI(getServerLang());
         });
     </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body class="bg-white text-gray-800 antialiased scroll-smooth flex flex-col min-h-screen">
-    <div id="google_translate_element"></div>
 
-    <!-- Top Bar -->
-    <div class="hidden md:flex bg-gradient-to-r from-primary via-[#2D2D43] to-primary text-white/90 text-[11px] md:text-xs h-10 px-4 md:px-8 flex-row justify-between items-center font-inter border-b border-white/10 relative z-40 shadow-inner">
-        <div class="flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start notranslate" translate="no">
+    <!-- SVG Color Blindness Filters -->
+    <svg class="hidden" style="display:none; position:absolute; width:0; height:0;" aria-hidden="true">
+        <defs>
+            <!-- Protanopia (Red-blind) -->
+            <filter id="protanopia-filter">
+                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0  0.558, 0.442, 0, 0, 0  0, 0.242, 0.758, 0, 0  0, 0, 0, 1, 0"/>
+            </filter>
+            <!-- Deuteranopia (Green-blind) -->
+            <filter id="deuteranopia-filter">
+                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0  0.7, 0.3, 0, 0, 0  0, 0.3, 0.7, 0, 0  0, 0, 0, 1, 0"/>
+            </filter>
+            <!-- Tritanopia (Blue-blind) -->
+            <filter id="tritanopia-filter">
+                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0  0, 0.433, 0.567, 0, 0  0, 0.475, 0.525, 0, 0  0, 0, 0, 1, 0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Top Bar (Always on top of Header) -->
+    <div class="flex bg-gradient-to-r from-primary via-[#2D2D43] to-primary text-white/90 text-[11px] md:text-xs min-h-10 py-1.5 md:py-0 px-3 sm:px-4 md:px-8 flex-row justify-between items-center font-inter border-b border-white/10 relative z-55 shadow-inner">
+        <div class="hidden lg:flex flex-wrap gap-x-2 gap-y-2 items-center mb-2 md:mb-0 justify-center md:justify-start notranslate" translate="no">
             <a href="mailto:info@labourmin.gov.lk" class="flex items-center space-x-2 hover:bg-white/10 hover:text-white px-2.5 py-1.5 rounded-md transition-all duration-200 group notranslate" translate="no">
                 <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -435,20 +382,218 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
             </span>
         </div>
         
-        <div class="flex space-x-6 items-center">
-            <!-- Social Icons -->
-            <div class="flex space-x-2 text-white/90">
+        <div class="flex space-x-2 sm:space-x-3 md:space-x-4 items-center justify-between w-full lg:w-auto">
+            <!-- Social Icons (Desktop/Tablet) -->
+            <div class="hidden sm:flex space-x-1.5 md:space-x-2 text-white/90">
                 <a href="https://www.facebook.com/labourmin" aria-label="Facebook Link" target="_blank" class="bg-white/5 hover:bg-[#1877F2] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></svg></a>
                 <a href="https://web.whatsapp.com/send?phone=94777123456&amp;text=" aria-label="WhatsApp Link" target="_blank" class="bg-white/5 hover:bg-[#25D366] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
                 <a href="https://youtube.com/@ministryoflabourandforeign191?si=9CZRGi72hNk2wGIz" aria-label="YouTube Link" target="_blank" class="bg-white/5 hover:bg-[#FF0000] hover:text-white p-1.5 rounded-full transition-all duration-300 shadow-sm"><svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg></a>
             </div>
-            
-            <!-- Language Selector -->
-            <div id="lang-selector-desktop" class="flex items-center bg-black/20 rounded-full p-1 border border-white/5 shadow-inner backdrop-blur-sm notranslate">
 
-                <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
-                <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 text-[11px]" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
-                <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-3 py-1 rounded-full transition-all duration-300 font-inter text-[11px] tracking-wide">English</button>
+            <div class="flex items-center space-x-1.5 sm:space-x-2.5 ml-auto lg:ml-0">
+                <!-- Accessibility Menu (Near Language Selector) -->
+                <div class="relative notranslate" id="accessibility-menu-container">
+                    <button id="accessibility-menu-btn" 
+                        type="button" 
+                        aria-expanded="false" 
+                        aria-haspopup="true" 
+                        aria-label="<?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?>"
+                        class="flex items-center space-x-1 sm:space-x-1.5 bg-black/25 hover:bg-white/15 text-white/90 hover:text-white px-2 sm:px-2.5 py-1 rounded-full border border-white/10 shadow-inner backdrop-blur-sm transition-all duration-200 text-[10.5px] sm:text-[11px] font-medium cursor-pointer group">
+                        <svg class="w-3.5 h-3.5 text-yellow-400 group-hover:scale-110 transition-transform shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+                        </svg>
+                        <span class="inline"><?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?></span>
+                        <svg id="a11y-chevron" class="w-3 h-3 text-white/60 group-hover:text-white transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Accessibility Dropdown Panel (100% Solid Opaque & Fully Mobile Responsive) -->
+                    <div id="accessibility-dropdown" class="fixed inset-x-3 top-12 sm:absolute sm:inset-x-auto sm:right-0 sm:top-full mt-2 w-auto sm:w-84 md:w-88 max-w-[calc(100vw-1.5rem)] bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)] border border-gray-200 p-4 sm:p-5 z-[99999] transform opacity-0 translate-y-2 pointer-events-none transition-all duration-200 ease-out origin-top-right text-gray-800 max-h-[85vh] overflow-y-auto overscroll-contain">
+                        <!-- Dropdown Header -->
+                        <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-primary text-white flex items-center justify-center shadow-xs">
+                                    <svg class="w-4.5 h-4.5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span class="block font-bold text-xs font-montserrat text-primary uppercase tracking-wider leading-tight"><?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?></span>
+                                    <span class="block text-[10px] text-gray-500 font-inter font-medium"><?= t('personalize_view', 'Personalize View') ?></span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-1.5">
+                                <button type="button" id="a11y-reset-btn" class="group/rst text-[10.5px] text-gray-500 hover:text-secondary font-semibold uppercase tracking-wider transition-colors flex items-center space-x-1 px-2 py-1 rounded-lg hover:bg-gray-100 cursor-pointer" title="<?= htmlspecialchars($lang_dict['reset_accessibility'][$current_lang] ?? 'Reset') ?>">
+                                    <svg class="w-3.5 h-3.5 group-hover/rst:-rotate-90 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                    <span><?= htmlspecialchars($lang_dict['reset_accessibility'][$current_lang] ?? 'Reset') ?></span>
+                                </button>
+                                <button type="button" id="a11y-close-btn" class="text-gray-400 hover:text-gray-700 p-1 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" aria-label="Close Accessibility Menu">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 1: Font Size -->
+                        <div class="mb-3.5">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-[11px] font-bold text-gray-600 uppercase tracking-wider font-inter flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+                                    <?= htmlspecialchars($lang_dict['text_size'][$current_lang] ?? 'Text Size') ?>
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-4 gap-1.5 bg-gray-100 p-1 rounded-xl border border-gray-200">
+                                <button type="button" data-a11y-size="sm" class="a11y-size-btn py-1.5 text-xs font-semibold rounded-lg text-gray-700 hover:text-primary hover:bg-white transition-all text-center cursor-pointer">A-</button>
+                                <button type="button" data-a11y-size="md" class="a11y-size-btn py-1.5 text-xs font-semibold rounded-lg text-gray-700 hover:text-primary hover:bg-white transition-all text-center cursor-pointer">A</button>
+                                <button type="button" data-a11y-size="lg" class="a11y-size-btn py-1.5 text-sm font-semibold rounded-lg text-gray-700 hover:text-primary hover:bg-white transition-all text-center cursor-pointer">A+</button>
+                                <button type="button" data-a11y-size="xl" class="a11y-size-btn py-1.5 text-base font-bold rounded-lg text-gray-700 hover:text-primary hover:bg-white transition-all text-center cursor-pointer">A++</button>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Color Mode -->
+                        <div class="mb-3.5">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-[11px] font-bold text-gray-600 uppercase tracking-wider font-inter flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 5 5 0 013-4.5 4 4 0 014-4 4 4 0 014 4 5 5 0 013 4.5 4 4 0 01-4 4H7z"></path></svg>
+                                    <?= htmlspecialchars($lang_dict['color_mode'][$current_lang] ?? 'Color Mode') ?>
+                                </span>
+                            </div>
+                            <div class="space-y-1">
+                                <button type="button" data-a11y-color="normal" class="a11y-color-btn w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-gray-50 text-gray-700 bg-white transition-all cursor-pointer group shadow-xs">
+                                    <span class="flex items-center space-x-2.5">
+                                        <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-blue-500 via-emerald-500 to-rose-500 border border-black/10 shrink-0 shadow-xs"></span>
+                                        <span class="group-hover:text-primary transition-colors"><?= htmlspecialchars($lang_dict['normal_colors'][$current_lang] ?? 'Normal Colors') ?></span>
+                                    </span>
+                                    <span class="a11y-color-check w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                        <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                    </span>
+                                </button>
+                                <button type="button" data-a11y-color="grayscale" class="a11y-color-btn w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-gray-50 text-gray-700 bg-white transition-all cursor-pointer group shadow-xs">
+                                    <span class="flex items-center space-x-2.5">
+                                        <span class="w-3.5 h-3.5 rounded-full bg-gray-500 border border-black/10 shrink-0 shadow-xs"></span>
+                                        <span class="group-hover:text-primary transition-colors"><?= htmlspecialchars($lang_dict['grayscale'][$current_lang] ?? 'Grayscale') ?></span>
+                                    </span>
+                                    <span class="a11y-color-check w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                        <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                    </span>
+                                </button>
+                                <button type="button" data-a11y-color="protanopia" class="a11y-color-btn w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-gray-50 text-gray-700 bg-white transition-all cursor-pointer group shadow-xs">
+                                    <span class="flex items-center space-x-2.5">
+                                        <span class="w-3.5 h-3.5 rounded-full bg-amber-600 border border-black/10 shrink-0 shadow-xs"></span>
+                                        <span class="group-hover:text-primary transition-colors"><?= htmlspecialchars($lang_dict['protanopia'][$current_lang] ?? 'Protanopia (Red-blind)') ?></span>
+                                    </span>
+                                    <span class="a11y-color-check w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                        <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                    </span>
+                                </button>
+                                <button type="button" data-a11y-color="deuteranopia" class="a11y-color-btn w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-gray-50 text-gray-700 bg-white transition-all cursor-pointer group shadow-xs">
+                                    <span class="flex items-center space-x-2.5">
+                                        <span class="w-3.5 h-3.5 rounded-full bg-teal-600 border border-black/10 shrink-0 shadow-xs"></span>
+                                        <span class="group-hover:text-primary transition-colors"><?= htmlspecialchars($lang_dict['deuteranopia'][$current_lang] ?? 'Deuteranopia (Green-blind)') ?></span>
+                                    </span>
+                                    <span class="a11y-color-check w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                        <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                    </span>
+                                </button>
+                                <button type="button" data-a11y-color="tritanopia" class="a11y-color-btn w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-gray-50 text-gray-700 bg-white transition-all cursor-pointer group shadow-xs">
+                                    <span class="flex items-center space-x-2.5">
+                                        <span class="w-3.5 h-3.5 rounded-full bg-rose-600 border border-black/10 shrink-0 shadow-xs"></span>
+                                        <span class="group-hover:text-primary transition-colors"><?= htmlspecialchars($lang_dict['tritanopia'][$current_lang] ?? 'Tritanopia (Blue-blind)') ?></span>
+                                    </span>
+                                    <span class="a11y-color-check w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center">
+                                        <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Text-to-Speech (Granular Controls) -->
+                        <div class="mb-3.5 pt-3 border-t border-gray-100">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[11px] font-bold text-gray-600 uppercase tracking-wider font-inter flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                    <?= htmlspecialchars($lang_dict['text_to_speech'][$current_lang] ?? 'Text-to-Speech') ?>
+                                </span>
+                                <!-- Live Speaking Indicator -->
+                                <span id="a11y-tts-live-wave" class="hidden items-center space-x-0.5 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold">
+                                    <span class="w-0.5 h-2.5 bg-primary animate-bounce"></span>
+                                    <span class="w-0.5 h-3.5 bg-primary animate-bounce" style="animation-delay: 0.15s"></span>
+                                    <span class="w-0.5 h-2 bg-primary animate-bounce" style="animation-delay: 0.3s"></span>
+                                    <span class="ml-1"><?= htmlspecialchars($lang_dict['reading_aloud'][$current_lang] ?? 'Reading...') ?></span>
+                                </span>
+                            </div>
+
+                            <!-- TTS Container Card (Solid non-transparent) -->
+                            <div class="bg-gray-50 rounded-xl p-2.5 border border-gray-200 space-y-2">
+                                <!-- Master Toggle: Enable Text-to-Speech -->
+                                <button type="button" id="a11y-tts-master-btn" class="w-full flex items-center justify-between py-1.5 px-2 rounded-lg bg-white border border-gray-200/80 hover:border-primary/40 transition-all cursor-pointer text-left shadow-xs">
+                                    <span class="text-xs font-semibold text-gray-700"><?= htmlspecialchars($lang_dict['enable_tts'][$current_lang] ?? 'Enable Text-to-Speech') ?></span>
+                                    <span id="a11y-tts-master-switch" class="w-8 h-4.5 bg-gray-300 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center">
+                                        <span class="w-3.5 h-3.5 bg-white rounded-full shadow-md transform transition-transform duration-200 ease-in-out translate-x-0"></span>
+                                    </span>
+                                </button>
+
+                                <!-- TTS Sub-Options (Expanded ONLY when Master Toggle is Enabled) -->
+                                <div id="a11y-tts-options" class="hidden space-y-2 pt-2 border-t border-gray-200 transition-all duration-300">
+                                    <!-- Primary Actions: Read Page & Stop -->
+                                    <div class="grid grid-cols-2 gap-1.5">
+                                        <button type="button" id="a11y-tts-read-page-btn" class="flex items-center justify-center space-x-1.5 py-1.5 px-2.5 rounded-lg bg-primary text-white hover:bg-primary/90 active:scale-95 transition-all text-xs font-semibold shadow-xs cursor-pointer">
+                                            <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                            <span><?= htmlspecialchars($lang_dict['read_page'][$current_lang] ?? 'Read Page') ?></span>
+                                        </button>
+                                        <button type="button" id="a11y-tts-stop-btn" class="flex items-center justify-center space-x-1.5 py-1.5 px-2.5 rounded-lg bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 active:scale-95 transition-all text-xs font-semibold shadow-xs cursor-pointer">
+                                            <svg class="w-3 h-3 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h12v12H6z"/></svg>
+                                            <span><?= htmlspecialchars($lang_dict['stop'][$current_lang] ?? 'Stop') ?></span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Granular Feature Options (Hover & Selection) -->
+                                    <div class="space-y-1 pt-1 border-t border-gray-200/70">
+                                        <button type="button" id="a11y-tts-hover-btn" class="w-full flex items-center justify-between py-1.5 px-2 rounded-lg bg-white border border-gray-200/80 hover:border-primary/40 transition-colors cursor-pointer text-left group shadow-xs">
+                                            <span class="text-[11.5px] font-medium text-gray-700 group-hover:text-primary transition-colors flex items-center gap-1.5">
+                                                <svg class="w-3 h-3 text-gray-400 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                                                <?= htmlspecialchars($lang_dict['read_on_hover'][$current_lang] ?? 'Read on Hover') ?>
+                                            </span>
+                                            <span id="a11y-tts-hover-switch" class="w-7 h-4 bg-gray-300 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center">
+                                                <span class="w-3 h-3 bg-white rounded-full shadow-xs transform transition-transform duration-200 ease-in-out translate-x-0"></span>
+                                            </span>
+                                        </button>
+
+                                        <button type="button" id="a11y-tts-selection-btn" class="w-full flex items-center justify-between py-1.5 px-2 rounded-lg bg-white border border-gray-200/80 hover:border-primary/40 transition-colors cursor-pointer text-left group shadow-xs">
+                                            <span class="text-[11.5px] font-medium text-gray-700 group-hover:text-primary transition-colors flex items-center gap-1.5">
+                                                <svg class="w-3 h-3 text-gray-400 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                                <?= htmlspecialchars($lang_dict['read_on_selection'][$current_lang] ?? 'Read on Selection') ?>
+                                            </span>
+                                            <span id="a11y-tts-selection-switch" class="w-7 h-4 bg-gray-300 rounded-full p-0.5 transition-colors duration-200 ease-in-out flex items-center">
+                                                <span class="w-3 h-3 bg-white rounded-full shadow-xs transform transition-transform duration-200 ease-in-out translate-x-0"></span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Visual Aids (Toggles) -->
+                        <div class="pt-2 border-t border-gray-100">
+                            <button type="button" id="a11y-toggle-links" class="w-full flex items-center justify-between p-2 rounded-xl bg-gray-50 hover:bg-primary/[0.04] hover:border-primary/40 border border-gray-200 text-left transition-all cursor-pointer group shadow-xs">
+                                <span class="flex items-center space-x-2 text-xs font-semibold text-gray-700 group-hover:text-primary">
+                                    <svg class="w-3.5 h-3.5 text-gray-400 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                    <span><?= htmlspecialchars($lang_dict['highlight_links'][$current_lang] ?? 'Highlight Links') ?></span>
+                                </span>
+                                <span id="a11y-links-indicator" class="w-4 h-4 rounded-full border border-gray-300 bg-white flex items-center justify-center transition-colors">
+                                    <span class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Language Selector -->
+                <div id="lang-selector-desktop" class="flex items-center bg-black/25 rounded-full p-0.5 sm:p-1 border border-white/10 shadow-inner backdrop-blur-sm notranslate">
+                    <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-2 sm:px-3 py-1 rounded-full transition-all duration-300 text-[10.5px] sm:text-[11px]" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
+                    <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-2 sm:px-3 py-1 rounded-full transition-all duration-300 text-[10.5px] sm:text-[11px]" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
+                    <button onclick="changeLanguage('en')" data-lang="en" class="<?= $current_lang === 'en' ? 'bg-yellow-400 text-primary shadow-md font-bold' : 'text-white/70 hover:text-white hover:bg-white/10 font-medium' ?> px-2 sm:px-3 py-1 rounded-full transition-all duration-300 font-inter text-[10.5px] sm:text-[11px] tracking-wide">English</button>
+                </div>
             </div>
         </div>
     </div>
@@ -529,8 +674,19 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     </div>
                 </div>
 
-                <a href="<?= navUrl('news') ?>"
-                    class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                <div class="relative group">
+                    <button class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'news' || $current_page == 'events') ? 'text-primary border-primary' : 'border-transparent hover:text-secondary hover:border-secondary/60' ?> flex items-center gap-1 focus:outline-none cursor-pointer whitespace-nowrap">
+                        <?= htmlspecialchars($nav_trans['news_and_events'][$current_lang] ?? 'News & Events') ?>
+                        <svg class="w-3.5 h-3.5 transition-transform group-hover:rotate-180 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <!-- Dropdown -->
+                    <div class="absolute right-0 left-auto mt-0 min-w-[200px] w-max max-w-[300px] bg-white border border-gray-100 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 transform translate-y-2 group-hover:translate-y-0 overflow-hidden">
+                        <div class="py-1">
+                            <a href="<?= navUrl('news') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'news') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                            <a href="<?= navUrl('events') ?>" class="block px-4 py-2.5 text-[13px] whitespace-nowrap hover:bg-secondary/5 hover:text-secondary <?= ($current_page == 'events') ? 'bg-gray-50 text-primary font-bold' : 'text-gray-700' ?>"><?= htmlspecialchars($nav_trans['events'][$current_lang] ?? 'Events') ?></a>
+                        </div>
+                    </div>
+                </div>
 
                 <a href="<?= navUrl('downloads') ?>"
                     class="pb-1.5 border-b-2 transition-all <?= ($current_page == 'downloads') ? 'text-primary border-primary' : 'hover:text-secondary border-transparent hover:border-secondary/60' ?> whitespace-nowrap"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
@@ -649,14 +805,18 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                     <a href="<?= navUrl('vacancies') ?>" class="pl-6 py-1 <?= ($current_page == 'vacancies') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['vacancies'][$current_lang] ?? 'Vacancies') ?></a>
                     <a href="<?= navUrl('special-notices') ?>" class="pl-6 py-1 <?= ($current_page == 'special-notices') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['special_notices'][$current_lang] ?? 'Special Notices') ?></a>
                 </div>
-                <a href="<?= navUrl('news') ?>" class="pl-3 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                <div class="flex flex-col space-y-2 py-1">
+                    <div class="pl-3 text-gray-700 font-bold uppercase tracking-wider text-[11px]"><?= htmlspecialchars($nav_trans['news_and_events'][$current_lang] ?? 'News & Events') ?></div>
+                    <a href="<?= navUrl('news') ?>" class="pl-6 py-1 <?= ($current_page == 'news') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['news'][$current_lang] ?? 'News') ?></a>
+                    <a href="<?= navUrl('events') ?>" class="pl-6 py-1 <?= ($current_page == 'events') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'text-gray-500 hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['events'][$current_lang] ?? 'Events') ?></a>
+                </div>
                 <a href="<?= navUrl('downloads') ?>" class="pl-3 py-1 <?= ($current_page == 'downloads') ? 'text-primary bg-gray-50 border-l-4 border-primary rounded-r-md' : 'hover:text-secondary rounded transition-colors' ?>"><?= htmlspecialchars($nav_trans['downloads'][$current_lang] ?? 'Downloads') ?></a>
             </nav>
 
             <div class="border-t border-gray-100 pt-6 mt-6 flex flex-col space-y-4 notranslate">
                 <!-- Mobile Language Selector -->
                 <div class="pb-2">
-                    <div class="text-[11px] uppercase tracking-wider text-gray-400 font-bold mb-2.5 pl-1">Select Language</div>
+                    <div class="text-[11px] uppercase tracking-wider text-gray-400 font-bold mb-2.5 pl-1"><?= t('select_language', 'Select Language') ?></div>
                     <div id="lang-selector-mobile" class="grid grid-cols-3 gap-2 bg-gray-50 rounded-xl p-1 border border-gray-200/50 notranslate">
                         <button onclick="changeLanguage('si')" data-lang="si" class="<?= $current_lang === 'si' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Serif Sinhala', serif;">සිංහල</button>
                         <button onclick="changeLanguage('ta')" data-lang="ta" class="<?= $current_lang === 'ta' ? 'bg-primary text-white shadow-sm font-bold' : 'text-gray-600 hover:text-gray-900 font-medium' ?> py-2 text-center rounded-lg transition-all duration-200 text-xs" style="font-family: 'Noto Serif Tamil', serif;">தமிழ்</button>
@@ -689,7 +849,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 <div class="w-12 h-1 bg-gray-200 rounded-full mb-6"></div>
                 
                 <h3 class="text-sm font-bold text-gray-900 font-montserrat mb-2 text-center">Select Language / භාෂාව තෝරන්න / மொழியைத் தேர்ந்தெடுக்கவும்</h3>
-                <p class="text-[11px] text-gray-500 font-inter mb-6 text-center">Choose your preferred language to continue</p>
+                <p class="text-[11px] text-gray-500 font-inter mb-6 text-center"><?= t('choose_preferred_language', 'Choose your preferred language to continue') ?></p>
                 
                 <div class="w-full flex flex-col gap-3 notranslate">
                     <button onclick="changeLanguage('si')" class="w-full bg-gray-50 hover:bg-primary/5 hover:text-primary border border-gray-200/60 rounded-2xl py-3.5 px-4 font-bold text-primary text-sm flex items-center justify-between transition-all active:scale-98" style="font-family: 'Noto Serif Sinhala', serif;">
@@ -707,7 +867,7 @@ $seoOgUrl = (strpos($rawOgUrl, 'http') === 0) ? $rawOgUrl : $base_url . ltrim($r
                 </div>
                 
                 <button onclick="closeMobileLangPopup()" class="mt-5 text-[11px] text-gray-400 font-semibold hover:text-gray-600 transition-colors uppercase tracking-wider py-2 cursor-pointer">
-                    Dismiss
+                    <?= t('dismiss', 'Dismiss') ?>
                 </button>
             </div>
         </div>

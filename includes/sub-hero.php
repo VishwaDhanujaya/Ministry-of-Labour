@@ -28,8 +28,9 @@ if (!function_exists('resolve_subhero_translation')) {
             'Vacancies' => 'vacancies',
             'Special Notices' => 'special_notices',
             'News' => 'news',
-            'News & Events' => 'news',
-            'News and Events' => 'news',
+            'News & Events' => 'news_and_events',
+            'News and Events' => 'news_and_events',
+            'Events' => 'events',
             'News Updates' => 'ql_news_updates',
             'Latest Insights' => 'latest_insights',
             'Recent Posts' => 'recent_posts',
@@ -98,6 +99,7 @@ if (isset($current_page)) {
             $sub_hero_img = 'assets/img/sub-hero/learning-platform.webp';
             break;
         case 'news':
+        case 'events':
             $sub_hero_img = 'assets/img/sub-hero/news.webp';
             break;
         case 'news-single':

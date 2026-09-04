@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     'size' => $_FILES['images']['size'][$i]
                 ];
                 
-                $uploadResult = handleFileUpload($file, '../assets/img/IAU', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
+                $uploadResult = handleFileUpload($file, 'uploads/iau', ['image/jpeg', 'image/png', 'image/webp'], 5242880);
                 if ($uploadResult['success']) {
-                    $image_path = str_replace('../', '', $uploadResult['path']);
+                    $image_path = $uploadResult['path'];
                     
                     $stmt = $pdo->prepare("INSERT INTO iau_update_images (update_id, image_path, sort_order) VALUES (?, ?, ?)");
                     $stmt->execute([$update_id, $image_path, 0]);
@@ -140,7 +140,19 @@ include 'includes/header.php';
             <?php foreach ($images as $img): ?>
                 <div class="relative group bg-white p-2 rounded-xl shadow-sm border border-slate-100">
                     <div class="aspect-square rounded-lg overflow-hidden relative">
-                        <img src="../<?= htmlspecialchars($img['image_path']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <?php 
+                        $imgSrc = '';
+                        if (!empty($img['image_path'])) {
+                            if (file_exists($img['image_path'])) {
+                                $imgSrc = $img['image_path'];
+                            } elseif (file_exists('uploads/iau/' . basename($img['image_path']))) {
+                                $imgSrc = 'uploads/iau/' . basename($img['image_path']);
+                            } elseif (file_exists('../' . $img['image_path'])) {
+                                $imgSrc = '../' . $img['image_path'];
+                            }
+                        }
+                        ?>
+                        <img src="<?= htmlspecialchars($imgSrc) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
                             <a href="manage-iau-images?update_id=<?= $update_id ?>&delete=<?= $img['id'] ?>&csrf_token=<?= generateCsrfToken() ?>" data-confirm="Are you sure you want to delete this image?" class="w-10 h-10 bg-white/20 hover:bg-rose-500 rounded-full flex items-center justify-center text-white backdrop-blur-sm transition-colors shadow-sm">
