@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Dynamic Navbar Clearance Adjustment on Scroll (Guarantees zero overlap at all times)
+    // Dynamic Navbar Clearance Adjustment on Scroll (Guarantees zero overlap and comfortable breathing room)
     const updateA11yPosition = () => {
         if (!a11yBtn) return;
         const header = document.getElementById('main-header');
@@ -147,9 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
             headerBottom = rect.bottom;
         }
         
-        // Calculate safe top offset (guarantee at least 14px below the navbar)
-        const safeBtnTop = Math.round(Math.max(headerBottom + 14, 88));
-        const safeDropdownTop = safeBtnTop + 52;
+        // Calculate safe top offset (positioned comfortably 26px below the navbar)
+        const safeBtnTop = Math.round(Math.max(headerBottom + 26, 100));
+        const safeDropdownTop = safeBtnTop + 54;
 
         a11yBtn.style.top = `${safeBtnTop}px`;
         if (a11yDropdown) {

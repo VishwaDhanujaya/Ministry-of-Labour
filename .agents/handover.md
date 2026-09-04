@@ -151,7 +151,7 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Dynamic Scroll-Aware Clearance**: Added real-time scroll and resize listener `updateA11yPosition()` in `assets/js/main.js` that measures `header.getBoundingClientRect().bottom` dynamically. Guarantees a clean 14px clearance directly below the navbar both when at the top of the page (with topbar) and when scrolling (with sticky header), completely eliminating navbar overlap at all viewports.
+  - **Dynamic Scroll-Aware Clearance**: Added real-time scroll and resize listener `updateA11yPosition()` in `assets/js/main.js` that measures `header.getBoundingClientRect().bottom` dynamically. Positions the button with a comfortable 26px clearance directly below the navbar both when at the top of the page (with topbar) and when scrolling (with sticky header), completely eliminating navbar overlap at all viewports.
   - **High-Contrast Multi-Layer Border & Shadow**: Added `border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15` to `#accessibility-menu-btn` to ensure it never blends into dark navy hero banners, pure white content sections, or photographic slider backgrounds.
   - **Universal Accessibility Wheelchair Icon**: Embedded the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400 drop-shadow-xs`) inside the circular primary button.
   - **Downward-Opening Responsive Panel**: Positioned `#accessibility-dropdown` to expand downward smoothly from the top-left (`origin-top-left z-[99999]`).
