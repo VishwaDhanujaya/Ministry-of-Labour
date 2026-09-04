@@ -143,12 +143,12 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
-### 2026-09-04 (Refine IAU Navbar Sinhala Labels)
+### 2026-09-04 (Refine IAU Navbar Sinhala & Tamil Labels)
 * **Files:**
   - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Refined IAU Dropdown & Navigation Labels**: Updated `iau_updates` and `iau_downloads` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) to use the concise `IAU` prefix in Sinhala (`IAU නවතම තත්වය` and `IAU බාගත කිරීම්` instead of the lengthy `අභ්‍යන්තර කටයුතු ඒකකයේ...`), keeping navbar dropdowns and breadcrumbs compact and readable.
+  - **Refined IAU Dropdown & Navigation Labels**: Updated `iau_updates` and `iau_downloads` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php) to use the concise `IAU` prefix in Sinhala (`IAU නවතම තත්වය` / `IAU බාගත කිරීම්`) and Tamil (`IAU புதுப்பிப்புகள்` / `IAU பதிவிறக்கங்கள்`), keeping navbar dropdowns and breadcrumbs compact and readable.
 
 ### 2026-09-04 (Complete Removal of Client-Side Google Translate from Frontend)
 * **Files:**

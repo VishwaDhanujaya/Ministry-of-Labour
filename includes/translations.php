@@ -2171,12 +2171,12 @@ $lang_dict = [
     'iau_updates' => [
         'en' => 'IAU Updates',
         'si' => 'IAU නවතම තත්වය',
-        'ta' => 'உள்ளக விவகாரங்கள் பிரிவு புதுப்பிப்புகள்'
+        'ta' => 'IAU புதுப்பிப்புகள்'
     ],
     'iau_downloads' => [
         'en' => 'IAU Downloads',
         'si' => 'IAU බාගත කිරීම්',
-        'ta' => 'உள்ளக விவகாரங்கள் பிரிவு பதிவிறக்கங்கள்'
+        'ta' => 'IAU பதிவிறக்கங்கள்'
     ],
 
     // IAU Overview & Objectives
