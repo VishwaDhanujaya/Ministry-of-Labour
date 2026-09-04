@@ -2729,6 +2729,14 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Comprehensive Audit**: Audited all SQL queries across the entire project (admin panel and public website) to verify that `ORDER BY created_at DESC` / `id DESC` is strictly enforced so newest uploads always appear first.
   - **Downloads Aggregator Fix**: Identified that [downloads.php](file:///c:/xampp/htdocs/Ministry-of-Labour/downloads.php) appended 9 separate document categories without a global sort. Added `ORDER BY created_at DESC` to every sub-query and implemented a global `usort()` on `$all_documents` so that the newest uploaded document from any category always renders at the very top.
   - **IAU Updates Image Sorting**: Updated [iau-updates.php](file:///c:/xampp/htdocs/Ministry-of-Labour/iau-updates.php) to sort attached gallery images with `id DESC`.
+### 2026-09-04 (Hero Slider Autoplay & Transition Speed Adjustment)
+* **Files:**
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Autoplay Delay Slowdown**: Increased the homepage hero slider `heroSwiper` autoplay `delay` from `5000ms` (5 seconds) to `7000ms` (7 seconds) to give visitors more time to view slides before switching.
+  - **Smoother Cross-Fade Transition**: Added `speed: 1000` (1000ms fade duration) to ensure a gentle, premium cross-fade transition between slides.
+
 
 
 

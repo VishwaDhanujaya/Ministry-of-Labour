@@ -823,8 +823,9 @@ if (empty($hero_sliders)) {
             fadeEffect: {
                 crossFade: true
             },
+            speed: 1000,
             autoplay: {
-                delay: 5000,
+                delay: 7000,
                 disableOnInteraction: false
             },
             pagination: {
