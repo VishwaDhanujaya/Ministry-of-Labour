@@ -151,10 +151,10 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Top-Left Placement Under Navbar**: Moved the Accessibility menu out of the topbar in `includes/header.php` and positioned it as a persistent floating circular button in `includes/footer.php` at `fixed top-24 left-4 sm:left-6 z-50`, sitting directly under the sticky navbar on the top left of the screen.
-  - **Universal Accessibility Wheelchair Icon**: Styled the floating action button with the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400`) inside a primary navy circular button (`w-11 h-11 bg-primary hover:bg-[#1B2E42]`).
-  - **Downward-Opening Responsive Panel**: Styled the `#accessibility-dropdown` panel to open downward from the top-left (`fixed top-36 left-4 sm:left-6 origin-top-left z-[99999]`), ensuring high z-index above all page contents and modals.
-  - **Interactive Focus Feedback**: Updated `toggleA11yDropdown()` in `assets/js/main.js` to add active ring feedback (`ring-2 ring-yellow-400 ring-offset-2`) and smooth dropdown transitions.
+  - **Dynamic Scroll-Aware Clearance**: Added real-time scroll and resize listener `updateA11yPosition()` in `assets/js/main.js` that measures `header.getBoundingClientRect().bottom` dynamically. Guarantees a clean 14px clearance directly below the navbar both when at the top of the page (with topbar) and when scrolling (with sticky header), completely eliminating navbar overlap at all viewports.
+  - **High-Contrast Multi-Layer Border & Shadow**: Added `border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15` to `#accessibility-menu-btn` to ensure it never blends into dark navy hero banners, pure white content sections, or photographic slider backgrounds.
+  - **Universal Accessibility Wheelchair Icon**: Embedded the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400 drop-shadow-xs`) inside the circular primary button.
+  - **Downward-Opening Responsive Panel**: Positioned `#accessibility-dropdown` to expand downward smoothly from the top-left (`origin-top-left z-[99999]`).
   - **Preserved Trilingual Engine**: Added `personalize_view` and `close_menu` definitions to `includes/translations.php` and verified that 100% of accessibility features (Font Resizing, Color Blindness SVG filters, Link Highlighter, AI TTS Screen Reader) remain fully functional and trilingual across all 21 pages.
 
 ### 2026-09-04 (Refine IAU Navbar Sinhala & Tamil Labels)
