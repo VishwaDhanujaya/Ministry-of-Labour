@@ -80,10 +80,14 @@ include 'includes/sub-hero.php';
                                 <h3 class="text-[17px] md:text-lg font-semibold text-[#2D2D43] font-montserrat mb-3 leading-snug hover:text-secondary transition-colors notranslate">
                                     <a href="<?= navUrl('events/' . $article['id']) ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
+                                <?php if (!empty(trim(strip_tags($article['content'] ?? '')))): ?>
                                 <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
                                     <span class="notranslate"><?= htmlspecialchars(mb_substr(strip_tags($article['content']), 0, 150)) ?>...</span>
                                     <a href="<?= navUrl('events/' . $article['id']) ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 notranslate"><?= t('read_more', 'Read More') ?></a>
                                 </div>
+                                <?php else: ?>
+                                <div class="flex-grow"></div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <?php endforeach; ?>

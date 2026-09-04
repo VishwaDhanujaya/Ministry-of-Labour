@@ -83,7 +83,7 @@ if ($nextArticle) {
 
 $page_title = $parent_label;
 $pageTitle = strip_tags($article['title']);
-$metaDescription = mb_substr(strip_tags($article['content']), 0, 160);
+$metaDescription = !empty(trim(strip_tags($article['content'] ?? ''))) ? mb_substr(strip_tags($article['content']), 0, 160) : htmlspecialchars(strip_tags($article['title']));
 $metaKeywords = 'Ministry of Labour, News, Events, Sri Lanka, Updates';
 
 if (!empty($article['cover_image'])) {
@@ -133,9 +133,11 @@ include 'includes/sub-hero.php';
                 </div>
                 <?php endif; ?>
 
+                <?php if (!empty(trim(strip_tags($article['content'] ?? '')))): ?>
                 <div class="prose max-w-none text-gray-600 font-inter text-[15px] leading-relaxed mb-12 space-y-6 notranslate">
                     <?= $article['content'] // Content is typically rich text (HTML) so we output it directly ?>
                 </div>
+                <?php endif; ?>
 
                 <?php if (!empty($additionalImages)): ?>
                 <div class="mb-12">

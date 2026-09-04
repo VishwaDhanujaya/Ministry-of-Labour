@@ -2736,6 +2736,21 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Change Description:**
   - **Autoplay Delay Slowdown**: Increased the homepage hero slider `heroSwiper` autoplay `delay` from `5000ms` (5 seconds) to `7000ms` (7 seconds) to give visitors more time to view slides before switching.
   - **Smoother Cross-Fade Transition**: Added `speed: 1000` (1000ms fade duration) to ensure a gentle, premium cross-fade transition between slides.
+### 2026-09-04 (Make Event Body Description Optional & Suppress Empty Previews)
+* **Files:**
+  - [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php)
+  - [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php)
+  - [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php)
+  - [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+  - [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Optional Event Body Description**: Updated backend validation in [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) so that events do not require a body description to publish. If descriptions are partially provided, trilingual validation is still enforced.
+  - **Dynamic Admin Form Indicator**: Added category change listener in [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) that toggles the required asterisk (`*`) and `data-required-quill` validation dynamically when switching between "News" and "Events".
+  - **Suppressed Empty Previews**: Updated [admin/news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news.php) modal preview, [events.php](file:///c:/xampp/htdocs/Ministry-of-Labour/events.php) & [news.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news.php) grid cards, and [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php) recent news cards to only render description text and "Read More" snippets if a body description actually exists.
+  - **Single View Resilience**: Refactored [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php) to omit the `<div class="prose">` content container and safely fall back `$metaDescription` to the article title if the body is empty.
+
 
 
 

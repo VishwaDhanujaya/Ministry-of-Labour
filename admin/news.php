@@ -166,9 +166,11 @@ include 'includes/header.php';
                                     <span class="px-2 py-1 bg-gray-100 text-gray-700 text-[11px] font-bold rounded uppercase tracking-wider"><?= date('M d, Y', strtotime($news['created_at'])) ?></span>
                                 </div>
                                 
+                                <?php if (!empty(trim(strip_tags($news['content'] ?? '')))): ?>
                                 <div class="text-[13px] text-gray-600 line-clamp-6 leading-relaxed mb-4">
                                     <?= nl2br(htmlspecialchars(strip_tags($news['content'] ?? ''))) ?>
                                 </div>
+                                <?php endif; ?>
                                 
                                 <div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between text-[12px] text-gray-500 font-medium">
                                     <span>By <?= htmlspecialchars($news['author_name'] ?? 'Unknown') ?></span>

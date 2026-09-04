@@ -114,8 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Cover image is required to publish.";
     }
 
+    $is_event = ($category === 'Events');
     $title_err = ($status === 'Draft') ? null : validateTrilingualFields([$title, $title_si, $title_ta], 'Title');
-    $content_err = ($status === 'Draft') ? null : validateTrilingualFields([$content, $content_si, $content_ta], 'Content');
+    $content_err = ($status === 'Draft' || ($is_event && empty($content))) ? null : validateTrilingualFields([$content, $content_si, $content_ta], 'Content');
 
     if (empty($title)) {
         $error = "Title is required.";
@@ -123,8 +124,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = $title_err;
     }
 
-    if ($status === 'Draft') {
+    if ($status === 'Draft' || $is_event) {
         if (empty($content)) $content = '';
+        if ($content_err) $error = $content_err;
     } else {
         if (empty($content)) {
             $error = "Content is required to publish.";
@@ -275,7 +277,7 @@ include 'includes/header.php';
                             </div>
                             <div>
                                 <div class="flex justify-between items-center mb-2">
-                                    <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span class="text-red-500">*</span></label>
+                                    <label class="block text-[13px] font-semibold text-gray-800">News Body (English) <span id="body-required-star" class="text-red-500">*</span></label>
                                     <button type="button" onclick="autoTranslateBody('en')" id="translate-body-btn-en" class="text-[12px] bg-blue-50 text-blue-600 px-3 py-1 rounded border border-blue-100 hover:bg-blue-100 transition-colors flex items-center gap-1 whitespace-nowrap">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
                                         Auto Translate Body
@@ -459,12 +461,14 @@ include 'includes/header.php';
                             $catSel = ($article && isset($article['category'])) ? $article['category'] : 'News';
                             echo renderDropdown([
                                 'name' => 'category',
+                                'id' => 'category_select',
                                 'options' => ['News' => 'News', 'Events' => 'Events'],
                                 'selected' => $catSel,
                                 'placeholder' => false,
                                 'required' => true,
                                 'context' => 'form',
-                                'width' => 'w-full'
+                                'width' => 'w-full',
+                                'onchange' => 'handleCategoryChange(this.value)'
                             ]);
                             ?>
                         </div>
@@ -785,6 +789,38 @@ async function autoTranslateBody(fromLang) {
         translateBtn.disabled = false;
     }
 }
+
+function handleCategoryChange(val) {
+    const isEvents = (val === 'Events');
+    const star = document.getElementById('body-required-star');
+    const contentInput = document.getElementById('content_en_input');
+    
+    if (star) {
+        star.style.display = isEvents ? 'none' : 'inline';
+    }
+    if (contentInput) {
+        if (isEvents) {
+            contentInput.removeAttribute('data-required-quill');
+            const quillContainer = document.getElementById('content_en')?.closest('.border');
+            if (quillContainer) quillContainer.classList.remove('border-red-500');
+            const err = quillContainer?.parentElement?.querySelector('.custom-error-msg');
+            if (err) err.remove();
+        } else {
+            contentInput.setAttribute('data-required-quill', 'true');
+        }
+    }
+    const form = document.querySelector('form.js-validate-form');
+    if (form && typeof window.toggleSubmitButton === 'function') {
+        window.toggleSubmitButton(form);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const catSelect = document.getElementById('category_select');
+    if (catSelect) {
+        handleCategoryChange(catSelect.value);
+    }
+});
 </script>
 
 <?php include 'includes/footer.php'; ?>

@@ -715,9 +715,11 @@ if (empty($hero_sliders)) {
                                     <?= htmlspecialchars($news['title']) ?>
                                 </a>
                             </h3>
+                            <?php if (!empty(trim(strip_tags($news['content'] ?? '')))): ?>
                             <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-left">
                                 <?= htmlspecialchars(mb_substr(strip_tags($news['content']), 0, 150)) ?>...
                             </p>
+                            <?php endif; ?>
                         </div>
                     </div>
                     <div class="p-8 pt-2">
