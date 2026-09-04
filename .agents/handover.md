@@ -143,15 +143,15 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
-### 2026-09-04 (Static Top-Left Accessibility Button Position Without Scroll Shifting)
+### 2026-09-04 (Refined Responsive & Unobtrusive Top-Left Accessibility Widget)
 * **Files:**
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Static Stable Position Below Navbar**: Set the floating Accessibility button to a fixed, stable position at `fixed top-36 sm:top-40 left-4 sm:left-6 z-50` and the dropdown at `fixed top-48 sm:top-52 left-4 sm:left-6`.
-  - **Removed Scroll Shifting**: Removed the dynamic `updateA11yPosition()` scroll/resize listener in `assets/js/main.js` so the button remains completely static on the screen during scroll without jumping or shifting up/down.
-  - **Preserved High-Contrast Layering**: Kept the `border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15` styling and yellow wheelchair icon so it remains crisp on all backgrounds.
+  - **Unobtrusive Proportions**: Refined button size to `w-10 h-10 sm:w-11 sm:h-11` and positioning to `fixed top-32 sm:top-36 left-3 sm:left-6` so it remains sleek, comfortable, and never disturbs reading flow on mobile, tablet, or desktop viewports.
+  - **Mobile-Responsive Dropdown**: Configured `#accessibility-dropdown` with `fixed inset-x-3 top-44 sm:inset-x-auto sm:left-6 sm:top-48 w-auto sm:w-84 md:w-88 max-w-sm` and `max-h-[75vh] overflow-y-auto`, ensuring seamless centering on small mobile devices with zero screen-overflow and clean docking on desktop.
+  - **Static & Non-Jumping**: Pure CSS positioning without scroll listeners or unnecessary DOM backdrops for clean, reliable interaction.
 
 ### 2026-09-04 (Refine IAU Navbar Sinhala & Tamil Labels)
 * **Files:**
