@@ -277,6 +277,16 @@ $lang_dict = [
         'si' => 'නැවත සකසන්න',
         'ta' => 'மீட்டமைக்கவும்'
     ],
+    'personalize_view' => [
+        'en' => 'Personalize View',
+        'si' => 'දසුන සකසන්න',
+        'ta' => 'பார்வையைத் தனிப்பயனாக்குங்கள்'
+    ],
+    'close_menu' => [
+        'en' => 'Close',
+        'si' => 'වසන්න',
+        'ta' => 'மூடுக'
+    ],
 
     // Ampara Circuit Bungalow & Online Booking
     'circuit_bungalows' => [
