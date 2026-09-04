@@ -716,12 +716,11 @@ if (empty($hero_sliders)) {
                                 </a>
                             </h3>
                             <?php 
-                            $homeNewsPlain = trim(strip_tags($news['content'] ?? ''));
-                            $homeNewsTruncated = mb_strlen($homeNewsPlain) > 150;
+                            $homeTrunc = truncate_to_word_boundary($news['content'] ?? '', 130);
                             ?>
-                            <?php if (!empty($homeNewsPlain)): ?>
+                            <?php if (!empty($homeTrunc['text'])): ?>
                             <p class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 notranslate text-left">
-                                <?= htmlspecialchars($homeNewsTruncated ? mb_substr($homeNewsPlain, 0, 150) . '...' : $homeNewsPlain) ?>
+                                <?= htmlspecialchars($homeTrunc['text']) ?>
                             </p>
                             <?php endif; ?>
                         </div>

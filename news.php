@@ -81,14 +81,13 @@ include 'includes/sub-hero.php';
                                     <a href="<?= navUrl('news/' . $article['id']) ?>" class="hover:text-secondary transition-colors"><?= htmlspecialchars($article['title']) ?></a>
                                 </h3>
                                 <?php 
-                                $plainContent = trim(strip_tags($article['content'] ?? ''));
-                                $isTruncated = mb_strlen($plainContent) > 150;
+                                $trunc = truncate_to_word_boundary($article['content'] ?? '', 130);
                                 ?>
-                                <?php if (!empty($plainContent)): ?>
-                                <div class="text-gray-500 text-[14px] font-inter leading-relaxed flex-grow">
-                                    <span class="notranslate"><?= htmlspecialchars($isTruncated ? mb_substr($plainContent, 0, 150) . '...' : $plainContent) ?></span>
-                                    <?php if ($isTruncated): ?>
-                                    <a href="<?= navUrl('news/' . $article['id']) ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 notranslate"><?= t('read_more', 'Read More') ?></a>
+                                <?php if (!empty($trunc['text'])): ?>
+                                <div class="text-gray-500 text-[14px] font-inter leading-relaxed line-clamp-3 flex-grow">
+                                    <span class="notranslate"><?= htmlspecialchars($trunc['text']) ?></span>
+                                    <?php if ($trunc['truncated']): ?>
+                                    <a href="<?= navUrl('news/' . $article['id']) ?>" class="text-secondary font-bold hover:text-[#320000] transition-colors ml-1 whitespace-nowrap notranslate"><?= t('read_more', 'Read More') ?></a>
                                     <?php endif; ?>
                                 </div>
                                 <?php else: ?>

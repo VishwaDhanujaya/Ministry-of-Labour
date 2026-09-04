@@ -3204,3 +3204,30 @@ if (!function_exists('translateCategory')) {
         return $category;
     }
 }
+
+if (!function_exists('truncate_to_word_boundary')) {
+    /**
+     * Cleanly truncate text to a word boundary (~3 lines, approx 120-130 chars) without cutting words mid-way.
+     *
+     * @param string|null $text The raw text or HTML string
+     * @param int $limit Maximum character length before boundary truncation
+     * @return array ['text' => string, 'truncated' => bool]
+     */
+    function truncate_to_word_boundary(?string $text, int $limit = 130): array {
+        $clean = trim(strip_tags($text ?? ''));
+        // Normalize whitespace and non-breaking spaces
+        $clean = preg_replace('/\s+/u', ' ', str_replace('&nbsp;', ' ', $clean));
+        if (mb_strlen($clean) <= $limit) {
+            return ['text' => $clean, 'truncated' => false];
+        }
+        
+        $sub = mb_substr($clean, 0, $limit);
+        $lastSpace = mb_strrpos($sub, ' ');
+        if ($lastSpace !== false && $lastSpace > (int)($limit * 0.5)) {
+            $sub = mb_substr($sub, 0, $lastSpace);
+        }
+        $sub = rtrim($sub, " ,.-;:!?\t\n\r\0\x0B");
+        return ['text' => $sub . '...', 'truncated' => true];
+    }
+}
+
