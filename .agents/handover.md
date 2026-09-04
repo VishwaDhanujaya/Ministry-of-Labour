@@ -143,19 +143,15 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
-### 2026-09-04 (Relocate Accessibility Menu to Top-Left Floating Button Under Navbar)
+### 2026-09-04 (Static Top-Left Accessibility Button Position Without Scroll Shifting)
 * **Files:**
-  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
-  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
   - [assets/js/main.js](file:///c:/xampp/htdocs/Ministry-of-Labour/assets/js/main.js)
 * **Author:** Antigravity AI
 * **Change Description:**
-  - **Dynamic Scroll-Aware Clearance**: Added real-time scroll and resize listener `updateA11yPosition()` in `assets/js/main.js` that measures `header.getBoundingClientRect().bottom` dynamically. Positions the button with a comfortable 26px clearance directly below the navbar both when at the top of the page (with topbar) and when scrolling (with sticky header), completely eliminating navbar overlap at all viewports.
-  - **High-Contrast Multi-Layer Border & Shadow**: Added `border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15` to `#accessibility-menu-btn` to ensure it never blends into dark navy hero banners, pure white content sections, or photographic slider backgrounds.
-  - **Universal Accessibility Wheelchair Icon**: Embedded the universal "man in wheelchair" SVG icon in yellow (`text-yellow-400 drop-shadow-xs`) inside the circular primary button.
-  - **Downward-Opening Responsive Panel**: Positioned `#accessibility-dropdown` to expand downward smoothly from the top-left (`origin-top-left z-[99999]`).
-  - **Preserved Trilingual Engine**: Added `personalize_view` and `close_menu` definitions to `includes/translations.php` and verified that 100% of accessibility features (Font Resizing, Color Blindness SVG filters, Link Highlighter, AI TTS Screen Reader) remain fully functional and trilingual across all 21 pages.
+  - **Static Stable Position Below Navbar**: Set the floating Accessibility button to a fixed, stable position at `fixed top-36 sm:top-40 left-4 sm:left-6 z-50` and the dropdown at `fixed top-48 sm:top-52 left-4 sm:left-6`.
+  - **Removed Scroll Shifting**: Removed the dynamic `updateA11yPosition()` scroll/resize listener in `assets/js/main.js` so the button remains completely static on the screen during scroll without jumping or shifting up/down.
+  - **Preserved High-Contrast Layering**: Kept the `border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15` styling and yellow wheelchair icon so it remains crisp on all backgrounds.
 
 ### 2026-09-04 (Refine IAU Navbar Sinhala & Tamil Labels)
 * **Files:**

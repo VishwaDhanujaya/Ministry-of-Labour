@@ -281,16 +281,16 @@
         </div>
     </footer>
 
-    <!-- Floating Accessibility Menu Widget (Top Left under Navbar) -->
+    <!-- Floating Accessibility Menu Widget (Fixed Top Left) -->
     <div class="relative notranslate" id="accessibility-menu-container">
-        <!-- Floating Action Button (Positioned top left under Navbar with high-contrast borders and shadows) -->
+        <!-- Floating Action Button (Positioned at a comfortable static height below the navbar) -->
         <button id="accessibility-menu-btn" 
             type="button" 
             aria-expanded="false" 
             aria-haspopup="true" 
             aria-label="<?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?>"
             title="<?= htmlspecialchars($lang_dict['accessibility'][$current_lang] ?? 'Accessibility') ?>"
-            class="fixed top-36 left-4 sm:left-6 w-11 h-11 bg-primary hover:bg-[#1B2E42] text-white rounded-full flex items-center justify-center border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15 hover:scale-110 hover:shadow-[0_15px_35px_rgba(0,0,0,0.45)] transition-all duration-200 z-50 focus:outline-none cursor-pointer group active:scale-95">
+            class="fixed top-36 sm:top-40 left-4 sm:left-6 w-11 h-11 bg-primary hover:bg-[#1B2E42] text-white rounded-full flex items-center justify-center border-2 border-white shadow-[0_10px_25px_rgba(0,0,0,0.35)] ring-1 ring-black/15 hover:scale-110 hover:shadow-[0_15px_35px_rgba(0,0,0,0.45)] transition-all duration-200 z-50 focus:outline-none cursor-pointer group active:scale-95">
             <!-- Man in Wheelchair Universal Accessibility Icon -->
             <svg class="w-5 h-5 text-yellow-400 group-hover:scale-110 transition-transform shrink-0 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="4" r="2"/>
@@ -300,7 +300,7 @@
         </button>
 
         <!-- Accessibility Dropdown Panel (Opens downward from top-left) -->
-        <div id="accessibility-dropdown" class="fixed top-52 left-4 sm:left-6 w-[calc(100vw-2rem)] sm:w-84 md:w-88 max-w-sm bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.45)] border-2 border-gray-200 p-4 sm:p-5 z-[99999] transform opacity-0 -translate-y-2 pointer-events-none transition-all duration-200 ease-out origin-top-left text-gray-800 max-h-[75vh] overflow-y-auto overscroll-contain">
+        <div id="accessibility-dropdown" class="fixed top-48 sm:top-52 left-4 sm:left-6 w-[calc(100vw-2rem)] sm:w-84 md:w-88 max-w-sm bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.45)] border-2 border-gray-200 p-4 sm:p-5 z-[99999] transform opacity-0 -translate-y-2 pointer-events-none transition-all duration-200 ease-out origin-top-left text-gray-800 max-h-[75vh] overflow-y-auto overscroll-contain">
             <!-- Dropdown Header -->
             <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100">
                 <div class="flex items-center space-x-2.5">
