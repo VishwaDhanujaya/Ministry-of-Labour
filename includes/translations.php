@@ -3207,16 +3207,19 @@ if (!function_exists('translateCategory')) {
 
 if (!function_exists('truncate_to_word_boundary')) {
     /**
-     * Cleanly truncate text to a word boundary (~3 lines, approx 120-130 chars) without cutting words mid-way.
+     * Cleanly truncate text to a word boundary (~120 chars) without cutting words mid-way.
      *
      * @param string|null $text The raw text or HTML string
-     * @param int $limit Maximum character length before boundary truncation
+     * @param int $limit Maximum character length before boundary truncation (default 120)
      * @return array ['text' => string, 'truncated' => bool]
      */
-    function truncate_to_word_boundary(?string $text, int $limit = 130): array {
+    function truncate_to_word_boundary(?string $text, int $limit = 120): array {
         $clean = trim(strip_tags($text ?? ''));
         // Normalize whitespace and non-breaking spaces
         $clean = preg_replace('/\s+/u', ' ', str_replace('&nbsp;', ' ', $clean));
+        if ($clean === '') {
+            return ['text' => '', 'truncated' => false];
+        }
         if (mb_strlen($clean) <= $limit) {
             return ['text' => $clean, 'truncated' => false];
         }
