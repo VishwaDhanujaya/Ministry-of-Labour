@@ -51,6 +51,7 @@ Thumbs.db
 *.rar
 *.7z
 *.sql.gz
+*.sql
 *.backup
 *.bak
 

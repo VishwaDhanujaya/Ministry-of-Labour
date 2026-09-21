@@ -211,8 +211,10 @@ if (empty($hero_sliders)) {
     ];
 }
 ?>
+<!-- Hero + Stats wrapper: together they fill exactly 100dvh minus the sticky header -->
+<div id="hero-stats-wrapper" class="flex flex-col" style="height: var(--hero-wrapper-h, calc(100dvh - 76px));">
 <!-- Hero Section -->
-<section class="relative bg-[#091522] overflow-hidden min-h-[420px] sm:min-h-[460px] lg:h-[calc(100vh-210px)] lg:min-h-[400px] max-h-[640px] w-full flex flex-col justify-center">
+<section id="hero-section" class="relative bg-[#091522] overflow-hidden w-full flex-1 min-h-0 flex flex-col justify-center">
     <!-- Full-Bleed Background Swiper Image Carousel -->
     <div class="absolute inset-0 w-full h-full z-0 overflow-hidden" data-aos="fade" data-aos-duration="800">
         <div class="swiper hero-swiper w-full h-full" style="--swiper-pagination-color: #ffffff; --swiper-pagination-bullet-inactive-color: rgba(255,255,255,0.35);">
@@ -239,7 +241,7 @@ if (empty($hero_sliders)) {
                 </button>
             </div>
             <!-- Slider Pagination dot bullets -->
-            <div class="swiper-pagination !bottom-14 z-30"></div>
+            <div class="swiper-pagination !bottom-12 sm:!bottom-14 z-30"></div>
         </div>
     </div>
 
@@ -258,25 +260,25 @@ if (empty($hero_sliders)) {
     </div>
 
     <!-- Foreground Content Layer: Welcome Text Container -->
-    <div class="container mx-auto px-6 sm:px-10 lg:px-16 text-white relative z-20 py-10 lg:py-0 pb-20 lg:pb-0 notranslate">
+    <div class="container mx-auto px-6 sm:px-10 lg:px-16 text-white relative z-20 py-6 sm:py-8 md:py-10 lg:py-0 pb-16 sm:pb-18 md:pb-20 lg:pb-0 notranslate">
         <div class="max-w-xl" data-aos="fade-right" data-aos-duration="800">
-            <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white/90 text-[11px] sm:text-xs font-semibold font-inter tracking-wider uppercase backdrop-blur-md border border-white/15 mb-3">
+            <div class="inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 text-white/90 text-[10.5px] sm:text-xs font-semibold font-inter tracking-wider uppercase backdrop-blur-md border border-white/15 mb-2 sm:mb-3">
                 <?= htmlspecialchars(t('welcome_to')) ?>
             </div>
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-3 sm:mb-4">
+            <h1 class="text-xl sm:text-3xl lg:text-4xl xl:text-[40px] font-extrabold font-montserrat tracking-tight leading-tight uppercase text-white mb-2.5 sm:mb-4">
                 <?= htmlspecialchars(t('ministry_of_labour')) ?>
             </h1>
-            <p class="text-slate-300 font-inter text-xs sm:text-sm lg:text-[14px] leading-relaxed mb-5 sm:mb-7 max-w-xl">
+            <p class="text-slate-300 font-inter text-xs sm:text-sm lg:text-[14px] leading-relaxed mb-4 sm:mb-7 max-w-xl line-clamp-3 sm:line-clamp-none">
                 <?= htmlspecialchars(t('hero_desc')) ?>
             </p>
-            <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-4">
                 <a href="#quick-links"
-                    class="inline-flex items-center justify-center gap-2 bg-secondary text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg hover:bg-[#8e1b1b] hover:shadow-lg hover:shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-xs uppercase tracking-wider font-inter">
+                    class="inline-flex items-center justify-center gap-2 bg-secondary text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg hover:bg-[#8e1b1b] hover:shadow-lg hover:shadow-secondary/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-[11px] sm:text-xs uppercase tracking-wider font-inter">
                     <span><?= htmlspecialchars(t('quick_links')) ?></span>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
                 </a>
                 <a href="#news-section"
-                    class="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md text-white font-bold py-2.5 px-5 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:bg-white hover:text-primary hover:border-white hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-xs uppercase tracking-wider font-inter">
+                    class="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-md text-white font-bold py-2 px-4 sm:py-3 sm:px-6 rounded-lg border border-white/20 hover:bg-white hover:text-primary hover:border-white hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 text-[11px] sm:text-xs uppercase tracking-wider font-inter">
                     <span><?= htmlspecialchars(t('view_news')) ?></span>
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -285,7 +287,7 @@ if (empty($hero_sliders)) {
     </div>
 
     <!-- Scrolling News Bar strictly anchored to absolute bottom of hero section -->
-    <div class="absolute bottom-0 left-0 w-full z-30 bg-[#060d15]/90 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-11 shadow-md">
+    <div class="absolute bottom-0 left-0 w-full z-30 bg-[#060d15]/90 backdrop-blur-md border-t border-white/10 overflow-hidden flex items-stretch h-10 sm:h-11 shadow-md">
         <div class="bg-primary text-white font-bold text-[11px] px-5 uppercase tracking-wider shrink-0 z-10 border-r border-white/10 hidden md:flex items-center justify-center notranslate">
             <?= t('latest_news') ?>
         </div>
@@ -362,9 +364,9 @@ if (empty($hero_sliders)) {
 </style>
 
 <!-- Stats Bar -->
-<div class="bg-secondary text-white py-3.5 md:py-4 relative z-20">
-    <div class="container mx-auto px-4 md:px-16 relative z-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center md:divide-x divide-white/20">
+<div id="stats-bar" class="bg-secondary text-white py-2.5 sm:py-3.5 md:py-4 relative z-20 shrink-0">
+    <div class="container mx-auto px-3 sm:px-4 md:px-16 relative z-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 text-center md:divide-x divide-white/20">
             <?php 
             $orderedKeys = ['affiliated_institutions', 'labour_acts', 'ilo_conventions', 'total_visitors'];
             foreach ($orderedKeys as $key): 
@@ -387,16 +389,39 @@ if (empty($hero_sliders)) {
                 }
                 $hoverClasses = $isLink ? ' hover:scale-105 cursor-pointer transition-all duration-300 hover:opacity-90 hover block group' : '';
             ?>
-            <<?= $elTag . $linkHref ?> class="px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
-                <div class="text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white <?= $isLink ? 'group-hover:text-amber-300 transition-colors duration-300' : '' ?>"><span
+            <<?= $elTag . $linkHref ?> class="px-2 sm:px-4 stat-box notranslate<?= $hoverClasses ?>" data-target="<?= htmlspecialchars($stat['stat_value']) ?>" data-suffix="<?= htmlspecialchars($stat['stat_suffix']) ?>">
+                <div class="text-xl sm:text-2xl md:text-3xl font-bold font-montserrat mb-0.5 text-white <?= $isLink ? 'group-hover:text-amber-300 transition-colors duration-300' : '' ?>"><span
                         class="stat-number">0</span><?= htmlspecialchars($stat['stat_suffix']) ?></div>
-                <div class="text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium <?= $isLink ? 'group-hover:text-amber-200/90 transition-colors duration-300' : '' ?>">
+                <div class="text-[9.5px] sm:text-[10px] md:text-[11px] font-inter text-gray-200 uppercase tracking-wider font-medium <?= $isLink ? 'group-hover:text-amber-200/90 transition-colors duration-300' : '' ?>">
                     <?= htmlspecialchars($label) ?></div>
             </<?= $elTag ?>>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+</div><!-- /hero-stats-wrapper -->
+
+<!-- Wrapper height calibration: measure wrapper's own top offset (topbar + header combined) -->
+<script>
+(function () {
+    var wrapper = document.getElementById('hero-stats-wrapper');
+
+    function setWrapperHeight() {
+        if (!wrapper) return;
+        // getBoundingClientRect().top gives the exact pixel distance from the
+        // viewport top to where the wrapper begins — naturally accounts for
+        // topbar (visible on desktop, hidden on mobile) AND header height.
+        var wrapperTop = wrapper.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+        var h = Math.max(window.innerHeight - wrapperTop, 300);
+        document.documentElement.style.setProperty('--hero-wrapper-h', h + 'px');
+    }
+
+    setWrapperHeight();
+    window.addEventListener('resize', setWrapperHeight);
+    document.addEventListener('DOMContentLoaded', setWrapperHeight);
+    window.addEventListener('load', setWrapperHeight);
+})();
+</script>
 
 <!-- About Section -->
 <section class="py-12 md:py-16 px-4 md:px-16" id="about-us">

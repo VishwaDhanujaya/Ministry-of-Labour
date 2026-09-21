@@ -26,36 +26,36 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt = $pdo->prepare("UPDATE bookings SET status = ? WHERE id = ?");
         $stmt->execute([$new_status, $id]);
 
-        // Send Email Notification (Disabled as per manual payment process requirements)
-        /*
+        // Send Official Status Update Email Notification
         $stmt = $pdo->prepare("SELECT * FROM bookings WHERE id = ?");
         $stmt->execute([$id]);
         $booking = $stmt->fetch();
         
-        if ($booking && !empty($booking['email'])) {
+        if ($booking && !empty($booking['email']) && filter_var($booking['email'], FILTER_VALIDATE_EMAIL)) {
             require_once __DIR__ . '/../includes/Mailer.php';
-            
-            $subject = "";
-            $textBody = "";
-            
-            if ($new_status === 'Confirmed') {
-                $subject = "Your Bungalow Booking is Confirmed - Ministry of Labour";
-                $textBody = "Dear {$booking['applicant_name']},\n\nYour booking request for {$booking['bungalow_name']} Bungalow has been CONFIRMED.\n\nDetails:\nBungalow: {$booking['bungalow_name']}\nRoom Type: {$booking['room_type']}\nCheck-in: {$booking['start_date']}\nCheck-out: {$booking['end_date']}\n\nThank you,\nMinistry of Labour";
-            } elseif ($new_status === 'Cancelled') {
-                $subject = "Your Bungalow Booking has been Cancelled - Ministry of Labour";
-                $textBody = "Dear {$booking['applicant_name']},\n\nWe regret to inform you that your booking request for {$booking['bungalow_name']} Bungalow has been CANCELLED.\n\nDetails:\nBungalow: {$booking['bungalow_name']}\nRoom Type: {$booking['room_type']}\nCheck-in: {$booking['start_date']}\nCheck-out: {$booking['end_date']}\n\nIf you have any questions, please contact us.\n\nThank you,\nMinistry of Labour";
+            require_once __DIR__ . '/../includes/EmailTemplate.php';
+
+            if (empty($booking['bungalow_name']) || strpos($booking['bungalow_name'], 'Bungalow') === false) {
+                $booking['bungalow_name'] = ($booking['bungalow_name'] ?? 'Ampara') . ' Circuit Bungalow';
             }
-            
-            if (!empty($subject)) {
-                \App\Utilities\Mailer::sendEmail(
-                    $booking['email'],
-                    $subject,
-                    nl2br($textBody),
-                    $textBody
-                );
-            }
+
+            $refCode = 'MOL-BKG-' . str_pad($booking['id'], 5, '0', STR_PAD_LEFT);
+            $subject = ($new_status === 'Confirmed')
+                ? "Booking CONFIRMED: {$booking['bungalow_name']} - {$refCode} - Ministry of Labour"
+                : "Booking Status Update: {$booking['bungalow_name']} - {$refCode} - Ministry of Labour";
+
+            $htmlContent = \App\Utilities\EmailTemplate::bungalowBookingStatusUpdate($booking, $new_status);
+            $altBody = ($new_status === 'Confirmed')
+                ? "Dear {$booking['applicant_name']},\n\nYour booking request for {$booking['bungalow_name']} has been CONFIRMED (Ref: {$refCode}).\nCheck-in: {$booking['start_date']} ({$booking['arrival_time']})\nCheck-out: {$booking['end_date']} ({$booking['departure_time']})\n\nThank you,\nMinistry of Labour, Sri Lanka"
+                : "Dear {$booking['applicant_name']},\n\nYour booking request for {$booking['bungalow_name']} has been CANCELLED (Ref: {$refCode}).\n\nIf you have any questions, please contact the Welfare Division.\n\nMinistry of Labour, Sri Lanka";
+
+            \App\Utilities\Mailer::sendEmail(
+                $booking['email'],
+                $subject,
+                $htmlContent,
+                $altBody
+            );
         }
-        */
 
         header("Location: bungalow-bookings");
         exit;

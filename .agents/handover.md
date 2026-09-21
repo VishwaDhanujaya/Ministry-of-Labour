@@ -143,6 +143,63 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
 * **Production Build (Minified):** `npm run build:prod`
 
 ## 🗂️ Workflow & Templates
+
+### 2026-09-15 (Generate QA Testing Report for Ministry of Labour Web Portal)
+* **Files:**
+  - [QA_Testing_Report_Ministry_of_Labour.html](file:///C:/Users/TUF_Gaming/.gemini/antigravity-ide/brain/a29e4456-212b-43c4-9def-22e7e7a65331/QA_Testing_Report_Ministry_of_Labour.html) (Artifact – Generated Report)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **QA Testing Report Created**: Generated a complete, professional Quality Assurance Testing Report (MOL-QA-2026-001) for the Ministry of Labour official web portal as an HTML document formatted for print/submission.
+  - **68 Test Cases across 7 Sections**: Section A – Frontend Public Pages (19 TCs), Section B – Navigation & Routing (7 TCs), Section C – Multilingual / Language Switching (6 TCs), Section D – Public-Facing Forms (10 TCs), Section E – Links & Downloadable Resources (7 TCs), Section F – Admin Panel & CMS (14 TCs), Section G – User Access & Security Controls (5 TCs). All results: PASS.
+  - **Professional Format**: Document uses Arial font throughout, Ministry of Labour branding (dark slate blue `#13273F`, burgundy `#4E0000`), structured with Test Overview, Test Cases table, Defects Summary, Final Status verdict, and three-slot Sign-Off block. Suitable for official submission.
+
+### 2026-09-11 (Update WhatsApp Number and Direct Chat Links in Topbar, Drawer & Footer)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Standardized Official WhatsApp Links**: Updated WhatsApp link URLs in desktop topbar (`header.php`), mobile navigation drawer (`header.php`), and footer (`footer.php`) from placeholder numbers to `https://wa.me/94707227877` (`070 722 7877`), including `rel="noopener noreferrer"` attributes for security.
+
+### 2026-09-11 (Update Google reCAPTCHA v2 API Keys in .env)
+* **Files:**
+  - [.env](file:///c:/xampp/htdocs/Ministry-of-Labour/.env)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Configured Production reCAPTCHA v2 Credentials**: Updated `RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY` in [.env](file:///c:/xampp/htdocs/Ministry-of-Labour/.env) to integrate the user's custom Google reCAPTCHA credentials for frontend validation on the contact form ([contact-us.php](file:///c:/xampp/htdocs/Ministry-of-Labour/contact-us.php)) and server-side verification in [process-contact.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-contact.php).
+
+### 2026-09-08 (Hero & Statistics Fullscreen Layout on Mobile & Large Screens + Mobile Topbar Removal)
+* **Files:**
+  - [includes/header.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/header.php)
+  - [index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/index.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Removed Topbar on Mobile (`header.php`)**: Added `hidden md:flex` to the topbar container in `includes/header.php` so the contact/fax/social/language strip is hidden on mobile devices (< 768px), allowing the sticky header to sit cleanly at the top of the mobile viewport while remaining active on tablets and desktops.
+  - **Fullscreen Hero & Statistics on Mobile (`index.php`)**: Configured the homepage hero section height to `h-[calc(100vh-184px)] h-[calc(100dvh-184px)] min-h-[420px]` on mobile devices, ensuring the header (76px), hero area, and statistics bar (108px) together precisely occupy 100% of the mobile viewport (`100dvh`) without requiring scrolling. Optimized mobile hero padding (`py-6 sm:py-8 pb-16 sm:pb-18`), typography, and buttons to guarantee spacious, zero-overlap display above the bottom news ticker and pagination dots.
+  - **JS-Driven Hero+Stats Wrapper Calibration (`index.php`)**: Replaced the broken approach of measuring the stats bar height inline (which returned 0 at script execution time, causing stats to clip). Instead, a `#hero-stats-wrapper` flex column container wraps both the hero `<section>` and the stats bar `<div>`. The wrapper height = `100dvh - header height` (set via `--hero-wrapper-h` CSS variable). The hero uses `flex-1 min-h-0` to fill remaining space, and the stats bar uses `shrink-0` to take its natural height. The JS IIFE only measures `#main-header` height (which IS rendered when the inline script runs), making this fully reliable across all screen sizes, pixel densities, and browser chrome states.
+  - **Preserved Middle Devices Unchanged (`index.php`)**: Maintained `md:h-auto md:min-h-[460px] lg:h-[calc(100vh-210px)] lg:min-h-[400px] lg:max-h-[640px]` strictly intact for middle devices (tablets and standard laptops) so their proportional fitting is 100% preserved.
+* **Files:**
+  - [includes/EmailTemplate.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/EmailTemplate.php)
+  - [includes/Mailer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/Mailer.php)
+  - [process-contact.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-contact.php)
+  - [process-ampara-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/process-ampara-booking.php)
+  - [admin/bungalow-bookings.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/bungalow-bookings.php)
+  - [admin/manage-admins.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/manage-admins.php)
+  - [scratch/preview-emails.php](file:///c:/xampp/htdocs/Ministry-of-Labour/scratch/preview-emails.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Centralized Email Template Engine (`EmailTemplate.php`)**: Built a reusable, table-based HTML email framework matching government branding (`#13273F` Slate Blue, `#4E0000` Burgundy, `#D97706` Gold accent, `#F8FAFC` card backgrounds). Fully responsive with mobile viewport media queries, bulletproof MSO conditionals for Outlook/Gmail/Apple Mail, structured detail tables, color-coded status badges, information callouts, high-contrast action buttons, and official Ministry footer (address, hotline `1919`, portal URL, confidentiality notices).
+  - **Comprehensive Email Coverage (7 Key Flows)**:
+    1. *Contact Inquiry Admin Alert*: Citizen details, IP, timestamp, inquiry card, reply button.
+    2. *Contact Acknowledgment*: Automated citizen confirmation with inquiry summary, reference ID, and official hotline info.
+    3. *Bungalow Booking Submitted (Applicant)*: Reference number (`MOL-BKG-XXXXX`), stay particulars, payment verification notice, check-in requirements.
+    4. *Bungalow Booking Alert (Admin)*: Application summary, room types, applicant category, and admin portal CTA.
+    5. *Bungalow Booking Confirmed*: Green confirmed badge, check-in instructions, caretaker contact, bungalow stay guidelines.
+    6. *Bungalow Booking Cancelled*: Red cancelled badge, official cancellation reason explanation, alternative dates booking link.
+    7. *Admin Welcome Notification*: Staff account credentials overview, designated role, security advice, direct login button.
+  - **Mailer Utility Optimization (`Mailer.php`)**: Implemented automatic embedded image detection for `logo.png` (`cid:ministry_logo`) and automated plaintext alternative body generation.
+  - **Visual Preview Tool (`scratch/preview-emails.php`)**: Added an interactive web preview dashboard to inspect all 7 templates in real-time across Desktop (600px), Mobile (375px), and Full Width views.
+
 ### 2026-09-04 (Refined Responsive & Unobtrusive Top-Left Accessibility Widget)
 * **Files:**
   - [includes/footer.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/footer.php)
@@ -2749,7 +2806,43 @@ The asset compilation workflow uses Tailwind CLI. Scripts are configured in `pac
   - **Optional Event Body Description**: Updated backend validation in [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) so that events do not require a body description to publish. If descriptions are partially provided, trilingual validation is still enforced.
   - **Dynamic Admin Form Indicator**: Added category change listener in [admin/news-add.php](file:///c:/xampp/htdocs/Ministry-of-Labour/admin/news-add.php) that toggles the required asterisk (`*`) and `data-required-quill` validation dynamically when switching between "News" and "Events".
   - **Word-Boundary Truncation (`truncate_to_word_boundary`)**: Implemented `truncate_to_word_boundary(?string $text, int $limit = 120)` in [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php). This cuts text cleanly at the nearest whole word before character 120, avoiding mid-word splits and trailing punctuation artifacts while only appending ellipsis and `Read More` when truncation actually occurs.
-  - **Single View Resilience**: Refactored [news-single.php](file:///c:/xampp/htdocs/Ministry-of-Labour/news-single.php) to omit the `<div class="prose">` content container and safely fall back `$metaDescription` to the article title if the body is empty.
+### 2026-09-08 (Fix Ampara Circuit Bungalow Booking Submission & Status Text Alignment)
+* **Files:**
+  - [ampara-circuit-bungalow-booking.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow-booking.php)
+  - [ampara-circuit-bungalow.php](file:///c:/xampp/htdocs/Ministry-of-Labour/ampara-circuit-bungalow.php)
+  - [includes/translations.php](file:///c:/xampp/htdocs/Ministry-of-Labour/includes/translations.php)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **HTML5 Hidden Element Validation Resolution**: Added `novalidate` attribute to `<form id="bookingForm">`. Previously, native browser constraint validation silently aborted form submission when reaching Step 4 because required inputs on inactive hidden steps (`display: none;`) could not be focused by browser tooltips (`An invalid form control is not focusable`).
+  - **Full 4-Step Form Validation**: Enhanced `validateStep(step)` and added a `bookingForm` submit event listener that sequentially validates all 4 steps before allowing submission. If any step is incomplete, it seamlessly navigates the user back to the specific step, highlights the problematic field with red borders, and alerts the user using `window.showToast()`.
+  - **Step 4 File & Declaration Validation**: Added client-side MIME format checks (`.jpg`, `.jpeg`, `.png`, `.webp`, `.pdf`), file size constraints (max 5MB), and terms declaration validation for both `payment_slip` and `approval_letter`.
+  - **Submission Loading State**: Added loading spinner animation (`Submitting Application...`) and disabled button interaction upon submission to prevent accidental double submissions while backend file uploads and SMTP confirmation emails are being dispatched.
+  - **Confirmation Copy Realignment (`booking_submitted_desc` & `booking_success_msg`)**: Updated trilingual descriptions across EN, SI, and TA to accurately reflect that the applicant has already submitted their payment slip with the form, clarifying that the application is now **Pending Verification** by administrative officers rather than asking them to pay after approval.
+### 2026-09-08 (Coming Soon Asset Relocation & Direct Link Integration)
+* **Files:**
+  - [coming-soon/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/coming-soon/index.php)
+  - [coming-soon/bg.webp](file:///c:/xampp/htdocs/Ministry-of-Labour/coming-soon/bg.webp)
+  - [coming-soon/emblem.png](file:///c:/xampp/htdocs/Ministry-of-Labour/coming-soon/emblem.png)
+  - [coming-soon/logo.png](file:///c:/xampp/htdocs/Ministry-of-Labour/coming-soon/logo.png)
+* **Author:** Antigravity AI
+* **Change Description:**
+  - **Direct Root Folder Asset Architecture**: Relocated `bg.webp`, `emblem.png`, and `logo.png` directly into the `coming-soon/` folder root and deleted the `assets/` subfolder.
+  - **Asset Links Synchronization**: Updated all references in [coming-soon/index.php](file:///c:/xampp/htdocs/Ministry-of-Labour/coming-soon/index.php) from `assets/...` to direct relative paths (`bg.webp`, `emblem.png`, and `logo.png`).
+  - **Digital Transformation & Coming Soon Slogan**: Updated the subtitle copy to "A Step Towards Digital Transformation - Coming Soon" across metadata and trilingual dictionary mappings (EN: *A Step Towards Digital Transformation - Coming Soon*, SI: *ඩිජිටල් පරිවර්තනයක් කරා තබන නව පියවරක් - ළඟදීම එළිදැක්වේ*, TA: *டிஜிட்டல் மாற்றத்தை நோக்கிய ஒரு புதிய படி - விரைவில் வெளிவருகிறது*).
+  - **Balanced Heading Typography**: Scaled down the main title from oversized `text-6xl` to a refined, balanced `text-2xl sm:text-3xl md:text-4xl lg:text-[42px]` with proportional subtext (`text-xs sm:text-sm md:text-base`) for cleaner visual hierarchy.
+  - **Enhanced Background Image Visibility**: Increased the background headquarters visual brightness (`brightness-[0.62] sm:brightness-[0.68]`) and recalibrated the gradient overlay opacities to reveal the architecture while maintaining text readability via drop-shadows and backdrop blur.
+  - **Comprehensive Multi-Device Responsiveness (320px to 4K)**:
+    - Ultra-Narrow Mobile (320px - 380px): Set cards to fluid `min-w-0 flex-1` with dynamic gap/padding (`gap-1.5 p-2`) and auto-hiding colons (`hidden min-[360px]:inline-block`) to eliminate any chance of horizontal overflow.
+    - Viewport & Landscape Resilience: Implemented CSS `min-height: 100dvh` with standard fallback `min-height: 100vh` inside the stylesheet and cleaned up duplicate Tailwind class collisions on `body`.
+    - Large / Ultrawide Screens: Max-width constraints (`max-w-4xl xl:max-w-5xl`), responsive typography (`text-xl sm:text-3xl md:text-4xl lg:text-[44px]`), and centered composition.
+
+
+
+
+
+
+
+
 
 
 

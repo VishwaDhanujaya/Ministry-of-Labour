@@ -44,6 +44,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $stmt = $pdo->prepare("INSERT INTO admins (name, email, password_hash, role, permissions) VALUES (?, ?, ?, ?, ?)");
             if ($stmt->execute([$name, $email, $hash, $role, $perms])) {
                 $success = "Admin created successfully.";
+
+                // Dispatch Welcome Email to the newly created admin
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    require_once __DIR__ . '/../includes/Mailer.php';
+                    require_once __DIR__ . '/../includes/EmailTemplate.php';
+
+                    $welcomeSubject = "Welcome to Ministry of Labour Administration Portal";
+                    $welcomeHtml = \App\Utilities\EmailTemplate::adminWelcomeEmail([
+                        'name' => $name,
+                        'email' => $email,
+                        'role' => $role,
+                    ]);
+                    $welcomeAlt = "Dear {$name},\n\nAn administrative account has been created for you on the Ministry of Labour Portal.\nEmail: {$email}\nRole: {$role}\n\nMinistry of Labour, Sri Lanka";
+
+                    \App\Utilities\Mailer::sendEmail(
+                        $email,
+                        $welcomeSubject,
+                        $welcomeHtml,
+                        $welcomeAlt
+                    );
+                }
             } else {
                 $error = "Failed to create admin.";
             }

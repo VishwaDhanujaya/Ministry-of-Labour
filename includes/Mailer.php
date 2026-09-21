@@ -126,17 +126,29 @@ class Mailer {
                     $mail->addReplyTo($replyToEmail, $replyToName ?? '');
                 }
 
-                // Content
-                $mail->isHTML(true);
-                $mail->Subject = $subject;
-                $mail->Body    = $htmlBody;
-                $mail->AltBody = $altBody;
+                // Auto-embed ministry logo if referenced in HTML and not explicitly passed
+                $defaultLogo = __DIR__ . '/../assets/img/logo.png';
+                if (!isset($embeddedImages[$defaultLogo]) && !in_array('ministry_logo', $embeddedImages) && file_exists($defaultLogo)) {
+                    if (strpos($htmlBody, 'cid:ministry_logo') !== false) {
+                        $embeddedImages[$defaultLogo] = 'ministry_logo';
+                    }
+                }
 
                 foreach ($embeddedImages as $path => $cid) {
                     if (file_exists($path)) {
                         $mail->addEmbeddedImage($path, $cid);
                     }
                 }
+
+                // If AltBody is empty, generate from HTML
+                if (empty($altBody)) {
+                    $altBody = trim(strip_tags(preg_replace('/<style\b[^>]*>(.*?)<\/style>/is', '', $htmlBody)));
+                }
+
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $htmlBody;
+                $mail->AltBody = $altBody;
 
                 $mail->send();
                 $mailSent = true;

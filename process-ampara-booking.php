@@ -1,6 +1,8 @@
 <?php
 require_once 'admin/includes/db.php';
 require_once 'admin/includes/functions.php';
+require_once 'includes/Mailer.php';
+require_once 'includes/EmailTemplate.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ampara-circuit-bungalow-booking.php');
@@ -134,6 +136,53 @@ try {
                 $guest_stmt->execute([$booking_id, $g_name, $g_rel, $g_nic]);
             }
         }
+    }
+
+    // Prepare booking email data payload
+    $bookingData = [
+        'id' => $booking_id,
+        'applicant_name' => $applicant_name,
+        'bungalow_name' => $bungalow_name . ' Circuit Bungalow',
+        'room_type' => $room_type,
+        'applicant_category' => $applicant_category,
+        'start_date' => $start_date,
+        'end_date' => $end_date,
+        'arrival_time' => $arrival_time,
+        'departure_time' => $departure_time,
+        'phone' => $phone,
+        'email' => $email,
+        'nic' => $nic,
+    ];
+
+    $refCode = 'MOL-BKG-' . str_pad($booking_id, 5, '0', STR_PAD_LEFT);
+
+    // 1. Send confirmation acknowledgment email to the applicant
+    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $applicantSubject = "Bungalow Booking Request Received - {$refCode} - Ministry of Labour";
+        $applicantHtml = \App\Utilities\EmailTemplate::bungalowBookingSubmittedApplicant($bookingData);
+        $applicantAlt = "Dear {$applicant_name},\n\nYour booking request for {$bungalow_name} Circuit Bungalow has been received (Ref: {$refCode}).\nCheck-in: {$start_date} ({$arrival_time})\nCheck-out: {$end_date} ({$departure_time})\n\nOur officers will review your payment slip and verify your booking.\n\nMinistry of Labour, Sri Lanka";
+
+        \App\Utilities\Mailer::sendEmail(
+            $email,
+            $applicantSubject,
+            $applicantHtml,
+            $applicantAlt
+        );
+    }
+
+    // 2. Send notification alert email to the bungalow admin
+    $adminReceiver = \App\Utilities\Mailer::env('BUNGALOW_ADMIN_EMAIL', \App\Utilities\Mailer::env('CONTACT_RECEIVER', 'info@labourmin.gov.lk'));
+    if (!empty($adminReceiver)) {
+        $adminSubject = "New Bungalow Booking Request - {$refCode} ({$applicant_name})";
+        $adminHtml = \App\Utilities\EmailTemplate::bungalowBookingSubmittedAdmin($bookingData);
+        $adminAlt = "New Bungalow Booking Request (Ref: {$refCode})\nApplicant: {$applicant_name}\nBungalow: {$bungalow_name}\nDates: {$start_date} to {$end_date}\n\nPlease review in the Admin Management Panel.";
+
+        \App\Utilities\Mailer::sendEmail(
+            $adminReceiver,
+            $adminSubject,
+            $adminHtml,
+            $adminAlt
+        );
     }
 
     // Redirect to success

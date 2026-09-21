@@ -330,9 +330,9 @@ $lang_dict = [
         'ta' => 'விண்ணப்பம் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!'
     ],
     'booking_submitted_desc' => [
-        'en' => 'Your booking application has been received and is currently <strong>Pending Approval</strong>. Once the Ministry confirms your booking, you may proceed with the payment.',
-        'si' => 'ඔබගේ වෙන්කිරීමේ අයදුම්පත ලැබී ඇති අතර එය මේ වන විට <strong>අනුමැතිය අපේක්ෂාවෙන්</strong> පවතී. අමාත්‍යාංශය ඔබගේ වෙන්කිරීම තහවුරු කළ පසු ගෙවීම් කටයුතු සිදු කළ හැක.',
-        'ta' => 'உங்கள் முன்பதிவு விண்ணப்பம் பெறப்பட்டு தற்போது <strong>ஒப்புதலுக்காக நிலுவையில் உள்ளது</strong>. அமைச்சு உங்கள் முன்பதிவை உறுதிசெய்ததும் கட்டணத்தைச் செலுத்தலாம்.'
+        'en' => 'Your booking application and payment receipt have been received and are currently <strong>Pending Verification</strong>. Our officers will review your submission and you will receive an official confirmation via email once verified.',
+        'si' => 'ඔබගේ වෙන්කිරීමේ අයදුම්පත සහ ගෙවීම් පත්‍රිකාව සාර්ථකව ලැබී ඇති අතර එය මේ වන විට <strong>තහවුරු කිරීම අපේක්ෂාවෙන්</strong> පවතී. අමාත්‍යාංශ නිලධාරීන් විසින් ඔබගේ තොරතුරු පරීක්ෂා කර තහවුරු කළ පසු ඒ පිළිබඳ නිල දැනුම්දීම විද්‍යුත් තැපෑල හරහා ඔබට ලැබෙනු ඇත.',
+        'ta' => 'உங்கள் முன்பதிவு விண்ணப்பமும் கட்டணப் பற்றுச்சீட்டும் வெற்றிகரமாகப் பெறப்பட்டு தற்போது <strong>சரிபார்ப்புக்காக நிலுவையில் உள்ளது</strong>. அமைச்சு அதிகாரிகள் விவரங்களைச் சரிபார்த்த பின்னர் உத்தியோகபூர்வ உறுதிப்படுத்தல் மின்னஞ்சல் மூலம் உங்களுக்கு அனுப்பி வைக்கப்படும்.'
     ],
     'return_to_details' => [
         'en' => 'Return to Details',
@@ -1820,9 +1820,9 @@ $lang_dict = [
         'ta' => 'உங்கள் தேதிகளைத் தேர்ந்தெடுத்து அறை கிடைக்கும் தன்மையை சரிபார்த்து முன்பதிவு கோரிக்கையை சமர்ப்பிக்கவும். அனுமதியின் பின்னரே நேரடிப் பணம் செலுத்துதல் மேற்கொள்ளப்படும்.'
     ],
     'booking_success_msg' => [
-        'en' => 'Your booking request has been submitted successfully and is pending approval.',
-        'si' => 'ඔබගේ වෙන් කිරීමේ ඉල්ලීම සාර්ථකව ඉදිරිපත් කර ඇති අතර අනුමැතිය ලැබීම බලාපොරොත්තු වෙනු ලැබේ.',
-        'ta' => 'உங்கள் முன்பதிவு கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது மற்றும் அனுமதிக்காக காத்திருக்கிறது.'
+        'en' => 'Your booking request has been submitted successfully and is pending verification.',
+        'si' => 'ඔබගේ වෙන් කිරීමේ ඉල්ලීම සාර්ථකව ඉදිරිපත් කර ඇති අතර එය තහවුරු කිරීම අපේක්ෂාවෙන් පවතී.',
+        'ta' => 'உங்கள் முன்பதிவு கோரிக்கை வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது மற்றும் சரிபார்ப்புக்காக நிலுவையில் உள்ளது.'
     ],
     'view_on_google_maps' => [
         'en' => 'View Location on Google Map',

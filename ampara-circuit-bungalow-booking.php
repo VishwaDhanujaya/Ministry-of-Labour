@@ -28,7 +28,7 @@ include 'includes/sub-hero.php';
                     </div>
                     <h3 class="text-2xl font-montserrat font-bold text-gray-900 mb-4 notranslate"><?= t('booking_submitted_title', 'Application Submitted!') ?></h3>
                     <p class="text-gray-600 max-w-md mx-auto mb-8 leading-relaxed notranslate">
-                        <?= t('booking_submitted_desc', 'Your booking application has been received and is currently <strong>Pending Approval</strong>. Once the Ministry confirms your booking, you may proceed with the payment.') ?>
+                        <?= t('booking_submitted_desc', 'Your booking application and payment receipt have been received and are currently <strong>Pending Verification</strong>. Our officers will review your submission and you will receive an official confirmation via email once verified.') ?>
                     </p>
                     <a href="ampara-circuit-bungalow" class="inline-flex px-6 py-2.5 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition shadow-md notranslate">
                         <?= t('return_to_details', 'Return to Details') ?>
@@ -63,7 +63,7 @@ include 'includes/sub-hero.php';
             </div>
 
             <!-- Form Content -->
-            <form id="bookingForm" action="process-ampara-booking" method="POST" class="p-8" enctype="multipart/form-data">
+            <form id="bookingForm" action="process-ampara-booking" method="POST" class="p-8" enctype="multipart/form-data" novalidate>
                 <?php if (isset($_GET['error'])): ?>
                     <div class="bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3.5 rounded-xl mb-6 font-inter text-sm font-semibold flex items-center gap-2 notranslate">
                         <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -377,7 +377,14 @@ document.addEventListener('DOMContentLoaded', function() {
             'Ministry of Labour Staff': <?= json_encode(t('cat_mol_staff', 'Ministry of Labour Staff')) ?>,
             'Other Government/Private Sector': <?= json_encode(t('cat_other_govt_private', 'Other Govt / Private Sector')) ?>,
             'Foreign Visitors': <?= json_encode(t('cat_foreign_visitors', 'Foreign Visitors')) ?>
-        }
+        },
+        toastInvalidEmail: <?= json_encode(t('toast_invalid_email', 'Please enter a valid email address.')) ?>,
+        toastAcceptDeclaration: <?= json_encode(t('toast_accept_declaration', 'Please agree to the declaration before submitting.')) ?>,
+        toastUploadPaymentSlip: <?= json_encode(t('toast_upload_payment_slip', 'Please upload a payment slip.')) ?>,
+        toastUploadApprovalLetter: <?= json_encode(t('toast_upload_approval_letter', 'Please upload the official approval letter.')) ?>,
+        toastFileTooLarge: <?= json_encode(t('toast_file_too_large', 'File size exceeds 5MB limit.')) ?>,
+        toastInvalidFileType: <?= json_encode(t('toast_invalid_file_type', 'Invalid file type. Allowed formats: JPG, JPEG, PNG, WEBP, PDF.')) ?>,
+        submittingApplication: <?= json_encode(t('btn_submitting', 'Submitting Application...')) ?>
     };
 
     let currentStep = 1;
@@ -638,49 +645,140 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function validateStep(step) {
         const currentStepEl = document.getElementById(`step-${step}`);
+        if (!currentStepEl) return true;
+        
+        // Specific validation for step 1
+        if (step === 1) {
+            const start = document.getElementById('start_date').value.trim();
+            const end = document.getElementById('end_date').value.trim();
+            if (!start || !end) {
+                if (window.showToast) {
+                    showToast(localizedStrings.selectDatesFirst, 'error');
+                }
+                return false;
+            }
+            const checkedRooms = document.querySelectorAll('input[name="room_type[]"]:checked');
+            const entireBungalow = document.getElementById('entire_bungalow_check');
+            const isEntireBooked = entireBungalow && entireBungalow.checked;
+            
+            if (checkedRooms.length === 0 && !isEntireBooked) {
+                if (window.showToast) {
+                    showToast(localizedStrings.toastSelectRoom, 'error');
+                }
+                return false;
+            }
+        }
+        
+        // General required inputs for current step
         const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
         let isValid = true;
         
         inputs.forEach(input => {
-            if (!input.value.trim()) {
+            if (input.disabled) return;
+
+            if (input.type === 'file') {
+                if (!input.files || input.files.length === 0) {
+                    isValid = false;
+                    input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                } else {
+                    input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+                }
+            } else if (input.type === 'checkbox') {
+                if (!input.checked) {
+                    isValid = false;
+                    input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                } else {
+                    input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+                }
+            } else if (!input.value.trim()) {
                 isValid = false;
                 input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
             } else {
                 input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
             }
-            if(input.type === 'checkbox' && !input.checked) {
-                isValid = false;
-                input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
-            }
         });
-        
-        // Specific validation for step 1
-        if (step === 1) {
-            const start = document.getElementById('start_date').value;
-            const end = document.getElementById('end_date').value;
-            if(!start || !end) {
-                isValid = false;
-            } else {
-                const checkedRooms = document.querySelectorAll('input[name="room_type[]"]:checked');
-                const entireBungalow = document.getElementById('entire_bungalow_check');
-                const isEntireBooked = entireBungalow && entireBungalow.checked;
-                
-                if (checkedRooms.length === 0 && !isEntireBooked) {
-                    isValid = false;
-                    if (window.showToast) {
-                        showToast(localizedStrings.toastSelectRoom, 'error');
-                    }
-                    return false;
-                }
-            }
-        }
         
         if (!isValid) {
             if (window.showToast) {
                 showToast(localizedStrings.toastFillRequired, 'error');
             }
+            return false;
         }
-        return isValid;
+
+        // Step 2 specific validations
+        if (step === 2) {
+            const emailInput = currentStepEl.querySelector('input[name="email"]');
+            if (emailInput && emailInput.value.trim()) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailInput.value.trim())) {
+                    emailInput.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    if (window.showToast) {
+                        showToast(localizedStrings.toastInvalidEmail, 'error');
+                    }
+                    return false;
+                }
+            }
+        }
+
+        // Step 4 specific validations
+        if (step === 4) {
+            const decCheck = document.getElementById('declaration_check');
+            if (decCheck && !decCheck.checked) {
+                decCheck.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                if (window.showToast) {
+                    showToast(localizedStrings.toastAcceptDeclaration, 'error');
+                }
+                return false;
+            }
+
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'pdf'];
+            const maxFileSize = 5 * 1024 * 1024; // 5MB
+
+            const paymentSlip = document.getElementById('payment_slip');
+            if (paymentSlip && paymentSlip.files && paymentSlip.files.length > 0) {
+                const file = paymentSlip.files[0];
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (!allowedExtensions.includes(ext)) {
+                    paymentSlip.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    if (window.showToast) showToast(localizedStrings.toastInvalidFileType, 'error');
+                    return false;
+                }
+                if (file.size > maxFileSize) {
+                    paymentSlip.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    if (window.showToast) showToast(localizedStrings.toastFileTooLarge, 'error');
+                    return false;
+                }
+            } else if (paymentSlip && paymentSlip.hasAttribute('required')) {
+                paymentSlip.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                if (window.showToast) showToast(localizedStrings.toastUploadPaymentSlip, 'error');
+                return false;
+            }
+
+            const approvalLetter = document.getElementById('approval_letter');
+            const checkedCategory = document.querySelector('input[name="applicant_category"]:checked');
+            if (checkedCategory && checkedCategory.value === 'Ministry of Labour Staff') {
+                if (approvalLetter && approvalLetter.files && approvalLetter.files.length > 0) {
+                    const file = approvalLetter.files[0];
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    if (!allowedExtensions.includes(ext)) {
+                        approvalLetter.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                        if (window.showToast) showToast(localizedStrings.toastInvalidFileType, 'error');
+                        return false;
+                    }
+                    if (file.size > maxFileSize) {
+                        approvalLetter.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                        if (window.showToast) showToast(localizedStrings.toastFileTooLarge, 'error');
+                        return false;
+                    }
+                } else if (approvalLetter && approvalLetter.hasAttribute('required')) {
+                    approvalLetter.classList.add('border-red-500', 'ring-1', 'ring-red-500');
+                    if (window.showToast) showToast(localizedStrings.toastUploadApprovalLetter, 'error');
+                    return false;
+                }
+            }
+        }
+        
+        return true;
     }
     
     btnNext.addEventListener('click', () => {
@@ -695,6 +793,41 @@ document.addEventListener('DOMContentLoaded', function() {
         currentStep--;
         updateUI();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            for (let s = 1; s <= totalSteps; s++) {
+                if (!validateStep(s)) {
+                    e.preventDefault();
+                    currentStep = s;
+                    updateUI();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return false;
+                }
+            }
+
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-75', 'cursor-not-allowed');
+            btnSubmit.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>${localizedStrings.submittingApplication}</span>
+            `;
+        });
+    }
+
+    // Clear red error borders dynamically on user input
+    document.querySelectorAll('#bookingForm input, #bookingForm select, #bookingForm textarea').forEach(input => {
+        input.addEventListener('input', function() {
+            this.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+        });
+        input.addEventListener('change', function() {
+            this.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
+        });
     });
     
     // Dynamic Guests
